@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -169,6 +167,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>4th Grade Homeroom</CourseTitle>
@@ -189,6 +188,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>4th-Grade-Homeroom-2</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>5th Grade Homeroom</CourseTitle>
@@ -209,6 +209,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>5th-Grade-Homeroom-3</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
@@ -245,6 +246,7 @@
       <CodeValue>CL-G1-4</CodeValue>
       <!--<Description>Write for a variety of purposes.</Description>-->
     </CompetencyLevels>
+    <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
@@ -266,6 +268,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>6th Grade English</CourseTitle>
@@ -287,6 +290,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>6th-Grade-English-6</UniqueCourseId>
   </Course>
 
   <Course>
@@ -309,6 +313,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>American-Literature-7</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Spec. Elective: Debate Clinic</CourseTitle>
@@ -330,6 +335,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Spec.-Elective:-Debate-Clinic-8</UniqueCourseId>
   </Course>
 
   <!-- courses for progress history -->
@@ -353,6 +359,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>7th-Grade-English-9</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
@@ -374,6 +381,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>7th-Grade-Composition-10</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Kindergarten Homeroom</CourseTitle>
@@ -394,6 +402,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Kindergarten-Homeroom-11</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>10th Grade Writing</CourseTitle>
@@ -415,6 +424,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>10th-Grade-Writing-12</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>10th Grade English</CourseTitle>
@@ -436,6 +446,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>10th-Grade-English-13</UniqueCourseId>
   </Course>
   
   <!-- courses used for report cards for Carmen Ortiz -->
@@ -459,6 +470,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Algebra-II-14</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>State History II</CourseTitle>
@@ -480,6 +492,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>State-History-II-15</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Earth Sciences II</CourseTitle>
@@ -501,6 +514,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Earth-Sciences-II-16</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Vocal Performance II</CourseTitle>
@@ -522,6 +536,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Vocal-Performance-II-17</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Algebra I</CourseTitle>
@@ -543,6 +558,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Algebra-I-18</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>State History I</CourseTitle>
@@ -564,6 +580,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>State-History-I-19</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Earth Sciences I</CourseTitle>
@@ -585,6 +602,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Earth-Sciences-I-20</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Vocal Performance I</CourseTitle>
@@ -606,6 +624,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Vocal-Performance-I-21</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Weight Training</CourseTitle>
@@ -627,6 +646,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Weight-Training-22</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>English 9B ELL</CourseTitle>
@@ -648,6 +668,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>English-9B-ELL-23</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Basic Math II</CourseTitle>
@@ -669,6 +690,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Basic-Math-II-24</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>World History II</CourseTitle>
@@ -690,6 +712,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>World-History-II-25</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Environmental Studies II</CourseTitle>
@@ -711,6 +734,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Environmental-Studies-II-26</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Vocal Ensemble II</CourseTitle>
@@ -732,6 +756,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Vocal-Ensemble-II-27</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Track and Field</CourseTitle>
@@ -753,6 +778,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Track-and-Field-28</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>English 9A ELL</CourseTitle>
@@ -774,6 +800,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>English-9A-ELL-29</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Basic Math I</CourseTitle>
@@ -795,6 +822,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Basic-Math-I-30</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>World History I</CourseTitle>
@@ -816,6 +844,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>World-History-I-31</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Environmental Studies I</CourseTitle>
@@ -837,6 +866,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Environmental-Studies-I-32</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Vocal Ensemble I</CourseTitle>
@@ -858,6 +888,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Vocal-Ensemble-I-33</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Yoga and Fitness</CourseTitle>
@@ -879,6 +910,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Yoga-and-Fitness-34</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>ELA 8B</CourseTitle>
@@ -900,6 +932,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>ELA-8B-35</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Pre-Algebra II</CourseTitle>
@@ -921,6 +954,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Pre-Algebra-II-36</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>U.S. History II</CourseTitle>
@@ -942,6 +976,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>U.S.-History-II-37</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>6th Grade Math</CourseTitle>
@@ -963,6 +998,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>6th-Grade-Math-38</UniqueCourseId>
   </Course>    
   <Course>
     <CourseTitle>7th Grade Math</CourseTitle>
@@ -984,6 +1020,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>7th-Grade-Math-39</UniqueCourseId>
   </Course>  
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
@@ -1005,6 +1042,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-8B-40</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Choir B</CourseTitle>
@@ -1026,6 +1064,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Choir-B-41</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 8B</CourseTitle>
@@ -1047,6 +1086,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-8B-42</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>ELA 8A</CourseTitle>
@@ -1068,6 +1108,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>ELA-8A-43</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Pre-Algebra I</CourseTitle>
@@ -1089,6 +1130,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Pre-Algebra-I-44</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>U.S. History I</CourseTitle>
@@ -1110,6 +1152,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>U.S.-History-I-45</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 8A</CourseTitle>
@@ -1131,6 +1174,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-8A-46</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Choir A</CourseTitle>
@@ -1152,6 +1196,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Choir-A-47</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 8A</CourseTitle>
@@ -1173,6 +1218,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-8A-48</UniqueCourseId>
   </Course>
 
   <!-- courses used for report cards for Matt Sollars.
@@ -1197,6 +1243,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-7B-49</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>State History II-G7</CourseTitle>
@@ -1218,6 +1265,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>State-History-II-G7-50</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 7B</CourseTitle>
@@ -1239,6 +1287,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-7B-51</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Spanish II</CourseTitle>
@@ -1260,6 +1309,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Spanish-II-52</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Jazz Band</CourseTitle>
@@ -1281,6 +1331,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Jazz-Band-53</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 7A</CourseTitle>
@@ -1302,6 +1353,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-7A-54</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>State History I-G7</CourseTitle>
@@ -1323,6 +1375,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>State-History-I-G7-55</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 7A</CourseTitle>
@@ -1344,6 +1397,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-7A-56</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Spanish I</CourseTitle>
@@ -1365,6 +1419,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Spanish-I-57</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Conditioning</CourseTitle>
@@ -1386,6 +1441,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Conditioning-58</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>ELA 6B</CourseTitle>
@@ -1407,6 +1463,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>ELA-6B-59</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 6B</CourseTitle>
@@ -1428,6 +1485,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-6B-60</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>World History II-G6</CourseTitle>
@@ -1449,6 +1507,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>World-History-II-G6-61</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 6B</CourseTitle>
@@ -1470,6 +1529,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-6B-62</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Drama II</CourseTitle>
@@ -1491,6 +1551,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Drama-II-63</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Nutrition</CourseTitle>
@@ -1512,6 +1573,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Nutrition-64</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>ELA 6A</CourseTitle>
@@ -1533,6 +1595,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>ELA-6A-65</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 6A</CourseTitle>
@@ -1554,6 +1617,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-6A-66</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>World History I-G6</CourseTitle>
@@ -1575,6 +1639,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>World-History-I-G6-67</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 6A</CourseTitle>
@@ -1596,6 +1661,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-6A-68</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Drama I</CourseTitle>
@@ -1617,6 +1683,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Drama-I-69</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Team Sports</CourseTitle>
@@ -1638,6 +1705,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Team-Sports-70</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Reading 5B</CourseTitle>
@@ -1659,6 +1727,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Reading-5B-71</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Writing 5B</CourseTitle>
@@ -1680,6 +1749,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Writing-5B-72</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 5B</CourseTitle>
@@ -1701,6 +1771,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-5B-73</UniqueCourseId>
   </Course>
 
   <Course>
@@ -1723,6 +1794,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Geography-5-74</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 5B</CourseTitle>
@@ -1744,6 +1816,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-5B-75</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 5B</CourseTitle>
@@ -1765,6 +1838,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-5B-76</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Reading 5A</CourseTitle>
@@ -1786,6 +1860,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Reading-5A-77</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Writing 5A</CourseTitle>
@@ -1807,6 +1882,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Writing-5A-78</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 5A</CourseTitle>
@@ -1828,6 +1904,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-5A-79</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 4A</CourseTitle>
@@ -1849,6 +1926,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-4A-80</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 3A</CourseTitle>
@@ -1870,6 +1948,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-3A-81</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Government-5</CourseTitle>
@@ -1891,6 +1970,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Government-5-82</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 5A</CourseTitle>
@@ -1912,6 +1992,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-5A-83</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 5A</CourseTitle>
@@ -1933,6 +2014,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-5A-84</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Reading 4B</CourseTitle>
@@ -1954,6 +2036,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Reading-4B-85</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Writing 4B</CourseTitle>
@@ -1975,6 +2058,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Writing-4B-86</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Math 4B</CourseTitle>
@@ -1996,6 +2080,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Math-4B-87</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Geography-4</CourseTitle>
@@ -2017,6 +2102,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Geography-4-88</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 4B</CourseTitle>
@@ -2038,6 +2124,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-4B-89</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 4B</CourseTitle>
@@ -2059,6 +2146,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-4B-90</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Reading 4A</CourseTitle>
@@ -2080,6 +2168,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Reading-4A-91</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Writing 4A</CourseTitle>
@@ -2101,6 +2190,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Writing-4A-92</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Government-4</CourseTitle>
@@ -2122,6 +2212,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Government-4-93</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Science 4A</CourseTitle>
@@ -2143,6 +2234,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Science-4A-94</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Phys-Ed 4A</CourseTitle>
@@ -2164,6 +2256,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Phys-Ed-4A-95</UniqueCourseId>
   </Course>
 
   <Program>
@@ -2186,4 +2279,37 @@
 	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>-->
 	</Services>
   </Program>
+    
+    <CompetencyLevelDescriptor id="CL_1">
+        <CodeValue>Barely Competent 1</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_2">
+        <CodeValue>Barely Competent 2</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_3">
+        <CodeValue>Barely Competent 3</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_4">
+        <CodeValue>Barely Competent 4</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_5">
+        <CodeValue>Barely Competent 5</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_6">
+        <CodeValue>Barely Competent 6</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    
+
 </InterchangeEducationOrganization>

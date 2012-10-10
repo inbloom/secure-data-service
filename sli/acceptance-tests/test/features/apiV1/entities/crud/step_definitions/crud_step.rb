@@ -31,7 +31,7 @@ require_relative '../../../utils/api_utils.rb'
 ###############################################################################
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  
+
   #general
   id = @entityUri                               if human_readable_id == "ENTITY URI"
   id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
@@ -81,7 +81,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
-        "date" => "2011-09-16", 
+        "date" => "2011-09-16",
         "event" => "Tardy"
       }]
     }]
@@ -135,14 +135,15 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "uniqueCourseId" => "Chinese-1-10"
   },
-  "courseOffering" => { 
-    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
-    "localCourseCode" => "LCCMA1",  
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
-    "localCourseTitle" => "Math 1 - Intro to Mathematics", 
-    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
+  "courseOffering" => {
+    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008",
+    "localCourseCode" => "LCCMA1",
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002",
+    "localCourseTitle" => "Math 1 - Intro to Mathematics",
+    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -159,8 +160,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
-    "incidentDate" => "2012-02-14", 
-    "incidentTime" => "01:00:00", 
+    "incidentDate" => "2012-02-14",
+    "incidentTime" => "01:00:00",
     "incidentLocation" => "On School",
     "behaviors" => [[
         {"shortDescription" => "Behavior 012 description"},
@@ -170,8 +171,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
-    "stateOrganizationId" => "15",
-    "nameOfInstitution" => "Gotham City School District", 
+    "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+    "nameOfInstitution" => "Gotham City School District",
     "address" => [
               "streetNumberName" => "111 Ave C",
               "city" => "Chicago",
@@ -181,18 +182,18 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               ]
   },
   "gradebookEntry" => {
-    "gradebookEntryType" => "Quiz", 
-    "dateAssigned" => "2012-02-14", 
+    "gradebookEntryType" => "Quiz",
+    "dateAssigned" => "2012-02-14",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
-    "objective" => "Math Test",
+    "objective" => "Learn Mathematics",
     "objectiveGradeLevel" => "Fifth grade"
   },
   "learningStandard" => {
     "learningStandardId" => {
-     "identificationCode" => "G.SRT.1"},
+     "identificationCode" => "apiTestLearningStandard"},
     "description" => "a description",
     "gradeLevel" => "Ninth grade",
     "contentStandard"=>"State Standard",
@@ -226,6 +227,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
@@ -238,14 +240,15 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "lastSurname" => "Students"
     }
   },
-  "studentGradebookEntry" => { 
+  "studentGradebookEntry" => {
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
     "letterGradeEarned" => "A",
     "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
     "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
+    "studentSectionAssociationId" => "49b277c3-4639-42c2-88ef-0f59dd5acba2",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
-    "diagnosticStatement" => "Finished the quiz in 5 minutes" 
+    "diagnosticStatement" => "Finished the quiz in 5 minutes"
   },
   "assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",
@@ -261,7 +264,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "parent" => {
     "parentUniqueStateId" => "ParentID101",
-    "name" => 
+    "name" =>
     { "firstName" => "John",
       "lastSurname" => "Doe",
     }
@@ -270,7 +273,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "shortNameOfInstitution" => "SCTS",
     "nameOfInstitution" => "School Crud Test School",
     "webSite" => "www.scts.edu",
-    "stateOrganizationId" => "152901001",
+    "stateOrganizationId" => "SomeUniqueSchool-24242342",
     "organizationCategories" => ["School"],
     "address" => [
       "addressType" => "Physical",
@@ -311,7 +314,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
      "competencyLevel" => [{
        "description" => "really hard competency"
      }],
-     "diagnosticStatement" => "passed with flying colors"
+     "diagnosticStatement" => "passed with flying colors",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
@@ -321,9 +325,27 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysAbsent" => 15,
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
-      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378"
-      #"gradingPeriodId" => "TODO"
-  }
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+  },
+  "graduationPlan" => {
+       "creditsBySubject" => [{
+            "subjectArea" => "English",
+            "credits" => {
+                "creditConversion" => 0,
+                "creditType" => "Semester hour credit",
+                "credit" => 6
+             }
+       }],
+       "individualPlan" => false,
+       "graduationPlanType" => "Minimum",
+       "educationOrganizationId" => "67ce204b-9999-4a11-bfea-000000000009",
+       "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+       }
+    }
 }
   @fields = @entityData[arg1]
 end

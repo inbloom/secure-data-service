@@ -40,6 +40,7 @@ import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 public class OAuthAccessExceptionHandler implements ExceptionMapper<OAuthAccessException>  {
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public Response toResponse(OAuthAccessException ex) {
 
@@ -51,6 +52,7 @@ public class OAuthAccessExceptionHandler implements ExceptionMapper<OAuthAccessE
             errorStatus = Response.Status.BAD_REQUEST;
         }
 
+        @SuppressWarnings("rawtypes")
         Map data = new HashMap();
         data.put("error", ex.getType().toString());
         data.put("error_description", ex.getMessage());

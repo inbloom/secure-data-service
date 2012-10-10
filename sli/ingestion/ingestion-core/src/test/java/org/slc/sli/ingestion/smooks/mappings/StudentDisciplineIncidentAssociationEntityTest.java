@@ -27,6 +27,10 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -34,11 +38,16 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for Program entity.
- * 
+ *
  * @author vmcglaughlin
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentDisciplineIncidentAssociationEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
@@ -63,7 +72,7 @@ public class StudentDisciplineIncidentAssociationEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -80,7 +89,7 @@ public class StudentDisciplineIncidentAssociationEntityTest {
         String disciplineIncidentReference = (String) attributes.get("disciplineIncidentIdentifier");
         assertNotNull("Expected non-null DisciplineIncidentReference", disciplineIncidentReference);
         assertEquals("Expected different ref", "waterboard", disciplineIncidentReference);
-        
+
         //behaviors
         @SuppressWarnings("unchecked")
         List<List<Map<String, Object>>> behaviors = (List<List<Map<String, Object>>>) attributes.get("Behaviors");
@@ -136,8 +145,12 @@ public class StudentDisciplineIncidentAssociationEntityTest {
         assertEquals("Expected different secondaryBehavior", "Hair Pulling", secondaryBehavior.get("SecondaryBehavior"));
 
         //student
-        String studentIdentity = (String) attributes.get("studentUniqueStateId");
-        assertNotNull("Expected non-null student reference", studentIdentity);
-        assertEquals("Expected different student unique state id", "Student Unique State Id", studentIdentity);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> studentReference = (Map<String, Object>) attributes.get("StudentReference");
+        assertNotNull("Expected non-null student reference", studentReference);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> studentIdentity = (Map<String, Object>) studentReference.get("StudentIdentity");
+        assertNotNull("Expected non-null student identity", studentIdentity);
+        assertEquals("Expected different student id", "Student Unique State Id", studentIdentity.get("StudentUniqueStateId"));
     }
 }

@@ -31,7 +31,6 @@ public class PathConstants {
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
-    public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "sectionAssessmentAssociations";
     public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
@@ -76,6 +75,7 @@ public class PathConstants {
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     public static final String GRADES = "grades";
+    public static final String GRADUATION_PLANS = "graduationPlans";
 
     public static final String CUSTOM_ENTITIES = "custom";
 
@@ -151,6 +151,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_GRADEBOOK_ENTRIES, STUDENT_GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
         TEMP_MAP.put(ResourceNames.GRADES, GRADES);
+        TEMP_MAP.put(ResourceNames.GRADUATION_PLANS, GRADUATION_PLANS);
     }
 
     public static final String V1 = "v1";

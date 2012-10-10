@@ -1,3 +1,26 @@
 {
-    "keyFields" : ["body.graduationPlanType", "body.individualPlan", "body.totalCreditsRequired", "body.creditsBySubject", "body.creditsByCourse"]
+    "keyFields" : ["body.graduationPlanType", "body.individualPlan", "body.totalCreditsRequired", "body.creditsBySubject", "body.creditsByCourse"],
+    "references" :
+      [
+          {
+            "fieldPath" : "body.educationOrganizationId",
+            "ref" :
+            {
+                "entityType" : "educationOrganization",
+	            "optional" : true,
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+          }
+      ]
 }

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -56,6 +54,7 @@
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
+    <UniqueCourseId>Club/Team-onload-1</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
@@ -77,6 +76,7 @@
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
+    <UniqueCourseId>CourseWithRelaxedBlacklist-2</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>ThisSpaceIs	
@@ -98,5 +98,7 @@ AControlCharacter</CourseTitle>
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
+    <UniqueCourseId>ThisSpaceIs	
+AControlCharacter-3</UniqueCourseId>
   </Course>
 </InterchangeEducationOrganization>

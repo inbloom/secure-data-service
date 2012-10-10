@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -192,14 +193,14 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         String testResult = "";
         try {
-            client.read(collection, ResourceNames.TEACHERS,
+            client.read(collection, ResourceNames.STAFF,
                     BasicQuery.Builder.create().filterEqual("sex", "Male")
                                                .sortBy("name.firstName")
                                                .sortDescending()
                                                .build());
             if (collection.size() > 0) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-                if (firstName.equals("Mark")) {
+                if (firstName.equals("Rick")) {
                     testResult = "succeed";
                 } else {
                     testResult = "failed";
@@ -228,7 +229,7 @@ public class TestSDKServlet extends HttpServlet {
         Map<String, String> birthDate = new HashMap<String, String>();
         birthDate.put("birthDate", "1995-01-01");
         body.put("birthData", birthDate);
-        body.put("studentUniqueStateId", "123456");
+        body.put("studentUniqueStateId", UUID.randomUUID().toString().substring(0, 8));
         body.put("economicDisadvantaged", false);
         List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
         Map<String, String> address = new HashMap<String, String>();

@@ -27,6 +27,10 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -38,7 +42,12 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author dduran
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AssessmentEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     @Test
     public void edfiXmlAssessmentTest() throws IOException, SAXException {
@@ -95,8 +104,16 @@ public class AssessmentEntityTest {
                 + "      <IdentificationCode>TAKSReading3-2</IdentificationCode>"
                 + "    </AssessmentItem>"
                 + "  </AssessmentItemReference>"
-                + "  <ObjectiveAssessmentReference id=\"oar1\" ref=\"TAKSReading2-1\"/>"
-                + "  <ObjectiveAssessmentReference id=\"oar2\" ref=\"TAKSReading2-2\"/>"
+                + "  <ObjectiveAssessmentReference>"
+                + "    <ObjectiveAssessmentIdentity>"
+                + "       <ObjectiveAssessmentIdentificationCode>TAKSReading2-1</ObjectiveAssessmentIdentificationCode>"
+                + "     </ObjectiveAssessmentIdentity>"
+                + "  </ObjectiveAssessmentReference>"
+                + "  <ObjectiveAssessmentReference>"
+                + "    <ObjectiveAssessmentIdentity>"
+                + "       <ObjectiveAssessmentIdentificationCode>TAKSReading2-2</ObjectiveAssessmentIdentificationCode>"
+                + "     </ObjectiveAssessmentIdentity>"
+                + "  </ObjectiveAssessmentReference>"
                 + "  <AssessmentFamilyReference id=\"famid\" ref=\"famref\">"
                 + "    <AssessmentFamilyIdentity>"
                 + "      <AssessmentFamilyIdentificationCode IdentificationSystem=\"idsys\" AssigningOrganizationCode=\"orgcode\">"
@@ -132,7 +149,7 @@ public class AssessmentEntityTest {
                 + "</Assessment></InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiAssessmentXml);
+                targetSelector, edfiAssessmentXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidAssessmentNeutralRecord(neutralRecord);
     }

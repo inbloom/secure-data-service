@@ -1,4 +1,4 @@
-edfi-xml,StudentAssessment,InterchangeStudentAssessment-Cgray-ACT.xml,b0606c81489e559c29a8ac496b7a45d0
+edfi-xml,StudentAssessment,InterchangeStudentAssessment-Cgray-ACT.xml,a821b5690616c546187107f188363232
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-CgrayAP-English.xml,e84a146ead9cab4761cf0dd698b2c1cd
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-Lkim6thgrade.xml,120c3479db8512f2515250e7c100da74
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-Lkim7thgrade.xml,3b84f3fd6e693e3c8e7c9b2bbdb644c7

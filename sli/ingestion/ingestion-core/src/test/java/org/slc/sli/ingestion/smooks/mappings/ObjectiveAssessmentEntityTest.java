@@ -24,6 +24,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
@@ -40,6 +41,9 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ObjectiveAssessmentEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     private String validXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
             + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
@@ -73,11 +77,14 @@ public class ObjectiveAssessmentEntityTest {
             + "      </LearningStandardId>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
-            + "  <ObjectiveAssessmentReference id=\"EOA13\" ref=\"sub\">"
+            + "  <ObjectiveAssessmentReference>"
+            + "    <ObjectiveAssessmentIdentity>"
+            + "       <ObjectiveAssessmentIdentificationCode>sub</ObjectiveAssessmentIdentificationCode>"
+            + "     </ObjectiveAssessmentIdentity>"
             + "  </ObjectiveAssessmentReference>"
             + "</ObjectiveAssessment>"
             + "<ObjectiveAssessment id=\"sub\">"
-            + "  <IdentificationCode>TAKSReading3-4</IdentificationCode>"
+            + "  <IdentificationCode>sub</IdentificationCode>"
             + "</ObjectiveAssessment>"
             + "</InterchangeAssessmentMetadata>";
 
@@ -87,7 +94,7 @@ public class ObjectiveAssessmentEntityTest {
         String targetSelector = "InterchangeAssessmentMetadata/ObjectiveAssessment";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData);
+                validXmlTestData, recordLevelDeltaEnabledEntityNames);
 
         checkValidObjectiveAssessmentNeutralRecord(neutralRecord);
     }
@@ -99,13 +106,14 @@ public class ObjectiveAssessmentEntityTest {
 
         String invalidXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
                 + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
+                + "<IdentificationCode>TAKSReading3-4</IdentificationCode>"
                 + "<MaxRawScore>8</MaxRawScore>"
                 + "<PercentOfAssessment>50</PercentOfAssessment>"
                 + "<Nomenclature>nomenclature</Nomenclature>"
                 + "</ObjectiveAssessment>" + "</InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlTestData);
+                invalidXmlTestData, recordLevelDeltaEnabledEntityNames);
 
         checkInvalidObjectiveAssessmentNeutralRecord(neutralRecord);
 
@@ -146,7 +154,6 @@ public class ObjectiveAssessmentEntityTest {
 
         Assert.assertEquals("TAKSReading3-4", entity.get("id"));
 
-        Assert.assertEquals(null, entity.get("identificationCode"));
         Assert.assertEquals("8", entity.get("maxRawScore").toString());
         Assert.assertEquals("50", entity.get("percentOfAssessment").toString());
         Assert.assertEquals("nomenclature", entity.get("nomenclature"));

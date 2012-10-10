@@ -231,6 +231,7 @@ desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("staff", "staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
@@ -268,6 +269,11 @@ desc "Run List Tests"
 task :v1ListTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/lists")
+end
+desc "Run Tests for new endpoints"
+task :v1NewEndpointTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/endpoints/")
 end
 
 desc "Run V1 Assessment User Story Tests"

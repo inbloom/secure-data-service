@@ -40,6 +40,7 @@ public final class EntityNames {
     public static final String GRADE = "grade";
     public static final String GRADEBOOK_ENTRY = "gradebookEntry";
     public static final String GRADING_PERIOD = "gradingPeriod";
+    public static final String GRADUATION_PLAN = "graduationPlan";
     public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String LEARNING_STANDARD = "learningStandard";
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
@@ -49,7 +50,6 @@ public final class EntityNames {
     public static final String REPORT_CARD = "reportCard";
     public static final String SCHOOL = "school";
     public static final String SECTION = "section";
-    public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
     public static final String SESSION = "session";
     public static final String STAFF = "staff";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";

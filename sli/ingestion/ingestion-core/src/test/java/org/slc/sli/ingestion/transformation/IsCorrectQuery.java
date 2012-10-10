@@ -20,6 +20,9 @@ import com.mongodb.BasicDBObject;
 import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Util class for Query match
  *
@@ -64,13 +67,13 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
                     {
                         return false;
                     } else if (key2.equals("$in")) {
-                        Object[] queryVal = (Object[]) queryObj.get(key2);
-                        Object[] argVal = (Object[]) argObj.get(key2);
-                        if (queryVal.length != argVal.length) {
+                        List queryVal = (ArrayList) queryObj.get(key2);
+                        List argVal = (ArrayList) argObj.get(key2);
+                        if (queryVal.size() != argVal.size()) {
                             return false;
                         }
-                        for (int i = 0; i < queryVal.length; ++i) {
-                            if (!queryVal[i].equals(argVal[i])) {
+                        for (int i = 0; i < queryVal.size(); ++i) {
+                            if (!(queryVal.get(i).equals(argVal.get(i)))) {
                                 return false;
                             }
                         }

@@ -12,6 +12,8 @@ Scenario: Educator accessing a student that he/she teaches
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
 
+@DE1767
+@wip
 Scenario: Leader accessing a student that is in own school
   Given I am logged in using "sbantu" "sbantu1234" to realm "IL"
   And my school is "<'DAYBREAK CENTRAL HIGH'>"
@@ -29,8 +31,10 @@ Scenario: Educator accessing a student that he/she does not teach, but it's with
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
 
+@DE1767
+@wip
 Scenario: Leader accessing a student that is not in his/her school, but was before and that is within the grace period
-  Given I am logged in using "sbantu" "sbantu1234" to realm "IL"
+  Given I am logged in using "mgonzales" "mgonzales1234" to realm "IL"
   And my school is "<'SOUTH DAYBREAK ELEMENTARY'>"
   And "<'MATT SOLLARS'>" is not enrolled in "<'SOUTH DAYBREAK ELEMENTARY'>"
   And "<'MATT SOLLARS'>" exited "<'SOUTH DAYBREAK ELEMENTARY'>" on "<'MATT SOLLARS SOUTH DAYBREAK EXIT DATE'>"
@@ -52,8 +56,10 @@ Scenario: Educator accessing a student that he/she does not teach, but is associ
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
 
+@DE1767
+@wip
 Scenario: Leader accessing a student that is not enrolled in his/her school, and was before but that was out of the grace period
-  Given I am logged in using "sbantu" "sbantu1234" to realm "IL"
+  Given I am logged in using "mgonzales" "mgonzales1234" to realm "IL"
   And my school is "<'SOUTH DAYBREAK ELEMENTARY'>"
   And "<'STEVE DONG'>" is not enrolled in "<'SOUTH DAYBREAK ELEMENTARY'>"
   And "<'STEVE DONG'>" exited "<'SOUTH DAYBREAK ELEMENTARY'>" on "<'STEVE DONG SOUTH DAYBREAK EXIT DATE'>"

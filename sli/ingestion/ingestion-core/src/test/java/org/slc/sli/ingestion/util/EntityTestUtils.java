@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +28,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,16 +45,20 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
+import org.mockito.Mockito;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
+
 
 /**
  *
@@ -65,13 +71,26 @@ public class EntityTestUtils {
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
 
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector) throws IOException, SAXException, SmooksException {
+            String targetSelector, String recordLevelDeltaEnabledEntityNames) throws IOException, SAXException, SmooksException {
+
+        BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
+        when(batchJobDAO.findRecordHash((String) any(), (String) any())).thenReturn(null);
 
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
 
+        DeterministicUUIDGeneratorStrategy mockUidGenerator = Mockito.mock(DeterministicUUIDGeneratorStrategy.class);
+
         Smooks smooks = new Smooks(smooksConfig);
-        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null, null,
+                mockUidGenerator);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
+
+        HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
+        recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
+        smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
+
+        smooksEdFiVisitor.setBatchJobDAO(batchJobDAO);
+
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
 
         JavaResult result = new JavaResult();
@@ -129,13 +148,13 @@ public class EntityTestUtils {
      * @throws SAXException
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
-            String testData) throws IOException, SAXException {
+            String testData, String recordLevelDeltaEnabledEntityNames) throws IOException, SAXException {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
 
         List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
-                targetSelector);
+                targetSelector, recordLevelDeltaEnabledEntityNames);
         if (records != null && records.size() > 0) {
             neutralRecord = records.get(0);
         }
@@ -153,7 +172,6 @@ public class EntityTestUtils {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
 
             smooks.filterSource(source, result);
-
 
             for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
                 if (resEntry.getValue() instanceof List) {

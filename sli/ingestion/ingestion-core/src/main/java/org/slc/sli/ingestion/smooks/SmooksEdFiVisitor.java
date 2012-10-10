@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.MongoException;
 
@@ -37,9 +37,12 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -66,10 +69,18 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private final String batchJobId;
     private final ErrorReport errorReport;
     private final IngestionFileEntry fe;
+    private final String tenantId;
 
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
+
+    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+
+    private BatchJobDAO batchJobDAO;
+    private Set<String> recordLevelDeltaEnabledEntities;
+
+    private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -82,7 +93,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe,
+            String tenantId, DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = errorReport;
@@ -90,11 +102,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
+        this.deterministicUUIDGeneratorStrategy = deterministicUUIDGeneratorStrategy;
+        this.tenantId = tenantId;
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
-            IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
+            IngestionFileEntry fe, String tenantId,
+            DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe, tenantId, deterministicUUIDGeneratorStrategy);
     }
 
     @Override
@@ -103,7 +118,19 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            queueNeutralRecordForWriting(neutralRecord);
+
+            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
+                queueNeutralRecordForWriting(neutralRecord);
+            } else {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+                    queueNeutralRecordForWriting(neutralRecord);
+
+                } else {
+                    String type = neutralRecord.getRecordType();
+                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
+                    duplicateCounts.put(type, new Long(count.longValue() + 1));
+                }
+            }
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
                 writeAndClearQueuedNeutralRecords();
@@ -146,11 +173,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                         queuedWrites.get(entry.getKey()).clear();
                     } catch (DataAccessResourceFailureException darfe) {
                         LOG.error("Exception processing record with entityPersistentHandler", darfe);
-                    } catch (InvalidDataAccessApiUsageException  ex) {
+                    } catch (InvalidDataAccessApiUsageException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
-                    } catch (InvalidDataAccessResourceUsageException  ex) {
+                    } catch (InvalidDataAccessResourceUsageException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
-                    } catch (MongoException  me) {
+                    } catch (MongoException me) {
                         LOG.error("Exception processing record with entityPersistentHandler", me);
                     } catch (UncategorizedMongoDbException ex) {
                         LOG.error("Exception processing record with entityPersistentHandler", ex);
@@ -181,11 +208,44 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             neutralRecord.setLocalId(((String) neutralRecord.getLocalId()).trim());
         }
 
+        String entityType = neutralRecord.getRecordType();
+
+        // Calculate deterministic id for educationOrganization and school
+        // This is important because the edOrg id is currently used for stamping metaData
+        // during ingestion. Therefore, the id needs to be known now, rather than
+        // waiting till the entity is persisted in the DAL.
+
+        if ("stateEducationAgency".equals(entityType) || "school".equals(entityType)
+                || "localEducationAgency".equals(entityType)) {
+
+            // Normally, NaturalKeyDescriptors are generated based on the sli.xsd, but in this
+            // case, we need to generate one ahead of time (for context stamping), so it will
+            // be built by hand in this case
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            String stateOrganizationId = (String) neutralRecord.getAttributes().get("stateOrganizationId");
+            naturalKeys.put("stateOrganizationId", stateOrganizationId);
+
+            NaturalKeyDescriptor descriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                    neutralRecord.getRecordType());
+            descriptor.setEntityType("educationOrganization");
+
+            String deterministicId = deterministicUUIDGeneratorStrategy.generateId(descriptor);
+            neutralRecord.setRecordId(deterministicId);
+        }
+
         return neutralRecord;
     }
 
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = nrMongoStagingWriter;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
+        this.recordLevelDeltaEnabledEntities = entities;
     }
 
     /* we are not using the below visitor hooks */
@@ -205,4 +265,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         // nothing
 
     }
+
+    public Map<String, Long> getDuplicateCounts() {
+        return duplicateCounts;
+    }
+
+    public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+        this.duplicateCounts = duplicateCounts;
+    }
+
+
 }

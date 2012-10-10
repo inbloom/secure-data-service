@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
 
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
@@ -246,6 +244,7 @@
         <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>7th-Grade-English-1</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Reading Group</CourseTitle>
@@ -266,6 +265,7 @@
         <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Reading-Group-2</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Writing about Government</CourseTitle>
@@ -286,6 +286,7 @@
         <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Writing-about-Government-3</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
@@ -307,21 +308,18 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <CompetencyLevels id="CL-G1-1">
-      <CodeValue>CL-G1-1</CodeValue>
       <Description>Express complete thoughts.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-2">
-      <CodeValue>CL-G1-2</CodeValue>
       <Description>Write multiple sentences about the same topic.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-3">
-      <CodeValue>CL-G1-3</CodeValue>
       <Description>Add on to writing in response to questions.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-4">
-      <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
+    <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
@@ -343,6 +341,7 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Club/Team</CourseTitle>
@@ -364,5 +363,19 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    <UniqueCourseId>Club/Team-6</UniqueCourseId>
   </Course>
+    
+    <CompetencyLevelDescriptor id="CL_7">
+		<CodeValue>Barely Competent 7</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_8">
+		<CodeValue>Barely Competent 8</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	
+    
 </InterchangeEducationOrganization>

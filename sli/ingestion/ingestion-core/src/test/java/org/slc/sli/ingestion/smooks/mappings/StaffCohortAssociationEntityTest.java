@@ -22,11 +22,14 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -38,7 +41,12 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author slee
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StaffCohortAssociationEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi staffCohortAssociation is correctly mapped to a NeutralRecord.
@@ -63,7 +71,7 @@ public class StaffCohortAssociationEntityTest {
         }
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiXml);
+                targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -75,36 +83,24 @@ public class StaffCohortAssociationEntityTest {
         assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        assertEquals("Expected different number of attributes", 7, attributes.size());
-        
+        assertEquals("Expected different number of attributes", 5, attributes.size());
+
         assertEquals("Expected different beginDate", "2011-01-01", attributes.get("beginDate"));
         assertEquals("Expected different endDate", "2011-01-01", attributes.get("endDate"));
         assertEquals("Expected different studentRecordAccess", Boolean.TRUE, attributes.get("studentRecordAccess"));
-        
-        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
-        assertNotNull("Expected non-null list of staffReferences", staffReferences);
-        assertEquals("Expected 2 staff references", 2, staffReferences.size());
 
-        Map<String, Object> staffOuterMap1 = staffReferences.get(0);
-        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
-        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap1.get("staffUniqueStateId"));
+        Map<String, Object> staffReference = (Map<String, Object>) attributes.get("staffReference");
+        assertNotNull("Expected non-null staffReference map", staffReference);
 
-        Map<String, Object> staffOuterMap2 = staffReferences.get(1);
-        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
-        assertEquals("Expected different staffUniqueStateId", "cgray", staffInnerMap2.get("staffUniqueStateId"));
+        Map<String, Object> staffMap = (Map<String, Object>) staffReference.get("staffIdentity");
+        assertNotNull("Expected non-null staff identity map", staffMap);
+        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffMap.get("staffUniqueStateId"));
 
-        List<Map<String, Object>> cohortReferences = (List<Map<String, Object>>) attributes.get("cohortReference");
-        assertNotNull("Expected non-null list of cohortReferences", cohortReferences);
-        assertEquals("Expected 2 cohort references", 2, cohortReferences.size());
+        Map<String, Object> cohortReference = (Map<String, Object>) attributes.get("cohortReference");
+        assertNotNull("Expected non-null list of cohortReferences", cohortReference);
 
-        Map<String, Object> cohortOuterMap1 = cohortReferences.get(0);
-        Map<String, Object> cohortInnerMap1 = (Map<String, Object>) cohortOuterMap1.get("cohortIdentity");
-        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-1", cohortInnerMap1.get("cohortIdentifier"));
-
-        Map<String, Object> cohortOuterMap2 = cohortReferences.get(1);
-        Map<String, Object> cohortInnerMap2 = (Map<String, Object>) cohortOuterMap2.get("cohortIdentity");
-        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-2", cohortInnerMap2.get("cohortIdentifier"));
-        
+        Map<String, Object> cohortIdentityMap = (Map<String, Object>) cohortReference.get("cohortIdentity");
+        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-1", cohortIdentityMap.get("cohortIdentifier"));
     }
 
 }

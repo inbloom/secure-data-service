@@ -83,7 +83,6 @@ public class SecurityCriteria {
             String userId = user.getEntity().getEntityId();
 
             NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
             query.addOrQuery(createdByQuery);
             
             //Check the type of who we are and if we're a teacher, handle it differently.

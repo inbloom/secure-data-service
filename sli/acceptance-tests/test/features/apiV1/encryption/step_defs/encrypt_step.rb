@@ -43,6 +43,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "studentSchoolAssociations"              if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
   id = "studentSectionAssociations"             if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"   if human_readable_id == "English Sec 6"
+  id = "45831a9d-772e-45b3-9024-fa76ca4fe558"   if human_readable_id == "English Sec 7"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "South Daybreak Elementary ID"
 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
@@ -202,6 +203,7 @@ Given /^Rhonda Delagio is associated with "([^\"]*)"$/ do |section_id|
     {
       "studentId" : "#{@rhonda}",
       "sectionId" : "#{section_id}",
+      "beginDate" : "2011-08-21",
       "repeatIdentifier" : "Not repeated"
     }
   }
@@ -220,21 +222,6 @@ end
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
-
-Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |arg1, arg2|
-  if(arg1 == 'birthDate')
-    assert(@result['birthData'][arg1] == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
-  else
-    assert(@result[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
-  end
-
-end
-
-Then /^the "([^\"]*)" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |arg1, arg2, arg3, arg4|
-  assert(@result[arg1]['firstName'] == arg2, "Expected data incorrect")
-  assert(@result[arg1]['middleName'] == arg3, "Expected data incorrect")
-  assert(@result[arg1]['lastSurname'] == arg4, "Expected data incorrect")
-end
 
 Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
   conn = Mongo::Connection.new(API_DB)

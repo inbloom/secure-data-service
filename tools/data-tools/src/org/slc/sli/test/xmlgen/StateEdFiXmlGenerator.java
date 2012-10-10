@@ -93,7 +93,7 @@ public class StateEdFiXmlGenerator {
      */
     public static void main(String[] args) throws Exception {
    
-        processProgramArguments(args);
+       processProgramArguments(args);
 
         MetaRelations.construct();
  
@@ -109,7 +109,7 @@ public class StateEdFiXmlGenerator {
         	
         }
         
-       // generateAndMarshalInterchanges();
+        
         
         ValidateSchema.check(rootOutputPath);
         
@@ -198,7 +198,11 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
             studentAttendance();
         }
-        
+
+        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
+            studentGrade();
+        }
+
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
@@ -207,10 +211,6 @@ public class StateEdFiXmlGenerator {
             studentAssessment();
         }
         
-        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
-            studentGrade();
-        }
-
     }
 
     /**

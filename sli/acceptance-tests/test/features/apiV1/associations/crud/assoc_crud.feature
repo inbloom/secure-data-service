@@ -33,10 +33,10 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              |
-      | courseOffering                         | courseOfferings                          | localCourseCode          | LCCGR1                 | LCCGR2                 |
-      | staffCohortAssociation                 | staffCohortAssociations                  | beginDate                | 2010-01-15             | 2011-02-01             |
+      | courseOffering                         | courseOfferings                          | localCourseTitle         | German 101 - Intro     | German 111 - Intro     |
+      | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             |
-      | staffProgramAssociation                | staffProgramAssociations                 | beginDate                | 2012-01-01             | 2012-02-01             |
+      | staffProgramAssociation                | staffProgramAssociations                 | endDate                  | 2012-12-31             | 2012-02-01             |
       | studentAssessmentAssociation           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                |
@@ -58,18 +58,18 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
       | courseOffering                         | courseOfferings                          | 95      |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 11      |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 17      |
-      | staffProgramAssociation                | staffProgramAssociations                 | 7       |
+      | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
+      | staffProgramAssociation                | staffProgramAssociations                 | 3       |
       | studentAssessmentAssociation           | studentAssessments                       | 8       |
       | studentCohortAssociation               | studentCohortAssociations                | 13      |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 4       |
       | studentParentAssociation               | studentParentAssociations                | 3       |
       | studentProgramAssociation              | studentProgramAssociations               | 18      |
-      | studentSchoolAssociation               | studentSchoolAssociations                | 209     |
+      | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
       | studentSectionAssociation              | studentSectionAssociations               | 263     |
       | studentTranscriptAssociation           | courseTranscripts                        | 3       |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | 6       |
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
       | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
@@ -123,7 +123,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseOffering                         | courseOfferings                          | <b360e8e8-54d1-4b00-952a-b817f91035ed> | localCourseCode          | LCCGR2                 | sessionId             | courseId                       | <389b0caa-dcd2-4e84-93b7-daa4a6e9b18e> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
       | staffCohortAssociation                 | staffCohortAssociations                  | <b4e31b1a-8e55-8803-722c-14d8087c0712> | beginDate                | 2011-02-01             | staffId               | cohortId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | <0966614a-6c5d-4345-b451-7ec991823ac5> | beginDate                | 2011-02-15             | staffReference        | educationOrganizationReference | <04f708bc-928b-420d-a440-f1592a5d1073> | <b2c6e292-37b0-4148-bf75-c98a2fcc905f> |
-      | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f> | beginDate                | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b> |
+      | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f> | endDate                  | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b> |
       | studentAssessmentAssociation           | studentAssessments                       | <e85b5aa7-465a-6dd3-8ffb-d02461ed79f8> | retestIndicator          | 2nd Retest             | studentId             | assessmentId                   | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <abc16592-7d7e-5d27-a87d-dfc7fcb12346> |
       | studentCohortAssociation               | studentCohortAssociations                | <b40c5b02-8fd5-11e1-86ec-0021701f543f> | beginDate                | 2011-12-01             | studentId             | cohortId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | <0e26de6c-225b-9f67-9625-5113ad50a03b> | studentParticipationCode | Witness                | studentId             | disciplineIncidentId           | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <0e26de79-22aa-5d67-9201-5113ad50a03b> |

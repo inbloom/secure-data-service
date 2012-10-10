@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import static org.junit.Assert.assertEquals;
@@ -28,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -60,10 +60,29 @@ public class EntityRepositoryTest {
     private Repository<Entity> repository;
 
     @Test
+    public void testDeleteAll() {
+        repository.deleteAll("student", null);
+
+        Map<String, Object> studentMap = buildTestStudentEntity();
+        studentMap.put("firstName", "John");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", studentMap);
+        assertEquals(5, repository.count("student", new NeutralQuery()));
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
+        repository.deleteAll("student", neutralQuery);
+        assertEquals(4, repository.count("student", new NeutralQuery()));
+        repository.deleteAll("student", null);
+    }
+
+    @Test
     public void testCRUDEntityRepository() {
 
         // clean up the existing student data
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         // create new student entity
         Map<String, Object> student = buildTestStudentEntity();
@@ -110,7 +129,7 @@ public class EntityRepositoryTest {
         assertFalse(repository.delete("student", student2.getEntityId()));
 
         // test deleteAll by entity type
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         entities = repository.findAll("student", neutralQuery);
         assertFalse(entities.iterator().hasNext());
     }
@@ -128,7 +147,7 @@ public class EntityRepositoryTest {
     public void testSort() {
 
         // clean up the existing student data
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         // create new student entity
         Map<String, Object> body1 = buildTestStudentEntity();
@@ -213,7 +232,7 @@ public class EntityRepositoryTest {
     @Test
     public void testCount() {
         TenantContext.setTenantId("SLIUnitTest");
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
@@ -232,6 +251,7 @@ public class EntityRepositoryTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
+        body.put("studentUniqueStateId", UUID.randomUUID().toString());
         // Date birthDate = new Timestamp(23234000);
         body.put("birthDate", "2000-01-01");
         body.put("cityOfBirth", "Chicago");
@@ -260,7 +280,7 @@ public class EntityRepositoryTest {
     public void testTimestamps() throws Exception {
 
         // clean up the existing student data
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         // create new student entity
         Map<String, Object> student = buildTestStudentEntity();
@@ -289,7 +309,7 @@ public class EntityRepositoryTest {
 
     @Test
     public void testFindIdsByQuery() {
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
@@ -310,7 +330,7 @@ public class EntityRepositoryTest {
 
     @Test
     public void findOneTest() {
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
 
@@ -323,13 +343,19 @@ public class EntityRepositoryTest {
 
     @Test
     public void findOneMultipleMatches() {
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
+        this.repository.create("student", student);
 
+        student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
+
+        student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
-        this.repository.create("student", student);
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
@@ -338,7 +364,7 @@ public class EntityRepositoryTest {
 
     @Test
     public void findOneTestNegative() {
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
@@ -346,19 +372,9 @@ public class EntityRepositoryTest {
     }
 
     @Test
-    public void testCreateRetry() {
-        TenantContext.setTenantId("SLIUnitTest");
-        Map<String, Object> studentMetaData = new HashMap<String, Object>();
-
-        repository.deleteAll("student");
-        repository.createWithRetries("student", buildTestStudentEntity(), studentMetaData, "student", 5);
-        assertEquals(1, repository.count("student", new NeutralQuery()));
-    }
-
-    @Test
     public void testUpdateRetry() {
         TenantContext.setTenantId("SLIUnitTest");
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         repository.create("student", buildTestStudentEntity());
 
@@ -373,6 +389,14 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
     }
+    @Test
+    public void testCreateWithMetadata() {
+        repository.deleteAll("student", null);
+        Map<String, Object> studentBody = buildTestStudentEntity();
+        Map<String, Object> studentMetaData = new HashMap<String, Object>();
+        repository.create("student", studentBody, studentMetaData, "student");
+        assertEquals(1, repository.count("student", new NeutralQuery()));
+    }
 
     @Test
     public void testCreateRetryWithError() {
@@ -382,18 +406,18 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         int noOfRetries = 5;
 
-        Mockito.doThrow(new MongoException("Test Exception")).when(mockRepo)
-                .create("student", studentBody, studentMetaData, "student");
+        Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
+            .create("student", null, studentBody, studentMetaData, "student");
         Mockito.doCallRealMethod().when(mockRepo)
-                .createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+            .createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
 
         try {
-            mockRepo.createWithRetries("student", studentBody, studentMetaData, "student", noOfRetries);
+            mockRepo.createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
         } catch (MongoException ex) {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).create("student", studentBody, studentMetaData, "student");
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test

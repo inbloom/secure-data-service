@@ -24,6 +24,15 @@ public class GradingPeriodMeta {
     String beginData;
     String endDate;
     public String id;
+    private int gradingPeriodNum;
+ 
+    public int getGradingPeriodNum() {
+        return gradingPeriodNum;
+    }
+
+    public void setGradingPeriodNum(int gradingPeriodNum) {
+        this.gradingPeriodNum = gradingPeriodNum;
+    }
     
     public List<String> calendars = new ArrayList<String>();
     

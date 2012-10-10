@@ -405,9 +405,6 @@
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Able School</ID>
-        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>
@@ -432,9 +429,6 @@
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Able School</ID>
-        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>
@@ -459,9 +453,6 @@
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Able School</ID>
-        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>

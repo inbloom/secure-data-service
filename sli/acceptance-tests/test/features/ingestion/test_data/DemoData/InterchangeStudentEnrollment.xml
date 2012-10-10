@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-    <InterchangeStudentEnrollment xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -12,7 +11,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -25,7 +24,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -38,7 +37,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -51,7 +50,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -64,7 +63,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -77,7 +76,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -90,7 +89,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -103,7 +102,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -116,7 +115,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -129,7 +128,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -142,7 +141,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -155,7 +154,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -168,7 +167,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -181,7 +180,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -194,7 +193,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -207,7 +206,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -220,7 +219,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -233,7 +232,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -246,7 +245,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -259,7 +258,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -272,7 +271,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -285,7 +284,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -298,7 +297,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -311,7 +310,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -324,7 +323,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -337,7 +336,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -350,7 +349,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -363,7 +362,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -376,7 +375,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -389,7 +388,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -402,7 +401,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -415,7 +414,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -428,7 +427,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -441,7 +440,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -454,7 +453,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -467,7 +466,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -480,7 +479,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -493,7 +492,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -506,7 +505,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -519,7 +518,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -532,7 +531,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -545,7 +544,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -558,7 +557,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -571,7 +570,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -584,7 +583,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -597,7 +596,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -610,7 +609,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -623,7 +622,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -636,7 +635,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -649,7 +648,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -662,7 +661,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -675,7 +674,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -688,7 +687,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -701,7 +700,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -714,7 +713,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -727,7 +726,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -740,7 +739,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -753,7 +752,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -766,7 +765,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -779,7 +778,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -792,7 +791,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -805,7 +804,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -818,7 +817,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -831,7 +830,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -844,7 +843,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -857,7 +856,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -871,7 +870,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -885,7 +884,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -899,7 +898,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -913,7 +912,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -927,7 +926,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -941,7 +940,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -955,7 +954,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -969,7 +968,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -983,7 +982,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -997,7 +996,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1011,7 +1010,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1025,7 +1024,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1039,7 +1038,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1053,7 +1052,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1067,7 +1066,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1081,7 +1080,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1095,7 +1094,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1109,7 +1108,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1123,7 +1122,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1137,7 +1136,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1151,7 +1150,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1165,7 +1164,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1179,7 +1178,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1193,7 +1192,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1207,7 +1206,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1220,7 +1219,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1233,7 +1232,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1246,7 +1245,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1259,7 +1258,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1272,7 +1271,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1285,7 +1284,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1298,7 +1297,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1311,7 +1310,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1324,7 +1323,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1337,7 +1336,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1350,7 +1349,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1363,7 +1362,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1376,7 +1375,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1389,7 +1388,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1402,7 +1401,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1415,7 +1414,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1428,7 +1427,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1441,7 +1440,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1454,7 +1453,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1467,7 +1466,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1480,7 +1479,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1493,7 +1492,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1506,7 +1505,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1519,7 +1518,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1532,7 +1531,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1545,7 +1544,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1558,7 +1557,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1571,7 +1570,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1584,7 +1583,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1597,7 +1596,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1610,7 +1609,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1623,7 +1622,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1636,7 +1635,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1649,7 +1648,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1662,7 +1661,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1675,7 +1674,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1688,7 +1687,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1701,7 +1700,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1714,7 +1713,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1727,7 +1726,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1740,7 +1739,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1753,7 +1752,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1766,7 +1765,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1779,7 +1778,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1792,7 +1791,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1805,7 +1804,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1818,7 +1817,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1831,7 +1830,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1844,7 +1843,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1857,7 +1856,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1870,7 +1869,7 @@
                     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1883,7 +1882,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1897,7 +1896,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1911,7 +1910,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1925,7 +1924,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1939,7 +1938,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1953,7 +1952,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1967,7 +1966,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1981,7 +1980,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -1995,7 +1994,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2009,7 +2008,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2023,7 +2022,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2037,7 +2036,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2051,7 +2050,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2065,7 +2064,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2079,7 +2078,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2093,7 +2092,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2107,7 +2106,7 @@
                     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2122,7 +2121,7 @@
                 </SectionIdentity>
             </SectionReference>
             <EntryGradeLevel>First grade</EntryGradeLevel>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2135,7 +2134,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2148,7 +2147,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2161,7 +2160,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2174,7 +2173,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2187,7 +2186,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2200,7 +2199,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2213,7 +2212,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2226,7 +2225,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2239,7 +2238,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2252,7 +2251,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2265,7 +2264,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2278,7 +2277,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2291,7 +2290,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2304,7 +2303,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2317,7 +2316,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2330,7 +2329,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2343,7 +2342,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2356,7 +2355,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2369,7 +2368,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2382,7 +2381,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2395,7 +2394,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2408,7 +2407,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2421,7 +2420,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2434,7 +2433,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2447,7 +2446,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2460,7 +2459,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2473,7 +2472,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2486,7 +2485,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2499,7 +2498,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2512,7 +2511,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2525,7 +2524,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2538,7 +2537,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2551,7 +2550,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2564,7 +2563,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2577,7 +2576,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2590,7 +2589,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2603,7 +2602,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2616,7 +2615,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2629,7 +2628,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2642,7 +2641,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2655,7 +2654,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2668,7 +2667,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2681,7 +2680,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2694,7 +2693,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2707,7 +2706,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2720,7 +2719,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2733,7 +2732,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2746,7 +2745,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2759,7 +2758,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSectionAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -2772,7 +2771,7 @@
                     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 </SectionIdentity>
             </SectionReference>
-        </StudentSectionAssociation>
+        <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
         <StudentSchoolAssociation>
             <StudentReference>
                 <StudentIdentity>
@@ -4573,48 +4572,48 @@
                 <GraduationPlan id="GP-STANDARD">
             <GraduationPlanType>Standard</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
-            <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
+            <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
                 <Credit>40</Credit>
             </TotalCreditsRequired>
             <CreditsBySubject>
                 <SubjectArea>English Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>6</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Mathematics</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>6</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Social Studies</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Science</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Foreign Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>2</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Fine and Performing Arts</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
@@ -4630,49 +4629,49 @@
         <GraduationPlan id="GP-MINIMUM">
             <GraduationPlanType>Minimum</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
-            <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
+            <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
                 <Credit>32</Credit>
             </TotalCreditsRequired>
 
             <CreditsBySubject>
                 <SubjectArea>English Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>6</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Mathematics</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Social Studies</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Science</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>2</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Foreign Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>2</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Fine and Performing Arts</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>2</Credit>
                 </Credits>
             </CreditsBySubject>
@@ -4688,49 +4687,49 @@
         <GraduationPlan id="GP-ADVANCED">
             <GraduationPlanType>Distinguished</GraduationPlanType>
             <IndividualPlan>false</IndividualPlan>
-            <TotalCreditsRequired CreditType="Semester hour credit" CreditConversion="0">
+            <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
                 <Credit>48</Credit>
             </TotalCreditsRequired>
 
             <CreditsBySubject>
                 <SubjectArea>English Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>8</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Mathematics</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>8</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Social Studies</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>6</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Science</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>6</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Foreign Language and Literature</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>
             <CreditsBySubject>
                 <SubjectArea>Fine and Performing Arts</SubjectArea>
-                <Credits CreditType="Semester hour credit" CreditConversion="0">
+                <Credits CreditConversion="0" CreditType="Semester hour credit">
                     <Credit>4</Credit>
                 </Credits>
             </CreditsBySubject>

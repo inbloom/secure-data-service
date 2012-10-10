@@ -18,16 +18,17 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -39,7 +40,12 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author vmcglaughlin
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StaffProgramAssociationEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi staffProgramAssociation is correctly mapped to a NeutralRecord.
@@ -64,7 +70,7 @@ public class StaffProgramAssociationEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -77,31 +83,15 @@ public class StaffProgramAssociationEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        assertEquals("Expected different number of attributes", 7, attributes.size());
+        assertEquals("Expected different number of attributes", 5, attributes.size());
 
-        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
-        assertNotNull("Expected non-null list of staff references", staffReferences);
-        assertEquals("Expected 2 staff references", 2, staffReferences.size());
-
-        Map<String, Object> staffOuterMap1 = staffReferences.get(0);
+        Map<String, Object> staffOuterMap1 = (Map<String, Object>) attributes.get("staffReference");
         Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
         assertEquals("Expected different staff unique state id", "linda.kim", staffInnerMap1.get("staffUniqueStateId"));
 
-        Map<String, Object> staffOuterMap2 = staffReferences.get(1);
-        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
-        assertEquals("Expected different staff unique state id", "rbraverman", staffInnerMap2.get("staffUniqueStateId"));
-
-        List<Map<String, Object>> programReferences = (List<Map<String, Object>>) attributes.get("programReference");
-        assertNotNull("Expected non-null list of program references", programReferences);
-        assertEquals("Expected 2 program references", 2, programReferences.size());
-
-        Map<String, Object> programOuterMap1 = programReferences.get(0);
+        Map<String, Object> programOuterMap1 = (Map<String, Object>) attributes.get("programReference");
         Map<String, Object> programInnerMap1 = (Map<String, Object>) programOuterMap1.get("programIdentity");
         assertEquals("Expected different program id", "ACC-TEST-PROG-1", programInnerMap1.get("programId"));
-
-        Map<String, Object> programOuterMap2 = programReferences.get(1);
-        Map<String, Object> programInnerMap2 = (Map<String, Object>) programOuterMap2.get("programIdentity");
-        assertEquals("Expected different program id", "ACC-TEST-PROG-2", programInnerMap2.get("programId"));
 
         assertEquals("Expected different begin date", "2011-01-01", attributes.get("beginDate"));
         assertEquals("Expected different end date", "2012-02-15", attributes.get("endDate"));
