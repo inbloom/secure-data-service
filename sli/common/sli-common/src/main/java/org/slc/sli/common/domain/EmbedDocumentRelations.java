@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class EmbedDocumentRelations {
 
-    private final static Map<String, Parent> subDocParent;
+    private static final Map<String, Parent> subDocParent;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();

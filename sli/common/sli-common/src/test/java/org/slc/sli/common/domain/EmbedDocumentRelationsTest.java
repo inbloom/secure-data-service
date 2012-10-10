@@ -30,4 +30,9 @@ public class EmbedDocumentRelationsTest {
         assertEquals(EmbedDocumentRelations.getParentFieldReference("studentSectionAssociation"), "sectionId");
     }
 
+    @Test
+    public void nonSubDocTest() {
+        assertTrue(EmbedDocumentRelations.getParentEntityType("does not exist") == null);
+        assertTrue(EmbedDocumentRelations.getParentFieldReference("does not exist") == null);
+    }
 }

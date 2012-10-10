@@ -139,12 +139,6 @@ public class SubDocAccessor {
      */
     public class Location {
 
-        private static final String ID_SEPERATOR = "×"; // it should be noted that is not an 'x', so
-                                                        // be careful
-                                                        // should probably change it to something
-                                                        // less nefarious, but it does need to be
-                                                        // something the api won't consider
-                                                        // meaningful
         private final String collection;
         private final Map<String, String> lookup;
         private final String subField;
@@ -169,7 +163,7 @@ public class SubDocAccessor {
         }
 
         private String getParentEntityId(String entityId) {
-            return entityId.split(ID_SEPERATOR)[0];
+            return entityId.substring(0,43);
         }
 
         private DBObject getParentQuery(Map<String, Object> body) {
@@ -230,7 +224,15 @@ public class SubDocAccessor {
         }
 
         private DBObject subDocToDBObject(Entity entity) {
-            DBObject dbObject = ((MongoEntity) entity).toDBObject(didGenerator, naturalKeyExtractor);
+            MongoEntity mongoEntity;
+
+            if (entity instanceof MongoEntity){
+               mongoEntity = (MongoEntity) entity;
+            } else {
+                mongoEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(), entity.getMetaData());
+            }
+
+            DBObject dbObject = mongoEntity.toDBObject(didGenerator, naturalKeyExtractor);
 
             // uncomment out if embeddedDid need to cat parent did
             // String originalDid = (String) dbObject.get("_id");
