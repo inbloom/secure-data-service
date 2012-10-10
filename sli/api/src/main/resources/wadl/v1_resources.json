@@ -10,22 +10,22 @@
       "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.AggregateListableResource",
       "subResources": [
+        { "path": "/{id}/gradebookEntries" },
+        { "path": "/{id}/studentGradebookEntries" },
         { "path": "/{id}/studentSectionAssociations" },
+        { "path": "/{id}/studentSectionAssociations/grades" },
+        { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
         { "path": "/{id}/studentSectionAssociations/students" },
         { "path": "/{id}/studentSectionAssociations/students/attendances" },
         { "path": "/{id}/studentSectionAssociations/students/courseTranscripts" },
-        { "path": "/{id}/studentSectionAssociations/students/grades" },
         { "path": "/{id}/studentSectionAssociations/students/reportCards" },
         { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords" },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
-        { "path": "/{id}/studentSectionAssociations/students/studentCompetencies" },
         { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries" },
         { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
-        { "path": "/{id}/teacherSectionAssociations/teachers" },
-        { "path": "/{id}/gradebookEntries" },
-        { "path": "/{id}/studentGradebookEntries" }        
+        { "path": "/{id}/teacherSectionAssociations/teachers" }
       ]
     },
     {
@@ -166,19 +166,21 @@
         { "path": "/{id}/studentSchoolAssociations/students" },
         { "path": "/{id}/studentSchoolAssociations/students/attendances" },
         { "path": "/{id}/studentSchoolAssociations/students/courseTranscripts" },
-        { "path": "/{id}/studentSchoolAssociations/students/grades" },
         { "path": "/{id}/studentSchoolAssociations/students/reportCards" },
         { "path": "/{id}/studentSchoolAssociations/students/studentAcademicRecords" },
         { "path": "/{id}/studentSchoolAssociations/students/studentAssessments" },
-        { "path": "/{id}/studentSchoolAssociations/students/studentCompetencies" },
         { "path": "/{id}/studentSchoolAssociations/students/studentGradebookEntries" },
+        { "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
         { "path": "/{id}/sessions/gradingPeriods" },
         { "path": "/{id}/sections" },
-        { "path": "/{id}/sections/gradebookEntries" }
+        { "path": "/{id}/sections/gradebookEntries" },
+        { "path": "/{id}/sections/studentSectionAssociations" },
+        { "path": "/{id}/sections/studentSectionAssociations/grades" },
+        { "path": "/{id}/sections/studentSectionAssociations/studentCompetencies" }
       ]
     },
     {
