@@ -11,6 +11,10 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
+/**
+ * TODO: add class comment here
+ *
+ */
 public class MongoDriverTest {
 
     private static final int NUM_TO_WRITE = 100000;
@@ -43,8 +47,8 @@ public class MongoDriverTest {
 
             double totalTime = (System.nanoTime() - startTime) / 1000000000D;
 
-            System.out.println("\n" + NUM_TO_WRITE + " documents in " + totalTime + " seconds: " + NUM_TO_WRITE
-                    / totalTime + " RPS");
+//            System.out.println("\n" + NUM_TO_WRITE + " documents in " + totalTime + " seconds: " + NUM_TO_WRITE
+//                    / totalTime + " RPS");
 
             System.exit(1);
 
@@ -86,6 +90,11 @@ public class MongoDriverTest {
         }
     }
 
+    /**
+     *
+     * TODO: add class comment here
+     *
+     */
     public static final class MongoWriteConsumer implements Runnable {
 
         private final BlockingQueue<DBObject> queue;

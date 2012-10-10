@@ -17,6 +17,10 @@
 package org.slc.sli.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -55,6 +59,10 @@ public class MongoEntity implements Entity, Serializable {
     private final Map<String, Object> metaData;
     private final CalculatedData<String> calculatedData;
     private final CalculatedData<Map<String, Integer>> aggregates;
+    private final Map<String, List<Map<String, Object>>> embeddedData;
+
+    private static List<String> BASE_ATTRIBUTES = Arrays.asList("_id", "body", "type", "metaData",
+            "calculatedValues", "aggregations");
     
     /**
      * Default constructor for the MongoEntity class.
@@ -97,6 +105,19 @@ public class MongoEntity implements Entity, Serializable {
         this.metaData = metaData == null ? new BasicBSONObject() : metaData;
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
+        this.embeddedData = new HashMap<String, List<Map<String, Object>>>();
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+                       CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
+                       Map<String, List<Map<String, Object>>> embeddedData) {
+        this.type = type;
+        this.entityId = id;
+        this.body = body == null ? new BasicBSONObject() : body;
+        this.metaData = metaData == null ? new BasicBSONObject() : metaData;
+        this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
+        this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
+        this.embeddedData = embeddedData == null ? new HashMap<String, List<Map<String, Object>>>() : embeddedData;
     }
     
     @Override
@@ -214,9 +235,23 @@ public class MongoEntity implements Entity, Serializable {
                 .get("calculatedValues");
         Map<String, Map<String, Map<String, Map<String, Integer>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Integer>>>>) dbObj
                 .get("aggregations");
-        
+
+        Map<String, List<Map<String, Object>>> embeddedData = extractEmbeddedData(dbObj);
+
         return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
-                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"));
+                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData);
+    }
+
+    private static Map<String, List<Map<String, Object>>> extractEmbeddedData(DBObject dbObj) {
+        Map<String, List<Map<String, Object>>> embeddedData = new HashMap<String, List<Map<String, Object>>>();
+        for (String key : dbObj.keySet()) {
+            if (!BASE_ATTRIBUTES.contains(key)) {
+                List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
+                embeddedData.put(key, Collections.unmodifiableList(values));
+            }
+        }
+
+        return embeddedData;
     }
     
     /**
@@ -245,5 +280,10 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public CalculatedData<Map<String, Integer>> getAggregates() {
         return aggregates;
+    }
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+        return embeddedData;
     }
 }
