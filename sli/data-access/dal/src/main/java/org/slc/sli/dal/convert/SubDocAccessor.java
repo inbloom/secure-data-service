@@ -10,11 +10,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
+import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,11 +22,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.slc.sli.common.domain.EmbedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -489,10 +488,10 @@ public class SubDocAccessor {
          * Note: Firgure out how to merge it with buildSubDocQuery method
          */
         private DBObject getExactSubDocQuery(String id) {
-            String targetDoc = "body." + lookup.get("_id") + "." + id;
+            // String targetDoc = "body." + lookup.get("_id") + "." + id;
             DBObject query = new BasicDBObject();
-            query.put("_id", getParentEntityId(id));
-            query.put(targetDoc, new BasicDBObject("$exists", true));
+            query.put(subField + "._id", id);
+            // query.put(targetDoc, new BasicDBObject("$exists", true));
             return query;
         }
 
@@ -505,7 +504,7 @@ public class SubDocAccessor {
         // by iterating over the cursor without instantiating instances of MongoEntity as
         // done in the find(..) method, which should also be refactored.
         public long count(Query query) {
-            return this.find(query).size();
+            return this.findAll(query).size();
         }
 
 //        public boolean delete(String id) {
