@@ -60,7 +60,6 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -399,11 +398,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         // add the custom entity if it was requested
                         addCustomEntity(result, entityDef, uriInfo);
 
-                        // add the computedValues if they were requested
-                        addCalculatedValues(result, entityDef);
-
-                        // add the aggregates if they were requested
-                        addAggregates(result, entityDef);
                     }
                 }
 
@@ -685,36 +679,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             EntityBody custom = entityDef.getService().getCustom(entityId);
             if (custom != null) {
                 entityBody.put(ResourceConstants.CUSTOM, custom);
-            }
-        }
-    }
-
-    /**
-     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
-     *
-     */
-    protected void addCalculatedValues(EntityBody entityBody, final EntityDefinition entityDef) {
-        boolean includeCalculatedValues = "true".equals(includeCalculated);
-        if (includeCalculatedValues) {
-            String entityId = (String) entityBody.get("id");
-            CalculatedData<String> calculatedValues = entityDef.getService().getCalculatedValues(entityId);
-            if (calculatedValues != null) {
-                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, calculatedValues.getCalculatedValues());
-            }
-        }
-    }
-
-    /**
-     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
-     *
-     */
-    protected void addAggregates(EntityBody entityBody, final EntityDefinition entityDef) {
-        boolean includeAggregateValues = entityDef.supportsAggregates() && "true".equals(includeAggregates);
-        if (includeAggregateValues) {
-            String entityId = (String) entityBody.get("id");
-            CalculatedData<Map<String, Integer>> aggregates = entityDef.getService().getAggregates(entityId);
-            if (aggregates != null) {
-                entityBody.put(ResourceConstants.AGGREGATE_VALUE_TYPE, aggregates.getCalculatedValues());
             }
         }
     }
