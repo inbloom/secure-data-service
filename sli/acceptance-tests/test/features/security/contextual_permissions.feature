@@ -171,8 +171,8 @@ When I make an API call to get a list of students in the section <Section>
 Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | Section          | Code | 
-| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 200  |
-| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 200  |
+| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 403  |
+| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 403  |
 | "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" | 403  |
  
