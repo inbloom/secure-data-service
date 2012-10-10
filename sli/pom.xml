@@ -974,6 +974,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven.surefire.version}</version>
 				<configuration>
+                    <configuration>
+                      <parallel>methods</parallel>
+                      <threadCount>80</threadCount>
+                    </configuration>
 					<systemPropertyVariables>
 						<emma.rt.control>false</emma.rt.control>
                         <sli.conf>${sli.conf}</sli.conf>

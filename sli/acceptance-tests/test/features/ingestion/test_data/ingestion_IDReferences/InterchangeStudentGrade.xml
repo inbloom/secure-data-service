@@ -214,9 +214,8 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective1</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -241,9 +240,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective2</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -268,9 +266,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_101</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -295,9 +292,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective3</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -322,9 +318,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective4</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -349,9 +344,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_102</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -376,9 +370,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective5</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -403,9 +396,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective6</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -430,9 +422,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_103</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -457,9 +448,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_104</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -484,9 +474,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective7</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -511,9 +500,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_105</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -538,9 +526,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_106</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -565,9 +552,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective8</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -592,9 +578,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_107</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -619,9 +604,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_108</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -646,9 +630,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective1</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -673,9 +656,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective2</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -700,9 +682,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_101</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -727,9 +708,8 @@
         </LearningStandardReference>
 		<LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
+                <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective3</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
                 </LearningObjectiveId>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
@@ -762,12 +742,12 @@
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
 	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_1">
+	<CompetencyLevelDescriptor id="CL_5">
 		<CodeValue>Barely Competent 5</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
 	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_2">
+	<CompetencyLevelDescriptor id="CL_6">
 		<CodeValue>Barely Competent 6</CodeValue>
 		<Description>Herman tends to throw tantrums</Description>
 		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
@@ -981,65 +961,57 @@
 
 	<LearningObjectiveReference id="LO_1">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective1</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_2">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective2</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_3">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective101</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_4">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective3</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_5">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective4</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_6">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective5</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_7">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Objective102</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>
 	<LearningObjectiveReference id="LO_8">
 		<LearningObjectiveIdentity>
-			<LearningObjectiveId>
+			<LearningObjectiveId ContentStandardName="Common Core">
 				<IdentificationCode>Mockingbird School</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
 			</LearningObjectiveId>
 		</LearningObjectiveIdentity>
 	</LearningObjectiveReference>

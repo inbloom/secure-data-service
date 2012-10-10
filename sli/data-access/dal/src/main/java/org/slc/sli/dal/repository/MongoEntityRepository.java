@@ -23,16 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.SubDocAccessor;
@@ -42,13 +34,22 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- *
+ * 
  * @author Dong Liu dliu@wgen.net
  */
 
@@ -60,16 +61,23 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired(required = false)
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
+    
+    @Autowired
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    UUIDGeneratorStrategy uuidGeneratorStrategy;
+    
+    @Autowired
+    INaturalKeyExtractor naturalKeyExtractor;
 
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
-    @Autowired
     private SubDocAccessor subDocs;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
+        subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
     }
 
     @Override
@@ -180,6 +188,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return super.insert(persist, collectionName);
         }
     }
+    
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        if (subDocs.isSubDoc(collectionName)) {
+            List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
+            if (entities != null && entities.size() > 0) {
+                return entities.get(0);
+            }
+            return null;
+        }
+        return super.findOne(collectionName, query);
+    }
+    
+    @Override
+    public boolean delete(String collectionName, String id) {
+        if (subDocs.isSubDoc(collectionName)) {
+            return subDocs.subDoc(collectionName).delete(id);
+        }
+        return super.delete(collectionName, id);
+    }
 
     @Override
     protected Query getUpdateQuery(Entity entity) {
@@ -223,13 +251,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    public boolean update(String collectionName, Entity entity) {
-        if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).update(entity.getEntityId(), entity.getBody());
-        }
+    public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
-        return update(collectionName, entity, null); // body);
+        if (subDocs.isSubDoc(collection)) {
+            return subDocs.subDoc(collection).create(entity);
+        }
+        return update(collection, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -254,8 +282,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            Map<String, Object> result = subDocs.subDoc(collectionName).read(id);
-            return (result == null) ? null : new MongoEntity(collectionName, id, result, null);
+            return subDocs.subDoc(collectionName).findById(id);
+            // return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id),
+            // null);
         }
         return super.findById(collectionName, id);
     }
@@ -294,7 +323,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).find(getQueryConverter().convert(collectionName, neutralQuery));
+            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
     }

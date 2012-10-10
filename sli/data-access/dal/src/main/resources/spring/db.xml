@@ -87,11 +87,6 @@
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
-
-  <bean id="SubDocAccessor" name="SubDocAccessor" class="org.slc.sli.dal.convert.SubDocAccessor">
-    <property name="template" ref="mongoTemplate" />
-  </bean>
-
   <bean id="mongoPerfEntityRepository" name="performanceRepo" class="org.slc.sli.dal.repository.MongoPerfRepository">
     <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />

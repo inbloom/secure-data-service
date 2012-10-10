@@ -151,9 +151,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                         newJob, batchJobDAO);
                 FutureTask<Boolean> resolutionTask = IngestionExecutor.execute(idRefCallable);
                 resolutionTaskList.add(resolutionTask);
-
-            } else {
-                LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
             }
         }
 
