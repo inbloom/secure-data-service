@@ -27,10 +27,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -42,12 +38,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author slee
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DisciplineActionEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi staffCohortAssociation is correctly mapped to a NeutralRecord.
@@ -72,7 +63,7 @@ public class DisciplineActionEntityTest {
         }
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiXml);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -85,13 +76,13 @@ public class DisciplineActionEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
         assertEquals("Expected different number of attributes", 14, attributes.size());
-
+        
         assertEquals("Expected different disciplineActionIdentifier", "cap0-lea0-sch1-da0", attributes.get("disciplineActionIdentifier"));
         assertEquals("Expected different disciplineDate", "2011-03-04", attributes.get("disciplineDate"));
         assertEquals("Expected different disciplineActionLength", 74, attributes.get("disciplineActionLength"));
         assertEquals("Expected different actualDisciplineActionLength", 64, attributes.get("actualDisciplineActionLength"));
         assertEquals("Expected different disciplineActionLengthDifferenceReason", "Term Modified By Mutual Agreement", attributes.get("disciplineActionLengthDifferenceReason"));
-
+        
         List<Map<String, Object>> studentReferences = (List<Map<String, Object>>) attributes.get("studentReference");
         assertNotNull("Expected non-null list of studentReferences", studentReferences);
         assertEquals("Expected 2 student references", 2, studentReferences.size());
@@ -115,7 +106,7 @@ public class DisciplineActionEntityTest {
         Map<String, Object> staffOuterMap2 = staffReferences.get(1);
         Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
         assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap2.get("staffUniqueStateId"));
-
+        
         List<Map<String, Object>> disciplineIncidentReferences = (List<Map<String, Object>>) attributes.get("disciplineIncidentReference");
         assertNotNull("Expected non-null list of disciplineIncidentReferences", disciplineIncidentReferences);
         assertEquals("Expected 1 disciplineIncidentReferences", 1, disciplineIncidentReferences.size());
@@ -123,25 +114,25 @@ public class DisciplineActionEntityTest {
         Map<String, Object> disciplineOuterMap1 = disciplineIncidentReferences.get(0);
         Map<String, Object> disciplineInnerMap1 = (Map<String, Object>) disciplineOuterMap1.get("disciplineIncidentIdentity");
         assertEquals("Expected different discipline incidentIdentifier", "di-10001", disciplineInnerMap1.get("incidentIdentifier"));
-
+        
         Map<String, Object> responsibilitySchoolReference = (Map<String, Object>) attributes.get("responsibilitySchoolId");
         Map<String, Object> responsibilitySchooIdentity = (Map<String, Object>) responsibilitySchoolReference.get("educationalOrgIdentity");
         List<String> responsibilitySchools = (List<String>) responsibilitySchooIdentity.get("stateOrganizationId");
         assertEquals("Expected different responsibilitySchool stateOrganizationId", "Daybreak Central High", responsibilitySchools.get(0));
-
+        
         Map<String, Object> assignmentSchoolReference = (Map<String, Object>) attributes.get("assignmentSchoolId");
         Map<String, Object> assignmentSchooIdentity = (Map<String, Object>) assignmentSchoolReference.get("educationalOrgIdentity");
         List<String> assignmentSchools = (List<String>) assignmentSchooIdentity.get("stateOrganizationId");
         assertEquals("Expected different assignmentSchool stateOrganizationId", "Daybreak Central High", assignmentSchools.get(0));
-
+        
         List<List<Map<String, Object>>> disciplines = (List<List<Map<String, Object>>>) attributes.get("disciplines");
         assertNotNull("Expected non-null list of disciplines", disciplines);
         assertEquals("Expected 2 discipliness", 2, disciplines.size());
-
+        
         assertEquals("Expected different codeValue for discipline1", "DISCIPLINE 001", disciplines.get(0).get(0).get("codeValue"));
         assertEquals("Expected different shortDescription for discipline1", "Discipline 001 description", disciplines.get(0).get(1).get("shortDescription"));
         assertEquals("Expected different description for discipline1", "Suspension from school for a week", disciplines.get(0).get(2).get("description"));
-
+        
         assertEquals("Expected different codeValue for discipline2", "DISCIPLINE 002", disciplines.get(1).get(0).get("codeValue"));
         assertEquals("Expected different shortDescription for discipline2", "Discipline 002 description", disciplines.get(1).get(1).get("shortDescription"));
         assertEquals("Expected different description for discipline2", "Suspension from school for 5 days", disciplines.get(1).get(2).get("description"));
