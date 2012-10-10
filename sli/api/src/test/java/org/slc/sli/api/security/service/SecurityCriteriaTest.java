@@ -60,7 +60,7 @@ public class SecurityCriteriaTest {
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
 
-        assertEquals("Should match", 2, query.getOrQueries().size());
+        assertEquals("Should match", 1, query.getOrQueries().size());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SecurityCriteriaTest {
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
 
-        assertEquals("Should match", 2, query.getOrQueries().size());
+        assertEquals("Should match", 1, query.getOrQueries().size());
     }
     
     @Test
