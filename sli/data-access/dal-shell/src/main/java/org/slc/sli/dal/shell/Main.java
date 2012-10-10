@@ -6,23 +6,30 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.core.io.ByteArrayResource;
 
 /**
  * Hello world!
  *
  */
+@SuppressWarnings("unchecked")
 public class Main 
 {
-    private final static BufferedReader cin; 
+    private final static BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
+    private final static ObjectMapper mapper = new ObjectMapper(); 
+    private final static Repository<Entity> repo;
+    
     static {
-        cin = new BufferedReader(new InputStreamReader(System.in));
+        String contextXML = ""; 
+        ApplicationContext ctx = new GenericXmlApplicationContext( new ByteArrayResource( contextXML.getBytes() ) );
+        repo = (Repository<Entity>) ctx.getBean("mongoEntityRepository"); 
     }
     
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         // args:
         // op inputfile outputile
@@ -30,20 +37,38 @@ public class Main
         // input is a hash map from JSON 
 
         try {
-            String jsonStr = readInputItem(); 
-            ObjectMapper mapper = new ObjectMapper(); 
-            Map<String, Object> data = (HashMap<String,Object>)mapper.readValue(jsonStr, HashMap.class);
-            System.out.println("Result:\n------------------\n" + data + "\n-----------------");
-        } catch (JsonParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            while(true) { 
+                Map<String, Object> data = readInputItem(); 
+                Map<String, Object> result = doCRUD(data); 
+                writeOutputItem(result); 
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(1); 
         }
+    }
+    
+
+    private static Map<String, Object> readInputItem() throws IOException {
+        String jsonStr = "";        
+        String line = cin.readLine();
+        while(!"---".equals(line)) {
+            jsonStr += line + "\n"; 
+            line = cin.readLine(); 
+        }
+        Map<String, Object> result = (HashMap<String,Object>)mapper.readValue(jsonStr, HashMap.class);
+        return result; 
+    }
+    
+    private static void writeOutputItem(Map<String, Object> outputItem) throws IOException {
+        String jsonString = mapper.writeValueAsString(outputItem);
+        System.out.println(jsonString); 
+        System.out.println("---"); 
+    }
+
+    private static Map<String, Object> doCRUD(Map<String, Object> data) {
+        
         
         // output is a hashmap from json 
 
@@ -51,20 +76,6 @@ public class Main
 
         // CRUD for studentSectionAssociation 
         //      includes CRUD for 
-    }
-    
-    private static String readInputItem() {
-        String result = "";        
-        try {
-            String line = cin.readLine();
-            while(!"---".equals(line)) {
-                result += line + "\n"; 
-                line = cin.readLine(); 
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return result; 
+        return null;
     }
 }

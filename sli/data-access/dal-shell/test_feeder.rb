@@ -1,4 +1,5 @@
 require 'json'
+require 'open3'
 
 data = {
     :x => "value", 
@@ -13,12 +14,20 @@ data = {
           }
 }
 
-output = IO.popen("java -jar target/dal-shell-1.0-SNAPSHOT-jar-with-dependencies.jar", "w+") do |pipe|
-            json_str = data.to_json
-            pipe.puts json_str
-            pipe.puts "---"
-            pipe.close_write
-            pipe.read
+output = Open3.popen2("java -jar target/dal-shell-jar-with-dependencies.jar", "w+") do |stdin, stdout, wait_thr|
+            loop do 
+                puts "Writing !"
+                json_str = data.to_json
+                stdin.puts json_str
+                stdin.puts "---"
+                result = ""
+                l = stdout.readline().strip
+                while l != "---" do 
+                    result << l
+                    l = stdout.readline().strip
+                end
+                puts "GOT\n", JSON.parse(result)
+            end 
         end 
 
 puts "Output:"
