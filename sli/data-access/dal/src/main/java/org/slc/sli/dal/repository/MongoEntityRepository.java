@@ -23,6 +23,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
@@ -36,14 +45,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -125,7 +126,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      * This method should be private, but is used via mockito in the tests, thus
      * it's public. (S. Altmueller)
      */
-    public Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+    Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         if (metaData == null) {
