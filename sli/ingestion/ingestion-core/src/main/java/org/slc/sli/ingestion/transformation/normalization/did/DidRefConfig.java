@@ -29,6 +29,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public class DidRefConfig {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private String entityType;
     private List<KeyFieldDef> keyFields;
 
@@ -49,7 +51,6 @@ public class DidRefConfig {
     }
 
     public static DidRefConfig parse(InputStream inputStream) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(inputStream, DidRefConfig.class);
+        return MAPPER.readValue(inputStream, DidRefConfig.class);
     }
 }
