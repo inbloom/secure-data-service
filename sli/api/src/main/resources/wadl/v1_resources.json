@@ -8,7 +8,7 @@
     {
       "path": "/sections",
       "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.AggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
@@ -54,7 +54,7 @@
     {
       "path": "/cohorts",
       "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.AggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/staffCohortAssociations" },
         { "path": "/{id}/staffCohortAssociations/staff" },
@@ -151,7 +151,7 @@
     {
       "path": "/schools",
       "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicAggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
