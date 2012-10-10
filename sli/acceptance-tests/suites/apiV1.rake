@@ -34,8 +34,8 @@ task :apiV1DuplicateLinkTest => [:realmInit] do
 end
 
 desc "Run API querying tests"
-task :apiV1QueryingTests do
-  #Rake::Task["importSandboxData"].execute
+task :apiV1QueryingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/querying/querying.feature")
 end
 
