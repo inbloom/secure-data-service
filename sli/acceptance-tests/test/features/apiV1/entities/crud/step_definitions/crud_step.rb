@@ -332,6 +332,105 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = @entityData[arg1]
 end
 
+When /^I create an association of type "([^"]*)"$/ do |type|
+  @assocData = {
+    "studentCohortAssocation" => {
+       "cohortId" => @newId,
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "endDate" => "2020-01-15",
+       "beginDate" => "2011-04-01"
+    },
+    "courseOffering" => {
+      "localCourseCode" => "LCC7252GR2",
+      "localCourseTitle" => "German 2 - Outro to German",
+      "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+      "courseId" => @newId,
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772"
+    },
+    "section" => {
+       "educationalEnvironment" => "Classroom",
+       "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+       "populationServed" => "Regular Students",
+       "sequenceOfCourse" => 3,
+       "uniqueSectionCode" => "Motorcycle Repair 101",
+       "mediumOfInstruction" => "Independent study",
+       "programReference" => [],
+       "courseOfferingId" => @assocId,
+       "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+       "availableCredit" => nil
+    },
+    "studentDisciplineIncidentAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "disciplineIncidentId" => @newId,
+       "studentParticipationCode" => "Reporter"
+    },
+    "studentParentAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "parentId" => @newId,
+       "livesWith" => true,
+       "primaryContactStatus" => true,
+       "relation" => "Father",
+       "contactPriority" => 0,
+       "emergencyContactStatus" => true
+    },
+    "studentProgramAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "programId" => @newId,
+       "beginDate" => "2011-05-01",
+       "educationOrganizationId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    },
+    "studentSectionAssociation" => {
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "sectionId" => @newId,
+      "beginDate" => "2012-05-01"
+    },
+    "staffEducationOrganizationAssociation" => {
+      "educationOrganizationReference" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
+    "studentSectionAssociation2" => {
+      "studentId" => @newId,
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "beginDate" => "2012-05-01"
+    },
+    "teacherSchoolAssociation" => {
+      "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    }
+  }
+  @fields = @assocData[type]
+end
+
+When /^I POST the association of type "([^"]*)"$/ do |type|
+  @assocUrl = {
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "courseOffering" => "courseOfferings",
+    "section" => "sections",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "studentSectionAssociation2" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations"
+  }
+  if type != ""
+    step "I navigate to POST \"/#{@assocUrl[type]}\""
+    headers = @res.raw_headers
+    assert(headers != nil, "Headers are nil")
+    assert(headers['location'] != nil, "There is no location link from the previous request")
+    s = headers['location'][0]
+    @assocId = s[s.rindex('/')+1..-1]
+    puts "Assoc for #{type} is #{@assocId}"
+  end
+end
+
 Then /^I should receive a new entity URI$/ do
   step "I should receive an ID for the newly created entity"
   assert(@newId != nil, "After POST, URI is nil")

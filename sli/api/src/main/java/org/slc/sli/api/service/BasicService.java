@@ -526,8 +526,30 @@ public class BasicService implements EntityService {
             }
 
             if (found != ids.size()) {
-                debug("{} in {} is not accessible", value, collectionName);
-                throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                
+                //Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                //So found won't include any orphaned entities that the user created.
+                //We do an additional query of the referenced fields without any additional security criteria
+                //and check the isOrphaned and createdBy on each of those
+                neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(MAX_RESULT_SIZE);
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+                String userId = user.getEntity().getEntityId();
+                for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+                    
+                    if (userId.equals(ent.getMetaData().get("createdBy")) &&
+                        "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                        found++;
+                    }
+                }
+                if (found != ids.size()) {
+                    debug("{} in {} is not accessible", value, collectionName);
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                }
             }
         }
     }
@@ -960,6 +982,7 @@ public class BasicService implements EntityService {
             createdBy = principal.getExternalId();
         }
         metadata.put("createdBy", createdBy);
+        metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
         // add the edorgs for staff
         createEdOrgMetaDataForStaff(principal, metadata);

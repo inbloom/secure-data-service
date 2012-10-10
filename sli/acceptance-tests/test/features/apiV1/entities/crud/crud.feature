@@ -167,27 +167,64 @@ Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "studentId"              | "2fab099f-47d5-4099-addf-69120db3b53b"       |
-| "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
-| "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
 | "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
-| "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
 | "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
 | "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
 | "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
-| "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
-| "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-| "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
-| "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
-| "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
-| "studentGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-| "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
+| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+
+    Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
+    Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
+      And format "application/vnd.slc+json"
+       Given entity URI <Entity Resource URI>
+        # Create
+       Given a valid entity json document for a <Entity Type>
+        When I navigate to POST "/<ENTITY URI>"
+        Then I should receive a return code of 201
+         And I should receive a new entity URI
+        # Association
+        When I create an association of type <Association Type>
+        When I POST the association of type <Association Type>
+        Then I should receive a return code of 201
+        # Read
+        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 200
+         And a valid entity json document for a <Entity Type>
+         And the response should contain the appropriate fields and values
+         And "entityType" should be <Entity Type>
+         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        # Update
+        When I set the <Update Field> to <Updated Value>
+         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+         And <Update Field> should be <Updated Value>
+        # Delete
+        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+         And I should receive a return code of 404
+
+Examples:
+| Entity Type                    | Entity Resource URI   | Association Type                       | Update Field             | Updated Value             | 
+| "cohort"                       | "cohorts"             | "studentCohortAssocation"              | "cohortDescription"      | "frisbee golf team"       |
+| "disciplineIncident"           | "disciplineIncidents" | "studentDisciplineIncidentAssociation" | "incidentTime"           | "01:02:15"                |
+| "parent"                       | "parents"             | "studentParentAssociation"             | "parentUniqueStateId"    | "ParentID102"             |
+| "program"                      | "programs"            | "studentProgramAssociation"            | "programSponsor"         | "State Education Agency"  |
+| "section"                      | "sections"            | "studentSectionAssociation"            | "sequenceOfCourse"       | "2"                       |
+| "staff"                        | "staff"               | "staffEducationOrganizationAssociation"| "sex"                    | "Female"                  |
+| "student"                      | "students"            | "studentSectionAssociation2"           | "sex"                    | "Female"                  |
+| "teacher"                      | "teachers"            | "teacherSchoolAssociation"             | "highlyQualifiedTeacher" | "false"                   |
+
+# Session and course require multiple levels of associations, e.g. course -> courseOffering -> section -> teacherSectionAssoc
+#| "session"                      | "sessions"            | | |  "totalInstructionalDays" | "43"                                         |
+#| "course"                       | "courses"             | "courseOffering"                       | "section"         | "courseDescription"      | "Advanced Linguistic Studies" |
 
     Scenario Outline: Get All Entities as School Teacher
     
