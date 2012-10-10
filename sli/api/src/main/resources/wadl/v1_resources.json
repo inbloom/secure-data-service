@@ -8,13 +8,16 @@
     {
       "path": "/sections",
       "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.AggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/studentSectionAssociations" },
         { "path": "/{id}/studentSectionAssociations/students" },
+        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
+        { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/teacherSectionAssociations" },
+        { "path": "/{id}/teacherSectionAssociations/teachers" },
         { "path": "/{id}/gradebookEntries" },
-        { "path": "/{id}/teacherSectionAssociations/teachers" }
+        { "path": "/{id}/studentGradebookEntries" }        
       ]
     },
     {
@@ -51,7 +54,7 @@
     {
       "path": "/cohorts",
       "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.AggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/staffCohortAssociations" },
         { "path": "/{id}/staffCohortAssociations/staff" },
@@ -64,7 +67,10 @@
       "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources.",
       "subResources": [
         { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courseOfferings/courses" }
+        { "path": "/{id}/courseOfferings/courses" },
+        { "path": "/{id}/studentAcademicRecords" },
+        { "path": "/{id}/sections" }
+
       ]
     },
     {
@@ -79,7 +85,7 @@
       "path": "/gradebookEntries",
       "doc": "Represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook. For more information, see the schema for $$GradebookEntry$$ resources.",
       "subResources": [
-
+        { "path": "/{id}/studentGradebookEntries" }
       ]
     },
     {
@@ -127,6 +133,10 @@
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
+        { "path": "/{id}/graduationPlans" },
+        { "path": "/{id}/cohorts" },
+        { "path": "/{id}/educationOrganizations" },
+        { "path": "/{id}/schools" },
         { "path": "/{id}/studentCompetencyObjectives" }
       ]
     },
@@ -141,18 +151,20 @@
     {
       "path": "/schools",
       "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicAggregateListableResource",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
+        { "path": "/{id}/studentSchoolAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courses" },
         { "path": "/{id}/sessions" },
         { "path": "/{id}/sessions/gradingPeriods" },
         { "path": "/{id}/sections" },
-        { "path": "/{id}/sections/gradebookEntries" }
+        { "path": "/{id}/sections/gradebookEntries" },
+        { "path": "/{id}/graduationPlans" }
       ]
     },
     {
@@ -162,7 +174,8 @@
         { "path": "/{id}/staffProgramAssociations/staff" },
         { "path": "/{id}/studentProgramAssociations" },
         { "path": "/{id}/studentProgramAssociations/students" },
-        { "path": "/{id}/staffProgramAssociations" }
+        { "path": "/{id}/staffProgramAssociations" },
+        { "path": "/{id}/cohorts" }
       ]
     },
     {
@@ -184,7 +197,10 @@
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/sections" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" }
+        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/disciplineActions" },
+        { "path": "/{id}/disciplineIncidents" },
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
       ]
     },
     {
@@ -314,6 +330,7 @@
       "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources.",
       "subResources": [
         { "path": "/{id}/sessions" },
+        { "path": "/{id}/sections" },
         { "path": "/{id}/courses" }
       ]
     },
@@ -342,8 +359,15 @@
         { "path": "/{id}/attendances" },
         { "path": "/{id}/courseTranscripts/courses" },
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
-        { "path": "/{id}/studentCohortAssociations/cohorts" }
+        { "path": "/{id}/studentCohortAssociations/cohorts" }, 
+        { "path": "/{id}/studentGradebookEntries" }, 
+        { "path": "/{id}/studentAcademicRecords"}
       ]
+    },
+    {
+        "path": "/graduationPlans",
+        "doc": "Represents the definition of a graduation plan. For detailed information, see the schema for the $$GraduationPlan$$ entity.",
+        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     }
   ]
 }

@@ -41,6 +41,95 @@
                     ]
                 ]
             }
+        },
+        {
+            "fieldPath" : "body.reportCards",
+            "ref" : {
+                "entityType" : "reportCard",
+                "isRefList" : true,
+                "refObjectPath" : "body.reportCards",
+                "choiceOfFields" :
+                        [
+                            [
+                                {
+                                    "path":"body.studentId",
+                                    "values":[
+                                        {
+                                            "ref":{
+                                                "entityType": "student",
+                                                "choiceOfFields": [
+                                                    [
+                                                        {
+                                                            "path" : "body.studentUniqueStateId",
+                                                            "values": [
+                                                                {
+                                                                    "valueSource":"body.reportCards.studentId"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "path":"body.gradingPeriodId",
+                                    "values":[
+                                        {
+                                        "ref":{
+                                            "entityType":"gradingPeriod",
+                                            "choiceOfFields":[
+                                                [
+                                                    {
+                                                        "path":"body.gradingPeriodIdentity.schoolYear",
+                                                        "values":[
+                                                            {
+                                                                "valueSource":"body.reportCards.schoolYear"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "path":"body.gradingPeriodIdentity.gradingPeriod",
+                                                        "values":[
+                                                            {
+                                                                "valueSource":"body.reportCards.gradingPeriod"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "path":"body.gradingPeriodIdentity.schoolId",
+                                                        "values":[
+                                                            {
+                                                                "ref":{
+                                                                    "entityType": "school",
+                                                                    "isRefList" : true,
+                                                                    "refObjectPath" : "body.reportCards",
+                                                                    "choiceOfFields": [
+                                                                        [
+                                                                            {
+                                                                                "path" : "body.stateOrganizationId",
+                                                                                "values": [
+                                                                                    {
+                                                                                        "valueSource":"body.reportCards.stateOrganizationId"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            ]
+                                        }
+                                    }
+                                    ]
+                                }
+                            ]
+                        ]
+            }
         }
     ]
 }

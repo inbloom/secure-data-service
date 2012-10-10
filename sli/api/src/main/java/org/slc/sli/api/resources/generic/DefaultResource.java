@@ -15,20 +15,6 @@
  */
 package org.slc.sli.api.resources.generic;
 
-import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CustomEntityResource;
-import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
-import org.slc.sli.api.util.PATCH;
-import org.slc.sli.domain.CalculatedData;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,6 +24,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CustomEntityResource;
+import org.slc.sli.api.util.PATCH;
 
 
 /**
@@ -50,7 +49,7 @@ import javax.ws.rs.core.UriInfo;
 
 @Component
 @Scope("request")
-public class DefaultResource extends GenericResource implements CustomEntityReturnable, CalculatedDataListable {
+public class DefaultResource extends GenericResource implements CustomEntityReturnable {
 
     @GET
     public Response getAll(@Context final UriInfo uriInfo) {
@@ -105,6 +104,7 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
 
         return defaultResponseBuilder.build(uriInfo, ResourceTemplate.TWO_PART, ResourceMethod.PUT, new ResourceLogic() {
 
+            @Override
             public Response run(Resource resource) {
                 resourceService.putEntity(resource, id, entityBody);
 
@@ -147,17 +147,11 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
 
     }
 
+    @Override
     public CustomEntityResource getCustomResource(final String id, final UriInfo uriInfo) {
         final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CUSTOM);
         return new CustomEntityResource(id,
                 resourceHelper.getEntityDefinition(resource.getResourceType()));
-    }
-
-    public CalculatedDataListingResource<String> getCalculatedValueResource(final String id, final UriInfo uriInfo) {
-        final Resource resource = resourceHelper.getResourceName(uriInfo, ResourceTemplate.CALCULATED_VALUES);
-        CalculatedData<String> data = resourceService.getCalculatedData(resource, id);
-
-        return new CalculatedDataListingResource<String>(data);
     }
 
 }

@@ -590,8 +590,9 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -604,8 +605,9 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -618,8 +620,9 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -632,8 +635,9 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -646,8 +650,9 @@
         <UniqueSectionCode>Sec 155</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -660,8 +665,9 @@
         <UniqueSectionCode>Sec 155</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -674,8 +680,9 @@
         <UniqueSectionCode>Sec 155</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -688,8 +695,9 @@
         <UniqueSectionCode>Sec 155</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
     <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -702,8 +710,9 @@
         <UniqueSectionCode>Section with no teachers</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>false</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <!--8th graders-->
   <StudentSectionAssociation>
     <StudentReference>
@@ -717,8 +726,9 @@
         <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -731,8 +741,9 @@
         <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -745,8 +756,9 @@
         <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -759,8 +771,9 @@
         <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -773,8 +786,9 @@
         <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+  </StudentSectionAssociation>
   <!--1st grader-->
   <StudentSectionAssociation>
     <StudentReference>
@@ -788,8 +802,9 @@
         <UniqueSectionCode>Grade 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>   
+  </StudentSectionAssociation>   
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -802,8 +817,9 @@
         <UniqueSectionCode>Grade 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>      
+  </StudentSectionAssociation>      
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -816,8 +832,9 @@
         <UniqueSectionCode>Grade 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>         
+  </StudentSectionAssociation>         
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -830,6 +847,7 @@
         <UniqueSectionCode>Grade 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
+    <BeginDate>2011-09-01</BeginDate>
     <HomeroomIndicator>true</HomeroomIndicator>
-  <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>      
+  </StudentSectionAssociation>      
 </InterchangeStudentEnrollment>

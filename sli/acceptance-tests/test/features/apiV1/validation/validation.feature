@@ -169,7 +169,6 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
 
-
   Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
     Given format "application/json"
     And a valid json document for student

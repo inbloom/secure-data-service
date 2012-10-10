@@ -97,7 +97,7 @@ public class TenantMongoDA implements TenantDA {
     private List<String> findTenantPathsByIngestionServer(String targetIngestionServer) {
         List<String> tenantPaths = new ArrayList<String>();
 
-        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION);
+        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());
 
         for (Entity entity : entities) {
             @SuppressWarnings("unchecked")

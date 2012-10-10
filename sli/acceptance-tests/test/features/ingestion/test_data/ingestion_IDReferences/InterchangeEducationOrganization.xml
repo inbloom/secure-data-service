@@ -244,7 +244,8 @@
         <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>7th-Grade-English-1</UniqueCourseId></Course>
+    <UniqueCourseId>7th-Grade-English-1</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Reading Group</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -264,7 +265,8 @@
         <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>Reading-Group-2</UniqueCourseId></Course>
+    <UniqueCourseId>Reading-Group-2</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Writing about Government</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -284,7 +286,8 @@
         <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>Writing-about-Government-3</UniqueCourseId></Course>
+    <UniqueCourseId>Writing-about-Government-3</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>1st Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -305,22 +308,19 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <CompetencyLevels id="CL-G1-1">
-      <CodeValue>CL-G1-1</CodeValue>
       <Description>Express complete thoughts.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-2">
-      <CodeValue>CL-G1-2</CodeValue>
       <Description>Write multiple sentences about the same topic.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-3">
-      <CodeValue>CL-G1-3</CodeValue>
       <Description>Add on to writing in response to questions.</Description>
     </CompetencyLevels>
     <CompetencyLevels id="CL-G1-4">
-      <CodeValue>CL-G1-4</CodeValue>
       <Description>Write for a variety of purposes.</Description>
     </CompetencyLevels>
-  <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId></Course>
+    <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -341,7 +341,8 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>8th-Grade-English-5</UniqueCourseId></Course>
+    <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>Club/Team</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -362,5 +363,19 @@
         <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  <UniqueCourseId>Club/Team-6</UniqueCourseId></Course>
+    <UniqueCourseId>Club/Team-6</UniqueCourseId>
+  </Course>
+    
+    <CompetencyLevelDescriptor id="CL_7">
+		<CodeValue>Barely Competent 7</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	<CompetencyLevelDescriptor id="CL_8">
+		<CodeValue>Barely Competent 8</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompetencyLevelDescriptor>
+	
+    
 </InterchangeEducationOrganization>

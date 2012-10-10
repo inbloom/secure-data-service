@@ -184,7 +184,7 @@ public class NeutralRecordRepositoryTest {
         assertFalse(repository.delete("student", student2.getRecordId()));
 
         // test deleteAll by neutral record type
-        repository.deleteAll("teacher");
+        repository.deleteAll("teacher", null);
         when(mockedMongoTemplate.find(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student")))
                 .thenReturn(new LinkedList<NeutralRecord>());
         records = repository.findAll("student", neutralQuery1);
@@ -197,7 +197,7 @@ public class NeutralRecordRepositoryTest {
     public void testSort() {
 
         // clean up the existing student data
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         // create new student neutral record
         NeutralRecord body1 = buildTestStudentNeutralRecord();
@@ -342,7 +342,7 @@ public class NeutralRecordRepositoryTest {
     @Test
     @Ignore
     public void testFindIdsByQuery() {
-        repository.deleteAll("student");
+        repository.deleteAll("student", null);
 
         // create new student neutral record
         repository.create(buildTestStudentNeutralRecord(), "student");

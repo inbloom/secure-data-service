@@ -110,14 +110,14 @@ public class OnboardingResourceTest {
         // mockTenantResource = mock(TenantResource.class);
 
         // clear all related collections
-        repo.deleteAll("educationOrganization");
+        repo.deleteAll("educationOrganization", null);
 
     }
 
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
-        repo.deleteAll("educationalOrganization");
+        repo.deleteAll("educationalOrganization", null);
     }
 
     @SuppressWarnings("unchecked")

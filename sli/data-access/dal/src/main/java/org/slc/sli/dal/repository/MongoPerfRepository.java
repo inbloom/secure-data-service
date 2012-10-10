@@ -22,11 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -48,6 +48,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     protected MongoTemplate perfDbtemplate;
 
     protected IdConverter idConverter;
+
+    @Autowired
+    @Qualifier("entityKeyEncoder")
+    EntityKeyEncoder keyEncoder;
 
     public IdConverter getIdConverter() {
         return idConverter;
@@ -80,8 +84,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
+        MongoEntity mongoEntity = new MongoEntity(type, null, body, metaData);
+        keyEncoder.encodeEntityKey(mongoEntity);
         @SuppressWarnings("unchecked")
-        Entity entity = (Entity) new MongoEntity(type, null, body, metaData);
+        Entity entity = (Entity) mongoEntity;
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }
@@ -102,18 +108,8 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findAll not implemented");
-    }
-
-    @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         throw new UnsupportedOperationException("MongoPerfRepository.findAll not implemented");
-    }
-
-    @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findAllByPaths not implemented");
     }
 
     @Override
@@ -137,13 +133,8 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public CommandResult execute(DBObject command) {
-        throw new UnsupportedOperationException("MongoPerfRepository.execute not implemented");
     }
 
     @Override
@@ -157,11 +148,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
-    }
-
-    @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
     }
@@ -169,11 +155,6 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public boolean collectionExists(String collection) {
         return false;  // To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void createCollection(String collection) {
-        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -192,23 +173,9 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-
-    @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

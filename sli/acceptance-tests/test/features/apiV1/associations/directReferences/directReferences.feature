@@ -32,12 +32,12 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
      And the ID to use for testing is <testing ID>
      And the ID to use for testing a valid update is <new valid value>
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
-    When I navigate to GET "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
+    Then I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
     Then I should receive a return code of 200
      And "entityType" should be <target entity type>
-     And I should receive a link named <source link name> with URI "/<URI OF ENTITIES THAT REFER TO TARGET>"
-    When I navigate to GET "/<URI OF ENTITIES THAT REFER TO TARGET>"
+     And I should receive a link named <source link name>
+    When I navigate to GET the link named <source link name>
     Then I should receive a return code of 200
      And each entity's "entityType" should be <source entity type>
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
@@ -49,8 +49,8 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Then I should receive a return code of 204
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <new valid value>
-     And I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
-    When I navigate to GET "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
+     And I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
     Then "id" should be "<NEW VALID VALUE>"
      And "entityType" should be <target entity type>
     Examples:
@@ -119,8 +119,8 @@ Scenario Outline: Confirm all association generate one valid links that is imple
      And the ID to use for testing is <testing ID>
      And the ID to use for testing a valid update is <new valid value>
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
-    When I navigate to GET "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
+    Then I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
     Then I should receive a return code of 200
      And "entityType" should be <target entity type>
     When I navigate to GET "/<URI OF ENTITIES THAT REFER TO TARGET>"
@@ -135,8 +135,8 @@ Scenario Outline: Confirm all association generate one valid links that is imple
     Then I should receive a return code of 204
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <new valid value>
-     And I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
-    When I navigate to GET "/<URI OF REFERENCED ENTITY>/<NEW VALID VALUE>"
+     And I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
     Then "id" should be "<NEW VALID VALUE>"
      And "entityType" should be <target entity type>
     Examples:
