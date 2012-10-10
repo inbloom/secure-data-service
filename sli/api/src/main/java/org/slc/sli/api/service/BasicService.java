@@ -773,23 +773,27 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (type != null && type.equals(EntityNames.STAFF)) {
-            securityField = "metaData.edOrgs";
-
+        if (type != null) {
+            // Prevent apps from using data that wasn't allowed
             Set<String> blacklist = edOrgNodeFilter.getBlacklist();
             blackListedEdOrgs = StringUtils.join(blacklist, ',');
             if (!blacklist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs,
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "nin", blackListedEdOrgs,
                         false));
             }
-        }
 
+
+        }
+        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            securityField = "metaData.edOrgs";
+        }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
         }
+
 
         return securityCriteria;
     }
