@@ -17,6 +17,14 @@
 		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
 		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
 		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>ACT</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
@@ -42,14 +50,6 @@
 				<ObjectiveAssessmentIdentificationCode>ACT-Writing</ObjectiveAssessmentIdentificationCode>
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
-		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT</ID>
-				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentity>
-		</AssessmentFamilyReference>
 	</Assessment>
 
 	<!-- first level of objective assessment -->
