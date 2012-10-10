@@ -45,10 +45,10 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
 public class SubDocAccessorTest {
 
     private static final String STARTDATE = "3001-09-01";
-    private static final String STUDENT1 = "PhillipFry";
-    private static final String SECTION1 = "HistoryOfThe20thCentury";
-    private static final String STUDENT2 = "Gunther";
-    private static final String SECTION2 = "MathematicsOfWontonBurritoMeals";
+    private static final String STUDENT1 = "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id";
+    private static final String SECTION1 = "1b223f577827204a1c7e9c851dba06bea6b031fe_id";
+    private static final String STUDENT2 = "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id";
+    private static final String SECTION2 = "067198fd6da91e1aa8d67e28e850f224d6851713_id";
     private final MongoTemplate template = mock(MongoTemplate.class);
     private final DeterministicUUIDGeneratorStrategy uuidGenerator = mock(DeterministicUUIDGeneratorStrategy.class);
     private INaturalKeyExtractor naturalKeyExtractor = mock(INaturalKeyExtractor.class);
@@ -71,8 +71,8 @@ public class SubDocAccessorTest {
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
         Map<String, Object> studentSectionAssociations = new HashMap<String, Object>();
-        studentSectionAssociations.put(SECTION1 + "×" + STUDENT1, studentSectionAssociation);
-        studentSectionAssociations.put(SECTION1 + "×" + STUDENT2, studentSectionAssociation);
+        studentSectionAssociations.put(SECTION1 + STUDENT1, studentSectionAssociation);
+        studentSectionAssociations.put(SECTION1 + STUDENT2, studentSectionAssociation);
         section.put("studentSectionAssociation", studentSectionAssociations);
         when(template.findOne(matchesParentId(SECTION1), eq(Map.class), eq("section"))).thenReturn(section);
 
@@ -195,7 +195,7 @@ public class SubDocAccessorTest {
 
     @Test
     public void testRead() {
-        String ssaId = SECTION1 + "×" + STUDENT1;
+        String ssaId = SECTION1 + STUDENT1;
 //        assertTrue(underTest.subDoc("studentSectionAssociation").exists(ssaId));
         assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
         assertEquals(studentSectionAssociation,
