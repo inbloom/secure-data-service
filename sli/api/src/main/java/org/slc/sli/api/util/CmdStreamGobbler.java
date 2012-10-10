@@ -20,35 +20,36 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class CmdStreamGobbler extends Thread
-{
+import org.apache.commons.io.IOUtils;
+/**
+ * @author tke
+ *
+ */
+public class CmdStreamGobbler extends Thread {
     InputStream is;
     String type;
-    protected static final Logger LOG = LoggerFactory.getLogger(CmdStreamGobbler.class);
 
-    public CmdStreamGobbler(InputStream is, String type)
-    {
+    public CmdStreamGobbler(InputStream is, String type) {
         this.is = is;
         this.type = type;
     }
 
     @Override
-    public void run()
-    {
-        try
-        {
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line=null;
-            while ( (line = br.readLine()) != null) {
-                LOG.info(line);
+    public void run() {
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                info(line);
             }
-        } catch (IOException ioe)
-        {
-            LOG.error(ioe.getMessage());
+        } catch (IOException ioe) {
+            error(ioe.getMessage());
+        } finally {
+            IOUtils.closeQuietly(br);
+            IOUtils.closeQuietly(is);
         }
     }
 }

@@ -249,9 +249,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             runDbSpinUpScripts(tenantId);
 
             return tenantService.create(newTenant);
-        }
-
-        else {
+        } else {
             String existingTenantId = existingIds.get(0);
             // combine lzs from existing tenant and new tenant entry, overwriting with values of new
             // tenant entry if there is conflict.
