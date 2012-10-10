@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -94,8 +93,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
             }
 
             // routeId: inboundDir
-            from(landingZoneQueueUri).routeId(inboundDir).log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.")
-//                .choice().when(header("controlFile").isEqualTo(true))
+/*            from(landingZoneQueueUri).routeId(inboundDir).log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.")
                 .choice().when(body().endsWith(".ctl"))
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
@@ -116,7 +114,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                             .otherwise()
                                 .to(workItemQueueUri).endChoice().endChoice()
                 .otherwise()
-                    .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");
+                    .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");*/
 
         }
     }

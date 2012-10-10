@@ -36,7 +36,6 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -45,7 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
 import org.slc.sli.ingestion.tenant.TenantDA;
 
 /**
@@ -107,7 +105,7 @@ public class TenantProcessor implements Processor {
         // }
 
         try {
-            updateLzRoutes();
+//            updateLzRoutes();
 
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_SUCCESS);
 
@@ -150,11 +148,11 @@ public class TenantProcessor implements Processor {
 
         // add new routes
         if (routesToAdd.size() > 0) {
-            addRoutes(routesToAdd);
+//            addRoutes(routesToAdd);
         }
 
         // remove routes for oldLzPaths that were not found in DB collection
-        removeRoutes(oldLzPaths);
+//        removeRoutes(oldLzPaths);
     }
 
     /**
@@ -184,16 +182,16 @@ public class TenantProcessor implements Processor {
      * @throws Exception
      *             if a route cannot be removed
      */
-    private void removeRoutes(Set<String> routesToRemove) throws Exception {
+/*    private void removeRoutes(Set<String> routesToRemove) throws Exception {
         for (String routePath : routesToRemove) {
-//            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
-//            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
+            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
+            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
             // initiate graceful shutdown of these routes
-//            camelContext.stopRoute(zipRouteId);
-//            camelContext.stopRoute(ctrlRouteId);
+            camelContext.stopRoute(zipRouteId);
+            camelContext.stopRoute(ctrlRouteId);
             camelContext.stopRoute(routePath);
         }
-    }
+    }*/
 
     /**
      * Add routes to camel context.
@@ -201,11 +199,11 @@ public class TenantProcessor implements Processor {
      * @throws Exception
      *             if a route cannot be resolved
      */
-    private void addRoutes(List<String> routesToAdd) throws Exception {
+/*    private void addRoutes(List<String> routesToAdd) throws Exception {
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri, landingZoneQueueUri,
                 zipFileProcessor, controlFilePreProcessor, noExtractProcessor, pollInterval, readLockCheckInterval, readLockTimeout);
         camelContext.addRoutes(landingZoneRouteBuilder);
-    }
+    }*/
 
     /**
      * Obtain the hostname for the ingestion server running.
