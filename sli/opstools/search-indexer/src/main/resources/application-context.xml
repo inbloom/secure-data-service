@@ -55,6 +55,11 @@
 		<property name="runOnStartup" value="${sli.search.indexer.extract.runOnStartup}"></property>
 	</bean>
 
+    <bean id="incrementalListener" class="org.slc.sli.search.process.impl.IncrementalListenerImpl" init-method="init" destroy-method="destroy">
+        <property name="indexer" ref="indexer" />
+        <property name="indexEntityConverter" ref="indexEntityConverter" />
+    </bean>
+    
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl" init-method="init" destroy-method="destroy" lazy-init="false">
 		<property name="indexer" ref="indexer" />
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
