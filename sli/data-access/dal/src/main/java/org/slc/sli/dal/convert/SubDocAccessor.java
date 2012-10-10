@@ -315,8 +315,12 @@ public class SubDocAccessor {
         // convert original query match criteria to match embeded subDocs
         @SuppressWarnings("unchecked")
         private DBObject toSubDocQuery(Query originalQuery) {
+            return toSubDocQuery(originalQuery.getQueryObject());
+        }
 
-            DBObject originalQueryDBObject = originalQuery.getQueryObject();
+        @SuppressWarnings("unchecked")
+        private DBObject toSubDocQuery(DBObject originalQueryDBObject) {
+
             DBObject queryDBObject = appendSubField(originalQueryDBObject);
             for (String key : originalQueryDBObject.keySet()) {
                 if (key.equals("$or") || key.equals("$and")) {
@@ -331,6 +335,7 @@ public class SubDocAccessor {
             }
             return queryDBObject;
         }
+
 
         // retrieve limit/offset/sort info from the original query and make them applicable to
         // subDocs
@@ -350,12 +355,20 @@ public class SubDocAccessor {
         }
 
         // append subField to original query key, so it can query in subDocs
+        @SuppressWarnings("unchecked")
         private DBObject appendSubField(DBObject originalDBObject) {
             DBObject newDBObject = new Query().getQueryObject();
             for (String key : originalDBObject.keySet()) {
                 if (!key.startsWith("$")) {
                     String newKey = subField + "." + key;
                     newDBObject.put(newKey, originalDBObject.get(key));
+                } else if (key.equals("$or") || key.equals("$and")) {
+                    List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
+                    List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
+                    for(DBObject dbObject : dbObjects) {
+                        orQueryDBObjects.add(toSubDocQuery(dbObject));
+                    }
+                    newDBObject.put(key, orQueryDBObjects);
                 }
             }
             return newDBObject;
