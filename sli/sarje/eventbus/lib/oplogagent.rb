@@ -99,7 +99,7 @@ module Eventbus
         end
 
         if !messages_to_process.empty?
-          event_ids = []
+          events = Hash.new
           subscription_events = get_subscription_events
           subscription_events.each do |subscription_event|
             event_added = false
@@ -107,17 +107,27 @@ module Eventbus
               break if event_added
               subscription_event['triggers'].each do |trigger|
                 if message_to_process == message_to_process.merge(trigger)
-                  event_ids << subscription_event['eventId']
-                  event_added = true
+                  queue_name = "oplog"
+                  queue_name = subscription_event['queue'] if subscription_event['queue'] != nil
+                  publish_oplog = subscription_event['publishOplog'] ? true : false
+                  events[queue_name] = [] if events[queue_name] == nil
+                  if (publish_oplog)
+                    # we want all the oplog messages that is triggered
+                    events[queue_name] << message_to_process
+                  else
+                    events[queue_name] << subscription_event['eventId']
+                    event_added = true
+                  end
                   break
                 end
               end
             end
           end
-          if(!event_ids.empty?)
-            #puts "events to send to listener: #{event_ids}"
-            @logger.info "events to send to listener: #{event_ids}" unless @logger.nil?
-            yield event_ids
+          if (!events.empty?)
+            events.each_value do |value|
+              @logger.info "events to send to listener: #{value}" unless @logger.nil?
+            end
+            yield events
           end
         end
       end

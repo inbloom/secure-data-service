@@ -32,7 +32,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
     
     private String mqPswd = "manager";
     
-    private String queue = "/queue/test";
+    private String queue = "/queue/search_events";
     
     public void init() throws Exception {
         start();
