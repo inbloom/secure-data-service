@@ -21,16 +21,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -42,12 +39,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author vmcglaughlin
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentProgramAssociationEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi studentProgramAssociation is correctly mapped to a NeutralRecord.
@@ -72,7 +64,7 @@ public class StudentProgramAssociationEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiXml);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -122,21 +114,21 @@ public class StudentProgramAssociationEntityTest {
         List<Map<String, Object>> service1 = services.get(0);
         assertNotNull("Expected non-null service", service1);
         assertEquals("Expected three choices", 3, service1.size());
-
+        
         Map<String, Object> choice = service1.get(0);
         assertNotNull("Expected non-null service choice", choice);
         assertEquals("Expected different service code value", "Test service 1", choice.get("CodeValue"));
 
         choice = service1.get(1);
         assertNotNull("Expected non-null service choice", choice);
-        assertEquals("Expected different short description of service",
-                "Short description for acceptance test studentProgramAssociation service 1",
+        assertEquals("Expected different short description of service", 
+                "Short description for acceptance test studentProgramAssociation service 1", 
                 choice.get("ShortDescription"));
 
         choice = service1.get(2);
         assertNotNull("Expected non-null service choice", choice);
-        assertEquals("Expected different description of service",
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.",
+        assertEquals("Expected different description of service", 
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.", 
                 choice.get("Description"));
 
         List<Map<String, Object>> service2 = services.get(1);
@@ -149,14 +141,14 @@ public class StudentProgramAssociationEntityTest {
 
         choice = service2.get(1);
         assertNotNull("Expected non-null service choice", choice);
-        assertEquals("Expected different short description of service",
-                "Short description for acceptance test studentProgramAssociation service 2",
+        assertEquals("Expected different short description of service", 
+                "Short description for acceptance test studentProgramAssociation service 2", 
                 choice.get("ShortDescription"));
 
         choice = service2.get(2);
         assertNotNull("Expected non-null service choice", choice);
-        assertEquals("Expected different description of service",
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.",
+        assertEquals("Expected different description of service", 
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.", 
                 choice.get("Description"));
     }
 

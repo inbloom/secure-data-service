@@ -224,7 +224,6 @@ public class JobReportingProcessor implements Processor {
 
             writeBatchJobProperties(job, jobReportWriter);
 
-            writeDuplicates(job, jobReportWriter);
             if (!hasErrors) {
                 writeInfoLine(jobReportWriter, "All records processed successfully.");
                 job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
@@ -370,25 +369,6 @@ public class JobReportingProcessor implements Processor {
         }
 
         return writer;
-    }
-
-    private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
-        if (edfiMetrics != null) {
-            for (Metrics metric:edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
-
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (String entity: duplicates.keySet()) {
-                        Long count = duplicates.get(entity);
-                                if (count > 0) {
-                                    writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
-                                }
-                    }
-                }
-            }
-        }
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {

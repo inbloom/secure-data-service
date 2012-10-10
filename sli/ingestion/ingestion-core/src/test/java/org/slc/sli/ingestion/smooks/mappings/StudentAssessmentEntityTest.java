@@ -26,14 +26,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for StudentAssessment entity
@@ -41,12 +36,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author bsuzuki
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     @Test
     public void mapEdfiXmlStudentAssessmentToNeutralRecordTest() throws IOException, SAXException {
@@ -65,7 +55,7 @@ public class StudentAssessmentEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiStudentAssessmentXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiStudentAssessmentXml);
 
         checkValidStudentAssessmentNeutralRecord(neutralRecord);
     }
@@ -75,7 +65,7 @@ public class StudentAssessmentEntityTest {
             NeutralRecord studentAssessmentNeutralRecord) {
 
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-
+        
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
         assertEquals("2013-08-07", studentAssessmentNeutralRecord
