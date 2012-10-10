@@ -112,7 +112,7 @@ Examples:
 Examples:
 | Entity Type                    | Entity Resource URI       | Code | Entity Count |
 | "assessment"                   | "assessments"             |  200 | 17 |
-| "attendance"                   | "attendances"             |  200 | 2 |
+| "attendance"                   | "attendances"             |  200 | 0 |
 | "cohort"                       | "cohorts"                 |  200 | 3 |
 | "course"                       | "courses"                 |  200 | 0 |
 | "disciplineAction"             | "disciplineActions"       |  200 | 2 |
@@ -128,13 +128,13 @@ Examples:
 | "session"                      | "sessions"                |  200 | 0 |
 | "staff"                        | "staff"                   |  200 | 3 |
 | "student"                      | "students"                |  200 | 0 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 3 |
-| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 5 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 0 |
+| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 0 |
 | "teacher"                      | "teachers"                |  200 | 0 |
-| "grade"                        | "grades"                  |  200 | 3 |
-| "studentCompetency"            | "studentCompetencies"     |  200 | 3 |
+| "grade"                        | "grades"                  |  200 | 0 |
+| "studentCompetency"            | "studentCompetencies"     |  200 | 0 |
 | "gradingPeriod"                | "gradingPeriods"          |  200 | 0 |
-| "reportCard"                   | "reportCards"             |  200 | 3 |
+| "reportCard"                   | "reportCards"             |  200 | 0 |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -222,7 +222,7 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 1 |
 | "studentGradebookEntry"        | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 1 |
-| "grade"                        | "grades"                  | 2 |
-| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "grade"                        | "grades"                  | 0 |
+| "studentCompetency"            | "studentCompetencies"     | 0 |
 | "gradingPeriod"                | "gradingPeriods"          | 0 |
 | "reportCard"                   | "reportCards"             | 1 |
