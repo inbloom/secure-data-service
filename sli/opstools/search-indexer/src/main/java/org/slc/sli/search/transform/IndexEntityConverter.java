@@ -27,10 +27,14 @@ public class IndexEntityConverter {
         return fromEntityJson(Action.INDEX, entity);
     }
     
-    @SuppressWarnings("unchecked")
     public IndexEntity fromEntityJson(Action action, String entity) {
+        Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);
+        return fromEntityJson(action, entityMap);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public IndexEntity fromEntityJson(Action action, Map<String, Object> entityMap) {
         try {
-            Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);       
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
             String type = (String)entityMap.get("type");
@@ -55,7 +59,7 @@ public class IndexEntityConverter {
             return new IndexEntity(action, indexName, indexType, id, parent, (Map<String, Object>)entityMap.get("body"));
             
         } catch (Exception e) {
-             throw new SearchIndexerException("Unable to convert entity", e);
+            throw new SearchIndexerException("Unable to convert entity", e);
         } 
     }
     
