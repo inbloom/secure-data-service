@@ -85,40 +85,42 @@ public abstract class GenericResource {
     }
 
 	/**
-	 * Runs the first four path segments as a separate call to fetch ids to inject into 
-	 * Subsequent call for URI rewrites
+	 * Runs the first four path segments as a separate call to fetch ids to
+	 * inject into Subsequent call for URI rewrites
+	 * 
 	 * @param uriInfo
 	 * @param template
 	 * @return
 	 */
-	protected String locateIds(UriInfo uriInfo, ResourceTemplate template) {
-		String id = uriInfo.getPathSegments().get(2).getPath();
-		Resource resource = resourceHelper.getResourceName(uriInfo, template);
-		Resource base = resourceHelper.getBaseName(uriInfo, template);
-		Resource association = resourceHelper.getAssociationName(uriInfo, template);
-	
-		ServiceResponse resp = resourceService.getEntities(base, id, association, resource, uriInfo.getRequestUri());
-	
-		StringBuilder ids = new StringBuilder();
-	
-		for (EntityBody eb : resp.getEntityBodyList()) {
-			ids.append(eb.get("id") + ",");
-		}
-		
-		return  ids.toString().replaceAll(",$", "");
-	}
+    protected String locateIds(UriInfo uriInfo, ResourceTemplate template) {
+        String id = uriInfo.getPathSegments().get(2).getPath();
+        Resource resource = resourceHelper.getResourceName(uriInfo, template);
+        Resource base = resourceHelper.getBaseName(uriInfo, template);
+        Resource association = resourceHelper.getAssociationName(uriInfo,
+			template);
 
-	protected List<String> extractSegments(List<PathSegment> segments, List<Integer> indices) {
-		
-		List<String> result = new ArrayList<String>();
-		
-		for(int i:indices) {
-			result.add(segments.get(i).getPath());
-		}
-		
-		return result;
-	}
+        ServiceResponse resp = resourceService.getEntities(base, id,
+				association, resource, uriInfo.getRequestUri());
 
+        StringBuilder ids = new StringBuilder();
+
+        for (EntityBody eb : resp.getEntityBodyList()) {
+            ids.append(eb.get("id") + ",");
+        }
+
+        return ids.toString().replaceAll(",$", "");
+    }
+
+    protected List<String> extractSegments(List<PathSegment> segments, List<Integer> indices) {
+
+        List<String> result = new ArrayList<String>();
+
+        for (int i : indices) {
+            result.add(segments.get(i).getPath());
+	    }
+
+        return result;
+    }
 
 
 

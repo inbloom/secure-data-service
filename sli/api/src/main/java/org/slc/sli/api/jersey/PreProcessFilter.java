@@ -69,7 +69,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         populateSecurityContext(request);
         mongoStat.clear();
         
-        info("\n {} -> {}",request.getBaseUri().getPath(),request.getRequestUri().getPath());
+        info("\n {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         //info("GRU: {}",request.getBaseUriBuilder().path(request.getPathSegments().get(0).getPath()).path("1337").build());
 
         enforcer.enforce(SecurityContextHolder.getContext().getAuthentication(), request);
@@ -92,11 +92,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
      * @param request
      */
     private void validate(ContainerRequest request) {
-        request.getProperties().put("logIntoDb", true );
+        request.getProperties().put("logIntoDb", true);
 
         for (URLValidator validator : urlValidators) {
             if (!validator.validate(request.getRequestUri())) {
-                request.getProperties().put("logIntoDb", false );
+                request.getProperties().put("logIntoDb", false);
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
