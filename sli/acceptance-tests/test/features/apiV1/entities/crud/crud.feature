@@ -121,7 +121,7 @@ Examples:
 | "gradebookEntry"               | "gradebookEntries"        |  200 | 0 |
 | "learningObjective"            | "learningObjectives"      |  200 | 5 |
 | "learningStandard"             | "learningStandards"       |  200 | 14 |
-| "parent"                       | "parents"                 |  200 | 3 |
+| "parent"                       | "parents"                 |  200 | 0 |
 | "program"                      | "programs"                |  200 | 2 |
 | "school"                       | "schools"                 |  200 | 27 |
 | "section"                      | "sections"                |  200 | 0 |
