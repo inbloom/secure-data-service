@@ -313,7 +313,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             Query q = getQueryConverter().convert(collectionName, neutralQuery);
 
             List<String> ids = new LinkedList<String>();
-            for(Entity e : subDocs.subDoc(collectionName).find(q)) {
+            for (Entity e : subDocs.subDoc(collectionName).find(q)) {
                 ids.add(e.getEntityId());
             }
             return ids;
