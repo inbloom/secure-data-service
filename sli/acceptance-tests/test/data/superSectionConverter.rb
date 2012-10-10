@@ -16,7 +16,7 @@ while (line = sectionFile.gets)
   while (ssaLine = ssaFile.gets)
     ssaLine_hash = JSON.parse(ssaLine)
 
-    ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f))
+    ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f)).strftime("%Y-%m-%d")
     #puts ssaLine_hash["body"]["sectionId"]
     if sectionId == ssaLine_hash["body"]["sectionId"]
       #puts sectionId
