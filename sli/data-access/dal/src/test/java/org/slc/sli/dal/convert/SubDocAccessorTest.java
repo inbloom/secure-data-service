@@ -78,7 +78,7 @@ public class SubDocAccessorTest {
 
         DBObject q = new BasicDBObject();
         q.put("_id", SECTION1);
-        q.put("sectionId." + SECTION1 + "×" + STUDENT1, new BasicDBObject("$exists", true));
+        q.put("sectionId." + SECTION1 + STUDENT1, new BasicDBObject("$exists", true));
         when(sectionCollection.count(q)).thenReturn(1L);
 
         when(naturalKeyExtractor.getNaturalKeyDescriptor(argThat(new ArgumentMatcher<Entity>() {
