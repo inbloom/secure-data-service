@@ -23,6 +23,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
@@ -36,20 +45,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  */
 
@@ -61,11 +62,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired(required = false)
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
-    
+
     @Autowired
     @Qualifier("deterministicUUIDGeneratorStrategy")
     UUIDGeneratorStrategy uuidGeneratorStrategy;
-    
+
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
 
@@ -188,7 +189,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return super.insert(persist, collectionName);
         }
     }
-    
+
     @Override
     public Entity findOne(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
@@ -200,7 +201,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.findOne(collectionName, query);
     }
-    
+
     @Override
     public boolean delete(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
@@ -360,14 +361,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collectionName).doUpdate(query, update);
         }
         return super.doUpdate(collectionName, neutralQuery, update);
-    }
-
-    @Override
-    public boolean delete(String collectionName, String id) {
-        if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).delete(id);
-        }
-        return super.delete(collectionName, id);
     }
 
     @Override

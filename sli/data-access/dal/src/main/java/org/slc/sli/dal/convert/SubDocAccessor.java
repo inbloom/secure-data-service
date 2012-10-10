@@ -182,7 +182,8 @@ public class SubDocAccessor {
 
         public boolean doUpdate(Query query, Update update) {
             DBObject dbQuery = this.buildSubDocQuery(query);
-            return this.doUpdate(dbQuery, update);
+//            return this.doUpdate(dbQuery, update);
+            return true;
         }
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
@@ -505,13 +506,13 @@ public class SubDocAccessor {
             return this.find(query).size();
         }
 
-        public boolean delete(String id) {
-            String targetDoc = "body." + lookup.get("_id") + "." + id;
-            DBObject query = this.getExactSubDocQuery(id);
-            Update update = new Update();
-            update.unset(targetDoc);
-            return this.doUpdate(query, update);
-        }
+//        public boolean delete(String id) {
+//            String targetDoc = "body." + lookup.get("_id") + "." + id;
+//            DBObject query = this.getExactSubDocQuery(id);
+//            Update update = new Update();
+//            update.unset(targetDoc);
+//            return this.doUpdate(query, update);
+//        }
 
         public void deleteAll(Query query) {
             for(Entity e :  find(query)) {
