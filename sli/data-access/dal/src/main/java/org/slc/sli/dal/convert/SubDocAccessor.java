@@ -162,7 +162,7 @@ public class SubDocAccessor {
         }
 
         private String getParentEntityId(String entityId) {
-            return entityId.substring(0,43);
+            return entityId.substring(0, 43);
         }
 
         private DBObject getParentQuery(Map<String, Object> body) {
@@ -225,7 +225,7 @@ public class SubDocAccessor {
         private DBObject subDocToDBObject(Entity entity) {
             MongoEntity mongoEntity;
 
-            if (entity instanceof MongoEntity){
+            if (entity instanceof MongoEntity) {
                mongoEntity = (MongoEntity) entity;
             } else {
                 mongoEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(), entity.getMetaData());
@@ -516,7 +516,7 @@ public class SubDocAccessor {
 //        }
 
         public void deleteAll(Query query) {
-            for(Entity e :  find(query)) {
+            for (Entity e :  find(query)) {
                 delete(e.getEntityId());
             }
         }

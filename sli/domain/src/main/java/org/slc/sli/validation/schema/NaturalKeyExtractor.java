@@ -196,7 +196,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     }
 
     private String retrieveParentId(Entity entity) {
-        if(EmbedDocumentRelations.getSubDocuments().contains(entity.getType())) {
+        if (EmbedDocumentRelations.getSubDocuments().contains(entity.getType())) {
             String parentKey = EmbedDocumentRelations.getParentFieldReference(entity.getType());
             String parentId = (String) entity.getBody().get(parentKey);
             return parentId;
