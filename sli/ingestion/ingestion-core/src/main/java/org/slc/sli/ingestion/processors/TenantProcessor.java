@@ -24,19 +24,16 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.camel.Route;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,32 +60,13 @@ public class TenantProcessor implements Processor {
     @Autowired
     private TenantDA tenantDA;
 
-    private String workItemQueueUri;
-
-    private String landingZoneQueueUri;
-
-    @Autowired
-    private ZipFileProcessor zipFileProcessor;
-
-    @Autowired
-    private ControlFilePreProcessor controlFilePreProcessor;
-
     private Map<String, List<String>> dataSetLookup;
 
-    @Autowired
-    private NoExtractProcessor noExtractProcessor;
     public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
     public static final String TENANT_POLL_SUCCESS = "SUCCESS";
     public static final String TENANT_POLL_FAILURE = "FAILURE";
 
-    @Value("${sli.ingestion.lz.pollInterval:30000}")
-    private int pollInterval;
-
-    @Value("${sli.ingestion.lz.readLockCheckInterval:30000}")
-    private int readLockCheckInterval;
-
-    @Value("${sli.ingestion.lz.readLockTimeout:600000}")
-    private int readLockTimeout;
+    private static final String INVALID_CHARACTERS = "?";
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -105,7 +83,9 @@ public class TenantProcessor implements Processor {
         // }
 
         try {
-//            updateLzRoutes();
+            // updateLzRoutes();
+
+            createNewLandingZones();
 
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_SUCCESS);
 
@@ -117,93 +97,67 @@ public class TenantProcessor implements Processor {
         }
     }
 
-    public void setWorkItemQueueUri(String workItemQueueUri) {
+/*    public void setWorkItemQueueUri(String workItemQueueUri) {
         this.workItemQueueUri = workItemQueueUri;
-    }
-
-    public void setLandingZoneQueueUri(String landingZoneQueueUri) {
-        this.landingZoneQueueUri = landingZoneQueueUri;
-    }
-
-    /**
-     * Update the landing zone routes based on the tenant DB collection.
-     *
-     * @throws Exception
-     */
-    private void updateLzRoutes() throws Exception {
-        // get the new list of lz paths from the tenant DB collection
-        LOG.debug("Localhost is {}", getHostname());
-        List<String> newLzPaths = tenantDA.getLzPaths(getHostname());
-        Set<String> oldLzPaths = getLzRoutePaths();
-
-        List<String> routesToAdd = new ArrayList<String>();
-
-        for (String lzPath : newLzPaths) {
-            if (oldLzPaths.contains(lzPath)) {
-                oldLzPaths.remove(lzPath);
-            } else {
-                routesToAdd.add(lzPath);
-            }
-        }
-
-        // add new routes
-        if (routesToAdd.size() > 0) {
-//            addRoutes(routesToAdd);
-        }
-
-        // remove routes for oldLzPaths that were not found in DB collection
-//        removeRoutes(oldLzPaths);
-    }
-
-    /**
-     * Find the landing zones that are currently being monitored by
-     * the ingestion engine.
-     *
-     * @return a set of the landing zone paths being polled
-     */
-    private Set<String> getLzRoutePaths() {
-        Set<String> routePaths = new HashSet<String>();
-        List<Route> routes = camelContext.getRoutes();
-        for (Route curRoute : routes) {
-            String routeId = curRoute.getId();
-//            if (routeId.contains(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX)) {
-//                routePaths.add(routeId.replace(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX, ""));
-//            }
-            if (routeId.contains(File.separator)) {
-                routePaths.add(routeId);
-            }
-        }
-        return routePaths;
-    }
-
-    /**
-     * Remove routes from camel context.
-     *
-     * @throws Exception
-     *             if a route cannot be removed
-     */
-/*    private void removeRoutes(Set<String> routesToRemove) throws Exception {
-        for (String routePath : routesToRemove) {
-            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
-            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
-            // initiate graceful shutdown of these routes
-            camelContext.stopRoute(zipRouteId);
-            camelContext.stopRoute(ctrlRouteId);
-            camelContext.stopRoute(routePath);
-        }
     }*/
 
     /**
-     * Add routes to camel context.
-     *
-     * @throws Exception
-     *             if a route cannot be resolved
+     * Attempt to create and new landing zone routes based on the tenant DB collection.
      */
-/*    private void addRoutes(List<String> routesToAdd) throws Exception {
-        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, workItemQueueUri, landingZoneQueueUri,
-                zipFileProcessor, controlFilePreProcessor, noExtractProcessor, pollInterval, readLockCheckInterval, readLockTimeout);
-        camelContext.addRoutes(landingZoneRouteBuilder);
-    }*/
+    private void createNewLandingZones() {
+        try {
+            List<String> lzPaths = tenantDA.getLzPaths(getHostname());
+            LOG.debug("TenantProcessor: Localhost is {}", getHostname());
+            for (String currLzPath : lzPaths) {
+                // Skip currLzPath if path already exists, failed to create the landing zone or the
+                // name is invalid.
+                File currLz = new File(currLzPath);
+                if (currLz.exists() || !isValidDirName(currLzPath) || !createValidDir(currLzPath)) {
+                    continue;
+                }
+            }
+        } catch (UnknownHostException e) {
+            LOG.error("TenantProcessor", e);
+        }
+
+    }
+
+    /**
+     * Creating the directory, so that camel won't complain about
+     * directory name with dot(.) in it.
+     *
+     * @param inboundDir
+     *            : the absolute directory path to be created
+     * @return : true if successfully created the directory.
+     **/
+    private boolean createValidDir(String inboundDir) {
+
+        File landingZoneDir = new File(inboundDir);
+        try {
+            FileUtils.forceMkdir(landingZoneDir);
+        } catch (IOException e) {
+            LOG.error("TenantProcessor: Failed to create landing zone: {} ", inboundDir);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if the inboundDir name contains any invalid characters
+     *
+     * @param inboundDir
+     *            : directory name to be checked
+     * @return : true if directory name doesn't contain any invalid character.
+     */
+    private boolean isValidDirName(String inboundDir) {
+        boolean res = StringUtils.containsNone(inboundDir, INVALID_CHARACTERS);
+        if (!res) {
+            LOG.error("TenantProcessor: Landing zone {} contains invalid characters", inboundDir);
+        }
+
+        return res;
+    }
 
     /**
      * Obtain the hostname for the ingestion server running.

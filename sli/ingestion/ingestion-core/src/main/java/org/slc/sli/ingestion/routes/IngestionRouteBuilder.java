@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
@@ -39,6 +38,7 @@ import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
+import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
@@ -64,28 +64,31 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
+    private LandingZoneProcessor landingZoneProcessor;
+
+    @Autowired
     private ZipFileProcessor zipFileProcessor;
 
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
 
     @Autowired
-    ControlFileProcessor ctlFileProcessor;
+    private ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    EdFiProcessor edFiProcessor;
+    private EdFiProcessor edFiProcessor;
 
     @Autowired
-    ConcurrentEdFiProcessor concurrentEdFiProcessor;
+    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
 
     @Autowired
-    PurgeProcessor purgeProcessor;
+    private PurgeProcessor purgeProcessor;
 
     @Autowired(required = true)
-    PersistenceProcessor persistenceProcessor;
+    private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    TransformationProcessor transformationProcessor;
+    private TransformationProcessor transformationProcessor;
 
     @Autowired
     private XmlFileProcessor xmlFileProcessor;
@@ -100,19 +103,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
-    JobReportingProcessor jobReportingProcessor;
+    private JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-    LandingZoneManager landingZoneManager;
+    private CamelContext camelContext;
 
     @Autowired
-    CamelContext camelContext;
+    private TenantProcessor tenantProcessor;
 
     @Autowired
-    private final TenantProcessor tenantProcessor;
-
-    @Autowired
-    private final TenantPopulator tenantPopulator;
+    private TenantPopulator tenantPopulator;
 
     @Autowired
     private NodeInfo nodeInfo;
@@ -172,10 +172,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private boolean loadDefaultTenants;
 
     @Autowired
-    public IngestionRouteBuilder(TenantProcessor tenantProcessor, TenantPopulator tenantPopulator) {
+    public IngestionRouteBuilder(TenantProcessor tenantProcessor) {
         super();
-        this.tenantProcessor = tenantProcessor;
-        this.tenantPopulator = tenantPopulator;
     }
 
     @Override
@@ -211,8 +209,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
 
             configureTenantPollingTimerRoute();
-            tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
-            tenantProcessor.setLandingZoneQueueUri(getLandingZoneQueueUri());
+
             this.addRoutesToCamelContext(camelContext);
         }
 
@@ -236,7 +233,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildLzDropFileRoute(String landingZoneQueueUri, String workItemQueueUri) {
 
         // routeId: lzDropFile
-        from(landingZoneQueueUri).routeId("lzDropFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.")
+        from(landingZoneQueueUri).routeId("lzDropFile")
+            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.").process(landingZoneProcessor)
+            .choice().when(header("hasErrors").isEqualTo(true))
+                .to("direct:stop")
+            .otherwise()
+                .to("direct:processLzFile");
+
+        // routeId: processLzFile
+        from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
             .choice().when(body().endsWith(".ctl"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                 .process(controlFilePreProcessor)
@@ -389,20 +394,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .to(maestroQueueUri).otherwise().process(persistenceProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri);
-    }
-
-    /**
-     * Access the workItemQueueUri.
-     */
-    public String getWorkItemQueueUri() {
-        return workItemQueue + "?concurrentConsumers=" + workItemConsumers;
-    }
-
-    /**
-     * Access the landingZoneQueueUri.
-     */
-    public String getLandingZoneQueueUri() {
-        return landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
     }
 
     public void configureTenantPollingTimerRoute() {
