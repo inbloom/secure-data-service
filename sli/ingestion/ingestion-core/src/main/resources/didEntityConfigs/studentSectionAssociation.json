@@ -8,7 +8,7 @@
         },
         {
             "entityType" : "section",
-            "didFieldPath" : "body.sectionId",
+            "didFieldPath" : "body.sectionReference",
             "sourceRefPath" : "body.sectionReference"
         }
     ]
