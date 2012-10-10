@@ -31,6 +31,11 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 
+/**
+ *
+ * TODO: add class javadoc
+ *
+ */
 @Component
 @Qualifier("deterministicUUIDGeneratorStrategy")
 public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy {
@@ -86,7 +91,7 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
     }
 
     private String escapeDelimiters(String input) {
-        if( input == null ){
+        if (input == null) {
             return "";
         }
         String output = input.replaceAll(DELIMITER_1_REGEX, DELIMITER_1_REPLACEMENT).replaceAll(DELIMITER_2_REGEX,

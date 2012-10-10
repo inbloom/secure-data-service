@@ -29,17 +29,17 @@ import java.util.Set;
  */
 public class EmbedDocumentRelations {
 
-    private static final Map<String, Parent> subDocParent;
+    private static final Map<String, Parent> SUBDOC_TO_PARENT;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
         // map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
-        subDocParent = Collections.unmodifiableMap(map);
+        SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
     };
 
     public static Set<String> getSubDocuments() {
-        return subDocParent.keySet();
+        return SUBDOC_TO_PARENT.keySet();
     }
 
     public static String getParentFieldReference(String entityType) {
@@ -53,11 +53,11 @@ public class EmbedDocumentRelations {
     }
 
     private static Parent getParent(String entityType) {
-        if (!subDocParent.containsKey(entityType)) {
+        if (!SUBDOC_TO_PARENT.containsKey(entityType)) {
             return null;
         }
 
-        return subDocParent.get(entityType);
+        return SUBDOC_TO_PARENT.get(entityType);
     }
 
     private static class Parent {

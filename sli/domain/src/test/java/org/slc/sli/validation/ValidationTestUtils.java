@@ -67,7 +67,7 @@ public class ValidationTestUtils {
             }
 
             @Override
-            public Map<String,List<Map<String,Object>>> getEmbeddedData() {
+            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
                 return null;
             }
 

@@ -245,7 +245,7 @@ public class SubDocAccessor {
             return MongoEntity.fromDBObject(dbObject);
         }
 
-        public boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
+        private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
         }
 
@@ -270,7 +270,7 @@ public class SubDocAccessor {
                     .getLastError().ok();
         }
 
-        public boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
+        private boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
             return bulkUpdate(parentQuery, entities);
         }
 
@@ -402,12 +402,12 @@ public class SubDocAccessor {
             return entities;
         }
 
-        public Map<String, Object> read(String id) {
+        private Map<String, Object> read(String id) {
             return read(id, null);
         }
 
         @SuppressWarnings("unchecked")
-        public Map<String, Object> read(String id, Criteria additionalCriteria) {
+        Map<String, Object> read(String id, Criteria additionalCriteria) {
             Query query = Query.query(Criteria.where("_id").is(getParentEntityId(id)));
             query.fields().include(getField(id));
             if (additionalCriteria != null) {
@@ -448,7 +448,7 @@ public class SubDocAccessor {
 
         }
 
-        public List<Entity> find(Query original) {
+        private List<Entity> find(Query original) {
             List<Entity> results = new ArrayList<Entity>();
             String extractedId = getId(original);
             if (extractedId != null) {
@@ -530,7 +530,7 @@ public class SubDocAccessor {
 //        }
 
         public void deleteAll(Query query) {
-            for (Entity e :  find(query)) {
+            for (Entity e : find(query)) {
                 delete(e.getEntityId());
             }
         }
