@@ -10,11 +10,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,10 +22,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -244,7 +245,7 @@ public class SubDocAccessor {
             return MongoEntity.fromDBObject(dbObject);
         }
 
-        public boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
+        private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
         }
 
@@ -269,7 +270,7 @@ public class SubDocAccessor {
                     .getLastError().ok();
         }
 
-        public boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
+        private boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
             return bulkUpdate(parentQuery, entities);
         }
 
@@ -314,8 +315,12 @@ public class SubDocAccessor {
         // convert original query match criteria to match embeded subDocs
         @SuppressWarnings("unchecked")
         private DBObject toSubDocQuery(Query originalQuery) {
+            return toSubDocQuery(originalQuery.getQueryObject());
+        }
 
-            DBObject originalQueryDBObject = originalQuery.getQueryObject();
+        @SuppressWarnings("unchecked")
+        private DBObject toSubDocQuery(DBObject originalQueryDBObject) {
+
             DBObject queryDBObject = appendSubField(originalQueryDBObject);
             for (String key : originalQueryDBObject.keySet()) {
                 if (key.equals("$or") || key.equals("$and")) {
@@ -330,6 +335,7 @@ public class SubDocAccessor {
             }
             return queryDBObject;
         }
+
 
         // retrieve limit/offset/sort info from the original query and make them applicable to
         // subDocs
@@ -349,12 +355,20 @@ public class SubDocAccessor {
         }
 
         // append subField to original query key, so it can query in subDocs
+        @SuppressWarnings("unchecked")
         private DBObject appendSubField(DBObject originalDBObject) {
             DBObject newDBObject = new Query().getQueryObject();
             for (String key : originalDBObject.keySet()) {
                 if (!key.startsWith("$")) {
                     String newKey = subField + "." + key;
                     newDBObject.put(newKey, originalDBObject.get(key));
+                } else if (key.equals("$or") || key.equals("$and")) {
+                    List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
+                    List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
+                    for (DBObject dbObject : dbObjects) {
+                        orQueryDBObjects.add(toSubDocQuery(dbObject));
+                    }
+                    newDBObject.put(key, orQueryDBObjects);
                 }
             }
             return newDBObject;
@@ -388,12 +402,12 @@ public class SubDocAccessor {
             return entities;
         }
 
-        public Map<String, Object> read(String id) {
+        private Map<String, Object> read(String id) {
             return read(id, null);
         }
 
         @SuppressWarnings("unchecked")
-        public Map<String, Object> read(String id, Criteria additionalCriteria) {
+        Map<String, Object> read(String id, Criteria additionalCriteria) {
             Query query = Query.query(Criteria.where("_id").is(getParentEntityId(id)));
             query.fields().include(getField(id));
             if (additionalCriteria != null) {
@@ -434,7 +448,7 @@ public class SubDocAccessor {
 
         }
 
-        public List<Entity> find(Query original) {
+        private List<Entity> find(Query original) {
             List<Entity> results = new ArrayList<Entity>();
             String extractedId = getId(original);
             if (extractedId != null) {
@@ -516,7 +530,7 @@ public class SubDocAccessor {
 //        }
 
         public void deleteAll(Query query) {
-            for (Entity e :  find(query)) {
+            for (Entity e : find(query)) {
                 delete(e.getEntityId());
             }
         }

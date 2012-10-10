@@ -421,9 +421,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
     | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | fe613ec88d0ae55723a06f9539beab94a3184693_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | fe613ec88d0ae55723a06f9539beab94a3184693_id | body.studentSectionAssociationId    | c377c9c4b343dda726e837f442a171c570a460cd_id                                 |
-    | studentCompetency                    | fe613ec88d0ae55723a06f9539beab94a3184693_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
@@ -436,8 +436,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | 2a32ad40425d29ce51f04e405fbe3fdb240fb615_id | body.studentSectionAssociationId     | c377c9c4b343dda726e837f442a171c570a460cd_id |
-    | grade                                | 2a32ad40425d29ce51f04e405fbe3fdb240fb615_id | body.gradingPeriodId                 | c29dd49f05474ddc05a21a9bce9cb452ea783a98_id |
+    | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.studentSectionAssociationId     | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.gradingPeriodId                 | c29dd49f05474ddc05a21a9bce9cb452ea783a98_id |
 # gradebookEntry
     | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
@@ -476,9 +476,9 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |
-   | studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-   | studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
-   | studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.beginDate            | 2011-09-01                              |
+   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
+   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.beginDate            | 2011-09-01                              |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |

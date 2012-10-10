@@ -1321,21 +1321,36 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
 end
 
+def subDocParent(collectionName)
+    parent = case 
+             when collectionName = "studentSectionAssociation" then "section"
+             else nil 
+             end
+end
+
+def verifySubDoc(parent, subdoc, count) 
+end
+
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
 
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+    parent = subDocParent row["collectionName"]
+    if parent 
+        verifySubDoc(parent, row["collectionName"], row["count"])
+    else 
+      @entity_collection = @db.collection(row["collectionName"])
+      @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
 
-    if @entity_count.to_s != row["count"].to_s
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
-    end
+      if @entity_count.to_s != row["count"].to_s
+        @result = "false"
+        red = "\e[31m"
+        reset = "\e[0m"
+      end
 
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+      end
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
@@ -1391,6 +1406,7 @@ Then /^I check to find if record is in collection:$/ do |table|
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
+      puts "Failed #{row["collectionName"]}" 
       @result = "false"
     end
   end
@@ -1407,16 +1423,21 @@ Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is i
   @stateOrganizationId = @edOrgEntity['_id']
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
+    parent = subDocParent row["collectionName"]
+    if parent 
+        verifySubDoc(parent, row["collectionName"], row["count"])
+    else 
+      @entity_collection = @db.collection(row["collectionName"])
+      @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
 
-    if @entity_count.to_s != row["count"].to_s
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
+      if @entity_count.to_s != row["count"].to_s
+        @result = "false"
+        red = "\e[31m"
+        reset = "\e[0m"
+      end
+
+      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
     end
-
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
   assert(@result == "true", "Some records do not have the correct education organization context.")
 end
