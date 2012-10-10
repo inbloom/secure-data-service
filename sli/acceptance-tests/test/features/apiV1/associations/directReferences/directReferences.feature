@@ -56,7 +56,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Examples:
         | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
         | "educationOrganization"                 | "educationOrganizations"                 | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization" | "getFeederEducationOrganizations"                 | "b2c6e292-37b0-4148-bf75-c98a2fcc905f" | "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
-        | "school"                                | "schools"                                | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization" | ""                                | "8cc0a1ac-ccb5-dffc-1d74-32964722179b" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
+#        | "school"                                | "schools"                                | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization" | ""                                | "8cc0a1ac-ccb5-dffc-1d74-32964722179b" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
         | "section"                               | "sections"                               | "sessionId"                      | "session"               | "sessions"               | "getSession"               | "getSections"                               | "ceffbb26-1327-4313-9cfc-1c3afd38122e" | "1cb50f82-7200-441a-a1b6-02d6532402a0" | "62101257-592f-4cbe-bcd5-b8cd24a06f73" |
         | "section"                               | "sections"                               | "courseOfferingId"               | "courseOffering"        | "courseOfferings"        | "getCourseOffering"        | "getSections"                               | "ceffbb26-1327-4313-9cfc-1c3afd38122e" | "01ba881f-ae39-4b76-920e-42bc7e8769d7" | "c5b80f7d-93c5-11e1-adcc-101f74582c4c" |
         | "studentGradebookEntry"                 | "studentGradebookEntries"                | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentGradebookEntries"                | "0f5e6f78-5434-f906-e51b-d63ef970ef8f" | "5738d251-dd0b-4734-9ea6-417ac9320a15" | "ae479bef-eb57-4c2e-8896-84983b1d4ed2" |
@@ -86,7 +86,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Then I should receive a return code of 403
     When I set the <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 409
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <reference value>
      And I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"
@@ -167,7 +167,7 @@ Scenario Outline: Confirm all association generate one valid links that is imple
     Then I should receive a return code of 403
     When I set the <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 409
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <reference value>
      And I should receive a link named <target link name> with URI "/<URI OF REFERENCED ENTITY>/<REFERRED ENTITY ID>"

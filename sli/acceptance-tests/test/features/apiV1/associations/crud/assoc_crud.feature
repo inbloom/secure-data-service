@@ -60,7 +60,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       # Update
       When I set the "<UPDATE FIELD>" to "<NEW VALUE>"
       And I navigate to PUT "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
-      Then I should receive a return code of 400
+      Then I should receive a return code of 409
       And I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
       And "<UPDATE FIELD>" should be "<OLD VALUE>"
       # Delete

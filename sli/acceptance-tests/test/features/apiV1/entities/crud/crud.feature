@@ -72,7 +72,7 @@ Examples:
         # Update
         When I set the <Update Field> to <Updated Value>
          And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-        Then I should receive a return code of 400
+        Then I should receive a return code of 409
         # Delete
         When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 204
@@ -234,7 +234,7 @@ Examples:
         # Update
         When I set the <Update Field> to <Updated Value>
          And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-        Then I should receive a return code of 400
+        Then I should receive a return code of 409
         # Delete
         When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 204
