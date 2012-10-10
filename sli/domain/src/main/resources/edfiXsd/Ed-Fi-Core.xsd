@@ -230,7 +230,7 @@ School standard
 							<xs:documentation>References individual test items, if appropriate</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>References subtests that test specific learning objectives.
 </xs:documentation>
@@ -420,7 +420,7 @@ Tardy
 							<xs:documentation>The section associated with the attendance event.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The school associated with the attendance event.</xs:documentation>
 						</xs:annotation>
@@ -743,11 +743,6 @@ Student late arrival/early dismissal
 					<xs:element name="CompetencyLevels" type="CompetencyLevelDescriptorType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The competency levels defined to rate the student for the course.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="UniqueCourseId" type="UniqueCourseId">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -1668,7 +1663,7 @@ Vacation</xs:documentation>
 							<xs:documentation>Learning Standard tested by this objective assessment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="ObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Lower level objectives or sub-objectives that are assessed and scored.</xs:documentation>
 						</xs:annotation>
@@ -1881,7 +1876,7 @@ Bilingual/English as a Second Language</xs:documentation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="ProgramId" type="ProgramId">
+					<xs:element name="ProgramId" type="ProgramId" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
 						</xs:annotation>
@@ -2791,7 +2786,7 @@ Met standard
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType" minOccurs="0">
+					<xs:element name="StudentAssessmentReference" type="ReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -2839,7 +2834,7 @@ Met standard
 							<xs:documentation>A statement provided by the teacher that provides information in addition to the grade or assessment score.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType">
+					<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
 						</xs:annotation>
@@ -2855,7 +2850,7 @@ Met standard
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode">
+					<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The Identifier for the student competency.</xs:documentation>
 						</xs:annotation>
@@ -2928,7 +2923,7 @@ Met standard
 							<xs:documentation>Association to the student-section association with which the grade is awarded.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="GradebookEntryReference" type="GradebookEntryReferenceType">
+					<xs:element name="GradebookEntryReference" type="ReferenceType">
 						<xs:annotation>
 							<xs:documentation>The Gradebook Entry associated with the student grade or score.</xs:documentation>
 						</xs:annotation>
@@ -2954,7 +2949,7 @@ Met standard
 							<xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType">
+					<xs:element name="StudentAssessmentReference" type="ReferenceType">
 						<xs:annotation>
 							<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -3299,12 +3294,12 @@ Commended</xs:documentation>
 			<xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType">
+			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of students.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CohortReference" type="CohortReferenceType">
+			<xs:element name="CohortReference" type="CohortReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
 				</xs:annotation>
@@ -3415,12 +3410,12 @@ Volunteer/no contract
 			<xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType">
+			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="ProgramReferenceType">
+			<xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.</xs:documentation>
 				</xs:annotation>
@@ -3690,7 +3685,7 @@ Vocational
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GraduationPlanReference" type="GraduationPlanReferenceType" minOccurs="0">
+			<xs:element name="GraduationPlanReference" type="ReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The graduation plan associated with the student enrolled in the school.</xs:documentation>
 				</xs:annotation>
@@ -3713,7 +3708,7 @@ Vocational
 					<xs:documentation>The section the student is enrolled in.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="BeginDate" type="xs:date">
+			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
 </xs:documentation>
@@ -3835,7 +3830,7 @@ Local Neglected Program
 					<xs:documentation>The teacher providing services to the school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+			<xs:element name="SchoolReference" type="EducationalOrgReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.</xs:documentation>
 				</xs:annotation>
@@ -3937,77 +3932,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...
 	<xs:annotation>
 		<xs:documentation>===== Extended Reference Types =====</xs:documentation>
 	</xs:annotation>
-	<xs:complexType name="GraduationPlanReferenceType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="GraduationPlanIdentity" type="GraduationPlanIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation></xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="GradebookEntryReferenceType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="GradebookEntryIdentity" type="GradebookEntryIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation></xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="GraduationPlanIdentityType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="GraduationPlanType" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalCreditsRequired" type="Credits" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="GradebookEntryIdentityType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="GradebookEntryType" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="DateAssigned" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="AccountReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for finance accounts during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
@@ -4778,44 +4702,6 @@ Second grade
 			<xs:element name="ElectronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="StudentAssessmentReferenceType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="StudentAssessmentIdentity" type="StudentAssessmentIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation></xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="StudentAssessmentIdentityType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="AdministrationDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AssessmentReference" type="AssessmentReferenceType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -10088,15 +9974,6 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 			<xs:maxLength value="24"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:simpleType name="UniqueCourseId">
-        <xs:annotation>
-            <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="60"/>
-        </xs:restriction>
-    </xs:simpleType>
 	<xs:simpleType name="UniqueSectionCode">
 		<xs:annotation>
 			<xs:documentation>A unique identifier for the section, that is defined by the classroom, the subjects taught, and the instructors that are assigned.
