@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class MongoCommander {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
-    static public void exec(String cmd, CmdStreamGobbler outputGobber){
+    public static void exec(String cmd, CmdStreamGobbler outputGobber) {
         try {
         Process p = Runtime.getRuntime().exec(cmd);
         CmdStreamGobbler errorGobbler = new CmdStreamGobbler(p.getErrorStream(), "ERROR");
@@ -37,31 +37,30 @@ public class MongoCommander {
 
             try {
                 p.waitFor();
-            } catch(InterruptedException e) {
+            } catch (InterruptedException e) {
                 LOG.error(e.getMessage());
             }
-        }catch(IOException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage());
         }
     }
 
-    static public void exec(String db, String script, String vars){
+    public static void exec(String db, String script, String jsContent) {
         try {
             URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
-            if(scriptFile != null) {
-                Runtime rt = Runtime.getRuntime();
-                Process p = rt.exec(new String[] {"mongo",db,"--eval",vars,(new File(scriptFile.getFile())).getPath()});
-                CmdStreamGobbler errorGobbler = new CmdStreamGobbler(p.getErrorStream(), "ERROR");
-
+            if (scriptFile != null) {
+                String path = (new File(scriptFile.getFile())).getPath();
+                ProcessBuilder pb = new ProcessBuilder(new String[] { "mongo", db, "--eval", jsContent, path });
+                Process pr = pb.start();
+                CmdStreamGobbler errorGobbler = new CmdStreamGobbler(pr.getErrorStream(), "ERROR");
                 errorGobbler.start();
-
-            try {
-                p.waitFor();
-            } catch(InterruptedException e) {
-                LOG.error(e.getMessage());
+                try {
+                    pr.waitFor();
+                } catch (InterruptedException e) {
+                    LOG.error(e.getMessage());
+                }
             }
-            }
-        }catch(IOException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage());
         }
     }

@@ -46,6 +46,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -224,6 +225,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             existingIds.add(id);
         }
 
+        // If more than exists, something is wrong
+        if (existingIds.size() > 1) {
+            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
+        }
+
         // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
@@ -239,57 +245,60 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
 
-            //Spin up the new database
-            MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + getDatabaseName(tenantId) + "\"");
-            MongoCommander.exec(getDatabaseName(tenantId), INDEX_SCRIPT, " ");
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "var num_years=1, tenant='" + tenantId + "', database='" + getDatabaseName(tenantId) + "'");
+            // Spin up the new database
+            runDbSpinUpScripts(tenantId);
 
             return tenantService.create(newTenant);
         }
-        // If more than exists, something is wrong
-        if (existingIds.size() > 1) {
-            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
-        }
 
-        String existingTenantId = existingIds.get(0);
-        // combine lzs from existing tenant and new tenant entry, overwriting with values of new
-        // tenant entry if there is conflict.
-        TreeSet allLandingZones = new TreeSet(new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                Map<String, Object> lz1 = (Map<String, Object>) o1;
-                Map<String, Object> lz2 = (Map<String, Object>) o2;
-                if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
-                        || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                    throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
+        else {
+            String existingTenantId = existingIds.get(0);
+            // combine lzs from existing tenant and new tenant entry, overwriting with values of new
+            // tenant entry if there is conflict.
+            TreeSet allLandingZones = new TreeSet(new Comparator<Object>() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Map<String, Object> lz1 = (Map<String, Object>) o1;
+                    Map<String, Object> lz2 = (Map<String, Object>) o2;
+                    if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
+                            || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                        throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
+                    }
+                    if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
+                            || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                        throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
+                    }
+                    return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
+                            .get(LZ_EDUCATION_ORGANIZATION));
                 }
-                if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
-                        || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                    throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
+            });
+
+            Set<Map<String, Object>> all = allLandingZones;
+            for (Map<String, Object> lz : all) {
+                if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
+                    throw new TenantResourceCreationException(Status.CONFLICT,
+                            "This tenant/educational organization combination all ready has a landing zone provisioned.");
                 }
-                return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
-                        .get(LZ_EDUCATION_ORGANIZATION));
             }
-        });
 
-        Set<Map<String, Object>> all = allLandingZones;
-        for (Map<String, Object> lz : all) {
-            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
-                throw new TenantResourceCreationException(Status.CONFLICT,
-                        "This tenant/educational organization combination all ready has a landing zone provisioned.");
-            }
+            EntityBody existingBody = tenantService.get(existingTenantId);
+            List existingLandingZones = (List) existingBody.get(LZ);
+            allLandingZones.addAll(existingLandingZones);
+
+            Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
+            allLandingZones.add(nlz);
+
+            existingBody.put(LZ, new ArrayList(allLandingZones));
+            tenantService.update(existingTenantId, existingBody);
+            return existingTenantId;
         }
+    }
 
-        EntityBody existingBody = tenantService.get(existingTenantId);
-        List existingLandingZones = (List) existingBody.get(LZ);
-        allLandingZones.addAll(existingLandingZones);
-
-        Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
-        allLandingZones.add(nlz);
-
-        existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-        return existingTenantId;
+    private void runDbSpinUpScripts(String tenantId) {
+        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+        MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + getDatabaseName(jsEscapedTenantId) + "\"");
+        MongoCommander.exec(getDatabaseName(jsEscapedTenantId), INDEX_SCRIPT, " ");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "var num_years=1, tenant=\"" + jsEscapedTenantId + "\", database=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
     }
 
     private String getDatabaseName(String tenantId) {
