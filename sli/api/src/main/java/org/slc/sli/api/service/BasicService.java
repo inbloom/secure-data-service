@@ -798,7 +798,8 @@ public class BasicService implements EntityService {
         return getAuths().contains(Right.FULL_ACCESS) || defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
                 || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                 || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
-                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
+                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)
+                || defn.getType().equals(EntityNames.GRADUATION_PLAN);
     }
 
     /**
@@ -868,7 +869,6 @@ public class BasicService implements EntityService {
                 String fieldPath = prefix + fieldName;
                 Right neededRight = getNeededRight(fieldPath);
 
-                debug("Field {} requires {}", fieldPath, neededRight);
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
                 if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {

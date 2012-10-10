@@ -27,10 +27,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -38,17 +34,11 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for Program entity.
- *
+ * 
  * @author vmcglaughlin
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DisciplineIncidentEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
-
 
     /**
      * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
@@ -73,7 +63,7 @@ public class DisciplineIncidentEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
+                        targetSelector, edfiXml);
 
         checkValidNeutralRecord(neutralRecord);
     }

@@ -3,9 +3,8 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 	
 	<LearningObjective id="LO_1">
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective1</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -15,9 +14,8 @@
 		<LearningObjectiveReference ref="LO_2" />
 	</LearningObjective>
 	<LearningObjective id="LO_2">
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective2</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -27,9 +25,8 @@
 		<LearningObjectiveReference ref="LO_101" />
 	</LearningObjective>
 	<LearningObjective id="LO_3">
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective3</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -39,9 +36,8 @@
 		<LearningObjectiveReference ref="LO_3" />
 	</LearningObjective>
 	<LearningObjective id="LO_4">
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective4</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -51,9 +47,8 @@
 		<LearningObjectiveReference ref="LO_2" />
 	</LearningObjective>
 	<LearningObjective id="LO_5">
-		<LearningObjectiveId>
+		<LearningObjectiveId ContentStandardName="Common Core">
 			<IdentificationCode>Objective5</IdentificationCode>
-			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>

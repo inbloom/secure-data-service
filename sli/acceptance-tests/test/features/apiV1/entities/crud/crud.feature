@@ -58,6 +58,7 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
 
         Scenario Outline: CRUD operations on invalid entities
@@ -100,6 +101,7 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
     Scenario Outline: Get All Entities as State Staff
     Given entity URI <Entity Resource URI>
@@ -114,18 +116,18 @@ Examples:
 | "assessment"                   | "assessments"             |  200 | 17 |
 | "attendance"                   | "attendances"             |  200 | 2 |
 | "cohort"                       | "cohorts"                 |  200 | 3 |
-| "course"                       | "courses"                 |  200 | 91 |
-| "disciplineAction"             | "disciplineActions"       |  200 | 3 |
-| "disciplineIncident"           | "disciplineIncidents"     |  200 | 3 |
-| "educationOrganization"        | "educationOrganizations"  |  200 | 39 |
-| "gradebookEntry"               | "gradebookEntries"        |  200 | 4 |
+| "course"                       | "courses"                 |  200 | 0 |
+| "disciplineAction"             | "disciplineActions"       |  200 | 2 |
+| "disciplineIncident"           | "disciplineIncidents"     |  200 | 0 |
+| "educationOrganization"        | "educationOrganizations"  |  200 | 1 |
+| "gradebookEntry"               | "gradebookEntries"        |  200 | 0 |
 | "learningObjective"            | "learningObjectives"      |  200 | 5 |
 | "learningStandard"             | "learningStandards"       |  200 | 14 |
 | "parent"                       | "parents"                 |  200 | 3 |
 | "program"                      | "programs"                |  200 | 2 |
 | "school"                       | "schools"                 |  200 | 27 |
 | "section"                      | "sections"                |  200 | 0 |
-| "session"                      | "sessions"                |  200 | 22 |
+| "session"                      | "sessions"                |  200 | 0 |
 | "staff"                        | "staff"                   |  200 | 3 |
 | "student"                      | "students"                |  200 | 0 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 3 |
@@ -133,8 +135,9 @@ Examples:
 | "teacher"                      | "teachers"                |  200 | 0 |
 | "grade"                        | "grades"                  |  200 | 3 |
 | "studentCompetency"            | "studentCompetencies"     |  200 | 3 |
-| "gradingPeriod"                | "gradingPeriods"          |  200 | 2 |
+| "gradingPeriod"                | "gradingPeriods"          |  200 | 0 |
 | "reportCard"                   | "reportCards"             |  200 | 3 |
+| "graduationPlan"               | "graduationPlans"         |  200 | 5 |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -177,6 +180,7 @@ Examples:
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
@@ -241,19 +245,19 @@ Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
 | "assessment"                   | "assessments"             | 17 |
 | "attendance"                   | "attendances"             | 1 |
-| "cohort"                       | "cohorts"                 | 2 |
-| "course"                       | "courses"                 | 25 |
-| "disciplineAction"             | "disciplineActions"       | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     | 1 |
-| "educationOrganization"        | "educationOrganizations"  | 39 |
-| "gradebookEntry"               | "gradebookEntries"        | 4 |
+| "cohort"                       | "cohorts"                 | 0 |
+| "course"                       | "courses"                 | 10|
+| "disciplineAction"             | "disciplineActions"       | 0 |
+| "disciplineIncident"           | "disciplineIncidents"     | 0 |
+| "school"                       | "educationOrganizations"  | 1 |
+| "gradebookEntry"               | "gradebookEntries"        | 3 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
 | "parent"                       | "parents"                 | 2 |
 | "program"                      | "programs"                | 2 |
 | "school"                       | "schools"                 | 27 |
 | "section"                      | "sections"                | 4 |
-| "session"                      | "sessions"                | 11 |
+| "session"                      | "sessions"                | 0 |
 | "staff"                        | "staff"                   | 1 |
 | "student"                      | "students"                | 31 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 1 |
@@ -261,5 +265,5 @@ Examples:
 | "teacher"                      | "teachers"                | 1 |
 | "grade"                        | "grades"                  | 2 |
 | "studentCompetency"            | "studentCompetencies"     | 2 |
-| "gradingPeriod"                | "gradingPeriods"          | 2 |
+| "gradingPeriod"                | "gradingPeriods"          | 0 |
 | "reportCard"                   | "reportCards"             | 1 |
