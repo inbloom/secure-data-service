@@ -28,7 +28,7 @@ public class PolicyEnforcer {
     private EdOrgHelper edorgHelper;
 
     @Resource
-    private ContextInferranceHelper inferer;
+    private ContextInferenceHelper inferer;
 
     public void enforce(Authentication auth, ContainerRequest request) {
 

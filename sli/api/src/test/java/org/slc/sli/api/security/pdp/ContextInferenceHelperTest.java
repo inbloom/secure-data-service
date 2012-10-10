@@ -24,16 +24,16 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 
 /**
- * Tests for ContextInferranceHelper
+ * Tests for ContextInferenceHelper
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class ContextInferranceHelperTest {
+public class ContextInferenceHelperTest {
 
     @Autowired
-    ContextInferranceHelper contextInferranceHelper;
+    ContextInferenceHelper contextInferranceHelper;
 
     private SectionHelper sectionHelper;
     private EdOrgHelper edOrgHelper;
