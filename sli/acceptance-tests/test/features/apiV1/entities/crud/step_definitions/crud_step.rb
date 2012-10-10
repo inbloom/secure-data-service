@@ -445,7 +445,6 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     assert(headers['location'] != nil, "There is no location link from the previous request")
     s = headers['location'][0]
     @assocId = s[s.rindex('/')+1..-1]
-    puts "Assoc for #{type} is #{@assocId}"
   end
 end
 
