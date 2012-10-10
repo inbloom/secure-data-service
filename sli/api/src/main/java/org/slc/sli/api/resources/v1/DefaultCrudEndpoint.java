@@ -27,8 +27,6 @@ import java.util.StringTokenizer;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
@@ -51,7 +49,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -653,29 +650,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     protected boolean shouldReadAll() {
         return false;
-    }
-
-    @Path("{id}/" + PathConstants.CALCULATED_VALUES)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CalculatedDataListingResource<String> getCalculatedValueListings(@PathParam("id") String id) {
-        EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
-        CalculatedData<String> data = service.getCalculatedValues(id);
-//        return new CalculatedDataListingResource<String>(data);
-        return null;
-    }
-
-    @Path("{id}/" + PathConstants.AGGREGATIONS)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CalculatedDataListingResource<Map<String, Integer>> getAggregationListings(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        if (entityDef.supportsAggregates()) {
-            EntityService service = entityDef.getService();
-            CalculatedData<Map<String, Integer>> data = service.getAggregates(id);
-//            return new CalculatedDataListingResource<Map<String, Integer>>(data);
-        }
-        return null;
     }
 
     /* Utility methods */
