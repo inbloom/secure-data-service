@@ -26,16 +26,16 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class SixPartResource extends GenericResource {
 
-	@Autowired
-	private FourPartResource four;
+    @Autowired
+    private FourPartResource four;
 
-	@GET
-	public Response get(@Context UriInfo uriInfo) {
-		String ids = locateIds(uriInfo,ResourceTemplate.SIX_PART);
-		List<String> segments = extractSegments(uriInfo.getPathSegments(), Arrays.asList(0, 4, 5, 6));
-		segments.add(2, ids);
-		String newUri = String.format("/rest/%s/%s/%s/%s/%s", segments.toArray());
-		Response res = four.get(new ChangedUriInfo(newUri, uriInfo.getBaseUriBuilder()), ids);
-		return res;
-	}
+    @GET
+    public Response get(@Context UriInfo uriInfo) {
+        String ids = locateIds(uriInfo, ResourceTemplate.SIX_PART);
+        List<String> segments = extractSegments(uriInfo.getPathSegments(), Arrays.asList(0, 4, 5, 6));
+        segments.add(2, ids);
+        String newUri = String.format("/rest/%s/%s/%s/%s/%s", segments.toArray());
+        Response res = four.get(new ChangedUriInfo(newUri, uriInfo.getBaseUriBuilder()), ids);
+        return res;
+    }
 }
