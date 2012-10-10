@@ -16,6 +16,7 @@
 package org.slc.sli.validation.schema;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -287,6 +288,11 @@ public class NaturalKeyExtractorTest {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
                 return null;
             }
 
