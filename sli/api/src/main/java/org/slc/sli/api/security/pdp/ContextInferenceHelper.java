@@ -37,11 +37,6 @@ public class ContextInferenceHelper {
         String result = null;
         String actorId = user.getEntityId();
 
-        // remove any number of trailing slashes --> explicit string matching to ensue
-        // -> multiple slashes are caught in URI validation, but on the off-chance that validation
-        //    fails, peel off all trailing slashes
-        resource = resource.replaceAll("(/+)$", "");
-
         if (isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)) {
                 result = "/" + resource;
