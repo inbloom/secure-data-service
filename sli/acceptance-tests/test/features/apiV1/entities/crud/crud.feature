@@ -131,40 +131,45 @@ Examples:
 | "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
     Scenario Outline: Get All Entities as State Staff
+    Given my contextual access is defined by table:
+    |Context   | Ids                                  |
+    |schools					|b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |educationOrganizations		|b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |staff						|85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of <Code>
       And I should receive a collection of "<Entity Count>" entities
       And each entity's "entityType" should be <Entity Type>
+      And uri was rewritten to "<Rewrite URI>"
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Code | Entity Count |
-| "assessment"                   | "assessments"             |  200 | 17 |
-| "attendance"                   | "attendances"             |  200 | 2 |
-| "cohort"                       | "cohorts"                 |  200 | 3 |
-| "course"                       | "courses"                 |  200 | 0 |
-| "disciplineAction"             | "disciplineActions"       |  200 | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     |  200 | 0 |
-| "educationOrganization"        | "educationOrganizations"  |  200 | 1 |
-| "gradebookEntry"               | "gradebookEntries"        |  200 | 0 |
-| "learningObjective"            | "learningObjectives"      |  200 | 5 |
-| "learningStandard"             | "learningStandards"       |  200 | 14 |
-| "parent"                       | "parents"                 |  200 | 3 |
-| "program"                      | "programs"                |  200 | 2 |
-| "school"                       | "schools"                 |  200 | 27 |
-| "section"                      | "sections"                |  200 | 0 |
-| "session"                      | "sessions"                |  200 | 0 |
-| "staff"                        | "staff"                   |  200 | 3 |
-| "student"                      | "students"                |  200 | 0 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 3 |
-| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 5 |
-| "teacher"                      | "teachers"                |  200 | 0 |
-| "grade"                        | "grades"                  |  200 | 3 |
-| "studentCompetency"            | "studentCompetencies"     |  200 | 3 |
-| "gradingPeriod"                | "gradingPeriods"          |  200 | 0 |
-| "reportCard"                   | "reportCards"             |  200 | 3 |
-| "graduationPlan"               | "graduationPlans"         |  200 | 5 |
+| Entity Type                    | Entity Resource URI       | Code | Entity Count | Rewrite URI|
+| "assessment"                   | "assessments"             |  200 | 17 |/assessments|
+| "attendance"                   | "attendances"             |  200 | 0  |/schools/@ids/studentSchoolAssociations/students/attendances|
+| "cohort"                       | "cohorts"                 |  200 | 3  |/staff/@ids/staffCohortAssociations/cohorts|
+| "course"                       | "courses"                 |  200 | 0 |/schools/@ids/courses|
+| "disciplineAction"             | "disciplineActions"       |  200 | 2 |/staff/@ids/disciplineActions|
+| "disciplineIncident"           | "disciplineIncidents"     |  200 | 0 |/staff/@ids/disciplineIncidents|
+| "educationOrganization"        | "educationOrganizations"  |  200 | 1 |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
+| "gradebookEntry"               | "gradebookEntries"        |  200 | 0 |/schools/@ids/sections/gradebookEntries|
+| "learningObjective"            | "learningObjectives"      |  200 | 5 |/learningObjectives|
+| "learningStandard"             | "learningStandards"       |  200 | 14 |/learningStandards|
+| "parent"                       | "parents"                 |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
+| "program"                      | "programs"                |  200 | 2 |/staff/@ids/staffProgramAssociations/programs|
+| "school"                       | "schools"                 |  200 | 27 |/schools|
+| "section"                      | "sections"                |  200 | 0 |/schools/@ids/sections|
+| "session"                      | "sessions"                |  200 | 0 |/schools/@ids/sessions|
+| "staff"                        | "staff"                   |  200 | 3 |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+| "student"                      | "students"                |  200 | 0 |/schools/@ids/studentSchoolAssociations/students|
+| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
+| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
+| "teacher"                      | "teachers"                |  200 | 0 |/schools/@ids/teacherSchoolAssociations/teachers|
+| "grade"                        | "grades"                  |  200 | 0 |/schools/@ids/sections/studentSectionAssociations/grades|
+| "studentCompetency"            | "studentCompetencies"     |  200 | 0 |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
+| "gradingPeriod"                | "gradingPeriods"          |  200 | 0 |/schools/@ids/sessions/gradingPeriods|
+| "reportCard"                   | "reportCards"             |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/reportCards|
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -352,7 +357,7 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 1 |
 | "studentGradebookEntry"        | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 1 |
-| "grade"                        | "grades"                  | 2 |
-| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "grade"                        | "grades"                  | 0 |
+| "studentCompetency"            | "studentCompetencies"     | 0 |
 | "gradingPeriod"                | "gradingPeriods"          | 0 |
 | "reportCard"                   | "reportCards"             | 1 |
