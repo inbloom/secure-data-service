@@ -7,6 +7,7 @@
 #
 # mongodump --db sli --collection system.profile
 # bsondump dump/sli/system.profile.bson > system.profile.json
+#   (remove lines that have % progress in them)
 # python parse-profile-dump.py system.profile.json [current_sli_indexes]
 
 import sys
