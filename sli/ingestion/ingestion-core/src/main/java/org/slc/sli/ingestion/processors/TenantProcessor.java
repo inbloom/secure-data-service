@@ -102,7 +102,7 @@ public class TenantProcessor implements Processor {
     }*/
 
     /**
-     * Attempt to create and new landing zone routes based on the tenant DB collection.
+     * Attempt to create new landing zones based on the tenant DB collection.
      */
     private void createNewLandingZones() {
         try {
