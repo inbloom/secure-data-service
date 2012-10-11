@@ -34,6 +34,8 @@ Before do
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
   @edorgId =  "Test_Ed_Org"
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+  dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
+  @tenantDb = Mongo::Connection.new.db(dbName)
 end
 
 After do
@@ -339,7 +341,7 @@ def removeUser(email)
   end
 end
 def clear_edOrg
-  edOrg_coll=@db["educationOrganization"]
+  edOrg_coll=@tenantDb["educationOrganization"]
   edOrg_coll.remove("body.stateOrganizationId"=>@edorgId)
   assert(edOrg_coll.find("body.stateOrganizationId"=>@edorgId).count==0,"edorg with stateOrganizationId #{@edorgId} still exist in mongo")
 end
@@ -405,6 +407,6 @@ def create_edOrg (stateOrganizationId)
           "tenantId" => @tenantId
       }
   }
-  edorg_coll = @db["educationOrganization"]
+  edorg_coll = @tenantDb["educationOrganization"]
   edorg_coll.save(edorg_entity)
 end
