@@ -1285,6 +1285,14 @@ def subDocParent(collectionName)
 end
 
 def verifySubDoc(parent, subdoc, count) 
+    total = 0
+    coll = @db.collection(parent)
+    coll.find().each do |doc| 
+        unless doc[subdoc] == nil
+            total += doc[subdoc].size
+        end 
+    end
+    total == count
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
