@@ -99,6 +99,8 @@ module Eventbus
         end
 
         if !messages_to_process.empty?
+          # returns an array of hash
+          events_to_send = []
           events = Hash.new
           subscription_events = get_subscription_events
           subscription_events.each do |subscription_event|
@@ -110,11 +112,16 @@ module Eventbus
                   queue_name = "oplog"
                   queue_name = subscription_event['queue'] if subscription_event['queue'] != nil
                   publish_oplog = subscription_event['publishOplog'] ? true : false
-                  events[queue_name] = [] if events[queue_name] == nil
+                  # if subscription has publishOplog set, we want to send the oplog to the queue and each message has one oplog entry
                   if (publish_oplog)
-                    # we want all the oplog messages that is triggered
-                    events[queue_name] << message_to_process
+                    new_event = Hash[queue_name, [message_to_process]]
+                    events_to_send << new_event
                   else
+                    # if queue_name is unknown, create it and add it to events_to_send
+                    if (!events.has_key?(queue_name))
+                      events[queue_name] = [] 
+                      events_to_send << {queue_name => events[queue_name]}
+                    end
                     events[queue_name] << subscription_event['eventId']
                     event_added = true
                   end
@@ -123,11 +130,13 @@ module Eventbus
               end
             end
           end
-          if (!events.empty?)
-            events.each_value do |value|
-              @logger.info "events to send to listener: #{value}" unless @logger.nil?
+          if (!events_to_send.empty?)
+            events_to_send.each do |evt|
+              evt.each_pair do |key, value|
+                @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
+              end
             end
-            yield events
+            yield events_to_send
           end
         end
       end
