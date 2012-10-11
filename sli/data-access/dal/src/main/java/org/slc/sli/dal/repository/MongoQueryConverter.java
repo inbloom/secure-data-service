@@ -142,13 +142,28 @@ public class MongoQueryConverter {
             @SuppressWarnings("unchecked")
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
-                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                    List<Object> convertedIds = convertIds(neutralCriteria.getValue());
+                    if (convertedIds.size() == 1) {
+                        return Criteria.where(MONGO_ID).is(convertedIds.get(0));
+                    } else {
+                        return Criteria.where(MONGO_ID).in(convertedIds);
+                    }
                 } else if (criteria != null) {
-                    criteria.in((List<Object>) neutralCriteria.getValue());
+                    List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                    if (critList.size() == 1) {
+                        criteria.is(critList.get(0));
+                    } else {
+                        criteria.in(critList);
+                    }
                     return criteria;
                 } else {
                      try {
-                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                         List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                         if (critList.size() == 1) {
+                             return Criteria.where(prefixKey(neutralCriteria)).is(critList.get(0));
+                         } else {
+                             return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                         }
                      } catch (ClassCastException cce) {
                         throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
                      }
