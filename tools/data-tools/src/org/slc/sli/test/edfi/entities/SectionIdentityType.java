@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
+ *           &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReference"/>
  *           &lt;element name="UniqueSectionCode" type="{http://ed-fi.org/0100}UniqueSectionCode"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -55,38 +55,54 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SectionIdentityType", propOrder = {
-    "stateOrganizationId",
+    "educationalOrgReference",
     "uniqueSectionCode"
 })
 public class SectionIdentityType {
 
-    @XmlElement(name = "StateOrganizationId")
-    protected String stateOrganizationId;
+    @XmlElement(name = "EducationalOrgReference")
+    protected EducationalOrgReferenceType educationalOrgReference;
     @XmlElement(name = "UniqueSectionCode")
     protected String uniqueSectionCode;
 
     /**
-     * Gets the value of the stateOrganizationId property.
+     * Gets the value of the educationalOrgReference property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getStateOrganizationId() {
-        return stateOrganizationId;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
 
     /**
-     * Sets the value of the stateOrganizationId property.
+     * Sets the value of the educationalOrgReference property.
      * 
      * @param value
+     *     allowed object is
+     *     {@link EducationalOrgReferenceType }
+     *     
+     */
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
+    }
+
+    /**
+     * Convenience method for setting the educationalOrgReference property.
+     * 
+     * @param stateOrganizationId
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setStateOrganizationId(String value) {
-        this.stateOrganizationId = value;
+    public void setStateOrganizationId(String stateOrganizationId) {
+    	EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+    	EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+    	identity.setStateOrganizationId(stateOrganizationId);
+    	ref.setEducationalOrgIdentity(identity);
+    	setEducationalOrgReference(ref);
     }
 
     /**

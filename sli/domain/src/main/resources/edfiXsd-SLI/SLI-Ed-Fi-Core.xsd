@@ -515,58 +515,16 @@
     </xs:sequence>
   </xs:complexType>
 
-	<!-- Make an all new SectionIdentityType in the desired shape -->
-	<xs:complexType name="SLC-SectionIdentityType">
-		<xs:annotation>
-			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of sections at a school. </xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StateOrganizationId" type="IdentificationCode">
-				<xs:annotation>
-					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
-</xs:documentation>
-					<xs:appinfo>
-						<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
-						<sli:refType>educationOrganization</sli:refType>
-						<sli:parentKeyFieldName>schoolId</sli:parentKeyFieldName>
-						<sli:parentRefType>section</sli:parentRefType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="UniqueSectionCode" type="UniqueSectionCode">
-				<xs:annotation>
-					<xs:documentation>A unique identifier for the section that is defined by the classroom, the subjects taught, and the instructors that are assigned.</xs:documentation>
-					<xs:appinfo>
-						<sli:keyFieldName>uniqueSectionCode</sli:keyFieldName>
-						<sli:refType>section</sli:refType>
-					</xs:appinfo>
-                </xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	
-	<!-- stop using EdFi base SectionIdentityType -->
-	<xs:complexType name="SLC-SectionReferenceTypeRestriction">
+	<xs:complexType name="SLC-SectionReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
-		</xs:annotation>
+        	<!-- <xs:appinfo>
+            	<sli:applyKeyFields>true</sli:applyKeyFields>
+            	<sli:refType>section</sli:refType>
+        	</xs:appinfo> -->
+        </xs:annotation>
 		<xs:complexContent>
-			<xs:restriction base="SectionReferenceType">
-			</xs:restriction>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<!-- start using internal SectionIdentityType -->
-	<xs:complexType name="SLC-SectionReferenceTypeExtension">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
- 		<xs:appinfo>
-				<sli:applyKeyFields>true</sli:applyKeyFields>
-				<sli:refType>section</sli:refType>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="SLC-SectionReferenceTypeRestriction">
+			<xs:extension base="ReferenceType">
 				<xs:sequence>
 					<xs:element name="SectionIdentity" type="SLC-SectionIdentityType" minOccurs="0">
 						<xs:annotation>
@@ -581,6 +539,65 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+	<!-- Make an all new SectionIdentityType in the desired shape -->
+	<xs:complexType name="SLC-SectionIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of sections at a school. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:documentation>The education agency.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UniqueSectionCode" type="UniqueSectionCode">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the section that is defined by the classroom, the subjects taught, and the instructors that are assigned.</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>uniqueSectionCode</sli:keyFieldName>
+						<sli:refType>section</sli:refType>
+					</xs:appinfo>
+                </xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SLC-EducationalOrgReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="EducationalOrgIdentity" type="EducationalOrgIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing educational organization record in the receiving system</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+<!--  	<xs:complexType name="SLC-EducationalOrgIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
+		</xs:annotation>
+		<xs:element name="StateOrganizationId" type="IdentificationCode">
+			<xs:annotation>
+				<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+</xs:documentation>
+				<xs:appinfo>
+					<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
+					<sli:refType>educationOrganization</sli:refType>
+					<sli:parentKeyFieldName>schoolId</sli:parentKeyFieldName>
+					<sli:parentRefType>section</sli:parentRefType>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:element>
+	</xs:complexType> -->
 
 	<!-- Change to use the internal SectionReferenceType -->
 	<xs:complexType name="SLC-GradebookEntry">
@@ -615,7 +632,7 @@
 							<xs:documentation>Learning Objectives to be mastered in the course.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SectionReference" type="SectionReferenceType">
+					<xs:element name="SectionReference" type="SLC-SectionReferenceType">
 						<xs:annotation>
 							<xs:documentation>The section associated with the gradebook entry.</xs:documentation>
 						</xs:annotation>

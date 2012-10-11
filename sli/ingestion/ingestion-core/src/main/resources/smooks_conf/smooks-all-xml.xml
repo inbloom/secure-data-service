@@ -689,7 +689,7 @@
 
   <jb:bean beanId="studentSectionAssociation_SectionReference_SectionIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity">
     <jb:value property="uniqueSectionCode" data="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
-    <jb:value property="stateOrganizationId" data="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" />
+    <jb:value property="stateOrganizationId" data="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
 
@@ -814,7 +814,7 @@
   </jb:bean>
 
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
-    <jb:value property="schoolId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId"/>
+    <jb:value property="schoolId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId"/>
     <jb:value property="courseId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode" />
     <jb:value property="sessionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SessionName" />
     <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
@@ -1468,7 +1468,7 @@
   <jb:bean beanId="sectionIdentityType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/SectionReference/SectionIdentity">
     <jb:value property="stateOrganizationId"
-      data="InterchangeAssessmentMetadata/Assessment/SectionReference/SectionIdentity/StateOrganizationId" />
+      data="InterchangeAssessmentMetadata/Assessment/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:wiring property="educationOrgIdentificationCodes" beanIdRef="educationOrgIdentificationCodeTypeArray" />
     <jb:value property="uniqueSectionCode"
       data="InterchangeAssessmentMetadata/Assessment/SectionReference/SectionIdentity/UniqueSectionCode" />
@@ -3703,7 +3703,7 @@
       <jb:value property="studentUniqueStateId"
           data="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId"/>
       <jb:value property="stateOrganizationId"
-          data="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/StateOrganizationId"/>
+          data="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId"/>
       <jb:value property="uniqueSectionCode"
           data="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode"/>
       <jb:value property="gradingPeriod" data="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod"/>
