@@ -253,6 +253,7 @@ public class MongoQueryConverterTest {
         //test in
         List<String> list = new ArrayList<String>();
         list.add("Regular Students");
+        list.add("Irregular Students");
         neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_IN, list));
         query = mongoQueryConverter.convert("section", neutralQuery);
