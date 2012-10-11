@@ -16,6 +16,7 @@ Scenario: An Educator in Daybreak and Sunset sees the Daybreak data and the Suns
     And I should navigate to "/entities/teachers"
     #actually 0 teachers - row says "No data available in table"
     Then I should see that there are "1" teachers 
+    And I should get the IDs for "Daybreak and Sunset"
 
 
 Scenario: An Educator in Daybreak and Sunset sees the Daybreak data but not the Sunset data
@@ -30,6 +31,7 @@ Scenario: An Educator in Daybreak and Sunset sees the Daybreak data but not the 
     And I should navigate to "/entities/teachers"
     #actually 0 teachers - row says "No data available in table"
     Then I should see that there are "1" teachers
+    And I should get the IDs for "Daybreak only"
 
 @DE1709
 Scenario: An Educator in Daybreak and Sunset sees the Daybreak data but not the Sunset data
