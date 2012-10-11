@@ -9,7 +9,8 @@ import java.util.Map;
 public class IndexEntity {
     public enum Action {
         UPDATE("update"),
-        INDEX("index");
+        INDEX("index"),
+        DELETE("delete");
         
         String type;
         Action(String type) {this.type = type;}

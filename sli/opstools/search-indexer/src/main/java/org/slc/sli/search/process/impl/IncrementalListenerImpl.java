@@ -142,7 +142,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         logger.info(id);
         logger.info(type);
         
-        //TODO - fix it
+        //TODO - fix it - get tenant from the right place
         String tenant = "midgar";
         
         Map<String, Object> metadata = new HashMap<String, Object>();
@@ -168,14 +168,33 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         return indexEntityConverter.fromEntityJson(IndexEntity.Action.UPDATE, entityMap);
     }
     
-    private IndexEntity convertDeleteToEntity(String opLog) {
+    private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
         
-        return null;
+        logger.info("Action type: delete");
+        
+        // parse out entity data
+        Map<String, Object> opLogMap = mapper.readValue(opLog, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
+        String id = (String) o.get("_id");;
+        
+        // TODO - get the tenant for real
+        String tenant = "midgar";
+        String type = (String) opLogMap.get("ns");
+        type = type.substring(type.lastIndexOf('.')+1);
+        
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("tenantId", tenant);
+        
+        // merge data into entity json (id, type, metadata.tenantId)
+        Map<String, Object> entityMap = new HashMap<String, Object>();
+        entityMap.put("_id", id);
+        entityMap.put("type", type);
+        entityMap.put("metaData", metadata);
+        
+        // convert to index entity object
+        return indexEntityConverter.fromEntityJson(IndexEntity.Action.DELETE, entityMap);
     }
     
-    private void filter() {
-        
-    }
     
     // TODO : is there a better way to make the json valid?
     private String preProcess(String entityStr) {
@@ -195,7 +214,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
     }
     
     private boolean isDelete(String opLog) {
-        return false;
+        return opLog.contains("\"op\" : \"d\"");
     }
     
     private void sendToIndexer(IndexEntity entity) {
