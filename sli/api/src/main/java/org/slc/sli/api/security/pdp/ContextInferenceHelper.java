@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.pdp;
 
 import javax.annotation.Resource;
@@ -36,11 +52,6 @@ public class ContextInferenceHelper {
     public String getInferredUri(String resource, Entity user) {
         String result = null;
         String actorId = user.getEntityId();
-
-        // remove any number of trailing slashes --> explicit string matching to ensue
-        // -> multiple slashes are caught in URI validation, but on the off-chance that validation
-        //    fails, peel off all trailing slashes
-        resource = resource.replaceAll("(/+)$", "");
 
         if (isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)) {

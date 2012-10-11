@@ -1,5 +1,22 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.pdp;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -39,19 +56,25 @@ public class PolicyEnforcer {
             }
         }
 
-        List<PathSegment> seg = request.getPathSegments();
-
+        List<PathSegment> segs = request.getPathSegments();
+        
+        //remove empty segments because a trailing slash causes a segment, e.g. /v1/students/ products ["v1","students", ""]
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
+            if (i.next().getPath().isEmpty()) {
+                i.remove();
+            }
+        }
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-        if (seg.get(0).getPath().equals("v1")) {
-            if (seg.size() < 3) {
+        if (segs.get(0).getPath().equals("v1")) {
+            if (segs.size() < 3) {
                 request.getProperties().put("requestedPath", request.getPath());
-                String newPath = inferer.getInferredUri(seg.get(1).getPath(), user.getEntity());
+                String newPath = inferer.getInferredUri(segs.get(1).getPath(), user.getEntity());
                 if (newPath != null) {
                     String parameters = request.getRequestUri().getQuery();
                     info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
                     request.setUris(
                             request.getBaseUri(),
-                            request.getBaseUriBuilder().path(seg.get(0).getPath()).path(newPath)
+                            request.getBaseUriBuilder().path(segs.get(0).getPath()).path(newPath)
                                     .replaceQuery(parameters).build());
                 }
             }
