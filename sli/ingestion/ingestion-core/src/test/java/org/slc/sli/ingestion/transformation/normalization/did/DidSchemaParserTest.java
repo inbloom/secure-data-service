@@ -26,8 +26,11 @@ public class DidSchemaParserTest {
         didSchemaParser = new DidSchemaParser();
         didSchemaParser.setResourceLoader(new DefaultResourceLoader());
         didSchemaParser.setXsdLocation("classpath:test-schema/Ed-Fi-Core.xsd");
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/SLI-Ed-Fi-Core.xsd");
         didSchemaParser.setup();
     }
+
+    //TODO add exception path tests
 
     @Test
     public void shouldExtractCorrectRefConfigs() {
@@ -72,21 +75,17 @@ public class DidSchemaParserTest {
     public void shouldExtractCorrectEntityConfigs() {
         Map<String, DidEntityConfig> entityConfigs = didSchemaParser.extractEntityConfigs();
 
-        Assert.assertEquals("Should extract 6 entity configs for 6 complexTypes containing a sectionReference", 6, entityConfigs.size());
+        Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a sectionReference (SLC-GradebookEntry)", 1, entityConfigs.size());
 
         //check the entity configs extracted are for the correct types
-        Assert.assertTrue(entityConfigs.containsKey("Assessment"));
-        Assert.assertTrue(entityConfigs.containsKey("AttendanceEvent"));
-        Assert.assertTrue(entityConfigs.containsKey("GradebookEntry"));
-        Assert.assertTrue(entityConfigs.containsKey("StudentSectionAssociation"));
-        Assert.assertTrue(entityConfigs.containsKey("TeacherSectionAssociation"));
+        Assert.assertTrue(entityConfigs.containsKey("SLC-GradebookEntry"));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig SSAConfig = entityConfigs.get("StudentSectionAssociation");
-        Assert.assertNotNull(SSAConfig);
-        Assert.assertNotNull(SSAConfig.getReferenceSources());
+        DidEntityConfig GBEConfig = entityConfigs.get("SLC-GradebookEntry");
+        Assert.assertNotNull(GBEConfig);
+        Assert.assertNotNull(GBEConfig.getReferenceSources());
 
-        List<DidRefSource> refSources = SSAConfig.getReferenceSources();
+        List<DidRefSource> refSources = GBEConfig.getReferenceSources();
         Assert.assertEquals("entity config should contain a single DidRefSource (section)", 1, refSources.size());
         DidRefSource refSource = refSources.get(0);
         Assert.assertNotNull(refSource);
