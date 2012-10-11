@@ -36,13 +36,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
@@ -57,6 +50,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -226,7 +224,7 @@ public class ApplicationAuthorizationResource {
         String usersTenant = SecurityUtil.getTenantId();
 
         if (edOrgId == null) {
-            throw new InsufficientAuthenticationException("No EdOrg exists on principal.");
+            throw new EntityNotFoundException("No EdOrg exists on principal.");
         }
         
         if (tenantId != null && !tenantId.equals(usersTenant)) {
