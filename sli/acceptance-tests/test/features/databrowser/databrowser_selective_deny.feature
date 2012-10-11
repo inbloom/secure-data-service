@@ -14,8 +14,7 @@ Scenario: An Educator in Daybreak and Sunset sees the Daybreak data and the Suns
     When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
     And I should be redirected to the Data Browser home page
     And I should navigate to "/entities/teachers"
-    #actually 0 teachers - row says "No data available in table"
-    Then I should see that there are "1" teachers 
+    Then I should see that there are "5" teachers 
     And I should get the IDs for "Daybreak and Sunset"
 
 
@@ -29,8 +28,7 @@ Scenario: An Educator in Daybreak and Sunset sees the Daybreak data but not the 
     When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
     And I should be redirected to the Data Browser home page
     And I should navigate to "/entities/teachers"
-    #actually 0 teachers - row says "No data available in table"
-    Then I should see that there are "1" teachers
+    Then I should see that there are "3" teachers 
     And I should get the IDs for "Daybreak only"
 
 @DE1709
