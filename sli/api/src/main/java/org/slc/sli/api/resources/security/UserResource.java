@@ -46,6 +46,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
@@ -106,6 +107,7 @@ public class UserResource {
 
     @POST
     public final Response create(final User newUser) {
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -126,7 +128,7 @@ public class UserResource {
 
     @GET
     public final Response readAll() {
-
+        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
 
@@ -161,6 +163,7 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser) {
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -175,7 +178,7 @@ public class UserResource {
     @DELETE
     @Path("{uid}")
     public final Response delete(@PathParam("uid") final String uid) {
-
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -196,7 +199,7 @@ public class UserResource {
     @GET
     @Path("edorgs")
     public final Response getEdOrgs() {
-
+        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);

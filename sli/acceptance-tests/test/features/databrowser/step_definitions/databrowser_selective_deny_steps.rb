@@ -30,7 +30,15 @@ Transform /^IDs for "([^"]*)"$/ do |idCategory|
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak only"
     expectedIds
 end
-
+Then /^I should see only myself$/ do
+  begin
+    @driver.find_element(:id, 'simple-table')
+  rescue Exception => e
+    assert(true, "We should not have found a table of entries")
+  else
+    assert(false, "We should not have found a table of entries")
+  end
+end
 When /^I should navigate to "([^"]*)"$/ do |page|
   @driver.get(PropLoader.getProps['databrowser_server_url'] + "/entities/teachers")
 end
