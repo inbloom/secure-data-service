@@ -8,7 +8,8 @@ import java.util.Map;
  */
 public class IndexEntity {
     public enum Action {
-        UPDATE("update"),
+        UPDATE("get_index"),
+        QUICK_UPDATE("update"),
         INDEX("index");
         
         String type;
@@ -17,12 +18,12 @@ public class IndexEntity {
             return type;
         }
     }
-    private Action action;
-    private String index;
-    private String type;
-    private String id;
-    private String parentId;
-    private Map<String, Object> body;
+    private final Action action;
+    private final String index;
+    private final String type;
+    private final String id;
+    private final String parentId;
+    private final Map<String, Object> body;
     
     public IndexEntity(Action action, String index, String type, String id, String parentId, Map<String, Object> body) {
         this.action = action;
@@ -67,6 +68,10 @@ public class IndexEntity {
     
     public String getActionValue() {
         return action.getType();
+    }
+    
+    public Action getAction() {
+        return action;
     }
     
     @Override

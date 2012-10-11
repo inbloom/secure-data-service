@@ -7,6 +7,7 @@ import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
+import org.slc.sli.search.transform.impl.GenericFilter;
 import org.slc.sli.search.transform.impl.GenericTransformer;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.NestedMapUtil;
@@ -20,6 +21,7 @@ public class IndexEntityConverter {
     private EntityEncryption entityEncryption;
     private IndexConfigStore indexConfigStore;
     private final GenericTransformer transformer = new GenericTransformer();
+    private final GenericFilter filter = new GenericFilter();
     // decrypt records flag
     private boolean decrypt = true;
     
@@ -45,8 +47,12 @@ public class IndexEntityConverter {
             IndexConfig config = indexConfigStore.getConfig(type);
             //re-assemble entity map
             entityMap.put("body", decryptedMap);
+            // filter out
+            if (!filter.matchesCondition(config, decryptedMap))
+                return null;
             // transform the entities
             transformer.transform(config, entityMap);
+            
             String id = (String)entityMap.get("_id");
             String parent = (config.getParentField() != null) ? 
                     (String)NestedMapUtil.get(config.getParentField(), entityMap) : null;
