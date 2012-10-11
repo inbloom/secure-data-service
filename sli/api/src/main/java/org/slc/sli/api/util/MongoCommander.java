@@ -19,8 +19,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 /**
  * @author tke
  *
@@ -28,23 +32,17 @@ import org.slf4j.LoggerFactory;
 public class MongoCommander {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
 
-    public static void exec(String cmd, CmdStreamGobbler outputGobber) {
-        try {
-        Process p = Runtime.getRuntime().exec(cmd);
-        CmdStreamGobbler errorGobbler = new CmdStreamGobbler(p.getErrorStream(), "ERROR");
-
-        errorGobbler.start();
-
-            try {
-                p.waitFor();
-            } catch (InterruptedException e) {
-                LOG.error(e.getMessage());
-            }
-        } catch (IOException e) {
-            LOG.error(e.getMessage());
-        }
-    }
-
+    /**
+     * Executes mongo command
+     *
+     * @param db
+     *          the database name in mongo
+     * @param script
+     *          the name of the java script to be executed
+     * @param jsContent
+     *          javascript content to be evaluated before script execution
+     * @return
+     */
     public static void exec(String db, String script, String jsContent) {
         try {
             URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
@@ -59,9 +57,18 @@ public class MongoCommander {
                 } catch (InterruptedException e) {
                     LOG.error(e.getMessage());
                 }
+                if (pr.exitValue() != 0) {
+                    LOG.error("Failed to execute the script " + script + " during tenant onboarding");
+                    throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
+                            "Failed to spin up new tenant");
+                }
+            } else {
+                LOG.error("Failed to locate the script " + script + " during tenant onboarding");
+                throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to load scripts for new tenant spin up");
             }
         } catch (IOException e) {
             LOG.error(e.getMessage());
+            throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to spin up new tenant");
         }
     }
 
