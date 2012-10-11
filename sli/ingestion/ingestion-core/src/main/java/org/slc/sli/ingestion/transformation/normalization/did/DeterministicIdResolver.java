@@ -31,6 +31,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.domain.EmbedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -246,7 +247,15 @@ public class DeterministicIdResolver {
             return null;
         }
 
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId, didRefConfig.getEntityType());
+        //TODO: need to verify this
+        String parentId = null;
+        String entityType = didRefConfig.getEntityType();
+        if (EmbedDocumentRelations.getSubDocuments().contains(entityType)) {
+            String parentKey = EmbedDocumentRelations.getParentFieldReference(entityType);
+            parentId = naturalKeys.get(parentKey);
+        }
+
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId, didRefConfig.getEntityType(), parentId);
         return uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
     }
 }
