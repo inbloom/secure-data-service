@@ -77,7 +77,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         connection.subscribe(queue, Subscribe.AckModeValues.AUTO);
         while (true) {
             StompFrame message = connection.receive(0);
-            logger.info(message.getBody());
+            logger.info("Received message : " + message.getBody());
             process(message.getBody());
         }
     }
@@ -92,7 +92,9 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         try {
             logger.info("Processing message");
             IndexEntity entity = convertToEntity(opLog);
-            sendToIndexer(entity);
+            if (entity != null) {
+                sendToIndexer(entity);
+            }
             logger.info("Done processing message");
         } catch (Exception e) {
             logger.error("Error processing message", e);
@@ -111,6 +113,8 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
             entity = convertUpdateToEntity(opLog);
         } else if (isDelete(opLog)) {
             entity = convertDeleteToEntity(opLog);
+        } else {
+            logger.info("Unrecognized message type. Ignoring.");
         }
         
         return entity;
@@ -129,6 +133,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         return indexEntityConverter.fromEntityJson(IndexEntity.Action.INDEX, entityStr);
     }
     
+    @SuppressWarnings("unchecked")
     private IndexEntity convertUpdateToEntity(String opLog) throws Exception {
         
         logger.info("Action type: update");
@@ -139,15 +144,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         String id = (String) o2.get("_id");
         String type = (String) opLogMap.get("ns");
         type = type.substring(type.lastIndexOf('.')+1);
-        logger.info(id);
-        logger.info(type);
-        
-        //TODO - fix it - get tenant from the right place
-        String tenant = "midgar";
-        
-        Map<String, Object> metadata = new HashMap<String, Object>();
-        metadata.put("tenantId", tenant);
-        
+        Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
         Map<String, Object> updates = (Map<String, Object>) o.get("$set");
 
@@ -168,6 +165,7 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         return indexEntityConverter.fromEntityJson(IndexEntity.Action.UPDATE, entityMap);
     }
     
+    @SuppressWarnings("unchecked")
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
         
         logger.info("Action type: delete");

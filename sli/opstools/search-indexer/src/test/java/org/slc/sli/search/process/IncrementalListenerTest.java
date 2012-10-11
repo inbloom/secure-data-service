@@ -23,8 +23,7 @@ import org.slc.sli.search.transform.IndexEntityConverter;
 public class IncrementalListenerTest {
     
     private String opLogInsert;
-    private String opLogUpdate1;
-    private String opLogUpdate2;
+    private String opLogUpdate;
     private String opLogDelete;
     
     private IncrementalListenerImpl listener = new IncrementalListenerImpl();
@@ -42,8 +41,7 @@ public class IncrementalListenerTest {
         BufferedReader br = new BufferedReader(new FileReader(inFile));
         opLogInsert = br.readLine();
         //System.out.println(opLogInsert);
-        opLogUpdate1 = br.readLine();
-        opLogUpdate2 = br.readLine();
+        opLogUpdate = br.readLine();
         //System.out.println(opLogUpdate1);
         opLogDelete = br.readLine();
     }
@@ -71,38 +69,18 @@ public class IncrementalListenerTest {
     
     /**
      * Test oplog update -> index entity conversion
-     * Only updates the student's last name
-     */
-    @Test
-    public void testUpdate() throws Exception {
-        
-        // convert to index entity
-        IndexEntity entity = listener.convertToEntity(opLogUpdate1);
-        
-        // check result
-        Assert.assertEquals(entity.getActionValue(), "update");
-        Assert.assertEquals(entity.getId(), "4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id");
-        Assert.assertEquals(entity.getType(), "student");
-        Assert.assertEquals(entity.getIndex(), "midgar");
-        Map<String, Object> name = (Map<String, Object>) entity.getBody().get("name"); 
-        // updated last name
-        Assert.assertEquals(name.get("lastSurname"), "ESTRING:hRPQJLZBfU/5g2ifTFMZrA==");
-    }
-    
-    /**
-     * Test oplog update -> index entity conversion
      * Updates the entire body and metadata
      * 
      * @throws Exception
      */
     @Test
-    public void testUpdate2() throws Exception {
+    public void testUpdate() throws Exception {
         
         // convert to index entity
-        IndexEntity entity = listener.convertToEntity(opLogUpdate2);
+        IndexEntity entity = listener.convertToEntity(opLogUpdate);
         
         // check result
-        Assert.assertEquals(entity.getActionValue(), "update");
+        Assert.assertEquals(entity.getActionValue(), "get_index");
         Assert.assertEquals(entity.getId(), "067198fd6da91e1aa8d67e28e850f224d6851713_id");
         Assert.assertEquals(entity.getType(), "student");
         Assert.assertEquals(entity.getIndex(), "midgar");
