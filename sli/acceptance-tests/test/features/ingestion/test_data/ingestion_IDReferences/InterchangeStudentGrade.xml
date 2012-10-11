@@ -19,8 +19,12 @@
                 <DateAssigned>2012-05-08</DateAssigned>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Able School</StateOrganizationId>
-                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -43,8 +47,12 @@
                 <DateAssigned>2012-05-08</DateAssigned>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Baker School</StateOrganizationId>
-                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -68,8 +76,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Charlie School</StateOrganizationId>
-                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -93,8 +105,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Able School</StateOrganizationId>
-                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -118,8 +134,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Charlie School</StateOrganizationId>
-                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -143,8 +163,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Baker School</StateOrganizationId>
-                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -168,8 +192,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Charlie School</StateOrganizationId>
-                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -193,8 +221,12 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>Charlie School</StateOrganizationId>
-                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
@@ -222,8 +254,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_1" />
@@ -249,8 +285,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_2" />
@@ -276,8 +316,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_3" />
@@ -303,8 +347,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_4" />
@@ -330,8 +378,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Dog School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_101" />
@@ -357,8 +409,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Echo School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_5" />
@@ -384,8 +440,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_6" />
@@ -411,8 +471,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Foxtrot School</StateOrganizationId>
-                <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_102" />
@@ -438,8 +502,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_7" />
@@ -465,8 +533,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_103" />
@@ -492,8 +564,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_104" />
@@ -519,8 +595,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_8" />
@@ -546,8 +626,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_105" />
@@ -573,8 +657,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_106" />
@@ -600,8 +688,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_107" />
@@ -627,8 +719,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_108" />
@@ -654,8 +750,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_1" />
@@ -681,8 +781,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_2" />
@@ -708,8 +812,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <GradingPeriodReference ref="GP_3" />
@@ -735,8 +843,12 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
 		<GradingPeriodReference ref="GP_4" />
@@ -794,17 +906,12 @@
 				<Race>Mixed</Race>
 			</StudentIdentity>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000001</StateOrganizationId>
-				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
-				<CourseCode>
-					<ID>000</ID>
-				</CourseCode>
-				<LocalCourseCode>Scary</LocalCourseCode>
-				<SchoolYear>2012-2013</SchoolYear>
-				<Term>Spring Semester</Term>
-				<ClassPeriodName>First Period</ClassPeriodName>
-				<Location>Dungeon</Location>
 			</SectionIdentity>
 		</StudentSectionAssociationIdentity>
 	</StudentSectionAssociationReference>
@@ -829,17 +936,12 @@
 				<Race>Mixed</Race>
 			</StudentIdentity>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000002</StateOrganizationId>
-				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
-				<CourseCode>
-					<ID>000</ID>
-				</CourseCode>
-				<LocalCourseCode>Scary</LocalCourseCode>
-				<SchoolYear>2012-2013</SchoolYear>
-				<Term>Spring Semester</Term>
-				<ClassPeriodName>First Period</ClassPeriodName>
-				<Location>Dungeon</Location>
 			</SectionIdentity>
 		</StudentSectionAssociationIdentity>
 	</StudentSectionAssociationReference>
@@ -864,17 +966,12 @@
 				<Race>Mixed</Race>
 			</StudentIdentity>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000001</StateOrganizationId>
-				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-				<CourseCode>
-					<ID>000</ID>
-				</CourseCode>
-				<LocalCourseCode>Scary</LocalCourseCode>
-				<SchoolYear>2012-2013</SchoolYear>
-				<Term>Spring Semester</Term>
-				<ClassPeriodName>First Period</ClassPeriodName>
-				<Location>Dungeon</Location>
 			</SectionIdentity>
 		</StudentSectionAssociationIdentity>
 	</StudentSectionAssociationReference>
@@ -899,17 +996,12 @@
 				<Race>Mixed</Race>
 			</StudentIdentity>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000002</StateOrganizationId>
-				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
-				<CourseCode>
-					<ID>000</ID>
-				</CourseCode>
-				<LocalCourseCode>Scary</LocalCourseCode>
-				<SchoolYear>2012-2013</SchoolYear>
-				<Term>Spring Semester</Term>
-				<ClassPeriodName>First Period</ClassPeriodName>
-				<Location>Dungeon</Location>
 			</SectionIdentity>
 		</StudentSectionAssociationIdentity>
 	</StudentSectionAssociationReference>
@@ -1046,162 +1138,82 @@
 
 	<SectionReference id="S_1">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>Lizard Husbandry</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_2">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_3">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_4">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_5">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_6">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_7">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 	<SectionReference id="S_8">
 		<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 			<StateOrganizationId>100002</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>1B2B3</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+			</EducationalOrgReference>
 			<UniqueSectionCode>Sec 923</UniqueSectionCode>
-			<CourseCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>School course code</IdentificationSystem>
-				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
-			</CourseCode>
-			<LocalCourseCode>Dragon Milking</LocalCourseCode>
-			<SchoolYear>2012-2013</SchoolYear>
-			<Term>Spring 2012</Term>
-			<ClassPeriodName>First Period</ClassPeriodName>
-			<Location>Funeral Homeroom</Location>
 		</SectionIdentity>
 	</SectionReference>
 
