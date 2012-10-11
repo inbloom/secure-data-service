@@ -17,15 +17,18 @@
 
 package org.slc.sli.api.resources.security;
 
+import javax.ws.rs.core.Response;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,8 +36,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import javax.ws.rs.core.Response;
 
 /**
  * AdminDelegationResource tests
@@ -53,7 +54,7 @@ public class AdminDelegationResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
-    @Test(expected = InsufficientAuthenticationException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void testGetDelegationsNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
