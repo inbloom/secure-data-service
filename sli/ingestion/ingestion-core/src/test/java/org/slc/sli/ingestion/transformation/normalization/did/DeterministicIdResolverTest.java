@@ -126,7 +126,7 @@ public class DeterministicIdResolverTest {
         naturalKeys.put(SRC_KEY_FIELD, SRC_KEY_VALUE);
         String entityType = ENTITY_TYPE;
         String tenantId = TENANT;
-        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType);
+        NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
 
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
 

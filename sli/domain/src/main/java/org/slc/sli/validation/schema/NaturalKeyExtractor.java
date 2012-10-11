@@ -188,7 +188,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
             return naturalKeyDescriptor;
         }
 
-        String entityType = getCollectionName(entity);
+        String entityType = entity.getType();
         String tenantId = (String) entity.getMetaData().get("tenantId");
         String parentId = retrieveParentId(entity);
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType, parentId);
