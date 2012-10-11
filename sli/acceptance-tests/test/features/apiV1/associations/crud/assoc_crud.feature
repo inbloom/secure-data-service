@@ -61,14 +61,14 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
       | staffProgramAssociation                | staffProgramAssociations                 | 3       |
-      | studentAssessmentAssociation           | studentAssessments                       | 8       |
-      | studentCohortAssociation               | studentCohortAssociations                | 13      |
+      | studentAssessmentAssociation           | studentAssessments                       | 0       |
+      | studentCohortAssociation               | studentCohortAssociations                | 9       |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0       |
-      | studentParentAssociation               | studentParentAssociations                | 3       |
-      | studentProgramAssociation              | studentProgramAssociations               | 18      |
+      | studentParentAssociation               | studentParentAssociations                | 0       |
+      | studentProgramAssociation              | studentProgramAssociations               | 10      |
       | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
-      | studentSectionAssociation              | studentSectionAssociations               | 263     |
-      | studentTranscriptAssociation           | courseTranscripts                        | 3       |
+      | studentSectionAssociation              | studentSectionAssociations               | 0       |
+      | studentTranscriptAssociation           | courseTranscripts                        | 0       |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
       | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
 
