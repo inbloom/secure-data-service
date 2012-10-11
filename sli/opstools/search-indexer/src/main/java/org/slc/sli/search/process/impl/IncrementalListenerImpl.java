@@ -32,15 +32,15 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
 
     private IndexEntityConverter indexEntityConverter;
     
-    private String mqHost = "localhost";
+    private String mqHost;
     
-    private int mqPort= 61612;
+    private int mqPort;
     
-    private String mqUsername = "system";
+    private String mqUsername;
     
-    private String mqPswd = "manager";
+    private String mqPswd;
     
-    private String queue = "/queue/search_events";
+    private String queue;
     
     private ObjectMapper mapper = new ObjectMapper();
     
@@ -225,6 +225,30 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
 
     public void setIndexEntityConverter(IndexEntityConverter indexEntityConverter) {
         this.indexEntityConverter = indexEntityConverter;
+    }
+
+    public void setMqHost(String mqHost) {
+        this.mqHost = mqHost;
+    }
+
+    public void setMqPort(int mqPort) {
+        this.mqPort = mqPort;
+    }
+
+    public void setMqUsername(String mqUsername) {
+        this.mqUsername = mqUsername;
+    }
+
+    public void setMqPswd(String mqPswd) {
+        this.mqPswd = mqPswd;
+    }
+
+    public void setQueue(String queue) {
+        this.queue = queue;
+    }
+
+    public void setMapper(ObjectMapper mapper) {
+        this.mapper = mapper;
     }
     
 }
