@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -64,7 +63,6 @@ import org.xml.sax.InputSource;
  * @author jtully
  *
  */
-@Component
 public class DidSchemaParser implements ResourceLoaderAware {
 
     ResourceLoader resourceLoader;
