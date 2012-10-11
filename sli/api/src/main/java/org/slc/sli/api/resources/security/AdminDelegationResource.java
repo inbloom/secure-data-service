@@ -35,6 +35,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -45,7 +46,6 @@ import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
 
@@ -93,7 +93,7 @@ public class AdminDelegationResource {
 
             String edOrg = SecurityUtil.getEdOrg();
             if (edOrg == null) {
-                throw new InsufficientAuthenticationException("No edorg exists on principal.");
+                throw new EntityNotFoundException("No edorg exists on principal.");
             }
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
@@ -180,7 +180,7 @@ public class AdminDelegationResource {
     private Entity getDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
         if (edOrgId == null) {
-            throw new InsufficientAuthenticationException("No edorg exists on principal.");
+            throw new EntityNotFoundException("No edorg exists on principal.");
         }
 
         NeutralQuery query = new NeutralQuery();

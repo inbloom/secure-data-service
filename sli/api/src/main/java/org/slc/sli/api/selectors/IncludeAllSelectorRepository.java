@@ -1,5 +1,3 @@
-package org.slc.sli.api.selectors;
-
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -15,6 +13,8 @@ package org.slc.sli.api.selectors;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.slc.sli.api.selectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.model.ModelProvider;

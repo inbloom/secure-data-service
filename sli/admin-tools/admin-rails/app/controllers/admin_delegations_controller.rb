@@ -22,6 +22,7 @@ class AdminDelegationsController < ApplicationController
 
   def check_rights
     unless is_lea_admin?
+      logger.warn {'User is not lea admin and cannot access admin delegations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
@@ -31,6 +32,7 @@ class AdminDelegationsController < ApplicationController
   def index
     admin_delegations = AdminDelegation.all
     edOrgId = session[:edOrgId]
+    raise OutOfOrder unless EducationOrganization.exists? edOrgId
     @edorgName = EducationOrganization.find(edOrgId).nameOfInstitution
     if admin_delegations == nil
       @admin_delegation = AdminDelegation.new
