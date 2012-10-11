@@ -47,7 +47,7 @@ public class LandingZoneProcessor implements Processor {
 
         // Verify that the landing zone is valid.
         File lzFile = exchange.getIn().getBody(File.class);
-        String lzDirectoryPathName = lzFile.getParent().toString();
+        String lzDirectoryPathName = lzFile.getParent();
         boolean landingZoneIsValid = isLandingZoneValid(lzDirectoryPathName);
         if (!landingZoneIsValid) {
             LOG.error("LandingZoneProcessor: {} is not a valid landing zone.", lzDirectoryPathName);

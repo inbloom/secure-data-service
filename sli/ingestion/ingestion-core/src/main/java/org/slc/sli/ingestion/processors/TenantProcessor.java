@@ -111,8 +111,7 @@ public class TenantProcessor implements Processor {
             for (String currLzPath : lzPaths) {
                 // Skip currLzPath if path already exists, failed to create the landing zone or the
                 // name is invalid.
-                File currLz = new File(currLzPath);
-                if (currLz.exists() || !isValidDirName(currLzPath) || !createValidDir(currLzPath)) {
+                if (!isValidDirName(currLzPath) || !createValidDir(currLzPath)) {
                     continue;
                 }
             }
