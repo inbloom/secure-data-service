@@ -169,7 +169,8 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
         
         logger.info("Action type: delete");
-        
+        logger.info("Deletes currently not supported");
+        /*
         // parse out entity data
         Map<String, Object> opLogMap = mapper.readValue(opLog, new TypeReference<Map<String, Object>>() {});
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
@@ -191,6 +192,8 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         
         // convert to index entity object
         return indexEntityConverter.fromEntityJson(IndexEntity.Action.DELETE, entityMap);
+        */
+        return null;
     }
     
     
