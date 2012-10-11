@@ -476,9 +476,10 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |
-   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
-   #| studentSectionAssociation             | 2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.beginDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
