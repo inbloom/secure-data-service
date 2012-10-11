@@ -569,6 +569,10 @@
 	<xs:complexType name="SLC-EducationalOrgReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
+		    <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>educationOrganization</sli:refType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -587,8 +591,8 @@
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
 		</xs:annotation>
-			<xs:sequence>
-				<xs:element name="StateOrganizationId" type="IdentificationCode">
+		<xs:sequence>
+			<xs:element name="StateOrganizationId" type="IdentificationCode">
 				<xs:annotation>
 					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
 </xs:documentation>
