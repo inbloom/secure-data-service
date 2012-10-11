@@ -2436,7 +2436,7 @@
     <jb:value property="gradebookEntryType" data="GradebookEntryType" />
     <jb:value property="dateAssigned" data="DateAssigned" />
     <jb:value property="description" data="Description" />
-    <jb:value property="sectionId" data="GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="SectionReference" data="GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
   <!-- To do: Need to add learning objective reference and learning standard references here -->
 
