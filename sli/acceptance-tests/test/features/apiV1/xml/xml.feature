@@ -35,7 +35,7 @@ Background: Nothing yet
     | assessments                 | assessment                 | 17              |
     | schools                     | school                     | 27              |
     | students                    | student                    | 0               |
-    | studentSectionAssociations  | studentSectionAssociation  | 263             |
+    | studentSectionAssociations  | studentSectionAssociation  | 0               |
     | courseOfferings             | courseOffering             | 0               |
 
 Scenario: Getting response from POST - Create (school)
