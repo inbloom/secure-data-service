@@ -69,7 +69,7 @@ public class NaturalKeyDescriptorTest {
         naturalKeysForConstructor.put("key2", "value2");
         String testTenantId = "testTenantId";
         String testEntityType = "testEntityType";
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, testEntityType, null);
         Map<String, String> naturalKeys = naturalKeyDescriptor.getNaturalKeys();
         assertNotNull("naturalKeys is not null", naturalKeys);
         assertEquals("naturalKeys has 2 natural keys", 2, naturalKeys.size());
@@ -81,7 +81,7 @@ public class NaturalKeyDescriptorTest {
         Map<String, String> naturalKeysForConstructor2 = new HashMap<String, String>();
         naturalKeysForConstructor2.put("key1", "value1");
         naturalKeysForConstructor2.put("key2", "value2");
-        NaturalKeyDescriptor naturalKeyDescriptor3 = new NaturalKeyDescriptor(naturalKeysForConstructor2, "testTenantId", "testEntityType");
+        NaturalKeyDescriptor naturalKeyDescriptor3 = new NaturalKeyDescriptor(naturalKeysForConstructor2, "testTenantId", "testEntityType", null);
         assertTrue(naturalKeyDescriptor.equals(naturalKeyDescriptor3));
     }
 
@@ -95,57 +95,62 @@ public class NaturalKeyDescriptorTest {
         String testEntityType = "testEntityType";
 
         // Check basic case
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, testEntityType, null);
         int hashCode = naturalKeyDescriptor.hashCode();
-        assertEquals(-1581840760, hashCode);
+        assertEquals(1601434024, hashCode);
 
         // Check that different size of naturalKeys map yields different hashCode
         Map<String, String> naturalKeysForConstructor2 = new HashMap<String, String>();
         naturalKeysForConstructor2.put("key1", "value1");
-        NaturalKeyDescriptor naturalKeyDescriptor2 = new NaturalKeyDescriptor(naturalKeysForConstructor2, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor2 = new NaturalKeyDescriptor(naturalKeysForConstructor2, testTenantId, testEntityType, null);
         int hashCode2 = naturalKeyDescriptor2.hashCode();
-        assertEquals(-2109487354, hashCode2);
+        assertEquals(-741620770, hashCode2);
 
         // Check that different values in naturalKeys map yields different hashCode
         Map<String, String> naturalKeysForConstructor3 = new HashMap<String, String>();
         naturalKeysForConstructor3.put("key1", "value1");
         naturalKeysForConstructor3.put("key2", "value3");
-        NaturalKeyDescriptor naturalKeyDescriptor3 = new NaturalKeyDescriptor(naturalKeysForConstructor3, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor3 = new NaturalKeyDescriptor(naturalKeysForConstructor3, testTenantId, testEntityType, null);
         int hashCode3 = naturalKeyDescriptor3.hashCode();
-        assertEquals(-1581842129, hashCode3);
+        assertEquals(1601383371, hashCode3);
 
         // Check that different keys in naturalKeys map yields different hashCode
         Map<String, String> naturalKeysForConstructor4 = new HashMap<String, String>();
         naturalKeysForConstructor4.put("key1", "value1");
         naturalKeysForConstructor4.put("key3", "value2");
-        NaturalKeyDescriptor naturalKeyDescriptor4 = new NaturalKeyDescriptor(naturalKeysForConstructor4, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor4 = new NaturalKeyDescriptor(naturalKeysForConstructor4, testTenantId, testEntityType, null);
         int hashCode4 = naturalKeyDescriptor4.hashCode();
-        assertEquals(-1581836653, hashCode4);
+        assertEquals(1601585983, hashCode4);
 
         // Check that null naturalKeys map yields different hashCode
-        NaturalKeyDescriptor naturalKeyDescriptor5 = new NaturalKeyDescriptor(null, testTenantId, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor5 = new NaturalKeyDescriptor(null, testTenantId, testEntityType, null);
         int hashCode5 = naturalKeyDescriptor5.hashCode();
-        assertEquals(1657833348, hashCode5);
+        assertEquals(1210291732, hashCode5);
 
         // Check that different tenantId yields different hashCode
-        NaturalKeyDescriptor naturalKeyDescriptor6 = new NaturalKeyDescriptor(naturalKeysForConstructor, "testTenantId6", testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor6 = new NaturalKeyDescriptor(naturalKeysForConstructor, "testTenantId6", testEntityType, null);
         int hashCode6 = naturalKeyDescriptor6.hashCode();
-        assertEquals(-1964526064, hashCode6);
+        assertEquals(326979664, hashCode6);
 
         // Check that null tenantId yields different hashCode
-        NaturalKeyDescriptor naturalKeyDescriptor7 = new NaturalKeyDescriptor(naturalKeysForConstructor, null, testEntityType);
+        NaturalKeyDescriptor naturalKeyDescriptor7 = new NaturalKeyDescriptor(naturalKeysForConstructor, null, testEntityType, null);
         int hashCode7 = naturalKeyDescriptor7.hashCode();
-        assertEquals(-1139587787, hashCode7);
+        assertEquals(784924841, hashCode7);
 
         // Check that different entityType yields different hashCode
-        NaturalKeyDescriptor naturalKeyDescriptor8 = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, "testEntityType8");
+        NaturalKeyDescriptor naturalKeyDescriptor8 = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, "testEntityType8", null);
         int hashCode8 = naturalKeyDescriptor8.hashCode();
-        assertEquals(1227384002, hashCode8);
+        assertEquals(-1831432182, hashCode8);
 
         // Check that null tenantId yields different hashCode
-        NaturalKeyDescriptor naturalKeyDescriptor9 = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, null);
+        NaturalKeyDescriptor naturalKeyDescriptor9 = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, null, null);
         int hashCode9 = naturalKeyDescriptor9.hashCode();
-        assertEquals(615167641, hashCode9);
+        assertEquals(1286366237, hashCode9);
+
+        // Check that different parentId yields different hashCode
+        NaturalKeyDescriptor naturalKeyDescriptor10 = new NaturalKeyDescriptor(naturalKeysForConstructor, testTenantId, null, "parentId1");
+        int hashCode10 = naturalKeyDescriptor10.hashCode();
+        assertEquals(-938294903, hashCode10);
     }
 
 }
