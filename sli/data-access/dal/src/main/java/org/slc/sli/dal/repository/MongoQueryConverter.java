@@ -350,7 +350,7 @@ public class MongoQueryConverter {
             }
 
             List<Criteria> criteriaList = convertToCriteria(entityName, neutralQuery, entitySchema);
-            for(Criteria c : criteriaList) {
+            for (Criteria c : criteriaList) {
                 mongoQuery.addCriteria(c);
             }
         }
@@ -409,7 +409,7 @@ public class MongoQueryConverter {
             List<Criteria> orClauses = new ArrayList<Criteria>(orQueries.size());
             for (NeutralQuery orQuery : orQueries) {
                 List<Criteria> orCriterion = convertToCriteria(entityName, orQuery, entitySchema);
-                if(orCriterion.size() == 1) {
+                if (orCriterion.size() == 1) {
                     orClauses.add(orCriterion.get(0));
                 } else if (orCriterion.size() > 1) {
                     Criteria base = orCriterion.get(0);
