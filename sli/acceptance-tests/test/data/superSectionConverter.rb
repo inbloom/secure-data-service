@@ -1,8 +1,30 @@
 require "json"
 
-sectionFile = File.new("section_fixture.json")
+# Usage: ruby superSectionConverter.rb <section json file> <studentSectionAssociation json file> <output json file>
+# Example: ruby superSectionConverter.rb unified_data/uds_section.json unified_data/uds_studentSectionAssociation.json unified_data/out.json
 
-newSsaFile = File.new("studentSectionAssociation_superDoc_fixture.json", "w")
+sectionFileString = "section_fixture.json"
+ssaFileString = "studentSectionAssociation_fixture.json"
+newSsaFileString = "studentSectionAssociation_superDoc_fixture.json"
+
+if ARGV.length == 0
+  # use default files
+elsif ARGV.length == 3
+  sectionFileString = ARGV[0]
+  ssaFileString = ARGV[1]
+  newSsaFileString = ARGV[2]
+else
+  puts "Usage: #{$0} <section_json_file> <studentSectionAssociation_json_file> <output_json_file>"
+  puts "If no argument is given, the default is:"
+  puts "\tsection_json_file = #{sectionFileString}"
+  puts "\tstudentSectionAssociation_json_file = #{ssaFileString}"
+  puts "\toutput_json_file = #{newSsaFileString}"
+  exit(1)
+end
+
+sectionFile = File.new(sectionFileString)
+
+newSsaFile = File.new(newSsaFileString, "w")
 
 from = 0.0
 to = Time.now
@@ -10,10 +32,11 @@ to = Time.now
 while (line = sectionFile.gets)
   line_hash = JSON.parse(line)
   sectionId = line_hash["_id"]
-#puts sectionId
-  ssaFile = File.new("studentSectionAssociation_fixture.json")
+  #puts sectionId
+  ssaFile = File.new(ssaFileString)
   ssa_array = [ ]
   while (ssaLine = ssaFile.gets)
+    next if ssaLine.strip == ""
     ssaLine_hash = JSON.parse(ssaLine)
 
     ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f)).strftime("%Y-%m-%d")
