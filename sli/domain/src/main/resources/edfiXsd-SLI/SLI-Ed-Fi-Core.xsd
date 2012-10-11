@@ -652,4 +652,47 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="SLC-TeacherSectionAssociation">
+		<xs:annotation>
+			<xs:documentation>This association indicates the class sections to which a teacher is assigned to.
+</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TeacherReference" type="StaffReferenceType">
+				<xs:annotation>
+					<xs:documentation>The teacher assigned to the section.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
+				<xs:annotation>
+					<xs:documentation>The section the teacher is assigned to.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClassroomPosition" type="ClassroomPositionType">
+				<xs:annotation>
+					<xs:documentation>The type of position the staff member holds in the specific class/section; for example:
+Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Month, day and year of a teacher's assignment to the section.  If blank, defaults to the first day of the first grading period for the section.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Month, day and year of the last day of a teacher's assignment to the section.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HighlyQualifiedTeacher" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication of whether a teacher is classified as highly qualified for his/her assignment according to state definition.  This attribute indicates the teacher is highly qualified for this section being taught.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 </xs:schema>

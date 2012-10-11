@@ -1,2 +1,8 @@
-src/main/resources/eapplication.wadl
-src/main/resources/sli.wadl
+.settings
+.project
+.gitignore
+.checkstyle
+.classpath
+target
+.git
+.pydevproject
