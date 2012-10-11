@@ -29,6 +29,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public class DidEntityConfig {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private List<DidRefSource> referenceSources;
 
     public List<DidRefSource> getReferenceSources() {
@@ -40,7 +42,6 @@ public class DidEntityConfig {
     }
 
     public static DidEntityConfig parse(InputStream inputStream) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(inputStream, DidEntityConfig.class);
+        return MAPPER.readValue(inputStream, DidEntityConfig.class);
     }
 }
