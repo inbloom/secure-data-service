@@ -179,7 +179,7 @@
         { "path": "/{id}/sessions/gradingPeriods" },
         { "path": "/{id}/sections" },
         { "path": "/{id}/sections/gradebookEntries" },
-        { "path": "/{id}/graduationPlans" }
+        { "path": "/{id}/graduationPlans" },
         { "path": "/{id}/sections/studentSectionAssociations" },
         { "path": "/{id}/sections/studentSectionAssociations/grades" },
         { "path": "/{id}/sections/studentSectionAssociations/studentCompetencies" }
