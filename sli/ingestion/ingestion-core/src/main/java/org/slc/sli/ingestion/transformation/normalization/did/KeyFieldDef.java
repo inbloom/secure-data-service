@@ -1,5 +1,3 @@
-package org.slc.sli.ingestion.transformation.normalization.did;
-
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -16,6 +14,7 @@ package org.slc.sli.ingestion.transformation.normalization.did;
  * limitations under the License.
  */
 
+package org.slc.sli.ingestion.transformation.normalization.did;
 
 /**
  * Configures how a referenceType objects maps to keyFields for
