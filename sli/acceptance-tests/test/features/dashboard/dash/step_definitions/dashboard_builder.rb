@@ -143,10 +143,17 @@ When /^I click on Panels Menu$/ do
   @driver.find_elements(:class, "accordion-heading")[1].find_element(:tag_name,"a").click
 end
 
-# Click the 'Publish Layout' button
-When /^I click the Publish Layout button$/ do
-  @currentPage.find_element(:class, "form-actions").find_element(:css, "[ng-click='publishPage()']").click
-  @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+# Click the 'Publish Layout' or 'Restore' button after making changes in the page
+#When /^I click the Publish Layout button$/ do
+When /^I click the "(.*?)" button$/ do |buttonName|  
+  activeButton = @currentPage.find_element(:class, "form-actions")
+  if (buttonName =="Publish Layout")
+    activeButton.find_element(:css, "[ng-click='publishPage()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+  elsif (buttonName =="Restore")
+    activeButton.find_element(:css, "[ng-click='restore()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='restoreMessage']").attribute('style').strip)  == "display: block;" }     
+  end
   sleep 3
 end
 
@@ -162,7 +169,7 @@ When /^I click on "(.*?)" button on the modal window$/ do |action|
      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
      ensurePopupUnloaded()
    end
-   sleep 1
+   sleep 2
 end
 
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
@@ -246,7 +253,10 @@ def hoverOverPage(pageName, mode = nil)
   elsif (mode == "delete")
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
     begin
-      @driver.switch_to.alert.accept
+      #Find the Remove Tab? pop up window
+      popupPanel = @driver.find_element(:id, "removeTab")
+      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
+      ensurePopupUnloaded()
     rescue
     end
     sleep 1

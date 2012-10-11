@@ -49,13 +49,13 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 		if($rootScope.saveStatus) {
 
 			$rootScope.profileAlert = true; // set profile alert to true
-			dbSharedService.showModal("#alertModal", {mode: "alert", id: "", modalTitle: "Save Changes?"});
+			dbSharedService.showModal("#alertModal", {mode: "alert"});
 
 			$scope.$on("leaveProfile", function () {
 				$rootScope.profileAlert = false;
 				location.href = profileURL;
 
-				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+				dbSharedService.enableSaveButton(false);
 			});
 
 			return false;
@@ -222,7 +222,8 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 
 	$scope.pageName = $scope.page.name;
 
-	// If user choose to leave the page without saving new changes, the old changes will be restored.
+	// If user choose to leave the page or adding a new tab without saving new changes,
+	// then old changes will be restored
 	$scope.$on("restorePage", function () {
 
 		// The profile service will be called to restore the changes at page level
@@ -241,14 +242,18 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 			}
 
 			// if user adding a new tab without saving selected page level changes,
-			// the custom event 'restorePageAndAddNewPage' will be triggered, otherwise 'leavePage' event will be triggered.
+			// the custom event 'restorePageAndAddNewPage' will be triggered
 			if($rootScope.addNewPage) {
 				if($scope.profile.items[$scope.profile.items.length-1].id === $scope.page.id) {
 					dbSharedService.enableSaveButton(false);
 					$rootScope.$broadcast("restorePageAndAddNewPage");
 				}
 			}
-			else {
+
+			// if user leaving the page without saving page level changes,
+			// then 'leavePage' event will be triggered.
+			if($rootScope.leavePageStatus) {
+				$rootScope.leavePageStatus = false;
 				$rootScope.$broadcast("leavePage");
 			}
 
@@ -289,11 +294,14 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 	};
 
 	$scope.removePage = function () {
-			if(confirm("Are you sure you want to remove the tab? There is no way to undo this action.")) {
-				parent.removePageFromProfile($scope.$index, function () {
-					$rootScope.$broadcast("pageRemoved", $scope.$index);
+
+		dbSharedService.showModal("#removeTab", {mode: "removeTab", id: ""});
+
+		$scope.$on("removeTab", function () {
+			parent.removePageFromProfile($scope.$index, function () {
+				$rootScope.$broadcast("pageRemoved", $scope.$index);
 			});
-		}
+		});
 	};
 
 	$scope.showPanels = function () {
@@ -312,10 +320,18 @@ function pageCtrl($scope, $rootScope, $routeParams, Profile, Page, dbSharedServi
 	// After user click 'Publish Layout' button, the changes will be saved on the server.
 	$scope.publishPage = function () {
 		parent.saveProfile(function () {
-			$(".alert").show();
-			window.setTimeout(function() { $(".alert").hide("slow"); }, 10000); // the success messages will be stayed for 10 seconds on the page
+			$(".successMessage").show();
+			window.setTimeout(function() { $(".successMessage").hide("slow"); }, 10000); // the success messages will be stayed for 10 seconds on the page
 			dbSharedService.enableSaveButton(false);
 		});
+	};
+
+	$scope.restore = function () {
+		$rootScope.$broadcast("restorePage");
+		$(".restoreMessage").show();
+		window.setTimeout(function() { $(".restoreMessage").hide("slow"); }, 10000); // the restore changes messages will be stayed for 10 seconds on the page
+		dbSharedService.enableSaveButton(false);
+
 	};
 
 }
@@ -410,25 +426,24 @@ allPanelListCtrl.$inject = ['$scope', 'dbSharedService'];
 
 /* confirmation box modal controller
  * @param $scope - scope object for controller
+ * @param $rootScope - rootScope object for controller
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
 function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 
-	// Listen the event when alert modal dialog box gets displayed
-	$scope.$on("alertModalDisplayed", function () {
-		var configs = dbSharedService.getModalConfig();
+	var configs = dbSharedService.getModalConfig();
 
-		$("#alertModal h3").html(configs.modalTitle);
-	});
+	$("#alertModal h3").html(configs.modalTitle);
 
 	// This function trigger custom events on profile and page level, if user leaves the page without saving the changes.
 	$scope.leaveChanges = function () {
 		$rootScope.saveStatus = false;
-		if($rootScope.profileAlert) {
+		if ($rootScope.profileAlert) {
 			$rootScope.$broadcast("leaveProfile");
 		}
 		else {
-			$rootScope.$broadcast("restorePage");
+				$rootScope.leavePageStatus = true;
+				$rootScope.$broadcast("restorePage");
 		}
 	};
 
@@ -436,6 +451,21 @@ function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 
 confirmBoxCtrl.$inject = ['$scope', '$rootScope', 'dbSharedService'];
 
+
+/* remove page/tab confirmation box modal controller
+ * @param $scope - scope object for controller
+ * @param dbSharedService - Service which contains common methods shared by controllers
+ */
+function removeTabCtrl($scope, $rootScope) {
+
+	// If user click 'remove tab' button, the 'removeTab' event will be triggered.
+	$scope.removeTab = function () {
+		$rootScope.$broadcast("removeTab");
+	};
+
+}
+
+removeTabCtrl.$inject = ['$scope', '$rootScope'];
 
 /* panelsCtrl Controller - display list of panels for the profile selected in left hand side panel view
  * @param $scope - scope object for controller
