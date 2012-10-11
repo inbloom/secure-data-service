@@ -34,6 +34,7 @@
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="mappingConverter" />
 	</bean>
+	<bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
 	<bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">
 		<property name="template" ref="mongoTemplate" />
 	</bean>
