@@ -118,11 +118,13 @@ module Eventbus
       end
     end
 
-    def fire_event(event)
+    def fire_event(events)
       begin
-        event.each do |key, value|
-          @events_channel[key] = @messaging.get_publisher(events_address(key)) if (@events_channel[key] == nil)
-          @events_channel[key].publish(value) 
+        events.each do |event|
+          event.each_pair do |key, value|
+            @events_channel[key] = @messaging.get_publisher(events_address(key)) if (!@events_channel.has_key?(key))
+            @events_channel[key].publish(value) 
+          end
         end
       rescue Exception => e
         @logger.warn("problem occurred publishing event: #{e}")

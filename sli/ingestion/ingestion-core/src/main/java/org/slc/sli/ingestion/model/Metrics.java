@@ -17,8 +17,6 @@
 
 package org.slc.sli.ingestion.model;
 
-import java.util.Map;
-
 /**
  * Model for metrics of an ingestion job
  * 
@@ -30,7 +28,6 @@ public class Metrics {
     private String resourceId;
     private long recordCount;
     private long errorCount;
-    private Map<String,Long> duplicateCounts;
     
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
@@ -89,13 +86,6 @@ public class Metrics {
     public String toString() {
         return String.format("%s ->%d[%d]", this.resourceId, this.recordCount, this.errorCount);
     }
-
-	public Map<String, Long> getDuplicateCounts() {
-		return duplicateCounts;
-	}
-
-	public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
-		this.duplicateCounts = duplicateCounts;
-	}
+    
     
 }

@@ -23,17 +23,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * TeacherEdOrgContextResolver
@@ -78,7 +76,9 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
             }
         }
 
-        return new ArrayList<String>(finalEdorgIds);
+        List<String> toRet = new ArrayList<String>(finalEdorgIds);
+        toRet.addAll(schoolIds);   //provide context to schools as well
+        return toRet;
     }
 
     @Override

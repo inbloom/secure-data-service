@@ -18,7 +18,6 @@
 package org.slc.sli.api.jersey;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -75,7 +74,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private MongoStat mongoStat;
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         SecurityContextHolder.clearContext();
 

@@ -31,7 +31,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
@@ -54,9 +53,6 @@ public class CourseEntityTest {
 
     @Autowired
     private EntityValidator validator;
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     @Test
     public void testValidCourse() throws Exception {
@@ -106,8 +102,7 @@ public class CourseEntityTest {
                 + "</Course>"
                 + "</InterchangeEducationOrganization>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                testData, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, testData);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -171,7 +166,7 @@ public class CourseEntityTest {
                 + "</InterchangeEducationOrganization>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiCourseXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiCourseXml);
 
         checkValidCourseNeutralRecord(neutralRecord);
     }

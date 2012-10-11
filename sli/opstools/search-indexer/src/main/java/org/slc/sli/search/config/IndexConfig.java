@@ -28,10 +28,13 @@ public final class IndexConfig {
     
     private List<String> parentFieldChain;
     
-    private Map<String, String> filterCondition;
+    private Map<String, Object> filterCondition;
     
     @JsonIgnore
     private Map<List<String>, List<String>> renameMap;
+    
+    @JsonIgnore
+    private Map<List<String>, Object> filtersMap;
     
     @JsonIgnore
     private List<String> flattenedFields;
@@ -65,8 +68,8 @@ public final class IndexConfig {
         return parentFieldChain;
     }
     
-    public Map<String, String> getfilterCondition() {
-        return filterCondition;
+    public Map<List<String>, Object> getFilterCondition() {
+        return filtersMap;
     }
     
     public List<String> getFlattendedFields() {
@@ -100,6 +103,13 @@ public final class IndexConfig {
                 renameMap.put(fieldChainFrom, fieldChainTo);
             }
             this.renameMap = Collections.unmodifiableMap(renameMap);
+        }
+        if (filterCondition != null) {
+            Map<List<String>, Object> filterMap = new HashMap<List<String>, Object>();
+            for (Map.Entry<String, Object> entry : filterCondition.entrySet()) {
+                filterMap.put( NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
+            }
+            this.filtersMap = Collections.unmodifiableMap(filterMap);
         }
         Set<String> flattenedFields = new HashSet<String>();
         for (String field: fields)

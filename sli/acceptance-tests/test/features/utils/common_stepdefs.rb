@@ -56,6 +56,8 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
+
+  @headers=@res.raw_headers.to_hash()  
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
@@ -178,6 +180,7 @@ end
 
 Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
   @the_link = []
+  @id_link = []
   @result = JSON.parse(@res.body)
   found = false
   @result = [@result] unless @result.is_a? Array
@@ -187,6 +190,7 @@ Then /^in an entity, I should receive a link named "([^"]*)"$/ do |arg1|
     entity["links"].each do |link|
       if link["rel"] == arg1
         @the_link.push link['href']
+        @id_link.push({"id"=>entity["id"],"link"=>link["href"]})
         found = true
       end
     end

@@ -31,17 +31,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for LocalEducationAgency entity
@@ -59,9 +57,6 @@ public class LocalEducationAgencyTest {
 
     @Mock
     private Repository<Entity> mockRepository;
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     private static final String EDFI_XML = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<LocalEducationAgency>"
@@ -131,7 +126,7 @@ public class LocalEducationAgencyTest {
         String targetSelector = "InterchangeEducationOrganization/LocalEducationAgency";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                EDFI_XML, recordLevelDeltaEnabledEntityNames);
+                EDFI_XML);
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "SEA123")).thenReturn(true);
@@ -147,7 +142,7 @@ public class LocalEducationAgencyTest {
         String targetSelector = "InterchangeEducationOrganization/LocalEducationAgency";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, EDFI_XML, recordLevelDeltaEnabledEntityNames);
+                targetSelector, EDFI_XML);
 
         checkValidLeaNeutralRecord(neutralRecord);
     }

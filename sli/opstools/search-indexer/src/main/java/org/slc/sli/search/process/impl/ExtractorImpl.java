@@ -17,13 +17,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.ThreadUtil;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.search.config.IndexConfig;
@@ -33,6 +26,13 @@ import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import com.mongodb.util.ThreadUtil;
 
 /**
  * Extractor pulls data from mongo and writes it to file.
@@ -44,11 +44,9 @@ public class ExtractorImpl implements Extractor {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final static int DEFAULT_LINE_PER_FILE = 500000;
-    private final static int DEFAULT_EXECUTOR_THREADS = 2;
-
+    private final static int DEFAULT_LINE_PER_FILE = 100000;
+    private final static int DEFAULT_EXECUTOR_THREADS = 3;
     private final static int DEFAULT_JOB_WAIT_TIMEOUT_MINS = 180;
-
     private final static int DEFAULT_EXTRACTOR_JOB_TIME = 600;
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
@@ -79,7 +77,7 @@ public class ExtractorImpl implements Extractor {
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
-            execute();
+            executor.execute(new Runnable() {public void run() {execute();}});
         }
     }
 
@@ -93,7 +91,7 @@ public class ExtractorImpl implements Extractor {
      * @see org.slc.sli.search.process.Extractor#execute()
      */
     public void execute() {
-
+        // TODO: implement isRunning flag to make sure only one extract is running at a time
         IndexConfig config;
         Collection<String> collections = indexConfigStore.getCollections();
         Future<List<File>> call;
@@ -108,9 +106,7 @@ public class ExtractorImpl implements Extractor {
             futures.add(call);
             if (config.hasDependents()) {
                 for (String dependent : config.getDependents()) {
-                    Future<List<File>> dependentCall = executor.submit(new DependentExtractWorker(indexConfigStore
-                            .getConfig(dependent), call));
-                    futures.add(dependentCall);
+                    futures.add(executor.submit(new DependentExtractWorker(indexConfigStore.getConfig(dependent), call)));
                 }
             }
         }
@@ -297,10 +293,10 @@ public class ExtractorImpl implements Extractor {
                 String[] filesFound = null;
                 while (filesFound == null || filesFound.length != 0) {
                     if (System.currentTimeMillis() <= timeToStopWaiting) {
-                        ThreadUtil.sleep(30000);
+                        if (filesFound != null) ThreadUtil.sleep(30000);
                         filesFound = inbox.list(new FilenameFilter() {
                             public boolean accept(File dir, String name) {
-                                return files.contains(name);
+                                return files.contains(new File(dir, name));
                             }
                         });
                     }

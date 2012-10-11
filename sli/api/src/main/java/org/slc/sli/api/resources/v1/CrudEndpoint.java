@@ -16,14 +16,11 @@
 
 package org.slc.sli.api.resources.v1;
 
-import java.util.Map;
-
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 
 /**
  * The operations a CRUD endpoint should be able to perform (Create, Read, Update, Delete)
@@ -170,21 +167,4 @@ public interface CrudEndpoint {
      */
     public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
 
-    /**
-     * Get derived values for the given entity.
-     *
-     * @param id
-     *            the id of the entity
-     * @return the aggregated and derived values
-     */
-    public CalculatedDataListingResource<String> getCalculatedValueListings(String id);
-
-    /**
-     * Get aggregates and derived values for the given entity
-     *
-     * @param id
-     *            the id of the entity
-     * @return the aggregated and derived values
-     */
-    public CalculatedDataListingResource<Map<String, Integer>> getAggregationListings(String id);
 }

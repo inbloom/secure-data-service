@@ -61,7 +61,7 @@ default:
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
         
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
@@ -89,6 +89,9 @@ default:
         sli.search.password: searchme
         sli.search.embedded: true
         sli.search.service.timeout: 3000
+
+        # Key substitutions
+        sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
@@ -210,9 +213,6 @@ default:
 
         # Number of retries for mongo operations in ingestion
         sli.ingestion.totalRetries: 5
-
-        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
-        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,studentTranscriptAssociation
 
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]

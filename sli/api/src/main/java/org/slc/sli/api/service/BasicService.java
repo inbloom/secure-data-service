@@ -143,7 +143,7 @@ public class BasicService implements EntityService {
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     * 
+     *
      * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
@@ -415,7 +415,7 @@ public class BasicService implements EntityService {
         checkAccess(readRight, id);
 
         String clientId = getClientId();
-        
+
         debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
                 getEntityDefinition().getType(), id, clientId });
 
@@ -453,7 +453,7 @@ public class BasicService implements EntityService {
         }
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-        
+
         debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
@@ -492,7 +492,7 @@ public class BasicService implements EntityService {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
-            
+
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
@@ -533,8 +533,30 @@ public class BasicService implements EntityService {
             }
 
             if (found != ids.size()) {
-                debug("{} in {} is not accessible", value, collectionName);
-                throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+
+                //Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                //So found won't include any orphaned entities that the user created.
+                //We do an additional query of the referenced fields without any additional security criteria
+                //and check the isOrphaned and createdBy on each of those
+                neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(MAX_RESULT_SIZE);
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+                String userId = user.getEntity().getEntityId();
+                for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+
+                    if (userId.equals(ent.getMetaData().get("createdBy")) &&
+                        "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                        found++;
+                    }
+                }
+                if (found != ids.size()) {
+                    debug("{} in {} is not accessible", value, collectionName);
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                }
             }
         }
     }
@@ -549,7 +571,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity, make the entity body to expose
-     * 
+     *
      * @param entity
      * @return
      */
@@ -570,7 +592,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     * 
+     *
      * @param content
      * @return
      */
@@ -585,7 +607,7 @@ public class BasicService implements EntityService {
     /**
      * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
      * still exists so that authorization/context can be checked.
-     * 
+     *
      * @param sourceId
      *            ID that was deleted, where anything else with that ID should also be deleted
      */
@@ -595,7 +617,7 @@ public class BasicService implements EntityService {
             // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
             	EntityService referencingEntityService = referencingEntity.getService();
-            	
+
             	List<String> includeFields = new ArrayList<String>();
             	includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
@@ -644,7 +666,7 @@ public class BasicService implements EntityService {
     /**
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
-     * 
+     *
      * @param right
      *            needed Right for action
      * @param entityId
@@ -664,7 +686,7 @@ public class BasicService implements EntityService {
             warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
-        
+
         // TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
@@ -676,7 +698,7 @@ public class BasicService implements EntityService {
 
     /**
      * Checks to see if the entity id is allowed by security
-     * 
+     *
      * @param entityId
      *            The id to check
      * @return
@@ -758,27 +780,27 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (toType != null && toType.equals(EntityNames.SEARCH)) {
-            securityField = "metaData.edOrgs";
-        }
-
-        if (type != null && type.equals(EntityNames.STAFF)) {
-            securityField = "metaData.edOrgs";
-
+        if (type != null) {
+            // Prevent apps from using data that wasn't allowed
             Set<String> blacklist = edOrgNodeFilter.getBlacklist();
             blackListedEdOrgs = StringUtils.join(blacklist, ',');
             if (!blacklist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs,
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "nin", blackListedEdOrgs,
                         false));
             }
-        }
 
+
+        }
+        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            securityField = "metaData.edOrgs";
+        }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
         }
+
 
         return securityCriteria;
     }
@@ -793,7 +815,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     private void filterFields(Map<String, Object> eb) {
@@ -840,7 +862,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     @SuppressWarnings("unchecked")
@@ -858,7 +880,6 @@ public class BasicService implements EntityService {
                 String fieldPath = prefix + fieldName;
                 Right neededRight = getNeededRight(fieldPath);
 
-                debug("Field {} requires {}", fieldPath, neededRight);
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
                 if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
@@ -876,7 +897,7 @@ public class BasicService implements EntityService {
 
     /**
      * Returns the needed right for a field by examining the schema
-     * 
+     *
      * @param fieldPath
      *            The field name
      * @return
@@ -899,7 +920,7 @@ public class BasicService implements EntityService {
 
     /**
      * Checks query params for access restrictions
-     * 
+     *
      * @param query
      *            The query to check
      */
@@ -925,7 +946,7 @@ public class BasicService implements EntityService {
 
     /**
      * Figures out if writing to restricted fields
-     * 
+     *
      * @param eb
      *            data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
@@ -961,7 +982,7 @@ public class BasicService implements EntityService {
 
     /**
      * Creates the metaData HashMap to be added to the entity created in mongo.
-     * 
+     *
      * @return Map containing important metadata for the created entity.
      */
     private Map<String, Object> createMetadata() {
@@ -972,6 +993,7 @@ public class BasicService implements EntityService {
             createdBy = principal.getExternalId();
         }
         metadata.put("createdBy", createdBy);
+        metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
         // add the edorgs for staff
         createEdOrgMetaDataForStaff(principal, metadata);
@@ -982,7 +1004,7 @@ public class BasicService implements EntityService {
     /**
      * Add the list of ed orgs a principal entity can see
      * Needed for staff security
-     * 
+     *
      * @param principal
      * @param metaData
      */
