@@ -120,17 +120,21 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         return entity;
     }
     
-    private IndexEntity convertInsertToEntity(String opLog) {
+    @SuppressWarnings("unchecked")
+    private IndexEntity convertInsertToEntity(String opLog) throws Exception {
         
         logger.info("Action type: insert");
         
         // parse out entity 
-        int index = opLog.indexOf("\"o\" : ") + 6;
-        String entityStr = opLog.substring(index, opLog.length()-1);
-        logger.info(entityStr);
+        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {});
+        if (opLogs.size() == 0) {
+            return null;
+        }
+        Map<String, Object> opLogMap = opLogs.get(0);
+        Map<String, Object> entityMap = (Map<String, Object>) opLogMap.get("o");
         
         // convert to index entity object
-        return indexEntityConverter.fromEntityJson(IndexEntity.Action.INDEX, entityStr);
+        return indexEntityConverter.fromEntityJson(IndexEntity.Action.INDEX, entityMap);
     }
     
     @SuppressWarnings("unchecked")
@@ -139,7 +143,12 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
         logger.info("Action type: update");
         
         // parse out entity data
-        Map<String, Object> opLogMap = mapper.readValue(opLog, new TypeReference<Map<String, Object>>() {});
+        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {});
+        if (opLogs.size() == 0) {
+            return null;
+        }
+        Map<String, Object> opLogMap = opLogs.get(0);
+        
         Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
         String id = (String) o2.get("_id");
         String type = (String) opLogMap.get("ns");
@@ -207,15 +216,15 @@ public class IncrementalListenerImpl extends Thread implements IncrementalListen
     }
     
     private boolean isInsert(String opLog) {
-        return opLog.contains("\"op\" : \"i\"");
+        return opLog.contains("\"op\":\"i\"");
     }
     
     private boolean isUpdate(String opLog) {
-        return opLog.contains("\"op\" : \"u\"");
+        return opLog.contains("\"op\":\"u\"");
     }
     
     private boolean isDelete(String opLog) {
-        return opLog.contains("\"op\" : \"d\"");
+        return opLog.contains("\"op\":\"d\"");
     }
     
     private void sendToIndexer(IndexEntity entity) {
