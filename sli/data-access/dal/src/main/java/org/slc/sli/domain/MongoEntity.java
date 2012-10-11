@@ -24,26 +24,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import org.bson.BasicBSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slc.sli.common.domain.EmbedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
  * for convert from and to DBObject
- *
+ * 
  * @author Dong Liu dliu@wgen.net
- *
+ * 
  */
 public class MongoEntity implements Entity, Serializable {
 
@@ -67,7 +67,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Default constructor for the MongoEntity class.
-     *
+     * 
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -79,7 +79,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Specify the type, id, body, and metadata for the Mongo Entity using this constructor.
-     *
+     * 
      * @param type
      *            Mongo Entity type.
      * @param id
@@ -110,8 +110,8 @@ public class MongoEntity implements Entity, Serializable {
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-                       CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
-                       Map<String, List<Map<String, Object>>> embeddedData) {
+            CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
+            Map<String, List<Map<String, Object>>> embeddedData) {
         this.type = type;
         this.entityId = id;
         this.body = body == null ? new BasicBSONObject() : body;
@@ -144,7 +144,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables encryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     *
+     * 
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -155,7 +155,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables decryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     *
+     * 
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -212,7 +212,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Convert the specified db object to a Mongo Entity.
-     *
+     * 
      * @param dbObj
      *            DBObject that need to be converted to MongoEntity
      * @return converted MongoEntity from DBObject
@@ -243,10 +243,12 @@ public class MongoEntity implements Entity, Serializable {
                 new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData);
     }
 
+    @SuppressWarnings("unchecked")
     private static Map<String, List<Map<String, Object>>> extractEmbeddedData(DBObject dbObj) {
         Map<String, List<Map<String, Object>>> embeddedData = new HashMap<String, List<Map<String, Object>>>();
         for (String key : dbObj.keySet()) {
-            if (!BASE_ATTRIBUTES.contains(key)) {
+            // if (!BASE_ATTRIBUTES.contains(key)) {
+            if (EmbedDocumentRelations.getSubDocuments().contains(key)) {
                 List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
                 embeddedData.put(key, Collections.unmodifiableList(values));
             }
@@ -257,7 +259,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Create and return a Mongo Entity.
-     *
+     * 
      * @param type
      *            Mongo Entity type.
      * @param body
