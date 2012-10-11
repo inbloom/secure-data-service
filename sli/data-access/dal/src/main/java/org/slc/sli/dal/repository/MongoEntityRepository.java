@@ -74,6 +74,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
 
+    @Autowired
+    @Qualifier("entityKeyEncoder")
+    EntityKeyEncoder keyEncoder;
+
     @Value("${sli.default.mongotemplate.writeConcern}")
     private String writeConcern;
 
@@ -118,6 +122,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
         Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
+        keyEncoder.encodeEntityKey(entity);
         return super.patch(type, collectionName, id, newValues);
     }
 
@@ -159,6 +164,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         MongoEntity entity = new MongoEntity(type, id, body, metaData);
         validator.validate(entity);
+        keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
         if (subDocs.isSubDoc(collectionName)) {
@@ -187,9 +193,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 }
 
                 Entity entity = new MongoEntity(record.getType(), entityId, record.getBody(), record.getMetaData());
+                keyEncoder.encodeEntityKey(entity);
                 persist.add(entity);
             }
-
             return super.insert(persist, collectionName);
         }
     }

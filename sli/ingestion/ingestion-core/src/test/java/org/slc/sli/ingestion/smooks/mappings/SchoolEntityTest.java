@@ -31,17 +31,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for School entity
@@ -52,9 +50,6 @@ import org.slc.sli.validation.EntityValidator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SchoolEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     @InjectMocks
     @Autowired
@@ -143,7 +138,7 @@ public class SchoolEntityTest {
         String targetSelector = "InterchangeEducationOrganization/School";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                edfiSchoolXml, recordLevelDeltaEnabledEntityNames);
+                edfiSchoolXml);
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "LEA123")).thenReturn(true);
@@ -159,7 +154,7 @@ public class SchoolEntityTest {
         String targetSelector = "InterchangeEducationOrganization/School";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiSchoolXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiSchoolXml);
 
         checkValidSchoolNeutralRecord(neutralRecord, true);
     }

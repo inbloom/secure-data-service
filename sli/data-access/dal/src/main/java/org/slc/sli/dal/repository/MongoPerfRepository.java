@@ -25,6 +25,8 @@ import java.util.Map;
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -46,6 +48,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     protected MongoTemplate perfDbtemplate;
 
     protected IdConverter idConverter;
+
+    @Autowired
+    @Qualifier("entityKeyEncoder")
+    EntityKeyEncoder keyEncoder;
 
     public IdConverter getIdConverter() {
         return idConverter;
@@ -78,8 +84,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
+        MongoEntity mongoEntity = new MongoEntity(type, null, body, metaData);
+        keyEncoder.encodeEntityKey(mongoEntity);
         @SuppressWarnings("unchecked")
-        Entity entity = (Entity) new MongoEntity(type, null, body, metaData);
+        Entity entity = (Entity) mongoEntity;
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }

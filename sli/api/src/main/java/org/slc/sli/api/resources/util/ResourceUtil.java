@@ -30,6 +30,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -39,14 +44,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.validation.schema.ReferenceSchema;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
@@ -153,42 +151,6 @@ public class ResourceUtil {
     }
 
     /**
-     * Create a link to calculated values
-     *
-     * @param uriInfo
-     *            uri info to get the base uri from
-     * @param entityId
-     *            the id of the entity
-     * @param defn
-     *            the entity definition
-     * @return
-     */
-    public static EmbeddedLink getCalculatedValuesLink(final UriInfo uriInfo, final String entityId,
-            final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.CALCULATED_VALUE_REL, ResourceConstants.CALCULATED_VALUE_TYPE,
-                getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
-                        PathConstants.CALCULATED_VALUES).toString());
-    }
-
-    /**
-     * Create a link to calculated values
-     *
-     * @param uriInfo
-     *            uri info to get the base uri from
-     * @param entityId
-     *            the id of the entity
-     * @param defn
-     *            the entity definition
-     * @return
-     */
-    public static EmbeddedLink getAggregatesLInk(final UriInfo uriInfo, final String entityId,
-            final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.AGGREGATE_VALUE_REL, ResourceConstants.AGGREGATE_VALUE_TYPE,
-                getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
-                        PathConstants.AGGREGATIONS).toString());
-    }
-
-    /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
      *
@@ -266,28 +228,9 @@ public class ResourceUtil {
 
             links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
-            links.add(getCalculatedValuesLink(uriInfo, id, defn));
-
-            if (areAggregatesPresent(defn, id)) {
-                links.add(getAggregatesLInk(uriInfo, id, defn));
-            }
         }
 
         return links;
-    }
-
-    private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
-        if (defn.supportsAggregates()) {
-            try {
-                CalculatedData<?> aggregateData = defn.getService().getAggregates(id);
-                return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
-            } catch (AccessDeniedException e) {
-                return false;
-            } catch (EntityNotFoundException enfe) {
-                return false;
-            }
-        }
-        return false;
     }
 
     private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,
@@ -327,16 +270,9 @@ public class ResourceUtil {
                             referenceFieldName, false);
 
                     if (!linkName.isEmpty()) {
-                        if (referenceFieldName.endsWith("Id")) {
-                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                    defn.getResourceName(), id,
-                                    PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()));
-                        } else {
-                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                    PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
-                                    + "?" + referenceFieldName + "=" + id));
-                        }
-
+                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                                + "?" + referenceFieldName + "=" + id));
                     }
 
                 }

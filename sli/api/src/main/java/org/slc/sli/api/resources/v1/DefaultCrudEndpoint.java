@@ -27,8 +27,6 @@ import java.util.StringTokenizer;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
@@ -51,7 +49,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.aggregation.CalculatedDataListingResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -63,7 +60,6 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -402,11 +398,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         // add the custom entity if it was requested
                         addCustomEntity(result, entityDef, uriInfo);
 
-                        // add the computedValues if they were requested
-                        addCalculatedValues(result, entityDef);
-
-                        // add the aggregates if they were requested
-                        addAggregates(result, entityDef);
                     }
                 }
 
@@ -655,29 +646,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return false;
     }
 
-    @Path("{id}/" + PathConstants.CALCULATED_VALUES)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CalculatedDataListingResource<String> getCalculatedValueListings(@PathParam("id") String id) {
-        EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
-        CalculatedData<String> data = service.getCalculatedValues(id);
-//        return new CalculatedDataListingResource<String>(data);
-        return null;
-    }
-
-    @Path("{id}/" + PathConstants.AGGREGATIONS)
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
-    @Override
-    public CalculatedDataListingResource<Map<String, Integer>> getAggregationListings(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        if (entityDef.supportsAggregates()) {
-            EntityService service = entityDef.getService();
-            CalculatedData<Map<String, Integer>> data = service.getAggregates(id);
-//            return new CalculatedDataListingResource<Map<String, Integer>>(data);
-        }
-        return null;
-    }
-
     /* Utility methods */
 
     protected static long getTotalCount(EntityService basicService, NeutralQuery neutralQuery) {
@@ -711,36 +679,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             EntityBody custom = entityDef.getService().getCustom(entityId);
             if (custom != null) {
                 entityBody.put(ResourceConstants.CUSTOM, custom);
-            }
-        }
-    }
-
-    /**
-     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
-     *
-     */
-    protected void addCalculatedValues(EntityBody entityBody, final EntityDefinition entityDef) {
-        boolean includeCalculatedValues = "true".equals(includeCalculated);
-        if (includeCalculatedValues) {
-            String entityId = (String) entityBody.get("id");
-            CalculatedData<String> calculatedValues = entityDef.getService().getCalculatedValues(entityId);
-            if (calculatedValues != null) {
-                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, calculatedValues.getCalculatedValues());
-            }
-        }
-    }
-
-    /**
-     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
-     *
-     */
-    protected void addAggregates(EntityBody entityBody, final EntityDefinition entityDef) {
-        boolean includeAggregateValues = entityDef.supportsAggregates() && "true".equals(includeAggregates);
-        if (includeAggregateValues) {
-            String entityId = (String) entityBody.get("id");
-            CalculatedData<Map<String, Integer>> aggregates = entityDef.getService().getAggregates(entityId);
-            if (aggregates != null) {
-                entityBody.put(ResourceConstants.AGGREGATE_VALUE_TYPE, aggregates.getCalculatedValues());
             }
         }
     }

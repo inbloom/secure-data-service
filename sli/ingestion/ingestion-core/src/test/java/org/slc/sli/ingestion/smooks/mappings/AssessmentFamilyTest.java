@@ -27,10 +27,6 @@ import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -42,13 +38,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author jtully
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AssessmentFamilyTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
-
     @Test
     public void edfiXmlAssessmentFamilyTest() throws IOException, SAXException {
 
@@ -99,7 +89,7 @@ public class AssessmentFamilyTest {
                 + "</InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiAssessmentFamilyXml, recordLevelDeltaEnabledEntityNames);
+                targetSelector, edfiAssessmentFamilyXml);
 
         checkValidAssessmentFamilyNeutralRecord(neutralRecord);
     }
@@ -116,7 +106,7 @@ public class AssessmentFamilyTest {
                 + "tk31,TAKSReading3-1,firstRefIdentificationSystem,firstRefAssigningOrganizationCode,firstRefId,refFamilyTitle,1";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                assessmentFamilyCsv, recordLevelDeltaEnabledEntityNames);
+                assessmentFamilyCsv);
 
         checkValidAssessmentFamilyNeutralRecord(neutralRecord);
     }
@@ -177,34 +167,28 @@ public class AssessmentFamilyTest {
         EntityTestUtils.assertObjectInMapEquals(firstAssesmentPeriod, "id", "theid");
         EntityTestUtils.assertObjectInMapEquals(firstAssesmentPeriod, "ref", "theref");
         List firstCodeValueChoiceList = (List) firstAssesmentPeriod.get("CodeValues");
-        if (!firstCodeValueChoiceList.isEmpty()) {
+        if (!firstCodeValueChoiceList.isEmpty())
             assertEquals("code value", firstCodeValueChoiceList.get(0));
-        }
         List firstShortDescriptionChoiceList = (List) firstAssesmentPeriod.get("ShortDescriptions");
-        if (!firstShortDescriptionChoiceList.isEmpty()) {
+        if (!firstShortDescriptionChoiceList.isEmpty())
             assertEquals("short desc", firstShortDescriptionChoiceList.get(0));
-        }
         List firstDescriptionChoiceList = (List) firstAssesmentPeriod.get("Descriptions");
-        if (!firstDescriptionChoiceList.isEmpty()) {
+        if (!firstDescriptionChoiceList.isEmpty())
             assertEquals("descript", firstDescriptionChoiceList.get(0));
-        }
 
         if (assessmentPeriodsList.size() > 1) {
             Map secondAssesmentPeriod = (Map) assessmentPeriodsList.get(1);
             EntityTestUtils.assertObjectInMapEquals(secondAssesmentPeriod, "id", "theid2");
             EntityTestUtils.assertObjectInMapEquals(secondAssesmentPeriod, "ref", "theref2");
             List secondCodeValueChoiceList = (List) secondAssesmentPeriod.get("CodeValues");
-            if (!secondCodeValueChoiceList.isEmpty()) {
+            if (!secondCodeValueChoiceList.isEmpty())
                 assertEquals("code value2", secondCodeValueChoiceList.get(0));
-            }
             List secondShortDescriptionChoiceList = (List) secondAssesmentPeriod.get("ShortDescriptions");
-            if (!secondShortDescriptionChoiceList.isEmpty()) {
+            if (!secondShortDescriptionChoiceList.isEmpty())
                 assertEquals("short desc2", secondShortDescriptionChoiceList.get(0));
-            }
             List secondDescriptionChoiceList = (List) secondAssesmentPeriod.get("Descriptions");
-            if (!secondDescriptionChoiceList.isEmpty()) {
+            if (!secondDescriptionChoiceList.isEmpty())
                 assertEquals("descript2", secondDescriptionChoiceList.get(0));
-            }
         }
     }
 }

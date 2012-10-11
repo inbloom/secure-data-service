@@ -57,18 +57,18 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
-      | courseOffering                         | courseOfferings                          | 95      |
+      | courseOffering                         | courseOfferings                          | 0       |
       | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
       | staffProgramAssociation                | staffProgramAssociations                 | 3       |
-      | studentAssessmentAssociation           | studentAssessments                       | 8       |
-      | studentCohortAssociation               | studentCohortAssociations                | 13      |
-      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 4       |
-      | studentParentAssociation               | studentParentAssociations                | 3       |
-      | studentProgramAssociation              | studentProgramAssociations               | 18      |
+      | studentAssessmentAssociation           | studentAssessments                       | 0       |
+      | studentCohortAssociation               | studentCohortAssociations                | 9       |
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0       |
+      | studentParentAssociation               | studentParentAssociations                | 0       |
+      | studentProgramAssociation              | studentProgramAssociations               | 10      |
       | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
-      | studentSectionAssociation              | studentSectionAssociations               | 263     |
-      | studentTranscriptAssociation           | courseTranscripts                        | 3       |
+      | studentSectionAssociation              | studentSectionAssociations               | 0       |
+      | studentTranscriptAssociation           | courseTranscripts                        | 0       |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
       | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
 
