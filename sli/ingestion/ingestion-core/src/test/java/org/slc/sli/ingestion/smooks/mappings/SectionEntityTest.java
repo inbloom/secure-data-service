@@ -31,7 +31,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -52,9 +51,6 @@ import org.slc.sli.validation.EntityValidator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionEntityTest {
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
 
     @Autowired
     private EntityValidator validator;
@@ -222,8 +218,7 @@ public class SectionEntityTest {
         String edFiToSliConfig = "smooksEdFi2SLI/section.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
         neutralRecord.setAttributeField("courseOfferingId", "1bce2323211dfds");
         neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
         SimpleEntity entity = EntityTestUtils.smooksGetSingleSimpleEntity(edFiToSliConfig, neutralRecord);
@@ -274,8 +269,7 @@ public class SectionEntityTest {
             + "</Section>"
         + "</InterchangeMasterSchedule>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingUniqueSectionCode, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingUniqueSectionCode);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -311,8 +305,7 @@ public class SectionEntityTest {
             + "</Section>"
         + "</InterchangeMasterSchedule>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSequenceOfCourse, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSequenceOfCourse);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -344,8 +337,7 @@ public class SectionEntityTest {
             + "</Section>"
         + "</InterchangeMasterSchedule>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingCourseOfferingReference, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingCourseOfferingReference);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -377,8 +369,7 @@ public class SectionEntityTest {
             + "</Section>"
         + "</InterchangeMasterSchedule>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlMissingSchoolReference, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSchoolReference);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -416,8 +407,7 @@ public class SectionEntityTest {
             + "</Section>"
         + "</InterchangeMasterSchedule>";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlIncorrectEnum);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -437,7 +427,7 @@ public class SectionEntityTest {
         String csvTestData = "UniqueSectionCode0,4,Classroom,Televised,Regular Students,Carnegie unit,0.0,50.0,LocalCourseCode0,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,StateOrganizationId1,NCES Pilot SNCCS course code,23,SessionName0,2,1997-1998,ELU,,ProgramId0,Bilingual";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                csvTestData, recordLevelDeltaEnabledEntityNames);
+                csvTestData);
 
         checkValidSectionNeutralRecord(neutralRecord);
 
@@ -449,7 +439,7 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-                targetSelector, validXmlTestData, recordLevelDeltaEnabledEntityNames);
+                targetSelector, validXmlTestData);
 
         checkValidSectionNeutralRecord(neutralRecord);
 

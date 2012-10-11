@@ -98,10 +98,31 @@ end
 Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
-
+When /^I navigate to GET the "([^"]*)" link named "([^"]*)"$/ do |arg1, arg2|
+  puts @the_link.count
+  case arg1
+  when /third/
+    @the_link = @the_link[2]
+  when /second/
+    @the_link = @the_link[1]
+  when /first/
+    @the_link = @the_link[0]
+  end
+  restHttpGetAbs(@the_link)
+  #@result = JSON.parse(@res.body)
+end
 # Transform /^(\/[\w-]+\/)([\w-]+\??[=\w-]*)(<.+>)(\/+[\w-]+)$/ do |version, uri, template, uri2|
   # version + uri + Transform(template) + uri2
 # end
 Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
+end
+
+When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |linkName, key, value|
+  @id_link.each do |link|
+    if link[key]==value
+      restHttpGetAbs(link["link"])
+      break
+    end
+  end
 end

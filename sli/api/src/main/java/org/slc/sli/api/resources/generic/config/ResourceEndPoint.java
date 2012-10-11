@@ -45,7 +45,7 @@ public class ResourceEndPoint {
     private static final String THREE_PART_RESOURCE = "org.slc.sli.api.resources.generic.ThreePartResource";
     private static final String FOUR_PART_RESOURCE = "org.slc.sli.api.resources.generic.FourPartResource";
     private static final String FIVE_PART_RESOURCE = FivePartResource.class.getName();
-	private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
+    private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
 
@@ -104,11 +104,9 @@ public class ResourceEndPoint {
 
     	if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
     		return SIX_PART_RESOURCE;
-    	}
-    	else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
+    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
     		return FIVE_PART_RESOURCE;
-    	}
-    	else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
+    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
             return FOUR_PART_RESOURCE;
         } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.THREE_PART)) {
             return THREE_PART_RESOURCE;

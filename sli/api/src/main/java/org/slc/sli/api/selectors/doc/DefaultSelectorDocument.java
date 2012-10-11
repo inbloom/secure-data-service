@@ -16,11 +16,7 @@
 
 package org.slc.sli.api.selectors.doc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +90,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                                           List<EntityBody> previousEntities, Stack<Type> types, boolean first,
                                           Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
-
+        Map<Type,List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
@@ -108,20 +104,16 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
                 String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
+                connectingType = modelProvider.getConnectingEntityType(currentType, previousType);
+                if ((connectingType != null) && !currentType.equals(previousType)) {
+                    types.push(connectingType);
 
-                if (ids.isEmpty() && !currentType.equals(previousType)) {
-                    connectingType = modelProvider.getConnectingEntityType(currentType, previousType);
+                    //construct a new constraint using the new connecting key and ids
+                    constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
 
-                    if (connectingType != null) {
-                        types.push(connectingType);
-
-                        //construct a new constraint using the new connecting key and ids
-                        constraint = constructConstrainQuery(getKey(connectingType, previousType),
-                                                             extractIds(previousEntities, key));
-
-                        connectingEntities = getConnectingEntities(connectingType, previousType, constraint);
-                        ids = getConnectingIds(connectingEntities, currentType, connectingType);
-                    }
+                    connectingEntities = getConnectingEntities(connectingType, previousType, constraint,entityCache);
+                    entityCache.put(connectingType,connectingEntities);
+                    ids = getConnectingIds(connectingEntities, currentType, connectingType);
                 }
 
                 constraint = constructConstrainQuery(key, ids);
@@ -130,7 +122,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
 
-            List<EntityBody> entities = (List<EntityBody>) executeQuery(currentType, constraint, first);
+            List<EntityBody> entities = (List<EntityBody>) executeQuery(currentType, constraint, first, entityCache);
+            entityCache.put(currentType,entities);
             results.addAll(entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
@@ -144,7 +137,6 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             results = filterFields(results, plan);
             results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
-
             first = false;
         }
 
@@ -160,9 +152,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     protected List<EntityBody> updateConnectingEntities(List<EntityBody> results, List<EntityBody> connectingEntities, Type connectingType, Type currentType, Type previousType) {
         if (!connectingEntities.isEmpty()) {
-            String key = getKey(currentType, previousType);
-            String extractionKey = getExtractionKey(currentType, previousType);
-            String connectingKey = getKey(connectingType, previousType);
+            String key = getKey(currentType,connectingType);
+            String extractionKey = getExtractionKey(currentType, connectingType);
+            String connectingKey = getKey(connectingType,previousType);
 
             key = key.equals("_id") ? "id" : key;
 
@@ -187,14 +179,14 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint) {
+    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
         String key = getKey(currentType, previousType);
 
         for (NeutralCriteria criteria : constraint.getCriteria()) {
             criteria.setKey(key);
         }
 
-        return (List<EntityBody>) executeQuery(currentType, constraint, false);
+        return (List<EntityBody>) executeQuery(currentType, constraint, false, entityCache);
     }
 
     protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
@@ -264,11 +256,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
         if (!types.peek().equals(currentType)) {
             Type connectingType = types.pop();
             extractionKey = getExtractionKey(connectingType, currentType);
-            key = getKey(connectingType, currentType);
+            key = getKey(connectingType,currentType);
 
         } else {
             extractionKey = getExtractionKey(nextType, currentType);
-            key = getKey(nextType, currentType);
+            key = getKey(nextType,currentType);
         }
 
         String exposeName = getExposeName(nextType);
@@ -279,14 +271,21 @@ public class DefaultSelectorDocument implements SelectorDocument {
             plan.getParseFields().add(exposeName);
 
             for (EntityBody body : results) {
-                String id = (String) body.get(extractionKey);
+                if(body.containsKey(extractionKey)) {
+                    for (String id: body.getId(extractionKey)) {
 
-                List<EntityBody> subList = getEntitySubList(entityList, key, id);
+                        List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
-                body.put(exposeName, subList);
-                counter.add(subList.size());
-                if (counter.getTotal() > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
-                    throw new EmbeddedDocumentLimitException("Exceeded embedded document limit of " + EMBEDDED_DOCUMENT_LIMIT);
+                        if(!body.containsKey(exposeName)) {
+                            body.put(exposeName, subList);
+                            counter.add(subList.size());
+                            if (counter.getTotal() > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
+                                throw new EmbeddedDocumentLimitException("Exceeded embedded document limit of " + EMBEDDED_DOCUMENT_LIMIT);
+                            }
+                        }
+                    }
+                } else {
+                    body.put(exposeName,new ArrayList<EntityBody>());
                 }
             }
         }
@@ -305,40 +304,39 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected String getExtractionKey(Type currentType, Type previousType) {
-        String key = "id";
+        String key = getConnectingKey(currentType,previousType, previousType);
 
-        if (currentType != null && previousType != null) {
-            ClassType currentClassType = modelProvider.getClassType(currentType.getName());
-            ClassType previousClassType = modelProvider.getClassType(previousType.getName());
-
-            if (previousClassType.isClassType() && currentClassType.isAssociation()) {
-                key = "id";
-            } else if (previousClassType.isAssociation() && currentClassType.isClassType()) {
-                key = StringUtils.uncapitalise(currentClassType.getName()) + "Id";
-            } else if (previousClassType.isClassType() && currentClassType.isClassType()) {
-                key = StringUtils.uncapitalise(currentClassType.getName()) + "Id";
-            }
+        if (key.contains(StringUtils.uncapitalise(previousType.getName()))) {
+            key = "id";
         }
 
         return key;
     }
 
     protected String getKey(Type currentType, Type previousType) {
-        String key = "_id";
-        ClassType currentClassType = modelProvider.getClassType(currentType.getName());
-        ClassType previousClassType = modelProvider.getClassType(previousType.getName());
+        String key = getConnectingKey(currentType, previousType, currentType);
 
-        if (previousClassType.isClassType() && currentClassType.isAssociation()) {
-            key = StringUtils.uncapitalise(previousClassType.getName()) + "Id";
-        } else if (previousClassType.isAssociation() && currentClassType.isClassType()) {
+        if (key.contains(StringUtils.uncapitalise(currentType.getName()))) {
             key = "_id";
         }
 
         return key;
     }
 
+    protected String getConnectingKey(Type currentType, Type previousType, Type typeToConnect) {
+        ClassType currentClassType = modelProvider.getClassType(currentType.getName());
+        ClassType previousClassType = modelProvider.getClassType(previousType.getName());
 
-    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first) {
+        Type connectingEntity = modelProvider.getConnectingEntityType(currentType,previousType);
+        if (connectingEntity == null) {
+            return modelProvider.getConnectionPath(previousClassType,currentClassType);
+        }
+        else {
+            return modelProvider.getConnectionPath((ClassType)connectingEntity,(ClassType)typeToConnect);
+        }
+    }
+
+    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
 
         if (first) {
             Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
@@ -349,6 +347,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
             return results;
         } else {
             try {
+                if (entityCache.containsKey(type)) {
+                    return entityCache.get(type);
+                }
                 EntityDefinition entityDefinition = getEntityDefinition(type);
                 if (entityDefinition == null) {
                     return new ArrayList<EntityBody>();
@@ -370,7 +371,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         for (EntityBody body : entities) {
             if (body.containsKey(key)) {
-                ids.add((String) body.get(key));
+                ids.addAll(body.getId(key));
             }
         }
 
