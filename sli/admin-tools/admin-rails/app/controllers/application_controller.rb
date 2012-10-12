@@ -25,6 +25,9 @@ class ApplicationController < ActionController::Base
   before_filter :handle_oauth
   ActionController::Base.request_forgery_protection_token = 'state'
   
+  class OutOfOrder < StandardError
+  end
+  
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
     reset_session
@@ -46,6 +49,11 @@ class ApplicationController < ActionController::Base
     logger.error {"Exception on server"}
     reset_session
     SessionResource.access_token = nil
+  end
+  
+  rescue_from OutOfOrder do |exception|
+    logger.error {"User has tried to access a resource before the proper steps have been followed"}
+    render_realm_help
   end
 
   def callback
@@ -86,6 +94,14 @@ class ApplicationController < ActionController::Base
     else
       logger.info { "OAuth disabled."}
     end
+  end
+  
+  def render_realm_help
+   respond_to do |format|
+     format.html { render :file => "#{Rails.root}/public/realm_help.html", :status => :not_found }
+     #format.json { :status => :not_found}
+     format.any  { head :not_found }
+   end
   end
 
   def render_404
