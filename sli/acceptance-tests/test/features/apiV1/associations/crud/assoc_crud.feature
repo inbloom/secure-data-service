@@ -48,29 +48,69 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      |
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      |
 
-    Scenario Outline: Read All
-      Given parameter "limit" is "0"
+    Scenario Outline: Read All as State level Staff
+     Given my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools                |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
+      And parameter "limit" is "0"
       When I navigate to GET "/<ASSOC URI>"
       Then I should receive a return code of 200
       And I should receive a collection of "<COUNT>" entities
       And each entity's "entityType" should be "<ASSOC TYPE>"
+      And uri was rewritten to <REWRITE URI>
 
     Examples:
-      | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
-      | courseOffering                         | courseOfferings                          | 0       |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
-      | staffProgramAssociation                | staffProgramAssociations                 | 3       |
-      | studentAssessmentAssociation           | studentAssessments                       | 0       |
-      | studentCohortAssociation               | studentCohortAssociations                | 9       |
-      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0       |
-      | studentParentAssociation               | studentParentAssociations                | 0       |
-      | studentProgramAssociation              | studentProgramAssociations               | 10      |
-      | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
-      | studentSectionAssociation              | studentSectionAssociations               | 0       |
-      | studentTranscriptAssociation           | courseTranscripts                        | 0       |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
-      | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
+      | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
+      | courseOffering                         | courseOfferings                          | 0     |"/schools/@ids/courseOfferings"|
+      | staffCohortAssociation                 | staffCohortAssociations                  | 3     |"/staff/@ids/staffCohortAssociations"|
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     |"/staff/@ids/staffEducationOrgAssignmentAssociations"|
+      | staffProgramAssociation                | staffProgramAssociations                 | 3     |"/staff/@ids/staffProgramAssociations"|
+      | studentAssessmentAssociation           | studentAssessments                       | 0     |"/schools/@ids/studentSchoolAssociations/students/studentAssessments"|
+      | studentCohortAssociation               | studentCohortAssociations                | 9     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
+      | studentParentAssociation               | studentParentAssociations                | 0     |"/schools/@ids/studentSchoolAssociations/students/studentParentAssociations"|
+      | studentProgramAssociation              | studentProgramAssociations               | 10    |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 0     |"/schools/@ids/studentSchoolAssociations"|
+      | studentSectionAssociation              | studentSectionAssociations               | 0     |"/schools/@ids/sections/studentSectionAssociations"|
+      | studentTranscriptAssociation           | courseTranscripts                        | 0     |"/schools/@ids/studentSchoolAssociations/students/courseTranscripts"|
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     |"/schools/@ids/teacherSchoolAssociations"|
+      | teacherSectionAssociation              | teacherSectionAssociations               | 8     |"/schools/@ids/sections/teacherSectionAssociations"|
+
+    Scenario Outline: Read All as School level Teacher
+    	Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
+    |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
+    |sections |706ee3be-0dae-4e98-9525-f564e05aa388,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e,7847b027-687d-46f0-bc1a-36d3c16956aa|
+      And parameter "limit" is "0"
+      When I navigate to GET "/<ASSOC URI>"
+      Then I should receive a return code of 200
+      And I should receive a collection of "<COUNT>" entities
+      And each entity's "entityType" should be "<ASSOC TYPE>"
+      And uri was rewritten to <REWRITE URI>
+
+    Examples:
+      | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
+      | courseOffering                         | courseOfferings                          | 10    |"/schools/@ids/courseOfferings"|
+      | staffCohortAssociation                 | staffCohortAssociations                  | 0     |"/staff/@ids/staffCohortAssociations"|
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     |"/staff/@ids/staffEducationOrgAssignmentAssociations"|
+      | staffProgramAssociation                | staffProgramAssociations                 | 0     |"/staff/@ids/staffProgramAssociations"|
+      | studentAssessmentAssociation           | studentAssessments                       | 0     |"/schools/@ids/studentSchoolAssociations/students/studentAssessments"|
+      | studentCohortAssociation               | studentCohortAssociations                | 0     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
+      | studentParentAssociation               | studentParentAssociations                | 0     |"/sections/@ids/studentSectionAssociations/studentParentAssociations"|
+      | studentProgramAssociation              | studentProgramAssociations               | 0     |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 66    |"/schools/@ids/studentSchoolAssociations"|
+      | studentSectionAssociation              | studentSectionAssociations               | 31    |"/sections/@ids/studentSectionAssociations"|
+      | studentTranscriptAssociation           | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     |"/teachers/@ids/teacherSchoolAssociations"|
+      | teacherSectionAssociation              | teacherSectionAssociations               | 4     |"/teachers/@ids/teacherSectionAssociations"|
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
       # Log in as a user with less accessible data
