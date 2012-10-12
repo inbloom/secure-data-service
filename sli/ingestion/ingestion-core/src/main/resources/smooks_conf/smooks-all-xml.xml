@@ -2436,9 +2436,34 @@
     <jb:value property="gradebookEntryType" data="GradebookEntryType" />
     <jb:value property="dateAssigned" data="DateAssigned" />
     <jb:value property="description" data="Description" />
-    <jb:value property="sectionId" data="GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:wiring property="SectionReference" beanIdRef="GradebookEntry_SectionReference" />
   </jb:bean>
   <!-- To do: Need to add learning objective reference and learning standard references here -->
+
+  <jb:bean beanId="GradebookEntry_SectionReference" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/GradebookEntry/SectionReference">
+    <jb:wiring property="SectionIdentity" beanIdRef="GradebookEntry_SectionReference_SectionIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="GradebookEntry_SectionReference_SectionIdentity" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/GradebookEntry/SectionReference/SectionIdentity">
+    <jb:wiring property="EducationalOrgReference" 
+      beanIdRef="GradebookEntry_SectionReference_SectionIdentity_EducationalOrgReference" />
+    <jb:value property="UniqueSectionCode" data="GradebookEntry/SectionReference/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
+
+  <jb:bean beanId="GradebookEntry_SectionReference_SectionIdentity_EducationalOrgReference" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/GradebookEntry/SectionReference/SectionIdentity/EducationalOrgReference">
+    <jb:wiring property="EducationalOrgIdentity" 
+      beanIdRef="GradebookEntry_SectionReference_SectionIdentity_EducationalOrgReference_EducationalOrgIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="GradebookEntry_SectionReference_SectionIdentity_EducationalOrgReference_EducationalOrgIdentity" 
+    class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/GradebookEntry/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value property="StateOrganizationId" 
+      data="GradebookEntry/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
 
   <!-- Start StudentGradebookEntry mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="gradebookEntries" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="gradebookEntry" />
+    </jb:bean>
+
+    <jb:bean beanId="cohort" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'gradebookEntry'</jb:expression>
+        <jb:wiring property="body" beanIdRef="gradebookEntryBody" />
+    </jb:bean>
+
+    <jb:bean beanId="gradebookEntryBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="gradebookEntryType" data="attributes gradebookEntryType" />
+        <jb:value property="dateAssigned" data="attributes dateAssigned" />
+        <jb:value property="description" data="attributes description" />
+        <jb:value property="sectionId" data="attributes SectionReference" />
+    </jb:bean>
+
+</smooks-resource-list>
