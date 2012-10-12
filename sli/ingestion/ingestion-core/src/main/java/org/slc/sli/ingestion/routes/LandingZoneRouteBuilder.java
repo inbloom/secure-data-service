@@ -97,6 +97,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
             + "&delay=" + pollInterval
             + "&delete=true"
+            + "&readLockTimeout=" + readLockTimeout
             + "&readLock=changed&readLockCheckInterval=" + readLockCheckInterval)
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
