@@ -3,11 +3,11 @@
   "resources": [
     {
       "path": "/reportCards",
-      "doc": "Represents the definition of a report card resource. A report card is an educational entity that represents the collection of student grades for courses taken during a grading period. For detailed information, see the schema for $$ReportCard$$ resources."
+      "doc": "Represents the definition of a report card resource. A report card is an educational entity that represents the collection of student grades for courses taken during a grading period. For detailed information, see the schema for $$ReportCard$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/reportCards. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/reportCards. {IDs} represents a list of the school IDs to which the staff is currently associated."
     },
     {
       "path": "/sections",
-      "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources.",
+      "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations/sections. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/sections. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/gradebookEntries" },
@@ -30,7 +30,7 @@
     },
     {
       "path": "/studentProgramAssociations",
-      "doc": "Represents the association between a $$Student$$ and a $$Program$$. For more information, see the schema for $$StudentProgramAssociation$$ resources.",
+      "doc": "Represents the association between a $$Student$$ and a $$Program$$. For more information, see the schema for $$StudentProgramAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffProgramAssociations/programs/studentProgramAssociations. {ID} is the unique ID of the teacher or staff.",
       "subResources": [
         { "path": "/{id}/students" },
         { "path": "/{id}/programs" }
@@ -38,7 +38,7 @@
     },
     {
       "path": "/courses",
-      "doc": "Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. For more information, see the schema for $$Course$$ resources.",
+      "doc": "Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. For more information, see the schema for $$Course$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/courses. {IDs} represents a list of school IDs to which the teacher or staff is currently associated.",
       "subResources": [
         { "path": "/{id}/courseOfferings" },
         { "path": "/{id}/courseOfferings/sessions" },
@@ -61,8 +61,7 @@
     },
     {
       "path": "/cohorts",
-      "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources.",
-      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
+      "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations/cohorts. {ID} is the unique ID of the teacher or staff.",
       "subResources": [
         { "path": "/{id}/staffCohortAssociations" },
         { "path": "/{id}/staffCohortAssociations/staff" },
@@ -83,7 +82,7 @@
     },
     {
       "path": "/courseTranscripts",
-      "doc": "Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$StudentTranscriptAssociation$$ resources.",
+      "doc": "Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$StudentTranscriptAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/courseTranscripts. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/courseTranscripts. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/courses" },
         { "path": "/{id}/students" }
@@ -114,7 +113,7 @@
     },
     {
       "path": "/studentGradebookEntries",
-      "doc": "Represents a student's grade or competency level for a $$GradebookEntry$$. For detailed information, see the schema for $$StudentGradebookEntry$$ resources."
+      "doc": "Represents a student's grade or competency level for a $$GradebookEntry$$. For detailed information, see the schema for $$StudentGradebookEntry$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentGradebookEntries. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentGradebookEntries. {IDs} represents a list of the school IDs to which the staff is currently associated."
     },
     {
       "path": "/assessments",
@@ -128,7 +127,7 @@
     },
     {
       "path": "/studentCohortAssociations",
-      "doc": "Represents the association between a $$Student$$ and a $$Cohort$$. For more information, see the schema for $$StudentCohortAssociation$$ resources.",
+      "doc": "Represents the association between a $$Student$$ and a $$Cohort$$. For more information, see the schema for $$StudentCohortAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations/cohorts/studentCohortAssociations. {ID} is the unique ID of the teacher or staff.",
       "subResources": [
         { "path": "/{id}/students" },
         { "path": "/{id}/cohorts" }
@@ -202,7 +201,7 @@
     },
     {
       "path": "/parents",
-      "doc": "Represents a parent or guardian of a student. For detailed information, see the schema for $$Parent$$ resources.",
+      "doc": "Represents a parent or guardian of a student. For detailed information, see the schema for $$Parent$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentParentAssociations/parents. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentParentAssociations/parents. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/studentParentAssociations" },
         { "path": "/{id}/studentParentAssociations/students" }
@@ -210,7 +209,7 @@
     },
     {
       "path": "/teachers",
-      "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources.",
+      "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school IDs to which the teacher or staff is currently associated.",
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSectionAssociations" },
@@ -223,7 +222,7 @@
     },
     {
       "path": "/studentAcademicRecords",
-      "doc": "Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources."
+      "doc": "Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAcademicRecords. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAcademicRecords. {IDs} represents a list of the school IDs to which the staff is currently associated."
     },
     {
       "path": "/learningObjectives",
@@ -237,7 +236,7 @@
     },
     {
       "path": "/attendances",
-      "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources."
+      "doc": "Represents the definition of an attendance resource. An attendance resource represents both daily and class period (section) attendance. For more information, see the schema for $$Attendance$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/attendances. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/attendances. {IDs} represents a list of the school IDs to which the staff is currently associated."
     },
     {
       "path": "/studentSchoolAssociations",
@@ -249,7 +248,7 @@
     },
     {
       "path": "/teacherSchoolAssociations",
-      "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources.",
+      "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations. {ID} is the unique ID of the teacher or staff. For staff, this is /schools/{IDs}/teacherSchoolAssociations. {IDs} represents a list of school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/teachers" },
         { "path": "/{id}/schools" }
@@ -257,7 +256,7 @@
     },
     {
       "path": "/staff",
-      "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.",
+      "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
       "subResources": [
         { "path": "/{id}/disciplineActions" },
         { "path": "/{id}/disciplineIncidents" },
@@ -274,18 +273,18 @@
     },
     {
       "path": "/grades",
-      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources."
+      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/grades. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/grades. {IDs} represents a list of the school IDs to which the staff is currently associated."
     },
     {
       "path": "/studentCompetencies",
-      "doc": "Represents the competency assessed or evaluated for the student against a specific Learning Objective. For detailed information, see the schema for $$StudentCompetency$$ resources.",
+      "doc": "Represents the competency assessed or evaluated for the student against a specific Learning Objective. For detailed information, see the schema for $$StudentCompetency$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/studentCompetencies . {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/sections/studentSectionAssociations/studentCompetencies. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/reportCards" }
       ]
     },
     {
       "path": "/studentSectionAssociations",
-      "doc": "Represents the course sections a student is assigned to. For more information, see the schema for $$StudentSectionAssociation$$ resources.",
+      "doc": "Represents the course sections a student is assigned to. For more information, see the schema for $$StudentSectionAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/students" },
         { "path": "/{id}/sections" },
@@ -303,7 +302,7 @@
     },
     {
       "path": "/studentAssessments",
-      "doc": "Represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test. For more information, see the schema for $$StudentAssessmentAssociation$$ resources.",
+      "doc": "Represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test. For more information, see the schema for $$StudentAssessmentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAssessments. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAssessments. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/students" },
         { "path": "/{id}/assessments" }
@@ -339,7 +338,7 @@
     },
     {
       "path": "/studentParentAssociations",
-      "doc": "Represents the relationships between students and their parents, guardians, or caretakers. For more information, see the schema for $$StudentParentAssociation$$ resources.",
+      "doc": "Represents the relationships between students and their parents, guardians, or caretakers. For more information, see the schema for $$StudentParentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentParentAssociations. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentParentAssociations. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/parents" },
         { "path": "/{id}/students" }
@@ -360,7 +359,7 @@
     },
     {
       "path": "/students",
-      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources.",
+      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/studentProgramAssociations/programs" },
         { "path": "/{id}/studentAssessments" },
