@@ -326,7 +326,7 @@ public class SubDocAccessor {
             Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
             // comment out if embededDid need to cat parent id
             Query parentQuery = subDocQuery;
-            if (id.split("_id").length == 3) {
+            if (id.split("_id").length == 2) {
                 parentQuery = new Query(Criteria.where("_id").is(id.split("_id")[0] + "_id"));
             }
             List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), subDocQuery.getQueryObject(),
