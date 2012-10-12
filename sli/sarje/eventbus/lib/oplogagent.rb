@@ -45,6 +45,8 @@ module Eventbus
           begin
             if doc = cursor.next_document
               yield doc
+            else
+              sleep(1)
             end
           rescue Exception => e
            # puts e

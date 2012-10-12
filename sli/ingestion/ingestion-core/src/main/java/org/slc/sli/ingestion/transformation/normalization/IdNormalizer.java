@@ -445,7 +445,9 @@ public class IdNormalizer {
                         }
                     }
                     if (andList.size() > 0) {
-                        choice = choice.andOperator(andList.toArray(new Criteria[andList.size()]));
+                        for (Criteria criteria : andList) {
+                            choice.and(criteria.getKey()).is(criteria.getCriteriaObject().get(criteria.getKey()));
+                        }
                         queryOrList.add(choice);
                     }
                 }

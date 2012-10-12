@@ -16,7 +16,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2004-12-04</BirthDate>
     </BirthData>
@@ -70,7 +69,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1997-06-01</BirthDate>
     </BirthData>
@@ -90,7 +88,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1997-03-07</BirthDate>
     </BirthData>
@@ -126,7 +123,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-06-02</BirthDate>
     </BirthData>
@@ -179,7 +175,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2005-07-16</BirthDate>
     </BirthData>
@@ -217,7 +212,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1997-07-22</BirthDate>
     </BirthData>
@@ -255,7 +249,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-06-25</BirthDate>
     </BirthData>
@@ -299,7 +292,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2001-01-23</BirthDate>
     </BirthData>
@@ -340,7 +332,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2001-10-04</BirthDate>
     </BirthData>
@@ -378,7 +369,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1999-06-27</BirthDate>
     </BirthData>
@@ -423,7 +413,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2005-04-06</BirthDate>
     </BirthData>
@@ -475,7 +464,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1994-01-09</BirthDate>
     </BirthData>
@@ -512,7 +500,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2004-03-30</BirthDate>
     </BirthData>
@@ -548,7 +535,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2003-03-25</BirthDate>
     </BirthData>
@@ -597,7 +583,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1994-08-30</BirthDate>
     </BirthData>
@@ -640,7 +625,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1994-03-17</BirthDate>
     </BirthData>
@@ -680,7 +664,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1999-06-05</BirthDate>
     </BirthData>
@@ -721,7 +704,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1996-09-23</BirthDate>
     </BirthData>
@@ -756,7 +738,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1999-12-17</BirthDate>
     </BirthData>
@@ -779,7 +760,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2000-04-23</BirthDate>
     </BirthData>
@@ -814,7 +794,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2002-07-05</BirthDate>
     </BirthData>
@@ -861,7 +840,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2002-07-05</BirthDate>
     </BirthData>
@@ -904,7 +882,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2004-08-22</BirthDate>
     </BirthData>
@@ -951,7 +928,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
@@ -997,7 +973,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1996-10-24</BirthDate>
     </BirthData>
@@ -1046,7 +1021,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1999-11-15</BirthDate>
     </BirthData>
@@ -1095,7 +1069,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
@@ -1136,7 +1109,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
@@ -1177,7 +1149,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-10-15</BirthDate>
     </BirthData>
@@ -1221,7 +1192,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2002-04-10</BirthDate>
     </BirthData>
@@ -1260,7 +1230,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2006-01-08</BirthDate>
     </BirthData>
@@ -1301,7 +1270,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2001-01-16</BirthDate>
     </BirthData>
@@ -1342,7 +1310,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1999-06-13</BirthDate>
     </BirthData>
@@ -1398,7 +1365,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1437,7 +1403,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1486,7 +1451,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1533,7 +1497,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1587,7 +1550,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1616,7 +1578,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1660,7 +1621,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1704,7 +1664,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1746,7 +1705,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1777,7 +1735,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1808,7 +1765,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1864,7 +1820,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1926,7 +1881,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -1961,7 +1915,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2005,7 +1958,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2058,7 +2010,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2087,7 +2038,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2136,7 +2086,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2168,7 +2117,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2206,7 +2154,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
@@ -2256,7 +2203,6 @@
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2000-12-20</BirthDate>
     </BirthData>
@@ -2312,7 +2258,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2001-01-25</BirthDate>
     </BirthData>
@@ -2365,7 +2310,6 @@
     <Race />
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities />
-    <DisplacementStatus />
     <BirthData>
       <BirthDate>2005-09-23</BirthDate>
     </BirthData>

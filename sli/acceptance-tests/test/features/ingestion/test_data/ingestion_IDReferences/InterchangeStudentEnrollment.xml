@@ -20,7 +20,7 @@
 		<EndDate>1967-08-13</EndDate>
 		<HomeroomIndicator>true</HomeroomIndicator>
 		<RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
-	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+	</StudentSectionAssociation>
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -41,7 +41,7 @@
 		<EndDate>1967-08-13</EndDate>
 		<HomeroomIndicator>true</HomeroomIndicator>
 		<RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
-	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+	</StudentSectionAssociation>
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -62,7 +62,7 @@
 		<EndDate>1967-08-13</EndDate>
 		<HomeroomIndicator>true</HomeroomIndicator>
 		<RepeatIdentifier>Other</RepeatIdentifier>
-	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+	</StudentSectionAssociation>
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -83,7 +83,7 @@
 		<EndDate>1967-08-13</EndDate>
 		<HomeroomIndicator>true</HomeroomIndicator>
 		<RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
-	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+	</StudentSectionAssociation>
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -104,6 +104,6 @@
 		<EndDate>1967-08-13</EndDate>
 		<HomeroomIndicator>true</HomeroomIndicator>
 		<RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
-	<BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
+	</StudentSectionAssociation>
 
 </InterchangeStudentEnrollment>

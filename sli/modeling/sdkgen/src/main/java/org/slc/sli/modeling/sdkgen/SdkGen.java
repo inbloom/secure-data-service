@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.sdkgen;
 
 import static java.util.Arrays.asList;

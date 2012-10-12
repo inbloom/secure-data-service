@@ -47,7 +47,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-
   <!-- Change ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType -->
   <xs:complexType name="SLI-ObjectiveAssessmentRestriction">
     <xs:complexContent>
@@ -101,38 +100,18 @@
   </xs:complexType>
 
   <!-- Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType -->
-  <!--<xs:complexType name="SLI-StudentObjectiveAssessmentRestriction">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:restriction base="StudentObjectiveAssessment">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded" />-->
-          <!--<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />-->
-          <!--<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" />-->
-          <!--<xs:element name="StudentAssessmentReference" type="ReferenceType" minOccurs="0" />-->
-        <!--</xs:sequence>-->
-      <!--</xs:restriction>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
-  <!--<xs:complexType name="SLI-StudentObjectiveAssessmentRestriction2">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:restriction base="SLI-StudentObjectiveAssessmentRestriction">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded" />-->
-          <!--<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />-->
-          <!--<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" />-->
-        <!--</xs:sequence>-->
-      <!--</xs:restriction>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
-  <!--<xs:complexType name="SLI-StudentObjectiveAssessmentExtension">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:extension base="SLI-StudentObjectiveAssessmentRestriction2">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="StudentAssessmentReference" type="SLI-StudentAssessmentReferenceType" />-->
-        <!--</xs:sequence>-->
-      <!--</xs:extension>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
+  <xs:complexType name="SLI-StudentObjectiveAssessment">
+    <xs:complexContent>
+      <xs:extension base="ComplexObjectType">
+        <xs:sequence>
+          <xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
+          <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="StudentAssessmentReference" type="SLI-StudentAssessmentReferenceType" />
+          <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <!-- Change StudentAcademicRecord.ReportCardReference to ReportCardReferenceType -->
   <xs:complexType name="SLI-StudentAcademicRecordRestriction">
@@ -331,35 +310,27 @@
   </xs:complexType>
 
   <!-- Change type of StudentGradebookEntry.GradebookEntryReference to type GradebookEntryReference -->
-  <!--<xs:complexType name="SLI-StudentGradebookEntryRestriction">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:restriction base="StudentGradebookEntry">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="DateFulfilled" type="xs:date" minOccurs="0" />-->
-          <!--<xs:element name="LetterGradeEarned" minOccurs="0">-->
-            <!--<xs:simpleType>-->
-              <!--<xs:restriction base="GradeEarned">-->
-                <!--<xs:maxLength value="20"/>-->
-              <!--</xs:restriction>-->
-            <!--</xs:simpleType>-->
-          <!--</xs:element>-->
-          <!--<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0" />-->
-          <!--<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0" />-->
-          <!--<xs:element name="DiagnosticStatement" type="text" minOccurs="0" />-->
-          <!--<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" />-->
-        <!--</xs:sequence>-->
-      <!--</xs:restriction>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
-  <!--<xs:complexType name="SLI-StudentGradebookEntryExtension">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:extension base="StudentGradebookEntry">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="GradebookEntryReference" type="SLI-GradebookEntryReferenceType" minOccurs="0"/>-->
-        <!--</xs:sequence>-->
-      <!--</xs:extension>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
+  <xs:complexType name="SLI-StudentGradebookEntry">
+    <xs:complexContent>
+      <xs:extension base="ComplexObjectType">
+        <xs:sequence>
+          <xs:element name="DateFulfilled" type="xs:date" minOccurs="0"/>
+          <xs:element name="LetterGradeEarned" minOccurs="0">
+            <xs:simpleType>
+              <xs:restriction base="GradeEarned">
+                <xs:maxLength value="20"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0"/>
+          <xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0"/>
+          <xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
+          <xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType"/>
+          <xs:element name="GradebookEntryReference" type="SLI-GradebookEntryReferenceType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:simpleType name="SLI-UniqueCourseId">
     <xs:annotation>
@@ -445,14 +416,14 @@
 
   <xs:complexType name="SLI-ReportCardReferenceType">
     <xs:annotation>
-      <xs:documentation></xs:documentation>
+      <xs:documentation/>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
         <xs:sequence>
           <xs:element name="ReportCardIdentity" type="SLI-ReportCardIdentityType" minOccurs="0">
             <xs:annotation>
-              <xs:documentation></xs:documentation>
+              <xs:documentation/>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -461,31 +432,31 @@
   </xs:complexType>
   <xs:complexType name="SLI-ReportCardIdentityType">
     <xs:annotation>
-      <xs:documentation></xs:documentation>
+      <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation></xs:documentation>
+          <xs:documentation/>
         </xs:annotation>
       </xs:element>
       <xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation></xs:documentation>
+          <xs:documentation/>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="SLI-StudentAssessmentReferenceType">
     <xs:annotation>
-      <xs:documentation></xs:documentation>
+      <xs:documentation/>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
         <xs:sequence>
           <xs:element name="StudentAssessmentIdentity" type="SLI-StudentAssessmentIdentityType" minOccurs="0">
             <xs:annotation>
-              <xs:documentation></xs:documentation>
+              <xs:documentation/>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -494,22 +465,22 @@
   </xs:complexType>
   <xs:complexType name="SLI-StudentAssessmentIdentityType">
     <xs:annotation>
-      <xs:documentation></xs:documentation>
+      <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="AdministrationDate" type="xs:date" minOccurs="0">
         <xs:annotation>
-          <xs:documentation></xs:documentation>
+          <xs:documentation/>
         </xs:annotation>
       </xs:element>
       <xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation></xs:documentation>
+          <xs:documentation/>
         </xs:annotation>
       </xs:element>
       <xs:element name="AssessmentReference" type="AssessmentReferenceType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation></xs:documentation>
+          <xs:documentation/>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -519,10 +490,10 @@
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
 		    <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>section</sli:refType>
-            </xs:appinfo>
-        </xs:annotation>
+            <sli:applyKeyFields>true</sli:applyKeyFields>
+            <sli:refType>section</sli:refType>
+        </xs:appinfo>
+    </xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
@@ -548,10 +519,9 @@
 		<xs:sequence>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
 				<xs:annotation>
-					<xs:documentation>The education agency.
-</xs:documentation>
+					<xs:documentation>The education agency.</xs:documentation>
 					<xs:appinfo>
-                        <sli:keyFieldName>schoolId</sli:keyFieldName>
+            <sli:keyFieldName>schoolId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -560,8 +530,8 @@
 					<xs:documentation>A unique identifier for the section that is defined by the classroom, the subjects taught, and the instructors that are assigned.</xs:documentation>
 					<xs:appinfo>
 						<sli:keyFieldName>uniqueSectionCode</sli:keyFieldName>
-					</xs:appinfo>
-                </xs:annotation>
+				  </xs:appinfo>
+        </xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -569,10 +539,10 @@
 	<xs:complexType name="SLC-EducationalOrgReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
-		    <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>educationOrganization</sli:refType>
-            </xs:appinfo>
+		  <xs:appinfo>
+        <sli:applyKeyFields>true</sli:applyKeyFields>
+        <sli:refType>educationOrganization</sli:refType>
+        </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -587,15 +557,14 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-  	<xs:complexType name="SLC-EducationalOrgIdentityType">
+  <xs:complexType name="SLC-EducationalOrgIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="StateOrganizationId" type="IdentificationCode">
 				<xs:annotation>
-					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
-</xs:documentation>
+					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.</xs:documentation>
 					<xs:appinfo>
 						<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
 					</xs:appinfo>
@@ -614,7 +583,7 @@
 				<xs:sequence>
 					<xs:element name="GradebookEntryType" type="GradebookEntryType">
 						<xs:annotation>
-							<xs:documentation>The type of the gradebook entry; for example, homework, assignment, quiz, unit test, oral presentation, etc.  </xs:documentation>
+							<xs:documentation>The type of the gradebook entry; for example, homework, assignment, quiz, unit test, oral presentation, etc.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DateAssigned" type="xs:date">
@@ -654,8 +623,7 @@
 
 	<xs:complexType name="SLC-TeacherSectionAssociation">
 		<xs:annotation>
-			<xs:documentation>This association indicates the class sections to which a teacher is assigned to.
-</xs:documentation>
+			<xs:documentation>This association indicates the class sections to which a teacher is assigned to.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="TeacherReference" type="StaffReferenceType">
@@ -671,20 +639,17 @@
 			<xs:element name="ClassroomPosition" type="ClassroomPositionType">
 				<xs:annotation>
 					<xs:documentation>The type of position the staff member holds in the specific class/section; for example:
-Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...
-</xs:documentation>
+Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Month, day and year of a teacher's assignment to the section.  If blank, defaults to the first day of the first grading period for the section.
-</xs:documentation>
+					<xs:documentation>Month, day and year of a teacher's assignment to the section.  If blank, defaults to the first day of the first grading period for the section.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EndDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Month, day and year of the last day of a teacher's assignment to the section.
-</xs:documentation>
+					<xs:documentation>Month, day and year of the last day of a teacher's assignment to the section.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="HighlyQualifiedTeacher" type="xs:boolean" minOccurs="0">

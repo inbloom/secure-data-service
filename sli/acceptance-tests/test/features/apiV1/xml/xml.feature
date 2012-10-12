@@ -34,9 +34,9 @@ Background: Nothing yet
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 17              |
     | schools                     | school                     | 27              |
-    | students                    | student                    | 113              |
-    | studentSectionAssociations  | studentSectionAssociation  | 263             |
-    | courseOfferings             | courseOffering             | 95              |
+    | students                    | student                    | 0               |
+    | studentSectionAssociations  | studentSectionAssociation  | 0               |
+    | courseOfferings             | courseOffering             | 0               |
 
 Scenario: Getting response from POST - Create (school)
   Given a valid XML document for a new school entity

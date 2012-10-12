@@ -1,19 +1,17 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
  *
- *  * Copyright 2012 Shared Learning Collaborative, LLC
- *  *
- *  * Licensed under the Apache License, Version 2.0 (the "License");
- *  * you may not use this file except in compliance with the License.
- *  * You may obtain a copy of the License at
- *  *
- *  * http://www.apache.org/licenses/LICENSE-2.0
- *  *
- *  * Unless required by applicable law or agreed to in writing, software
- *  * distributed under the License is distributed on an "AS IS" BASIS,
- *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  * See the License for the specific language governing permissions and
- *  * limitations under the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.slc.sli.dal.repository;
@@ -25,6 +23,8 @@ import java.util.Map;
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -46,6 +46,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     protected MongoTemplate perfDbtemplate;
 
     protected IdConverter idConverter;
+
+    @Autowired
+    @Qualifier("entityKeyEncoder")
+    EntityKeyEncoder keyEncoder;
 
     public IdConverter getIdConverter() {
         return idConverter;
@@ -78,8 +82,10 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
+        MongoEntity mongoEntity = new MongoEntity(type, null, body, metaData);
+        keyEncoder.encodeEntityKey(mongoEntity);
         @SuppressWarnings("unchecked")
-        Entity entity = (Entity) new MongoEntity(type, null, body, metaData);
+        Entity entity = (Entity) mongoEntity;
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }

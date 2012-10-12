@@ -145,6 +145,8 @@
            value="idRefResolution/InterchangeStudentGrade/StudentTranscriptAssociation/StudentAcademicRecordReference.ftl" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference"
            value="idRefResolution/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference.ftl" />
+    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference"
+           value="idRefResolution/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference.ftl" />
     <!-- end of Interchange StudentGrade -->
 
     <!-- Interchange StudentEnrollment -->
@@ -204,7 +206,7 @@
     <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
