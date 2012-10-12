@@ -19,6 +19,28 @@ Background: Logged in as IT Admin James Stevenson
     And "sex" should be "Female"
     And "limitedEnglishProficiency" should be "Limited"
     And "economicDisadvantaged" should be "true"
+    
+    Scenario: Partial update using PATCH for sub doc
+    When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
+    Then I should receive a return code of 200
+    And "beginDate" should be "1998-08-14"
+    And "studentId" should be "5738d251-dd0b-4734-9ea6-417ac9320a15"
+    When I change the field "beginDate" to "2012-01-01"
+    And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
+    And "beginDate" should be "2012-01-01"
+    
+    Scenario: Sad path - some fields in the partial update are invalid for sub doc
+    When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
+    Then I should receive a return code of 200
+    And "beginDate" should be "1980-10-09"
+    And "studentId" should be "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b"
+    When I change the field "beginDate" to "2012-01-01---"
+    And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
+    Then I should receive a return code of 400
+    When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
+    And "beginDate" should be "1980-10-09"
 
   Scenario: Partial update on Array
     When I navigate to GET "/students/<MARVIN MILLER STUDENT ID>"
