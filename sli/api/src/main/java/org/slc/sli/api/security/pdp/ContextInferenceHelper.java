@@ -63,10 +63,6 @@ public class ContextInferenceHelper {
                 result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
                 result = "/" + resource;
-            } else if (ResourceNames.PARENTS.equals(resource)) {
-                result = String.format(
-                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
-                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
                 result = "/" + resource;
             } else if (ResourceNames.COURSES.equals(resource)) {
@@ -103,6 +99,8 @@ public class ContextInferenceHelper {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format(
                         "/sections/%s/studentSectionsAssociations/students/studentParentAssociations/parents", ids);
+            } else if (ResourceNames.PROGRAMS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramAssociations/programs", actorId);
             } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/students/reportCards", ids);
@@ -111,8 +109,14 @@ public class ContextInferenceHelper {
             } else if (ResourceNames.SESSIONS.equals(resource)) {
                 result = String.format("/schools/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.STAFF.equals(resource)) {
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                		StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations", actorId);
+            } else if (ResourceNames.STUDENTS.equals(resource)) {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                result = String.format("/sections/%s/studentSectionAssociations/students", ids);
             } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
