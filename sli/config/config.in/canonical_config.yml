@@ -398,7 +398,7 @@ default:
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
         sli.search.indexer.queue.host: localhost
-        sli.search.indexer.queue.port: 61612
+        sli.search.indexer.queue.port: 61616
         sli.search.indexer.queue.username: system
         sli.search.indexer.queue.password: manager
         sli.search.indexer.queue.name: /queue/search_events
