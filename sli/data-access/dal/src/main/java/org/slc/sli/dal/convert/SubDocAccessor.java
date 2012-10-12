@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -56,9 +56,9 @@ public class SubDocAccessor {
         // store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId",
         // "_id")
         // .register();
-        for (String entityType : EmbedDocumentRelations.getSubDocuments()) {
-            String parent = EmbedDocumentRelations.getParentEntityType(entityType);
-            String parentKey = EmbedDocumentRelations.getParentFieldReference(entityType);
+        for (String entityType : EmbeddedDocumentRelations.getSubDocuments()) {
+            String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
+            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             if (parent != null && parentKey != null) {
                 store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").register();
             }

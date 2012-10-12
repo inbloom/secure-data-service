@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -208,8 +208,8 @@ public class DeterministicIdResolver {
         //TODO: need to verify this
         String parentId = null;
         String entityType = didRefConfig.getEntityType();
-        if (EmbedDocumentRelations.getSubDocuments().contains(entityType)) {
-            String parentKey = EmbedDocumentRelations.getParentFieldReference(entityType);
+        if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
+            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             parentId = naturalKeys.get(parentKey);
         }
 

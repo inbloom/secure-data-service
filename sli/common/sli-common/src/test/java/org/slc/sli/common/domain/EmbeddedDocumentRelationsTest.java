@@ -26,18 +26,18 @@ import org.junit.Test;
  * TODO: add class javadoc
  *
  */
-public class EmbedDocumentRelationsTest {
+public class EmbeddedDocumentRelationsTest {
 
     @Test
     public void studentSectionAssociationTest() {
-        assertTrue(EmbedDocumentRelations.getSubDocuments().contains("studentSectionAssociation"));
-        assertEquals(EmbedDocumentRelations.getParentEntityType("studentSectionAssociation"), "section");
-        assertEquals(EmbedDocumentRelations.getParentFieldReference("studentSectionAssociation"), "sectionId");
+        assertTrue(EmbeddedDocumentRelations.getSubDocuments().contains("studentSectionAssociation"));
+        assertEquals(EmbeddedDocumentRelations.getParentEntityType("studentSectionAssociation"), "section");
+        assertEquals(EmbeddedDocumentRelations.getParentFieldReference("studentSectionAssociation"), "sectionId");
     }
 
     @Test
     public void nonSubDocTest() {
-        assertTrue(EmbedDocumentRelations.getParentEntityType("does not exist") == null);
-        assertTrue(EmbedDocumentRelations.getParentFieldReference("does not exist") == null);
+        assertTrue(EmbeddedDocumentRelations.getParentEntityType("does not exist") == null);
+        assertTrue(EmbeddedDocumentRelations.getParentFieldReference("does not exist") == null);
     }
 }
