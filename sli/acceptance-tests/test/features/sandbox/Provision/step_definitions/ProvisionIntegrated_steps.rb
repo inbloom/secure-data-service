@@ -312,7 +312,7 @@ end
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
   tenant_collection =@db["tenant"]
   preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => PRELOAD_EDORG,"body.landingZone.preload.files" => [sample_data_set])
-  assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for tenant #{@tenantId} in mongo")
+  assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for tenant #{@tenantId} in mongo, instead tenant was #{tenant_collection.find("body.tenantId"=> @tenantId)}")
   #preload_tenant.each  do |tenant|
   #  puts tenant
   #end
