@@ -162,8 +162,8 @@ class SLCFixer
           student_edorg = student_edorgs(studentAssessment['body']['studentId'])
           edOrg << student_edorg
           edOrg = edOrg.flatten.uniq
-          stamp_id(@db['student'], studentAssessment['_id'],
-                   edOrg, studentAssessment['metaData']['tenantId'], "studentAssessmentAssociation")
+          stamp_id(@db['student'], studentAssessment['_id'], edOrg, studentAssessment['metaData']['tenantId'], 
+                   "studentAssessmentAssociation", student["_id"])
         end
       end
     end
@@ -454,7 +454,7 @@ class SLCFixer
     Thread.current[:stamping].push collection.name
   end
 
-  def stamp_id(collection, id, edOrg, tenantid, location = :default)
+  def stamp_id(collection, id, edOrg, tenantid, location = :default, parentid = "")
     if edOrg.nil? or edOrg.empty? or tenantid.nil?
       @log.warn "No edorgs or tenant found for #{collection.name}##{id}"
       return
@@ -486,7 +486,7 @@ class SLCFixer
           Thread.current[:cache].add id unless id.is_a? Array
         end
       else
-        collection.update({"#{location}._id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"#{location}.$.metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+        collection.update({"_id" => parentid, "#{location}._id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"#{location}.$.metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         Thread.current[:cache].add id unless id.is_a? Array
       end
     rescue Exception => e
