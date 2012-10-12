@@ -61,10 +61,7 @@ public class DeterministicIdResolver {
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     @Autowired
-    private DidEntityConfigFactory didEntityConfigurations;
-
-    @Autowired
-    private DidRefConfigFactory didRefConfigurations;
+    private DidSchemaParser didSchemaParser;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -79,7 +76,7 @@ public class DeterministicIdResolver {
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
 
-        DidEntityConfig entityConfig = didEntityConfigurations.getDidEntityConfiguration(entity.getType());
+        DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
         if (entityConfig == null) {
             LOG.warn("Entity configuration is null --> returning...");
@@ -123,13 +120,21 @@ public class DeterministicIdResolver {
         }
     }
 
+    private DidEntityConfig getEntityConfig(String entityType) {
+        return didSchemaParser.getEntityConfigs().get(entityType);
+    }
+
+    private DidRefConfig getRefConfig(String refType) {
+        return didSchemaParser.getRefConfigs().get(refType);
+    }
+
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IdResolutionException {
         String entityType = didRefSource.getEntityType();
         String didFieldPath = didRefSource.getDidFieldPath();
         String sourceRefPath = didRefSource.getSourceRefPath();
 
-        DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
+        DidRefConfig didRefConfig = getRefConfig(entityType);
 
         if (didRefConfig == null) {
              return;

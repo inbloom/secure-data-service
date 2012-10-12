@@ -16,10 +16,8 @@
 
 package org.slc.sli.ingestion.transformation.normalization.did;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +43,7 @@ import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.apache.ws.commons.schema.XmlSchemaParticle;
 import org.apache.ws.commons.schema.XmlSchemaSequence;
+import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
@@ -72,9 +71,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
     // cache for reference types
     Map<String, XmlSchemaComplexType> referenceTypes;
 
+    //per entity configs for deterministic id resolution
+    Map<String, DidEntityConfig> entityConfigs;
+
+    //per reference configs for deterministic id resolution
+    Map<String, DidRefConfig> refConfigs;
+
     String xsdLocation;
+    String xsdParentLocation;
 
     String extensionXsdLocation;
+    String extensionXsdParentLocation;
 
     Map<String, DidRefSource> refSourceCache;
 
@@ -98,6 +105,22 @@ public class DidSchemaParser implements ResourceLoaderAware {
         this.extensionXsdLocation = entensionXsdLocation;
     }
 
+    public String getExtensionXsdParentLocation() {
+        return extensionXsdParentLocation;
+    }
+
+    public void setExtensionXsdParentLocation(String extensionXsdParentLocation) {
+        this.extensionXsdParentLocation = extensionXsdParentLocation;
+    }
+
+    public String getXsdParentLocation() {
+        return xsdParentLocation;
+    }
+
+    public void setXsdParentLocation(String xsdParentLocation) {
+        this.xsdParentLocation = xsdParentLocation;
+    }
+
     public String getXsdLocation() {
         return xsdLocation;
     }
@@ -116,15 +139,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     @PostConstruct
     public void setup() {
+        try {
         complexTypes = new HashMap<String, XmlSchemaComplexType>();
 
         Resource xsdResource = resourceLoader.getResource(xsdLocation);
         Resource extensionXsdResource = resourceLoader.getResource(extensionXsdLocation);
 
         // extract complex types from base schema
-        cacheComplexTypesFromResource(xsdResource);
+        cacheComplexTypesFromResource(xsdResource, xsdParentLocation);
         // extract complex types from extension schema
-        cacheComplexTypesFromResource(extensionXsdResource);
+        cacheComplexTypesFromResource(extensionXsdResource, extensionXsdParentLocation);
 
         // extract and cache the reference types from the complexTypes
         cacheReferenceTypes();
@@ -132,12 +156,29 @@ public class DidSchemaParser implements ResourceLoaderAware {
         removeParentTypesFromCache();
 
         refSourceCache = new HashMap<String, DidRefSource>();
+
+        //extract the Did configuration objects
+        entityConfigs = extractEntityConfigs();
+        refConfigs = extractRefConfigs();
+        } catch(Exception e) {
+            System.out.println("\n\n\n\nexception\n\n\n\n");
+            e.printStackTrace();
+        }
     }
+
+    public Map<String, DidRefConfig> getRefConfigs() {
+        return refConfigs;
+    }
+
+    public Map<String, DidEntityConfig> getEntityConfigs() {
+        return entityConfigs;
+    }
+
 
     /**
      * Extract entity configs
      */
-    public Map<String, DidEntityConfig> extractEntityConfigs() {
+    private Map<String, DidEntityConfig> extractEntityConfigs() {
         Map<String, DidEntityConfig> entityConfigs = new HashMap<String, DidEntityConfig>();
 
         // Iterate XML Schema items
@@ -160,7 +201,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     /**
      * Extract ref configs
      */
-    public Map<String, DidRefConfig> extractRefConfigs() {
+    private Map<String, DidRefConfig> extractRefConfigs() {
         Map<String, DidRefConfig> refConfigs = new HashMap<String, DidRefConfig>();
 
         // Iterate XML Schema items
@@ -177,25 +218,37 @@ public class DidSchemaParser implements ResourceLoaderAware {
     /**
      * extract complex types from a schema resource and cache in complexTypes
      */
-    private void cacheComplexTypesFromResource(Resource schemaResource) {
+    private void cacheComplexTypesFromResource(Resource schemaResource, String baseXsdPath) {
         try {
-            // get the path to the xsd directory
-            URI xsdUri = schemaResource.getURI();
-            File file = new File(xsdUri.getPath());
-            File parentFile = file.getParentFile();
-
             // parse the xsd schema and pull out complex types
-            XmlSchema xmlSchema = parseXmlSchema(schemaResource.getInputStream(), parentFile.getPath());
+            XmlSchema xmlSchema = parseXmlSchema(schemaResource.getInputStream(), baseXsdPath);
             cacheComplexTypes(xmlSchema);
         } catch (IOException e) {
             LOG.error("Failed parse schema " + schemaResource.getFilename(), e);
         }
     }
 
-    private XmlSchema parseXmlSchema(final InputStream is, String baseUri) {
+    private XmlSchema parseXmlSchema(final InputStream is, final String baseXsdPath) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
-            schemaCollection.setBaseUri(baseUri);
+            //schemaCollection.setBaseUri(baseUri);
+            schemaCollection.setSchemaResolver(new URIResolver() {
+                @Override
+                public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
+                    if (resourceLoader != null) {
+                        Resource resource = resourceLoader.getResource(baseXsdPath + "/" + schemaLocation);
+                        if (resource.exists()) {
+                            try {
+                                return new InputSource(resource.getInputStream());
+                            } catch (IOException e) {
+                                throw new RuntimeException("Exception occurred", e);
+                            }
+                        }
+                    }
+                    return new InputSource(Thread.currentThread().getContextClassLoader()
+                            .getResourceAsStream(baseXsdPath + "/" + schemaLocation));
+                }
+            });
             return schemaCollection.read(new InputSource(is), null);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
