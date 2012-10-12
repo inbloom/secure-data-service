@@ -76,7 +76,7 @@
 		<property name="indexer" ref="indexer" />
 		<property name="indexEntityConverter" ref="indexEntityConverter" />
 		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
-		<property name="executorThreads" value="${sli.search.indexer.thread.number:2}" />
+		<property name="executorThreads" value="${sli.search.indexer.thread.number:5}" />
 	</bean>
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" />
 	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl" init-method="init" destroy-method="destroy">

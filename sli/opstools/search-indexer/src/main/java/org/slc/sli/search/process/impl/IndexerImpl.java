@@ -47,7 +47,7 @@ public class IndexerImpl implements Indexer {
     private static final int DEFAULT_BULK_SIZE = 5000;
     private static final int MAX_AGGREGATE_PERIOD = 500;
     
-    private static final int INDEX_WORKER_POOL_SIZE = 3;
+    private static final int INDEX_WORKER_POOL_SIZE = 4;
     
     private String esUri;
     
@@ -128,8 +128,10 @@ public class IndexerImpl implements Indexer {
      */
     public void index(IndexEntity ie) {
         try {
-            if (ie != null)
+            if (ie != null) {
+                addIndexMappingIfNeeded(ie.getIndex());
                 indexRequests.put(ie);
+            }
         } catch (InterruptedException e) {
             throw new SearchIndexerException("Shutting down...");
         } 
@@ -142,7 +144,7 @@ public class IndexerImpl implements Indexer {
      */
     @SuppressWarnings("unchecked")
     public void executeBulkGetUpdate(List<IndexEntity> updates) {
-        logger.info("Sending _mget request with " + updates.size() + " records");
+        logger.info("Preparing _mget request with " + updates.size() + " records");
         ResponseEntity<String> response = null;
         if (updates.isEmpty())
             return;
@@ -152,25 +154,31 @@ public class IndexerImpl implements Indexer {
         }
         try {
             String request = IndexEntityUtil.getBulkGetJson(updates);
+            logger.info("Sending _mget request with " + updates.size() + " records");
             response = sendRESTCall(HttpMethod.POST, mGetUri, request);
+            logger.info("Bulk _mget response: " + response.getStatusCode());
             Map<String, Object> orig;
             List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(response.getBody()).get("docs");
             IndexEntity ie;
             final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
             for (Map<String, Object> entity : docs) {
-                if ((Boolean)entity.get("exists")) {
+                if (entity != null && (Boolean)entity.get("exists")) {
                     orig = (Map<String, Object>) entity.get("_source");
-                    ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
-                    if (ie != null) {
-                        NestedMapUtil.merge(orig, ie.getBody());
-                        reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
-                    } else {
-                        logger.error("Unable to match response from get " + entity);
+                    try {
+                        ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
+                        
+                        if (ie != null) {
+                            NestedMapUtil.merge(orig, ie.getBody());
+                            reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
+                        } else {
+                            logger.error("Unable to match response from get " + entity);
+                        }
+                    } catch (Exception e) {
+                        logger.error("Unable to process entry from ES for re-index " + entity);
                     }
                 }
             }
             executeBulkIndex(reindex);
-            logger.info("Bulk index response: " + response.getStatusCode());
         } catch (Exception re) {
             logger.error("Error on mget.", re);
         }        
@@ -253,7 +261,7 @@ public class IndexerImpl implements Indexer {
                     ResponseEntity<String> response = sendRESTCall(HttpMethod.PUT, esUri + "/" + index, indexMappingTemplate);
                     logger.info(String.format("Bulk index response: %S, %s ", response.getStatusCode().name(), response.getBody()));
                 } catch (Exception e) {
-                    logger.info("Index " + index + " already exists", e);
+                    logger.info("Index " + index + " already exists");
                 }
                 knownIndexesMap.put(index, Boolean.TRUE);
             }
