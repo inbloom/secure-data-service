@@ -47,7 +47,7 @@ public class ContextInferenceHelper {
      *            root resource being accessed.
      * @param user
      *            entity representing user making API call.
-     * @return Mutated String representing new API call.
+     * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public String getInferredUri(String resource, Entity user) {
         String result = null;
