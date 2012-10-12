@@ -1300,12 +1300,24 @@ def verifySubDoc(parent, subdoc, count)
 end
 
 def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue)
-   puts "runSubDocQuery #{subdoc_parent}, #{subdoc}"
-
    @entity_collection = @db.collection(subdoc_parent)
    param = subdoc + "." + searchParameter
-
-   @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   
+   if searchType == "integer"
+        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   elsif searchType == "double"
+        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   elseif searchType == "boolean"
+     if searchValue == "false"
+       @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+     else
+	   @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+     end
+   elsif searchType == "nil"
+        @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
+   else     
+     @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   end  
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
@@ -1363,7 +1375,6 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    puts "subdoc_parent #{subdoc_parent}"
     
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
@@ -1966,17 +1977,35 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
     assert(found == true, "content not found")
 end
 
+def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
+	@entity_collection = @db.collection(subdoc_parent)
+	
+	id_param = subdoc + "._id"
+	field = subdoc + "." + field
+	
+    puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
+	
+    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+end
+
 Then /^I check that ids were generated properly:$/ do |table|
   @db = @conn[INGESTION_DB_NAME]
   table.hashes.map do |row|
-    collection = row['collectionName']
+    subdoc_parent = subDocParent row["collectionName"]
+    puts "subdoc_parent #{subdoc_parent}"
+    
     did = row['deterministicId']
     field = row['field']
     value = row['value']
-
-    @entity_collection = @db.collection(collection)
-    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-
+    collection = row['collectionName']
+    
+    if subdoc_parent
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])	
+	else  
+      @entity_collection = @db.collection(collection)
+      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+    end
+    
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
 end

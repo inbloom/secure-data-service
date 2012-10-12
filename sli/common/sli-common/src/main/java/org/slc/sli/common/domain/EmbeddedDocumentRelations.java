@@ -34,7 +34,7 @@ public class EmbeddedDocumentRelations {
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        // map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
     };
 

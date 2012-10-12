@@ -418,9 +418,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
     | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
     | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
