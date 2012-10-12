@@ -18,6 +18,7 @@ package org.slc.sli.ingestion.transformation.normalization.did;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,6 +34,10 @@ public class DidRefConfig {
 
     private String entityType;
     private List<KeyFieldDef> keyFields;
+
+    public DidRefConfig() {
+        keyFields = new ArrayList<KeyFieldDef>();
+    }
 
     public String getEntityType() {
         return entityType;
