@@ -96,9 +96,9 @@ public class ContextInferenceHelper {
             } else if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
             } else if (ResourceNames.PARENTS.equals(resource)) {
-                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format(
-                        "/sections/%s/studentSectionsAssociations/students/studentParentAssociations/parents", ids);
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
             } else if (ResourceNames.PROGRAMS.equals(resource)) {
                 result = String.format("/staff/%s/staffProgramAssociations/programs", actorId);
             } else if (ResourceNames.REPORT_CARDS.equals(resource)) {

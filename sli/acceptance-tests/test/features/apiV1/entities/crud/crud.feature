@@ -267,11 +267,11 @@ Examples:
 | "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
-| "program"               | "programs"                | 2     |/staff/@ids/staffProgramAssociations/programs|                                           
+| "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 27    |/schools|                                                                                
 | "section"               | "sections"                | 4     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 0     |/schools/@ids/sessions|                                                                  
-| "staff"                 | "staff"                   | 1     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
+| "staff"                 | "staff"                   | 0     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 31    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 4     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
