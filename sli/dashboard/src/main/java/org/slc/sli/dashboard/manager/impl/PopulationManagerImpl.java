@@ -1451,7 +1451,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<GenericEntity> sessions = getApiClient().getSessions(token, null);
+        List<GenericEntity> sessions = getApiClient().getSessions(token, (String) null, null);
 
         // sort sessions latest to earliest
         Comparator<Map> c = new Comparator<Map>() {
@@ -1524,5 +1524,5 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 	@Override
 	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
 		return entityManager.getStateEdorgProfile(token, (String) edorgId);
-	}	
+	}
 }
