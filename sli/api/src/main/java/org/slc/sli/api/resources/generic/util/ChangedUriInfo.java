@@ -67,8 +67,7 @@ public class ChangedUriInfo implements UriInfo {
 
 	@Override
 	public UriBuilder getRequestUriBuilder() {
-		// TODO Auto-generated method stub
-		return null;
+	    return UriBuilder.fromUri(uri);
 	}
 
 	@Override

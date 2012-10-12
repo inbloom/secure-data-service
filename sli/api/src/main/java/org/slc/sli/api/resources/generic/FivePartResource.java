@@ -50,7 +50,13 @@ public class FivePartResource extends GenericResource {
 		List<String> segments = extractSegments(uriInfo.getPathSegments(), Arrays.asList(0, 4, 5));
 		segments.add(2, ids);
 		String newUri = String.format("/rest/%s/%s/%s/%s", segments.toArray());
-		Response res = three.get(new ChangedUriInfo(newUri, uriInfo.getBaseUriBuilder()), ids);
+		String queryString = uriInfo.getRequestUri().getQuery();
+		if (queryString == null) {
+		    queryString = "";
+		} else {
+		    queryString = "?" + queryString;
+		}
+		Response res = three.get(new ChangedUriInfo(newUri + queryString, uriInfo.getBaseUriBuilder()), ids);
 		return res;
 	}
 }
