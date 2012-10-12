@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bson.BasicBSONObject;
-import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -248,7 +248,7 @@ public class MongoEntity implements Entity, Serializable {
         Map<String, List<Map<String, Object>>> embeddedData = new HashMap<String, List<Map<String, Object>>>();
         for (String key : dbObj.keySet()) {
             // if (!BASE_ATTRIBUTES.contains(key)) {
-            if (EmbedDocumentRelations.getSubDocuments().contains(key)) {
+            if (EmbeddedDocumentRelations.getSubDocuments().contains(key)) {
                 List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
                 embeddedData.put(key, Collections.unmodifiableList(values));
             }

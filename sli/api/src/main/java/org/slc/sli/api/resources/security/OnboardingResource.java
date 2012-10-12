@@ -94,6 +94,7 @@ public class OnboardingResource {
      */
     @POST
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         String orgId = reqBody.get(STATE_EDORG_ID);
 
         if (!SecurityUtil.hasRight(Right.INGEST_DATA)) {

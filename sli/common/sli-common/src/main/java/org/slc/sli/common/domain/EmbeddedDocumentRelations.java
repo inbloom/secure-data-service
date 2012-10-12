@@ -22,12 +22,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Maps subdocument to their parents
+ * Maps subdocuments to their parents
  *
  * @author ycao
  *
  */
-public class EmbedDocumentRelations {
+public class EmbeddedDocumentRelations {
 
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
 
