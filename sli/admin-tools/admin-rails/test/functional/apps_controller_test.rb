@@ -67,15 +67,9 @@ class AppsControllerTest < ActionController::TestCase
      put :update, id:@Apps[0].id, app: @app_fixtures["update"]
      assert_redirected_to apps_path
    end
-   
-   test "should get sea edorgs" do
-     get :get_state_edorgs
-     assert_not_nil assigns(:results)
-     assert_response :success
-   end
 
    test "should get lea with valid state" do
-     get :get_local_edorgs, state: "NC"
+     get :get_local_edorgs, state: "NC", format: :js
      assert_not_nil assigns(:results)
      assert_response :success
    end
