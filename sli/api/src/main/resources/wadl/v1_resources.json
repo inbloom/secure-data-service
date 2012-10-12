@@ -22,8 +22,9 @@
         { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords" },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries" },
+        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations" },
         { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
-        { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
+        { "path": "/{id}/studentSectionAssociations/students/studentSchoolAssociations" },
         { "path": "/{id}/teacherSectionAssociations" },
         { "path": "/{id}/teacherSectionAssociations/teachers" }
       ]
@@ -163,6 +164,7 @@
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations" },
         { "path": "/{id}/teacherSchoolAssociations/teachers" },
+        { "path": "/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations" },
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
         { "path": "/{id}/studentSchoolAssociations/students/attendances" },

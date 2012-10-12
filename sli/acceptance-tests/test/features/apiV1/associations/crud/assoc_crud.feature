@@ -76,7 +76,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentSectionAssociation              | studentSectionAssociations               | 0     |"/schools/@ids/sections/studentSectionAssociations"|
       | studentTranscriptAssociation           | courseTranscripts                        | 0     |"/schools/@ids/studentSchoolAssociations/students/courseTranscripts"|
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     |"/schools/@ids/teacherSchoolAssociations"|
-      | teacherSectionAssociation              | teacherSectionAssociations               | 8     |"/schools/@ids/sections/teacherSectionAssociations"|
+      | teacherSectionAssociation              | teacherSectionAssociations               | 0     |"/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations"|
 
     Scenario Outline: Read All as School level Teacher
     	Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
@@ -99,14 +99,14 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
       | courseOffering                         | courseOfferings                          | 10    |"/schools/@ids/courseOfferings"|
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     |"/staff/@ids/staffCohortAssociations"|
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     |"/staff/@ids/staffEducationOrgAssignmentAssociations"|
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     |"/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations"|
       | staffProgramAssociation                | staffProgramAssociations                 | 0     |"/staff/@ids/staffProgramAssociations"|
-      | studentAssessmentAssociation           | studentAssessments                       | 0     |"/schools/@ids/studentSchoolAssociations/students/studentAssessments"|
+      | studentAssessmentAssociation           | studentAssessments                       | 3     |"/sections/@ids/studentSectionAssociations/students/studentAssessments"|
       | studentCohortAssociation               | studentCohortAssociations                | 0     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
-      | studentParentAssociation               | studentParentAssociations                | 0     |"/sections/@ids/studentSectionAssociations/studentParentAssociations"|
+      | studentParentAssociation               | studentParentAssociations                | 2     |"/sections/@ids/studentSectionAssociations/students/studentParentAssociations"|
       | studentProgramAssociation              | studentProgramAssociations               | 0     |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
-      | studentSchoolAssociation               | studentSchoolAssociations                | 66    |"/schools/@ids/studentSchoolAssociations"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 66    |"/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations"|
       | studentSectionAssociation              | studentSectionAssociations               | 31    |"/sections/@ids/studentSectionAssociations"|
       | studentTranscriptAssociation           | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     |"/teachers/@ids/teacherSchoolAssociations"|
