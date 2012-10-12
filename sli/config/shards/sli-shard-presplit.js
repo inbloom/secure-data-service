@@ -52,13 +52,13 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
         for (var year_num = this_year; year_num < this_year+num_years; year_num++) {
 
             var move_strings = [];
-        	year = year_num;
+            year = year_num;
             //calculate splits and add to the moves array
             move_strings.push(year + "a");
             for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
                 if (shard_num == shard_list.length) {
-                	var split_letter = "|";
-                	var split_string = year + split_letter;
+                    var split_letter = "|";
+                    var split_string = year + split_letter;
                 } else {
                     var split_letter = String.fromCharCode(a_code + (char_offset * shard_num));
                     var split_string = year + split_letter;
@@ -159,6 +159,6 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
 // num_years will become obsolete when all of the entities
 // are switched to deterministic ids, at which point it
 // should be permanently set to '1'
-preSplit_docId(discoverShards(), database, tenant, num_years);
+// preSplit_docId(discoverShards(), database, tenant, num_years);
 preSplit_hashId(discoverShards(), database, tenant, num_years);
 sh.setBalancerState(false);
