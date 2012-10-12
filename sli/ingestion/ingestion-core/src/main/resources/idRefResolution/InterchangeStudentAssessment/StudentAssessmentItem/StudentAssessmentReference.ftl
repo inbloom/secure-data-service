@@ -1,1 +1,1 @@
-<#include "../../templates/StudentAssessmentReference_AssessmentItem.ftl">
+<#include "../../templates/StudentAssessmentReference.ftl">

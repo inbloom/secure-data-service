@@ -1485,10 +1485,17 @@ end
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
   @db = @conn[INGESTION_DB_NAME]
-  @entity_collection = @db.collection(collection)
-  @entity =  @entity_collection.find({field => value})
+  parent = subDocParent collection
+  if parent 
+    @entity_collection = @db.collection(parent)
+    sub_field = collection + "." + field
+    @entity =  @entity_collection.find({sub_field => value})
+  else 
+    @entity_collection = @db.collection(collection)
+    @entity =  @entity_collection.find({field => value})
+  end
+  
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -1511,6 +1518,7 @@ end
 
 Then /^verify the following data in that document:$/ do |table|
   @entity.each do |ent|
+    puts "entity #{ent}"
     table.hashes.map do |row|
       curSearchString = row['searchParameter']
       val = ent.clone
