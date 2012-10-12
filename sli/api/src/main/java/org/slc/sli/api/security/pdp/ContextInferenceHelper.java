@@ -47,7 +47,7 @@ public class ContextInferenceHelper {
      *            root resource being accessed.
      * @param user
      *            entity representing user making API call.
-     * @return Mutated String representing new API call.
+     * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public String getInferredUri(String resource, Entity user) {
         String result = null;
@@ -114,6 +114,11 @@ public class ContextInferenceHelper {
                 		StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations", actorId);
+            } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations",
+                		StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramAssociations", actorId);
             } else if (ResourceNames.STUDENTS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/students", ids);
@@ -122,7 +127,7 @@ public class ContextInferenceHelper {
                 result = String.format("/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
             } else if (ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                result = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments ", ids);
+                result = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments", ids);
             } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/studentCompetencies", ids);
@@ -145,7 +150,10 @@ public class ContextInferenceHelper {
                         ids);
             } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
                 result = String
-                        .format("/staff/%s/staffProgramAssociations/programs/studentParentAssociations", actorId);
+                        .format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations", actorId);
+            } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            	String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                result = String.format("sections/%s/studentSectionAssociations/students/studentSchoolAssociations", ids);
             } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/sections/%s/studentSectionAssociations",
                         StringUtils.join(sectionHelper.getTeachersSections(user), ","));
@@ -270,15 +278,11 @@ public class ContextInferenceHelper {
                 result = String.format(
                         "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+            	String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+            	result = String.format("/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
             }
 
-            /*
-             * Endpoints to be implemented: } else if
-             * (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
-             * String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","); result
-             * =
-             * String.format("/schools/%s/teacherSectionAssociations", ids); } else if
-             */
         }
         return result;
     }
