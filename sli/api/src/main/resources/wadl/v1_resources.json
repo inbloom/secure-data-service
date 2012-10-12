@@ -63,6 +63,7 @@
     {
       "path": "/cohorts",
       "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations/cohorts. {ID} is the unique ID of the teacher or staff.",
+      "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
         { "path": "/{id}/staffCohortAssociations" },
         { "path": "/{id}/staffCohortAssociations/staff" },
