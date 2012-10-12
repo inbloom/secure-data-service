@@ -73,6 +73,7 @@ db["tenant"].ensureIndex({"body.tenantId":1,"_id":1});
 db["tenant"].ensureIndex({"body.tenantId":1,"body.landingZone.educationOrganization":1});
 db["tenant"].ensureIndex({"body.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["tenant"].ensureIndex({"type":1});
+db["tenant"].ensureIndex({"body.tenantId":1},{unique:true});
 
 db["userSession"].ensureIndex({"body.appSession.code.expiration":1,"body.appSession.clientId":1,"body.appSession.verified":1,"body.appSession.code.value":1}, {"name":"codeExpiration_clientId_verified_codeValue"});
 db["userSession"].ensureIndex({"body.appSession.samlId":1});

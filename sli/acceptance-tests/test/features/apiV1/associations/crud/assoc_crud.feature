@@ -35,18 +35,45 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              |
       | courseOffering                         | courseOfferings                          | localCourseTitle         | German 101 - Intro     | German 111 - Intro     |
       | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             |
       | staffProgramAssociation                | staffProgramAssociations                 | endDate                  | 2012-12-31             | 2012-02-01             |
       | studentAssessmentAssociation           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             |
-      | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              |
       | studentSchoolAssociation               | studentSchoolAssociations                | entryGradeLevel          | First grade            | Third grade            |
       | studentSectionAssociation              | studentSectionAssociations               | homeroomIndicator        | true                   | false                  |
       | studentTranscriptAssociation           | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      |
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      |
+
+    Scenario Outline: CRUD round trip for an association entity can't update natural key
+      # Create
+      Given a valid association json document for <ASSOC TYPE>
+      When I navigate to POST "/<ASSOC URI>"
+      Then I should receive a return code of 201
+      And I should receive a new ID for the association I just created
+      # Read
+      When I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
+      Then I should receive a return code of 200
+      And the response should contain the appropriate fields and values
+      And "entityType" should be "<ASSOC TYPE>"
+      And "<UPDATE FIELD>" should be "<OLD VALUE>"
+      # Update
+      When I set the "<UPDATE FIELD>" to "<NEW VALUE>"
+      And I navigate to PUT "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
+      Then I should receive a return code of 409
+      And I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
+      And "<UPDATE FIELD>" should be "<OLD VALUE>"
+      # Delete
+      When I navigate to DELETE "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
+      Then I should receive a return code of 204
+      And I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
+      And I should receive a return code of 404
+
+    Examples:
+      | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             |
+      | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             |
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      |
 
     Scenario Outline: Read All
       Given parameter "limit" is "0"

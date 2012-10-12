@@ -247,14 +247,14 @@ When /^I try to update the (data for "[^"]*") in my "[^"]*" from the API$/ do |d
       "birthDate" => "1994-04-04"
     },
     "sex" => "Male",
-    "studentUniqueStateId" => (0...8).map{65.+(rand(25)).chr}.join,
+    #"studentUniqueStateId" => (0...8).map{65.+(rand(25)).chr}.join, #can't update natural key
     "economicDisadvantaged" => false,
     "name" => {
       "firstName" => "Updated",
       "lastSurname" => "Name#{@randomKey.to_s}"
     }
   }
-  restHttpPut(dataPath, @studentObj.to_json)
+  restHttpPatch(dataPath, @studentObj.to_json)
 end
 
 Given /^my "([^"]*)" is "([^"]*)"$/ do |level, name|
