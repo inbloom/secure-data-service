@@ -68,9 +68,6 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
             collectionName = schema.getAppInfo().getCollectionType();
         }
 
-        // TODO - a lot of this can be removed with deterministicIds given that we will no
-        // longer support updates of key fields
-
         Map<String, Boolean> naturalKeyFields = new HashMap<String, Boolean>();
         try {
             naturalKeyFields = naturalKeyExtractor.getNaturalKeyFields(entity);
@@ -118,7 +115,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                             throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
                         }
                     } catch (NoNaturalKeysDefinedException e) {
-                        throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
+                        throw new NaturalKeyValidationException(e, entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
                     }
                 }
             }
