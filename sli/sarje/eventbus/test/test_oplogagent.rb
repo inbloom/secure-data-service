@@ -87,14 +87,32 @@ class TestOpLogAgent < Test::Unit::TestCase
         "eventId" => "3",
         "triggers" => [{"ns"=>"optimus.prime"}]
     }
+    
+    subscription_event4 = {
+      "eventId" => "4",
+      "triggers" => [{"op"=>"i", "ns"=>"darth.vader"}],
+      "queue" => "search",
+      "publishOplog" => true
+    }
+    
+    subscription_event5 = {
+      "eventId" => "5",
+      "triggers" => [{"op"=>"i", "ns"=>"gummy.bear"}, {"op"=>"i", "ns"=> "waluigi"}],
+      "queue" => "non_oplog_queue",
+      "publishOplog" => true
+    }
 
     # check that no event is received before oplog messages get sent
     event_received = Set.new
     threads << Thread.new do
       throttler.handle_events do |events|
-        events.each do |event|
-          event_received << event
-        end
+          events.each do |event_per_queue|
+            event_per_queue.each_value { |event_content|
+              event_content.each do |event|
+                event_received << event.to_s
+              end
+            }
+          end
       end
     end
     sleep 2
@@ -144,7 +162,25 @@ class TestOpLogAgent < Test::Unit::TestCase
     push_oplogs(oplogs, throttler)
     sleep 2
     assert_equal(0, event_received.size)
-
+    
+    #check for search queue specific subscription
+    throttler.set_subscription_events([subscription_event4])
+    event_received = Set.new
+    push_oplogs(oplogs, throttler)
+    sleep 2 
+    assert_equal(1, event_received.size)
+    assert(event_received.inspect.include?("darth.vader"))
+    
+    #check for other non-oplog queue and oplog queue in the same event
+    throttler.set_subscription_events([subscription_event1, subscription_event5])
+    event_received = Set.new
+    push_oplogs(oplogs, throttler)
+    sleep 2 
+    assert_equal(3, event_received.size)
+    assert(event_received.inspect.include?("gummy.bear"))
+    assert(event_received.inspect.include?("waluigi"))
+    assert(event_received.include?("1"))
+   
     threads.each do |thread|
       thread.kill
     end
