@@ -6,10 +6,8 @@ API_SESSION_TOKEN=${API_SESSION_TOKEN:-missing}
 BENCHMARK_BATCH_ID=${BENCHMARK_BATCH_ID:-${API_SESSION_TOKEN}_$(date "+%Y%m%d_%H%M%S")}
 
 API_FORMAT=${API_FORMAT:-application/vnd.slc+json}
-#API_SERVER=localhost
-API_SERVER=rc2api.slidev.org
-#API_SERVER_INSTANCE=http://local.slidev.org:8080/api/rest/v1
-API_SERVER_INSTANCE=https://rc2api.slidev.org/api/rest/v1
+API_SERVER=pike-api.slidev.org
+API_SERVER_INSTANCE=https://${API_SERVER}/api/rest/v1
 
 BENCHMARK_LOG_BATCH=${BENCHMARK_LOG_BATCH:-/storage/logs/rc_performance/batch_${BENCHMARK_BATCH_ID}.log}
 BENCHMARK_RESULTS=${BENCHMARK_RESULTS:-/storage/logs/rc_performance/report_${BENCHMARK_BATCH_ID}.csv}
