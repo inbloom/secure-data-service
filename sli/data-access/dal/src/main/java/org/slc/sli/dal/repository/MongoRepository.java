@@ -401,7 +401,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
-    private WriteResult updateFirst(Query query, Update update, String collectionName) {
+    protected WriteResult updateFirst(Query query, Update update, String collectionName) {
         return template.updateFirst(query, update, collectionName);
     }
 

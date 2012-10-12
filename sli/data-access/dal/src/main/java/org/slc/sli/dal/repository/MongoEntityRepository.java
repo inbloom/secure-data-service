@@ -22,17 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
+import java.util.Map.Entry;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -47,6 +37,16 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -123,6 +123,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
+        if (subDocs.isSubDoc(collectionName)) {
+            
+            // prepare to find desired record to be patched
+            Query query = new Query();
+            query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
+            query.addCriteria(createTenantCriteria(collectionName));
+            
+            // prepare update operation for record to be patched
+            Update update = new Update();
+            for (Entry<String, Object> patch : newValues.entrySet()) {
+                update.set("body." + patch.getKey(), patch.getValue());
+            }
+            return subDocs.subDoc(collectionName).doUpdate(query, update);
+        }
+
         return super.patch(type, collectionName, id, newValues);
     }
 
@@ -351,6 +366,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.count(collectionName, query);
     }
+    
 
     @Override
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
@@ -360,6 +376,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.doUpdate(collectionName, neutralQuery, update);
     }
+
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
