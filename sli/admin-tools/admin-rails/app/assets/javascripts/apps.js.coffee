@@ -1,4 +1,3 @@
-
 jQuery ->
   $("#applications tr:odd").addClass("odd")
   $("#applications tr:not(.odd)").hide()

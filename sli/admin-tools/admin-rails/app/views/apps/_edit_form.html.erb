@@ -81,50 +81,20 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-
-
-  <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
-  <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% isNew = @district_hierarchy == nil %>
-  
-  <% if !isNew and !app.pending? and !app.allowed_for_all_edorgs %>
-  <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
-    <h3>Enable</h2>
-    <h6>Choose the states or Districts you would like to have access to your application.</h6>
-    <div class="links">
-    <%= link_to "Enable All", "#", :id => "enable-all"%> |
-    <%= link_to "Disable All", "#", :id => "disable-all" %>
-    </div>
-  <% @district_hierarchy = {} if isNew or app.pending? %>
-  <ul class="clear">
-  <% @district_hierarchy.keys.each do |district| %>
-    <li>
-      <% if !app.authorized_ed_orgs.nil? %>
-        <%= check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"])) %>
-      <% else %>
-         <%= check_box_tag(check_box_name, district["id"]) %>
-      <%end%>
-
-         <%= district["name"] %>
-         <ul class="clear">
-    <% @district_hierarchy[district].each do |child_district| %>
-            <li>
-            <%=
-                if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
-                else
-                    check_box_tag(check_box_name, child_district["id"])
-                end
-            %>
-            <%= child_district["name"] %>
-            </li>
+<div id="enable-menu" class="well">
+<div id="state-menu">
+  <ul class="select-list clear">
+    <% @sea.each do |state| %>
+      <li class="<%= state["state"]%>"><%= link_to "#{state["name"]} (#{state["state"]})", {:action => "get_local_edorgs", state: state["state"]}, :remote => true %></li>
     <% end %>
-      </ul>
-    </li>
-    <% end %>
-    </ul>
-  <% end %>
-  </div>
+  </ul>
+</div>
+<div id="lea-menu">
+  <p>Please select a state first...</p>
+</div>
+<div class="clear"></div>
+</div>
+
 <div class = "actions">
 	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>

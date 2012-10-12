@@ -4,3 +4,12 @@ div.yellow {background-color: rgb(246, 248, 191);}
 dt {width: 250px;}
 ul.clear {list-style: none;}
 dl.dl-horizontal dd:after {content: "\0000a0";}
+div#state-menu {width: 30%; float:left; background-color:#FFF;}
+div#lea-menu {width: 40%; float:right; background-color:#FFF;}
+ul.select-list {margin-left: 0px; padding-left:0px;}
+ul.select-list li {background-color: #DDD; margin-top: 4px;}
+div#enable-menu a {width:100%; display:block;} 
+div#enable-menu a:link, a:visited {text-decoration: none;} 
+div#enable-menu a:hover {background-color: #888;color: #000;} 
+div.clear {clear: both;}
+

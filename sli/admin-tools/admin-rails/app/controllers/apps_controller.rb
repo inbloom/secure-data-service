@@ -69,7 +69,7 @@ class AppsController < ApplicationController
   # GET /apps/1/edit.json
   def edit
     @title = "Edit Application"
-    @district_hierarchy = get_district_hierarchy
+    @sea = get_state_edorgs
     @app = App.find(params[:id])
   end
 
@@ -203,6 +203,30 @@ class AppsController < ApplicationController
     end
   end
 
+  def get_state_edorgs
+    state_ed_orgs = EducationOrganization.find(:all, :params => {"organizationCategories" => "State Education Agency"})
+    @results = []
+
+    state_ed_orgs.each do |ed_org|
+      current = {"name" => ed_org.nameOfInstitution, "state" => ed_org.address[0].stateAbbreviation }
+      @results.push current   
+    end
+    @results.sort! {|x, y| x["state"] <=> y["state"]}
+  end
+  
+  def get_local_edorgs
+    state = params[:state]
+    @results = []
+    local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state})
+    #paging
+    local.each do |lea|
+      temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
+      @results.push temp
+    end
+    logger.debug {"We found #{@results.count} LEAs"}
+    @results.sort! {|x, y| x["name"] <=> y["name"]}
+  end
+
   private
   def boolean_fix (parameter)
     case parameter
@@ -213,27 +237,6 @@ class AppsController < ApplicationController
     end
   end
 
-  def get_district_hierarchy
-    state_ed_orgs = EducationOrganization.all
-    result = {}
-    user_tenant = get_tenant
-
-    state_ed_orgs.each do |ed_org|
-      # In sandbox mode, only show edorgs for the current user's tenant
-      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil
-      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution }
-      child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
-      child_ed_orgs.each do |child_ed_org|
-        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution}
-        if result.keys.include?(current_parent)
-          result[current_parent].push(current_child)
-        else
-          result[current_parent] = [current_child]
-        end
-      end
-    end
-    result
-  end
 
   def sort_column
     $column_names.include?(params[:sort]) ? params[:sort] : "metaData.updated"
