@@ -19329,6 +19329,16 @@
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
 	</StudentCompetency>
+	<Diploma>
+	   <DiplomaAwardDate>2011-05-30</DiplomaAwardDate>
+	   <DiplomaLevel>Cum laude</DiplomaLevel>
+	   <DiplomaType>Regular diploma</DiplomaType>
+	   <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+	</Diploma>
 	<Grade id="GR-GRK-100000017-1">
 		<LetterGradeEarned>B-</LetterGradeEarned>
 		<GradeType>Mid-Term Grade</GradeType>
@@ -19466,5 +19476,16 @@
                 </GradingPeriodReference>
             </ReportCardIdentity>
         </ReportCardReference>
+        <DiplomaReference>
+            <DiplomaIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference> 
+                <DiplomaAwardDate>2011-05-30</DiplomaAwardDate>
+                <DiplomaType>Regular diploma</DiplomaType>
+            </DiplomaIdentity>        
+        </DiplomaReference>
 	</StudentAcademicRecord>
 </InterchangeStudentGrade>

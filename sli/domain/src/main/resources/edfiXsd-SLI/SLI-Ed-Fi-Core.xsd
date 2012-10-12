@@ -141,7 +141,6 @@
           <xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0" />
           <xs:element name="StudentReference" type="StudentReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" />
-          <xs:element name="DiplomaReference" type="ReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:restriction>
     </xs:complexContent>
@@ -151,6 +150,7 @@
       <xs:extension base="SLC-StudentAcademicRecordRestriction">
         <xs:sequence>
           <xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -865,5 +865,42 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+    
+    <xs:complexType name="SLC-DiplomaReferenceType">
+        <xs:complexContent>
+            <xs:extension base="ReferenceType">
+                <xs:sequence>
+                    <xs:element name="DiplomaIdentity" type="SLC-DiplomaIdentityType" minOccurs="0">
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SLC-DiplomaIdentityType">
+        <xs:sequence>
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DiplomaAwardDate" type="xs:date">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>diplomaAwardDate</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DiplomaType" type="DiplomaType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>diplomaType</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>
