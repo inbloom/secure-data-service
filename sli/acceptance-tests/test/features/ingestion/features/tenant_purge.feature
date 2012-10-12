@@ -36,7 +36,8 @@ When zip file is scp to ingestion landing zone
      | student                     | 2     |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 2                   | metaData.tenantId           | Hyrule                  | string               |
+     | student          | 1                   | body.studentUniqueStateId   | 530425896               | string               |
+     | student          | 1                   | body.studentUniqueStateId   | 814202099               | string               |
 And I should not see an error log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -58,6 +59,7 @@ And I should not see an error log file created
  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
       | student                     | 0     |
+      | applicationAuthorization    | 0     |
    And the following collections counts are the same:
      |collectionName|
      | application  |
@@ -67,11 +69,7 @@ And I should not see an error log file created
      | securityEvent |
      | customRole   |
    And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "10" authorized edorgs
-   And I check to find if record is in collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student                  | 0                   | metaData.tenantId           | Hyrule                  | string               |
-     | applicationAuthorization | 0                   | metaData.tenantId           | Hyrule                  | string               |
- And I check to find if record is in batch job collection:
+   And I check to find if record is in batch job collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | recordHash               | 0                   | tenantId                    | Hyrule                  | string               |
  And I should not see an error log file created

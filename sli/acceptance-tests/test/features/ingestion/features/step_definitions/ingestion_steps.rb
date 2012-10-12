@@ -1358,7 +1358,7 @@ Then /^I should see following map of indexes in the corresponding collections:$/
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
       @result = "false"
     end
   end
@@ -1448,12 +1448,12 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
-Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
   
   @db = @conn[tenantId]
   @edOrgCollection = @db.collection("educationOrganization")
-  @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
+  @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"
   @stateOrganizationId = @edOrgEntity['_id']
   
