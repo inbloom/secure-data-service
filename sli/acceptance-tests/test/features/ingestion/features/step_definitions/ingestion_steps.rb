@@ -1754,6 +1754,32 @@ Then /^I should not see an error log file created$/ do
   end
 end
 
+And /^I should not see a warning log file created$/ do
+  if (INGESTION_MODE == 'remote')
+    if remoteLzContainsFile("warn.*", @landing_zone_path)
+      assert(false, "Warn files created.")
+    else
+      assert(true, "No warn files created.")
+    end
+  
+  else
+    @warn_filename_component = "warn."
+
+    @warn_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(@warn_filename_component))
+        puts File.open(@landing_zone_path + entry).read
+        # LAST ENTRY IS OUR FILE
+        @warn_status_filename = entry
+      end
+    end
+  
+    puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
+    assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
+  end
+end
+
+    
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorLogFile(lz)

@@ -197,14 +197,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void releaseTenantLockForJob(String tenantId, String batchJobId) {
         if (tenantId != null && batchJobId != null) {
 
-            final Criteria tenanLockCriteria = Criteria.where("_id").is(tenantId)
-                    .andOperator(Criteria.where("batchJobId").is(batchJobId));
+            final Query tenantLockQuery = new Query();
+            tenantLockQuery.addCriteria(Criteria.where("_id").is(tenantId));
+            tenantLockQuery.addCriteria(Criteria.where("batchJobId").is(batchJobId));
 
             RetryMongoCommand retry = new RetryMongoCommand() {
 
                 @Override
                 public Object execute() {
-                    sliMongo.remove(new Query(tenanLockCriteria), TENANT_JOB_LOCK_COLLECTION);
+                    sliMongo.remove(tenantLockQuery, TENANT_JOB_LOCK_COLLECTION);
                     return null;
                 }
 
