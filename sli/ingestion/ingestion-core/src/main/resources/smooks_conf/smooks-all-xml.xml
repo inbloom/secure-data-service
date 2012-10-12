@@ -817,7 +817,7 @@
     <jb:value property="schoolId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId"/>
     <jb:value property="courseId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode" />
     <jb:value property="sessionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SessionName" />
-    <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="SectionReference" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="teacherId" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
     <jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="TeacherSectionAssociation/EndDate" />
@@ -2479,7 +2479,7 @@
     <jb:value property="numericGradeEarned" data="NumericGradeEarned" decoder="Integer" />
     <jb:value property="diagnosticStatement" data="DiagnosticStatement" />
     <jb:value property="studentId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="sectionId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
+    <jb:value property="SectionReference" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
     <jb:wiring property="gradebookReference" beanIdRef="studentGradebookEntry_gradebookReference" />
     <jb:wiring property="studentSectionAssociationReference" beanIdRef="studentGradebookEntry_studentSectionAssociationReference" />
   </jb:bean>

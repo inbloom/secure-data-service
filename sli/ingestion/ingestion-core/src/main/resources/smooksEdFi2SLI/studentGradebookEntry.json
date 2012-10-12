@@ -2,7 +2,7 @@
     "keyFields" : [ "body.gradebookEntryId", "body.studentId", "body.sectionId"],
     "references" :
     [{
-        "fieldPath" : "body.sectionId","ref" :
+        "fieldPath" : "body.SectionReference","ref" :
         {
             "entityType" : "section",
             "takesContext" : ["edOrgs"],
@@ -13,7 +13,7 @@
                         "path" : "body.uniqueSectionCode",
                         "values" :
                         [{
-                            "valueSource" : "body.sectionId"
+                            "valueSource" : "body.SectionReference"
                         }]
                     }
                 ]
