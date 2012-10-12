@@ -10,7 +10,7 @@
             "keyFieldName" : "schoolId",
             "refConfig" :
             {
-                "entityType" : "school",
+                "entityType" : "educationOrganization",
                 "keyFields" :
                 [
                     {
