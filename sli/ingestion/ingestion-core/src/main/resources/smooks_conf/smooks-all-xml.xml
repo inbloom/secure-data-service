@@ -663,7 +663,7 @@
 
   <jb:bean beanId="SSAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
     <jb:wiring property="StudentReference" beanIdRef="StudentSectionAssociation_StudentReference" />
-    <jb:wiring property="sectionReference" beanIdRef="studentSectionAssociation_SectionReference" />
+    <jb:wiring property="SectionReference" beanIdRef="studentSectionAssociation_SectionReference" />
     <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
     <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" decoder="Boolean" />

@@ -92,9 +92,10 @@ public class StudentSectionAssociationTest {
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXMLTestData);
-        //checkInValidSectionNeutralRecord(record);
+        checkInValidSectionNeutralRecord(record);
     }
 
+    @Test
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
@@ -109,7 +110,7 @@ public class StudentSectionAssociationTest {
         Assert.assertEquals("111220001", ((Map<String, Object>) ((Map<String, Object>) entity.get("StudentReference"))
                 .get("StudentIdentity")).get("StudentUniqueStateId"));
         Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("SectionReference"))
-                .get("SectionIdentity")).get("UniqueSectionCode"));
+                .get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
@@ -121,7 +122,7 @@ public class StudentSectionAssociationTest {
         Map<String, Object> entity = record.getAttributes();
         Assert.assertEquals(null, entity.get("StudentReference"));
         Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("SectionReference"))
-                .get("SectionIdentity")).get("UniqueSectionCode"));
+                .get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals(null, entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
