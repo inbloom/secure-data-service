@@ -526,8 +526,30 @@ public class BasicService implements EntityService {
             }
 
             if (found != ids.size()) {
-                debug("{} in {} is not accessible", value, collectionName);
-                throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                
+                //Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                //So found won't include any orphaned entities that the user created.
+                //We do an additional query of the referenced fields without any additional security criteria
+                //and check the isOrphaned and createdBy on each of those
+                neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(MAX_RESULT_SIZE);
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+                String userId = user.getEntity().getEntityId();
+                for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+                    
+                    if (userId.equals(ent.getMetaData().get("createdBy")) &&
+                        "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                        found++;
+                    }
+                }
+                if (found != ids.size()) {
+                    debug("{} in {} is not accessible", value, collectionName);
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                }
             }
         }
     }
@@ -587,18 +609,36 @@ public class BasicService implements EntityService {
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                EntityService referencingEntityService = referencingEntity.getService();
+            	EntityService referencingEntityService = referencingEntity.getService();
+            	
+            	List<String> includeFields = new ArrayList<String>();
+            	includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
+                neutralQuery.setIncludeFields(includeFields);
+
                 try {
-                    // list all entities that have the deleted entity's ID in their reference field
-                    for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
-                        String idToBeDeleted = (String) entityBody.get("id");
-                        // delete that entity as well
-                        referencingEntityService.delete(idToBeDeleted);
-                        // delete custom entities attached to this entity
-                        deleteAttachedCustomEntities(idToBeDeleted);
-                    }
+                	//entities that have arrays of references only cascade delete the array entry, not the whole entity
+                	if (referencingEntity.hasArrayField(referenceField)) {
+                		// list all entities that have the deleted entity's ID in one of their arrays
+                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+                            String idToBePatched = (String) entityBody.get("id");
+                            List<?> basicDBList = (List<?>) entityBody.get(referenceField);
+                            basicDBList.remove(sourceId);
+                            EntityBody patchEntityBody = new EntityBody();
+                            patchEntityBody.put(referenceField, basicDBList);
+                            referencingEntityService.patch(idToBePatched, patchEntityBody);
+                        }
+                	} else {
+                		// list all entities that have the deleted entity's ID in their reference field (for deletion)
+                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+                            String idToBeDeleted = (String) entityBody.get("id");
+                            // delete that entity as well
+                            referencingEntityService.delete(idToBeDeleted);
+                            // delete custom entities attached to this entity
+                            deleteAttachedCustomEntities(idToBeDeleted);
+                        }
+                	}
                 } catch (AccessDeniedException ade) {
                     debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
@@ -733,23 +773,27 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (type != null && type.equals(EntityNames.STAFF)) {
-            securityField = "metaData.edOrgs";
-
+        if (type != null) {
+            // Prevent apps from using data that wasn't allowed
             Set<String> blacklist = edOrgNodeFilter.getBlacklist();
             blackListedEdOrgs = StringUtils.join(blacklist, ',');
             if (!blacklist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs,
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "nin", blackListedEdOrgs,
                         false));
             }
-        }
 
+
+        }
+        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            securityField = "metaData.edOrgs";
+        }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
         }
+
 
         return securityCriteria;
     }
@@ -758,7 +802,8 @@ public class BasicService implements EntityService {
         return getAuths().contains(Right.FULL_ACCESS) || defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
                 || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                 || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
-                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
+                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)
+                || defn.getType().equals(EntityNames.GRADUATION_PLAN);
     }
 
     /**
@@ -828,7 +873,6 @@ public class BasicService implements EntityService {
                 String fieldPath = prefix + fieldName;
                 Right neededRight = getNeededRight(fieldPath);
 
-                debug("Field {} requires {}", fieldPath, neededRight);
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
                 if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
@@ -942,6 +986,7 @@ public class BasicService implements EntityService {
             createdBy = principal.getExternalId();
         }
         metadata.put("createdBy", createdBy);
+        metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
         // add the edorgs for staff
         createEdOrgMetaDataForStaff(principal, metadata);
