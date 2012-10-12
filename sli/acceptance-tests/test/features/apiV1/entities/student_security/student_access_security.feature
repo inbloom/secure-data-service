@@ -405,7 +405,7 @@ Scenario: Update data associations to change access for teachers and staff
 Given I am user "staff13" in IDP "SEC"
 When I move teacher12 to a new section
 And I move student58 to a new section
-And I move staff22 to a new school
+#And I move staff22 to a new school
 And I move student61 to a new school
 Then the stamper runs and completes
 
@@ -426,7 +426,7 @@ Examples:
 | "teacher12" | 1     | "student58"       | "student57"          |
 | "staff20"   | 6     | "student60"       | "student61"          |
 | "staff21"   | 4     | "student61"       | "student60"          |
-| "staff22"   | 4     | "student62"       | "student60"          |
+#| "staff22"   | 4     | "student62"       | "student60"          |
 
 Scenario Outline: Teachers and Staff seeing new section data from changed associations
 Given I am user <User> in IDP "SEC"
