@@ -105,44 +105,44 @@ Examples:
 
     Scenario Outline: Get All Entities as State Staff
     Given my contextual access is defined by table:
-    |Context   | Ids                                  |
-    |schools					|b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
-    |educationOrganizations		|b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
-    |staff						|85585b27-5368-4f10-a331-3abcaf3a3f4c|
+    |Context                | Ids                                |
+    |schools                |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of <Code>
-      And I should receive a collection of "<Entity Count>" entities
+      And I should receive a collection of "<Count>" entities
       And each entity's "entityType" should be <Entity Type>
       And uri was rewritten to "<Rewrite URI>"
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Code | Entity Count | Rewrite URI|
-| "assessment"                   | "assessments"             |  200 | 17 |/assessments|
-| "attendance"                   | "attendances"             |  200 | 0  |/schools/@ids/studentSchoolAssociations/students/attendances|
-| "cohort"                       | "cohorts"                 |  200 | 3  |/staff/@ids/staffCohortAssociations/cohorts|
-| "course"                       | "courses"                 |  200 | 0 |/schools/@ids/courses|
-| "disciplineAction"             | "disciplineActions"       |  200 | 2 |/staff/@ids/disciplineActions|
-| "disciplineIncident"           | "disciplineIncidents"     |  200 | 0 |/staff/@ids/disciplineIncidents|
-| "educationOrganization"        | "educationOrganizations"  |  200 | 1 |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
-| "gradebookEntry"               | "gradebookEntries"        |  200 | 0 |/schools/@ids/sections/gradebookEntries|
-| "learningObjective"            | "learningObjectives"      |  200 | 5 |/learningObjectives|
-| "learningStandard"             | "learningStandards"       |  200 | 14 |/learningStandards|
-| "parent"                       | "parents"                 |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
-| "program"                      | "programs"                |  200 | 2 |/staff/@ids/staffProgramAssociations/programs|
-| "school"                       | "schools"                 |  200 | 27 |/schools|
-| "section"                      | "sections"                |  200 | 0 |/schools/@ids/sections|
-| "session"                      | "sessions"                |  200 | 0 |/schools/@ids/sessions|
-| "staff"                        | "staff"                   |  200 | 3 |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
-| "student"                      | "students"                |  200 | 0 |/schools/@ids/studentSchoolAssociations/students|
-| "studentAcademicRecord"        | "studentAcademicRecords"  |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
-| "studentGradebookEntry"        | "studentGradebookEntries" |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
-| "teacher"                      | "teachers"                |  200 | 0 |/schools/@ids/teacherSchoolAssociations/teachers|
-| "grade"                        | "grades"                  |  200 | 0 |/schools/@ids/sections/studentSectionAssociations/grades|
-| "studentCompetency"            | "studentCompetencies"     |  200 | 0 |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
-| "gradingPeriod"                | "gradingPeriods"          |  200 | 0 |/schools/@ids/sessions/gradingPeriods|
-| "reportCard"                   | "reportCards"             |  200 | 0 |/schools/@ids/studentSchoolAssociations/students/reportCards|
+| Entity Type             | Entity Resource URI       | Code | Count | Rewrite URI|
+| "assessment"            | "assessments"             |  200 | 17    |/assessments|
+| "attendance"            | "attendances"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
+| "cohort"                | "cohorts"                 |  200 | 3     |/staff/@ids/staffCohortAssociations/cohorts|
+| "course"                | "courses"                 |  200 | 0     |/schools/@ids/courses|
+| "disciplineAction"      | "disciplineActions"       |  200 | 2     |/staff/@ids/disciplineActions|
+| "disciplineIncident"    | "disciplineIncidents"     |  200 | 0     |/staff/@ids/disciplineIncidents|
+| "educationOrganization" | "educationOrganizations"  |  200 | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations/educationOrganizations|
+| "gradebookEntry"        | "gradebookEntries"        |  200 | 0     |/schools/@ids/sections/gradebookEntries|
+| "learningObjective"     | "learningObjectives"      |  200 | 5     |/learningObjectives|
+| "learningStandard"      | "learningStandards"       |  200 | 14    |/learningStandards|
+| "parent"                | "parents"                 |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
+| "program"               | "programs"                |  200 | 2     |/staff/@ids/staffProgramAssociations/programs|
+| "school"                | "schools"                 |  200 | 27    |/schools|
+| "section"               | "sections"                |  200 | 0     |/schools/@ids/sections|
+| "session"               | "sessions"                |  200 | 0     |/schools/@ids/sessions|
+| "staff"                 | "staff"                   |  200 | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+| "student"               | "students"                |  200 | 0     |/schools/@ids/studentSchoolAssociations/students|
+| "studentAcademicRecord" | "studentAcademicRecords"  |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
+| "studentGradebookEntry" | "studentGradebookEntries" |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
+| "teacher"               | "teachers"                |  200 | 0     |/schools/@ids/teacherSchoolAssociations/teachers|
+| "grade"                 | "grades"                  |  200 | 0     |/schools/@ids/sections/studentSectionAssociations/grades|
+| "studentCompetency"     | "studentCompetencies"     |  200 | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
+| "gradingPeriod"         | "gradingPeriods"          |  200 | 0     |/schools/@ids/sessions/gradingPeriods|
+| "reportCard"            | "reportCards"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -239,36 +239,44 @@ Examples:
     
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
      And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
+    |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
+    |sections |706ee3be-0dae-4e98-9525-f564e05aa388,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e,7847b027-687d-46f0-bc1a-36d3c16956aa|
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
      Then I should receive a return code of 200
-      And I should receive a collection of "<Entity Count>" entities
+      And I should receive a collection of "<Count>" entities
       And each entity's "entityType" should be <Entity Type>
+      And uri was rewritten to "<Rewrite URI>"
 
 Examples:
-| Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 17 |
-| "attendance"                   | "attendances"             | 1 |
-| "cohort"                       | "cohorts"                 | 0 |
-| "course"                       | "courses"                 | 10|
-| "disciplineAction"             | "disciplineActions"       | 0 |
-| "disciplineIncident"           | "disciplineIncidents"     | 0 |
-| "school"                       | "educationOrganizations"  | 1 |
-| "gradebookEntry"               | "gradebookEntries"        | 3 |
-| "learningObjective"            | "learningObjectives"      | 5 |
-| "learningStandard"             | "learningStandards"       | 14 |
-| "parent"                       | "parents"                 | 2 |
-| "program"                      | "programs"                | 2 |
-| "school"                       | "schools"                 | 27 |
-| "section"                      | "sections"                | 4 |
-| "session"                      | "sessions"                | 0 |
-| "staff"                        | "staff"                   | 1 |
-| "student"                      | "students"                | 31 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 1 |
-| "studentGradebookEntry"        | "studentGradebookEntries" | 4 |
-| "teacher"                      | "teachers"                | 1 |
-| "grade"                        | "grades"                  | 0 |
-| "studentCompetency"            | "studentCompetencies"     | 0 |
-| "gradingPeriod"                | "gradingPeriods"          | 0 |
-| "reportCard"                   | "reportCards"             | 1 |
+| Entity Type             | Entity Resource URI       | Count | Rewrite URI|
+| "assessment"            | "assessments"             | 17    |/assessments|                                                                            
+| "attendance"            | "attendances"             | 1     |/sections/@ids/studentSectionAssociations/students/attendances|                            
+| "cohort"                | "cohorts"                 | 0     |/staff/@ids/staffCohortAssociations/cohorts|                                             
+| "course"                | "courses"                 | 10    |/schools/@ids/courses|                                                                   
+| "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
+| "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
+| "school"                | "educationOrganizations"  | 1     |/teachers/@ids/teacherSchoolAssociations/schools|              
+| "gradebookEntry"        | "gradebookEntries"        | 3     |/sections/@ids/gradebookEntries|                                                 
+| "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
+| "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
+| "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
+| "program"               | "programs"                | 2     |/staff/@ids/staffProgramAssociations/programs|                                           
+| "school"                | "schools"                 | 27    |/schools|                                                                                
+| "section"               | "sections"                | 4     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
+| "session"               | "sessions"                | 0     |/schools/@ids/sessions|                                                                  
+| "staff"                 | "staff"                   | 1     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
+| "student"               | "students"                | 31    |/sections/@ids/studentSectionAssociations/students|                                        
+| "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
+| "studentGradebookEntry" | "studentGradebookEntries" | 4     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
+| "teacher"               | "teachers"                | 1     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
+| "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
+| "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
+| "gradingPeriod"         | "gradingPeriods"          | 0     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "reportCard"            | "reportCards"             | 1     |/sections/@ids/studentSectionAssociations/students/reportCards|                            

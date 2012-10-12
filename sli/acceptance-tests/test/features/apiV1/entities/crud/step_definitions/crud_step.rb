@@ -468,15 +468,26 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version="v1"
-  root=expectedUri.match(/\/(.+?)\/|$/)[1]
-  expected=version+expectedUri
-  
+  version = "v1"
+  root = expectedUri.match(/\/(.+?)\/|$/)[1]
+  expected = version+expectedUri
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expected.gsub("@ids", "[^/]*")
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
   if @ctx.has_key? root
-    expected=expected.gsub("@ids",@ctx[root])
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
   end
-  
-  actual=@headers["x-executedpath"][0]
-  assert(expected==actual,"URI didn't match.  Expected #{expected} Actual #{actual}")
 end
 
