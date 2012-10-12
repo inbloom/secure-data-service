@@ -45,7 +45,7 @@ public class PolicyEnforcer {
     
     //These are the resources that we allow to be accessed directly without the need to rewrite
     private static final Set<String> ENTITY_WHITE_LIST = 
-            new HashSet<String>(Arrays.asList(ResourceNames.SCHOOLS, ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.EDUCATION_ORGANIZATIONS)); 
+            new HashSet<String>(Arrays.asList(ResourceNames.SCHOOLS, ResourceNames.EDUCATION_ORGANIZATIONS)); 
 
     public void enforce(Authentication auth, ContainerRequest request) {
 
