@@ -38,6 +38,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
+import org.slc.sli.ingestion.transformation.normalization.IdNormalizerFlag;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 import org.slc.sli.ingestion.transformation.normalization.Ref;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
@@ -78,6 +79,11 @@ public class DeterministicIdResolver {
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
 
+        if (IdNormalizerFlag.useOldNormalization) {
+            // TODO: remove IdNormalizerFlag
+            return;
+        }
+
         DidEntityConfig entityConfig = didEntityConfigurations.getDidEntityConfiguration(entity.getType());
 
         if (entityConfig == null) {
@@ -110,8 +116,10 @@ public class DeterministicIdResolver {
         }
     }
 
+
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
             throws IdResolutionException {
+
         String entityType = didRefSource.getEntityType();
         String didFieldPath = didRefSource.getDidFieldPath();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -119,7 +127,7 @@ public class DeterministicIdResolver {
         DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
 
         if (didRefConfig == null) {
-             return;
+            return;
         }
 
         Object referenceObject = getProperty(entity, sourceRefPath);
@@ -139,7 +147,7 @@ public class DeterministicIdResolver {
             List<Object> refList = (List<Object>) referenceObject;
             List<String> uuidList = new ArrayList<String>();
 
-            for (Object reference :  refList) {
+            for (Object reference : refList) {
                 @SuppressWarnings("unchecked")
                 String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
@@ -152,7 +160,7 @@ public class DeterministicIdResolver {
             }
             setProperty(entity, didFieldPath, uuidList);
         } else {
-            //handle a single reference object
+            // handle a single reference object
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;
 
@@ -171,6 +179,8 @@ public class DeterministicIdResolver {
         Object referenceObject;
         try {
             referenceObject = PropertyUtils.getProperty(bean, sourceRefPath);
+        } catch (IllegalArgumentException e) {
+            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
         } catch (IllegalAccessException e) {
             throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
         } catch (InvocationTargetException e) {
@@ -215,11 +225,11 @@ public class DeterministicIdResolver {
         }
     }
 
-    private void handleException(String sourceRefPath, String entityType, String collectionName, Exception e, ErrorReport errorReport) {
-        LOG.error("Error accessing indexed bean property " + sourceRefPath
-                + " for bean " + entityType, e);
-        String errorMessage = "ERROR: Failed to resolve a reference"
-                + "\n       Entity " + entityType + ": Reference to " + collectionName
+    private void handleException(String sourceRefPath, String entityType, String collectionName, Exception e,
+            ErrorReport errorReport) {
+        LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
+        String errorMessage = "ERROR: Failed to resolve a reference" + "\n       Entity " + entityType
+                + ": Reference to " + collectionName
                 + " is incomplete because the following reference field is not resolved: "
                 + sourceRefPath.substring(sourceRefPath.lastIndexOf('.') + 1);
 
@@ -229,7 +239,6 @@ public class DeterministicIdResolver {
     // function which, given reference type map (source object) and refConfig, return a did
     private String getId(Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
             throws IdResolutionException {
-
         if (didRefConfig.getEntityType() == null || didRefConfig.getEntityType().isEmpty()) {
             return null;
         }
