@@ -2,8 +2,8 @@
     "keyFields" : ["body.sectionId", "body.studentId"],
     "references" :
     [{
-        "fieldPath" : "body.sectionId",
-        "deprecated" : true,
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : false,
         "ref" :
         {
             "entityType" : "section",
@@ -15,7 +15,7 @@
                         "path" : "body.uniqueSectionCode",
                         "values" :
                         [{
-                            "valueSource" : "body.sectionReference.sectionIdentity.uniqueSectionCode"
+                            "valueSource" : "body.SectionReference.sectionIdentity.uniqueSectionCode"
                         }]
                     },
                     {
@@ -32,7 +32,7 @@
                                               "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
-                                                    "valueSource" : "body.sectionReference.sectionIdentity.stateOrganizationId"
+                                                    "valueSource" : "body.SectionReference.sectionIdentity.stateOrganizationId"
                                                }]
                                           }
                                       ]
@@ -46,7 +46,7 @@
     },
     {
         "fieldPath" : "body.studentId",
-        "deprecated" : true,
+        "deprecated" : false,
         "ref" :
         {
             "entityType" : "student",

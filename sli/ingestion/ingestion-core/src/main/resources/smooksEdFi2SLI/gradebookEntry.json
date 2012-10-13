@@ -2,23 +2,46 @@
     "keyFields" : ["body.dateAssigned", "body.gradebookEntryType", "body.sectionId"],
     "references" : 
     [{ 
-         "fieldPath":"body.sectionId",
-         "ref":
-         {
-            "entityType": "section",
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : false,
+        "ref" :
+        {
+            "entityType" : "section",
             "takesContext" : ["edOrgs"],
-            "choiceOfFields":
+            "choiceOfFields" :
             [
-               [
-                  {
-                     "path":"body.uniqueSectionCode",
-                     "values":
-                     [{
-                         "valueSource":"body.sectionId"
-                     }]
-                  }
-               ]
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference.SectionIdentity.UniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
+                             {
+                                 "entityType" : "educationOrganization",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.stateOrganizationId",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    }
+                ]
             ]
-         }
+        }
     }]
 }
