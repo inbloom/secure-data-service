@@ -81,6 +81,7 @@ public class DeterministicIdResolver {
             return;
         }
 
+        DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
         if (entityConfig == null) {
             return;
