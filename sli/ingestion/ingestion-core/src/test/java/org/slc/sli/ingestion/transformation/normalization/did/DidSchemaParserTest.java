@@ -32,6 +32,8 @@ public class DidSchemaParserTest {
         didSchemaParser.setResourceLoader(new DefaultResourceLoader());
         didSchemaParser.setXsdLocation("classpath:test-schema/Ed-Fi-Core.xsd");
         didSchemaParser.setExtensionXsdLocation("classpath:test-schema/SLI-Ed-Fi-Core.xsd");
+        didSchemaParser.setXsdParentLocation("classpath:test-schema");
+        didSchemaParser.setExtensionXsdParentLocation("classpath:test-schema");
         didSchemaParser.setup();
     }
 
@@ -39,7 +41,7 @@ public class DidSchemaParserTest {
 
     @Test
     public void shouldExtractCorrectRefConfigs() {
-        Map<String, DidRefConfig> refConfigs = didSchemaParser.extractRefConfigs();
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
         Assert.assertEquals("Should extract 2 ref configs for the SLC section and edOrg referenceTypes", 2, refConfigs.size());
         Assert.assertTrue(refConfigs.containsKey(SECTION_TYPE));
         Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
@@ -98,7 +100,7 @@ public class DidSchemaParserTest {
 
     @Test
     public void shouldExtractCorrectEntityConfigs() {
-        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.extractEntityConfigs();
+        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.getEntityConfigs();
 
         Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a sectionReference (SLC-GradebookEntry)", 1, entityConfigs.size());
 

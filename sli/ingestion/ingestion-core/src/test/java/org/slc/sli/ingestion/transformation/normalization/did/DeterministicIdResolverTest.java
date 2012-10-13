@@ -66,10 +66,7 @@ public class DeterministicIdResolverTest {
     private SchemaRepository schemaRepository;
 
     @Mock
-    private DidEntityConfigFactory didEntityConfigs;
-
-    @Mock
-    private DidRefConfigFactory didRefConfigs;
+    private DidSchemaParser didSchemaParser;
 
     @Mock
     private EntityConfigFactory entityConfigs;
@@ -97,10 +94,6 @@ public class DeterministicIdResolverTest {
     private static final String DID_VALUE_1 = "did_value_1";
     private static final String DID_VALUE_2 = "did_value_2";
 
-    private static final String OPTIONAL_ENTITY_TYPE = "optional_entity_type";
-    private static final String OPTIONAL_SRC_REF_FIELD = "optional_ref_field";
-    private static final String OPTIONAL_DID_TARGET_FIELD = "optional_id_field";
-
     @Before
     public void setup() {
         didResolver = new DeterministicIdResolver();
@@ -111,6 +104,18 @@ public class DeterministicIdResolverTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    private void mockRefConfig(DidRefConfig didRefConfig, String refType) {
+        Map<String, DidRefConfig> refConfigMap = new HashMap<String, DidRefConfig>();
+        refConfigMap.put(refType, didRefConfig);
+        Mockito.when(didSchemaParser.getRefConfigs()).thenReturn(refConfigMap);
+    }
+
+    private void mockEntityConfig(DidEntityConfig didEntityConfig, String entityType) {
+        Map<String, DidEntityConfig> entityConfigMap = new HashMap<String, DidEntityConfig>();
+        entityConfigMap.put(entityType, didEntityConfig);
+        Mockito.when(didSchemaParser.getEntityConfigs()).thenReturn(entityConfigMap);
+    }
+
     @Test
     public void shouldAddAppropriateContextForReference() throws IOException {
         Entity entity = createSourceEntity();
@@ -118,8 +123,8 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -166,8 +171,8 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -193,8 +198,8 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("optional_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -221,8 +226,8 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
         Map<String, String> naturalKeys1 = new HashMap<String, String>();
@@ -258,21 +263,22 @@ public class DeterministicIdResolverTest {
         ErrorReport errorReport = new TestErrorReport();
 
         // test null entity config
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(NON_DID_ENTITY_TYPE))).thenReturn(null);
+        mockEntityConfig(null, NON_DID_ENTITY_TYPE);
+
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
-        Mockito.verifyZeroInteractions(didRefConfigs);
+        Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
 
         // test null ref config list
         DidEntityConfig entityConfig = Mockito.mock(DidEntityConfig.class);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(entityConfig.getReferenceSources()).thenReturn(null);
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
-        Mockito.verifyZeroInteractions(didRefConfigs);
+        Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
 
         // test empty ref config list
         Mockito.when(entityConfig.getReferenceSources()).thenReturn(new ArrayList<DidRefSource>());
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
-        Mockito.verifyZeroInteractions(didRefConfigs);
+        Mockito.verify(didSchemaParser, Mockito.never()).getRefConfigs();
     }
 
     @Test
@@ -290,8 +296,8 @@ public class DeterministicIdResolverTest {
         String tenantId = TENANT;
         NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
@@ -373,8 +379,8 @@ public class DeterministicIdResolverTest {
     private void testGenericErrorReporting(DidRefConfig refConfig, DidEntityConfig entityConfig) {
         ErrorReport errorReport = new TestErrorReport();
         Entity entity = createSourceEntity();
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         Mockito.when(didGenerator.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn(DID_VALUE);
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
@@ -391,8 +397,8 @@ public class DeterministicIdResolverTest {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(refConfig);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
 
@@ -406,8 +412,8 @@ public class DeterministicIdResolverTest {
         Entity entity = createSourceEntityMissingRefField();
         DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
 
-        Mockito.when(didRefConfigs.getDidRefConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(null);
-        Mockito.when(didEntityConfigs.getDidEntityConfiguration(Mockito.eq(ENTITY_TYPE))).thenReturn(entityConfig);
+        mockRefConfig(null, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
 
@@ -503,6 +509,4 @@ public class DeterministicIdResolverTest {
 
         return entity;
     }
-
-
 }

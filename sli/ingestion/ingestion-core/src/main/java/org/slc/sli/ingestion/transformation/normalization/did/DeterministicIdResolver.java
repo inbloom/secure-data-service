@@ -61,10 +61,7 @@ public class DeterministicIdResolver {
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     @Autowired
-    private DidEntityConfigFactory didEntityConfigurations;
-
-    @Autowired
-    private DidRefConfigFactory didRefConfigurations;
+    private DidSchemaParser didSchemaParser;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -84,7 +81,6 @@ public class DeterministicIdResolver {
             return;
         }
 
-        DidEntityConfig entityConfig = didEntityConfigurations.getDidEntityConfiguration(entity.getType());
 
         if (entityConfig == null) {
             return;
@@ -116,6 +112,13 @@ public class DeterministicIdResolver {
         }
     }
 
+    private DidEntityConfig getEntityConfig(String entityType) {
+        return didSchemaParser.getEntityConfigs().get(entityType);
+    }
+
+    private DidRefConfig getRefConfig(String refType) {
+        return didSchemaParser.getRefConfigs().get(refType);
+    }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
             throws IdResolutionException {
@@ -124,7 +127,7 @@ public class DeterministicIdResolver {
         String didFieldPath = didRefSource.getDidFieldPath();
         String sourceRefPath = didRefSource.getSourceRefPath();
 
-        DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
+        DidRefConfig didRefConfig = getRefConfig(entityType);
 
         if (didRefConfig == null) {
             return;
