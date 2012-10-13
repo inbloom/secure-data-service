@@ -46,7 +46,7 @@
     },
     {
         "fieldPath" : "body.studentId",
-        "deprecated" : true,
+        "deprecated" : false,
         "ref" :
         {
             "entityType" : "student",
