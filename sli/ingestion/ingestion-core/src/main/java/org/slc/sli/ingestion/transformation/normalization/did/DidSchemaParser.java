@@ -139,7 +139,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     @PostConstruct
     public void setup() {
-        try {
         complexTypes = new HashMap<String, XmlSchemaComplexType>();
 
         Resource xsdResource = resourceLoader.getResource(xsdLocation);
@@ -160,10 +159,6 @@ public class DidSchemaParser implements ResourceLoaderAware {
         //extract the Did configuration objects
         entityConfigs = extractEntityConfigs();
         refConfigs = extractRefConfigs();
-        } catch(Exception e) {
-            System.out.println("\n\n\n\nexception\n\n\n\n");
-            e.printStackTrace();
-        }
     }
 
     public Map<String, DidRefConfig> getRefConfigs() {
@@ -191,7 +186,12 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
             DidEntityConfig entityConfig = extractEntityConfig(complexType.getValue());
             if (entityConfig != null) {
-                entityConfigs.put(complexType.getKey(), entityConfig);
+                String entityType = complexType.getKey();
+                //TODO hack for type switch for gradebook entry - needs to be removed
+                if (entityType.equals("SLC-GradebookEntry")) {
+                    entityType = "gradebookEntry";
+                }
+                entityConfigs.put(entityType, entityConfig);
             }
         }
 

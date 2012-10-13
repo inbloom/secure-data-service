@@ -26,6 +26,7 @@ package org.slc.sli.ingestion.transformation.normalization;
  */
 public class IdResolutionException extends Exception {
 
+    private static final long serialVersionUID = 1L;
     private String key;
     private String value;
 
