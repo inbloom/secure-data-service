@@ -481,7 +481,7 @@ Other</xs:documentation>
       <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
+      <xs:element name="StudentReference" type="StudentReferenceType">
         <xs:annotation>
           <xs:documentation/>
         </xs:annotation>
