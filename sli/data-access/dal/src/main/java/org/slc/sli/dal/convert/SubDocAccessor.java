@@ -175,7 +175,7 @@ public class SubDocAccessor {
         
         // this method is for supporting patch sub doc
         public boolean doUpdate(Query query, Update update) {
-            DBObject queryDBObject = toSubDocQuery(query);
+            DBObject queryDBObject = toSubDocQuery(query, false);
             
             DBObject elementMatch = new BasicDBObject("$elemMatch", query.getQueryObject());
             queryDBObject.put(subField, elementMatch);
@@ -326,8 +326,8 @@ public class SubDocAccessor {
             Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
             // comment out if embededDid need to cat parent id
             Query parentQuery = subDocQuery;
-            if (id.split("_id").length == 2) {
-                parentQuery = new Query(Criteria.where("_id").is(id.split("_id")[0] + "_id"));
+            if (!id.equals(getParentId(id))) {
+                parentQuery = new Query(Criteria.where("_id").is(getParentId(id)));
             }
             List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), subDocQuery.getQueryObject(),
                     new Query().getQueryObject());
@@ -339,33 +339,42 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
-            DBObject queryDBObject = toSubDocQuery(originalQuery);
-            List<Entity> entities = findSubDocs(queryDBObject, queryDBObject, getLimitQuery(originalQuery));
+            DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
+            DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
+            List<Entity> entities = findSubDocs(parentQueryDBObject, subDocQueryDBObject, getLimitQuery(originalQuery));
             return entities;
         }
 
         // convert original query match criteria to match embeded subDocs
         @SuppressWarnings("unchecked")
-        private DBObject toSubDocQuery(Query originalQuery) {
-            return toSubDocQuery(originalQuery.getQueryObject());
+        private DBObject toSubDocQuery(Query originalQuery, boolean isParentQuery) {
+            return toSubDocQuery(originalQuery.getQueryObject(), isParentQuery);
         }
 
         @SuppressWarnings("unchecked")
-        private DBObject toSubDocQuery(DBObject originalQueryDBObject) {
+        private DBObject toSubDocQuery(DBObject originalQueryDBObject, boolean isParentQuery) {
 
-            DBObject queryDBObject = appendSubField(originalQueryDBObject);
+            DBObject queryDBObject = appendSubField(originalQueryDBObject, isParentQuery);
             for (String key : originalQueryDBObject.keySet()) {
                 if (key.equals("$or") || key.equals("$and")) {
                     List<DBObject> originalOrQueryDBObjects = (List<DBObject>) originalQueryDBObject.get(key);
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject originalOrQueryDBObject : originalOrQueryDBObjects) {
-                        DBObject orQueryDBObject = appendSubField(originalOrQueryDBObject);
+                        DBObject orQueryDBObject = appendSubField(originalOrQueryDBObject, isParentQuery);
                         orQueryDBObjects.add(orQueryDBObject);
                     }
                     queryDBObject.put(key, orQueryDBObjects);
                 }
             }
             return queryDBObject;
+        }
+        
+        private String getParentId(String embededId) {
+            String parentId = embededId;
+            if (embededId.split("_id").length == 2) {
+                parentId = embededId.split("_id")[0] + "_id";
+            }
+            return parentId;
         }
 
         // retrieve limit/offset/sort info from the original query and make them applicable to
@@ -374,7 +383,7 @@ public class SubDocAccessor {
             DBObject limitQueryDBObject = new Query().getQueryObject();
             DBObject originalSortDBObject = originalQuery.getSortObject();
             if (originalSortDBObject != null && originalSortDBObject.keySet().size() > 0) {
-                limitQueryDBObject.put("$sort", appendSubField(originalSortDBObject));
+                limitQueryDBObject.put("$sort", appendSubField(originalSortDBObject, false));
             }
             if (originalQuery.getSkip() > 0) {
                 limitQueryDBObject.put("$skip", originalQuery.getSkip());
@@ -387,22 +396,51 @@ public class SubDocAccessor {
 
         // append subField to original query key, so it can query in subDocs
         @SuppressWarnings("unchecked")
-        private DBObject appendSubField(DBObject originalDBObject) {
+        private DBObject appendSubField(DBObject originalDBObject, boolean isParentQuery) {
             DBObject newDBObject = new Query().getQueryObject();
             for (String key : originalDBObject.keySet()) {
                 if (!key.startsWith("$")) {
-                    String newKey = subField + "." + key;
-                    newDBObject.put(newKey, originalDBObject.get(key));
+                    String newKey = key;
+                    Object newValue = originalDBObject.get(key);
+                    
+                    if (isParentQuery && key.equals("_id") && getId(newValue) != null
+                            && !getId(newValue).equals(getParentId(getId(newValue)))) {
+                        // use parent id for id query
+                        newDBObject.put(newKey, getParentId(getId(newValue)));
+                    } else if (isParentQuery && key.equals("metaData.tenantId")) {
+                        // assume the super doc has same tenantId as sub Doc
+                        newDBObject.put(newKey, newValue);
+                    } else {
+                        // for other query, append the subfield to original key
+                        newKey = subField + "." + key;
+                        newDBObject.put(newKey, newValue);
+                    }
                 } else if (key.equals("$or") || key.equals("$and")) {
                     List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject dbObject : dbObjects) {
-                        orQueryDBObjects.add(toSubDocQuery(dbObject));
+                        orQueryDBObjects.add(toSubDocQuery(dbObject, isParentQuery));
                     }
                     newDBObject.put(key, orQueryDBObjects);
                 }
             }
             return newDBObject;
+        }
+        
+        // retrieve the a single id from DBObject value for "_id" field
+        private String getId(Object queryValue) {
+            if (queryValue instanceof String) {
+                return (String) queryValue;
+            } else if (queryValue instanceof DBObject) {
+                DBObject dbValue = (DBObject) queryValue;
+                Object inQuery = dbValue.get("$in");
+                if (inQuery != null && inQuery instanceof List<?> && ((List<?>) inQuery).size() == 1) {
+                    return ((List<?>) inQuery).get(0).toString();
+                } else if (inQuery != null && inQuery instanceof Object[] && ((Object[]) inQuery).length == 1) {
+                    return ((Object[]) inQuery)[0].toString();
+                }
+            }
+            return null;
         }
 
         @SuppressWarnings("unchecked")
@@ -476,8 +514,9 @@ public class SubDocAccessor {
                 }
             }
             return null;
-
+            
         }
+        
 
         private List<Entity> find(Query original) {
             List<Entity> results = new ArrayList<Entity>();
