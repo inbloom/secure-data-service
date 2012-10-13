@@ -1,9 +1,0 @@
-{
-    "referenceSources" :
-    [
-        {
-            "entityType" : "student",
-            "sourceRefPath" : "body.StudentReference"
-        }
-    ]
-}
