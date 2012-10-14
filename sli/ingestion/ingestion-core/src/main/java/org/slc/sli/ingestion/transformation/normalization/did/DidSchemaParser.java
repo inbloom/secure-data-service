@@ -64,26 +64,26 @@ import org.xml.sax.InputSource;
  */
 public class DidSchemaParser implements ResourceLoaderAware {
 
-    ResourceLoader resourceLoader;
+    private ResourceLoader resourceLoader;
 
     // cache for complex types
-    Map<String, XmlSchemaComplexType> complexTypes;
+    private Map<String, XmlSchemaComplexType> complexTypes;
     // cache for reference types
-    Map<String, XmlSchemaComplexType> referenceTypes;
+    private Map<String, XmlSchemaComplexType> referenceTypes;
 
     //per entity configs for deterministic id resolution
-    Map<String, DidEntityConfig> entityConfigs;
+    private Map<String, DidEntityConfig> entityConfigs;
 
     //per reference configs for deterministic id resolution
-    Map<String, DidRefConfig> refConfigs;
+    private Map<String, DidRefConfig> refConfigs;
 
-    String xsdLocation;
-    String xsdParentLocation;
+    private String xsdLocation;
+    private String xsdParentLocation;
 
-    String extensionXsdLocation;
-    String extensionXsdParentLocation;
+    private String extensionXsdLocation;
+    private String extensionXsdParentLocation;
 
-    Map<String, DidRefSource> refSourceCache;
+    private Map<String, DidRefSource> refSourceCache;
 
     // schema type constants
     private static final String REFERENCE_TYPE = "ReferenceType";
