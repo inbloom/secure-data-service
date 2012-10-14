@@ -1,5 +1,3 @@
-package org.slc.sli.sif.zis;
-
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -15,6 +13,8 @@ package org.slc.sli.sif.zis;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.slc.sli.sif.zis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

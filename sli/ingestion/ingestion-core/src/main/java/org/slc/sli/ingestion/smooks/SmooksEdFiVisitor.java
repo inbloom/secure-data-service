@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.MongoException;
 
@@ -75,7 +76,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private int recordsPerisisted;
 
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
-    
+
+    private BatchJobDAO batchJobDAO;
+    private Set<String> recordLevelDeltaEnabledEntities;
+
+    private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
+
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
      * queue by writing to data store before returning final count.
@@ -112,8 +118,20 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            queueNeutralRecordForWriting(neutralRecord);
-            
+
+            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
+                queueNeutralRecordForWriting(neutralRecord);
+            } else {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+                    queueNeutralRecordForWriting(neutralRecord);
+
+                } else {
+                    String type = neutralRecord.getRecordType();
+                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : new Long(0);
+                    duplicateCounts.put(type, new Long(count.longValue() + 1));
+                }
+            }
+
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
                 writeAndClearQueuedNeutralRecords();
             }
@@ -221,7 +239,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = nrMongoStagingWriter;
     }
-    
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
+        this.recordLevelDeltaEnabledEntities = entities;
+    }
+
     /* we are not using the below visitor hooks */
 
     @Override
@@ -239,4 +265,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         // nothing
 
     }
+
+    public Map<String, Long> getDuplicateCounts() {
+        return duplicateCounts;
+    }
+
+    public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+        this.duplicateCounts = duplicateCounts;
+    }
+
+
 }

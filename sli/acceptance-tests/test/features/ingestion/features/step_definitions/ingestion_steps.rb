@@ -731,6 +731,25 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+  @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db[row["collectionName"]]
+    @entity_collection.remove()
+
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+
+    if @entity_collection.find().count.to_s != "0"
+      @result = "false"
+    end
+  end
+  ensureBatchJobIndexes(@batchConn)
+  assert(@result == "true", "Some collections were not cleared successfully.")
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   @db = @conn[INGESTION_DB_NAME]
@@ -1189,6 +1208,27 @@ def scpFileToLandingZone(filename)
   assert(true, "File Not Uploaded")
 end
 
+def scpFileToLandingZoneWithNewName(filename, dest_file_name)
+  @source_path = @local_file_store_path + filename
+  @destination_path = @landing_zone_path + dest_file_name
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  @source_file_name=dest_file_name; #this var is used to deternine Job Report file name.
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  if (INGESTION_MODE == 'remote')
+    remoteLzCopy(@source_path, @destination_path)
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp @source_path, @destination_path
+  end
+
+  assert(true, "File Not Uploaded")
+end
+
 def scpFileToParallelLandingZone(lz, filename)
   @source_path = @local_file_store_path + filename
   @destination_path = lz + filename
@@ -1207,6 +1247,10 @@ def scpFileToParallelLandingZone(lz, filename)
   end
 
   assert(true, "File Not Uploaded")
+end
+
+When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_file_name|
+  scpFileToLandingZoneWithNewName @source_file_name, dest_file_name
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
@@ -1518,6 +1562,42 @@ def checkForContentInFileGivenPrefix(message, prefix)
   end
 end
 
+def checkForNullContentInFileGivenPrefix(message, prefix)
+
+  if (INGESTION_MODE == 'remote')
+    if remoteFileContainsMessage(prefix, message, @landing_zone_path)
+      assert(false, "Processed all the records.")
+    else
+      assert(false, "Didn't process all the records.")
+    end
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      aFile.close
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
 def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 
   if (INGESTION_MODE == 'remote')
@@ -1547,7 +1627,6 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
     aFile = File.new(@landing_zone_path + @job_status_filename, "r")
     puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
     assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
-
     if aFile
       file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
       #puts "FILE CONTENTS = " + file_contents
@@ -1599,6 +1678,11 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
 end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
+  prefix = "job-" + @source_file_name + "-"
+  checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should not see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
 end
@@ -1670,6 +1754,32 @@ Then /^I should not see an error log file created$/ do
   end
 end
 
+And /^I should not see a warning log file created$/ do
+  if (INGESTION_MODE == 'remote')
+    if remoteLzContainsFile("warn.*", @landing_zone_path)
+      assert(false, "Warn files created.")
+    else
+      assert(true, "No warn files created.")
+    end
+  
+  else
+    @warn_filename_component = "warn."
+
+    @warn_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(@warn_filename_component))
+        puts File.open(@landing_zone_path + entry).read
+        # LAST ENTRY IS OUR FILE
+        @warn_status_filename = entry
+      end
+    end
+  
+    puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
+    assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
+  end
+end
+
+    
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorLogFile(lz)

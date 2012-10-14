@@ -131,6 +131,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 } else {
 
                     purgeForTenant(exchange, tenantId);
+                  
                 }
 
             } catch (Exception exception) {
@@ -168,6 +169,8 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 mongoTemplate.remove(searchTenantId, collectionName);
             }
         }
+        
+        batchJobDAO.removeRecordHashByTenant(tenantId);
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
 
