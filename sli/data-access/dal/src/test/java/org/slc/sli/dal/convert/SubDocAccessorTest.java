@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -206,6 +208,16 @@ public class SubDocAccessorTest {
 //        assertTrue(!underTest.subDoc("studentSectionAssociation").exists(ssaId));
         assertEquals(null,
                 underTest.subDoc("studentSectionAssociation").read(ssaId, null));
+    }
+
+    @Test
+    public void testMakeSubDocQuery() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue").and("metaData.tenantId").is("myTenant"));
+        DBObject subDocQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, false);
+        assertEquals("someValue", subDocQuery.get("studentSectionAssociation.someProperty"));
+        assertEquals("parent_idchild", subDocQuery.get("studentSectionAssociation._id"));
+        assertEquals("myTenant", subDocQuery.get("metaData.tenantId"));
+
     }
 
 }

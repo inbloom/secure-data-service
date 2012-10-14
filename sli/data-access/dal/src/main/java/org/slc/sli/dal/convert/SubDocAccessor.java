@@ -174,7 +174,7 @@ public class SubDocAccessor {
         // this method is for supporting patch sub doc
         public boolean doUpdate(Query query, Update update) {
             DBObject queryDBObject = toSubDocQuery(query, false);
-            
+
             DBObject elementMatch = new BasicDBObject("$elemMatch", query.getQueryObject());
             queryDBObject.put(subField, elementMatch);
 
@@ -335,8 +335,7 @@ public class SubDocAccessor {
         }
 
         // convert original query match criteria to match embeded subDocs
-        @SuppressWarnings("unchecked")
-        private DBObject toSubDocQuery(Query originalQuery, boolean isParentQuery) {
+        protected DBObject toSubDocQuery(Query originalQuery, boolean isParentQuery) {
             return toSubDocQuery(originalQuery.getQueryObject(), isParentQuery);
         }
 
@@ -357,7 +356,7 @@ public class SubDocAccessor {
             }
             return queryDBObject;
         }
-        
+
         private String getParentId(String embededId) {
             String parentId = embededId;
             if (embededId.split("_id").length == 2) {
@@ -391,14 +390,16 @@ public class SubDocAccessor {
                 if (!key.startsWith("$")) {
                     String newKey = key;
                     Object newValue = originalDBObject.get(key);
-                    
                     if (isParentQuery && key.equals("_id") && getId(newValue) != null
                             && !getId(newValue).equals(getParentId(getId(newValue)))) {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
-                    } else if (isParentQuery && key.equals("metaData.tenantId")) {
-                        // assume the super doc has same tenantId as sub Doc
-                        newDBObject.put(newKey, newValue);
+                    }
+                    if (key.startsWith("metaData")) {
+                        if (isParentQuery) {
+                            // use parent's metaData
+                            newDBObject.put(newKey, newValue);
+                        }
                     } else {
                         // for other query, append the subfield to original key
                         newKey = subField + "." + key;
@@ -415,7 +416,7 @@ public class SubDocAccessor {
             }
             return newDBObject;
         }
-        
+
         // retrieve the a single id from DBObject value for "_id" field
         private String getId(Object queryValue) {
             if (queryValue instanceof String) {
