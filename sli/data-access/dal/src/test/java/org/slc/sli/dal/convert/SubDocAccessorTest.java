@@ -213,10 +213,16 @@ public class SubDocAccessorTest {
     @Test
     public void testMakeSubDocQuery() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue").and("metaData.tenantId").is("myTenant"));
-        DBObject subDocQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, false);
-        assertEquals("someValue", subDocQuery.get("studentSectionAssociation.someProperty"));
-        assertEquals("parent_idchild", subDocQuery.get("studentSectionAssociation._id"));
-        assertEquals("myTenant", subDocQuery.get("metaData.tenantId"));
+        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, true);
+        DBObject childQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, false);
+        assertEquals("someValue", parentQuery.get("studentSectionAssociation.someProperty"));
+        assertEquals("parent_id", parentQuery.get("_id"));
+        assertEquals("parent_idchild", parentQuery.get("studentSectionAssociation._id"));
+        assertEquals("myTenant", parentQuery.get("metaData.tenantId"));
+        assertEquals("someValue", childQuery.get("studentSectionAssociation.someProperty"));
+        assertEquals("parent_idchild", childQuery.get("studentSectionAssociation._id"));
+        assertEquals(null, childQuery.get("_id"));
+        assertEquals(null, childQuery.get("metaData.tenantId"));
 
     }
 

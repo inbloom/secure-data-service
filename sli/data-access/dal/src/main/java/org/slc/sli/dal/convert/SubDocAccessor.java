@@ -173,7 +173,7 @@ public class SubDocAccessor {
 
         // this method is for supporting patch sub doc
         public boolean doUpdate(Query query, Update update) {
-            DBObject queryDBObject = toSubDocQuery(query, false);
+            DBObject queryDBObject = toSubDocQuery(query, true);
 
             DBObject elementMatch = new BasicDBObject("$elemMatch", query.getQueryObject());
             queryDBObject.put(subField, elementMatch);
