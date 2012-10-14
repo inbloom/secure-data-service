@@ -101,6 +101,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+
         resolveReferences(item, errorReport);
 
         if (errorReport.hasErrors()) {

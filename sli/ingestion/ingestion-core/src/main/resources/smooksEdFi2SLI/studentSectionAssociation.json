@@ -2,7 +2,7 @@
     "keyFields" : ["body.sectionId", "body.studentId"],
     "references" :
     [{
-        "fieldPath" : "body.SectionReference",
+        "fieldPath" : "body.sectionId",
         "deprecated" : false,
         "ref" :
         {
@@ -55,7 +55,7 @@
             [
                 [
                     {
-                           "path" : "body.studentUniqueStateId",
+                        "path" : "body.studentUniqueStateId",
                         "values" :
                         [{
                             "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"

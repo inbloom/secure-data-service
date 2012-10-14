@@ -3,7 +3,7 @@
     "references" : 
     [{ 
         "fieldPath" : "body.SectionReference",
-        "deprecated" : false,
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "section",

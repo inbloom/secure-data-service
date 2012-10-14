@@ -21,6 +21,8 @@ public class DidSchemaParserTest {
 
     private static final String SECTION_TYPE = "section";
     private static final String EDORG_TYPE = "educationOrganization";
+    //private static final String GRADEBOOKENTRY_TYPE = "SLC-GradebookEntry";
+    private static final String GRADEBOOKENTRY_TYPE = "gradebookEntry";
     private static final String SECTION_KEY_FIELD = "uniqueSectionCode";
     private static final String SECTION_SCHOOL_KEYFIELD = "schoolId";
     private static final String SCHOOL_KEYFIELD = "stateOrganizationId";
@@ -32,6 +34,8 @@ public class DidSchemaParserTest {
         didSchemaParser.setResourceLoader(new DefaultResourceLoader());
         didSchemaParser.setXsdLocation("classpath:test-schema/Ed-Fi-Core.xsd");
         didSchemaParser.setExtensionXsdLocation("classpath:test-schema/SLI-Ed-Fi-Core.xsd");
+        didSchemaParser.setXsdParentLocation("classpath:test-schema");
+        didSchemaParser.setExtensionXsdParentLocation("classpath:test-schema");
         didSchemaParser.setup();
     }
 
@@ -39,7 +43,7 @@ public class DidSchemaParserTest {
 
     @Test
     public void shouldExtractCorrectRefConfigs() {
-        Map<String, DidRefConfig> refConfigs = didSchemaParser.extractRefConfigs();
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
         Assert.assertEquals("Should extract 2 ref configs for the SLC section and edOrg referenceTypes", 2, refConfigs.size());
         Assert.assertTrue(refConfigs.containsKey(SECTION_TYPE));
         Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
@@ -98,15 +102,15 @@ public class DidSchemaParserTest {
 
     @Test
     public void shouldExtractCorrectEntityConfigs() {
-        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.extractEntityConfigs();
+        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.getEntityConfigs();
 
         Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a sectionReference (SLC-GradebookEntry)", 1, entityConfigs.size());
 
         //check the entity configs extracted are for the correct types
-        Assert.assertTrue(entityConfigs.containsKey("SLC-GradebookEntry"));
+        Assert.assertTrue(entityConfigs.containsKey(GRADEBOOKENTRY_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get("SLC-GradebookEntry");
+        DidEntityConfig GBEConfig = entityConfigs.get(GRADEBOOKENTRY_TYPE);
         Assert.assertNotNull(GBEConfig);
         Assert.assertNotNull(GBEConfig.getReferenceSources());
 
