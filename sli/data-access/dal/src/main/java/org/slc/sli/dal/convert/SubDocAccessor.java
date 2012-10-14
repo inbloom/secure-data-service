@@ -10,11 +10,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,16 +21,17 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessor {
 
@@ -66,7 +66,7 @@ public class SubDocAccessor {
 
     /**
      * Start a location for a given sub doc type
-     * 
+     *
      * @param type
      * @return
      */
@@ -87,7 +87,7 @@ public class SubDocAccessor {
 
         /**
          * Store the subdoc within the given super doc collection
-         * 
+         *
          * @param collection
          *            the collection the subdoc gets stored in
          * @return
@@ -99,7 +99,7 @@ public class SubDocAccessor {
 
         /**
          * The field the subdocs show up in
-         * 
+         *
          * @param subField
          *            The field the subdocs show up in
          * @return
@@ -111,7 +111,7 @@ public class SubDocAccessor {
 
         /**
          * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
-         * 
+         *
          * @param subDocField
          * @param superDocField
          * @return
@@ -125,27 +125,26 @@ public class SubDocAccessor {
          * Register it as a sub resource location
          */
         public void register() {
-            locations.put(type, new Location(collection, lookup, subField, type));
+            locations.put(type, new Location(collection, lookup, subField));
         }
 
     }
 
     /**
      * THe location of the subDoc
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     public class Location {
 
         private final String collection;
         private final Map<String, String> lookup;
         private final String subField;
-        private final String type;
 
         /**
          * Create a new location to store subdocs
-         * 
+         *
          * @param collection
          *            the collection the superdoc is in
          * @param key
@@ -153,12 +152,11 @@ public class SubDocAccessor {
          * @param subField
          *            the place to put the sub doc
          */
-        public Location(String collection, Map<String, String> lookup, String subField, String type) {
+        public Location(String collection, Map<String, String> lookup, String subField) {
             super();
             this.collection = collection;
             this.lookup = lookup;
             this.subField = subField;
-            this.type = type;
         }
 
         private String getParentEntityId(String entityId) {
@@ -172,28 +170,28 @@ public class SubDocAccessor {
             }
             return parentQuery.getQueryObject();
         }
-        
+
         // this method is for supporting patch sub doc
         public boolean doUpdate(Query query, Update update) {
             DBObject queryDBObject = toSubDocQuery(query);
-            
+
             DBObject elementMatch = new BasicDBObject("$elemMatch", query.getQueryObject());
             queryDBObject.put(subField, elementMatch);
-            
+
             DBObject patchUpdate = toSubDocUpdate(update);
             String updateCommand = "{findAndModify:\"" + collection + "\",query:" + queryDBObject.toString()
                     + ",update:" + patchUpdate.toString() + "}";
-            LOG.info("the update date mongo command is: {}", updateCommand);
+            LOG.debug("the update date mongo command is: {}", updateCommand);
             CommandResult result = template.executeCommand(updateCommand);
             return result.get("value") != null;
 
         }
-        
+
         // transform original update to sub doc update with positional operator $
         @SuppressWarnings("unchecked")
         private DBObject toSubDocUpdate(Update originalUpdate) {
             DBObject updateDBObject = new BasicDBObject();
-            
+
             for (String key : originalUpdate.getUpdateObject().keySet()) {
                 if (key.startsWith("$")) {
                     Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
@@ -219,16 +217,14 @@ public class SubDocAccessor {
         }
 
         private DBObject buildPullObject(List<Entity> subEntities) {
-            List<String> existingIds = new ArrayList<String>();
+            Set<String> existingIds = new HashSet<String>();
             for (Entity entity : subEntities) {
                 if (entity.getEntityId() != null && !entity.getEntityId().isEmpty()) {
                     existingIds.add(entity.getEntityId());
                 }
             }
-            Set<String> set = new HashSet<String>();
-            set.addAll(existingIds);
-            set.addAll(getSubDocDids(subEntities));
-            Query pullQuery = new Query(Criteria.where("_id").in(set.toArray()));
+            existingIds.addAll(getSubDocDids(subEntities));
+            Query pullQuery = new Query(Criteria.where("_id").in(existingIds));
             Update update = new Update();
             update.pull(subField, pullQuery.getQueryObject());
             return update.getUpdateObject();
@@ -264,10 +260,6 @@ public class SubDocAccessor {
 
             DBObject dbObject = mongoEntity.toDBObject(didGenerator, naturalKeyExtractor);
 
-            // uncomment out if embeddedDid need to cat parent did
-            // String originalDid = (String) dbObject.get("_id");
-            // String embededDid = getParentEntityId(entity.getBody()) + ID_SEPERATOR + originalDid;
-            // dbObject.put("_id", embededDid);
             return dbObject;
         }
 
@@ -321,10 +313,7 @@ public class SubDocAccessor {
 
         public Entity findById(String id) {
             LOG.info("the subDoc id is: {}", id);
-            // uncomment out if embededDid need to cat parent id
-            // Query parentQuery = new Query(Criteria.where("_id").is(getParentEntityId(id)));
             Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
-            // comment out if embededDid need to cat parent id
             Query parentQuery = subDocQuery;
             if (id.split("_id").length == 2) {
                 parentQuery = new Query(Criteria.where("_id").is(id.split("_id")[0] + "_id"));
@@ -345,7 +334,6 @@ public class SubDocAccessor {
         }
 
         // convert original query match criteria to match embeded subDocs
-        @SuppressWarnings("unchecked")
         private DBObject toSubDocQuery(Query originalQuery) {
             return toSubDocQuery(originalQuery.getQueryObject());
         }
@@ -407,7 +395,7 @@ public class SubDocAccessor {
 
         @SuppressWarnings("unchecked")
         private List<Entity> findSubDocs(DBObject parentQuery, DBObject subDocQuery, DBObject limitQuery) {
-            StringBuffer limitQuerySB = new StringBuffer();
+            StringBuilder limitQuerySB = new StringBuilder();
             if (limitQuery != null && limitQuery.keySet().size() > 0) {
                 if (limitQuery.get("$sort") != null) {
                     limitQuerySB.append(",{$sort:" + limitQuery.get("$sort").toString() + "}");
@@ -433,10 +421,6 @@ public class SubDocAccessor {
             return entities;
         }
 
-        private Map<String, Object> read(String id) {
-            return read(id, null);
-        }
-
         @SuppressWarnings("unchecked")
         Map<String, Object> read(String id, Criteria additionalCriteria) {
             Query query = Query.query(Criteria.where("_id").is(getParentEntityId(id)));
@@ -453,79 +437,6 @@ public class SubDocAccessor {
 
         private String getField(String id) {
             return subField + "." + id;
-        }
-
-        /**
-         * If this query contains an id, we can search for that easy, so pull the id out if it
-         * exists
-         * 
-         * @param query
-         * @return
-         */
-        private String getId(Query query) {
-            Object idQuery = query.getQueryObject().get("_id");
-            if (idQuery instanceof String) {
-                return (String) idQuery;
-            } else if (idQuery instanceof DBObject) {
-                DBObject dbQuery = (DBObject) idQuery;
-                Object inQuery = dbQuery.get("$in");
-                if (inQuery instanceof List<?> && ((List<?>) inQuery).size() == 1) {
-                    return ((List<?>) inQuery).get(0).toString();
-                } else if (inQuery instanceof Object[] && ((Object[]) inQuery).length == 1) {
-                    return ((Object[]) inQuery)[0].toString();
-                }
-            }
-            return null;
-
-        }
-
-        private List<Entity> find(Query original) {
-            List<Entity> results = new ArrayList<Entity>();
-            String extractedId = getId(original);
-            if (extractedId != null) {
-                results.add(new MongoEntity(type, read(extractedId)));
-            } else {
-                DBObject query = buildSubDocQuery(original);
-                DBCursor cursor = template.getCollection(collection).find(query, new BasicDBObject(subField, 1));
-                while (cursor.hasNext()) {
-                    DBObject next = cursor.next();
-                    @SuppressWarnings("unchecked")
-                    Map<String, Map<String, Object>> subEntities = (Map<String, Map<String, Object>>) next
-                            .get(subField);
-                    for (Entry<String, Map<String, Object>> subEntityEntry : subEntities.entrySet()) {
-                        Map<String, Object> subEntity = subEntityEntry.getValue();
-                        String id = subEntityEntry.getKey();
-                        results.add(new MongoEntity(type, id, subEntity, new HashMap<String, Object>()));
-                    }
-                }
-            }
-            return results;
-        }
-
-        private DBObject buildSubDocQuery(Query original) {
-            DBObject originalQuery = original.getQueryObject();
-            DBObject query = new BasicDBObject();
-            for (Entry<String, String> entry : lookup.entrySet()) {
-                String keyField = entry.getKey();
-                Object keyQuery = originalQuery.get("body." + entry.getValue());
-                if (keyQuery != null) {
-                    query.put(keyField, keyQuery);
-                }
-            }
-            Object idQuery = originalQuery.get("_id");
-            if (idQuery instanceof String) {
-                // we can filter out some more based on the parent id
-                query.put("_id", getParentEntityId((String) idQuery));
-            }
-            // metadata query params can go in as is
-            for (String key : originalQuery.keySet()) {
-                if (key.startsWith("metaData")) {
-                    query.put(key, originalQuery.get(key));
-                }
-            }
-
-            query.put(subField, new BasicDBObject("$exists", true));
-            return query;
         }
 
         /*
@@ -551,7 +462,7 @@ public class SubDocAccessor {
         public long count(Query query) {
             return this.findAll(query).size();
         }
-        
+
         // public boolean delete(String id) {
         // String targetDoc = "body." + lookup.get("_id") + "." + id;
         // DBObject query = this.getExactSubDocQuery(id);
@@ -561,7 +472,7 @@ public class SubDocAccessor {
         // }
 
         public void deleteAll(Query query) {
-            for (Entity e : find(query)) {
+            for (Entity e : findAll(query)) {
                 delete(e.getEntityId());
             }
         }
