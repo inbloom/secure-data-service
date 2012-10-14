@@ -335,6 +335,7 @@ public class SubDocAccessor {
         }
 
         // convert original query match criteria to match embeded subDocs
+        @SuppressWarnings("unchecked")
         protected DBObject toSubDocQuery(Query originalQuery, boolean isParentQuery) {
             return toSubDocQuery(originalQuery.getQueryObject(), isParentQuery);
         }
@@ -390,16 +391,15 @@ public class SubDocAccessor {
                 if (!key.startsWith("$")) {
                     String newKey = key;
                     Object newValue = originalDBObject.get(key);
+
                     if (isParentQuery && key.equals("_id") && getId(newValue) != null
                             && !getId(newValue).equals(getParentId(getId(newValue)))) {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (key.startsWith("metaData")) {
-                        if (isParentQuery) {
-                            // use parent's metaData
-                            newDBObject.put(newKey, newValue);
-                        }
+                    if (isParentQuery && key.equals("metaData.tenantId")) {
+                        // assume the super doc has same tenantId as sub Doc
+                        newDBObject.put(newKey, newValue);
                     } else {
                         // for other query, append the subfield to original key
                         newKey = subField + "." + key;

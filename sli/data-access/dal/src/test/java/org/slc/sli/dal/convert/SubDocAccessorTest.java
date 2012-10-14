@@ -222,7 +222,7 @@ public class SubDocAccessorTest {
         assertEquals("someValue", childQuery.get("studentSectionAssociation.someProperty"));
         assertEquals("parent_idchild", childQuery.get("studentSectionAssociation._id"));
         assertEquals(null, childQuery.get("_id"));
-        assertEquals(null, childQuery.get("metaData.tenantId"));
+        assertEquals("myTenant", childQuery.get("studentSectionAssociation.metaData.tenantId"));
 
     }
 
