@@ -80,81 +80,82 @@ public class InterchangeEdOrgCalGenerator {
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter) {
 
         generateSessions(iWriter, MetaRelations.SESSION_MAP.values());
-        
+
         generateGradingPeriod(iWriter, MetaRelations.GRADINGPERIOD_MAP.values());
-        
-        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
+//
+//        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
 
     }
-    
-    
-	private static void generateGradingPeriod(
-			InterchangeWriter<InterchangeEducationOrgCalendar> iWriter,
-			Collection<GradingPeriodMeta> gradingPeriodMetas) {
-		long startTime = System.currentTimeMillis();
-		
+
+
+    private static void generateGradingPeriod(
+            InterchangeWriter<InterchangeEducationOrgCalendar> iWriter,
+            Collection<GradingPeriodMeta> gradingPeriodMetas) {
+        long startTime = System.currentTimeMillis();
+
         int count=1;
         String prevOrgId = "";
-		for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
+        for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
 
-			GradingPeriod gradingPeriod = null;
+            GradingPeriod gradingPeriod = null;
 
-			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-				gradingPeriod = null;
-			} else {
-				// calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
-				//gradingPeriod = gpg.getGradingPeriod();
-				for (String calendarId : gradingPeriodMeta.calendars) {
-				    if (count>MAX_GRADING_PERIODS) break;
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                gradingPeriod = null;
+            } else {
+                // calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
+                //gradingPeriod = gpg.getGradingPeriod();
+                for (String calendarId : gradingPeriodMeta.calendars) {
+                    if (count>MAX_GRADING_PERIODS) break;
                     String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
                     orgId = orgId.substring(0, orgId.lastIndexOf("-"));
                     if (!prevOrgId.equalsIgnoreCase(orgId)) count=1;
                     prevOrgId = orgId;
-				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
-				    gradingPeriod.setId(gradingPeriodMeta.id);
-				    
-					if (MetaRelations.GradingPeriod_Ref) {
-						ReferenceType calRef = new ReferenceType();
-						calRef.setRef(new Ref(calendarId));
-						gradingPeriod.getCalendarDateReference().add(calRef);
-					} else {
-						CalendarDateReferenceType calRef = new CalendarDateReferenceType();
-						CalendarDateIdentityType cit = new CalendarDateIdentityType();
-						cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
-						cit.setDate("2011-01-01");
-						calRef.setCalendarDateIdentity(cit);
-						gradingPeriod.getCalendarDateReference().add(calRef);
-					}
-				
-					count++;
-				}
-			}
 
-	         iWriter.marshal(gradingPeriod);
+                    gradingPeriod = gpg.getGradingPeriod(orgId, gradingPeriodMeta.getGradingPeriodNum());
+                    gradingPeriod.setId(gradingPeriodMeta.id);
 
-		}
+                    if (MetaRelations.GradingPeriod_Ref) {
+                        ReferenceType calRef = new ReferenceType();
+                        calRef.setRef(new Ref(calendarId));
+                        gradingPeriod.getCalendarDateReference().add(calRef);
+                    } else {
+                        CalendarDateReferenceType calRef = new CalendarDateReferenceType();
+                        CalendarDateIdentityType cit = new CalendarDateIdentityType();
+                        cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
+                        cit.setDate("2011-01-01");
+                        calRef.setCalendarDateIdentity(cit);
+                        gradingPeriod.getCalendarDateReference().add(calRef);
+                    }
 
-		System.out.println("generated " + gradingPeriodMetas.size()
-				+ " GradingPeriod objects in: "
-				+ (System.currentTimeMillis() - startTime));
-	}
+                    count++;
+                }
+            }
 
-	private static void generateCalendar(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter, Collection<CalendarMeta> calendarMetas) {
-    	
-    	 long startTime = System.currentTimeMillis();
-    	 int dateCount = 0;
+             iWriter.marshal(gradingPeriod);
+
+        }
+
+        System.out.println("generated " + gradingPeriodMetas.size()
+                + " GradingPeriod objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+
+    private static void generateCalendar(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter, Collection<CalendarMeta> calendarMetas) {
+
+         long startTime = System.currentTimeMillis();
+         int dateCount = 0;
          for (CalendarMeta calendarMeta : calendarMetas) {
 
-        	 CalendarDate calendar;
+             CalendarDate calendar;
 
              if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            	 calendar = null;
+                 calendar = null;
              } else {
 //                 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
                  calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount++);
              }
 
-	         iWriter.marshal(calendar);
+             iWriter.marshal(calendar);
 //             interchangeObjects.add(calendar);
          }
          dateCount++;
@@ -163,7 +164,7 @@ public class InterchangeEdOrgCalGenerator {
                  + (System.currentTimeMillis() - startTime));
      }
 
-    
+
     /**
      * Loops all sessions and, using an Session Generator, populates interchange data.
      *
@@ -181,11 +182,11 @@ public class InterchangeEdOrgCalGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 session = null;
             } else {
-                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList);
-            	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
+                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodNumList);
+                //session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
-	        iWriter.marshal(session);
+            iWriter.marshal(session);
 //            interchangeObjects.add(session);
         }
 

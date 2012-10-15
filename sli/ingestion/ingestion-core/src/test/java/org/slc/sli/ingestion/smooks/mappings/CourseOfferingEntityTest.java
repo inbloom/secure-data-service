@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -10,17 +26,27 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for CourseOffering entity.
- * 
+ *
  * @author srichards
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CourseOfferingEntityTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     /**
      * Test that Ed-Fi entity is correctly mapped to a NeutralRecord.
@@ -45,7 +71,7 @@ public class CourseOfferingEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                        targetSelector, edfiXml);
+                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames);
 
         checkValidNeutralRecord(neutralRecord);
     }
@@ -69,17 +95,17 @@ public class CourseOfferingEntityTest {
         assertEquals("Expected different StateOrganizationId", "School Reference State Organization Id", educationalOrgIdentity.get("StateOrganizationId"));
 
         @SuppressWarnings("unchecked")
-        List<Map<String, String>> educationOrgIdentificationCodes = (List<Map<String, String>>) educationalOrgIdentity.get("EducationOrgIdentificationCode"); 
+        List<Map<String, String>> educationOrgIdentificationCodes = (List<Map<String, String>>) educationalOrgIdentity.get("EducationOrgIdentificationCode");
         assertNotNull("Expected non-null EducationOrgIdentificationCodes", educationOrgIdentificationCodes);
         assertEquals("Expected two EducationOrgIdentificationCodes", 2, educationOrgIdentificationCodes.size());
 
         Map<String, String> educationOrgIdentificationCode = educationOrgIdentificationCodes.get(0);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);        
+        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
         assertEquals("Expected different IdentificationSystem", "School Reference Identification System 1", educationOrgIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different ID", "School Reference ID 1", educationOrgIdentificationCode.get("ID"));
 
         educationOrgIdentificationCode = educationOrgIdentificationCodes.get(1);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);        
+        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
         assertEquals("Expected different IdentificationSystem", "School Reference Identification System 2", educationOrgIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different ID", "School Reference ID 2", educationOrgIdentificationCode.get("ID"));
 
@@ -107,17 +133,17 @@ public class CourseOfferingEntityTest {
         assertNotNull("Expected non-null StateOrganizationId", stateOrganizationId);
         assertEquals("Expected different StateOrganizationId", "Session Reference State Organization Id 2", stateOrganizationId);
 
-        educationOrgIdentificationCodes = (List<Map<String, String>>) sessionIdentity.get("EducationOrgIdentificationCode"); 
+        educationOrgIdentificationCodes = (List<Map<String, String>>) sessionIdentity.get("EducationOrgIdentificationCode");
         assertNotNull("Expected non-null EducationOrgIdentificationCodes", educationOrgIdentificationCodes);
         assertEquals("Expected two EducationOrgIdentificationCodes", 2, educationOrgIdentificationCodes.size());
 
         educationOrgIdentificationCode = educationOrgIdentificationCodes.get(0);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);        
+        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
         assertEquals("Expected different IdentificationSystem", "Session Reference Identification System 1", educationOrgIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different ID", "Session Reference ID 1", educationOrgIdentificationCode.get("ID"));
 
         educationOrgIdentificationCode = educationOrgIdentificationCodes.get(1);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);        
+        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
         assertEquals("Expected different IdentificationSystem", "Session Reference Identification System 2", educationOrgIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different ID", "Session Reference ID 2", educationOrgIdentificationCode.get("ID"));
 

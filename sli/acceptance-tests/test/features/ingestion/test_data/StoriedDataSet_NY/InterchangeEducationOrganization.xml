@@ -317,7 +317,8 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>Mason201-1</UniqueCourseId></Course>
+		<UniqueCourseId>Mason201-1</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>PhySci001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -330,7 +331,8 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>PhySci001-2</UniqueCourseId></Course>
+		<UniqueCourseId>PhySci001-2</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>Chem305</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -343,7 +345,8 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>Chem305-3</UniqueCourseId></Course>
+		<UniqueCourseId>Chem305-3</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>Math001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -356,7 +359,8 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>Math001-4</UniqueCourseId></Course>
+		<UniqueCourseId>Math001-4</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>Art001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -369,7 +373,8 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>Art001-5</UniqueCourseId></Course>
+		<UniqueCourseId>Art001-5</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>ARCH221</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -382,7 +387,8 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>ARCH221-6</UniqueCourseId></Course>
+		<UniqueCourseId>ARCH221-6</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>PE001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -395,7 +401,8 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>PE001-7</UniqueCourseId></Course>
+		<UniqueCourseId>PE001-7</UniqueCourseId>
+	</Course>
 	<Course>
 		<CourseTitle>Sci127</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -408,5 +415,6 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-	<UniqueCourseId>Sci127-8</UniqueCourseId></Course>
+		<UniqueCourseId>Sci127-8</UniqueCourseId>
+	</Course>
 </InterchangeEducationOrganization>

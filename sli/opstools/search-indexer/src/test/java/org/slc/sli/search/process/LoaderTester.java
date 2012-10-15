@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
 
@@ -11,28 +12,31 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.LoaderImpl;
-import org.slc.sli.search.util.IndexEntityConverter;
+import org.slc.sli.search.transform.IndexEntityConverter;
+import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LoaderTester {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private LoaderImpl loader = new LoaderImpl() {
+    private final LoaderImpl loader = new LoaderImpl() {
+        @Override
         public void archive(File inFile) {
             mon.release();
         }
     };
-    private MockIndexer indexer = new MockIndexer();
+    private final MockIndexer indexer = new MockIndexer();
     
     private Semaphore mon;
     
-    private IndexEntityConverter indexConverter = new IndexEntityConverter();
+    private final IndexEntityConverter indexConverter = new IndexEntityConverter();
 
     private class MockIndexer implements Indexer {
-        private List<IndexEntity> entities = new ArrayList<IndexEntity>();
+        private final List<IndexEntity> entities = new ArrayList<IndexEntity>();
         public void reset() {
             entities.clear();
         }
@@ -45,13 +49,14 @@ public class LoaderTester {
         }
     };
     
-    private File inbox = new File("inbox");
+    private final File inbox = new File(Constants.DEFAULT_INBOX_DIR);
     
     @Before
     public void setup() throws Exception {
         loader.setIndexer(indexer);
         loader.setPollIntervalMillis(10);
         indexConverter.setDecrypt(false);
+        indexConverter.setIndexConfigStore(new IndexConfigStore("index-config-test.json"));
         loader.setIndexEntityConverter(indexConverter);
         indexer.reset();
         
@@ -71,7 +76,7 @@ public class LoaderTester {
     }
     
     private void waitForFiles(int n) throws Exception {
-        mon.acquire(n);
+        mon.tryAcquire(n, 1, TimeUnit.SECONDS);
     }
     
     @Test
@@ -81,8 +86,8 @@ public class LoaderTester {
         loader.processFile(file);
         waitForFiles(1);
         Assert.assertEquals(3, indexer.getEntities().size());
-        Assert.assertEquals("11", indexer.getEntities().get(0).getId());
-        Assert.assertEquals("x", indexer.getEntities().get(1).getType());
+        Assert.assertEquals("another", indexer.getEntities().get(0).getId());
+        Assert.assertEquals("student", indexer.getEntities().get(1).getType());
         Assert.assertEquals("tenant", indexer.getEntities().get(2).getIndex());
     }
     

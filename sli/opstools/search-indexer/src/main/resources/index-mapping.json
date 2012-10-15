@@ -1,0 +1,40 @@
+{
+  "mappings": {
+    "student": {
+      "properties": {
+        "context": {
+          "properties": {
+            "schoolId": {
+              "type": "string",
+              "index": "not_analyzed"
+            }
+          }
+        }
+      }
+    },
+    "section": {
+      "properties": {
+        "context": {
+          "properties": {
+            "schoolId": {
+              "type": "string",
+              "index": "not_analyzed"
+            }
+          }
+        }
+      }
+    },
+    "course": {
+      "properties": {
+        "context": {
+          "properties": {
+            "schoolId": {
+              "type": "string",
+              "index": "not_analyzed"
+            }
+          }
+        }
+      }
+    }
+  }
+}

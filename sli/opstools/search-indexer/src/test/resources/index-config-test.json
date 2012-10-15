@@ -1,0 +1,31 @@
+{
+  "student": {
+    "fields": [
+      "_id",
+      "body.name.firstName",
+      "body.name.middleName",
+      "body.name.lastSurname",
+      "body.otherName.firstName",
+      "body.name.lastSurname",
+      "metaData",
+      "type"
+    ]
+  },
+  "section": {
+    "fields": [
+      "_id",
+      "body.uniqueSectionCode",
+      "metaData",
+      "type"
+    ]
+  },
+  "test": {
+    "indexType": "student",
+    "fields": [
+      "body.a",
+      "body.b",
+      "body.name"
+    ],
+    "rename" : {"body.name" : "_id", "body.b": "body.metaData.contextId"}
+  }
+}

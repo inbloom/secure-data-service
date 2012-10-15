@@ -33,6 +33,6 @@ Parameters that are several words (Like the user's name) should be quoted.
 Roles, because it is a list, can be written as a comma seperated list.
 
 Example usage:
-ruby generator.rb -e 86400 -c 2zhRrEXh8r -u rbraverman -r "Educator","IT Administrator" -t "developer@gmail.com" 
+ruby generator.rb -e 86400 -c 2zhRrEXh8r -u rbraverman -r "Educator" -t "developer@gmail.com" 
 
 Example output: Your new long-lived session token is t-12345678-abcd-1234-5678-1234567890ab

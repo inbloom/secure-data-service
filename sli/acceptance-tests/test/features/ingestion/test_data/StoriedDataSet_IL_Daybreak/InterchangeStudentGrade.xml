@@ -8,7 +8,9 @@
 		<ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+                   			<ID>South Daybreak Elementary</ID>
+                		</EducationOrgIdentificationCode>			
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</StudentCompetencyObjective>
@@ -16628,6 +16630,21 @@
 				<SessionName>Spring 2011 South Daybreak Elementary</SessionName>
 			</SessionIdentity>
 		</SessionReference>
-		<ReportCardReference ref="RC-GK-100000017-1"/>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <SchoolYear>2010-2011</SchoolYear>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
 	</StudentAcademicRecord>
 </InterchangeStudentGrade>

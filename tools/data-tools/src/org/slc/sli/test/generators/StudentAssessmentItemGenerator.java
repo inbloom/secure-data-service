@@ -20,6 +20,7 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentAssessmentItemGenerator {
@@ -40,15 +41,17 @@ public class StudentAssessmentItemGenerator {
         sai.setAssessmentItemResult(airts[random.nextInt(airts.length)]);
 
         sai.setAssessmentItemReference(assessmentItemReference);
-
+        
+       
         if (optional) {
+           
             sai.setRawScoreResult(random.nextInt(100));
-
-		
+	
 			// TODO: StudentTestAssessmentReference
 			if (studentTestAssessmentReference != null) {
-				// sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
+			    
 				sai.setStudentAssessmentReference(studentTestAssessmentReference);
+				
 			}
 
 			// TODO: StudentObjectiveAssessmentReference
@@ -61,12 +64,32 @@ public class StudentAssessmentItemGenerator {
         return sai;
     }
 
-    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference) {
-        return generate(id, assessmentItemReference, null, null);
-    }
+//    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference) {
+//        return generate(id, assessmentItemReference, null, null);
+//    }
 
-    public static StudentAssessmentItem generateLowFi(String id, AssessmentItemReferenceType assessmentItemReference) {
-        StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(false);
-        return saig.generate(id, assessmentItemReference);
+
+
+    
+    public static StudentAssessmentItem generateLowFi(String id, String studentAssessmentId, AssessmentItemReferenceType assessmentItemReference) {
+        StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(true);
+     
+        if(MetaRelations.StudentAssessment_Ref){
+            ReferenceType star = new ReferenceType();
+            StudentAssessmentIdentificationCode saic = new StudentAssessmentIdentificationCode();
+            saic.setID(studentAssessmentId);
+            star.setRef(saic);
+            return saig.generate(id, assessmentItemReference,star, null);
+        } else {
+           // System.out.println("The complex type does not define in Schema, so it cannot be gennerated!");
+            //the following code to use to generate complex object
+//            StudentAssessmentIdentityType sait =  new StudentAssessmentIdentityType();
+//            sait.getStudentAssessmentIdentificationCode().add(studentAssessmentId);
+//            StudentAssessmentReferenceType sart = new StudentAssessmentReferenceType ();
+//            sart.setStudentAssessmentIdentity(sait); 
+            return saig.generate(id, assessmentItemReference,null, null);
+        }
     }
+    
+     
 }

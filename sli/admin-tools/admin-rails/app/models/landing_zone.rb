@@ -42,6 +42,11 @@ class LandingZone
     end
   end
 
+  SAMPLE_DATA_SET_TO_LOGIN_USER = {
+      "small" => "linda.kim",
+      "medium" => "lroslin"
+  }
+
   def self.provision(edorg_id, tenant, uid, sample_data_select = nil, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
     Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
@@ -110,7 +115,7 @@ class LandingZone
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
         if sample_data_select !=nil && sample_data_select != "" && isDuplicate == false
-          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first]).deliver
+          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
         elsif (sample_data_select == nil || sample_data_select == "")
           ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
         end

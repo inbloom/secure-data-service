@@ -46,6 +46,21 @@ After do
       STDOUT.puts "Reason:  #{$!}"
     end
   end
+
+  # This is a hack to clean up the landing zone for the pre-populate sample data scenario
+  # It depends on other sandbox LZ provisioning tests to clean up the LZ for the pre-populate test.
+  # This assumes test ordering, so it's definitely not the clean way to code.
+  # Please update if anyone can think of a better way. Thank you!
+  begin
+    sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
+    STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
+    initializeLandingZone(sample_data_set_lz)
+  rescue
+    if $SLI_DEBUG
+      STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
+      STDOUT.puts "Reason:  #{$!}"
+    end
+  end
 end
 
 
@@ -297,7 +312,7 @@ end
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
   tenant_collection =@db["tenant"]
   preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => PRELOAD_EDORG,"body.landingZone.preload.files" => [sample_data_set])
-  assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for the tenant in mongo")
+  assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for tenant #{@tenantId} in mongo, instead tenant was #{tenant_collection.find("body.tenantId"=> @tenantId)}")
   #preload_tenant.each  do |tenant|
   #  puts tenant
   #end
@@ -322,7 +337,15 @@ Then /^I go to my landing zone$/ do
 end
 
 Then /^I clean the landing zone$/ do
-  initializeLandingZone(@landing_zone_path)
+  begin
+    STDOUT.puts "Attempting to delete #{@lz}" if $SLI_DEBUG
+    initializeLandingZone(@lz)
+  rescue
+    if $SLI_DEBUG
+      STDOUT.puts "Could not clean out landing zone:  #{@lz}"
+      STDOUT.puts "Reason:  #{$!}"
+    end
+  end
 end
 
 def check_lz_path(path, tenant, edOrg)

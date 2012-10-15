@@ -5,7 +5,7 @@ Feature: Sort and page API results
 Scenario: Check default limit of 50
   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
   Given format "application/json"
-  When I navigate to GET "/v1/students"
+  When I navigate to GET "/v1/schools/%5b8cc0a1ac-ccb5-dffc-1d74-32964722179b%2c92d6d5a0-852c-45f4-907a-912752831772%2ca189b6f2-cc17-4d66-8b0d-0478dcf0cdfb%2cec2e4218-6483-4e9c-8954-0aecccfd4731%5d/courses"
   Then I should receive a collection with 50 elements
 
 Scenario: Sorting a collection of student school association links by entryGradeLevel, ascending

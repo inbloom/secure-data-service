@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -193,6 +194,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
+            List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
+
+            //UN: Added the records to the recordHashStore
+            for (NeutralRecord neutralRecord : records) {
+                recordHashStore.add(neutralRecord);
+            }
 
             // TODO: make this generic for all self-referencing entities
             if ("learningObjective".equals(collectionNameAsStaged)) {
@@ -236,6 +243,16 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             NeutralRecord record = recordStore.get(persist.indexOf(entity));
                             Metrics currentMetric = getOrCreateMetric(perFileMetrics, record, workNote);
                             currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
+
+                            if (recordHashStore.contains(record)) {
+                                recordHashStore.remove(record);
+                            }
+                        }
+                    }
+                    for (NeutralRecord neutralRecord2 : recordHashStore) {
+                        if (neutralRecord2.getMetaDataByName("rhId") != null) {
+                            batchJobDAO.findAndUpsertRecordHash(neutralRecord2.getMetaDataByName("rhTenantId").toString(),
+                                    neutralRecord2.getMetaDataByName("rhId").toString());
                         }
                     }
                 } catch (DataAccessResourceFailureException darfe) {

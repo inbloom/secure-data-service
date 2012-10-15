@@ -50,6 +50,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentGrade;
 import org.slc.sli.test.edfi.entities.LearningObjective;
 import org.slc.sli.test.edfi.entities.LearningObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
@@ -69,10 +70,12 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
+import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
 import org.slc.sli.test.edfi.entities.meta.ReportCardMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
@@ -114,6 +117,10 @@ public final class InterchangeStudentGradeGenerator {
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
         gradingPeriodItentity.setSchoolYear(gpMeta.getBeginData() + "-" + gpMeta.getEndDate());
         gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+       
+       // gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        //orignal wrong code
+        
         gradingPeriodItentity.setStateOrganizationId(schoolId);
         return gradingPeriodRef;
     }
@@ -398,7 +405,7 @@ public final class InterchangeStudentGradeGenerator {
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
             Map<String, SectionMeta> sectionMetaMap, InterchangeWriter<InterchangeStudentGrade> writer) {
 
-    	int studentCompetencyObjectiveIdCounter = 0;
+    	int learningObjectiveIdCounter = 0;
     	
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
@@ -424,9 +431,15 @@ public final class InterchangeStudentGradeGenerator {
                             .getStudentSectionAssociationReference(studentRef, sectionRef);
                     LearningObjectiveReferenceType loRef = new LearningObjectiveReferenceType();
                     LearningObjectiveIdentityType loIdentity = new LearningObjectiveIdentityType();
-                    studentCompetencyObjectiveIdCounter++;
-                    loIdentity.getLearningObjectiveIdOrObjective().add(ID_PREFIX_LO + studentCompetencyObjectiveIdCounter);
+                    LearningStandardId lsi = new LearningStandardId();
+                    learningObjectiveIdCounter++;
+                    lsi.setIdentificationCode(ID_PREFIX_LO + learningObjectiveIdCounter);
+                    loIdentity.getLearningObjectiveIdOrObjective().add(lsi);
                     loRef.setLearningObjectiveIdentity(loIdentity);
+                    
+                    LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
+                    
+                    AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
                             null);
@@ -467,8 +480,9 @@ public final class InterchangeStudentGradeGenerator {
                     JAXBElement<String> oid = factory
                             .createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(ID_PREFIX_SCO
                                     + reportCardId + "_" + scoId);
-                    scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
-                    scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
+                   scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
+                    //lina
+                     scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
 
                     LearningObjectiveReferenceType learningObjectiveRef = null;
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef,

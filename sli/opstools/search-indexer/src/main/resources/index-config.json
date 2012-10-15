@@ -1,0 +1,28 @@
+{
+  "student": {
+    "fields": [
+      "_id",
+      "body.name.firstName",
+      "body.name.middleName",
+      "body.name.lastSurname",
+      "body.otherName.firstName",
+      "body.otherName.middleName",
+      "body.otherName.lastSurname",
+      "metaData.tenantId",
+      "type"
+    ]
+  },
+  "studentSchoolAssociation": {
+    "indexType": "student",
+    "fields": [
+      "_id",
+      "body.studentId",
+      "body.schoolId", 
+      "body.exitWithdrawDate",
+      "metaData.tenantId",
+      "type"
+    ],
+    "rename" : {"body.studentId" : "_id", "body.schoolId": "body.context.schoolId"},
+    "filterCondition":{"body.exitWithdrawDate": null}
+  }
+}

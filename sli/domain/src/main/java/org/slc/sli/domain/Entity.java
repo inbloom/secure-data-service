@@ -16,6 +16,7 @@
 
 package org.slc.sli.domain;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,4 +67,11 @@ public interface Entity {
      * @return
      */
     public CalculatedData<Map<String, Integer>> getAggregates();
+
+    /**
+     * Get the embedded data
+     *
+     * @return
+     */
+    public Map<String, List<Map<String, Object>>> getEmbeddedData();
 }

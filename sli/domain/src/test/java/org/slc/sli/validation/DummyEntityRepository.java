@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
-import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -44,6 +41,15 @@ import org.slc.sli.domain.Repository;
 public class DummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
+    private boolean existsAlwaysTrue;
+
+    public DummyEntityRepository() {
+        this(false);
+    }
+
+    public DummyEntityRepository(boolean existsAlwaysTrue) {
+        this.existsAlwaysTrue = existsAlwaysTrue;
+    }
 
     public void clean() {
         entities = new HashMap<String, Map<String, Entity>>();
@@ -70,18 +76,6 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void ensureIndex(IndexDefinition index, String collection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery queryParameters) {
         // TODO Auto-generated method stub
         return null;
@@ -94,15 +88,9 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectioName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public boolean update(String collection, Entity entity) {
-        // TODO Auto-generated method stub
-        return false;
+        addEntity(collection, entity.getEntityId(), entity);
+        return true;
     }
 
     @Override
@@ -130,15 +118,9 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -160,18 +142,7 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public CommandResult execute(DBObject command) {
-        return null;
-    }
-
-    @Override
     public DBCollection getCollection(String collectionName) {
-        return null;
-    }
-
-    @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -183,6 +154,9 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public boolean exists(String collectionName, String id) {
+        if (existsAlwaysTrue) {
+            return true;
+        }
         Map<String, Entity> collection = entities.get(collectionName);
         if (collection.get(id) == null) {
             return false;
@@ -213,22 +187,9 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -258,5 +219,15 @@ public class DummyEntityRepository implements Repository<Entity> {
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public void addEntity(String collectionName, Entity entity) {
+        if (entities.get(collectionName) != null) {
+            entities.get(collectionName).put(entity.getEntityId(), entity);
+        } else {
+            Map<String, Entity> map = new HashMap<String, Entity>();
+            map.put(entity.getEntityId(), entity);
+            entities.put(collectionName, map);
+        }
     }
 }

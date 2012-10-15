@@ -23,9 +23,11 @@ import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
+import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 
 public class GradingPeriodGenerator {
     private static final Logger log = Logger.getLogger(GradingPeriodGenerator.class);
+    
     private String beginDate = null;
     private String endDate = null;
     Random generator = new Random();
@@ -50,9 +52,9 @@ public class GradingPeriodGenerator {
         return gp;
     }
 
-    public GradingPeriodType getGradingPeriodType(int roll) {
-//        int roll = generator.nextInt(20) + 1;
-        switch (roll) {
+    public static GradingPeriodType getGradingPeriodType(int index) {
+        index = index % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS;
+        switch (index) {
         case 1:
             return GradingPeriodType.END_OF_YEAR;
         case 2:

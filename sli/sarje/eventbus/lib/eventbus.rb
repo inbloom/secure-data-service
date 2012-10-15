@@ -93,7 +93,8 @@ module Eventbus
 
       @messaging = MessagingService.new(@config, logger)
       @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
-      @events_channel    = @messaging.get_publisher(events_address(event_type))
+      @events_channel = Hash.new
+      @events_channel[event_type] = @messaging.get_publisher(events_address(event_type))
       @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
 
       @subscribed_event_ids = []
@@ -117,9 +118,14 @@ module Eventbus
       end
     end
 
-    def fire_event(event)
+    def fire_event(events)
       begin
-        @events_channel.publish(event)
+        events.each do |event|
+          event.each_pair do |key, value|
+            @events_channel[key] = @messaging.get_publisher(events_address(key)) if (!@events_channel.has_key?(key))
+            @events_channel[key].publish(value) 
+          end
+        end
       rescue Exception => e
         @logger.warn("problem occurred publishing event: #{e}")
       end

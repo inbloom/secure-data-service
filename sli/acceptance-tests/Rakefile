@@ -67,7 +67,8 @@ $collectionSet = ["student",
                   "studentProgramAssociation",
                   "disciplineAction",
                   "disciplineIncident",
-                  "studentDisciplineIncidentAssociation"]
+                  "studentDisciplineIncidentAssociation",
+                  "graduationPlan"]
 
 #######################################################################################################
 # Helper defs
@@ -452,7 +453,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI,
                      :v1SelectorTests] do
   displayFailureReport()
 end
@@ -491,7 +491,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:provisionIntegrationTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
+task :adminToolsTests => [:provisionIntegrationTests, :preloadResourceTests, :realmInit, :accountApprovalInterfaceTests, :accountApprovalTests, :onboardingIntegrationTests,
                           :tenantMetricsTests, :resetAndChangePasswordTests, :sandboxUserAdminTests,
                           :samtEmailNotificationTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
@@ -607,7 +607,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionPreloading] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest] do
 
   displayFailureReport()
   if $SUCCESS
@@ -671,6 +671,13 @@ runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run API preload resource Tests"
+task :preloadResourceTests => [:realmInit] do
+@tags ||= ["~@wip", "@sandbox"]
+Rake::Task["importSandboxData"].execute
+runTests("test/features/sandbox/preload/tenant_preload.feature")
 end
 
 ############################################################
@@ -898,7 +905,8 @@ task :importSandboxData do
     "studentCompetency" => "studentCompetency_fixture.json",
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
-    "reportCard" => "reportCard_fixture.json"
+    "reportCard" => "reportCard_fixture.json",
+    "graduationPlan" => "graduationPlan_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

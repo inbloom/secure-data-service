@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.common.domain;
 
 import java.util.HashMap;
@@ -12,19 +28,21 @@ public class NaturalKeyDescriptor {
     private String tenantId;
     private String entityType;
     private boolean naturalKeysNotNeeded;
+    private String parentId;
 
     public NaturalKeyDescriptor() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     public NaturalKeyDescriptor(Map<String, String> naturalKeys) {
-        this(naturalKeys, null, null);
+        this(naturalKeys, null, null, null);
     }
 
-    public NaturalKeyDescriptor(Map<String, String> naturalKeys, String tenantId, String entityType) {
+    public NaturalKeyDescriptor(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) {
         this.naturalKeys = naturalKeys;
         this.tenantId = tenantId;
         this.entityType = entityType;
+        this.parentId = parentId;
         if (this.naturalKeys == null) {
             this.naturalKeys = new HashMap<String, String>();
         }
@@ -34,6 +52,9 @@ public class NaturalKeyDescriptor {
         if (this.entityType == null) {
             this.entityType = "";
         }
+        if (this.parentId == null) {
+            this.parentId = "";
+        }
     }
 
     @Override
@@ -42,6 +63,7 @@ public class NaturalKeyDescriptor {
             NaturalKeyDescriptor nkd = (NaturalKeyDescriptor) o;
             if (nkd.getNaturalKeys().equals(this.getNaturalKeys())
                     && nkd.getTenantId().equals(this.getTenantId())
+                    && nkd.getParentId().equals(this.getParentId())
                     && nkd.getEntityType().equals(this.getEntityType())) {
                 return true;
             }
@@ -63,6 +85,10 @@ public class NaturalKeyDescriptor {
 
         if (this.getEntityType() != null) {
             result = 37 * result + this.getEntityType().hashCode();
+        }
+
+        if (this.getParentId() != null) {
+            result = 37 * result + this.getParentId().hashCode();
         }
 
         return result;
@@ -100,4 +126,13 @@ public class NaturalKeyDescriptor {
         this.naturalKeysNotNeeded = naturalKeysNotNeeded;
     }
 
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        if (parentId != null && parentId.length() == 43) {
+            this.parentId = parentId;
+        }
+    }
 }

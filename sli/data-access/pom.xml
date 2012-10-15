@@ -16,23 +16,16 @@
       <sli.home>${project.parent.basedir}</sli.home>
   </properties>
 
-  <modules>
-    <module>dal</module>
-    <module>mock-dal</module>
-  </modules>
-
+    <modules>
+        <module>dal</module>
+    </modules>
+        
   <dependencies>
 
     <!-- Spring Test dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-    </dependency>
-
-    <!-- Spring Data JPA dependency -->
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-jpa</artifactId>
     </dependency>
 
   </dependencies>

@@ -61,6 +61,7 @@ public final class ResourceNames {
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
     public static final String GRADES = "grades";
+    public static final String GRADUATION_PLANS = "graduationPlans";
 
     public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
@@ -83,6 +84,7 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     public static final String ADMIN_DELEGATION = "adminDelegation";
+    public static final String HOME = "home";
 
     public static final String SEARCH = "search";
 
@@ -136,6 +138,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlans");
     }
 
     /*
@@ -155,4 +158,6 @@ public final class ResourceNames {
         }
     }
 
+
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
 }

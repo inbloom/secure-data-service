@@ -78,26 +78,7 @@ public class SecurityCriteria {
         }
         
         if (securityCriteria != null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-            String userId = user.getEntity().getEntityId();
-
-            NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-            query.addOrQuery(createdByQuery);
-            
-            //Check the type of who we are and if we're a teacher, handle it differently.
-            if (EntityNames.TEACHER.equals(user.getEntity().getType())) {
-
-                query = queryMangler.mangleQuery(query, securityCriteria);
-                if (query == null) {
-                    // 403
-                    throw new AccessDeniedException("Access to resource denied.");
-                }
-            }
-            else {
-                query.addOrQuery(new NeutralQuery(securityCriteria));
-            }
+            query.addOrQuery(new NeutralQuery(securityCriteria));
         }
 
         return query;

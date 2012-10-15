@@ -152,7 +152,7 @@ Then I should see following map of entry counts in the corresponding collections
        | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
        | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
-       | graduationPlan              | 3                   | body.educationOrganizationId                   | 36465c681a53a77d71e24285d58bf5af9085e537_id | string  |
+       | graduationPlan              | 3                   | body.educationOrganizationId                   | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | string  |
        | graduationPlan              | 2                   | body.graduationPlanType                        | Minimum                                     | string  |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-2            | string               |
@@ -406,99 +406,102 @@ Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
     | collectionName                       | deterministicId                             | field                             | value                                |
     | competencyLevelDescriptor            | fb623d47656476ad67d8b698ee19d3a1932fd2ea_id | body.codeValue                    | Barely Competent 4                   |
-    | educationOrganization                | 261472ed910549ecff6bb731f49362ed4d3fef05_id | body.stateOrganizationId  | IL                                   |
+    | educationOrganization                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id | body.stateOrganizationId  | IL                                   |
     | assessment                           | 0af135b55da9d8c1cfeb5226836bf40b19f58e8d_id | body.assessmentIdentificationCode.ID  | ACT                              |
-    | educationOrganization                | 36465c681a53a77d71e24285d58bf5af9085e537_id | body.stateOrganizationId  | IL-DAYBREAK                          |
-    | educationOrganization                | e479e04449d7a787bb8cce88335d8214f612416a_id | body.stateOrganizationId  | Daybreak Central High                |
+    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | body.stateOrganizationId  | IL-DAYBREAK                          |
+    | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id | body.stateOrganizationId  | Daybreak Central High                |
     | student                              | 067198fd6da91e1aa8d67e28e850f224d6851713_id | body.studentUniqueStateId         | 800000025                            |
     | staff                                | dfec28d34c75a4d307d1e85579e26a81630f6a47_id | body.staffUniqueStateId           | jstevenson                           |
-    | staff                                | c67d7320aabbeed6ef3ad321e4de250d14a27ac3_id | body.staffUniqueStateId           | linda.kim                            |
-    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
-    | cohort                               | 859ea4f5642777470510bdc378f43184571f90d1_id | body.educationOrgId       | 36465c681a53a77d71e24285d58bf5af9085e537_id |
-    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.studentId            | 25369655c44d8d9346b356a75b8ac3552bb85e6e_id |
-    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.cohortId             | 9f522548066d6edebc551afc6c5214d3360cf539_id |
-    | studentCohortAssociation             | 8020651b339b85058c6cd7400ba238cbb1e377f8_id | body.beginDate            | 2012-01-15                           |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | dfdec1686deef4c317d574ffd637ff12f2ff263f_id | body.competencyLevel.codeValue    | 777                                  |
+    | staff                                | 6757c28005c30748f3bbda02882bf59bc81e0d71_id | body.staffUniqueStateId           | linda.kim                            |
+    | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
+    | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.educationOrgId       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
+    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
-    | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.uniqueCourseId  | State-History-II-G7-50 |
-    | course                               | 7d636088296b5357f6fce410ec720794d71d846a_id | body.schoolId  | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
-    | reportCard                           | b5a7854aa3b946dc0fc1a95506bd559a9228b495_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
+    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
+    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | reportCard                           | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
+    | reportCard                           | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id | body.gradingPeriodId | 5b68a0b672e485892f496987c05e9c32d95f7067_id                       |
 # disciplineAction
-    | disciplineAction                     | 9a1a9dbb09f820022b2d6965599d2aa0ab32201e_id | body.responsibilitySchoolId          | e479e04449d7a787bb8cce88335d8214f612416a_id |
-    | disciplineAction                     | 9a1a9dbb09f820022b2d6965599d2aa0ab32201e_id | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
+    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id | body.responsibilitySchoolId          | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id | body.disciplineActionIdentifier      | cap0-lea0-sch1-da0                   |
 # disciplineIncident
-    | disciplineIncident                   | adcbad0471feb245749a1792f9383a81a2eb6609_id | body.schoolId                        | e479e04449d7a787bb8cce88335d8214f612416a_id |
-    | disciplineIncident                   | adcbad0471feb245749a1792f9383a81a2eb6609_id | body.incidentIdentifier              | Disruption                           |
+    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | 8ff38e10a95a790ac41444105e1815ef3a940a2a_id | body.studentSectionAssociationId     | f489dcb5262469edc5278be810467d52d2eb5921_id |
-    | grade                                | 8ff38e10a95a790ac41444105e1815ef3a940a2a_id | body.gradingPeriodId                 | fe565dbc1d33fce6da502b8b3671630602ac9c72_id |
+    | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.studentSectionAssociationId     | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.gradingPeriodId                 | c29dd49f05474ddc05a21a9bce9cb452ea783a98_id |
 # gradebookEntry
-    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.sectionId                       | d36ad186e632afeed132d7a6cd6fc8bd409e8d3d_id |
-    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.gradebookEntryType              | Quiz                                 |
-    | gradebookEntry                       | e0920728a77fb8d9a8c6b735fb0f5917c5c6997c_id | body.dateAssigned                    | 2011-10-27                           |
+    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
+    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
+    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.dateAssigned                    | 2011-10-13                           |
 # studentAcademicRecord
-    | studentAcademicRecord                | c0ea573c1ee6a9e1a3f88470ce3f5880981dd4d0_id | body.studentId                       | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-    | studentAcademicRecord                | c0ea573c1ee6a9e1a3f88470ce3f5880981dd4d0_id | body.sessionId                       | 02e2f80a0952d4842821220965703da24d49d853_id |
+    | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.studentId                       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id |
+    | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.sessionId                       | a2f899c4b31e2dc11a5a5ab202d4590bb0a33c8b_id |
 # staffEducationOrganizationAssociation
-    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.staffReference                 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
-    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.educationOrganizationReference | 261472ed910549ecff6bb731f49362ed4d3fef05_id |
-    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.staffClassification            | Superintendent                       |
-    | staffEducationOrganizationAssociation | 8294eff8d11604b6d23312345eb761d92c8bb188_id | body.beginDate                      | 1967-08-13                           |
-     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-     | studentDisciplineIncidentAssociation | 3ed0f6b236716378c9e4737df3d94093dfe32554_id | body.disciplineIncidentId    | 4d1d98c6d4c6adf3e2f6008d7896432eb655b22f_id |
+    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffReference                 | e4320d0bef725998faa8579a987ada80f254e7be_id |
+    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
+    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffClassification            | LEA System Administrator                       |
+    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.beginDate                      | 1967-08-13                           |
+     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
 # staffProgramAssociation
-    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.staffId                        | a909105eca7591d418b2697d72df27ca632e16f8_id |
-    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.programId                      | 983dd657325009aefa88a234fa18bdb1e11c82a8_id |
-    | staffProgramAssociation               | 5c39f4b8dd9bff032a7e0e521f466a69e49ce692_id | body.beginDate                      | 2011-01-01                           |
+    | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.staffId                        | 948bd23862b59e1468aa5dfafbec95ea6570e0e4_id |
+    | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.programId                      | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.beginDate                      | 2011-06-01                           |
 # staffCohortAssociation
-    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.staffId                        | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
-    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.cohortId                       | b3bd8fc373ba4b067d3c96aad5fd3fe2c8678138_id |
-    | staffCohortAssociation               | 33fdb121bb81479c7b47c9c526cdf494c9148a86_id | body.beginDate                      | 2011-07-01                           		 |
+    | staffCohortAssociation               | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id | body.staffId                        | c9302118115a8e2f01492914ea22c4176447b6b6_id |
+    | staffCohortAssociation               | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id | body.cohortId                       | e5c71e5eed5b9ded0b4df10ad97860a80cbd4d6c_id |
+    | staffCohortAssociation               | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id | body.beginDate                      | 2011-01-01                                  |
 # teacherSchoolAssociation
-    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.teacherId                      | a965bf003819d48b507749091d282c851dd0507f_id |
-    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.programAssignment              | Regular Education                    |
-    | teacherSchoolAssociation             | dbe1d7765afb058ca9d302b9979d697f9ef42f6f_id | body.schoolId                       | e479e04449d7a787bb8cce88335d8214f612416a_id |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.teacherId                      | b49545f9d443dfbf93358851c903a9923f6af4dd_id |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.programAssignment              | Regular Education                    |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.schoolId                       | a13489364c2eb015c219172d561c62350f0453f3_id |
 # courseOffering
-    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.schoolId                       | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
-    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.sessionId                      | f50d73dc3bbfa3a25bb362a3e225c74162005b4e_id |
-    | courseOffering                       | 81c4de13a78bbaef4a6a84283c28752b09abc449_id | body.localCourseCode                | 3rd Grade Homeroom                          |
-   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.studentAcademicRecordId            | 39dc6fb4f73a616c637b48682faba1176ea23950_id                                 |
-   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseId                | 45b19639f02b1f04a88cab31e543ae58adfcbb27_id                                 |
-   | studentTranscriptAssociation         | 6dcd76c7f1c176528a4530401211662ab97dc3ba_id | body.courseAttemptResult            | Pass                                 |
+    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.schoolId                       | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.sessionId                      | f1f768e7ec6f9936b2414372dcb046a3bca7ad93_id |
+    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode                | Pre-Algebra I                          |
+   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.studentAcademicRecordId            | 1272719cf8247946b9ef689bf1860b27e7df7828_id                                 |
+   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.courseId                | 28ef7ffd6361d977db1c8f66c461d4597913a16e_id                                 |
+   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.courseAttemptResult            | Pass                                 |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
-   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id  |
-   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.schoolId            | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
-   | studentSchoolAssociation             | 8ec47c841fad392b0112063326429815796b19cb_id | body.entryDate            | 2008-09-05                              |
-   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.sectionId            | 51188a8ba3f9a2a9b57c61a99ec080299c5987f1_id |
-   | studentSectionAssociation             | b21f28547fad9d644584b41cf80a0a9a6ac36d2b_id | body.beginDate            | 2011-09-01                              |
-   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.teacherId            | 18f5c2652935c4881c8a88df04481e8c3aeb5aac_id |
-   | teacherSectionAssociation            | b73320567f24bfdfcba1a6d2e997897bc92f964b_id | body.sectionId            | e2b3887f55834817a194a51604dd3fb03d8cacbc_id |
+   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
+   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
+   | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
+   | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
     | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
-    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
-    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
-    | studentProgramAssociation            | e59cdf1afcb6d72eb71b435b1755beecf8b2171c_id | body.beginDate            | 2011-03-01                           |
+    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.beginDate            | 2011-03-01                           |
     | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
-    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.uniqueSectionCode    | 7th Grade Math - Sec 2 |
-    | section                              | 0e8cac9da3ed16e7d4f01d7d4322521e7ca7821f_id | body.schoolId             | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
-    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.beginDate                           | 2011-04-11                           |
-    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.gradingPeriod | Sixth Six Weeks                      |
-    | gradingPeriod                        | fe565dbc1d33fce6da502b8b3671630602ac9c72_id | body.gradingPeriodIdentity.schoolId      | 93676ac4958b620c453bc3d438427dfb3d1c5fc8_id |
+    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.uniqueSectionCode    | Drama I - Sec 5f09 |
+    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.schoolId             | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.beginDate                           | 2012-03-05                           |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.gradingPeriod | Fifth Six Weeks                      |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.schoolId      | 352e8570bd1116d11a72755b987902440045d346_id |
 # session
-    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.sessionName                     | Spring 2011 Daybreak Central High    |
-    | session                              | da2b8c39e78ce881e8418633eb8119fd2fa889fd_id | body.schoolId                        | e479e04449d7a787bb8cce88335d8214f612416a_id |
-    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.studentId                       | d010a8b710783e4fd409cc7a8ddd780cd16ff89b_id |
-    | attendance                           | a50e0c3a19aafe0d0e15ba026415c08b6ddf1a8d_id | body.schoolId                        | f3261d8da17cbb2178f883afb966e2307cdbda53_id |
-    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.educationOrganizationId | 36465c681a53a77d71e24285d58bf5af9085e537_id |
-    | graduationPlan | 3dbd2591860e886886ed902a02d8324f041b3d81_id | body.graduationPlanType      | Minimum       |
-    | graduationPlan | 26849264faf4eb7080720ed9d84fe14b21e4a5e0_id | body.graduationPlanType      | Minimum       |
+    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
+    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
+    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
+    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.academicSubject                 | Social Studies |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
@@ -1909,17 +1912,15 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
-     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
+     | studentAssessmentAssociation | 24                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  |
+     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
      | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |

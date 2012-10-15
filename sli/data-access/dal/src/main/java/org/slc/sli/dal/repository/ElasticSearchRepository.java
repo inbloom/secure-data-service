@@ -36,19 +36,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import com.mongodb.WriteResult;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import com.mongodb.DBCollection;
 
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * elasticsearch connector
  */
-public class ElasticSearchRepository extends SimpleEntityRepository {
+public class ElasticSearchRepository implements Repository<Entity> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleEntityRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchRepository.class);
 
     private static final String EMBEDDED_DATA = "data";
 
@@ -336,5 +341,140 @@ public class ElasticSearchRepository extends SimpleEntityRepository {
         public String getStagedEntityId() {
             return null;
         }
+        
+        @Override
+        public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            return null;
+        }
+    }
+    
+    
+    
+    // Unimplemented methods
+
+    @Override
+    public Entity create(String type, Map<String, Object> body) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.create not implemented");
+    }
+
+    @Override
+    public Entity create(String type, Map<String, Object> body, String collectionName) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.create not implemented");
+    }
+
+    @Override
+    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.create not implemented");
+    }
+
+    @Override
+    public Entity findById(String collectionName, String id) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findById not implemented");
+    }
+
+    @Override
+    public boolean exists(String collectionName, String id) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.exists not implemented");
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findOne not implemented");
+    }
+
+    @Override
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findAllIds not implemented");
+    }
+
+    @Override
+    public long count(String collectionName, NeutralQuery neutralQuery) {
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean update(String collection, Entity object) {
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean delete(String collectionName, String id) {
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void deleteAll(String collectionName, NeutralQuery query) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public DBCollection getCollection(String collectionName) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getCollection not implemented");
+    }
+
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getCollections not implemented");
+    }
+
+    @Override
+    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findByQuery not implemented");
+    }
+
+    @Override
+    public boolean collectionExists(String collection) {
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setWriteConcern(String writeConcern) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public long count(String collectionName, Query query) {
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean doUpdate(String collection, NeutralQuery query, Update update) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public List<Entity> insert(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName, int noOfRetries) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.patch not implemented");
+    }
+
+    @Override
+    public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

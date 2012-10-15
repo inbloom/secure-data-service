@@ -45,6 +45,8 @@ module Eventbus
           begin
             if doc = cursor.next_document
               yield doc
+            else
+              sleep(1)
             end
           rescue Exception => e
            # puts e
@@ -97,7 +99,9 @@ module Eventbus
         end
 
         if !messages_to_process.empty?
-          event_ids = []
+          # returns an array of hash
+          events_to_send = []
+          events = Hash.new
           subscription_events = get_subscription_events
           subscription_events.each do |subscription_event|
             event_added = false
@@ -105,17 +109,34 @@ module Eventbus
               break if event_added
               subscription_event['triggers'].each do |trigger|
                 if message_to_process == message_to_process.merge(trigger)
-                  event_ids << subscription_event['eventId']
-                  event_added = true
+                  queue_name = "oplog"
+                  queue_name = subscription_event['queue'] if subscription_event['queue'] != nil
+                  publish_oplog = subscription_event['publishOplog'] ? true : false
+                  # if subscription has publishOplog set, we want to send the oplog to the queue and each message has one oplog entry
+                  if (publish_oplog)
+                    new_event = Hash[queue_name, [message_to_process]]
+                    events_to_send << new_event
+                  else
+                    # if queue_name is unknown, create it and add it to events_to_send
+                    if (!events.has_key?(queue_name))
+                      events[queue_name] = [] 
+                      events_to_send << {queue_name => events[queue_name]}
+                    end
+                    events[queue_name] << subscription_event['eventId']
+                    event_added = true
+                  end
                   break
                 end
               end
             end
           end
-          if(!event_ids.empty?)
-            #puts "events to send to listener: #{event_ids}"
-            @logger.info "events to send to listener: #{event_ids}" unless @logger.nil?
-            yield event_ids
+          if (!events_to_send.empty?)
+            events_to_send.each do |evt|
+              evt.each_pair do |key, value|
+                @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
+              end
+            end
+            yield events_to_send
           end
         end
       end

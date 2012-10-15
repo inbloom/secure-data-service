@@ -96,7 +96,7 @@
         <BeginDate>2013-01-01</BeginDate>
 		<EndDate>2013-04-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_101"/>
+		<CalendarDateReference ref="CD_5"/>
 	</GradingPeriod>
 
 	<GradingPeriod id="GP_6">

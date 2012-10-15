@@ -115,6 +115,7 @@ Then /^I should see my restricted information$/ do
 end
 
 When /^I make an API call to access myself$/ do
-  restHttpGet("/v1/teachers/67ed9078-431a-465e-adf7-c720d08ef512", @format)
+  #In this context, myself equals "Rebecca Braverman"
+  restHttpGet("/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d", @format)
   @staff = JSON.parse(@res.body)
 end

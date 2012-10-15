@@ -326,8 +326,8 @@ public class IdNormalizer {
             Ref refConfig, String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
         
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
-        
-        ArrayList<Query> queryOrList = new ArrayList<Query>();
+
+        ArrayList<Criteria> queryOrList = new ArrayList<Criteria>();
         String collection = "";
         NeutralSchema schema = schemaRepository.getSchema(refConfig.getEntityType());
         if (schema != null) {
@@ -343,13 +343,8 @@ public class IdNormalizer {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
                 
                 for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                    
-                    Query choice = new Query();
-                    
-                    choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                            tenantId));
-                    int criteriaCount = 0;
-                    
+                    Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
+                    List<Criteria> andList = new ArrayList<Criteria> ();
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
                         
@@ -405,10 +400,9 @@ public class IdNormalizer {
                                                             }
                                                             LOG.debug(keyObj.toString());
                                                             if (field.getQueryList().containsKey(keyObj.toString())) {
-                                                                choice.addCriteria(Criteria.where(
+                                                                andList.add(Criteria.where(
                                                                         field.getQueryList().get(keyObj.toString()))
                                                                         .is(queryDbObject.toMap().get(keyObj)));
-                                                                criteriaCount++;
                                                             }
                                                         }
                                                     }
@@ -443,11 +437,13 @@ public class IdNormalizer {
                         }
                         if (filterValues.size() > 0) {
                             LOG.debug("adding criteria for {}", field.getPath());
-                            choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
-                            criteriaCount++;
+                            andList.add(Criteria.where(field.getPath()).in(filterValues));
                         }
                     }
-                    if (criteriaCount > 0) {
+                    if (andList.size() > 0) {
+                        for (Criteria criteria : andList) {
+                            choice.and(criteria.getKey()).is(criteria.getCriteriaObject().get(criteria.getKey()));
+                        }
                         queryOrList.add(choice);
                     }
                 }
@@ -467,10 +463,8 @@ public class IdNormalizer {
             return null;
         }
         
-        // combine the queries with or (must be done this way because Query.or overrides itself)
-        Query filter = new Query();
-        filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-        
+        // combine the queries with or
+        Query filter = Query.query(new Criteria().orOperator(queryOrList.toArray(new Criteria[queryOrList.size()])));
         List<String> ids = new ArrayList<String>();
         
         List<String> takesContext = refConfig.getTakesContext();
@@ -563,8 +557,8 @@ public class IdNormalizer {
             
             // Overall query
             Query query = new Query();
-            ArrayList<Query> queryOrList = new ArrayList<Query>();
-            
+            ArrayList<Criteria> queryOrList = new ArrayList<Criteria>();
+
             // For each element in the referer's array, create a subQuery
             // Then OR them together to make a single mongo query
             for (int refIndex = 0; refIndex < refValues.size(); refIndex++) {
@@ -589,18 +583,13 @@ public class IdNormalizer {
                 Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
                         tenantId);
                 criteria = criteria.and(path).elemMatch(fieldValueCriteria);
-                
-                // create the subquery using the fieldValue criteria
-                Query subQuery = new Query();
-                subQuery.addCriteria(criteria);
-                
                 // add the subquery to overall query
-                queryOrList.add(subQuery);
+                queryOrList.add(criteria);
             }
             
-            // combine the queries with or (must be done this way because Query.or overrides itself)
-            query.or(queryOrList.toArray(new Query[queryOrList.size()]));
-            
+            // combine the queries with or
+            query.addCriteria((new Criteria()).orOperator(queryOrList.toArray(new Criteria[queryOrList.size()])));
+
             // execute query and record results
             Set<String> foundIds = new LinkedHashSet<String>();
             @SuppressWarnings("deprecation")

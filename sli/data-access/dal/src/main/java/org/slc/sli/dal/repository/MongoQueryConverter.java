@@ -142,13 +142,28 @@ public class MongoQueryConverter {
             @SuppressWarnings("unchecked")
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
-                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                    List<Object> convertedIds = convertIds(neutralCriteria.getValue());
+                    if (convertedIds.size() == 1) {
+                        return Criteria.where(MONGO_ID).is(convertedIds.get(0));
+                    } else {
+                        return Criteria.where(MONGO_ID).in(convertedIds);
+                    }
                 } else if (criteria != null) {
-                    criteria.in((List<Object>) neutralCriteria.getValue());
+                    List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                    if (critList.size() == 1) {
+                        criteria.is(critList.get(0));
+                    } else {
+                        criteria.in(critList);
+                    }
                     return criteria;
                 } else {
                      try {
-                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                         List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                         if (critList.size() == 1) {
+                             return Criteria.where(prefixKey(neutralCriteria)).is(critList.get(0));
+                         } else {
+                             return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                         }
                      } catch (ClassCastException cce) {
                         throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
                      }
@@ -298,6 +313,8 @@ public class MongoQueryConverter {
                 for (String includeField : neutralQuery.getIncludeFields()) {
                     mongoQuery.fields().include(MONGO_BODY + includeField);
                 }
+                mongoQuery.fields().include("type");
+                mongoQuery.fields().include("metaData");
             } else if (neutralQuery.getExcludeFields() != null) {
                 for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
@@ -332,62 +349,97 @@ public class MongoQueryConverter {
                 }
             }
 
-            Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
-            // other criteria
-            for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
-                String key = neutralCriteria.getKey();
-                String operator = neutralCriteria.getOperator();
-                Object value = neutralCriteria.getValue();
-                Object originalValue = value;
-                NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
-
-                if (fieldSchema != null) {
-                    value = fieldSchema.convert(neutralCriteria.getValue());
-                    if (fieldSchema.isPii()) {
-                        if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
-                            throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
-                        }
-
-                        if (encryptor != null) {
-                            value = encryptor.encryptSingleValue(value);
-                        }
-                    }
-                }
-
-                neutralCriteria.setValue(value);
-                NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
-                        neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
-                if (!fields.containsKey(criteriaToAdd.getKey())) {
-                    List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
-                    fields.put(criteriaToAdd.getKey(), list);
-                }
-                //add the criteria to the map
-                fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
-                //set the original value back
-                neutralCriteria.setValue(originalValue);
-            }
-
-            //add the criteria to mongo query
-            mongoQuery = addCriteria(mongoQuery, fields);
-
-            Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());
-            if (mongoOrQueries.length > 0) {
-                mongoQuery.or(mongoOrQueries);
+            List<Criteria> criteriaList = convertToCriteria(entityName, neutralQuery, entitySchema);
+            for (Criteria c : criteriaList) {
+                mongoQuery.addCriteria(c);
             }
         }
 
         return mongoQuery;
     }
 
+
     /**
-     * Add the criteria to the mongo query
-     * @param query The mongo query to add criteria
+     * Converts a given neutral sub-query into a mongo Criteria object where each argument has
+     * been converted into the proper type.
+     */
+    public List<Criteria> convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
+        Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
+        
+        // other criteria
+        for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
+            String key = neutralCriteria.getKey();
+            String operator = neutralCriteria.getOperator();
+            Object value = neutralCriteria.getValue();
+            Object originalValue = value;
+            NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
+
+            if (fieldSchema != null) {
+                value = fieldSchema.convert(neutralCriteria.getValue());
+                if (fieldSchema.isPii()) {
+                    if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
+                        throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
+                    }
+
+                    if (encryptor != null) {
+                        value = encryptor.encryptSingleValue(value);
+                    }
+                }
+            }
+
+            neutralCriteria.setValue(value);
+            NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
+                    neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
+            if (!fields.containsKey(criteriaToAdd.getKey())) {
+                List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
+                fields.put(criteriaToAdd.getKey(), list);
+            }
+            //add the criteria to the map
+            fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
+            //set the original value back
+            neutralCriteria.setValue(originalValue);
+        }
+
+        // merge the criteria into one
+        List<Criteria> criteriaList = mergeCriteria(fields);
+
+        // now tag on the "orQueries"
+        List<NeutralQuery> orQueries = neutralQuery.getOrQueries();
+        if (!orQueries.isEmpty()) {
+            List<Criteria> orClauses = new ArrayList<Criteria>(orQueries.size());
+            for (NeutralQuery orQuery : orQueries) {
+                List<Criteria> orCriterion = convertToCriteria(entityName, orQuery, entitySchema);
+                if (orCriterion.size() == 1) {
+                    orClauses.add(orCriterion.get(0));
+                } else if (orCriterion.size() > 1) {
+                    Criteria base = orCriterion.get(0);
+                    for (int i = 1; i < orCriterion.size(); i++) {
+                        Criteria fieldCriteria = orCriterion.get(i);
+                        base.and(fieldCriteria.getKey()).is(fieldCriteria.getCriteriaObject().get(fieldCriteria.getKey()));
+                    }
+                    orClauses.add(base);
+                }
+            }
+
+            if (orClauses.size() >= 1) {
+                Criteria allOrClauses = new Criteria().orOperator(orClauses.toArray(new Criteria[orClauses.size()]));
+                criteriaList.add(allOrClauses);
+            }
+        }
+
+        return criteriaList;
+    }
+
+    /**
+     * Merge criteria into one using the 'and' operator
      * @param criteriaForFields The criteria for fields
      * @return The updated mongo query
      */
-    protected Query addCriteria(Query query, Map<String, List<NeutralCriteria>> criteriaForFields) {
+    protected List<Criteria> mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
+        List<Criteria> criteriaList = new ArrayList<Criteria>();
 
-        if (query != null && criteriaForFields != null) {
+        // Gather the criteria from the chain.
+        if (criteriaForFields != null) {
             for (Map.Entry<String, List<NeutralCriteria>> e : criteriaForFields.entrySet()) {
                 List<NeutralCriteria> list = e.getValue();
 
@@ -398,29 +450,13 @@ public class MongoQueryConverter {
                                 criteria.getOperator()).generateCriteria(criteria, fullCriteria);
                     }
 
-                    query.addCriteria(fullCriteria);
+                    criteriaList.add(fullCriteria);
                 }
             }
         }
 
-        return query;
+        return criteriaList;
     }
-
-
-    private Query[] translateQueries(String entityName, List<NeutralQuery> queries) {
-        if (queries == null || queries.isEmpty()) {
-            return new Query[]{};
-        }
-
-        Query[] mongoQueries = new Query[queries.size()];
-
-        for (int i = 0; i < mongoQueries.length; i++) {
-            mongoQueries[i] = this.convert(entityName, queries.get(i));
-        }
-
-        return mongoQueries;
-    }
-
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
         if (schema == null) {

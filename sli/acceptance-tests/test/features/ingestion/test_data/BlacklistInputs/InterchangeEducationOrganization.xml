@@ -54,7 +54,8 @@
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
-  <UniqueCourseId>Club/Team-onload-1</UniqueCourseId></Course>
+    <UniqueCourseId>Club/Team-onload-1</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -75,7 +76,8 @@
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
-  <UniqueCourseId>CourseWithRelaxedBlacklist-2</UniqueCourseId></Course>
+    <UniqueCourseId>CourseWithRelaxedBlacklist-2</UniqueCourseId>
+  </Course>
   <Course>
     <CourseTitle>ThisSpaceIs	
 AControlCharacter</CourseTitle>
@@ -96,6 +98,7 @@ AControlCharacter</CourseTitle>
 			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
-  <UniqueCourseId>ThisSpaceIs	
-AControlCharacter-3</UniqueCourseId></Course>
+    <UniqueCourseId>ThisSpaceIs	
+AControlCharacter-3</UniqueCourseId>
+  </Course>
 </InterchangeEducationOrganization>

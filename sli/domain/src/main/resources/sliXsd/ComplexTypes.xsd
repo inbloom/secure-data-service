@@ -1233,7 +1233,7 @@
 				different medium.
 
 				Associations: TeacherSectionAssociation,
-				StudentSectionAssociation,
+				StudentSectionAssociation.
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:CollectionType>section</sli:CollectionType>
@@ -2859,6 +2859,16 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+
+            <xs:element name="reportCards" type="reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Report cards for the student.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>reportCard</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+
 		</xs:sequence>
 	</xs:complexType>
 
