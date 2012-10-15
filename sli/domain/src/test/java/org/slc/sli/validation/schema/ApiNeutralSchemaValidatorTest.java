@@ -24,48 +24,54 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 
+/**
+ *
+ * TODO: add class javadoc
+ *
+ */
 public class ApiNeutralSchemaValidatorTest {
-    
+
     @InjectMocks
     ApiNeutralSchemaValidator apiNeutralSchemaValidator = new ApiNeutralSchemaValidator();
-    
+
     @Mock
     INaturalKeyExtractor mockNaturalKeyExtractor;
-    
+
     @Mock
     SchemaRepository mockSchemaRepository;
-    
+
     @Mock
     Repository<Entity> mockRepository;
-    
+
     @Before
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
-    
+
     @Test
     public void validateNaturalKeyValidationExceptionFromMissingFields() throws NoNaturalKeysDefinedException {
         // setup
         Entity mockEntity = Mockito.mock(Entity.class);
         NaturalKeyValidationException e = new NaturalKeyValidationException(null, null);
-        
+
         when(mockEntity.getType()).thenReturn("SomeEntityType");
-        
+
         when(mockSchemaRepository.getSchema("SomeEntityType")).thenReturn(null);
-        
+
         when(mockNaturalKeyExtractor.getNaturalKeyFields(mockEntity)).thenThrow(e);
-        
+
         // test
         boolean result = apiNeutralSchemaValidator.validate(mockEntity);
-        
+
         // validate
         Assert.assertEquals(true, result);
-        
+
     }
 }

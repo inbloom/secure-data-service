@@ -16,16 +16,15 @@
 
 package org.slc.sli.dal.repository.tenancy.apsect;
 
-import java.io.PrintStream;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
 import org.slc.sli.dal.repository.tenancy.SystemCall;
 import org.slc.sli.dal.repository.tenancy.TenantCall;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author okrook
@@ -54,6 +53,7 @@ public class TenantAwareCallAspectTest {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
+                    log.debug(e.getLocalizedMessage());
                 }
 
                 systemCall();
@@ -61,6 +61,7 @@ public class TenantAwareCallAspectTest {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
+                    log.debug(e.getLocalizedMessage());
                 }
 
                 tenantCall2(null, "MyTenant" + Thread.currentThread().getId());

@@ -16,6 +16,9 @@
 
 package org.slc.sli.dal.repository.connection;
 
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,9 +26,6 @@ import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
 import org.slc.sli.dal.repository.tenancy.SystemCall;
 import org.slc.sli.dal.repository.tenancy.TenantCall;
-
-import com.mongodb.DB;
-import com.mongodb.Mongo;
 
 /**
  * @author okrook
@@ -47,21 +47,22 @@ public class TenantAwareMongoDbFactoryTest {
         Assert.assertNotNull(cm.getDb());
         Assert.assertSame("System", cm.getDb().getName());
     }
-    
+
     @Test
     public void testGetTenantConnection() {
         testGetTenantConnection("testTenantId");
     }
-    
+
     public void testGetTenantConnection(String tenantId) {        
         TenantContext.setTenantId(tenantId);
+
         Mongo mongo = Mockito.mock(Mongo.class);
         DB db = Mockito.mock(DB.class);
 
         Mockito.when(db.getMongo()).thenReturn(mongo);
         Mockito.when(db.getName()).thenReturn("tenant");
-        Mockito.when(mongo.getDB(TenantAwareMongoDbFactory.getTenantDatabaseName(tenantId))).thenReturn(db);        
-        
+        Mockito.when(mongo.getDB(TenantAwareMongoDbFactory.getTenantDatabaseName(tenantId))).thenReturn(db);
+
         TenantAwareMongoDbFactory cm = new TenantAwareMongoDbFactory(mongo, "System");
 
         Assert.assertNotNull(cm.getDb());

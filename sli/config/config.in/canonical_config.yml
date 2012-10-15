@@ -61,7 +61,7 @@ default:
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
         
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
@@ -82,6 +82,9 @@ default:
         sli.mongodb.connections: 20
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
+
+        # Key substitutions
+        sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
@@ -202,7 +205,7 @@ default:
         sli.ingestion.warningsCountPerInterchange: 15
 
         # Number of retries for mongo operations in ingestion
-        sli.ingestion.totalRetries: 5
+        sli.ingestion.totalRetries: 10
 
         # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
         sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,studentTranscriptAssociation
@@ -467,6 +470,7 @@ acceptance-tests:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -550,6 +554,7 @@ ci:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -642,6 +647,7 @@ dev:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -740,6 +746,7 @@ devjuggernauts:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -833,6 +840,7 @@ devapp1:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     misc:
         <<: *MISC-DEFAULT
@@ -923,6 +931,7 @@ local:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -994,6 +1003,7 @@ local-sandbox:
         <<: *INGESTION-LOCAL
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -1179,6 +1189,7 @@ team:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -1299,6 +1310,7 @@ perf:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 test-local:
     test:
@@ -1331,6 +1343,7 @@ test-local:
         sli.application.buildTag: UNKNOWN
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
 test-team:
     test:
@@ -1365,6 +1378,7 @@ test-team:
         sli.landingZone.server: landingZone
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 test-perf:
     ingestion:
@@ -1380,6 +1394,7 @@ test-perf:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 sandbox:
     api:
@@ -1448,6 +1463,7 @@ nxteam:
         sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
@@ -1481,6 +1497,7 @@ nxteam-maestro:
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
@@ -1514,6 +1531,7 @@ local-maestro:
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
     data-access:
         <<: *DATA-ACCESS-LOCAL
         sli.ingestion.staging.clearOnCompletion: transformed

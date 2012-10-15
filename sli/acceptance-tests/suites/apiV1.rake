@@ -33,6 +33,7 @@ task :apiV1DuplicateLinkTest => [:realmInit] do
   runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
 end
 
+desc "Run API querying tests"
 task :apiV1QueryingTests => [:realmInit] do
   DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
   Rake::Task["importSandboxData"].execute

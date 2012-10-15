@@ -83,6 +83,8 @@
   <bean id="mongoTrackingAspect" class="org.slc.sli.dal.aspect.MongoTrackingAspect" factory-method="aspectOf">
   </bean>
 
+  <bean id="entityKeyEncoder" class="org.slc.sli.dal.repository.EntityKeyEncoder" />
+
   <bean id="sliSchemaVersionValidator" class="org.slc.sli.dal.versioning.SliSchemaVersionValidator" />
 
   <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository">

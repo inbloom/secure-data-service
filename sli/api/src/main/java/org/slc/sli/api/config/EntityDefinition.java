@@ -61,11 +61,11 @@ public class EntityDefinition {
     }
     
     public boolean hasArrayField(String fieldName) {
-    	try {
-    		return (this.schema.getFields().get(fieldName).getSchemaType() == NeutralSchemaType.LIST);	
-    	} catch(NullPointerException e) {
-    		return false;
-    	}
+        try {
+            return (this.schema.getFields().get(fieldName).getSchemaType() == NeutralSchemaType.LIST);
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     /**

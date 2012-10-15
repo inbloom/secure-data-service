@@ -26,6 +26,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # SEA admin authorization not implemented yet.
   def check_rights
     unless is_lea_admin? or is_sea_admin?
+      logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
@@ -51,6 +52,7 @@ class ApplicationAuthorizationsController < ApplicationController
     #Get EDORGS for the authId
     @edorgs = {}
     @application_authorizations.each do |auth|
+      raise OutOfOrder unless EducationOrganization.exists? auth.authId
       @edorgs[auth.authId] = EducationOrganization.find(auth.authId).nameOfInstitution
     end
     respond_to do |format|

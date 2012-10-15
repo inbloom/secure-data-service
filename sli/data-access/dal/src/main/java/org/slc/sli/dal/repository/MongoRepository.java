@@ -24,13 +24,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
-
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +39,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -68,6 +67,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * Includes the likes of 'realm', 'application', 'userSession', etc.
      */
     private Set<String> tenantAgnosticCollections;
+
+    MongoQueryConverter getQueryConverter() {
+        return queryConverter;
+    }
 
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
@@ -186,7 +189,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      * Leverages batch insert functionality.
-     *
      * @param records
      *            Database records to be inserted.
      * @param collectionName
@@ -556,8 +558,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return findByQuery(collectionName, query);
     }
 
-
-
     @Override
     /**The existing collections have been cached
      * to avoid unnecessary DB queries.
@@ -579,7 +579,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
         query.addCriteria(createTenantCriteria(collectionName));
-
         // prepare update operation for record to be patched
         Update update = new Update();
         for (Entry<String, Object> patch : newValues.entrySet()) {

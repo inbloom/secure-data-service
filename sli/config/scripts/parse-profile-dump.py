@@ -15,13 +15,15 @@ import re
 import collections
 from copy import deepcopy
 
-IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["metaData.tenantId", "metaData.externalId"], ["$msg"], ["$and"], ["metaData"], ["metaData.tenantId"], ["metaData.edOrgs"], ["metaData.teacherContext"], ["body"], ["metaData.externalId"], ["metaData.externalId", "metaData.tenantId"]] #indexes to ignore
-QUERY_OPS = ['query', 'remove', 'update'] #'getmore' operation ignored
+IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["metaData.tenantId", "metaData.externalId"], ["$msg"], ["$and"], ["metaData"], ["metaData.tenantId"], ["metaData.edOrgs"], ["metaData.teacherContext"], ["body"], ["metaData.externalId"], ["metaData.externalId", "metaData.tenantId"]]  # indexes to ignore
+QUERY_OPS = ['query', 'remove', 'update']  # 'getmore' operation ignored
 
 TENANT_ID = "metaData.tenantId"
 
+
 def is_count_cmd(json_object):
     return json_object['op'] == 'command' and 'count' in json_object['command']
+
 
 def build_query_list(query_json_object):
     indexes = []
@@ -44,23 +46,26 @@ def build_query_list(query_json_object):
                     idx.append(key)
     return indexes
 
+
 def format_index(ns, idx):
     if TENANT_ID in idx and idx[0] != TENANT_ID:
         idx.remove(TENANT_ID)
         idx.insert(0, TENANT_ID)
-    return "db[\"%s\"].ensureIndex({\"%s\":1});" % (ns.replace('sli.',''), "\":1,\"".join(idx))
+    return "db[\"%s\"].ensureIndex({\"%s\":1});" % (ns.replace('sli.', ''), "\":1,\"".join(idx))
+
 
 def handle_query(json_object, query):
     indexes = []
     ns = json_object['ns']
     query_object = json_object['query']
-    if 'query' in query_object: #handles orderby clauses
+    if 'query' in query_object:  # handles orderby clauses
         query_object = query_object['query']
     new_indexes = build_query_list(query_object)
     for idx in new_indexes:
         if idx not in IGNORE_IDX:
             indexes.append(format_index(ns, idx))
     return indexes
+
 
 def handle_count(json_object, query):
     indexes = []
@@ -71,12 +76,14 @@ def handle_count(json_object, query):
             indexes.append(format_index(ns, idx))
     return indexes
 
+
 def remove_crnt_indexes(indexes, crnt_indexes):
     new_indexes = []
     for idx in indexes:
         if idx not in crnt_indexes:
             new_indexes.append(idx)
     return new_indexes
+
 
 def remove_redundant_indexes(indexes, crnt_indexes):
     new_indexes = []
@@ -88,6 +95,7 @@ def remove_redundant_indexes(indexes, crnt_indexes):
         if not found_cover:
             new_indexes.append(idx)
     return new_indexes
+
 
 def parse_profile_dump(queries, crnt_indexes):
     indexes = []
@@ -106,6 +114,7 @@ def parse_profile_dump(queries, crnt_indexes):
     indexes = sorted(set(indexes))
     for idx in indexes:
         print idx
+
 
 def main():
     if len(sys.argv) > 1:

@@ -215,6 +215,11 @@ task :IngestionIndexValidationTest do
   runTests("test/features/ingestion/features/ingestion_indexValidation.feature")
 end
 
+desc "Ingestion Jefferson County Onbarding Test"
+task :ingestionJeffCoOnboardingTest do
+  runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

@@ -68,7 +68,8 @@ $collectionSet = ["student",
                   "studentProgramAssociation",
                   "disciplineAction",
                   "disciplineIncident",
-                  "studentDisciplineIncidentAssociation"]
+                  "studentDisciplineIncidentAssociation",
+                  "graduationPlan"]
 
 #######################################################################################################
 # Helper defs
@@ -544,7 +545,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI,
                      :v1SelectorTests] do
   displayFailureReport()
 end
@@ -699,7 +699,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest] do
 
   displayFailureReport()
   if $SUCCESS
@@ -997,7 +997,8 @@ task :importSandboxData do
     "studentCompetency" => "studentCompetency_fixture.json",
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
-    "reportCard" => "reportCard_fixture.json"
+    "reportCard" => "reportCard_fixture.json",
+    "graduationPlan" => "graduationPlan_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

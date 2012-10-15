@@ -73,13 +73,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
-    private static final String RECORD_HASH ="recordHash";
+    private static final String RECORD_HASH = "recordHash";
     private static final int DUP_KEY_CODE = 11000;
 
     @Value("${sli.ingestion.totalRetries}")
     private int numberOfRetries;
 
     private MongoTemplate batchJobMongoTemplate;
+
+    private MongoTemplate batchJobHashCacheMongoTemplate;
 
     private MongoTemplate sliMongo;
 
@@ -159,6 +161,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public boolean attemptTentantLockForJob(String tenantId, String batchJobId) {
+
+        LOG.info("Attempting to lock tenant [" + tenantId + "] + for job [" + batchJobId + "]");
         if (tenantId != null && batchJobId != null) {
 
             try {
@@ -182,7 +186,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
                     LOG.debug("Cannot obtain lock for tenant: {}", tenantId);
                     return false;
                 }
-           }
+            }
 
         } else {
             throw new IllegalArgumentException(
@@ -191,20 +195,20 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return false;
     }
 
-
     @Override
     public void releaseTenantLockForJob(String tenantId, String batchJobId) {
         if (tenantId != null && batchJobId != null) {
 
-            final Criteria tenanLockCriteria = Criteria.where("_id").is(tenantId)
-                    .andOperator(Criteria.where("batchJobId").is(batchJobId));
+            final Query tenantLockQuery = new Query();
+            tenantLockQuery.addCriteria(Criteria.where("_id").is(tenantId));
+            tenantLockQuery.addCriteria(Criteria.where("batchJobId").is(batchJobId));
 
             RetryMongoCommand retry = new RetryMongoCommand() {
 
                 @Override
                 public Object execute() {
                 	TenantContext.setIsSystemCall(true);
-                    sliMongo.remove(new Query(tenanLockCriteria), TENANT_JOB_LOCK_COLLECTION);
+                    sliMongo.remove(tenantLockQuery, TENANT_JOB_LOCK_COLLECTION);
                     return null;
                 }
 
@@ -301,7 +305,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
             @Override
             public Object execute() {
 
-                return batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).findAndModify(query, null, null, false, update, true, false);
+                return batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).findAndModify(query, null, null,
+                        false, update, true, false);
             }
 
         };
@@ -326,13 +331,14 @@ public class BatchJobMongoDA implements BatchJobDAO {
             @Override
             public Object execute() {
 
-                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false, update, true, false);
+                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false,
+                        update, true, false);
             }
 
         };
         DBObject latchObject = (DBObject) retry.executeOperation(numberOfRetries);
 
-         List<Map<String, Object>> entities = (List<Map<String, Object>>) latchObject.get("entities");
+        List<Map<String, Object>> entities = (List<Map<String, Object>>) latchObject.get("entities");
 
         boolean isEmpty = true;
 
@@ -360,7 +366,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
             @Override
             public Object execute() {
 
-                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false, update, true, false);
+                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false,
+                        update, true, false);
             }
 
         };
@@ -453,7 +460,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
             @Override
             public Object execute() {
 
-                return batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null, false, update, true, false);
+                return batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null, false,
+                        update, true, false);
             }
 
         };
@@ -565,7 +573,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
             }
 
             private Iterator<Error> getNextList() {
-                Query q = query(where(BATCHJOBID_FIELDNAME).is(jobId)).skip(cursorPreparer.position).limit(cursorPreparer.limit);
+                Query q = query(where(BATCHJOBID_FIELDNAME).is(jobId)).skip(cursorPreparer.position).limit(
+                        cursorPreparer.limit);
                 cursorPreparer.position += cursorPreparer.limit;
                 List<Error> errors = batchJobMongoTemplate.find(q, Error.class, BATCHJOB_ERROR_COLLECTION);
                 remainingResults -= errors.size();
@@ -596,6 +605,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
         this.batchJobMongoTemplate = mongoTemplate;
     }
 
+    public void setBatchJobHashCacheMongoTemplate(MongoTemplate batchJobHashCacheMongoTemplate) {
+        this.batchJobHashCacheMongoTemplate = batchJobHashCacheMongoTemplate;
+    }
+
     public void setNumberOfRetries(int numberOfRetries) {
         this.numberOfRetries = numberOfRetries;
     }
@@ -618,12 +631,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
             rh._id = recordId;
             rh.tenantId = tenantId;
             rh.timestamp = "" + System.currentTimeMillis();
-            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
             return false;
         } else {
             rh.timestamp = "" + System.currentTimeMillis();
             rh.tenantId = tenantId;
-            this.batchJobMongoTemplate.save(rh, RECORD_HASH);
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
 
             return true;
         }
@@ -635,7 +648,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         Query query = new Query().limit(1);
 //        query.addCriteria(Criteria.where("tenantId").is(tenantId));
         query.addCriteria(Criteria.where("_id").is(recordId));
-        return this.batchJobMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
+        return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override
@@ -644,6 +657,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
          Query searchTenantId = new Query();
             searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
                     tenantId));
-        batchJobMongoTemplate.remove(searchTenantId, RECORD_HASH);
+            batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
     }
+
 }
