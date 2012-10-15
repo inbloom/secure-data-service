@@ -81,13 +81,15 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
+<div class = "field">
+  <%= f.hidden_field(:authorized_ed_orgs) %>
+</div>
 <div id="enable-menu" class="well">
 <div id="state-menu">
-  <ul class="select-list clear">
-    <% @sea.each do |state| %>
-      <li class="<%= state["state"]%>"><%= link_to "#{state["name"]} (#{state["state"]})", {:action => "get_local_edorgs", state: state["state"]}, :remote => true %></li>
-    <% end %>
-  </ul>
+  
+  <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>
+  <%= select_tag(:state_select, options_for_select(state_array)) %>
+
 </div>
 <div id="lea-menu">
   <p>Please select a state first...</p>

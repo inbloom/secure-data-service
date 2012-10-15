@@ -225,6 +225,7 @@ class AppsController < ApplicationController
     end
     logger.debug {"We found #{@results.count} LEAs"}
     @results.sort! {|x, y| x["name"] <=> y["name"]}
+    render :partial => "lea_list", :locals => {:results => @results}
   end
 
   private

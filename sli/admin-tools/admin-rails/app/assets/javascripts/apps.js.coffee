@@ -1,3 +1,39 @@
+getEdorgs = ->
+    edorgs = jQuery.parseJSON($("input#app_authorized_ed_orgs").val())
+    edorgs
+
+jQuery ->
+    $("#state-menu select").change ->
+        selected = $(@).find("option:selected")
+        console.log("Changed to: " +selected.val())
+        $.get("/lea?state=" + selected.val(), (data) ->
+            $("#lea-menu").html(data)
+            $("#lea-menu ul").trigger("change")
+        )
+    false
+jQuery ->
+    $("#lea-menu ul").live 'change', ->
+        #Populate the LI classes with enabled stuff
+        alert "Change happened"
+
+jQuery ->
+    $("#lea-menu ul li").live 'click', ->
+        id = $(@).attr('id')
+        console.log id
+
+        $(@).toggleClass 'enabled'
+        edorgs = getEdorgs()
+        if $(@).hasClass 'enabled'
+            edorgs.push id
+        else
+            #Remove the element from the array
+            index = edorgs.indexOf id
+            if index != -1
+                edorgs = edorgs.splice(edorgs.indexOf id, 1)
+
+        $("input#app_authorized_ed_orgs").attr("value", JSON.stringify(edorgs))
+        false
+
 jQuery ->
   $("#applications tr:odd").addClass("odd")
   $("#applications tr:not(.odd)").hide()
