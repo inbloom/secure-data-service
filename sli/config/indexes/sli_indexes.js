@@ -155,6 +155,9 @@ db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.student
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.graduationPlanId":1,"metaData.edOrgs":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
+//studentSectionAssociation is embedded into section
+db["section"].ensureIndex({"metaData.tenantId":1,"studentSectionAssociation.sectionId":1,"metaData.edOrgs":1});
+db["section"].ensureIndex({"metaData.tenantId":1,"studentSectionAssociation.studentId":1,"metaData.edOrgs":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"body.courseId":1,"metaData.edOrgs":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentAcademicRecordId":1,"metaData.edOrgs":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
@@ -205,6 +208,8 @@ db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+//studentSectionAssociation is not sharded, but index on _id
+db["section"].ensureIndex({"metaData.tenantId":1,"studentSectionAssociation._id":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
