@@ -80,20 +80,6 @@ public class TenantMetricsResource {
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
         DBCursor cursor = tenants.find();
 
-//        while (cursor.hasNext()) {
-//
-//            DBObject obj = cursor.next();
-//            if (obj.containsField("body") && ((DBObject) obj.get("body")).containsField("tenantId")) {
-//
-//                String id = (String) ((DBObject) obj.get("body")).get("tenantId");
-//                CollectionMetrics tenantMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo,
-//                        "metaData.tenantId", id);
-//
-//                tenantMetrics.put("== Totals ==", tenantMetrics.getTotals());
-//                metrics.put(id, tenantMetrics);
-//            }
-//        }
-
         CollectionMetric totals = new CollectionMetric(0, 0.0);
         for (Map.Entry<String, CollectionMetrics> c : metrics.entrySet()) {
             if (c.getKey().equals("== Totals ==")) {
