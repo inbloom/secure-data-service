@@ -50,7 +50,7 @@ TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
-UPLOAD_FILE_SCRIPT = File.expand_path("../config/scripts/ingestion/publish_file_uploaded.rb")
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # STEPS: BEFORE
