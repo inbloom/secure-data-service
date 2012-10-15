@@ -131,7 +131,7 @@ Examples:
 | "learningStandard"      | "learningStandards"       |  200 | 14    |/learningStandards|
 | "parent"                | "parents"                 |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
 | "program"               | "programs"                |  200 | 2     |/staff/@ids/staffProgramAssociations/programs|
-| "school"                | "schools"                 |  200 | 27    |/schools|
+| "school"                | "schools"                 |  200 | 0    |/schools|
 | "section"               | "sections"                |  200 | 0     |/schools/@ids/sections|
 | "session"               | "sessions"                |  200 | 0     |/schools/@ids/sessions|
 | "staff"                 | "staff"                   |  200 | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
@@ -268,7 +268,7 @@ Examples:
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
-| "school"                | "schools"                 | 27    |/schools|                                                                                
+| "school"                | "schools"                 | 1    |/schools|                                                                                
 | "section"               | "sections"                | 4     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 0     |/schools/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 0     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              

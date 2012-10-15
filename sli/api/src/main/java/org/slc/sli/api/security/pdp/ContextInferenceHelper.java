@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.pdp;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +53,7 @@ public class ContextInferenceHelper {
      */
     public String getInferredUri(String resource, Entity user) {
         String result = null;
+        boolean success = true;
         String actorId = user.getEntityId();
 
         if (isTeacher(user)) {
@@ -106,6 +109,10 @@ public class ContextInferenceHelper {
                 result = String.format("/sections/%s/studentSectionAssociations/students/reportCards", ids);
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 result = String.format("/teachers/%s/teacherSectionAssociations/sections", actorId);
+            } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            	List<String> ids = edorger.getDirectSchools(user);
+                result = String.format("/schools/%s", StringUtils.join(edorger.getDirectSchools(user),","));
+                success = !ids.isEmpty();
             } else if (ResourceNames.SESSIONS.equals(resource)) {
                 result = String.format("/schools/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
@@ -217,6 +224,10 @@ public class ContextInferenceHelper {
             } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students/reportCards", ids);
+            } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            	List<String> ids = edorger.getDirectSchools(user);
+                result = String.format("/schools/%s", StringUtils.join(edorger.getDirectSchools(user),","));
+                success = !ids.isEmpty();
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/sections", ids);
@@ -284,6 +295,12 @@ public class ContextInferenceHelper {
             }
 
         }
+        
+        if(!success) {
+        	error("Context Inferance Failed");
+        	throw new ContextInferrenceFailedException();
+        }
+        
         return result;
     }
 
