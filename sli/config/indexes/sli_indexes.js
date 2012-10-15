@@ -273,6 +273,9 @@ db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.isOrpha
 
 
 //profiled
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.parentEducationAgencyReference":1,"type":1});
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"type":1,"body.nameOfInstitution":1});
 db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.beginDate":1,"metaData.edOrgs":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"type":1});
