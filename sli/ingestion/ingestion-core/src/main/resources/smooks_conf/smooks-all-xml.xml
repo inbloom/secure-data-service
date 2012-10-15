@@ -2480,16 +2480,37 @@
     <jb:value property="diagnosticStatement" data="DiagnosticStatement" />
     <jb:value property="studentId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="SectionReference" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
-    <jb:wiring property="gradebookReference" beanIdRef="studentGradebookEntry_gradebookReference" />
+    <jb:wiring property="GradebookEntryReference" beanIdRef="StudentGradebookEntry_GradebookEntryReference" />
     <jb:wiring property="studentSectionAssociationReference" beanIdRef="studentGradebookEntry_studentSectionAssociationReference" />
   </jb:bean>
 
-  <jb:bean beanId="studentGradebookEntry_gradebookReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:value property="gradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
-    <jb:value property="dateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
-    <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:wiring property="GradebookEntryIdentity" beanIdRef="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity" />
   </jb:bean>
-  
+
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference">
+    <jb:wiring property="SectionReference" beanIdRef="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference" />
+    <jb:value property="GradebookEntryType" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/GradebookEntryType" />
+    <jb:value property="DateAssigned" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/DateAssigned" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity">
+    <jb:wiring property="SectionIdentity" beanIdRef="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference">
+    <jb:wiring property="EducationalOrgReference" beanIdRef="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity_EducationalOrgReference" />
+    <jb:value property="UniqueSectionCode" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity_EducationalOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity">
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity_EducationalOrgReference_EducationalOrgIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_GradebookEntryReference_GradebookEntryIdentity_SectionReference_SectionIdentity_EducationalOrgReference_EducationalOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/EducationalOrgReference">
+    <jb:value property="StateOrganizationId" data="StudentGradebookEntry/GradebookEntryReference/GradebookEntryIdentity/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
   <jb:bean beanId="studentGradebookEntry_studentSectionAssociationReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
     <jb:value property="studentId" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
