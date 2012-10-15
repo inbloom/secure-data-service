@@ -219,6 +219,11 @@ Then /^the user is redirected to "([^"]*)"$/ do |link|
   assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
 end
 
+Then /^the user is redirected to "([^"]*)" after "([^"]*)" seconds$/ do |link, seconds|
+  sleep(seconds.to_i)
+  assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
+end
+
 When /^the user selects the option to use the "([^"]*)"$/ do |arg1|
   @driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE).click
 end

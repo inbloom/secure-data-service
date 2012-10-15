@@ -53,7 +53,7 @@ Scenario: Developer is able to register applications on sandbox
 Given the user has an approved sandbox account
 When the user clicks on "<URL_TO_APPLICATION_REGISTRATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
-And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>"
+And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>" after "5" seconds
 
 @production
 Scenario: Vendor registers on a production environment
