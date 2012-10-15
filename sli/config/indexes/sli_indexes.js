@@ -259,11 +259,8 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.section
 
 //profiled - ingestion
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.schoolId":1});
-db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
 
 //oprhan detection - this should be removed when done in API
