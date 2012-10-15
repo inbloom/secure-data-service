@@ -31,7 +31,6 @@ public class ChangedUriInfo implements UriInfo {
 	private UriBuilder baseUriBuilder;
 
 	public ChangedUriInfo(String uri, UriBuilder builder) {
-		System.out.println("NEW URI: " + uri);
 		this.uri = URI.create(uri);
 		this.baseUriBuilder = builder;
 	}

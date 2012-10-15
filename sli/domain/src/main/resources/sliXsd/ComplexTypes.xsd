@@ -1482,7 +1482,7 @@
 					<xs:documentation>The education organization referenced by this session.
 					</xs:documentation>
 					<xs:appinfo>
-                        <sli:ReferenceType>school</sli:ReferenceType>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
