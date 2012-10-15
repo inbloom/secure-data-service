@@ -395,6 +395,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
+            this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
