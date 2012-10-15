@@ -31,7 +31,7 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-SIF_DB_NAME = PropLoader.getProps['sif_database_name']
+SIF_DB_NAME= PropLoader.getProps['sif_database_name']
 SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
@@ -45,7 +45,7 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 Before do
   @conn = Mongo::Connection.new(SIF_DB)
-  @db = @conn.db(SIF_DB_NAME)
+  @db = @conn.db('Midgar')
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
@@ -75,7 +75,7 @@ Given /^the following collections are clean and bootstrapped in datastore:$/ do 
       @result = "false"
     end
   end
-  createIndexesOnDb(@conn, SIF_DB_NAME)
+  createIndexesOnDb(@conn, 'Midgar')
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
@@ -97,7 +97,7 @@ Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do 
 end
 
 def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
-  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{'Midgar'} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
   assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 
