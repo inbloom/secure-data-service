@@ -152,14 +152,19 @@ class SLCFixer
 
     set_stamps(@db['studentAssessmentAssociation'])
     set_stamps(@db['sectionAssessmentAssociation'])
-    @log.info "Iterating studentAssessmentAssociation with query: #{@basic_query}"
-    @db['studentAssessmentAssociation'].find(@basic_query, @basic_options) do |cur|
-      cur.each do |studentAssessment|
-        edOrg = []
-        student_edorg = student_edorgs(studentAssessment['body']['studentId'])
-        edOrg << student_edorg
-        edOrg = edOrg.flatten.uniq
-        stamp_id(@db['studentAssessmentAssociation'], studentAssessment['_id'], edOrg, studentAssessment['metaData']['tenantId'])
+    embedded_query = @basic_query.clone
+    embedded_query["studentAssessmentAssociation"] = {"$exists" => true}
+    @log.info "Iterating student with query: #{embedded_query}"
+    @db['student'].find(embedded_query, @basic_options) do |cur|
+      cur.each do |student|
+        student["studentAssessmentAssociation"].each do |studentAssessment| 
+          edOrg = []
+          student_edorg = student_edorgs(studentAssessment['body']['studentId'])
+          edOrg << student_edorg
+          edOrg = edOrg.flatten.uniq
+          stamp_id(@db['student'], studentAssessment['_id'], edOrg, studentAssessment['metaData']['tenantId'], 
+                   "studentAssessmentAssociation", student["_id"])
+        end
       end
     end
     @log.info "Iterating sectionAssessmentAssociation with query: #{@basic_query}"
@@ -448,7 +453,8 @@ class SLCFixer
   def set_stamps(collection)
     Thread.current[:stamping].push collection.name
   end
-  def stamp_id(collection, id, edOrg, tenantid)
+
+  def stamp_id(collection, id, edOrg, tenantid, location = :default, parentid = "")
     if edOrg.nil? or edOrg.empty? or tenantid.nil?
       @log.warn "No edorgs or tenant found for #{collection.name}##{id}"
       return
@@ -469,13 +475,18 @@ class SLCFixer
       edOrgs.concat(parent_edOrgs) unless parent_edOrgs.nil?
       edOrgs = edOrgs.flatten.uniq
 
-      if id.is_a? Array
-        id.each do |array_id|
-          collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+      if location == :default
+        if id.is_a? Array
+          id.each do |array_id|
+            collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+          end
+          Thread.current[:cache].merge id if id.is_a? Array
+        else
+          collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+          Thread.current[:cache].add id unless id.is_a? Array
         end
-        Thread.current[:cache].merge id if id.is_a? Array
       else
-        collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+        collection.update({"_id" => parentid, "#{location}._id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"#{location}.$.metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         Thread.current[:cache].add id unless id.is_a? Array
       end
     rescue Exception => e

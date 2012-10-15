@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
@@ -27,13 +26,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
-
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,18 +41,18 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
  * and field query methods for all object classes.
- *
+ * 
  * @author Thomas Shewchuk tshewchuk@wgen.net 3/2/2012 (PI3 US1226)
- *
+ * 
  */
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
@@ -70,11 +68,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
             "application", "tenantJobLock" };
     protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONS_EXCLUDED));
 
+    MongoQueryConverter getQueryConverter() {
+        return queryConverter;
+    }
+
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
      * this method
      * add the Tenant ID to a neutral query.
-     *
+     * 
      * @param query
      *            The query returned is the same as the query passed.
      * @return
@@ -120,7 +122,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Constructs a Criteria for tenantId. Will return null if collectionName is not restricted by
      * tenantId.
-     *
+     * 
      * @param collectionName
      *            The collection to which the Criteria is to be applied.
      * @return null if the collection is not restricted. Otherwise a Criteria that restricts by
@@ -169,7 +171,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
-     *
+     * 
      * @param record
      *            Database record to be inserted.
      * @param collectionName
@@ -185,15 +187,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      * Leverages batch insert functionality.
-     *
-     * @param records Database records to be inserted.
-     * @param collectionName Name of collection to insert record in.
+     * 
+     * @param records
+     *            Database records to be inserted.
+     * @param collectionName
+     *            Name of collection to insert record in.
      * @return Successfully inserted record.
      */
     @Override
     public List<T> insert(List<T> records, String collectionName) {
         template.insert(records, collectionName);
-        LOG.debug("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
         return records;
     }
 
@@ -334,7 +338,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * document, however since we are specifying IDs in the DAL instead of
      * letting Mongo create the document IDs, this method will check for the
      * existence of a document ID before saving the document.
-     *
+     * 
      * @param collection
      * @param record
      * @param body
@@ -397,7 +401,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
-    private WriteResult updateFirst(Query query, Update update, String collectionName) {
+    protected WriteResult updateFirst(Query query, Update update, String collectionName) {
         return template.updateFirst(query, update, collectionName);
     }
 
@@ -502,8 +506,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return findByQuery(collectionName, query);
     }
 
-
-
     @Override
     /**The existing collections have been cached
      * to avoid unnecessary DB queries.
@@ -524,8 +526,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
         query.addCriteria(createTenantCriteria(collectionName));
-
-        //prepare update operation for record to be patched
+        
+        // prepare update operation for record to be patched
         Update update = new Update();
         for (Entry<String, Object> patch : newValues.entrySet()) {
             update.set("body." + patch.getKey(), patch.getValue());
@@ -539,7 +541,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Sets the write concern of the template. Support options defined in Mongo's WriteConcern
      * class.
-     *
+     * 
      * @see com.mongodb.WriteConcern
      */
     @Override

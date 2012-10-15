@@ -226,7 +226,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             naturalKeys.put("stateOrganizationId", stateOrganizationId);
 
             NaturalKeyDescriptor descriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
-                    neutralRecord.getRecordType());
+                    neutralRecord.getRecordType(), null);
             descriptor.setEntityType("educationOrganization");
 
             String deterministicId = deterministicUUIDGeneratorStrategy.generateId(descriptor);

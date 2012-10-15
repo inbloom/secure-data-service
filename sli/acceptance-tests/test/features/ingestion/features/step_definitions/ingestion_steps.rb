@@ -361,18 +361,17 @@ Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_k
 end
 
 def initializeLandingZone(lz)
-  if lz == nil
-      
-  end
+  unless lz.nil?
     
   if lz.rindex('/') == (lz.length - 1)
     @landing_zone_path = lz
   else
     @landing_zone_path = lz+ '/'
   end
+  end
 
   @landing_zone_path = lz
-  puts "Landing Zone = " + @landing_zone_path
+  puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
@@ -1321,21 +1320,69 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
 end
 
+def subDocParent(collectionName)
+  case collectionName 
+    when "studentSectionAssociation"
+	 "section"
+	when "studentAssessmentAssociation"
+	 "student"
+    else 
+      nil 
+  end
+end
+
+def verifySubDoc(parent, subdoc, count) 
+    total = 0
+    coll = @db.collection(parent)
+    coll.find().each do |doc| 
+        unless doc[subdoc] == nil
+            total += doc[subdoc].size
+        end 
+    end
+    total == count
+end
+
+def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue)
+   @entity_collection = @db.collection(subdoc_parent)
+   param = subdoc + "." + searchParameter
+   
+   if searchType == "integer"
+        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   elsif searchType == "double"
+        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   elseif searchType == "boolean"
+     if searchValue == "false"
+       @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+     else
+	   @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+     end
+   elsif searchType == "nil"
+        @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
+   else     
+     @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   end  
+end
+
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
 
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+    parent = subDocParent row["collectionName"]
+    if parent 
+        verifySubDoc(parent, row["collectionName"], row["count"])
+    else 
+      @entity_collection = @db.collection(row["collectionName"])
+      @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
 
-    if @entity_count.to_s != row["count"].to_s
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
-    end
+      if @entity_count.to_s != row["count"].to_s
+        @result = "false"
+        red = "\e[31m"
+        reset = "\e[0m"
+      end
 
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+      end
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
@@ -1370,29 +1417,37 @@ Then /^I check to find if record is in collection:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
+    subdoc_parent = subDocParent row["collectionName"]
+    
+    if subdoc_parent
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
+	else  
+      @entity_collection = @db.collection(row["collectionName"])
 
-    if row["searchType"] == "integer"
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "double"
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "boolean"
+      if row["searchType"] == "integer"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      elsif row["searchType"] == "double"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         end
-    elsif row["searchType"] == "nil"
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    else
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      elsif row["searchType"] == "nil"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      else
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      end
     end
-
+    
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
+      puts "Failed #{row["collectionName"]}" 
       @result = "false"
     end
+    
   end
 
   assert(@result == "true", "Some records are not found in collection.")
@@ -1407,16 +1462,21 @@ Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is i
   @stateOrganizationId = @edOrgEntity['_id']
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
+    parent = subDocParent row["collectionName"]
+    if parent 
+        verifySubDoc(parent, row["collectionName"], row["count"])
+    else 
+      @entity_collection = @db.collection(row["collectionName"])
+      @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
 
-    if @entity_count.to_s != row["count"].to_s
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
+      if @entity_count.to_s != row["count"].to_s
+        @result = "false"
+        red = "\e[31m"
+        reset = "\e[0m"
+      end
+
+      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
     end
-
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
   assert(@result == "true", "Some records do not have the correct education organization context.")
 end
@@ -1468,10 +1528,17 @@ end
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
   @db = @conn[INGESTION_DB_NAME]
-  @entity_collection = @db.collection(collection)
-  @entity =  @entity_collection.find({field => value})
+  parent = subDocParent collection
+  if parent 
+    @entity_collection = @db.collection(parent)
+    sub_field = collection + "." + field
+    @entity =  @entity_collection.find({sub_field => value})
+  else 
+    @entity_collection = @db.collection(collection)
+    @entity =  @entity_collection.find({field => value})
+  end
+  
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -1494,6 +1561,7 @@ end
 
 Then /^verify the following data in that document:$/ do |table|
   @entity.each do |ent|
+    puts "entity #{ent}"
     table.hashes.map do |row|
       curSearchString = row['searchParameter']
       val = ent.clone
@@ -2000,17 +2068,35 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
     assert(found == true, "content not found")
 end
 
+def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
+	@entity_collection = @db.collection(subdoc_parent)
+	
+	id_param = subdoc + "._id"
+	field = subdoc + "." + field
+	
+    puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
+	
+    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+end
+
 Then /^I check that ids were generated properly:$/ do |table|
   @db = @conn[INGESTION_DB_NAME]
   table.hashes.map do |row|
-    collection = row['collectionName']
+    subdoc_parent = subDocParent row["collectionName"]
+    puts "subdoc_parent #{subdoc_parent}"
+    
     did = row['deterministicId']
     field = row['field']
     value = row['value']
-
-    @entity_collection = @db.collection(collection)
-    @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-
+    collection = row['collectionName']
+    
+    if subdoc_parent
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])	
+	else  
+      @entity_collection = @db.collection(collection)
+      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+    end
+    
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
 end
