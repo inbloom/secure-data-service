@@ -162,19 +162,25 @@ public class IndexerImpl implements Indexer {
             IndexEntity ie;
             final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
             for (Map<String, Object> entity : docs) {
-                if (entity != null && (Boolean)entity.get("exists")) {
-                    orig = (Map<String, Object>) entity.get("_source");
-                    try {
-                        ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
-                        
-                        if (ie != null) {
-                            NestedMapUtil.merge(orig, ie.getBody());
-                            reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
-                        } else {
-                            logger.error("Unable to match response from get " + entity);
+                if (entity != null) {
+                    if (entity != null && (Boolean)entity.get("exists")) {
+                        orig = (Map<String, Object>) entity.get("_source");
+                        try {
+                            ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
+                            
+                            if (ie != null) {
+                                // if an update happened, re-index, if no update, skip the insert
+                                if (NestedMapUtil.merge(orig, ie.getBody()))
+                                    reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
+                            } else {
+                                logger.error("Unable to match response from get " + entity);
+                            }
+                        } catch (Exception e) {
+                            logger.error("Unable to process entry from ES for re-index " + entity);
                         }
-                    } catch (Exception e) {
-                        logger.error("Unable to process entry from ES for re-index " + entity);
+                    } else { // if doesn't exist, add
+                        ie = indexUpdateMap.remove(entity.get("_id"));
+                        reindex.add(ie);
                     }
                 }
             }
@@ -206,6 +212,9 @@ public class IndexerImpl implements Indexer {
      * @param indexRequests
      */
     public void executeBulkIndex(List<IndexEntity> docs) {
+        if (docs.isEmpty()) {
+            return;
+        }
         logger.info("Preparing _bulk request with " + docs.size() + " records");
         // create bulk http message
         /*
