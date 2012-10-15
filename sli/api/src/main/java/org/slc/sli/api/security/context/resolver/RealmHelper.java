@@ -19,17 +19,17 @@ package org.slc.sli.api.security.context.resolver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.init.RealmInitializer;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -45,7 +45,7 @@ public class RealmHelper {
     private String sandboxUniqueId;
 
     @Autowired
-    
+
     private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
@@ -91,7 +91,7 @@ public class RealmHelper {
             Entity realm = getRealm(edOrgEntity);
             if (realm != null) {
                 toReturn.add(realm.getEntityId());
-                debug("User is directly associated with realm {} through edorg {}", 
+                debug("User is directly associated with realm {} through edorg {}",
                         realm.getBody().get("name"),
                         edOrgEntity.getBody().get("nameOfInstitution"));
             }
@@ -102,7 +102,7 @@ public class RealmHelper {
 
     /**
      * If the edorg is directly associated with a realm, return that realm's entity.
-     * 
+     *
      * Otherwise return null.
      * @param edOrg
      * @return
@@ -110,38 +110,39 @@ public class RealmHelper {
     public Entity getRealm(Entity edOrg) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("edOrg", "=", edOrg.getBody().get("stateOrganizationId")));
+        query.addCriteria(new NeutralCriteria("body.tenantId", "=", edOrg.getMetaData().get("tenantId"), false));
         return repo.findOne("realm", query);
-                
+
     }
 
-    
+
     /**
      * Determine if the user is allowed to login to the specified realm.
-     * 
+     *
      * The rules are as follows:
      * If the user is associated with an edorg, and that edorg is directly associated
      * with a realm, then the user is only allowed to login to that realm.
-     * 
+     *
      * If the user isn't directly associated with any realm, we look at their parent
      * edorgs, and the first one of those that has a valid realm associated is the
      * realm they have to log into.
-     * 
+     *
      * If the user doesn't have any parent edorgs, i.e. is an SEA, then we go one level
      * down to the LEAs directly under the SEA.  If any of those has a realm that the user
      * logged in through, it's valid.
-     * 
+     *
      * @param userEntity
      * @param realm
      * @param tenantId
      * @return
      */
     public boolean isUserAllowedLoginToRealm(Entity userEntity, Entity realm) {
-        
+
         //Always allow sandbox realm
         if (realm.getBody().get("uniqueIdentifier").equals(sandboxUniqueId)) {
             return true;
         }
-        
+
         //Preferred login realms are realms the user would be directly associated with
         List<String> preferredRealms = getPreferredLoginRealmIds(userEntity);
         if (preferredRealms.size() > 0) {
@@ -152,23 +153,23 @@ public class RealmHelper {
         List<String> userEdorgs = edorgHelper.getDirectEdOrgAssociations(userEntity);
         for (String id : userEdorgs) {
             Entity edorgEntity = repo.findById("educationOrganization", id);
-            
+
             if (isValidForLogin(edorgEntity, realm)) {
-                debug("User is allowed to login to realm {} through edorg {}", 
+                debug("User is allowed to login to realm {} through edorg {}",
                         realm.getBody().get("name"),
                         edorgEntity.getBody().get("nameOfInstitution"));
                 return true;
             } else {
-                debug("User cannot login to realm {} through edorg {}", 
+                debug("User cannot login to realm {} through edorg {}",
                         realm.getBody().get("name"),
                         edorgEntity.getBody().get("nameOfInstitution"));
             }
         }
-    
+
         return false;
     }
 
-    private boolean isValidForLogin(Entity edOrgEntity, Entity realm) {        
+    private boolean isValidForLogin(Entity edOrgEntity, Entity realm) {
         List<String> edOrgIds = edorgHelper.getParentEdOrgs(edOrgEntity);
         for (String parentId : edOrgIds) {
             Entity realmEnt = getRealm(repo.findById("educationOrganization", parentId));
