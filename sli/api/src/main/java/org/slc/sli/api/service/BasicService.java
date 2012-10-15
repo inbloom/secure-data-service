@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.avro.generic.GenericData;
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -570,6 +571,13 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
+        for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
+           List<EntityBody> subDocbody = new ArrayList<EntityBody>();
+           for(Entity subEntity : enbDocList.getValue()) {
+               subDocbody.add(new EntityBody(subEntity.getBody()));
+           }
+           toReturn.put(enbDocList.getKey(),subDocbody);
+        }
 
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);

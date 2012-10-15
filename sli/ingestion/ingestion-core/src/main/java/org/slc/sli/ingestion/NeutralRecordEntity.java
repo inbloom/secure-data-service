@@ -144,7 +144,7 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public Map<String,List<Map<String,Object>>> getEmbeddedData() {
-        return new HashMap<String, List<Map<String, Object>>>();
+    public Map<String,List<Entity>> getEmbeddedData() {
+        return new HashMap<String, List<Entity>>();
     }
 }

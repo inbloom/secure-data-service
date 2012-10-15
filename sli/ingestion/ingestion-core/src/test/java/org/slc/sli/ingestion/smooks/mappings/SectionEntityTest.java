@@ -96,7 +96,7 @@ public class SectionEntityTest {
             }
 
             @Override
-            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            public Map<String, List<Entity>> getEmbeddedData() {
                 return null;
             }
 
