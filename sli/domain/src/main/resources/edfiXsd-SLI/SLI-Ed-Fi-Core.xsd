@@ -973,27 +973,26 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:sequence>
     </xs:complexType>
     
-    <xs:complexType name="SLC-BellScheduleRestriction">
+    <xs:complexType name="SLC-BellSchedule">
         <xs:complexContent>
-            <xs:restriction base="BellSchedule">
+            <xs:extension base="ComplexObjectType">
                 <xs:sequence>
                     <xs:element name="BellScheduleName" type="BellScheduleName" />
                     <xs:element name="GradeLevels" type="GradeLevelsType" />
-                    <xs:element name="WeeksInCycle" />
+                    <xs:element name="WeeksInCycle">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:int">
+                                <xs:minInclusive value="1"/>
+                                <xs:maxInclusive value="52"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
                     <xs:element name="SessionReference" type="SessionReferenceType" />
+                    <xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType" maxOccurs="unbounded" />
                     <xs:element name="CalendarDateReference" type="CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded" />
                 </xs:sequence>
-            </xs:restriction>
+            </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="SLC-BellScheduleExtension">
-      <xs:complexContent>
-        <xs:extension base="SLC-BellScheduleRestriction">
-          <xs:sequence>
-            <xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType" maxOccurs="unbounded" />
-          </xs:sequence>
-        </xs:extension>
-      </xs:complexContent>
     </xs:complexType>
     
     <xs:complexType name="SLC-MeetingTimeReferenceType">
