@@ -1582,7 +1582,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @db = @conn[@ingestion_db_name]
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
-  @db = @conn[INGESTION_DB_NAME]
+
   parent = subDocParent collection
   if parent 
     @entity_collection = @db.collection(parent)
