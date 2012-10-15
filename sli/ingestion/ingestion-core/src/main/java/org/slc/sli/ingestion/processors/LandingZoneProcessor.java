@@ -44,17 +44,16 @@ public class LandingZoneProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-
         // Verify that the landing zone is valid.
-        File lzFile = exchange.getIn().getBody(File.class);
+        File lzFile = exchange.getIn().getHeader("filePath", File.class);
         String lzDirectoryPathName = lzFile.getParent();
         boolean landingZoneIsValid = isLandingZoneValid(lzDirectoryPathName);
         if (!landingZoneIsValid) {
             LOG.error("LandingZoneProcessor: {} is not a valid landing zone.", lzDirectoryPathName);
         }
 
+        exchange.getIn().setBody(lzFile.getPath(), String.class);  // To accommodate publish_file_uploaded.rb!
         exchange.getIn().setHeader("hasErrors", !landingZoneIsValid);
-
 }
 
     /**

@@ -158,9 +158,9 @@ default:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
-        sli.ingestion.queue.landingZone.host:
-        sli.ingestion.queue.landingZone.port:
-        sli.ingestion.queue.landingZone.queueURI: seda:IngestionLandingZone
+        sli.ingestion.queue.landingZone.host: localhost
+        sli.ingestion.queue.landingZone.port: 61613
+        sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
         sli.ingestion.queue.landingZone.concurrentConsumers: 1
         sli.ingestion.queue.landingZone.keystore:
         sli.ingestion.queue.landingZone.keystorePassword:
@@ -447,9 +447,6 @@ acceptance-tests:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
         sli.ingestion.queue.landingZone.host: devmq1.slidev.org
-        sli.ingestion.queue.landingZone.port: 61613
-        sli.ingestion.queue.landingZone.queueURI: activemq:queue:IngestionLandingZone
-        sli.ingestion.queue.landingZone.concurrentConsumers: 1
         sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
@@ -550,6 +547,7 @@ ci:
         # ci/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+
         # ci/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
@@ -557,6 +555,9 @@ ci:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.queue.landingZone.host: devmq1.slidev.org
+        sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
@@ -642,6 +643,7 @@ dev:
         # dev/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+
         # dev/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -739,6 +741,7 @@ devjuggernauts:
         # dev/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+
         # dev/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -833,6 +836,7 @@ devapp1:
         # devapp1/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+
         # devapp1/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -929,12 +933,6 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
-        sli.ingestion.queue.landingZone.host: localhost
-        sli.ingestion.queue.landingZone.port: 61613
-        sli.ingestion.queue.landingZone.queueURI: seda:IngestionLandingZone
-        sli.ingestion.queue.landingZone.concurrentConsumers: 1
-        sli.ingestion.queue.landingZone.keystore:
-        sli.ingestion.queue.landingZone.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
@@ -1170,10 +1168,6 @@ team:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        sli.ingestion.queue.landingZone.host: localhost
-        sli.ingestion.queue.landingZone.port: 61613
-        sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
-        sli.ingestion.queue.landingZone.concurrentConsumers: 1
         sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
@@ -1307,6 +1301,7 @@ perf:
         # perf/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+
         # perf/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -1314,6 +1309,7 @@ perf:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
@@ -1556,6 +1552,7 @@ local-pit:
         sli.ingestion.nodeType: pit
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
+
     data-access:
         <<: *DATA-ACCESS-LOCAL
     misc:

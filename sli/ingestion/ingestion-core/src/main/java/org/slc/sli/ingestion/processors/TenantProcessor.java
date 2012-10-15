@@ -32,6 +32,8 @@ import java.util.Map.Entry;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -60,6 +62,9 @@ public class TenantProcessor implements Processor {
     @Autowired
     private TenantDA tenantDA;
 
+    @Value("${sli.ingestion.queue.landingZone.queueURI}")
+    private String landingZoneQueueUri;
+
     private Map<String, List<String>> dataSetLookup;
 
     public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
@@ -70,18 +75,6 @@ public class TenantProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-
-        // We need to extract the TenantID for each thread, so the DAL has access to it.
-        // try {
-        // ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-        // ControlFile cf = cfd.getFileItem();
-        // String tenantId = cf.getConfigProperties().getProperty("tenantId");
-        // TenantContext.setTenantId(tenantId);
-        // } catch (NullPointerException ex) {
-        // LOG.error("Could Not find Tenant ID.");
-        // TenantContext.setTenantId(null);
-        // }
-
         try {
             // updateLzRoutes();
 
@@ -97,10 +90,6 @@ public class TenantProcessor implements Processor {
         }
     }
 
-/*    public void setWorkItemQueueUri(String workItemQueueUri) {
-        this.workItemQueueUri = workItemQueueUri;
-    }*/
-
     /**
      * Attempt to create new landing zones based on the tenant DB collection.
      */
@@ -109,8 +98,7 @@ public class TenantProcessor implements Processor {
             List<String> lzPaths = tenantDA.getLzPaths(getHostname());
             LOG.debug("TenantProcessor: Localhost is {}", getHostname());
             for (String currLzPath : lzPaths) {
-                // Skip currLzPath if path already exists, failed to create the landing zone or the
-                // name is invalid.
+                // Skip currLzPath if path already exists, failed to create the lz or the name is invalid.
                 if (!isValidDirName(currLzPath) || !createValidDir(currLzPath)) {
                     continue;
                 }
@@ -229,18 +217,43 @@ public class TenantProcessor implements Processor {
         try {
             preloadedFile.createNewFile();
             FileUtils.copyInputStreamToFile(sampleFile, preloadedFile);
+
+            // Send a message to ingestion.landingZone queue to invoke ingestion.
+            sendMessageToLzQueue(preloadedFile.getPath());
         } catch (IOException e) {
-            LOG.error("Error copying file to landingZone" + landingZoneDir.getAbsolutePath(), e);
+            LOG.error("Error creating sample file in landingZone" + landingZoneDir.getAbsolutePath(), e);
             result = false;
         } finally {
             try {
                 sampleFile.close();
             } catch (IOException e) {
-                LOG.error("Error copying file to landingZone" + landingZoneDir.getAbsolutePath(), e);
+                LOG.error("Error creating sample file in landingZone" + landingZoneDir.getAbsolutePath(), e);
                 result = false;
             }
         }
         return result;
+    }
+
+    /**
+     * Send a message to the landing zone queue for the given file.
+     *
+     * @param filePathname
+     *            the file to be ingested
+     *
+     * @return true if the message was successfully sent to the landing zone queue
+     *
+     * @throws IOException
+     */
+    private void sendMessageToLzQueue(String filePathname) {
+        // Create a new process to invoke the ruby script to send the message.
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(camelContext);
+            template.start();
+            template.sendBodyAndHeader(landingZoneQueueUri, "Sample lzfile message", "filePath", filePathname);
+            template.stop();
+        } catch (Exception e) {
+            LOG.error("Error publishing sample file " + filePathname + " for ingestion", e);
+        }
     }
 
     /**
