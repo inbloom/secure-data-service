@@ -11,7 +11,7 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="StudentAcademicRecord" type="SLC-StudentAcademicRecordExtension"/>
-				<xs:element name="CourseTranscript" type="CourseTranscript"/>
+				<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
 				<xs:element name="ReportCard" type="ReportCard"/>
 				<xs:element name="Grade" type="SLC-Grade"/>
 				<xs:element name="StudentCompetency" type="SLC-StudentCompetencyExtension"/>
