@@ -20,9 +20,7 @@ package org.slc.sli.ingestion.model.da;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +44,9 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -438,6 +439,42 @@ public class BatchJobMongoDATest {
         assertEquals(error.getErrorType(), "errorType" + iterationCount);
         assertEquals(error.getErrorDetail(), "errorDetail" + iterationCount);
 
+    }
+
+    @Test
+    public void testFindAndUpsertRecordHash() {
+        //capture mongoTemplate.save() and mongoTemplate.findOne()!
+        class DBAnswer implements Answer<Object> {
+            RecordHash savedRecordHash;
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String method = invocation.getMethod().getName();
+                if (method.equals("save")) {
+                    Object[] args = invocation.getArguments();
+                    savedRecordHash = (RecordHash) args[0];
+                    return null;
+                } else if (method.equals("findOne")) {
+                    return savedRecordHash;
+                } else
+                    return null;
+            }
+        }
+        DBAnswer dbAnswer = new DBAnswer();
+        doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
+        doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
+        // first call to findAndUpsertRecordHash should return false since Record is not in db.
+        Assert.assertFalse(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHash"));
+        String savedTimestamp =  dbAnswer.savedRecordHash.timestamp;
+        String savedId        =  dbAnswer.savedRecordHash._id;
+        //introduce delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
+        try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
+        // second call to findAndUpsertRecordHash should return true since Record is already in db.
+        Assert.assertTrue(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHash"));
+        String updatedTimestamp = dbAnswer.savedRecordHash.timestamp;
+        String updatedId        = dbAnswer.savedRecordHash._id;
+        Assert.assertTrue(savedId.equals(updatedId));
+        // the timestamp on the recordHash should have changed after the second call.
+        Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
     }
 
 }

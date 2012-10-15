@@ -31,13 +31,18 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 
 When the user selects the option to use the "<ED-ORG_SAMPLE_DS1>"
 And clicks on "Provision" 
-Then an "<ED-ORG_SAMPLE_DS1>" is saved to mongo
+Then an "<ED-ORG_SAMPLE_DS1>" is saved to sandbox mongo
 #And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
 And a request for a Landing zone is made with "<Tenant_ID>" and "<ED-ORG_SAMPLE_DS1>"
 And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
 And the landing zone "<Landing_zone_directory>" is saved in Ldap
 And the tenantId "<Tenant_ID>" is saved in Ldap
-
+And the sandbox db should have the following map of indexes in the corresponding collections:
+     | collectionName                             | index                                                                |
+     | parent                                     | metaData.tenantId_1__id_1                                            |
+     | student                                    | metaData.tenantId_1_body.studentUniqueStateId_1                      |
+     | teacherSchoolAssociation                   | metaData.tenantId_1_body.schoolId_1                              	 |
+     
 @sandbox
 Scenario: Developer logs in after on-boarding on sandbox
 Given the user has an approved sandbox account

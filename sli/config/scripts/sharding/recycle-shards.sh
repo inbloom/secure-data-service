@@ -18,12 +18,15 @@ echo Shards killed.
 sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo Shards started.
 
-mongo admin $SLI_HOME/config/shards/sli_shards.js
+mongo admin $SLI_HOME/config/shards/sli_shards.js --eval "var database = 'Midgar'"
 #mongo admin $SLI_HOME/config/shards/is_shards.js
 echo shards configured.
 
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
 echo sli indexed.
+
+mongo Midgar $SLI_HOME/config/indexes/tenantDB_indexes.js
+echo Midgar tenant indexed.
 
 mongo is $SLI_HOME/config/indexes/is_indexes.js
 echo is indexed.

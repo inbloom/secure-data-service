@@ -10,10 +10,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBObject;
-
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,15 +24,20 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
- *
+ * 
  * @author nbrown
- *
+ * 
  */
 public class SubDocAccessor {
 
@@ -66,7 +72,7 @@ public class SubDocAccessor {
 
     /**
      * Start a location for a given sub doc type
-     *
+     * 
      * @param type
      * @return
      */
@@ -87,7 +93,7 @@ public class SubDocAccessor {
 
         /**
          * Store the subdoc within the given super doc collection
-         *
+         * 
          * @param collection
          *            the collection the subdoc gets stored in
          * @return
@@ -99,7 +105,7 @@ public class SubDocAccessor {
 
         /**
          * The field the subdocs show up in
-         *
+         * 
          * @param subField
          *            The field the subdocs show up in
          * @return
@@ -111,7 +117,7 @@ public class SubDocAccessor {
 
         /**
          * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
-         *
+         * 
          * @param subDocField
          * @param superDocField
          * @return
@@ -132,9 +138,9 @@ public class SubDocAccessor {
 
     /**
      * THe location of the subDoc
-     *
+     * 
      * @author nbrown
-     *
+     * 
      */
     public class Location {
 
@@ -144,7 +150,7 @@ public class SubDocAccessor {
 
         /**
          * Create a new location to store subdocs
-         *
+         * 
          * @param collection
          *            the collection the superdoc is in
          * @param key
@@ -182,6 +188,7 @@ public class SubDocAccessor {
             String updateCommand = "{findAndModify:\"" + collection + "\",query:" + queryDBObject.toString()
                     + ",update:" + patchUpdate.toString() + "}";
             LOG.debug("the update date mongo command is: {}", updateCommand);
+            TenantContext.setIsSystemCall(false);
             CommandResult result = template.executeCommand(updateCommand);
             return result.get("value") != null;
 
@@ -209,6 +216,7 @@ public class SubDocAccessor {
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
             boolean result = true;
+            TenantContext.setIsSystemCall(false);
             result &= template.getCollection(collection)
                     .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
             result &= template.getCollection(collection)
@@ -287,6 +295,7 @@ public class SubDocAccessor {
             DBObject parentQuery = getParentQuery(entity.getBody());
             List<Entity> subEntities = new ArrayList<Entity>();
             subEntities.add(entity);
+            TenantContext.setIsSystemCall(false);
 
             return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false)
                     .getLastError().ok();
@@ -451,13 +460,14 @@ public class SubDocAccessor {
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
             LOG.info("the aggregate query command is: {}", queryCommand);
+            TenantContext.setIsSystemCall(false);
+
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
             for (DBObject dbObject : subDocs) {
                 entities.add(convertDBObjectToSubDoc(((DBObject) dbObject.get(subField))));
             }
-
             return entities;
         }
 
@@ -468,6 +478,8 @@ public class SubDocAccessor {
             if (additionalCriteria != null) {
                 query.addCriteria(additionalCriteria);
             }
+            TenantContext.setIsSystemCall(false);
+
             Map<?, ?> result = template.findOne(query, Map.class, collection);
             if (result == null) {
                 return null;
@@ -493,6 +505,8 @@ public class SubDocAccessor {
 
         public boolean exists(String id) {
             DBObject query = this.getExactSubDocQuery(id);
+            TenantContext.setIsSystemCall(false);
+
             return template.getCollection(collection).count(query) > 0;
         }
 
