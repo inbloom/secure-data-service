@@ -88,6 +88,7 @@ db["custom_entities"].ensureIndex({"metaData.tenantId":1,"metaData.entityId":1,"
 
 //sharding --> sharded on { metaData.tenantId, _id }
 //most of these are redundant, but REQUIRED for sharding
+//TODO this section can be removed once db/tenant story is finished
 db["assessment"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["calendarDate"].ensureIndex({"metaData.tenantId":1,"_id":1});
@@ -136,7 +137,7 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 
 
 //direct references - index on each direct reference
-//edOrgs field can be removed when staff stamper goes away
+//TODO edOrgs field can be removed when staff stamper goes away
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.edOrgs":1});
@@ -215,7 +216,7 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.teacher
 
 
 //staff context resolver access - stamped edOrgs
-//can be removed when staff stamper goes away
+//TODO this section can be removed when staff stamper goes away
 db["assessment"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["calendarDate"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
@@ -262,6 +263,7 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edO
 //profiled - ingestion
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.schoolId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
+//TODO DEFECT this query should have "metaData.tenantId" until the db/tenant change
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
 
