@@ -110,7 +110,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     List<String> ids = extractIds(previousEntities, extractKey);
 
                     connectingType = modelProvider.getConnectingEntityType(currentType, previousType);
-                    if ((entities != null) && (connectingType != null) && !currentType.equals(previousType)) {
+                    if ((connectingType != null) && !currentType.equals(previousType)) {
                         types.push(connectingType);
 
                         if(isEmbedded(previousType,connectingType)) {
@@ -160,8 +160,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     private List<EntityBody> getEmbeddedEntities(List<EntityBody> previousEntities, Type currentType) {
         List<EntityBody> embeddedBodyList = new ArrayList<EntityBody>();
+        String currType = StringUtils.lowercaseFirstLetter(currentType.getName());
         for (EntityBody body: previousEntities) {
-            embeddedBodyList.addAll((Collection<? extends EntityBody>) body.get(StringUtils.lowercaseFirstLetter(currentType.getName())));
+            if (body.containsKey(currType)) {
+                embeddedBodyList.addAll((Collection<? extends EntityBody>) body.get(currType));
+            }
         }
         return embeddedBodyList;
     }
