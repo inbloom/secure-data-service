@@ -243,8 +243,8 @@ Examples:
     |Context                | Ids                                |
     |schools	                |92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
     |educationOrganizations	|92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
-    |staff	                  |04f708bc-928b-420d-a440-f1592a5d1073|
-    |teachers               |04f708bc-928b-420d-a440-f1592a5d1073|
+    |staff	                  |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
+    |teachers               |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
     |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
@@ -270,13 +270,13 @@ Examples:
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2    |/schools|                                                                                
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 0     |/educationOrganizations/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
-| "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
-| "studentGradebookEntry" | "studentGradebookEntries" | 4     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
-| "teacher"               | "teachers"                | 1     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
+| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
+| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
+| "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
 | "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
-| "reportCard"            | "reportCards"             | 1     |/sections/@ids/studentSectionAssociations/students/reportCards|                            
+| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|                            
