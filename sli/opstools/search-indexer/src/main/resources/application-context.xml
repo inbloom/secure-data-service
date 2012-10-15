@@ -14,6 +14,7 @@
 	<import resource="classpath:/spring/validation.xml" />
 	<context:component-scan base-package="org.slc.sli.dal" />
 	<context:component-scan base-package="org.slc.sli.validation" />
+	<context:component-scan base-package="org.slc.sli.common.util.uuid" />
 	<context:annotation-config />
 	<tx:annotation-driven />
 
