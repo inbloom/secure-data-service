@@ -309,7 +309,7 @@ public class MongoQueryConverterTest {
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
         assertNotNull("Should not be null", obj.get("$or"));
-        assertTrue(((BasicBSONList) obj.get("$or")).size() == 2);
+        assertTrue(((BasicBSONList) obj.get("$or")).size() == 1);
     }
 
 
