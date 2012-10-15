@@ -73,10 +73,6 @@ public class SuperAdminService {
 
         NeutralQuery query = new NeutralQuery();
 
-        if (secUtil.getTenantId() == null && tenant != null) {
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant, false));
-        }
-
         for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             String tmpEdOrg = (String) e.getBody().get("stateOrganizationId");
             @SuppressWarnings("unchecked")

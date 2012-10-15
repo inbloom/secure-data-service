@@ -56,7 +56,6 @@ public class MongoUserLocator implements UserLocator {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
         neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
 
         TenantContext.setTenantId(tenantId);

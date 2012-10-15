@@ -94,7 +94,6 @@ public class RealmHelper {
     public Entity getRealm(Entity edOrg) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("edOrg", "=", edOrg.getBody().get("stateOrganizationId")));
-        query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", edOrg.getMetaData().get("tenantId"), false));
         return repo.findOne("realm", query);
                 
     }
