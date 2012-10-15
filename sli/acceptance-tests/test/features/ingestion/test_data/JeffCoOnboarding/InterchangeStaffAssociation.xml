@@ -38,7 +38,7 @@
             No Degree
             Bachelor's
             Master's
-            Doctoratea
+            Doctorate
      -->
     <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
   </Staff>
@@ -58,10 +58,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
 
-    <StaffClassification>LEA Administrator</StaffClassification>
-
-    <!-- Title -->
-    <PositionTitle>_MY_TITLE_</PositionTitle>
+    <StaffClassification>LEA System Administrator</StaffClassification>
     <BeginDate>2012-10-12</BeginDate>
 
   </StaffEducationOrgAssignmentAssociation>

@@ -199,6 +199,11 @@
         <AssessmentPeriod>
             <CodeValue>apd0</CodeValue>
         </AssessmentPeriod>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
                 <AssessmentFamilyIdentificationCode AssigningOrganizationCode="AssigningOrganizationCode" IdentificationSystem="Federal">
@@ -206,10 +211,5 @@
                 </AssessmentFamilyIdentificationCode>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
-        <ObjectiveAssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAssessmentReference>
     </Assessment>
 </InterchangeAssessmentMetadata>

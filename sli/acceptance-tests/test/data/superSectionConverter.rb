@@ -39,7 +39,7 @@ while (line = sectionFile.gets)
     next if ssaLine.strip == ""
     ssaLine_hash = JSON.parse(ssaLine)
 
-    ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f)).strftime("%Y-%m-%d")
+#    ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f)).strftime("%Y-%m-%d")
     #puts ssaLine_hash["body"]["sectionId"]
     if sectionId == ssaLine_hash["body"]["sectionId"]
       #puts sectionId
@@ -48,7 +48,7 @@ while (line = sectionFile.gets)
     if ssa_array.length > 0
       line_hash["studentSectionAssociation"] = ssa_array
       #puts line_hash
-      puts JSON.pretty_generate(line_hash)
+      #puts JSON.pretty_generate(line_hash)
     end
   end
   ssaFile.close
