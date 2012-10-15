@@ -142,9 +142,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (tenantId == null) {
             return null;
         }
-        Criteria c = new Criteria("metaData.tenantId");
-        c.is(tenantId);
-        return c;
+        return new Criteria();
     }
 
     public void setTemplate(MongoTemplate template) {
@@ -236,15 +234,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // exist, then we append.
         try {
             String tenantId = TenantContext.getTenantId();
-            BasicDBObject obj = null;
-
-            if (tenantId != null && !isTenantAgnostic(collectionName)) {
-
-                obj = new BasicDBObject("metaData.tenantId", tenantId);
-                obj.append("_id", databaseId);
-            } else {
-                obj = new BasicDBObject("_id", databaseId);
-            }
+            BasicDBObject obj = new BasicDBObject("_id", databaseId);
 
             return getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
@@ -511,13 +501,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // We decided that if TenantId is null, then we will search on blank.
         // This option may need to be revisted.
         String tenantId = TenantContext.getTenantId();
-        BasicDBObject obj = null;
+        BasicDBObject obj = new BasicDBObject();
 
-        if (tenantId != null && !isTenantAgnostic(collectionName)) {
-            obj = new BasicDBObject("metaData.tenantId", tenantId);
-        } else {
-            obj = new BasicDBObject();
-        }
         guideIfTenantAgnostic(collectionName);
         template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
