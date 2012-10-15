@@ -527,22 +527,6 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 
-//ingestion tenantId,externalId
-db["assessment"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["sectionSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["sessionCourseAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-
 //stamper - profiled
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
