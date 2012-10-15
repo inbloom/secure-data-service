@@ -187,10 +187,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             DidEntityConfig entityConfig = extractEntityConfig(complexType.getValue());
             if (entityConfig != null) {
                 String entityType = complexType.getKey();
-                //TODO hack for type switch for gradebook entry - needs to be removed
-                if (entityType.equals("SLC-GradebookEntry")) {
-                    entityType = "gradebookEntry";
-                }
+                
                 entityConfigs.put(entityType, entityConfig);
             }
         }
