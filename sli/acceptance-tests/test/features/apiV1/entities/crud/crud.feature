@@ -133,7 +133,7 @@ Examples:
 | "program"               | "programs"                |  200 | 2     |/staff/@ids/staffProgramAssociations/programs|
 | "school"                | "schools"                 |  200 | 0    |/schools|
 | "section"               | "sections"                |  200 | 0     |/schools/@ids/sections|
-| "session"               | "sessions"                |  200 | 0     |/schools/@ids/sessions|
+| "session"               | "sessions"                |  200 | 0     |/educationOrganizations/@ids/sessions|
 | "staff"                 | "staff"                   |  200 | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
 | "student"               | "students"                |  200 | 0     |/schools/@ids/studentSchoolAssociations/students|
 | "studentAcademicRecord" | "studentAcademicRecords"  |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
@@ -270,7 +270,7 @@ Examples:
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 1    |/schools|                                                                                
 | "section"               | "sections"                | 4     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 0     |/schools/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 0     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 0     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 31    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 

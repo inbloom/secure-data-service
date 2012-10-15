@@ -21,13 +21,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * Infers context about the user and restricts blanket API calls to smaller (and generally more
@@ -114,7 +113,7 @@ public class ContextInferenceHelper {
                 result = String.format("/schools/%s", StringUtils.join(edorger.getDirectSchools(user),","));
                 success = !ids.isEmpty();
             } else if (ResourceNames.SESSIONS.equals(resource)) {
-                result = String.format("/schools/%s/sessions",
+                result = String.format("/educationOrganizations/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF.equals(resource)) {
                 result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
@@ -232,7 +231,7 @@ public class ContextInferenceHelper {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/sections", ids);
             } else if (ResourceNames.SESSIONS.equals(resource)) {
-                result = String.format("/schools/%s/sessions",
+                result = String.format("/educationOrganizations/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
