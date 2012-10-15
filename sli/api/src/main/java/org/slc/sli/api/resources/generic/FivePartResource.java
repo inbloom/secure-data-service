@@ -56,6 +56,7 @@ public class FivePartResource extends GenericResource {
 		} else {
 		    queryString = "?" + queryString;
 		}
+		info("Executing: "+newUri+queryString);
 		Response res = three.get(new ChangedUriInfo(newUri + queryString, uriInfo.getBaseUriBuilder()), ids);
 		return res;
 	}
