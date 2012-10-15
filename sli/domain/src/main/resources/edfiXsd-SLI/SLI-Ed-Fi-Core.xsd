@@ -359,7 +359,9 @@ Other</xs:documentation>
   <xs:complexType name="SLC-StudentGradebookEntry">
     <xs:annotation>
       <xs:documentation/>
-      <sli:recordType>studentGradebookEntry</sli:recordType>
+      <xs:appInfo>
+        <sli:recordType>studentGradebookEntry</sli:recordType>
+      </xs:appInfo>
     </xs:annotation>  
     <xs:complexContent>
       <xs:extension base="ComplexObjectType">
@@ -1287,7 +1289,9 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	<xs:complexType name="SLC-CourseTranscript">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
-			<sli:recordType>studentTranscriptAssociation</sli:recordType>
+			<xs:appInfo>
+				<sli:recordType>studentTranscriptAssociation</sli:recordType>
+			</xs:appInfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
