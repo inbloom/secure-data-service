@@ -53,6 +53,11 @@
 
 	<!-- Change to use the internal SectionReferenceType -->
 	<xs:complexType name="OptionalRefExample">
+	    <xs:annotation>
+            <xs:appinfo>
+                <sli:recordType>optionalRef</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
 		<xs:sequence>
 			<xs:element name="OptionalSchoolRef" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 			</xs:element>

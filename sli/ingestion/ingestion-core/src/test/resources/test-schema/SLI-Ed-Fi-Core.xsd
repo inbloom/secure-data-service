@@ -330,37 +330,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- Change type of StudentGradebookEntry.GradebookEntryReference to type GradebookEntryReference -->
-  <!--<xs:complexType name="SLI-StudentGradebookEntryRestriction">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:restriction base="StudentGradebookEntry">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="DateFulfilled" type="xs:date" minOccurs="0" />-->
-          <!--<xs:element name="LetterGradeEarned" minOccurs="0">-->
-            <!--<xs:simpleType>-->
-              <!--<xs:restriction base="GradeEarned">-->
-                <!--<xs:maxLength value="20"/>-->
-              <!--</xs:restriction>-->
-            <!--</xs:simpleType>-->
-          <!--</xs:element>-->
-          <!--<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0" />-->
-          <!--<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0" />-->
-          <!--<xs:element name="DiagnosticStatement" type="text" minOccurs="0" />-->
-          <!--<xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType" />-->
-        <!--</xs:sequence>-->
-      <!--</xs:restriction>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
-  <!--<xs:complexType name="SLI-StudentGradebookEntryExtension">-->
-    <!--<xs:complexContent>-->
-      <!--<xs:extension base="StudentGradebookEntry">-->
-        <!--<xs:sequence>-->
-          <!--<xs:element name="GradebookEntryReference" type="SLI-GradebookEntryReferenceType" minOccurs="0"/>-->
-        <!--</xs:sequence>-->
-      <!--</xs:extension>-->
-    <!--</xs:complexContent>-->
-  <!--</xs:complexType>-->
-
   <xs:simpleType name="SLI-UniqueCourseId">
     <xs:annotation>
       <xs:documentation>A unique number or alphanumeric code assigned to a course by a school, school system, a state, or other agency or entity.</xs:documentation>
@@ -608,6 +577,9 @@
 	<xs:complexType name="SLC-GradebookEntry">
 		<xs:annotation>
 			<xs:documentation>This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.</xs:documentation>
+		    <xs:appinfo>
+                <sli:recordType>gradebookEntry</sli:recordType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
