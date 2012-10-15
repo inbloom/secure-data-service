@@ -248,15 +248,6 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 
-//stamper - profiled
-db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
-db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1});
-db["student"].ensureIndex({"metaData.tenantId":1,"_id":1,"studentAssessmentAssociation._id":1});
-db["student"].ensureIndex({"metaData.tenantId":1,"studentAssessmentAssociation":1});
-db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1});
-db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1});
-
 //profiled - ingestion
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.schoolId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
