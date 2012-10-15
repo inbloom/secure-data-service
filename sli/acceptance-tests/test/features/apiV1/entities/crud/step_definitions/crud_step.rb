@@ -88,7 +88,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93"
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
   },
   "student" => {
     "birthData" => {
@@ -109,7 +109,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772",
     "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
@@ -215,7 +215,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
     "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
     "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
@@ -395,7 +395,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
        "programId" => @newId,
        "beginDate" => "2011-05-01",
-       "educationOrganizationId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     },
     "studentSectionAssociation" => {
       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
