@@ -14,7 +14,7 @@
 				<xs:element name="AssessmentReference" type="AssessmentReferenceType"/>
 				<xs:element name="StudentAssessment" type="StudentAssessment"/>
 				<xs:element name="StudentObjectiveAssessment" type="SLI-StudentObjectiveAssessment"/>
-				<xs:element name="StudentAssessmentItem" type="SLI-StudentAssessmentItem"/>
+				<xs:element name="StudentAssessmentItem" type="SLI-StudentAssessmentItemExtension"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
