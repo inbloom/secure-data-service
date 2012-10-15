@@ -570,14 +570,18 @@ public class BasicService implements EntityService {
      * @return
      */
     private EntityBody makeEntityBody(Entity entity) {
-        EntityBody toReturn = new EntityBody(entity.getBody());
+        EntityBody toReturn = createBody(entity);
         for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
            List<EntityBody> subDocbody = new ArrayList<EntityBody>();
            for(Entity subEntity : enbDocList.getValue()) {
-               subDocbody.add(new EntityBody(subEntity.getBody()));
+               subDocbody.add(createBody(subEntity));
            }
            toReturn.put(enbDocList.getKey(),subDocbody);
         }
+        return toReturn;
+    }
+    private EntityBody createBody(Entity entity) {
+        EntityBody toReturn = new EntityBody(entity.getBody());
 
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);
