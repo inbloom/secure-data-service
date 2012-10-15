@@ -46,36 +46,36 @@
 //
 
 
-//auth, realm, application, tenant
-db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+//app, auth, realm
+db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"body.localEdOrgId":1,"body.appApprovalEnabled":1});
 
+db["application"].ensureIndex({"body.admin_visible":1});
 db["application"].ensureIndex({"body.allowed_for_all_edorgs":1});
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["application"].ensureIndex({"body.authorized_for_all_edorgs":1});
-db["application"].ensureIndex({"body.bootstrap":1});
-db["application"].ensureIndex({"body.client_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["application"].ensureIndex({"body.client_secret":1,"body.client_id":1});
 db["application"].ensureIndex({"body.name":1});
 
 db["applicationAuthorization"].ensureIndex({"body.appIds":1});
 db["applicationAuthorization"].ensureIndex({"body.authId":1});
-db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"body.authId":1,"body.authType":1});
 
-db["realm"].ensureIndex({"_id":1,"body.uniqueIdentifier":1});
+db["customRole"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
+
 db["realm"].ensureIndex({"body.idp.id":1});
 db["realm"].ensureIndex({"body.uniqueIdentifier":1});
+db["realm"].ensureIndex({"metaData.tenantId":1,"body.edOrg":1});
 
-db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1});
+db["securityEvent"].ensureIndex({"metaData.tenantId":1,"body.targetEdOrg":1,"body.roles":1});
+
+db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1,"body.landingZone.preload.status":1});
 db["tenant"].ensureIndex({"body.landingZone.path":1});
-db["tenant"].ensureIndex({"body.tenantId":1,"_id":1});
-db["tenant"].ensureIndex({"body.tenantId":1,"body.landingZone.educationOrganization":1});
-db["tenant"].ensureIndex({"body.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+db["tenant"].ensureIndex({"body.tenantId":1});
 db["tenant"].ensureIndex({"type":1});
-db["tenant"].ensureIndex({"body.tenantId":1},{unique:true});
 
-db["userSession"].ensureIndex({"body.appSession.code.expiration":1,"body.appSession.clientId":1,"body.appSession.verified":1,"body.appSession.code.value":1}, {"name":"codeExpiration_clientId_verified_codeValue"});
+db["userSession"].ensureIndex({"body.appSession.code.value":1});
 db["userSession"].ensureIndex({"body.appSession.samlId":1});
 db["userSession"].ensureIndex({"body.appSession.token":1});
 db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.appSession.token":1});
@@ -166,6 +166,7 @@ db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.teacherI
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.teacherId":1,"metaData.edOrgs":1});
 
+
 //sharding --> sharded on { metaData.tenantId, _id }
 //most of these are redundant, but REQUIRED for sharding
 db["assessment"].ensureIndex({"metaData.tenantId":1,"_id":1});
@@ -214,6 +215,7 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 
+
 //staff context resolver access - stamped edOrgs
 //can be removed when staff stamper goes away
 db["assessment"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
@@ -258,18 +260,13 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 
+
 //profiled - ingestion
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.schoolId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
 
+
 //oprhan detection - this should be removed when done in API
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1});
-
-// profiled
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"_id":1,"type":1});
-db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1,"type":1});
-db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"body.endDate":1});
-db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
