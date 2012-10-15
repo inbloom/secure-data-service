@@ -29,25 +29,25 @@ ruby publish_file_uploaded.rb STOR /home/ingestion/tenant/file.zip
 
 =end
 
-require 'rubygems'
-require 'stomp'
+require "rubygems"
+require "stomp"
 
 #   Configure based on deployment
 ########################################
-ACTIVEMQ_HOST = 'localhost'
+ACTIVEMQ_HOST = "localhost"
 ACTIVEMQ_PORT = 61613
-ACTIVEMQ_QUEUE = 'ingestion.landingZone'
+ACTIVEMQ_QUEUE = "ingestion.landingZone"
 ########################################
 
 operation = ARGV[0]
-if operation == 'STOR'
+if operation == "STOR"
 
   path = ARGV[1]
 
-  client = Stomp::Client.new '', '', ACTIVEMQ_HOST, ACTIVEMQ_PORT, false
+  client = Stomp::Client.new "", "", ACTIVEMQ_HOST, ACTIVEMQ_PORT, false
 
-  client.publish ACTIVEMQ_QUEUE, 'File upload completed.', { :persistent => true, :filePath => path }
+  client.publish ACTIVEMQ_QUEUE, "File upload completed.", { :persistent => true, :filePath => path }
 
-  puts 'Sent message to ACTIVEMQ_QUEUE: #{ACTIVEMQ_QUEUE} file has been uploaded: #{path}'
+  puts "Sent message to queue: #{ACTIVEMQ_QUEUE} file has been uploaded: #{path}"
   client.close
 end
