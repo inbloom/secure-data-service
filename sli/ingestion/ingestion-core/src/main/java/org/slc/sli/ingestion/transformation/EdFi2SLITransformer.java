@@ -266,8 +266,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private void updateContext(String referencedEntityType, String typeOfContext, Object context,
             List<String> idsToQuery) {
         NeutralQuery query = new NeutralQuery(idsToQuery.size());
-        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, TenantContext
-                .getTenantId(), false));
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery, false));
 
         // need to use $each operator to add an array with $addToSet
@@ -293,7 +291,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgId != null) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("metaData.edOrgs", "=", edOrgId, false));
             Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
 
@@ -318,7 +315,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgIds != null) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("educationOrgId", "=", edOrgIds));
             Iterable<Entity> cohorts = entityRepository.findAll("cohort", query);
 
@@ -349,7 +345,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgIds != null && edOrgIds.size() > 0) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("_id", "=", edOrgIds, false));
             Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
 
