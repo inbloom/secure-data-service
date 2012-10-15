@@ -58,132 +58,132 @@ import org.xml.sax.InputSource;
  * Parser for the Ed-Fi XSD and Ed-Fi extension XSD.
  * Responsible for creating deterministic id reference resolution
  * configuration objects, based on XSD annotations.
- *
+ * 
  * @author jtully
- *
+ * 
  */
 public class DidSchemaParser implements ResourceLoaderAware {
-
+    
     private ResourceLoader resourceLoader;
-
+    
     // cache for complex types
     private Map<String, XmlSchemaComplexType> complexTypes;
     // cache for reference types
     private Map<String, XmlSchemaComplexType> referenceTypes;
-
-    //per entity configs for deterministic id resolution
+    
+    // per entity configs for deterministic id resolution
     private Map<String, DidEntityConfig> entityConfigs;
-
-    //per reference configs for deterministic id resolution
+    
+    // per reference configs for deterministic id resolution
     private Map<String, DidRefConfig> refConfigs;
-
+    
     private String xsdLocation;
     private String xsdParentLocation;
-
+    
     private String extensionXsdLocation;
     private String extensionXsdParentLocation;
-
+    
     private Map<String, DidRefSource> refSourceCache;
-
+    
     // schema type constants
     private static final String REFERENCE_TYPE = "ReferenceType";
     private static final String IDENTITY_TYPE = "IdentityType";
-
+    
     // Did annotation constants
     private static final String APPLY_KEY_FIELDS = "applyKeyFields";
     private static final String REF_TYPE = "refType";
     private static final String KEY_FIELD_NAME = "keyFieldName";
     private static final String XPATH_PREFIX = "body.";
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(DidSchemaParser.class);
-
+    
     public String getExtensionXsdLocation() {
         return extensionXsdLocation;
     }
-
+    
     public void setExtensionXsdLocation(String entensionXsdLocation) {
         this.extensionXsdLocation = entensionXsdLocation;
     }
-
+    
     public String getExtensionXsdParentLocation() {
         return extensionXsdParentLocation;
     }
-
+    
     public void setExtensionXsdParentLocation(String extensionXsdParentLocation) {
         this.extensionXsdParentLocation = extensionXsdParentLocation;
     }
-
+    
     public String getXsdParentLocation() {
         return xsdParentLocation;
     }
-
+    
     public void setXsdParentLocation(String xsdParentLocation) {
         this.xsdParentLocation = xsdParentLocation;
     }
-
+    
     public String getXsdLocation() {
         return xsdLocation;
     }
-
+    
     public void setXsdLocation(String xsdLocation) {
         this.xsdLocation = xsdLocation;
     }
-
+    
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-
+    
     /**
      * Initialization method, parses XSD for complexTypes and referenceTypes
      */
     @PostConstruct
     public void setup() {
         complexTypes = new HashMap<String, XmlSchemaComplexType>();
-
+        
         Resource xsdResource = resourceLoader.getResource(xsdLocation);
         Resource extensionXsdResource = resourceLoader.getResource(extensionXsdLocation);
-
+        
         // extract complex types from base schema
         cacheComplexTypesFromResource(xsdResource, xsdParentLocation);
         // extract complex types from extension schema
         cacheComplexTypesFromResource(extensionXsdResource, extensionXsdParentLocation);
-
+        
         // extract and cache the reference types from the complexTypes
         cacheReferenceTypes();
-
+        
         removeParentTypesFromCache();
-
+        
         refSourceCache = new HashMap<String, DidRefSource>();
-
-        //extract the Did configuration objects
+        
+        // extract the Did configuration objects
         entityConfigs = extractEntityConfigs();
         refConfigs = extractRefConfigs();
     }
-
+    
     public Map<String, DidRefConfig> getRefConfigs() {
         return refConfigs;
     }
-
+    
     public Map<String, DidEntityConfig> getEntityConfigs() {
         return entityConfigs;
     }
-
-
+    
     /**
      * Extract entity configs
      */
     private Map<String, DidEntityConfig> extractEntityConfigs() {
         Map<String, DidEntityConfig> entityConfigs = new HashMap<String, DidEntityConfig>();
-
+        
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> complexType : complexTypes.entrySet()) {
-
-            //exclude IdentityTypes which may also contain referenceTypes but shouldn't result in an EntityConfig
+            
+            // exclude IdentityTypes which may also contain referenceTypes but shouldn't result in
+            // an EntityConfig
             if (complexType.getKey().contains(IDENTITY_TYPE)) {
                 continue;
             }
-
+            
             DidEntityConfig entityConfig = extractEntityConfig(complexType.getValue());
             if (entityConfig != null) {
                 String entityType = complexType.getKey();
@@ -191,16 +191,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 entityConfigs.put(entityType, entityConfig);
             }
         }
-
+        
         return entityConfigs;
     }
-
+    
     /**
      * Extract ref configs
      */
     private Map<String, DidRefConfig> extractRefConfigs() {
         Map<String, DidRefConfig> refConfigs = new HashMap<String, DidRefConfig>();
-
+        
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> refType : referenceTypes.entrySet()) {
             DidRefConfig refConfig = extractRefConfig(refType.getValue(), "");
@@ -208,10 +208,10 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 refConfigs.put(refConfig.getEntityType(), refConfig);
             }
         }
-
+        
         return refConfigs;
     }
-
+    
     /**
      * extract complex types from a schema resource and cache in complexTypes
      */
@@ -224,11 +224,11 @@ public class DidSchemaParser implements ResourceLoaderAware {
             LOG.error("Failed parse schema " + schemaResource.getFilename(), e);
         }
     }
-
+    
     private XmlSchema parseXmlSchema(final InputStream is, final String baseXsdPath) {
         try {
             XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
-            //schemaCollection.setBaseUri(baseUri);
+            // schemaCollection.setBaseUri(baseUri);
             schemaCollection.setSchemaResolver(new URIResolver() {
                 @Override
                 public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
@@ -257,15 +257,15 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
     }
-
+    
     /**
      * extract all complex types from a schema and cache into a map
      */
     private void cacheComplexTypes(XmlSchema schema) {
         XmlSchemaObjectCollection schemaItems = schema.getItems();
-
+        
         int numElements = schemaItems.getCount();
-
+        
         // Iterate XML Schema items
         for (int i = 0; i < numElements; i++) {
             XmlSchemaObject schemaObject = schemaItems.getItem(i);
@@ -276,7 +276,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
     }
-
+    
     /**
      * Remove parent types from the complexTypes cache.
      * We are only interested in the leaf node extended types.
@@ -284,7 +284,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     private void removeParentTypesFromCache() {
         // find all the parent types
         Set<String> parentTypeSet = new HashSet<String>();
-
+        
         for (XmlSchemaComplexType complexType : complexTypes.values()) {
             // this needs to also respect restriction
             String baseName = extractBaseTypeName(complexType);
@@ -292,20 +292,20 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 parentTypeSet.add(baseName);
             }
         }
-
+        
         // remove all the parentTypes from cache
         for (String parentType : parentTypeSet) {
             complexTypes.remove(parentType);
             referenceTypes.remove(parentType);
         }
     }
-
+    
     /**
      * Extract and cache all reference types from the complexTypes map.
      */
     private void cacheReferenceTypes() {
         referenceTypes = new HashMap<String, XmlSchemaComplexType>();
-
+        
         // extract referenceTypes from the complexTypes
         for (Entry<String, XmlSchemaComplexType> complexTypeEntry : complexTypes.entrySet()) {
             if (isReferenceType(complexTypeEntry.getValue())) {
@@ -313,14 +313,14 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
     }
-
+    
     /**
      * determine whether a given complexType is a referenceType
      * by traversing through all baseSchemas looking for ReferenceType
      */
     private boolean isReferenceType(XmlSchemaComplexType complexType) {
         boolean isRef = false;
-
+        
         String baseName = extractBaseTypeName(complexType);
         while (baseName != null) {
             if (baseName.equals(REFERENCE_TYPE)) {
@@ -337,17 +337,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 baseName = null;
             }
         }
-
+        
         return isRef;
     }
-
+    
     /**
      * Extract a particle from a complex type
      * returns null if it can't be extracted.
      */
     private XmlSchemaParticle extractParticle(XmlSchemaComplexType complexType) {
         XmlSchemaParticle particle = complexType.getParticle();
-
+        
         // handle case where the complexType is an extension
         if (particle == null && complexType.getContentModel() != null
                 && complexType.getContentModel().getContent() != null) {
@@ -357,17 +357,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 particle = complexContent.getParticle();
             }
         }
-
+        
         return particle;
     }
-
+    
     /**
      * Extract a particle from a complex type, respecting both extensions and restrictions
      * returns null if there isn't one.
      */
     private String extractBaseTypeName(XmlSchemaComplexType complexType) {
         String baseTypeName = null;
-
+        
         if (complexType.getBaseSchemaTypeName() != null) {
             baseTypeName = complexType.getBaseSchemaTypeName().getLocalPart();
         } else if (complexType.getContentModel() != null && complexType.getContentModel().getContent() != null) {
@@ -379,38 +379,38 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 }
             }
         }
-
+        
         return baseTypeName;
     }
-
+    
     /**
      * Extract refConfig for a refType
      */
     private DidRefConfig extractRefConfig(XmlSchemaComplexType refType, String baseXPath) {
         // get the identityType out of the refType
         DidRefConfig refConfig = null;
-
+        
         // check that this refConfig is configures to go through DID Resolver
         DidRefSource refSource = getRefSource(refType);
-
+        
         if (refSource != null) {
             // find the identity type element
             XmlSchemaElement identityTypeElement = null;
-
+            
             identityTypeElement = parseParticleForIdentityType(extractParticle(refType));
-
+            
             if (identityTypeElement != null) {
                 XmlSchemaComplexType identityType = null;
                 identityType = complexTypes.get(identityTypeElement.getSchemaTypeName().getLocalPart());
                 baseXPath = baseXPath + identityTypeElement.getName() + ".";
-
+                
                 // need this to recursively extract refConfigs
                 refConfig = new DidRefConfig();
                 refConfig.setEntityType(refSource.getEntityType());
-
+                
                 // parse the reference type
                 parseParticleForRefConfig(extractParticle(identityType), refConfig, baseXPath);
-
+                
             } else {
                 LOG.error("Failed to extract IdentityType for referenceType " + refType.getName());
                 return null;
@@ -418,26 +418,26 @@ public class DidSchemaParser implements ResourceLoaderAware {
         }
         return refConfig;
     }
-
+    
     /**
      * Extract a DidEntityConfig for a ComplexType.
      * Returns null if the reference contains no DID references.
      */
     private DidEntityConfig extractEntityConfig(XmlSchemaComplexType complexType) {
         DidEntityConfig entityConfig = null;
-
+        
         List<DidRefSource> refSources = new ArrayList<DidRefSource>();
         parseParticleForRef(extractParticle(complexType), refSources, false);
-
+        
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
         if (refSources.size() > 0) {
             entityConfig = new DidEntityConfig();
             entityConfig.setReferenceSources(refSources);
         }
-
+        
         return entityConfig;
     }
-
+    
     /**
      * Recursively parse through an XmlSchemaPatricle to the elements
      * collecting all DidRefSources
@@ -463,7 +463,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
         }
         return identityType;
     }
-
+    
     /**
      * Recursively parse through an XmlSchemaPatricle to the elements
      * filling in the refConfig data, including nested refConfigs
@@ -473,18 +473,18 @@ public class DidSchemaParser implements ResourceLoaderAware {
             if (particle instanceof XmlSchemaElement) {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
                 String elementName = element.getName();
-
+                
                 Map<String, String> keyFieldMap = parseAnnotationForKeyField(element.getAnnotation());
-
+                
                 if (keyFieldMap.containsKey(KEY_FIELD_NAME)) {
                     // create a new key field
                     KeyFieldDef keyfield = new KeyFieldDef();
                     String xPath = baseXPath + elementName;
-
+                    
                     keyfield.setKeyFieldName(keyFieldMap.get(KEY_FIELD_NAME));
-
+                    
                     QName elementType = element.getSchemaTypeName();
-
+                    
                     // check whether we have a nested Ref and create
                     if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
@@ -493,11 +493,11 @@ public class DidSchemaParser implements ResourceLoaderAware {
                     } else {
                         keyfield.setValueSource(xPath);
                     }
-
+                    
                     refConfig.getKeyFields().add(keyfield);
-
+                    
                 }
-
+                
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
@@ -509,7 +509,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             } else if (particle instanceof XmlSchemaChoice) {
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
-
+                
                 for (int i = 0; i < choices.getCount(); i++) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
@@ -519,7 +519,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
     }
-
+    
     /**
      * Get the DidRefSource for a reference schema type
      */
@@ -528,19 +528,24 @@ public class DidSchemaParser implements ResourceLoaderAware {
         String schemaName = refSchema.getName();
         if (refSourceCache.containsKey(schemaName)) {
             refSource = refSourceCache.get(schemaName);
-            //if a cached refSource is found create return new DidRefSource of same type
+            // if a cached refSource is found create return new DidRefSource of same type
             if (refSource != null) {
                 DidRefSource cachedRefSource = refSource;
                 refSource = new DidRefSource();
                 refSource.setEntityType(cachedRefSource.getEntityType());
             }
         } else {
-            refSource = parseAnnotationForRef(refSchema.getAnnotation());
-            refSourceCache.put(schemaName, refSource);
+            XmlSchemaAnnotation annotation = refSchema.getAnnotation();
+            if (annotation == null) {
+                LOG.debug("Annotation missing from refSchema: " + refSchema.getName());
+            } else {
+                refSource = parseAnnotationForRef(annotation);
+                refSourceCache.put(schemaName, refSource);
+            }
         }
         return refSource;
     }
-
+    
     /**
      * Recursively parse through an XmlSchemaPatricle to the elements
      * collecting all DidRefSources
@@ -551,16 +556,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
                 String elementName = element.getName();
                 QName elementType = element.getSchemaTypeName();
-
+                
                 if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
-
+                    
                     if (element.getMinOccurs() == 0) {
                         isOptional = true;
                     }
-
+                    
                     // TODO, this could be pre-computed for all refTypes to avoid some repetition
                     XmlSchemaComplexType refSchema = referenceTypes.get(elementType.getLocalPart());
-
+                    
                     DidRefSource refSource = getRefSource(refSchema);
                     if (refSource != null) {
                         refSource.setOptional(isOptional);
@@ -589,32 +594,32 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         }
     }
-
+    
     /**
      * Get SLI appInfor from an annotation
      */
     private XmlSchemaAppInfo getAppInfo(XmlSchemaAnnotation annotation) {
         XmlSchemaAppInfo appInfo = null;
         XmlSchemaObjectCollection items = annotation.getItems();
-
+        
         for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
-
+            
             XmlSchemaObject item = items.getItem(annotationIdx);
             if (item instanceof XmlSchemaAppInfo) {
                 appInfo = (XmlSchemaAppInfo) item;
                 break;
             }
         }
-
+        
         return appInfo;
     }
-
+    
     /**
      * Parse an annotation for keyfields and add to a map
      */
     private Map<String, String> parseAnnotationForKeyField(XmlSchemaAnnotation annotation) {
         Map<String, String> keyField = new HashMap<String, String>();
-
+        
         XmlSchemaAppInfo appInfo = getAppInfo(annotation);
         if (appInfo != null) {
             NodeList nodes = appInfo.getMarkup();
@@ -623,7 +628,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 if (node instanceof Element) {
                     String key = node.getLocalName().trim();
                     String value = node.getFirstChild().getNodeValue().trim();
-
+                    
                     if (key.equals(REF_TYPE) || key.equals(KEY_FIELD_NAME)) {
                         keyField.put(key, value);
                     }
@@ -632,16 +637,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
         }
         return keyField;
     }
-
+    
     /**
      * Parse an annotation for DidRefSource data
      */
     private DidRefSource parseAnnotationForRef(XmlSchemaAnnotation annotation) {
         DidRefSource refSource = null;
-
+        
         boolean applyKeyFields = false;
         String refType = null;
-
+        
         XmlSchemaAppInfo appInfo = getAppInfo(annotation);
         if (appInfo != null) {
             // get applyKeyFields and refType from appInfo
@@ -649,10 +654,10 @@ public class DidSchemaParser implements ResourceLoaderAware {
             for (int nodeIdx = 0; nodeIdx < nodes.getLength(); nodeIdx++) {
                 Node node = nodes.item(nodeIdx);
                 if (node instanceof Element) {
-
+                    
                     String key = node.getLocalName().trim();
                     String value = node.getFirstChild().getNodeValue().trim();
-
+                    
                     if (key.equals(APPLY_KEY_FIELDS)) {
                         if (value.equals("true")) {
                             applyKeyFields = true;
@@ -667,7 +672,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 refSource.setEntityType(refType);
             }
         }
-
+        
         return refSource;
     }
 }
