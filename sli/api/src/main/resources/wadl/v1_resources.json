@@ -146,6 +146,7 @@
         { "path": "/{id}/cohorts" },
         { "path": "/{id}/educationOrganizations" },
         { "path": "/{id}/schools" },
+        { "path": "/{id}/sessions" },
         { "path": "/{id}/studentCompetencyObjectives" }
       ]
     },
