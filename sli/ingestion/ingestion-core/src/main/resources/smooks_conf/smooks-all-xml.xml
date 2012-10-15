@@ -2075,14 +2075,36 @@
     <jb:value property="gradeType" data="GradeType" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
     <jb:wiring property="courseCode" beanIdRef="CourseTranscript_CourseCodeTypeArray" />
-    <jb:wiring property="studentAcademicRecordReference" beanIdRef="CourseTranscript_StudentAcademicRecordReference" />
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" property="StudentAcademicRecordReference"/>
   </jb:bean>
 
-  <jb:bean beanId="CourseTranscript_StudentAcademicRecordReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
-    <jb:value property="studentUniqueStateId" data="StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="sessionName" data="StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/SessionName" />
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType" property="StudentAcademicRecordIdentity"/>
   </jb:bean>
-
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType" property="SessionReference"/>
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-StudentReferenceType" property="StudentReference"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType" property="SessionIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
+    <jb:value data="CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/SessionName" property="SessionName"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/SessionReference/SessionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-StudentReferenceType_SLC-StudentIdentityType" property="StudentIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType_SLC-StudentReferenceType_SLC-StudentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference/StudentIdentity">
+    <jb:value data="CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
+  </jb:bean>
+  
   <jb:bean beanId="CourseTranscript_CourseCodeTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity">
     <jb:wiring beanIdRef="CourseTranscript_CourseCodeType" />
