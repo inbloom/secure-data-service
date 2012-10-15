@@ -430,7 +430,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
         DidEntityConfig entityConfig = null;
 
         List<DidRefSource> refSources = new ArrayList<DidRefSource>();
-        parseParticleForRef(extractParticle(complexType), refSources);
+        parseParticleForRef(extractParticle(complexType), refSources, false);
 
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
         if (refSources.size() > 0) {
@@ -512,6 +512,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             } else if (particle instanceof XmlSchemaChoice) {
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
+
                 for (int i = 0; i < choices.getCount(); i++) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
@@ -523,13 +524,19 @@ public class DidSchemaParser implements ResourceLoaderAware {
     }
 
     /**
-     * Get the DidRefSource for a reference schema type using cache where possible
+     * Get the DidRefSource for a reference schema type
      */
     DidRefSource getRefSource(XmlSchemaComplexType refSchema) {
         DidRefSource refSource = null;
         String schemaName = refSchema.getName();
         if (refSourceCache.containsKey(schemaName)) {
             refSource = refSourceCache.get(schemaName);
+            //if a cached refSource is found create return new DidRefSource of same type
+            if (refSource != null) {
+                DidRefSource cachedRefSource = refSource;
+                refSource = new DidRefSource();
+                refSource.setEntityType(cachedRefSource.getEntityType());
+            }
         } else {
             refSource = parseAnnotationForRef(refSchema.getAnnotation());
             refSourceCache.put(schemaName, refSource);
@@ -541,7 +548,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Recursively parse through an XmlSchemaPatricle to the elements
      * collecting all DidRefSources
      */
-    private void parseParticleForRef(XmlSchemaParticle particle, List<DidRefSource> refs) {
+    private void parseParticleForRef(XmlSchemaParticle particle, List<DidRefSource> refs, boolean isOptional) {
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
@@ -550,11 +557,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
                 if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
 
+                    if (element.getMinOccurs() == 0) {
+                        isOptional = true;
+                    }
+
                     // TODO, this could be pre-computed for all refTypes to avoid some repetition
                     XmlSchemaComplexType refSchema = referenceTypes.get(elementType.getLocalPart());
 
                     DidRefSource refSource = getRefSource(refSchema);
                     if (refSource != null) {
+                        refSource.setOptional(isOptional);
                         refSource.setSourceRefPath(XPATH_PREFIX + elementName);
                         refs.add(refSource);
                     }
@@ -564,16 +576,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
                     XmlSchemaObject item = schemaSequence.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRef((XmlSchemaParticle) item, refs);
+                        parseParticleForRef((XmlSchemaParticle) item, refs, isOptional);
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
+                isOptional = true;
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
                 for (int i = 0; i < choices.getCount(); i++) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRef((XmlSchemaParticle) item, refs);
+                        parseParticleForRef((XmlSchemaParticle) item, refs, isOptional);
                     }
                 }
             }
