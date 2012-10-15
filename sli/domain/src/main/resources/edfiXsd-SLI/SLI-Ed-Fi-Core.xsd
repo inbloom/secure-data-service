@@ -693,6 +693,9 @@ Other</xs:documentation>
 	<xs:complexType name="SLC-GradebookEntry">
 		<xs:annotation>
 			<xs:documentation>This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.</xs:documentation>
+		    <xs:appinfo>
+                <sli:recordType>gradebookEntry</sli:recordType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
