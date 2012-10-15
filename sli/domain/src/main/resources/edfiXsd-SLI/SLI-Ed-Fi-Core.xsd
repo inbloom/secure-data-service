@@ -860,6 +860,10 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	<xs:complexType name="SLC-StudentSectionAssociationReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>blah
+                <sli:refType>studentSectionAssociation</sli:refType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -989,7 +993,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:sequence>
     </xs:complexType>
     
-    <xs:complexType name="SLC-RecordCard">
+    <xs:complexType name="SLC-ReportCard">
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
@@ -1191,7 +1195,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:complexContent>
     </xs:complexType>
     
-      <xs:complexType name="SLC-ClassPeriodIdentityType">
+    <xs:complexType name="SLC-ClassPeriodIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
         </xs:annotation>
@@ -1204,28 +1208,14 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="StateOrganizationId" type="IdentificationCode">
                 <xs:annotation>
-                    <xs:documentation>Optional only if education organization context is obtained elsewhere in the interchange.</xs:documentation>
+                    <xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolId</sli:keyFieldName>
+                    </xs:appinfo>
                 </xs:annotation>
-                <xs:element name="StateOrganizationId" type="IdentificationCode">
-                    <xs:annotation>
-                        <xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
-</xs:documentation>
-                        <xs:appinfo>
-	                        <sli:keyFieldName>schoolId</sli:keyFieldName>
-	                    </xs:appinfo>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" maxOccurs="unbounded">
-                    <xs:annotation>
-                        <xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
-                        <xs:appinfo>
-                            <sli:keyFieldName>educationalOrgIdentificationCode</sli:keyFieldName>
-                        </xs:appinfo>
-                    </xs:annotation>
-                </xs:element>
-            </xs:choice>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
