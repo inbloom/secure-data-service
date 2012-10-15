@@ -568,7 +568,6 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 
-
 //stamper - profiled
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
@@ -586,6 +585,9 @@ db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs"
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
+
+//oprhan detection - this should be removed when done in API
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1});
 
 // profiled
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"_id":1,"type":1});
