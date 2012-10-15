@@ -15,7 +15,49 @@
 //
 
 // These collections use the old style doc Ids to split on.
-var collections_hashId = ["assessment","attendance","calendarDate","cohort","competencyLevelDescriptor","course","courseOffering","courseSectionAssociation","disciplineAction","disciplineIncident","educationOrganization","educationOrganizationAssociation","educationOrganizationSchoolAssociation","grade","gradebookEntry","gradingPeriod","graduationPlan","learningObjective","learningStandard","parent","program","reportCard","section","sectionAssessmentAssociation","sectionSchoolAssociation","session","sessionCourseAssociation","staff","staffCohortAssociation","staffEducationOrganizationAssociation","staffProgramAssociation","student","studentAcademicRecord","studentAssessmentAssociation","studentCohortAssociation","studentCompetency","studentCompetencyObjective","studentDisciplineIncidentAssociation","studentParentAssociation","studentProgramAssociation","studentSectionAssociation","studentGradebookEntry","studentSchoolAssociation","studentTranscriptAssociation","teacherSchoolAssociation","teacherSectionAssociation"];
+var collections_hashId = [
+    "assessment",
+    "attendance",
+    "calendarDate",
+    "cohort",
+    "competencyLevelDescriptor",
+    "course",
+    "courseOffering",
+    "courseSectionAssociation",
+    "disciplineAction",
+    "disciplineIncident",
+    "educationOrganization",
+    "educationOrganizationAssociation",
+    "educationOrganizationSchoolAssociation",
+    "grade",
+    "gradebookEntry",
+    "gradingPeriod",
+    "graduationPlan",
+    "learningObjective",
+    "learningStandard",
+    "parent",
+    "program",
+    "reportCard",
+    "section",
+    "session",
+    "staff",
+    "staffCohortAssociation",
+    "staffEducationOrganizationAssociation",
+    "staffProgramAssociation",
+    "student",
+    "studentAcademicRecord",
+    "studentCohortAssociation",
+    "studentCompetency",
+    "studentCompetencyObjective",
+    "studentDisciplineIncidentAssociation",
+    "studentGradebookEntry",
+    "studentParentAssociation",
+    "studentProgramAssociation",
+    "studentSchoolAssociation",
+    "studentTranscriptAssociation",
+    "teacherSchoolAssociation",
+    "teacherSectionAssociation"
+];
 
 // These collections use the new deterministic (hash) id
 var collections_docId = [""];
