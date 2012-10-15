@@ -87,8 +87,6 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                 possibleMatch = false;
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "=", entity.getEntityId()));
-                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                        entity.getMetaData().get("tenantId"), false));
                 
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
@@ -130,8 +128,6 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                     neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
                             newEntityBody.get(keyField.getKey())));
                 }
-                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                        entity.getMetaData().get("tenantId"), false));
                 
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
