@@ -21,7 +21,7 @@ public class DidSchemaParserTest {
 
     private static final String SECTION_TYPE = "section";
     private static final String EDORG_TYPE = "educationOrganization";
-    private static final String GRADEBOOKENTRY_TYPE = "gradebookEntry";
+    private static final String GRADEBOOKENTRY_TYPE = "SLC-GradebookEntry";
     private static final String SECTION_KEY_FIELD = "uniqueSectionCode";
     private static final String SECTION_SCHOOL_KEYFIELD = "schoolId";
     private static final String SCHOOL_KEYFIELD = "stateOrganizationId";
