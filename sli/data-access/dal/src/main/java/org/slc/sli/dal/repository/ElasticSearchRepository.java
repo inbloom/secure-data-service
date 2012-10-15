@@ -341,6 +341,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
         public String getStagedEntityId() {
             return null;
         }
+        
+        @Override
+        public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            return null;
+        }
     }
     
     
