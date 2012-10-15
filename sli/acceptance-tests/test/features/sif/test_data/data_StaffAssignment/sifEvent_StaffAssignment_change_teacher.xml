@@ -19,7 +19,7 @@
         <StaffAssignment RefId="201208219D75101A8C3D00AA001A1652" SchoolInfoRefId="201208089D75101A8C3D00AA001A1652" SchoolYear="2013" StaffPersonalRefId="20120822098345701280398059809328">
           <Description>Twelfth grade computer science teacher</Description>
           <PrimaryAssignment>Yes</PrimaryAssignment>
-          <JobStartDate>2010-09-01</JobStartDate>
+          <JobStartDate>2010-08-01</JobStartDate>
           <JobEndDate>2013-09-15</JobEndDate>
           <JobFTE>1</JobFTE>
           <JobFunction>

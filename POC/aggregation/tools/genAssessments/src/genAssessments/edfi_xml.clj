@@ -131,8 +131,9 @@
       (element :PostalCode {} "11011")
     )
     (element :LEACategory {} "Independent")
-    (element :StateEducationAgencyReference {:ref "NY"})
-    )]
+    (element :StateEducationAgencyReference {} 
+      (element :EducationalOrgIdentity {}
+        (element :StateOrganizationId {} "NY"))))]
     tmp
   )
 )
@@ -183,7 +184,7 @@
     )
     (element :CourseDescription {} "7th grade math")
     (ed-org-ref districtName)
-    )]
+    (element :UniqueCourseId {} (course-id  districtName)))]
     tmp
   )
 )
@@ -395,7 +396,7 @@
 (defn gen-student-assessment-associations-edfi [districtName schools students assessment n]
   (gen-edfi-xml :InterchangeStudentAssessment (format "/tmp/test/H-%s-assessment-results.xml" districtName)
     (for [schoolName schools]
-      (for [studentId students, i (range n)]
+      (for [studentId students, i (range 1 (inc n))]
         (create-student-assessment-association-edfi schoolName studentId assessment (str "2011-10-" (format "%02d" i)))
       )
     )

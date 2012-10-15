@@ -31,6 +31,11 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 
+/**
+ *
+ * TODO: add class javadoc
+ *
+ */
 @Component
 @Qualifier("deterministicUUIDGeneratorStrategy")
 public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy {
@@ -79,12 +84,14 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
         }
         // Digest keyValue string into hash
         String hexHash = DigestUtils.shaHex(keyValues.toString().getBytes());
-
+        if (naturalKeyDescriptor.getParentId() != null) {
+            hexHash = naturalKeyDescriptor.getParentId() + hexHash;
+        }
         return hexHash + "_id";
     }
 
     private String escapeDelimiters(String input) {
-        if( input == null ){
+        if (input == null) {
             return "";
         }
         String output = input.replaceAll(DELIMITER_1_REGEX, DELIMITER_1_REPLACEMENT).replaceAll(DELIMITER_2_REGEX,

@@ -21,7 +21,11 @@ limitations under the License.
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
 require_relative '../../utils/api_utils.rb'
+require 'test/unit'
 
+Before do
+  extend Test::Unit::Assertions
+end
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
@@ -40,4 +44,20 @@ When /^I query "([^"]*)" of "([^"]*)" to demonstrate "([^"]*)"$/ do |resource_na
   else
     step "I navigate to GET \"/<schools/#{school_id}/#{resource_name}>\""
   end
+end
+
+Given /^I should see a sorted list sorted by "([^"]*)" in "([^"]*)" order$/ do |sortBy, sortOrder|
+  possibleSortOrder = ["ascending", "descending"]
+  assert(possibleSortOrder.include?(sortOrder), "#{sortOrder} must be one of #{possibleSortOrder}")
+  @sorted_result = @result.collect {|x| x[sortBy]}
+  @sorted_result.each_cons(2) do |x, y|
+    assert(sortOrder == "descending" ? x >= y : x <= y, "list not sorted: x = #{x}, y = #{y}")
+  end
+end
+
+# depends on /^I should see a sorted list sorted by "([^"]*)" in "([^"]*)" order$/
+And /^I should see a sorted list with "([^"]*)" offset and "([^"]*)" limit sorted by "([^"]*)"$/ do |offset, limit, sortBy|
+  expected = @sorted_result[(offset.to_i)..(offset.to_i + limit.to_i - 1)]
+  actual = @result.collect {|x| x[sortBy]}
+  assert_equal(expected, actual)
 end

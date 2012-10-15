@@ -49,3 +49,20 @@ Scenario: Test that include fields only affect body fields (type remains)
    Then the "name" should be "Lashawn" "Lawrence" "Aldama"
     And the "sex" should be "Male"
     And the "entityType" should be "student"
+
+@subdoc
+Scenario Outline: Query subdoc
+  Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+  And format "application/json;charset=utf-8"
+  And parameter "sortBy" is "<sort by>"
+  And parameter "sortOrder" is "<sort order>"
+  And I navigate to GET <resource name>
+  And I should see a sorted list sorted by "<sort by>" in "<sort order>" order
+  And parameter "offset" is "<offset>"
+  And parameter "limit" is "<limit>"
+  And I navigate to GET <resource name>
+  And I should see a sorted list with "<offset>" offset and "<limit>" limit sorted by "<sort by>"
+  Examples:
+    | resource name                    | sort by   | sort order | offset | limit |
+    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | beginDate | descending | 10     | 10    |
+    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | beginDate | ascending  | 0      | 20    |
