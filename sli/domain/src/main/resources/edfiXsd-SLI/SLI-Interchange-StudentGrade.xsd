@@ -10,7 +10,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="StudentAcademicRecord" type="SLI-StudentAcademicRecord"/>
+				<xs:element name="StudentAcademicRecord" type="SLI-StudentAcademicRecordExtension"/>
 				<xs:element name="CourseTranscript" type="CourseTranscript"/>
 				<xs:element name="ReportCard" type="ReportCard"/>
 				<xs:element name="Grade" type="Grade"/>
