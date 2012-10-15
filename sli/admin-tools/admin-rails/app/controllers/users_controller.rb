@@ -396,15 +396,7 @@ class UsersController < ApplicationController
   end
 
   def validate_email
-    valid=true
-    if not @user.email =~ /^[-a-z0-9_]+([\.]{0,1}[-a-z0-9_]+)*\@([a-z0-9]+([-]*[a-z0-9]+)*\.)*([a-z0-9]+([-]*[a-z0-9]+))+$/i
-      @user.errors[:email] << "Please enter a valid email address"
-      valid =false
-    elsif @user.email.length > 160
-      @user.errors[:email] << "Email address is too long"
-      valid=false
-    end
-    return valid
+    return EmailValidator.is_valid_email?(@user, :email, @user.email)
   end
 
   def validate_tenant_edorg
