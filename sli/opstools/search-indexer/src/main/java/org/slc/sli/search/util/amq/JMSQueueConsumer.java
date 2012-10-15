@@ -5,14 +5,21 @@ import javax.jms.MessageConsumer;
 
 /**
  * ActiveMQ JMS Queue Subscriber
+ * 
  * @author tosako
- *
+ * 
  */
 public class JMSQueueConsumer extends JMSBase {
+    private MessageConsumer consumer = null;
+
     public JMSQueueConsumer() {
         super(MessageType.QUEUE);
     }
+
     public MessageConsumer getConsumer() throws JMSException {
-        return super.getConsumer();
+        if (this.consumer == null) {
+            this.consumer = super.getConsumer();
+        }
+        return consumer;
     }
 }

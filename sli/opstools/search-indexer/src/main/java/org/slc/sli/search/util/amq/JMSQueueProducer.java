@@ -17,7 +17,7 @@ public class JMSQueueProducer extends JMSBase {
         super(MessageType.QUEUE);
     }
 
-    public void init() throws JMSException {
+    public void init() throws Exception {
         super.init();
         this.producer = super.getProducer();
     }
@@ -30,5 +30,9 @@ public class JMSQueueProducer extends JMSBase {
     public void send(String text) throws JMSException {
         TextMessage message = super.getSession().createTextMessage(text);
         this.producer.send(message);
+    }
+    
+    public MessageProducer getProducer() {
+        return this.producer;
     }
 }

@@ -68,6 +68,7 @@
         <property name="mqUsername" value="${sli.search.indexer.queue.username}" />
         <property name="mqPswd" value="${sli.search.indexer.queue.password}" />
         <property name="queue" value="${sli.search.indexer.queue.name}" />
+        <property name="embeddedBroker" value="${sli.search.indexer.broker.embedded}" />
 	</bean>
 
 

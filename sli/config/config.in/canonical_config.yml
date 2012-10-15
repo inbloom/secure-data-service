@@ -401,7 +401,8 @@ default:
         sli.search.indexer.queue.port: 61616
         sli.search.indexer.queue.username: system
         sli.search.indexer.queue.password: manager
-        sli.search.indexer.queue.name: /queue/search_events
+        sli.search.indexer.queue.name: search_events
+        sli.search.indexer.broker.embedded: false
 
 acceptance-tests:
     api:
