@@ -144,7 +144,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/graduationPlan.xml" />
       </bean>
     </entry>
-    <entry key="SLC-GradebookEntry">
+    <entry key="gradebookEntry">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradebookEntry.xml" />
       </bean>

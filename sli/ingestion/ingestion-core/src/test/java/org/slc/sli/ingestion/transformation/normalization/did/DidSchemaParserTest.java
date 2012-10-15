@@ -21,7 +21,8 @@ public class DidSchemaParserTest {
 
     private static final String SECTION_TYPE = "section";
     private static final String EDORG_TYPE = "educationOrganization";
-    private static final String GRADEBOOKENTRY_TYPE = "SLC-GradebookEntry";
+    private static final String GRADEBOOKENTRY_TYPE = "gradebookEntry";
+    private static final String OPTIONAL_REF_TYPE = "optionalRef";
     private static final String SECTION_KEY_FIELD = "uniqueSectionCode";
     private static final String SECTION_SCHOOL_KEYFIELD = "schoolId";
     private static final String SCHOOL_KEYFIELD = "stateOrganizationId";
@@ -138,10 +139,10 @@ public class DidSchemaParserTest {
         Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a did ref (OptionalRefExample)", 1, entityConfigs.size());
 
         //check the entity configs extracted are for the correct types
-        Assert.assertTrue(entityConfigs.containsKey("OptionalRefExample"));
+        Assert.assertTrue(entityConfigs.containsKey(OPTIONAL_REF_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get("OptionalRefExample");
+        DidEntityConfig GBEConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
         Assert.assertNotNull(GBEConfig);
         Assert.assertNotNull(GBEConfig.getReferenceSources());
 
@@ -165,10 +166,10 @@ public class DidSchemaParserTest {
         Assert.assertEquals("Should extract 1 entity config for the 1 complexType containing a did ref (OptionalRefExample)", 1, entityConfigs.size());
 
         //check the entity configs extracted are for the correct types
-        Assert.assertTrue(entityConfigs.containsKey("OptionalRefExample"));
+        Assert.assertTrue(entityConfigs.containsKey(OPTIONAL_REF_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get("OptionalRefExample");
+        DidEntityConfig GBEConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
         Assert.assertNotNull(GBEConfig);
         Assert.assertNotNull(GBEConfig.getReferenceSources());
 
