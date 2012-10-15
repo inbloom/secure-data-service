@@ -40,7 +40,9 @@
         }
     },
     {
-       "fieldPath" : "body.GradebookEntryReference","ref" :
+       "fieldPath" : "body.GradebookEntryReference",
+       "deprecated" : true,
+	   "ref" :
         {
             "entityType" : "gradebookEntry",
             "takesContext" : ["edOrgs"],

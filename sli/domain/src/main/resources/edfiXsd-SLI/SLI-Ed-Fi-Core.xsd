@@ -430,10 +430,10 @@ Other</xs:documentation>
   <xs:complexType name="SLC-GradebookEntryReferenceType">
     <xs:annotation>
       <xs:documentation/>
-		<!-- <xs:appinfo>
+		<xs:appinfo>
           <sli:applyKeyFields>true</sli:applyKeyFields>
           <sli:refType>gradebookEntry</sli:refType>
-        </xs:appinfo> -->
+        </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
@@ -455,25 +455,25 @@ Other</xs:documentation>
       <xs:element name="GradebookEntryType" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation/>
-            <!-- <xs:appinfo>
+            <xs:appinfo>
               <sli:keyFieldName>gradebookEntryType</sli:keyFieldName>
-            </xs:appinfo> -->
+            </xs:appinfo>
         </xs:annotation>
       </xs:element>
       <xs:element name="DateAssigned" type="xs:date" minOccurs="0">
         <xs:annotation>
           <xs:documentation/>
-            <!-- <xs:appinfo>
+            <xs:appinfo>
               <sli:keyFieldName>dateAssigned</sli:keyFieldName>
-            </xs:appinfo> -->
+            </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0">
+      <xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0">
         <xs:annotation>
           <xs:documentation/>
-            <!-- <xs:appinfo>
+            <xs:appinfo>
               <sli:keyFieldName>sectionId</sli:keyFieldName>
-            </xs:appinfo> -->
+            </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -1199,7 +1199,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to a student by a state education agency.</xs:documentation>
                     <xs:appinfo>
-                        <sli:keyFieldName>studentId</sli:keyFieldName>
+                        <sli:keyFieldName>studentUniqueStateId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
