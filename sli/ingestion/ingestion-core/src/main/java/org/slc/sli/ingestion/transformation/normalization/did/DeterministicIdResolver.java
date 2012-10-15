@@ -61,10 +61,7 @@ public class DeterministicIdResolver {
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     @Autowired
-    private DidEntityConfigFactory didEntityConfigurations;
-
-    @Autowired
-    private DidRefConfigFactory didRefConfigurations;
+    private DidSchemaParser didSchemaParser;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -84,7 +81,7 @@ public class DeterministicIdResolver {
             return;
         }
 
-        DidEntityConfig entityConfig = didEntityConfigurations.getDidEntityConfiguration(entity.getType());
+        DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
         if (entityConfig == null) {
             return;
@@ -116,15 +113,21 @@ public class DeterministicIdResolver {
         }
     }
 
+    private DidEntityConfig getEntityConfig(String entityType) {
+        return didSchemaParser.getEntityConfigs().get(entityType);
+    }
+
+    private DidRefConfig getRefConfig(String refType) {
+        return didSchemaParser.getRefConfigs().get(refType);
+    }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
             throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
-        String didFieldPath = didRefSource.getDidFieldPath();
         String sourceRefPath = didRefSource.getSourceRefPath();
 
-        DidRefConfig didRefConfig = didRefConfigurations.getDidRefConfiguration(entityType);
+        DidRefConfig didRefConfig = getRefConfig(entityType);
 
         if (didRefConfig == null) {
             return;
@@ -154,24 +157,24 @@ public class DeterministicIdResolver {
                     uuidList.add(uuid);
                     addContext(entity, uuid, didRefConfig, collectionName);
                 } else {
-                    // TODO key and value below aren't what we want
-                    throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                    throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
                 }
             }
-            setProperty(entity, didFieldPath, uuidList);
-        } else {
+            setProperty(entity, sourceRefPath, uuidList);
+        } else if(referenceObject instanceof Map){
             // handle a single reference object
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;
 
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
-                setProperty(entity, didFieldPath, uuid);
+                setProperty(entity, sourceRefPath, uuid);
                 addContext(entity, uuid, didRefConfig, collectionName);
             } else {
-                // TODO key and value below aren't what we want
-                throw new IdResolutionException("Null or empty deterministic id generated", didFieldPath, uuid);
+                throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
             }
+        } else {
+            throw new IdResolutionException("Unsupported reference object type", sourceRefPath, null);
         }
     }
 
@@ -192,15 +195,15 @@ public class DeterministicIdResolver {
         return referenceObject;
     }
 
-    private void setProperty(Object bean, String didFieldPath, Object uuid) throws IdResolutionException {
+    private void setProperty(Object bean, String fieldPath, Object uuid) throws IdResolutionException {
         try {
-            PropertyUtils.setProperty(bean, didFieldPath, uuid);
+            PropertyUtils.setProperty(bean, fieldPath, uuid);
         } catch (IllegalAccessException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", didFieldPath, uuid.toString(), e);
+            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
         } catch (InvocationTargetException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", didFieldPath, uuid.toString(), e);
+            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
         } catch (NoSuchMethodException e) {
-            throw new IdResolutionException("Unable to set reference object for entity", didFieldPath, uuid.toString(), e);
+            throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
         }
     }
 

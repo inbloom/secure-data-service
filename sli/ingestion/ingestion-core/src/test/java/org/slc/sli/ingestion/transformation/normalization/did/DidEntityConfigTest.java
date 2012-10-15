@@ -35,7 +35,6 @@ public class DidEntityConfigTest {
         DidRefSource refSource = testEntityConfig.getReferenceSources().get(0);
         Assert.assertNotNull(refSource);
         Assert.assertEquals("entity_type", refSource.getEntityType());
-        Assert.assertEquals("did_field_path", refSource.getDidFieldPath());
         Assert.assertEquals("source_ref_path", refSource.getSourceRefPath());
     }
 }

@@ -925,6 +925,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	</xs:complexType>
     
     <xs:complexType name="SLC-DiplomaReferenceType">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>diploma</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
@@ -940,7 +946,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
                 <xs:annotation>
                     <xs:appinfo>
-                        <sli:keyFieldName>schoolId</sli:keyFieldName>
+                        <sli:keyFieldName>schoolReference</sli:keyFieldName>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>

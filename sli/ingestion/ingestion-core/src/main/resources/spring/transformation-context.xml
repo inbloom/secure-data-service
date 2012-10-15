@@ -144,7 +144,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/graduationPlan.xml" />
       </bean>
     </entry>
-    <entry key="gradebookEntry">
+    <entry key="SLC-GradebookEntry">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradebookEntry.xml" />
       </bean>
@@ -172,12 +172,11 @@
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
 
-  <bean id="didEntityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigFactory">
-    <property name="searchPath" value="classpath:didEntityConfigs/" />
-  </bean>
-
-  <bean id="didRefConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.did.DidRefConfigFactory">
-    <property name="searchPath" value="classpath:didRefConfigs/" />
+  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
+    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
+    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="xsdParentLocation" value="classpath:edfiXsd" />
+    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
   </bean>
 
 </beans>
