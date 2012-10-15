@@ -88,6 +88,55 @@ db["custom_entities"].ensureIndex({"metaData.entityId":1});
 db["custom_entities"].ensureIndex({"metaData.tenantId":1,"metaData.entityId":1,"metaData.clientId":1});
 
 
+//sharding --> sharded on { metaData.tenantId, _id }
+//most of these are redundant, but REQUIRED for sharding
+db["assessment"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["attendance"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["calendarDate"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["cohort"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["course"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["courseOffering"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["grade"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["learningObjective"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["parent"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["program"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["section"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["session"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["student"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"_id":1});
+//studentAssessmentAssociation not sharded, but index on _id
+db["student"].ensureIndex({"metaData.tenantId":1,"studentAssessmentAssociation._id":1});
+db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+//studentSectionAssociation is not sharded, but index on _id
+db["section"].ensureIndex({"metaData.tenantId":1,"studentSectionAssociation._id":1});
+db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
+
+
 //direct references - index on each direct reference
 //edOrgs field can be removed when staff stamper goes away
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
@@ -165,55 +214,6 @@ db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.schoolId
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"body.teacherId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1,"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"body.teacherId":1,"metaData.edOrgs":1});
-
-
-//sharding --> sharded on { metaData.tenantId, _id }
-//most of these are redundant, but REQUIRED for sharding
-db["assessment"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["calendarDate"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["cohort"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["course"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["courseOffering"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["grade"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["parent"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["program"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["student"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"_id":1});
-//studentAssessmentAssociation not sharded, but index on _id
-db["student"].ensureIndex({"metaData.tenantId":1,"studentAssessmentAssociation._id":1});
-db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentCompetency"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-//studentSectionAssociation is not sharded, but index on _id
-db["section"].ensureIndex({"metaData.tenantId":1,"studentSectionAssociation._id":1});
-db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 
 
 //staff context resolver access - stamped edOrgs
