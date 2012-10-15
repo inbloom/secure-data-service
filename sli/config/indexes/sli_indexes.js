@@ -34,15 +34,13 @@
 // - disciplineAction:body.staffId
 // - disciplineAction:body.studentId
 // - learningObjective:body.learningStandards
+// - learningObjective:body.parentLearningObjective
 // - reportCard:body.grades
 // - reportCard:body.studentCompetencyId
+// - section:body.assessmentReferences
 // - section:body.programReference
-// - section:body.assessmentReference
-// - session:body.gradingPeriodreference
-// - staffCohortAssociation:body.cohortId
-// - staffCohortAssociation:body.staffId
-// - staffProgramAssociation:body.programId
-// - staffProgramAssociation:body.staffId
+// - session:body.gradingPeriodReference
+// - studentAcademicRecord:body.reportCards
 //
 
 
@@ -142,16 +140,16 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.edOrgs":1});
-db["cohort"].ensureIndex({"metaData.tenantId":1,"body.programId":1,"metaData.edOrgs":1});
+db["cohort"].ensureIndex({"metaData.tenantId":1,"body.programId":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["course"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1,"body.courseId":1,"metaData.edOrgs":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1,"metaData.edOrgs":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.assignmentSchoolId":1,"metaData.edOrgs":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1,"metaData.edOrgs":1});
+db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.responsibilitySchoolId":1,"metaData.edOrgs":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"metaData.edOrgs":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
+db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.staffId":1});  // ,"metaData.edOrgs":1}); (parallel array)
+db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.studentId":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"metaData.edOrgs":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.parentEducationAgencyReference":1,"metaData.edOrgs":1});
@@ -159,18 +157,18 @@ db["grade"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodId":1,"metaDat
 db["grade"].ensureIndex({"metaData.tenantId":1,"body.studentSectionAssociationId":1,"metaData.edOrgs":1});
 db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"body.sectionId":1,"metaData.edOrgs":1});
 db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationId":1,"metaData.edOrgs":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningStandards":1,"metaData.edOrgs":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1,"metaData.edOrgs":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.grades":1,"metaData.edOrgs":1});
+db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningStandards":1});  // ,"metaData.edOrgs":1}); (parallel array)
+db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1});  // ,"metaData.edOrgs":1}); (parallel array)
+db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.grades":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodId":1,"metaData.edOrgs":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyId":1,"metaData.edOrgs":1});
+db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyId":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.assessmentReferences":1,"metaData.edOrgs":1});
+db["section"].ensureIndex({"metaData.tenantId":1,"body.assessmentReferences":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["section"].ensureIndex({"metaData.tenantId":1,"body.courseOfferingId":1,"metaData.edOrgs":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.programReference":1,"metaData.edOrgs":1});
+db["section"].ensureIndex({"metaData.tenantId":1,"body.programReference":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["section"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1,"metaData.edOrgs":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodReference":1,"metaData.edOrgs":1});
+db["session"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodReference":1});  // ,"metaData.edOrgs":1}); (parallel array)
 db["session"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"metaData.edOrgs":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.cohortId":1,"metaData.edOrgs":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"metaData.edOrgs":1});
@@ -178,7 +176,7 @@ db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffReference":1,"metaData.edOrgs":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.programId":1,"metaData.edOrgs":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"metaData.edOrgs":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"body.reportCards":1,"metaData.edOrgs":1});
+db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"body.reportCards":1});  // ,"metaData.edOrgs":1}); (parallel array),"metaData.edOrgs":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1,"metaData.edOrgs":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
 //studentAssessmentAssociation is embedded into student
