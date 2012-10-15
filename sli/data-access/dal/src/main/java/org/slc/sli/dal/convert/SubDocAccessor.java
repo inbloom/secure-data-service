@@ -23,6 +23,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
@@ -182,6 +183,7 @@ public class SubDocAccessor {
             String updateCommand = "{findAndModify:\"" + collection + "\",query:" + queryDBObject.toString()
                     + ",update:" + patchUpdate.toString() + "}";
             LOG.debug("the update date mongo command is: {}", updateCommand);
+            TenantContext.setIsSystemCall(false);
             CommandResult result = template.executeCommand(updateCommand);
             return result.get("value") != null;
 
@@ -209,6 +211,7 @@ public class SubDocAccessor {
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
             boolean result = true;
+            TenantContext.setIsSystemCall(false);
             result &= template.getCollection(collection)
                     .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
             result &= template.getCollection(collection)
@@ -287,6 +290,7 @@ public class SubDocAccessor {
             DBObject parentQuery = getParentQuery(entity.getBody());
             List<Entity> subEntities = new ArrayList<Entity>();
             subEntities.add(entity);
+            TenantContext.setIsSystemCall(false);
 
             return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false)
                     .getLastError().ok();
@@ -451,6 +455,8 @@ public class SubDocAccessor {
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
             LOG.info("the aggregate query command is: {}", queryCommand);
+            TenantContext.setIsSystemCall(false);
+
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
@@ -468,6 +474,8 @@ public class SubDocAccessor {
             if (additionalCriteria != null) {
                 query.addCriteria(additionalCriteria);
             }
+            TenantContext.setIsSystemCall(false);
+
             Map<?, ?> result = template.findOne(query, Map.class, collection);
             if (result == null) {
                 return null;
@@ -493,6 +501,8 @@ public class SubDocAccessor {
 
         public boolean exists(String id) {
             DBObject query = this.getExactSubDocQuery(id);
+            TenantContext.setIsSystemCall(false);
+
             return template.getCollection(collection).count(query) > 0;
         }
 
