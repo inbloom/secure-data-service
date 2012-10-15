@@ -237,15 +237,15 @@ Examples:
 
     Scenario Outline: Get All Entities as School Teacher
     
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
      And format "application/vnd.slc+json"
     And my contextual access is defined by table:
     |Context                | Ids                                |
-    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731|
-    |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
-    |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
-    |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
-    |sections |706ee3be-0dae-4e98-9525-f564e05aa388,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e,7847b027-687d-46f0-bc1a-36d3c16956aa|
+    |schools	                |92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
+    |educationOrganizations	|92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
+    |staff	                  |04f708bc-928b-420d-a440-f1592a5d1073|
+    |teachers               |04f708bc-928b-420d-a440-f1592a5d1073|
+    |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
@@ -259,24 +259,24 @@ Examples:
 | "assessment"            | "assessments"             | 17    |/assessments|                                                                            
 | "attendance"            | "attendances"             | 1     |/sections/@ids/studentSectionAssociations/students/attendances|                            
 | "cohort"                | "cohorts"                 | 0     |/staff/@ids/staffCohortAssociations/cohorts|                                             
-| "course"                | "courses"                 | 10    |/schools/@ids/courses|                                                                   
+| "course"                | "courses"                 | 26    |/schools/@ids/courses|                                                                   
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
-| "school"                | "educationOrganizations"  | 1     |/teachers/@ids/teacherSchoolAssociations/schools|              
-| "gradebookEntry"        | "gradebookEntries"        | 3     |/sections/@ids/gradebookEntries|                                                 
+| "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
+| "gradebookEntry"        | "gradebookEntries"        | 0     |/sections/@ids/gradebookEntries|                                                 
 | "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
-| "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
+| "parent"                | "parents"                 | 1     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
-| "school"                | "schools"                 | 1    |/schools|                                                                                
-| "section"               | "sections"                | 4     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
+| "school"                | "schools"                 | 2    |/schools|                                                                                
+| "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 0     |/educationOrganizations/@ids/sessions|                                                                  
-| "staff"                 | "staff"                   | 0     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
-| "student"               | "students"                | 31    |/sections/@ids/studentSectionAssociations/students|                                        
+| "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
+| "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 4     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 1     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
-| "gradingPeriod"         | "gradingPeriods"          | 0     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 1     |/sections/@ids/studentSectionAssociations/students/reportCards|                            
