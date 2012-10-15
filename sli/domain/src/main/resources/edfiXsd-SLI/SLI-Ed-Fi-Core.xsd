@@ -805,6 +805,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	
 	
 	<xs:complexType name="SLC-AcademicWeekReferenceType">
+	   <xs:annotation>
+	       <xs:appinfo>
+	           <sli:applyKeyFields>true</sli:applyKeyFields>
+	           <sli:refType>academicWeek</sli:refType>
+	       </xs:appinfo>
+	   </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
@@ -991,6 +997,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
     </xs:complexType>
     
     <xs:complexType name="SLC-MeetingTimeReferenceType">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>meetingTime</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
