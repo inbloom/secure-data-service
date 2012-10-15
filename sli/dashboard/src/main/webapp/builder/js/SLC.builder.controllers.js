@@ -25,7 +25,7 @@
  * @param dbSharedService - Service which contains common methods shared by controllers
  */
 
-function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
+function profileListCtrl($scope, $rootScope, Profiles, dbSharedService, $location) {
 	var i;
 	$scope.profiles = [];
 	Profiles.query(function(profiles) {
@@ -52,16 +52,16 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 			dbSharedService.showModal("#alertModal", {mode: "alert"});
 
 			$scope.$on("leaveProfile", function () {
-				$rootScope.profileAlert = false;
-				location.href = profileURL;
+				$rootScope.saveStatus = false;
+				$location.path(profileURL);
 
 				dbSharedService.enableSaveButton(false);
 			});
 
-			return false;
+			return;
 		}
 
-		location.href = profileURL; // the user will redirect to the selected profile page.
+		$location.path(profileURL); // the user will redirect to the selected profile page.
 
 	};
 
@@ -76,7 +76,7 @@ function profileListCtrl($scope, $rootScope, Profiles, dbSharedService) {
 	$rootScope.saveStatus = false;
 }
 
-profileListCtrl.$inject = ['$scope', '$rootScope', 'Profiles', 'dbSharedService'];
+profileListCtrl.$inject = ['$scope', '$rootScope', 'Profiles', 'dbSharedService', '$location'];
 
 
 /* Profile Controller
@@ -439,6 +439,7 @@ function confirmBoxCtrl($scope, $rootScope, dbSharedService) {
 	$scope.leaveChanges = function () {
 		$rootScope.saveStatus = false;
 		if ($rootScope.profileAlert) {
+			$rootScope.leavePageStatus = false;
 			$rootScope.$broadcast("leaveProfile");
 		}
 		else {
