@@ -33,6 +33,7 @@ import org.bson.types.BasicBSONList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,8 +41,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
-
-import org.springframework.data.mongodb.core.query.Criteria;
 
 /**
  * JUnits for DAL
@@ -310,7 +309,7 @@ public class MongoQueryConverterTest {
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
         assertNotNull("Should not be null", obj.get("$or"));
-        assertTrue(((BasicBSONList) obj.get("$or")).size() == 2);
+        assertTrue(((BasicBSONList) obj.get("$or")).size() == 1);
     }
 
 
