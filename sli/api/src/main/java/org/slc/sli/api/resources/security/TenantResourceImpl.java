@@ -48,6 +48,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
@@ -62,15 +67,11 @@ import org.slc.sli.api.util.StreamGobbler;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
- * 
+ *
  * Provides CRUD operations on registered application through the /tenants path.
- * 
+ *
  * @author
  */
 @Component
@@ -78,7 +79,7 @@ import org.springframework.stereotype.Component;
 @Path("tenants")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
-    
+
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
 
@@ -103,7 +104,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private IngestionTenantLockChecker lockChecker;
-    
+
     @Autowired
     private SecurityUtilProxy secUtil;
 
@@ -231,12 +232,14 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             newLandingZoneList.add(nlz);
             newTenant.put(LZ, newLandingZoneList);
 
+            String createdTenant = tenantService.create(newTenant);
+
             // In sandbox a user doesn't create a realm, so this is the only opportunity to create
             // the custom roles
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
-            
+
             // Call the pre-splitting script for mongo
             // WARNING: Shelling out to call a javascript occurs in this block
             // of code. This should be done extremely rarely and only with
@@ -267,7 +270,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 // TODO Auto-generated catch block
                 ioe.printStackTrace();
             }
-            return tenantService.create(newTenant);
+            return createdTenant;
         }
         // If more than exists, something is wrong
         if (existingIds.size() > 1) {
@@ -338,7 +341,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * TODO: add javadoc
-     * 
+     *
      */
     static class MutableInt {
         int value = 0;
@@ -406,7 +409,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/tenants/<tenantId>
-     * 
+     *
      * @param tenantId
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
@@ -427,7 +430,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * Preload a landing zone with a sample data set
-     * 
+     *
      * @param tenantId
      *            tenant id
      * @param dataSet
@@ -443,7 +446,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
-        
+
         if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized.");
@@ -466,7 +469,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 break;
             }
         }
-        
+
         // Map<String, Object> landingZone = landingZones.get(0);
         // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
@@ -476,7 +479,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Get the status for the preloading job
      * This functionality is not available at this point
-     * 
+     *
      * @return
      */
     @GET
