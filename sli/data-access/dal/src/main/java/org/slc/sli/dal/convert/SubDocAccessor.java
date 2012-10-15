@@ -280,6 +280,7 @@ public class SubDocAccessor {
 
         public boolean delete(String id) {
             Entity entity = findById(id);
+            
             if (entity == null) {
                 return false;
             }
@@ -453,10 +454,13 @@ public class SubDocAccessor {
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
+            if (subDocs != null && subDocs.size() > 0) {
             for (DBObject dbObject : subDocs) {
                 entities.add(convertDBObjectToSubDoc(((DBObject) dbObject.get(subField))));
             }
-            return entities;
+                return entities;
+            }
+            return null;
         }
 
         @SuppressWarnings("unchecked")
@@ -498,7 +502,10 @@ public class SubDocAccessor {
         // by iterating over the cursor without instantiating instances of MongoEntity as
         // done in the find(..) method, which should also be refactored.
         public long count(Query query) {
-            return this.findAll(query).size();
+            if (this.findAll(query) != null) {
+                return this.findAll(query).size();
+            }
+            return 0L;
         }
 
         // public boolean delete(String id) {

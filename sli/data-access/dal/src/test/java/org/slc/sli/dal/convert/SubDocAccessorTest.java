@@ -73,6 +73,7 @@ public class SubDocAccessorTest {
         when(successCR.ok()).thenReturn(true);
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
+        when(failCR.get("result")).thenReturn(null);
         when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false))).thenReturn(
                 success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
@@ -117,7 +118,7 @@ public class SubDocAccessorTest {
                 + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
         DBObject subDocQueryResult = new BasicDBObject();
         DBObject subDocEntity = new BasicDBObject();
-        subDocEntity.put("_id","parent_idchild");
+        subDocEntity.put("_id", "parent_idchild");
         DBObject subDocBody = new BasicDBObject();
         subDocBody.put("someProperty", "someValue");
         DBObject subDocMetaData = new BasicDBObject();
@@ -125,7 +126,7 @@ public class SubDocAccessorTest {
 
         subDocEntity.put("body", subDocBody);
         subDocEntity.put("metaData", subDocMetaData);
-        subDocQueryResult.put("studentSectionAssociation",subDocEntity);
+        subDocQueryResult.put("studentSectionAssociation", subDocEntity);
         List<DBObject> subDocQueryResults = new ArrayList<DBObject>();
         subDocQueryResults.add(subDocQueryResult);
         when(successCR.get("result")).thenReturn(subDocQueryResults);
@@ -138,10 +139,25 @@ public class SubDocAccessorTest {
                 + ", \"studentSectionAssociation.someProperty\" : \"someValue\" , "
                 + "\"studentSectionAssociation.metaData.tenantId\" : \"myTenant\"}},{$limit:1}]}";
         when(template.executeCommand(findAllQueryCommand)).thenReturn(successCR);
+        
+        String nonExistQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
+                + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match:{ \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
+        when(template.executeCommand(nonExistQueryCommand)).thenReturn(failCR);
+        
+        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
+                + ", \"studentSectionAssociation.someProperty\" : \"someValue\" , \"metaData.tenantId\" : \"myTenant\"}},{$project : {\"studentSectionAssociation\":1"
+                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" , "
+                + "\"studentSectionAssociation.someProperty\" : \"someValue\" , \"studentSectionAssociation.metaData.tenantId\" : \"myTenant\"}}]}";
+        when(template.executeCommand(countQueryCommand)).thenReturn(successCR);
+        
+        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
+                + ", \"studentSectionAssociation.nonExistProperty\" : \"someValue\" , \"metaData.tenantId\" : \"myTenant\"}},{$project : {\"studentSectionAssociation\":1"
+                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" ,"
+                + " \"studentSectionAssociation.nonExistProperty\" : \"someValue\" , \"studentSectionAssociation.metaData.tenantId\" : \"myTenant\"}}]}";
+        when(template.executeCommand(nonExistCountCommand)).thenReturn(failCR);
     }
     
-
-
     @Test
     public void testSingleInsert() {
         MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
@@ -310,6 +326,28 @@ public class SubDocAccessorTest {
         assertEquals("parent_idchild", entityResults.get(0).getEntityId());
         assertEquals("someValue", entityResults.get(0).getBody().get("someProperty"));
         assertEquals("myTenant", entityResults.get(0).getMetaData().get("tenantId"));
+    }
+    
+    @Test
+    public void testDelete() {
+        boolean result = underTest.subDoc("studentSectionAssociation").delete("parent_idchild");
+        assertTrue(result);
+        
+        result = underTest.subDoc("studentSectionAssociation").delete("nonExistId");
+        assertFalse(result);
+    }
+    
+    @Test
+    public void testCount() {
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
+                .and("metaData.tenantId").is("myTenant"));
+        long count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        assertEquals(1L, count);
+        
+        originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue")
+                .and("metaData.tenantId").is("myTenant"));
+        count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        assertEquals(0L, count);
     }
 
 }
