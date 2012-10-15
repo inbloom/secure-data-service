@@ -270,3 +270,9 @@ db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1})
 
 //oprhan detection - this should be removed when done in API
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1});
+
+
+//profiled
+db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.beginDate":1,"metaData.edOrgs":1});
+db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
+db["staff"].ensureIndex({"type":1});
