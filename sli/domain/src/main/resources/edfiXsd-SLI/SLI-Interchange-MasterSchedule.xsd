@@ -12,7 +12,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="CourseOffering" type="CourseOffering"/>
 				<xs:element name="Section" type="Section"/>
-				<xs:element name="BellSchedule" type="SLC-BellScheduleExtension"/>
+				<xs:element name="BellSchedule" type="SLC-BellSchedule"/>
 				<xs:element name="MeetingTime" type="SLC-MeetingTimeReferenceType"/>
 			</xs:choice>
 		</xs:complexType>
