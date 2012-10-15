@@ -53,23 +53,30 @@ public class NestedMapUtil {
      * @param fieldChain - path to the nested field
      * @param value - what to add
      * @param entity - where to add
+     * @return previous value or null
      */
-    public static void put(List<String> fieldChain, Object value, Map<String, Object> entity) {
-        insertRecursively(new ArrayList<String>(fieldChain), value, entity, 0);
+    public static Object put(List<String> fieldChain, Object value, Map<String, Object> entity) {
+        return insertRecursively(new ArrayList<String>(fieldChain), value, entity, 0);
     }
-    
 
     /**
      * Merge entities
      * @param fieldChain - path to the nested field
      * @param value - what to add
      * @param entity - where to add
+     * @return true if entityTo changes, false otherwise
      */
-    public static void merge(Map<String, Object> entityTo, Map<String, Object> entityFrom) {
+    public static boolean merge(Map<String, Object> entityTo, Map<String, Object> entityFrom) {
         Map<String, Object> map = toFlatMap(entityFrom);
-        for (String key: map.keySet()) {
-            put(getPathLinkFromDotNotation(key), map.get(key), entityTo);
+        boolean changed = false;
+        for (Map.Entry<String, Object> entry: map.entrySet()) {
+            changed |= !isSame(put(getPathLinkFromDotNotation(entry.getKey()), entry.getValue(), entityTo), entry.getValue()) ;
         }
+        return changed;
+    }
+    
+    private static boolean isSame(Object o1, Object o2) {
+        return (o1 == null && o2 == null || o1 != null && o1.equals(o2));
     }
     
     public static List<String> getPathLinkFromDotNotation(String dotNotationFieldName) {
@@ -115,15 +122,14 @@ public class NestedMapUtil {
     }
     
     @SuppressWarnings("unchecked")
-    private static void insertRecursively(List<String> fieldChain, Object value, Object entity, int count) {
-        if (fieldChain.isEmpty()) return;
+    private static Object insertRecursively(List<String> fieldChain, Object value, Object entity, int count) {
+        if (fieldChain.isEmpty()) return null;
         if (count > 10) throw new IllegalArgumentException("Recursion too deep");
         String field = fieldChain.remove(0);
         if (entity instanceof Map) {
             Map<String, Object> map = (Map<String, Object>)entity;
             if (fieldChain.isEmpty()) {
-                map.put(field, value);
-                return;
+                return map.put(field, value);
             } else {
                 Object tmp = map.get(field);
                 if (tmp == null) {
@@ -131,8 +137,7 @@ public class NestedMapUtil {
                     map.put(field, tmp);
                 }
                 if (tmp instanceof Map) {
-                    insertRecursively(fieldChain, value, tmp, count);
-                    return;
+                    return insertRecursively(fieldChain, value, tmp, count);
                 } 
             }
         } 
@@ -160,7 +165,7 @@ public class NestedMapUtil {
             List<Object> arrayElems = (List<Object>)entity;
             for (Object o : arrayElems) {
                 if (o instanceof Map) {
-                    filterExceptRecursively(nodeNames, (Map<String, Object>)o, count);
+                    filterExceptRecursively(nodeNames, o, count);
                 }
             }
         }
