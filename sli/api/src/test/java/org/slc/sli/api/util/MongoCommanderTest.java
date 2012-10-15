@@ -41,7 +41,7 @@ public class MongoCommanderTest {
 
     @Test
     public void test() {
-        MongoCommander.exec("api_test", "test_indexes.js", "");
+        MongoCommander.exec("api_test", "test_indexes.js", " ");
 
         try {
             Mongo mongo = new Mongo();
