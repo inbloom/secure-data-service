@@ -58,7 +58,7 @@
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
-    <value>studentGradebookEntry</value>
+    <value>SLC-StudentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
