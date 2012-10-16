@@ -241,7 +241,7 @@ Examples:
      And format "application/vnd.slc+json"
     And my contextual access is defined by table:
     |Context                | Ids                                |
-    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731,a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb|
     |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
     |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
     |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
@@ -259,10 +259,10 @@ Examples:
 | "assessment"            | "assessments"             | 17    |/assessments|                                                                            
 | "attendance"            | "attendances"             | 1     |/sections/@ids/studentSectionAssociations/students/attendances|                            
 | "cohort"                | "cohorts"                 | 0     |/staff/@ids/staffCohortAssociations/cohorts|                                             
-| "course"                | "courses"                 | 10    |/schools/@ids/courses|                                                                   
+| "course"                | "courses"                 | 22    |/schools/@ids/courses|                                                                   
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
-| "school"                | "educationOrganizations"  | 1     |/teachers/@ids/teacherSchoolAssociations/schools|              
+| "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
 | "gradebookEntry"        | "gradebookEntries"        | 3     |/sections/@ids/gradebookEntries|                                                 
 | "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
