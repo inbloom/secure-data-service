@@ -666,3 +666,7 @@ end
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
+
+def convertTenantIdToDbName(tenantId)
+      return Digest::SHA1.hexdigest tenantId
+end

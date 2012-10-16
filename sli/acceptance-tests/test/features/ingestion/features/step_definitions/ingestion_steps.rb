@@ -54,7 +54,7 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 ############################################################
 
 Before do
-  @ingestion_db_name = TenantConverter.convertTenantIdToDbName('Midgar')
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
