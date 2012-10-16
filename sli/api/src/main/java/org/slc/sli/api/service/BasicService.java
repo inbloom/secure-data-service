@@ -832,8 +832,7 @@ public class BasicService implements EntityService {
                             intersection.add(directEdOrg);
                             if (toType.equals(EntityNames.PROGRAM)
                                     || toType.equals(EntityNames.COHORT)
-                                    || toType.equals(EntityNames.SESSION)
-                                    || toType.equals(EntityNames.COURSE)) {
+                                    || toType.equals(EntityNames.SESSION)) {
                                 intersection.addAll(directEdOrgParents);
                             }
                             break;
