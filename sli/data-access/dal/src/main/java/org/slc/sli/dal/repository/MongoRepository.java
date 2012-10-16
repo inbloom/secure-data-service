@@ -19,17 +19,17 @@ package org.slc.sli.dal.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +39,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -103,6 +103,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
 
             // make sure a criterion for tenantId has not already been added to this query
+            /*
             boolean addCrit = true;
             List<NeutralCriteria> criteria = query.getCriteria();
             if (criteria != null) {
@@ -115,10 +116,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
             // add the tenant ID if it's not already there
-            if (addCrit) {
-                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-            }
+            //if (addCrit) {
+            //    query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+            //}
+             * */
         }
+
         return query;
     }
 

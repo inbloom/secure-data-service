@@ -34,9 +34,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -123,7 +121,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
+                //entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
 
                 if (item.getMetaData().get("edOrgs") != null) {
                     entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
@@ -476,7 +474,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         Query query;
 
         if (NaturalKeyExtractor.useDeterministicIds()) {
-            
+
             NaturalKeyDescriptor naturalKeyDescriptor;
             try {
                 naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
@@ -484,7 +482,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 String message = "An entity is missing one or more required natural key fields" + "\n"
                         + "       Entity     " + entity.getType() + "\n" + "       Instance   "
                         + entity.getRecordNumber();
-                
+
                 for (String fieldName : e1.getNaturalKeys()) {
                     message += "\n" + "       Field      " + fieldName;
                 }
@@ -494,35 +492,35 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 LOG.error(e.getMessage(), e);
                 return null;
             }
-            
+
             if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
                 // Okay for embedded entities
                 LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
                         + "       Instance   " + entity.getRecordNumber());
-                
+
                 query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
             } else {
                 query = new Query();
-                String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-                query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                        tenantId));
+                //String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+                //query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                 //       tenantId));
                 String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
                 query.addCriteria(Criteria.where(ID).is(entityId));
             }
         } else {
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
         }
-        
+
         return query;
     }
-    
+
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             ErrorReport errorReport) {
         Query query = new Query();
-        
-        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-        query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
-        
+
+        //String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+        //query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
+
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
@@ -540,12 +538,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                             collectionName = appInfo.getCollectionType();
                         }
                     }
-                    
+
                     errorMessage += "       collection = " + collectionName + "\n";
                 }
             }
         }
-        
+
         try {
             for (String field : entityConfig.getKeyFields()) {
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
@@ -572,7 +570,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             if (complexField != null) {
                 String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
                 Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
-                
+
                 query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(
                         fieldValue));
             }
