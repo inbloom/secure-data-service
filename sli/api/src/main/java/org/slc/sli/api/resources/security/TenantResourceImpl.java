@@ -129,6 +129,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
+    public static final String DB_NAME = "dbName";
     public static final String LZ = "landingZone";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String LZ_INGESTION_SERVER = "ingestionServer";
@@ -233,6 +234,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
+            newTenant.put(DB_NAME, getDatabaseName(tenantId));
             Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(nlz);
