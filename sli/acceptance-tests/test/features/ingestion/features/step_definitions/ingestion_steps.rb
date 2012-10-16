@@ -1513,7 +1513,7 @@ end
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
   
-  @db = @conn[tenantId]
+  @db = @conn[convertTenantIdToDbName(tenantId)]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"
