@@ -181,7 +181,7 @@ Examples:
 | "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "c549e272-9a7b-4c02-aff7-b105ed76c904"       |
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
@@ -273,7 +273,7 @@ Examples:
 | "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
-| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
+| "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
