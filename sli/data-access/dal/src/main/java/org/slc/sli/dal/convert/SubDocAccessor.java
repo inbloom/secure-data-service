@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
@@ -22,12 +23,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
@@ -470,9 +465,8 @@ public class SubDocAccessor {
             for (DBObject dbObject : subDocs) {
                 entities.add(convertDBObjectToSubDoc(((DBObject) dbObject.get(subField))));
             }
-                return entities;
             }
-            return null;
+            return entities;
         }
 
         @SuppressWarnings("unchecked")
