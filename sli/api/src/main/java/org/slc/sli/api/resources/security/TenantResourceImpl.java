@@ -141,7 +141,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
-    public static final String SHARDING_SCRIPT = "sli_shards.js";
     public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
     public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
@@ -294,9 +293,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     private void runDbSpinUpScripts(String tenantId) {
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
-        MongoCommander.exec("admin", SHARDING_SCRIPT, "var database = \"" + getDatabaseName(jsEscapedTenantId) + "\"");
         MongoCommander.exec(getDatabaseName(jsEscapedTenantId), INDEX_SCRIPT, " ");
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "var num_years=1, tenant=\"" + jsEscapedTenantId + "\", database=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
     }
 
     private String getDatabaseName(String tenantId) {
