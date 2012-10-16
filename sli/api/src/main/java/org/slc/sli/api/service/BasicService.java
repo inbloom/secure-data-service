@@ -788,6 +788,9 @@ public class BasicService implements EntityService {
             List<String> whitelist = edOrgNodeFilter.getWhitelist();
             if (!whitelist.isEmpty()) {
                 List<String> intersection = computeIntersectionOfEdOrgs(whitelist, principal.getEntity(), toType);
+
+                info("principal: {} --> metaData.edOrgs: {}", new Object[]{principal.getEntity().getEntityId(), intersection});
+
                 securityCriteria
                         .setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in", intersection, false));
             }
@@ -822,6 +825,10 @@ public class BasicService implements EntityService {
     private List<String> computeIntersectionOfEdOrgs(List<String> whitelist, Entity user, String toType) {
         List<String> intersection = new LinkedList<String>();
         List<String> directEdOrgs = edOrgHelper.getDirectEdOrgAssociations(user);
+
+        info("principal: {} --> direct ed orgs: {}", new Object[]{user.getEntityId(), directEdOrgs});
+        info("whitelist: {}", whitelist);
+
         Map<String, Set<String>> parents = edOrgNodeFilter.fetchParents(new HashSet<String>(directEdOrgs));
         if (directEdOrgs != null && !directEdOrgs.isEmpty()) {
             for (String directEdOrg : directEdOrgs) {
