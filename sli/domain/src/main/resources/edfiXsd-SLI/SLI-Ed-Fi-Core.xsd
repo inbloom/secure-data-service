@@ -5,6 +5,12 @@
 
   <!-- Make ProgramId a required field -->
   <xs:complexType name="SLC-ProgramRestriction">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>program</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:restriction base="Program">
         <xs:sequence>
@@ -46,6 +52,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-AttendanceEventExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>attendance</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-AttendanceEventRestriction">
         <xs:sequence>
@@ -73,6 +85,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-ObjectiveAssessmentExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>objectiveAssessment</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-ObjectiveAssessmentRestriction">
         <xs:sequence>
@@ -87,6 +105,9 @@
 		<xs:annotation>
 			<xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard. 
 </xs:documentation>
+        	<xs:appinfo>
+          		<sli:recordType>studentAssessmentItem</sli:recordType>
+        	</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
@@ -144,6 +165,12 @@ Met standard
 
   <!-- Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType -->
   <xs:complexType name="SLC-StudentObjectiveAssessment">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>studentObjectiveAssessment</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ComplexObjectType">
         <xs:sequence>
@@ -181,6 +208,12 @@ Met standard
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-StudentAcademicRecordExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>studentAcademicRecord</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-StudentAcademicRecordRestriction">
         <xs:sequence>
@@ -207,6 +240,12 @@ Met standard
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-StudentCompetencyExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>studentCompetency</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-StudentCompetencyRestriction">
         <xs:sequence>
@@ -218,6 +257,12 @@ Met standard
 
   <!-- Make StudentCompetencyObjectiveId required -->
   <xs:complexType name="SLC-StudentCompetencyObjectiveRestriction">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>studentCompetencyObjective</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:restriction base="StudentCompetencyObjective">
         <xs:sequence>
@@ -233,6 +278,12 @@ Met standard
 
   <!-- Limit StaffReference and CohortReference to 1 -->
   <xs:complexType name="SLC-StaffCohortAssociationRestriction">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>staffCohortAssociation</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:restriction base="StaffCohortAssociation">
         <xs:sequence>
@@ -248,6 +299,12 @@ Met standard
 
   <!-- Limit StaffReference and ProgramReference to 1 -->
   <xs:complexType name="SLC-StaffProgramRestriction">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>staffProgramAssociation</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:restriction base="StaffProgramAssociation">
         <xs:sequence>
@@ -266,6 +323,9 @@ Met standard
 		<xs:annotation>
 			<xs:documentation>This association indicates the course sections a student is assigned to.
 </xs:documentation>
+        	<xs:appinfo>
+          		<sli:recordType>studentSectionAssociation</sli:recordType>
+        	</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="StudentReference" type="StudentReferenceType">
@@ -309,6 +369,12 @@ Other</xs:documentation>
 
   <!-- Limit SchoolReference to 1 on TeacherSchoolAssociation -->
   <xs:complexType name="SLC-TeacherSchoolAssociationRestriction">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>teacherSchoolAssociation</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:restriction base="TeacherSchoolAssociation">
         <xs:sequence>
@@ -348,6 +414,12 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-AssessmentExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>assessment</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-AssessmentRestriction">
         <xs:sequence>
@@ -381,6 +453,12 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-StudentSchoolAssociationExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>studentSchoolAssociation</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-StudentSchoolAssociationRestriction">
         <xs:sequence>
@@ -462,6 +540,7 @@ Other</xs:documentation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+
   <xs:complexType name="SLC-GradebookEntryReferenceType">
     <xs:annotation>
       <xs:documentation/>
@@ -662,7 +741,6 @@ Other</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<!-- Make an all new SectionIdentityType in the desired shape -->
 	<xs:complexType name="SLC-SectionIdentityType">
 		<xs:annotation>
@@ -687,7 +765,6 @@ Other</xs:documentation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
 	<xs:complexType name="TEMPORARY-SectionReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for section. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
@@ -708,7 +785,6 @@ Other</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 	<!-- Make an all new SectionIdentityType in the desired shape -->
 	<xs:complexType name="TEMPORARY-SectionIdentityType">
 		<xs:annotation>
@@ -745,7 +821,6 @@ Other</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
   <xs:complexType name="TEMPORARY-EducationalOrgIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
@@ -758,7 +833,6 @@ Other</xs:documentation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
 	<xs:complexType name="SLC-EducationalOrgReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
@@ -779,7 +853,6 @@ Other</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
   <xs:complexType name="SLC-EducationalOrgIdentityType">
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
@@ -850,6 +923,9 @@ Other</xs:documentation>
 	<xs:complexType name="SLC-TeacherSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the class sections to which a teacher is assigned to.</xs:documentation>
+        	<xs:appinfo>
+          		<sli:recordType>teacherSectionAssociation</sli:recordType>
+        	</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="TeacherReference" type="StaffReferenceType">
@@ -904,6 +980,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 		</xs:complexContent>
 	</xs:complexType>
   <xs:complexType name="SLC-SessionExtension">
+    <xs:annotation>
+      <xs:documentation/>
+        <xs:appinfo>
+          <sli:recordType>session</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-SessionRestriction">
         <xs:sequence>
@@ -930,7 +1012,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
     <xs:complexType name="SLC-AcademicWeekIdentityType">
         <xs:sequence>
             <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
@@ -1033,6 +1114,9 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 		<xs:annotation>
 			<xs:documentation>This educational entity represents an overall score or assessment tied to a course over a period of time (i.e., the grading period).  Student grades are usually a compilation of marks and other scores.
 </xs:documentation>
+        	<xs:appinfo>
+          		<sli:recordType>grade</sli:recordType>
+        	</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
@@ -1100,7 +1184,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
     <xs:complexType name="SLC-DiplomaIdentityType">
         <xs:sequence>
             <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
@@ -1128,6 +1211,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
     </xs:complexType>
     
     <xs:complexType name="SLC-ReportCard">
+    	<xs:annotation>
+     		 <xs:documentation/>
+       		 <xs:appinfo>
+         		 <sli:recordType>reportCard</sli:recordType>
+        	</xs:appinfo>
+    	</xs:annotation>
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
@@ -1179,7 +1268,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
     <xs:complexType name="SLC-GradeIdentityType">
         <xs:sequence>
             <xs:element name="StudentSectionAssociationReference" type="TEMPORARY-StudentSectionAssociationReferenceType">
@@ -1219,7 +1307,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
     <xs:complexType name="SLC-GradingPeriodIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.</xs:documentation>
@@ -1251,6 +1338,12 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
     </xs:complexType>
     
     <xs:complexType name="SLC-BellSchedule">
+    	<xs:annotation>
+      		<xs:documentation/>
+        	<xs:appinfo>
+          		<sli:recordType>bellSchedule</sli:recordType>
+        	</xs:appinfo>
+    	</xs:annotation>
         <xs:complexContent>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
@@ -1288,7 +1381,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
     <xs:complexType name="SLC-MeetingTimeIdentityType">
         <xs:sequence>
             <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
@@ -1328,7 +1420,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
     <xs:complexType name="SLC-ClassPeriodIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
@@ -1454,7 +1545,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
       <xs:complexType name="TEMPORARY-StudentIdentityType">
         <xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of students.</xs:documentation>
@@ -1467,7 +1557,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			</xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="SLC-StudentReferenceType">
         <xs:annotation>
 			<xs:documentation>Provides alternative references for Student reference during interchange. Use XML IDREF to reference a student record that is included in the interchange</xs:documentation>
@@ -1488,7 +1577,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
       <xs:complexType name="SLC-StudentIdentityType">
         <xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of students.</xs:documentation>
@@ -1521,7 +1609,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
       <xs:complexType name="TEMPORARY-SessionIdentityType">
         <xs:annotation>
             <xs:documentation/>
@@ -1539,7 +1626,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			</xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="SLC-SessionReferenceType">
         <xs:annotation>
 			<xs:documentation>Provides alternative references for sessions at an education organization. Use XML IDREF to reference a section record that is included in the interchange</xs:documentation>
@@ -1560,7 +1646,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
       <xs:complexType name="SLC-SessionIdentityType">
         <xs:annotation>
             <xs:documentation/>
