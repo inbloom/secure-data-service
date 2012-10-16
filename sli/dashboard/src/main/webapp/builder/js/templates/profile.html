@@ -1,5 +1,12 @@
-<h3>Modify: {{profile.name}}</h3>
-
+<h3>Customize: {{profile.name}}</h3>
+<div class="alert alert-success hide successMessage">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Well done!</strong> Your changes have been saved successfully.
+</div>
+<div class="alert hide restoreMessage">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>The changes have been restored.</strong>
+</div>
 <tabs>
     <pane title="{{page.name}}" ng-repeat="page in pages">
         <div ng-controller="pageCtrl" class="panels">
@@ -7,14 +14,14 @@
             <div class="show-{{checked}}">
                 <form>
                     <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" ng-focus="checked" required>
-                    <button class="btn btn-primary" ng-click="savePageTitle();" >save</button>
-                    <button class="btn" ng-click="cancelPageTitle();" >cancel</button>
+                    <button class="btn btn-primary" ng-click="savePageTitle();" >Update</button>
+                    <button class="btn" ng-click="cancelPageTitle();" >Cancel</button>
                 </form>
             </div>
             <ul class="unstyled" ng-sortable="pagePanels">
                 <li ng-repeat="panel in pagePanels" class="well" ng-controller="panelCtrl" ng-sortable-index="{{$index}}"  ng-mouseover="deletePanel=true" ng-mouseleave="deletePanel=false">
                     <span class="span2" ng-hide="!deletePanel" ng-show="deletePanel"><i class="icon-move"></i></span>
-                    <span class="span2" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.id}}</strong></span>
+                    <span class="span8" ng-hide="deletePanel" ng-show="!deletePanel"><strong>{{panel.name || panel.id}}</strong></span>
                     <span class="span1 pull-right" ng-hide="!deletePanel" ng-show="deletePanel"><a href="" ng-click="removePanel()"><i class="icon-trash"></i></a></span>
                 </li>
             </ul>
@@ -22,9 +29,12 @@
                 <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
             </div>
             <br/>
-            <div class="page-actions">
-                <button class="btn" ng-click="showPageConfig()">+ Show Page Source Code</button>
-                <button class="btn btn-danger pull-right" data-toggle="modal" ng-click="removePage()" >Remove Tab</button>
+            <a ng-click="showPageConfig()">+ Show Page Source Code</a>
+            <br/>
+            <div class="form-actions">
+                <button class="btn btn-danger pull-left" data-toggle="modal" ng-click="removePage()" >Remove Tab</button>
+                <button class="btn pull-right publish_button" ng-click="publishPage()" disabled>Publish Layout</button>
+                <button class="btn pull-right restore_button" ng-click="restore()" disabled>Restore</button>
             </div>
         </div>
     </pane>
@@ -47,7 +57,7 @@
         </ul>
         <ul id="panelSelectable" class="unstyled">
             <li ng-repeat="panel in allPanels" class="well well-small">
-                <span title="{{panel.id}}">{{panel.id}}</span>
+                <span title="{{panel.id}}">{{panel.name || panel.id}}</span>
                 <span class="span2 pull-right ui-ellipsis" title="{{panel.educationAgencyName}}">{{panel.educationAgencyName}}</span>
             </li>
         </ul>
@@ -55,7 +65,38 @@
     <div class="modal-footer">
         <!--<button class="btn" data-toggle="modal" ng-click="addNewPanel()" id="addNewPanelBtn" ><i class="icon-plus"></i> Add new panel</button>-->
         <button class="btn simplemodal-close" data-dismiss="modal" tabindex="3">Cancel</button>
-        <button class="btn btn-primary" ng-click="addAvailPanels()"  tabindex="4">Save</button>
+        <button class="btn btn-primary" ng-click="addAvailPanels()"  tabindex="4">Add Panel(s)</button>
+    </div>
+</div>
+
+<!-- Save changes confirmation modal box -->
+<div class="modal hide" id="alertModal" ng-controller="confirmBoxCtrl" >
+    <div class="modal-header">
+        <h3>Save Changes</h3>
+    </div>
+    <div class="modal-body">
+        The changes you have made will be lost if you leave this page. <br/>
+        Do you want to stay on this page and publish layout changes?
+    </div>
+    <div class="modal-footer">
+        <button class="btn simplemodal-close" ng-click="leaveChanges()" data-dismiss="modal" tabindex="3">Leave this page</button>
+        <button class="btn simplemodal-close" data-dismiss="modal" tabindex="4">Stay on this page</button>
+    </div>
+</div>
+
+<!-- Remove page confirmation modal box -->
+<div class="modal hide" id="removeTab" ng-controller="removeTabCtrl" >
+    <div class="modal-header">
+        <button type="button" class="close simplemodal-close" data-dismiss="modal">×</button>
+        <h3>Remove Tab?</h3>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to remove the tab? <br/>
+        There is no way to undo this action.
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger simplemodal-close" ng-click="removeTab()" data-dismiss="modal" tabindex="3">Remove Tab</button>
+        <button class="btn simplemodal-close" data-dismiss="modal" tabindex="4">Cancel</button>
     </div>
 </div>
 

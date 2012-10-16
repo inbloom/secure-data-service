@@ -27,13 +27,40 @@
         <ng-header></ng-Header>
 
         <div class="profileList clearfix">
-            <h4>Profiles</h4>
-
-            <ul class="profile_list">
-                <li ng-repeat="profile in profiles">
-                    <a href="#/profiles/{{profile.id}}">{{profile.name}}</a>
-                </li>
-            </ul>
+            <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                            Profiles
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            <ul class="profile_list">
+                                <li ng-repeat="profile in profiles">
+                                    <a ng-click="goToProfile('#/profiles/'+profile.id)">{{profile.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                            Panels
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <ul class="profile_list">
+                                <li ng-repeat="profile in profiles">
+                                    <a ng-click="goToProfile('#/panels/'+profile.id)">{{profile.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="profilePageWrapper" ng-view></div>
     </div>
@@ -43,6 +70,7 @@
     <script src="../static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js" sync></script>
     <script src="../static/js/libs/angular-1.0.1.min.js" sync></script>
     <script src="../static/js/libs/angular-resource.min.js" sync></script>
+    <script src="../static/js/libs/bootstrap-collapse.js" sync></script>
 
 
     <script language="javascript">

@@ -1,3 +1,10 @@
+/* Twitter bootstrap collapse IE8 fix */
+.collapse {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+}
+
 [class^="icon-"],[class*=" icon-"] {
     background-image:url("../../static/images/glyphicons-halflings.png");
 }
@@ -76,6 +83,11 @@ ul.menu_n a {
     width: auto;
 }
 
+
+.accordion-group { border: none; }
+.accordion-heading .accordion-toggle { padding: 4px 8px; background: #f2f2f2; }
+.accordion-heading a { color: #000; text-decoration: none; }
+.accordion-inner { padding: 8px; }
 .ui-dialog-titlebar { font-size: 16px; border-bottom: solid 1px #c2ccd1; margin-bottom: 20px; }
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 120px; float: left; padding: 20px;}
@@ -84,8 +96,8 @@ ul.menu_n a {
 .profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }
 .profile_list { list-style-type: none; padding: 0; margin: 0;}
-.profile_list a {  color: #000000; text-decoration: none; }
-.profile_list a:hover { text-decoration: underline; }
+.profile_list a {  color: #000000; text-decoration: underline; }
+.profile_list a:hover { text-decoration: none; }
 
 .page-actions { margin-bottom: 20px; }
 .addPageSection { margin-left: 10px; }
@@ -111,6 +123,7 @@ ul.menu_n a {
 .panels input { margin-bottom: 0; font-size: 12px; }
 #allPanelsModal ul li { margin: 10px; padding: 5px; background: #f2f2f2; }
 
+
 #panelSelectable .ui-selecting { background: #ccc; }
 #panelSelectable .ui-selected { background: #49AFCD; color: white; }
 
@@ -119,3 +132,11 @@ ul.menu_n a {
 #addNewPanelBtn { float: left; }
 .show-true { display: block; }
 .show-false { display: none; }
+
+.profilePageWrapper ul.panelList { height: auto; }
+
+
+#alertModal { width: 400px; margin-top: -150px;}
+#removeTab { width: 350px; margin-top: -180px;}
+
+.restore_button { margin-right: 20px; }

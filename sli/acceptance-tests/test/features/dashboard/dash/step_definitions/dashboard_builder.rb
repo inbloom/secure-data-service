@@ -21,24 +21,18 @@ When /^I navigate to the Dashboard Builder page$/ do
 end
 
 When /^I click on "(.*?)" Profile Builder$/ do |profileName|
-  @currentProfile = profileName.downcase
-  name = "SLC - " + profileName + " Profile"
-  profile_list = @explicitWait.until{@driver.find_element(:class, "profile_list").find_element(:link_text, name)}
-  profile_list.click
-  
-  @explicitWait.until{@driver.find_element(:class,"profilePageWrapper").text.downcase.include? profileName.downcase}
+  clickOnBuilderMenu(0, profileName)
 end
 
 When /^I delete Page "(.*?)"$/ do |pageName|
   hoverOverPage(pageName, "delete")
 end
 
+#Add a new page and rename it to 'pageName'
 When /^I add a Page named "(.*?)"$/ do |pageName|
   addSection = @driver.find_element(:class, "addPageSection")
   addSection.find_element(:tag_name, "button").click
-  
   @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "div[title='New page']")
-  
   setPageName(pageName) 
 end
 
@@ -50,13 +44,13 @@ When /^I add an available panel named "(.*?)"$/ do |panelName|
   # Click on the 'Add available panels' button
   @currentPage.find_element(:css, "button[class*='btn-block']").click
   # Identify the pop up panel for 'Add a Panel'
+  @explicitWait.until {(style = @driver.find_element(:id, "allPanelsModal").attribute('style').strip)  == "display: block;" }
   popupPanel = @driver.find_element(:id, "allPanelsModal")
-  #
+  # Select the panels from the list
   availablePanels = popupPanel.find_element(:id,"panelSelectable").find_elements(:tag_name,"li")
   found = false
   availablePanels.each do |panel|
-    name = panel.find_element(:css, "span[class*='ui-selectee']")
-    if (name.attribute("innerHTML").include? panelName)
+  if (panel.attribute("innerHTML").include? panelName)
       found = true
       panel.click
       break
@@ -123,9 +117,104 @@ When /^I see the following page order "(.*?)" in the builder$/ do |pages|
     pageText = page.find_element(:tag_name,"a").text
     assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
   end
-
 end
 
+When /^I click on "(.*?)" Panels$/ do |panelName|
+  clickOnBuilderMenu(1, panelName)
+end
+
+When /^I see the following available panels "(.*?)"$/ do |listOfPanels|
+  expectedPanels = listOfPanels.split(';')
+  actualPanels = @driver.find_element(:class, "profilePageWrapper").find_elements(:tag_name,"li")
+  assert(expectedPanels.count == actualPanels.count, "Expected Panels: #{expectedPanels.count} Actual Panels: #{actualPanels.count}")
+  
+  expectedPanels.each do |expected|
+    found = false
+    actualPanels.each do |actual|
+      if (actual.attribute('innerHTML').include? expected)
+        found = true
+      end
+    end
+    assert(found, "#{expected} Panel was not found")
+  end
+end
+
+When /^I click on Panels Menu$/ do
+  @driver.find_elements(:class, "accordion-heading")[1].find_element(:tag_name,"a").click
+end
+
+# Click the 'Publish Layout' or 'Restore' button after making changes in the page
+#When /^I click the Publish Layout button$/ do
+When /^I click the "(.*?)" button$/ do |buttonName|  
+  activeButton = @currentPage.find_element(:class, "form-actions")
+  if (buttonName =="Publish Layout")
+    activeButton.find_element(:css, "[ng-click='publishPage()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='alert-success']").attribute('style').strip)  == "display: block;" }
+  elsif (buttonName =="Restore")
+    activeButton.find_element(:css, "[ng-click='restore()']").click
+    @explicitWait.until {(style = @driver.find_element(:css, "div[class*='restoreMessage']").attribute('style').strip)  == "display: block;" }     
+  end
+  sleep 3
+end
+
+# Publish Layout Modal Window
+When /^I click on "(.*?)" button on the modal window$/ do |action| 
+   #Identify the pop up panel
+   popupPanel = @driver.find_element(:id, "alertModal")
+   
+   if (action =="Stay")
+     popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1].click
+     ensurePopupUnloaded()
+   elsif (action =="Leave")
+     popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
+     ensurePopupUnloaded()
+   end
+   sleep 2
+end
+
+# Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
+When /^I navigate away to "(.*?)" Profile Builder without clicking the Publish Layout button$/ do |profileName|
+  @currentProfile = profileName.downcase
+  name = "SLC - " + profileName + " Profile"
+  @driver.find_element(:class, "profile_list").find_element(:link_text, name).click
+end
+
+# Validate that the profile builder loads (for publish layout button functionality)
+When /^I view the "(.*?)" profile builder$/ do |profileName|
+  @currentProfile = profileName.downcase
+  name = "SLC - " + profileName + " Profile"
+  if (@driver.find_element(:class,"profilePageWrapper").text.downcase.include? profileName.downcase)
+    found = true
+  end
+  assert(found, "#{profileName} profile page was not loaded")  
+end
+
+When /^I "(.*?)" a page named "(.*?)" without clicking the Publish Layout button$/ do |action, pageName|
+  if (action == "Add")
+    @driver.find_element(:class, "addPageSection").find_element(:tag_name, "button").click  
+  #elsif (action == "View")
+    #TODO
+  end #end if
+end
+
+#Add/Edit a new title to the page 
+When /^I "(.*?)" the page title as "(.*?)"$/ do |action, pageName|
+  if (action == "Add")
+    @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:class, "active")
+  elsif (action == "Edit")
+    @currentPage = @driver.find_element(:css, "[class*='tab-content']").find_element(:class, "active")
+    @currentPage.find_element(:css, "[ng-click='editPageTitle();']").click
+  end
+  input = @currentPage.find_element(:class,"show-true").find_element(:tag_name, "input")  
+  input.clear
+  input.send_keys pageName
+  @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
+  sleep 0.30
+end
+
+################################################################################################################
+################################################################################################################
+#Description: Finds the page by name.
 def getPageByName(pageName)
   pages = @driver.find_element(:css, "[class*='tabbable']").find_elements(:tag_name, "li")
   pages.each do |page|
@@ -136,12 +225,14 @@ def getPageByName(pageName)
   return nil
 end
 
+#Description: Finds the page by index.
 def getPageByIndex(index)
   pages = @driver.find_element(:id, "tabs").find_elements(:tag_name, "li")
   assert(index < pages.length && index >= 0, "Invalid index")
   return pages[index]
 end
 
+#Description: Sets up the page name.
 def setPageName(pageName)
   input = @currentPage.find_element(:tag_name, "input")  
   input.clear
@@ -149,6 +240,7 @@ def setPageName(pageName)
   @currentPage.find_element(:class,"show-true").find_element(:tag_name, "button").click
 end
 
+#Description: Navigate to the Page.Includes the Edit/Delete operations
 def hoverOverPage(pageName, mode = nil)
   page = getPageByName(pageName)
   assert(page != nil, "Page #{pageName} is not found")
@@ -161,12 +253,17 @@ def hoverOverPage(pageName, mode = nil)
   elsif (mode == "delete")
     @driver.find_element(:css, "[class*='tab-content']").find_element(:css,"[class*='active']").find_element(:css, "[ng-click='removePage()']").click
     begin
-      @driver.switch_to.alert.accept
+      #Find the Remove Tab? pop up window
+      popupPanel = @driver.find_element(:id, "removeTab")
+      popupPanel.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[0].click
+      ensurePopupUnloaded()
     rescue
     end
+    sleep 1
   end  
 end
 
+#Description: Finds the panel by name.
 def getPanelByName(panelName)
   panels = @driver.find_element(:css, "[class*='tab-content']").find_element(:css, "[class*='active']").find_element(:class,"unstyled").find_elements(:tag_name,"li")
   panels.each do |panel|
@@ -177,6 +274,7 @@ def getPanelByName(panelName)
   return nil
 end
 
+#Description: Navigate to the Panel. Includes the Delete panel operation
 def hoverOverPanel(panelName, mode = nil)
   panel = getPanelByName(panelName)
   assert(panel != nil, "Panel #{panelName} is not found")
@@ -190,11 +288,13 @@ def hoverOverPanel(panelName, mode = nil)
   end  
 end
 
+#Description: Click on the 'Show Page Source Code' link
 def viewSourceCode()
-  @currentPage.find_element(:class,"page-actions").find_element(:tag_name,"button").click
+  @currentPage.find_element(:link_text, "+ Show Page Source Code").click
   ensurePopupLoaded()  
 end
 
+#Description: Copy the JSON on the source code window
 def uploadJson()
   uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\"}]"
   if (@currentProfile == "section")
@@ -206,6 +306,7 @@ def uploadJson()
   saveDashboardBuilder()
 end
 
+#Description: Save on pop up 
 def saveDashboardBuilder()
   save = @driver.find_element(:id, "modalBox").find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
@@ -225,4 +326,14 @@ def ensurePopupUnloaded()
    @driver.manage.timeouts.implicit_wait = 2
    @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
    @driver.manage.timeouts.implicit_wait = 10
+end
+
+#Description: Click on the profile builder
+def clickOnBuilderMenu(index, itemName)
+  @currentProfile = itemName.downcase
+  name = "SLC - " + itemName + " Profile"
+  menuItem = @explicitWait.until{@driver.find_elements(:class, "profile_list")[index].find_element(:link_text, name)}
+  menuItem.click
+  
+  @explicitWait.until{@driver.find_element(:class,"profilePageWrapper").text.downcase.include? itemName.downcase}
 end

@@ -72,7 +72,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					items: "li:not(.nonSortable)",
 					cancel: ".nonSortable",
 					update: function() {
-						var model, paneModel;
+						var model, panelModel;
 
 						if(scope.$eval(attrs.ngSortable)) {
 							model = scope.$eval(attrs.ngSortable);
@@ -81,7 +81,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							model = scope.$parent.$eval(attrs.ngSortable);
 
 							if (attrs.ngSortable === "pages") {
-								paneModel = scope.$eval("panes");
+								panelModel = scope.$eval("panes");
 							}
 						}
 						$rootScope.newPageArray = [];
@@ -96,7 +96,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 							if(model[oldIndex] !== null && model[oldIndex] !== undefined) {
 								$rootScope.newPageArray.push(model[oldIndex]);
 								if (attrs.ngSortable === "pages") {
-									$rootScope.newPaneArray.push(paneModel[oldIndex]);
+									$rootScope.newPaneArray.push(panelModel[oldIndex]);
 								}
 							}
 						});
@@ -120,13 +120,34 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 			restrict: 'E',
 			transclude: true,
 			scope: {},
-			controller: function($scope, $element, dbSharedService) {
+			controller: function($scope, $rootScope, $element, dbSharedService) {
 				var panes = $scope.panes = [],
-					parent = $scope.$parent,
-					self = this;
+					parent = $scope.$parent;
 
 				// The selected tab will display in active mode
 				$scope.select = function(pane) {
+
+					$rootScope.profileAlert = false; // set profile alert flag to false
+
+					// if user trying to navigate away from the selected tab without saving page-level changes,
+					// the save changes confirmation box will display.
+					if($rootScope.saveStatus) {
+						dbSharedService.showModal("#alertModal", {mode: "alert"});
+
+						$scope.$on("leavePage", function () {
+							$scope.selectTab(pane);
+							dbSharedService.enableSaveButton(false);
+						});
+
+						return false;
+					}
+
+					dbSharedService.setPage($scope.$parent.page);
+					$scope.selectTab(pane);
+				};
+
+
+				$scope.selectTab = function(pane) {
 					angular.forEach(panes, function(pane) {
 						pane.selected = false;
 						parent.checked = false;
@@ -139,10 +160,6 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						$scope.select(pane);
 					}
 					panes.push(pane);
-				};
-
-				this.removePane = function(pane) {
-					panes.splice(pane, 1);
 				};
 
 				$scope.$parent.$on("tabChanged", function () {
@@ -167,6 +184,34 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 
 				// Add a new page/tab into the profile
 				$scope.addPage = function () {
+					$rootScope.addNewPage = false;
+
+					// if user trying to navigate away from the selected tab without saving page-level changes,
+					// the save changes confirmation box will display.
+					if($rootScope.saveStatus) {
+
+						$rootScope.addNewPage = true;
+						dbSharedService.showModal("#alertModal", {mode: "alert"});
+
+						// After 'restorePageAndAddNewPage' get triggered, the new tab/page will be added to the profile
+						$scope.$on("restorePageAndAddNewPage", function () {
+
+							if($rootScope.addNewPage) {
+								var pageId = dbSharedService.generatePageId(parent.pages);
+								parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
+								parent.saveProfile(function () {
+									$scope.select(panes[panes.length-1]);
+									parent.checked = true;
+								});
+							}
+
+							$rootScope.addNewPage = false;
+							return false;
+						});
+
+						return false;
+					}
+
 					var pageId = dbSharedService.generatePageId(parent.pages);
 					parent.pages.push({id:pageId, name:"New page", items: [], parentId:pageId, type:"TAB"});
 					parent.saveProfile(function () {
@@ -174,6 +219,10 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 						parent.checked = true;
 					});
 				};
+
+				$scope.$on("tabReRendered", function () {
+						this.$render();
+				});
 			},
 			template:
 				'<div class="tabbable">' +
