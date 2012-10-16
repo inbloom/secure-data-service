@@ -16,23 +16,17 @@
 
 package org.slc.sli.api.security.pdp;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityNotFoundException;
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * @author dkornishev
@@ -42,9 +36,6 @@ public class PolicyEnforcer {
 
 	@Resource
 	private ContextInferenceHelper inferer;
-
-	// These are the resources that we allow to be accessed directly without the need to rewrite
-	private static final Set<String> ENTITY_WHITE_LIST = new HashSet<String>(Arrays.asList(ResourceNames.SCHOOLS, ResourceNames.EDUCATION_ORGANIZATIONS));
 
 	public void enforce(Authentication auth, ContainerRequest request) {
 
@@ -82,8 +73,6 @@ public class PolicyEnforcer {
 					String parameters = request.getRequestUri().getQuery();
 					info("URI Rewrite from->to: {} -> {}", request.getPath(), newPath);
 					request.setUris(request.getBaseUri(), request.getBaseUriBuilder().path(segs.get(0).getPath()).path(newPath).replaceQuery(parameters).build());
-				} else if (!ENTITY_WHITE_LIST.contains(segs.get(1).getPath())) {
-					throw new EntityNotFoundException("Resource " + request.getPath() + " is not available.");
 				}
 			}
 		}

@@ -21,12 +21,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Resolves which TeacherSection a given teacher is allowed to see.
@@ -36,24 +37,25 @@ public class TeacherToTeacherSchoolAssociationResolver implements EntityContextR
 
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        // return false;
         return EntityNames.TEACHER.equals(fromEntityType)
                 && EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        Iterable<Entity> ents = helper.getReferenceEntities(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId", Arrays.asList(principal.getEntityId()));
+        Iterable<Entity> ents = helper.getReferenceEntities(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId",
+                Arrays.asList(principal.getEntityId()));
         HashSet<String> ids = new HashSet<String>();
         for (Entity ent : ents) {
             String schoolId = (String) ent.getBody().get("schoolId");
-            ids.addAll(helper.findEntitiesContainingReference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId", Arrays.asList(schoolId)));
+            ids.addAll(helper.findEntitiesContainingReference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId",
+                    Arrays.asList(schoolId)));
         }
 
         securityCachingStrategy.warm(EntityNames.TEACHER_SCHOOL_ASSOCIATION, ids);
