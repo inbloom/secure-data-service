@@ -18,7 +18,7 @@
 // put 'creationTime' index on all entities (including staged-only entities)
 //
 db["assessment"].ensureIndex({"batchJobId" : 1, "creationTime":1});
-db["assessment_transformed"].ensureIndex({"batchJobId" : 1, "creationTime":1});
+db["attendance_transformed"].ensureIndex({"batchJobId" : 1, "body.studentId" : 1, "body.schoolId" : 1}, {unique : true});
 db["assessmentFamily"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["assessmentItem"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["assessmentPeriodDescriptor"].ensureIndex({"batchJobId" : 1, "creationTime":1});
