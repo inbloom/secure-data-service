@@ -27,6 +27,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
+require 'digest/sha1'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -504,6 +505,9 @@ def findLink(id, type, rel, href)
   return found
 end
 
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
 
 ########################################################################
 ########################################################################
@@ -636,6 +640,12 @@ module EntityProvider
     end
   end
 
+end
+
+module TenantConverter
+    def convertTenantIdToDbName(tenantId)
+      return Digest::SHA1.hexdigest tenantId
+    end
 end
 
 ######################
