@@ -82,30 +82,65 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- Change StudentAssessmentItem.StudentAssessmentReference to StudentAssessmentReferenceType -->
-  <xs:complexType name="SLC-StudentAssessmentItemRestriction">
-    <xs:complexContent>
-      <xs:restriction base="StudentAssessmentItem">
-        <xs:sequence>
-          <xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0" />
-          <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0" />
-          <xs:element name="AssessmentItemResult" type="AssessmentItemResultType" />
-          <xs:element name="RawScoreResult" type="xs:int" minOccurs="0" />
-          <xs:element name="StudentObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" />
-          <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SLC-StudentAssessmentItemExtension">
-    <xs:complexContent>
-      <xs:extension base="SLC-StudentAssessmentItemRestriction">
-        <xs:sequence>
-          <xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+  <!-- Change StudentAssessmentItem.StudentAssessmentReference to SLC-StudentAssessmentReferenceType, change StudentObjectiveAssessmentReference to SLC-StudentAssessmentReferenceType -->
+	<xs:complexType name="SLC-StudentAssessmentItem">
+		<xs:annotation>
+			<xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard. 
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A student's response to a stimulus on a test.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator of the response.  For example:
+Nonscorable response
+Ineffective response
+Effective response
+Partial response
+...</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssessmentItemResult" type="AssessmentItemResultType">
+						<xs:annotation>
+							<xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
+Correct
+Incorrect
+Met standard
+...</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RawScoreResult" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A meaningful raw score of the performance of an individual on an assessment item.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentObjectiveAssessmentReference" type="TEMPORARY-StudentObjectiveAssessmentReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Link of the item scores the objective scores for a student's specific test administration.  Used only if the test has objective level scores.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType">
+						<xs:annotation>
+							<xs:documentation>The assessment item responded to by the student.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType" minOccurs="0">
+					<!-- TODO: this is out of order; must fix data set, then put it back in order -->
+						<xs:annotation>
+							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
   <!-- Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType -->
   <xs:complexType name="SLC-StudentObjectiveAssessment">
@@ -114,7 +149,7 @@
         <xs:sequence>
           <xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
           <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" />
+          <xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType" />
           <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType"/>
         </xs:sequence>
       </xs:extension>
@@ -512,9 +547,14 @@ Other</xs:documentation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+
   <xs:complexType name="SLC-StudentAssessmentReferenceType">
     <xs:annotation>
       <xs:documentation/>
+		<xs:appinfo>
+          <sli:applyKeyFields>true</sli:applyKeyFields>
+          <sli:refType>studentAssessmentAssociation</sli:refType>
+        </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
@@ -529,6 +569,53 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-StudentAssessmentIdentityType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="AdministrationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation/>
+            <xs:appinfo>
+              <sli:keyFieldName>administrationDate</sli:keyFieldName>
+            </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StudentReference" type="StudentReferenceType">
+        <xs:annotation>
+          <xs:documentation/>
+            <xs:appinfo>
+              <sli:keyFieldName>studentId</sli:keyFieldName>
+            </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+        <xs:annotation>
+          <xs:documentation/>
+            <xs:appinfo>
+              <sli:keyFieldName>assessmentId</sli:keyFieldName>
+            </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TEMPORARY-StudentAssessmentReferenceType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ReferenceType">
+        <xs:sequence>
+          <xs:element name="StudentAssessmentIdentity" type="TEMPORARY-StudentAssessmentIdentityType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation/>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TEMPORARY-StudentAssessmentIdentityType">
     <xs:annotation>
       <xs:documentation/>
     </xs:annotation>
@@ -1484,6 +1571,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:sequence>
     </xs:complexType>
 
+    <!-- Change StudentAcademicRecordReference to SLC-StudentAcademicRecordReferenceType -->
 	<xs:complexType name="SLC-CourseTranscript">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
@@ -1829,6 +1917,110 @@ Withdrawn
 					<xs:documentation>The Identifier for the student competency.</xs:documentation>
 					<xs:appinfo>
 						<sli:keyFieldName>studentCompetencyObjectiveId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEMPORARY-StudentObjectiveAssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="StudentObjectiveAssessmentIdentity" type="TEMPORARY-StudentObjectiveAssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TEMPORARY-StudentObjectiveAssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType">
+				<xs:annotation>
+					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to the test objective that is being measured by the objective-level assessment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-StudentObjectiveAssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="StudentObjectiveAssessmentIdentity" type="SLC-StudentObjectiveAssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-StudentObjectiveAssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
+				<xs:annotation>
+					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to the test objective that is being measured by the objective-level assessment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- TODO: ObjectiveAssessmentReferenceType == TEMPORARY-ObjectiveAssessmentReferenceType -->
+	<xs:complexType name="SLC-ObjectiveAssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for objective assessments during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+		    <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>objectiveAssessment</sli:refType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="ObjectiveAssessmentIdentity" type="SLC-ObjectiveAssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Identity of the objective assessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-ObjectiveAssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of assessment objectives.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ObjectiveAssessmentIdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>The identification code of the objective assessment.</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>identificationCode</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
