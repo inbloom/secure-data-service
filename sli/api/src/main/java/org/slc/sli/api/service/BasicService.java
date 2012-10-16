@@ -571,6 +571,7 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = createBody(entity);
+
         if ((entity.getEmbeddedData()!=null) && !entity.getEmbeddedData().isEmpty()) {
             for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
                 List<EntityBody> subDocbody = new ArrayList<EntityBody>();
@@ -582,6 +583,7 @@ public class BasicService implements EntityService {
         }
         return toReturn;
     }
+
     private EntityBody createBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
 
