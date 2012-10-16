@@ -89,7 +89,7 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
         //enable sharding on the collection
 //        print("Sharding collecion:" + collection);
         db.runCommand({shardcollection:collection,
-                       key:{"metaData.tenantId":1, "_id":1} });
+                       key:{"_id":1} });
 
         for (var year_num = this_year; year_num < this_year+num_years; year_num++) {
 
@@ -109,7 +109,7 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
 
                 //execute db command
                 db.adminCommand({split:collection,
-                                 middle:{"metaData.tenantId":tenantId, "_id":split_string}
+                                 middle:{"_id":split_string}
                                 });
             }
 
@@ -117,7 +117,7 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
             for (var i in move_strings) {
                 //execute db command
                 db.adminCommand({moveChunk:collection,
-                                 find:{"metaData.tenantId":tenantId, "_id":move_strings[i]},
+                                 find:{"_id":move_strings[i]},
                                  to:shard_list[i]
                                 });
             }
@@ -125,14 +125,14 @@ function preSplit_docId(shard_list, database_name, tenantId, num_years){
         //explicitly add end point at beginning of range
         var split_string = this_year + " ";
         db.adminCommand({split:collection,
-            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+            middle:{"_id":split_string}
            });
 
         //explicitly add an end split at 'last_year + "|"'
         this_year = this_year + num_years - 1;
         var split_string = this_year + "|";
         db.adminCommand({split:collection,
-            middle:{"metaData.tenantId":tenantId, "_id":split_string}
+            middle:{"_id":split_string}
            });
 
 
@@ -153,7 +153,7 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
         //enable sharding on the collection
 //        print("Sharding collecion:" + collection);
         db.runCommand({shardcollection:collection,
-                       key:{"metaData.tenantId":1, "_id":1} });
+                       key:{"_id":1} });
 
         //calculate splits and add to the moves array
         var move_strings = [];
@@ -169,14 +169,14 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
 
             //execute db command
             db.adminCommand({split:collection,
-                             middle:{"metaData.tenantId":tenantId, "_id":split_string}
+                             middle:{"_id":split_string}
                             });
         }
         //explicitly move chunks to each shard
         for (var i in move_strings) {
             //execute db command
             db.adminCommand({moveChunk:collection,
-                             find:{"metaData.tenantId":tenantId, "_id":move_strings[i]},
+                             find:{"_id":move_strings[i]},
                              to:shard_list[i]
                             });
         }
@@ -184,14 +184,14 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
         //explicitly add end point at beginning of range
         var start_split_string = "  ";
         db.adminCommand({split:collection,
-            middle:{"metaData.tenantId":tenantId, "_id":start_split_string}
+            middle:{"_id":start_split_string}
            });
 
         //explicitly add an end split at 'year + 1 + "a"'
         //since 'year + "z"' potentially cuts off some records
         var end_split_string = "||";
         db.adminCommand({split:collection,
-            middle:{"metaData.tenantId":tenantId, "_id":end_split_string}
+            middle:{"_id":end_split_string}
            });
 
     }
