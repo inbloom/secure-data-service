@@ -20,10 +20,10 @@ jQuery ->
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
+    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
 
     # Disable the save button until they've added a role and right
     newRow.find(".rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
@@ -247,7 +247,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find("td:eq(0)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
@@ -261,7 +261,7 @@ populateTable = (data) ->
       newRow.find("td:eq(1)").append(createLabel('right', right))
       newRow.find("td:eq(1)").append(" ")
 
-    newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
+    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
     wireEditButtons(newRow)
 
 wireEditButtons = (tr) ->
