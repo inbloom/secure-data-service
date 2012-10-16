@@ -796,6 +796,9 @@ public class BasicService implements EntityService {
 
                 // List<String> intersection = computeIntersectionOfEdOrgs(whitelist,
                 // principal.getEntity(), toType);
+
+                info("principal: {} --> metaData.edOrgs: {}", new Object[]{principal.getEntity().getEntityId(), finalSet});
+
                 securityCriteria
                     .setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in",
                         new ArrayList<String>(finalSet), false));
