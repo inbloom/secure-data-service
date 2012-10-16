@@ -69,3 +69,6 @@ elastic_search_address: http://local.slidev.org:9200
 elastic_search_inbox: "../opstools/search-indexer/data/inbox"
 elastic_search_host: localhost
 elastic_search_remote_command_port: 10024 
+
+activemq_host: localhost
+activemq_port: 61613
