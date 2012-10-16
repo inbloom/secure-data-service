@@ -97,7 +97,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
-      | courseOffering                         | courseOfferings                          | 10    |"/schools/@ids/courseOfferings"|
+      | courseOffering                         | courseOfferings                          | 11    |"/schools/@ids/courseOfferings"|
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     |"/staff/@ids/staffCohortAssociations"|
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     |"/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations"|
       | staffProgramAssociation                | staffProgramAssociations                 | 0     |"/staff/@ids/staffProgramAssociations"|
