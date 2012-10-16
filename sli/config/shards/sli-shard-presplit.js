@@ -15,7 +15,7 @@
 //
 
 // These collections use the old style doc Ids to split on.
-var collections_hashId = [
+var sharded_collections = [
     "assessment",
     "attendance",
     "calendarDate",
@@ -59,9 +59,6 @@ var collections_hashId = [
     "teacherSectionAssociation"
 ];
 
-// These collections use the new deterministic (hash) id
-var collections_docId = [""];
-
 function discoverShards() {
     var shards = [];
     var available_shards = db.runCommand( { listShards : 1 } );
@@ -73,82 +70,16 @@ function discoverShards() {
     return shards;
 }
 
-function preSplit_docId(shard_list, database_name, tenantId, num_years){
+function preSplit_hashId(shard_list, tenant){
     //make sure the database is sharded
-//    print("Enabling sharding on database:" + database_name);
-    db.runCommand( { enablesharding : database_name } );
-
-    var a_code = "a".charCodeAt(0);
-    var char_offset = Math.floor(26 / shard_list.length);
-
-    for (var col_num in collections_docId) {
-        //calculate strings
-        var collection = database_name + "." + collections_docId[col_num];
-        var this_year = new Date().getFullYear();
-
-        //enable sharding on the collection
-//        print("Sharding collecion:" + collection);
-        db.runCommand({shardcollection:collection,
-                       key:{"_id":1} });
-
-        for (var year_num = this_year; year_num < this_year+num_years; year_num++) {
-
-            var move_strings = [];
-            year = year_num;
-            //calculate splits and add to the moves array
-            move_strings.push(year + "a");
-            for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
-                if (shard_num == shard_list.length) {
-                    var split_letter = "|";
-                    var split_string = year + split_letter;
-                } else {
-                    var split_letter = String.fromCharCode(a_code + (char_offset * shard_num));
-                    var split_string = year + split_letter;
-                }
-                move_strings.push(split_string);
-
-                //execute db command
-                db.adminCommand({split:collection,
-                                 middle:{"_id":split_string}
-                                });
-            }
-
-            //explicitly move chunks to each shard
-            for (var i in move_strings) {
-                //execute db command
-                db.adminCommand({moveChunk:collection,
-                                 find:{"_id":move_strings[i]},
-                                 to:shard_list[i]
-                                });
-            }
-        }
-        //explicitly add end point at beginning of range
-        var split_string = this_year + " ";
-        db.adminCommand({split:collection,
-            middle:{"_id":split_string}
-           });
-
-        //explicitly add an end split at 'last_year + "|"'
-        this_year = this_year + num_years - 1;
-        var split_string = this_year + "|";
-        db.adminCommand({split:collection,
-            middle:{"_id":split_string}
-           });
-
-
-    }
-}
-
-function preSplit_hashId(shard_list, database_name, tenantId, num_years){
-    //make sure the database is sharded
-//    print("Enabling sharding on database:" + database_name);
-    db.runCommand( { enablesharding : database_name } );
+//    print("Enabling sharding on database:" + tenant);
+    db.runCommand( { enablesharding : tenant } );
 
     var char_offset = Math.floor(256 / shard_list.length);
 
-    for (var col_num in collections_hashId) {
+    for (var col_num in sharded_collections) {
         //calculate strings
-        var collection = database_name + "." + collections_hashId[col_num];
+        var collection = tenant + "." + sharded_collections[col_num];
 
         //enable sharding on the collection
 //        print("Sharding collecion:" + collection);
@@ -197,10 +128,6 @@ function preSplit_hashId(shard_list, database_name, tenantId, num_years){
     }
 }
 
-// tenant and num_years are passed in when the script is called
-// num_years will become obsolete when all of the entities
-// are switched to deterministic ids, at which point it
-// should be permanently set to '1'
-// preSplit_docId(discoverShards(), database, tenant, num_years);
-preSplit_hashId(discoverShards(), database, tenant, num_years);
+// tenant is passed in when the script is called
+preSplit_hashId(discoverShards(), tenant);
 sh.setBalancerState(false);
