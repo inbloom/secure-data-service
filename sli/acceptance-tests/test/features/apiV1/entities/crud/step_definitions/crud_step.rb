@@ -314,8 +314,11 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
      "competencyLevel" => [{
        "description" => "really hard competency"
      }],
+     "objectiveId" => {
+       "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+     },
      "diagnosticStatement" => "passed with flying colors",
-    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+     "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
