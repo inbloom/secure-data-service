@@ -183,7 +183,6 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 
 //profiled - ingestion
 db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
-db["section"].ensureIndex({"studentSectionAssociation._id":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
 
 
