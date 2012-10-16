@@ -91,7 +91,7 @@ Then I should see following map of entry counts in the corresponding collections
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
         | graduationPlan              | 4     |
-        | learningObjective           | 197   |
+        | learningObjective           | 198   |
         | learningStandard            | 1499  |
         | parent                      | 9     |
         | program                     | 2     |
@@ -172,7 +172,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4260 records." in the resulting batch job file
+    And I should see "Processed 4261 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -255,8 +255,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 98" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 98" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
 
 @smoke
@@ -421,9 +421,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
