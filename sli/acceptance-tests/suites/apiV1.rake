@@ -348,9 +348,9 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxData"].execute
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
   runTests("test/features/security")
 end
@@ -358,10 +358,10 @@ end
 desc "Run Security MegaTest"
 #task :apiMegaTests => [:realmInit, :importSecuredData] do
 task :apiMegaTests => [:realmInit] do
-    DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security"
+    DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
     Rake::Task["importSecuredData"].execute
     runTests("test/features/apiV1/entities/student_security")
-    DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+    DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 ############################################################
 # Security tests end
