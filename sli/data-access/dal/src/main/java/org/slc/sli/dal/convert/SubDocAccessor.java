@@ -161,10 +161,6 @@ public class SubDocAccessor {
             this.subField = subField;
         }
 
-        private String getParentEntityId(String entityId) {
-            return entityId.substring(0, 43);
-        }
-
         private DBObject getParentQuery(Map<String, Object> body) {
             Query parentQuery = new Query();
             for (Entry<String, String> entry : lookup.entrySet()) {
@@ -469,26 +465,6 @@ public class SubDocAccessor {
             }
             }
             return entities;
-        }
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> read(String id, Criteria additionalCriteria) {
-            Query query = Query.query(Criteria.where("_id").is(getParentEntityId(id)));
-            query.fields().include(getField(id));
-            if (additionalCriteria != null) {
-                query.addCriteria(additionalCriteria);
-            }
-            TenantContext.setIsSystemCall(false);
-
-            Map<?, ?> result = template.findOne(query, Map.class, collection);
-            if (result == null) {
-                return null;
-            }
-            return (Map<String, Object>) ((Map<String, Object>) result.get(subField)).get(id);
-        }
-
-        private String getField(String id) {
-            return subField + "." + id;
         }
 
         /*
