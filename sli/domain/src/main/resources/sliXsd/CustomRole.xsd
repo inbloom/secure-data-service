@@ -27,6 +27,7 @@
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="roles" type="role" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="isAdminRole" type="xs:boolean" minOccurs="1" maxOccurs="1" />
                 <xs:element name="customRights" type="xs:string" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>
