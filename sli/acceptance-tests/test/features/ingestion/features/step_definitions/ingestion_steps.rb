@@ -396,12 +396,13 @@ Given /^I am using the tenant "([^"]*)"$/ do |tenantId|
 end
 
 def initializeTenantDatabase(lz_key)
-  @ingestion_db_name = lz_key
 
-  # split tenant from edOrg on hyphen
-  if @ingestion_db_name.index('-') != nil
-    @ingestion_db_name = @ingestion_db_name[0, @ingestion_db_name.index('-')]
+  # split tenant from edOrg on hyphen, if necessary
+  if lz_key.index('-') != nil
+    lz_key = lz_key[0, lz_key.index('-')]
   end
+
+  @ingestion_db_name = convertTenantIdToDbName(lz_key)
 end 
 
 def initializeLandingZone(lz)
