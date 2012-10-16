@@ -52,7 +52,7 @@ db["application"].ensureIndex({"body.admin_visible":1});
 db["application"].ensureIndex({"body.allowed_for_all_edorgs":1});
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["application"].ensureIndex({"body.authorized_for_all_edorgs":1});
-db["application"].ensureIndex({"body.client_secret":1,"body.client_id":1});
+db["application"].ensureIndex({"body.client_id":1,"body.client_secret":1});
 db["application"].ensureIndex({"body.name":1});
 
 db["applicationAuthorization"].ensureIndex({"body.appIds":1});

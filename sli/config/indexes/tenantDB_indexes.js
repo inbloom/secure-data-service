@@ -182,8 +182,17 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 
 
 //profiled - ingestion
+db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
 db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId":1});
+db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
+
+db["assessment"].ensureIndex({"metaData.tenantId":1});
+db["educationOrganization"].ensureIndex({"metaData.tenantId":1});
+db["learningObjective"].ensureIndex({"metaData.tenantId":1});
+db["learningStandard"].ensureIndex({"metaData.tenantId":1});
+db["student"].ensureIndex({"metaData.tenantId":1});
 
 
 //oprhan detection - this should be removed when done in API
