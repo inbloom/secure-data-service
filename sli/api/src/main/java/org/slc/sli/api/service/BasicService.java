@@ -785,10 +785,14 @@ public class BasicService implements EntityService {
             // organizations ('whitelist') and the parents of directly associated education
             // organizations of the user
             List<String> whitelist = edOrgNodeFilter.getWhitelist();
-            Set<String> finalSet = new HashSet<String>();
-            for (String id : whitelist) {
-                finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
+            Set<String> finalSet = new HashSet<String>(whitelist);
+            if (toType.equals(EntityNames.PROGRAM) || toType.equals(EntityNames.COHORT)
+                    || toType.equals(EntityNames.SESSION) || toType.equals(EntityNames.COURSE)) {
+                for (String id : whitelist) {
+                    finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
+                }
             }
+
             if (!whitelist.isEmpty()) {
                 //List<String> intersection = computeIntersectionOfEdOrgs(whitelist, principal.getEntity(), toType);
                 //info("principal: {} --> metaData.edOrgs: {}", new Object[]{principal.getEntity().getEntityId(), intersection});
