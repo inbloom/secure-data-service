@@ -223,7 +223,7 @@ class AppsController < ApplicationController
       temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
       @results.push temp
     end
-    logger.debug {"We found #{@results.count} LEAs"}
+    logger.debug {"We found #{local.http_response.to_json} LEAs"}
     @results.sort! {|x, y| x["name"] <=> y["name"]}
     render :partial => "lea_list", :locals => {:results => @results}
   end

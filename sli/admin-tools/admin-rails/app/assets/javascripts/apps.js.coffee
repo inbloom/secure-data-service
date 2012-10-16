@@ -16,17 +16,17 @@ jQuery ->
         #Populate the LI classes with enabled stuff
         edorgs = getEdorgs()
         jQuery.each(edorgs, (index, item) ->
-            $("#lea-menu ul").find("li##{item}").addClass("enabled")
+            $("#lea-menu ul").find("li##{item} input").prop('checked',true)
         )
 
 jQuery ->
-    $("#lea-menu ul li").live 'click', ->
-        id = $(@).attr('id')
-        console.log id
+    $("#lea-menu ul li input").live 'change', ->
+        id = $(@).parent().attr('id')
+        console.log $(@)
 
-        $(@).toggleClass 'enabled'
+        $(@).prop('checked', !$(@).checked) 
         edorgs = getEdorgs()
-        if $(@).hasClass 'enabled'
+        if $(@).checked 
             edorgs.push id
         else
             #Remove the element from the array
@@ -34,14 +34,13 @@ jQuery ->
             if index != -1
                 edorgs.splice(index, 1)
         $("input#app_authorized_ed_orgs").attr("value", JSON.stringify(edorgs))
-        false
 jQuery ->
     $("div.enable-disable a#enable-all").click ->
         alert "Enable"
-        $("#lea-menu ul li:not(.enabled)").trigger("click")
+        $("#lea-menu ul li input:not(:checked)").trigger("change")
     $("div.enable-disable a#disable-all").click ->
         alert "Disable"
-        $("#lea-menu ul li.enabled").trigger("click")
+        $("#lea-menu ul li input:checked").trigger("change")
     false
 
 jQuery ->
