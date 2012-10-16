@@ -90,6 +90,7 @@
   <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>
   <%= select_tag(:state_select, options_for_select(state_array)) %>
 
+<div class="enable-disable"><a id="enable-all" href="#">Enable All</a> | <a id="disable-all" href="#">Disable All</a></div>
 </div>
 <div id="lea-menu">
   <p>Please select a state first...</p>
