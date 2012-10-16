@@ -372,11 +372,11 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
@@ -416,7 +416,7 @@ public class BasicService implements EntityService {
 
         String clientId = getClientId();
 
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                 getEntityDefinition().getType(), id, clientId });
 
         NeutralQuery query = new NeutralQuery();
@@ -781,13 +781,13 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (type != null) {
+        if (principal.getEntity().getType().equals(EntityNames.TEACHER) && type != null) {
             // Rather than using a blacklist, compute the intersection of authorized app's education
             // organizations ('whitelist') and the parents of directly associated education
             // organizations of the user
             List<String> whitelist = edOrgNodeFilter.getWhitelist();
             if (!whitelist.isEmpty()) {
-                List<String> intersection = computeIntersectionOfEdOrgs(whitelist, principal.getEntity());
+                List<String> intersection = computeIntersectionOfEdOrgs(whitelist, principal.getEntity(), toType);
                 securityCriteria
                         .setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in", intersection, false));
             }
@@ -797,6 +797,7 @@ public class BasicService implements EntityService {
         }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
+            securityCriteria.setBlacklistCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
@@ -813,10 +814,12 @@ public class BasicService implements EntityService {
      *            List of Education Organizations authorized to use application.
      * @param user
      *            Mongo Entity representing user making API call.
+     * @param toType
+     *            Type of entity being queried for.
      * @return List of Education Organizations directly associated to user that data can be accessed
      *         for.
      */
-    private List<String> computeIntersectionOfEdOrgs(List<String> whitelist, Entity user) {
+    private List<String> computeIntersectionOfEdOrgs(List<String> whitelist, Entity user, String toType) {
         List<String> intersection = new LinkedList<String>();
         List<String> directEdOrgs = edOrgHelper.getDirectEdOrgAssociations(user);
         Map<String, Set<String>> parents = edOrgNodeFilter.fetchParents(new HashSet<String>(directEdOrgs));
@@ -827,6 +830,11 @@ public class BasicService implements EntityService {
                     for (String directEdOrgParent : directEdOrgParents) {
                         if (whitelist.contains(directEdOrgParent)) {
                             intersection.add(directEdOrg);
+                            if (toType.equals(EntityNames.PROGRAM)
+                                    || toType.equals(EntityNames.COHORT)
+                                    || toType.equals(EntityNames.SESSION)) {
+                                intersection.addAll(directEdOrgParents);
+                            }
                             break;
                         }
                     }
@@ -1026,10 +1034,21 @@ public class BasicService implements EntityService {
         metadata.put("createdBy", createdBy);
         metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
-        // add the edorgs for staff
-        createEdOrgMetaDataForStaff(principal, metadata);
+        if (isStaff(principal)) {
+            createEdOrgMetaDataForStaff(principal, metadata);
+        } else if (isTeacher(principal)) {
+            createEdOrgMetaDataForTeacher(principal, metadata);
+        }
 
         return metadata;
+    }
+
+    private boolean isStaff(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.STAFF);
+    }
+
+    private boolean isTeacher(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.TEACHER);
     }
 
     /**
@@ -1047,6 +1066,25 @@ public class BasicService implements EntityService {
         if (!edOrgIds.isEmpty()) {
             debug("Updating metadData with edOrg ids");
             metaData.put("edOrgs", edOrgIds);
+        }
+    }
+
+    /**
+     * Update the metaData for an entity created by a teacher by adding the current list of edOrgs
+     * on the teacher to the created entity.
+     *
+     * @param principal
+     *            SLI Principal (contains mongo entity).
+     * @param metaData
+     *            HashMap representing metaData of entity to be updated.
+     */
+    private void createEdOrgMetaDataForTeacher(SLIPrincipal principal, Map<String, Object> metaData) {
+        Entity entity = principal.getEntity();
+        if (entity.getMetaData().containsKey("edOrgs")) {
+            @SuppressWarnings("unchecked")
+            List<String> lineage = (List<String>) entity.getMetaData().get("edOrgs");
+            debug("Updating metadData with edOrg ids");
+            metaData.put("edOrgs", lineage);
         }
     }
 
