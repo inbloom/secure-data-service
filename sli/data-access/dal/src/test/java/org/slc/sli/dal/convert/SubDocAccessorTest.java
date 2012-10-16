@@ -259,19 +259,6 @@ public class SubDocAccessorTest {
     }
 
     @Test
-    public void testRead() {
-        String ssaId = SECTION1 + STUDENT1;
-        // assertTrue(underTest.subDoc("studentSectionAssociation").exists(ssaId));
-        assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-        assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-
-        // test the negative case when a student does not exist
-        ssaId = SECTION1 + "non-existing-student";
-        // assertTrue(!underTest.subDoc("studentSectionAssociation").exists(ssaId));
-        assertEquals(null, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-    }
-
-    @Test
     public void testMakeSubDocQuery() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant"));
