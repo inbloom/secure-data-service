@@ -212,4 +212,31 @@ public class DidSchemaParserTest {
         Assert.assertEquals(true, refSourceB.isOptional());
         Assert.assertEquals("body.OptionalSchoolRefB", refSourceB.getSourceRefPath());
     }
+
+    @Test
+    public void shouldExtractEntityConfigsWithOptionalKeyFields() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/OptionalKeyField-Extension.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
+
+        Assert.assertEquals("Should extract 1 ref config", 1, refConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
+
+        //test the entityConfig for StudentSectionAssociation
+        DidRefConfig edOrgConfig = refConfigs.get(EDORG_TYPE);
+        Assert.assertNotNull(edOrgConfig);
+        Assert.assertNotNull(edOrgConfig.getKeyFields());
+
+        List<KeyFieldDef> keyFields = edOrgConfig.getKeyFields();
+        Assert.assertEquals("entity config should contain 1 keyfield", 1, keyFields.size());
+
+        Assert.assertNotNull(keyFields.get(0));
+        KeyFieldDef keyField = keyFields.get(0);
+        Assert.assertEquals("stateOrganizationId", keyField.getKeyFieldName());
+        Assert.assertTrue(keyField.isOptional());
+    }
 }

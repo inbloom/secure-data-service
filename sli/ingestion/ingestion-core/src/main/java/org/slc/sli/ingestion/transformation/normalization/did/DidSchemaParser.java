@@ -495,6 +495,10 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
                     QName elementType = element.getSchemaTypeName();
 
+                    if (element.getMinOccurs() == 0) {
+                        keyfield.setOptional(true);
+                    }
+
                     // check whether we have a nested Ref and create
                     if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
