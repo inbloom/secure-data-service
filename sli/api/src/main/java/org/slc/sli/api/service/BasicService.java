@@ -781,7 +781,7 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (principal.getEntity().getType().equals(EntityNames.TEACHER) && type != null) {
+        if (type != null) {
             // Rather than using a blacklist, compute the intersection of authorized app's education
             // organizations ('whitelist') and the parents of directly associated education
             // organizations of the user
