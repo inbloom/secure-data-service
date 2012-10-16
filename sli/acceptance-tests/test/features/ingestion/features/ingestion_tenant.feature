@@ -19,13 +19,13 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | student                     | 1                   | metaData.tenantId           | TENANT           | string               |
+     | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file
   And I should see "tenant.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "tenant.xml records failed: 0" in the resulting batch job file
-  
+
 #This invalid case should not affect other tenants
 #This test will not run on Windows, because "?" is not an valid character in Windows path
 @not-windows
@@ -42,11 +42,8 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 0     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue          | searchType           |
-     | student                     | 0                   | metaData.tenantId           | Midgar               | string               |
   And I should not see an error log file created
-  
+
 Scenario: Add a landing zone to an existing tenant
 Given I add a new landing zone for "Midgar-Newtowne.te_#&5st@wgen.net"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Newtowne.te_#&5st@wgen.net"
@@ -62,7 +59,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | student                     | 1                   | metaData.tenantId           | Midgar           | string               |
+     | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file

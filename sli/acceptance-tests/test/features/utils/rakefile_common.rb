@@ -31,14 +31,20 @@ def cleanUpLdapUser(user_email)
 end
 
 def allLeaAllowApp(appName)
+  allLeaAllowAppForTenant(appName, 'Midgar')
+  allLeaAllowAppForTenant(appName, 'Hyrule')
+end
+
+def allLeaAllowAppForTenant(appName, tenantName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
   appId = appColl.find_one({"body.name" => appName})["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
+  dbTenant = conn[tenantName]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  edOrgColl = dbTenant.collection("educationOrganization")
 
   neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
   neededEdOrgs.each do |edOrg|

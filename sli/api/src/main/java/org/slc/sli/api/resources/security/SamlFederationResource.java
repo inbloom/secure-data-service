@@ -314,7 +314,6 @@ public class SamlFederationResource {
         }
 
         NeutralQuery idQuery = new NeutralQuery();
-        idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
         idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
         Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
         if (edOrg != null) {
