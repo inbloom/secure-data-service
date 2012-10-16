@@ -294,7 +294,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     private void runDbSpinUpScripts(String tenantId) {
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         MongoCommander.exec(getDatabaseName(jsEscapedTenantId), INDEX_SCRIPT, " ");
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "var num_years=1, tenant=\"" + jsEscapedTenantId + "\", database=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + jsEscapedTenantId + "\";");
     }
 
     private String getDatabaseName(String tenantId) {
