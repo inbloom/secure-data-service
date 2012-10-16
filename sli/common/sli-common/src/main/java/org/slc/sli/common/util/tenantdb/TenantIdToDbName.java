@@ -16,29 +16,29 @@
 
 package org.slc.sli.common.util.tenantdb;
 
-/**
-*
-* Convert tenant ID to tenant DB name.
-*
-* @author tshewchuk
-*/
-public class TenantIdToDbName {
+import org.apache.commons.codec.digest.DigestUtils;
 
+/**
+ *
+ * Convert tenant ID to tenant DB name.
+ *
+ * @author tshewchuk
+ */
+public class TenantIdToDbName {
 
     /**
      * Convert tenant ID to tenant DB name.
      *
      * @param tenantId
      *            Tenant ID from client/user.
-     * return String
+     *            return String
      *            Mongo DB name for tenant.
      */
     public static String convertTenantIdToDbName(String tenantId) {
-    	if (tenantId != null) {
-    		return tenantId.replaceAll("[^A-Za-z0-9]", "_");
-    	} else {
-    		return tenantId;
-    	}
+        if (tenantId != null) {
+            return DigestUtils.shaHex(tenantId);
+        } else {
+            return tenantId;
+        }
     }
-
 }
