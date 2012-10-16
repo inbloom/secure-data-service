@@ -122,7 +122,7 @@ Then /^I put back app authorizations/ do
 end
 
 def appAuthColl
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('DB_NAME')
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end

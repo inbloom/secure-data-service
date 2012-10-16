@@ -27,7 +27,7 @@ require_relative '../../utils/selenium_common.rb'
 # ENVIRONMENT CONFIGURATION - for security event testing
 ############################################################
 
-INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+INGESTION_DB_NAME = 'Midgar'
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 
 ############################################################
@@ -120,6 +120,24 @@ Given /^the following collections are empty in datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^the following collections are empty in sli datastore:$/ do |table|
+  @slidb   = @conn['sli']
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @slidb[row["collectionName"]]
+    @entity_collection.remove
+
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+
+    if @entity_collection.count.to_s != "0"
+      @result = "false"
+    end
+  end
+  assert(@result == "true", "Some collections were not cleared successfully.")
+end
+
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
 
@@ -127,6 +145,24 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.count().to_i
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records didn't load successfully.")
+end
+
+Then /^I should see following map of entry counts in the corresponding sli collections:$/ do |table|
+  @slidb   = @conn['sli']
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @slidb.collection(row["collectionName"])
     @entity_count = @entity_collection.count().to_i
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
 

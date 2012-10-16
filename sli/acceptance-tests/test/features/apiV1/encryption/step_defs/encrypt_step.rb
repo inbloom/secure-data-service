@@ -29,7 +29,7 @@ require_relative '../../utils/api_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 API_DB = PropLoader.getProps['DB_HOST']
-API_DB_NAME = PropLoader.getProps['api_database_name']
+API_DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar";#PropLoader.getProps['api_database_name']
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM

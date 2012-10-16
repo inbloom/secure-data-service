@@ -83,25 +83,17 @@
   </xs:complexType>
 
   <!-- Change StudentAssessmentItem.StudentAssessmentReference to StudentAssessmentReferenceType -->
-  <xs:complexType name="SLC-StudentAssessmentItemRestriction">
+  <xs:complexType name="SLC-StudentAssessmentItem">
     <xs:complexContent>
-      <xs:restriction base="StudentAssessmentItem">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="AssessmentResponse" type="AssessmentResponse" minOccurs="0" />
           <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0" />
           <xs:element name="AssessmentItemResult" type="AssessmentItemResultType" />
           <xs:element name="RawScoreResult" type="xs:int" minOccurs="0" />
           <xs:element name="StudentObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" />
-          <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SLC-StudentAssessmentItemExtension">
-    <xs:complexContent>
-      <xs:extension base="SLC-StudentAssessmentItemRestriction">
-        <xs:sequence>
           <xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0" />
+          <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -122,9 +114,9 @@
   </xs:complexType>
 
   <!-- Change StudentAcademicRecord.ReportCardReference to ReportCardReferenceType -->
-  <xs:complexType name="SLC-StudentAcademicRecordRestriction">
+  <xs:complexType name="SLC-StudentAcademicRecord">
     <xs:complexContent>
-      <xs:restriction base="StudentAcademicRecord">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="CumulativeCreditsEarned" type="Credits" minOccurs="0" />
           <xs:element name="CumulativeCreditsAttempted" type="Credits" minOccurs="0" />
@@ -141,16 +133,8 @@
           <xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0" />
           <xs:element name="StudentReference" type="StudentReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" />
-          <xs:element name="DiplomaReference" type="ReferenceType" minOccurs="0" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SLC-StudentAcademicRecordExtension">
-    <xs:complexContent>
-      <xs:extension base="SLC-StudentAcademicRecordRestriction">
-        <xs:sequence>
           <xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="DiplomaReference" type="ReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -288,9 +272,9 @@ Other</xs:documentation>
   </xs:complexType>
 
   <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType, Change SectionReference to SLC type -->
-  <xs:complexType name="SLC-AssessmentRestriction">
+  <xs:complexType name="SLC-Assessment">
     <xs:complexContent>
-      <xs:restriction base="Assessment">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="AssessmentTitle" type="AssessmentTitle" />
           <xs:element name="AssessmentIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded" />
@@ -307,16 +291,8 @@ Other</xs:documentation>
           <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
           <xs:element name="AssessmentPeriod" type="AssessmentPeriodDescriptorType" minOccurs="0" />
           <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SLC-AssessmentExtension">
-    <xs:complexContent>
-      <xs:extension base="SLC-AssessmentRestriction">
-        <xs:sequence>
           <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0" />
           <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:extension>
@@ -567,7 +543,7 @@ Other</xs:documentation>
 				<xs:annotation>
 					<xs:documentation>The education agency.</xs:documentation>
 					<xs:appinfo>
-            <sli:keyFieldName>schoolId</sli:keyFieldName>
+                        <sli:keyFieldName>schoolId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

@@ -93,7 +93,7 @@ Then /^I put back the application authorizations in sunset$/ do
 end
 
 def coll
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('Midgar')
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end

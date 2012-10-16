@@ -78,3 +78,13 @@ Feature: Reset and Change Password
     And I fill out the field "Forgot_password_Confirmation" as "sunsetadmin1234"
     Then I click on "submitForgotPasswordButton"
     Then I check for message  "Your password has been successfully modified."
+
+ Scenario: I can navigate to reset password page after failed login attempts
+    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+    When I hit the Admin URL
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "Iforgotmyusername" "Iforgotmypassword" for the "Simple" login page
+    Then I check for message  "Invalid User Name or password"
+    Then I click the "forgotPassword" link
+    Then I am redirected to the Forgot Password page
+

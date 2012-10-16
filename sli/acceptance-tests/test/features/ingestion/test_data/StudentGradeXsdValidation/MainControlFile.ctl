@@ -3,4 +3,4 @@ edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,52dc65a8a6ab
 edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,50cc1db778f7be5bf13a6c8b6bc6dd45
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,660a62ae37f7f9027ffff22f6199fa2f
 edfi-xml,StudentGrades,InterchangeStudentGrade.xml,c42eb46bd99ffae4fa15458310c3ea1c
-
+edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,34e4c9962a399a046e6a0dffb7fac2c7

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static org.slc.sli.validation.ValidationTestUtils.makeDummyEntity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -94,6 +95,11 @@ public class StudentSectionAssociationTest {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
                 return null;
             }
 
