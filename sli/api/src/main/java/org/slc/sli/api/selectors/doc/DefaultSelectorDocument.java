@@ -158,7 +158,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return (previousType.getName().equalsIgnoreCase(EmbeddedDocumentRelations.getParentEntityType(StringUtils.lowercaseFirstLetter(currentType.getName()))));
     }
 
-    private List<EntityBody> getEmbeddedEntities(List<EntityBody> previousEntities, Type currentType) {
+    protected List<EntityBody> getEmbeddedEntities(List<EntityBody> previousEntities, Type currentType) {
         List<EntityBody> embeddedBodyList = new ArrayList<EntityBody>();
         String currType = StringUtils.lowercaseFirstLetter(currentType.getName());
         for (EntityBody body: previousEntities) {

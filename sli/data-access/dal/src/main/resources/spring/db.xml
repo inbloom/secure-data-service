@@ -21,7 +21,7 @@
 
    <!-- MONGODB CONFIG -->
    <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
-      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true" slave-ok="false"/>
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="600000" socket-keep-alive="true" slave-ok="false"/>
    </mongo:mongo>
 
   <bean id="sliMongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
@@ -43,7 +43,7 @@
   <!-- DB TO LOG API PERF CONFIG -->
   <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
     <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true"
-      socket-timeout="60000" socket-keep-alive="true"  slave-ok="false"/>
+      socket-timeout="600000" socket-keep-alive="true"  slave-ok="false"/>
   </mongo:mongo>
 
   <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />

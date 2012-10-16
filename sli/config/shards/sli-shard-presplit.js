@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-// These collections use the old style doc Ids to split on.
+// The canonical list of sharded entity collections in tenant databases.
 var sharded_collections = [
     "assessment",
     "attendance",
