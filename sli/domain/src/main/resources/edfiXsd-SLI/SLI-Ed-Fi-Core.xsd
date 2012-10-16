@@ -152,7 +152,7 @@ Met standard
 							<xs:documentation>The assessment item responded to by the student.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType" minOccurs="0">
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0">
 					<!-- TODO: this is out of order; must fix data set, then put it back in order -->
 						<xs:annotation>
 							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
@@ -176,7 +176,7 @@ Met standard
         <xs:sequence>
           <xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
           <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType" />
+          <xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" />
           <xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType"/>
         </xs:sequence>
       </xs:extension>
@@ -674,44 +674,6 @@ Other</xs:documentation>
             <xs:appinfo>
               <sli:keyFieldName>assessmentId</sli:keyFieldName>
             </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="TEMPORARY-StudentAssessmentReferenceType">
-    <xs:annotation>
-      <xs:documentation/>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="ReferenceType">
-        <xs:sequence>
-          <xs:element name="StudentAssessmentIdentity" type="TEMPORARY-StudentAssessmentIdentityType" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation/>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="TEMPORARY-StudentAssessmentIdentityType">
-    <xs:annotation>
-      <xs:documentation/>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="AdministrationDate" type="xs:date">
-        <xs:annotation>
-          <xs:documentation/>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="StudentReference" type="StudentReferenceType">
-        <xs:annotation>
-          <xs:documentation/>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="AssessmentReference" type="AssessmentReferenceType">
-        <xs:annotation>
-          <xs:documentation/>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -2044,7 +2006,8 @@ Withdrawn
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAssessmentReference" type="TEMPORARY-StudentAssessmentReferenceType">
+			<xs:element name="StudentAssessmentReference" type="ReferenceType">
+			<!-- TODO: replace with SLC-StudentAssessmentReferenceType -->
 				<xs:annotation>
 					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
 				</xs:annotation>
@@ -2077,7 +2040,8 @@ Withdrawn
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
+			<xs:element name="StudentAssessmentReference" type="ReferenceType">
+			<!-- TODO: replace with SLC-StudentAssessmentReferenceType -->
 				<xs:annotation>
 					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
 				</xs:annotation>
@@ -2121,6 +2085,125 @@ Withdrawn
 					<xs:documentation>The identification code of the objective assessment.</xs:documentation>
 					<xs:appinfo>
 						<sli:keyFieldName>identificationCode</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEMPORARY-AssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="AssessmentIdentity" type="TEMPORARY-AssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TEMPORARY-AssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AssessmentTitle" type="AssessmentTitle">
+				<xs:annotation>
+					<xs:documentation>The title or name of the assessment.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The typical grade level for which an assessment is designed. If the assessment spans a range of grades, then this attribute holds the highest grade assessed. If only one grade level is assessed then only this attribute is used. For example:
+Adult
+Prekindergarten
+First grade
+Second grade
+...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Version" type="Version" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The version identifier for the assessment.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		    <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>objectiveAssessment</sli:refType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation/>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentIdentityType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AssessmentTitle" type="AssessmentTitle">
+				<xs:annotation>
+					<xs:documentation>The title or name of the assessment.
+</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>assessmentTitle</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.
+</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>academicSubject</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The typical grade level for which an assessment is designed. If the assessment spans a range of grades, then this attribute holds the highest grade assessed. If only one grade level is assessed then only this attribute is used. For example:
+Adult
+Prekindergarten
+First grade
+Second grade
+...</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>gradeLevelAssessed</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Version" type="Version" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The version identifier for the assessment.
+</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>version</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
