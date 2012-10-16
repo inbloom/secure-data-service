@@ -161,7 +161,7 @@ public class DeterministicIdResolver {
                 }
             }
             setProperty(entity, sourceRefPath, uuidList);
-        } else if(referenceObject instanceof Map){
+        } else if (referenceObject instanceof Map) {
             // handle a single reference object
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;

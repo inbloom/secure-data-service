@@ -546,9 +546,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         } else {
             XmlSchemaAnnotation annotation = refSchema.getAnnotation();
-            if (annotation == null) {
-                LOG.debug("Annotation missing from refSchema: " + refSchema.getName());
-            } else {
+            if (annotation != null) {
                 refSource = parseAnnotationForRef(annotation);
                 refSourceCache.put(schemaName, refSource);
             }

@@ -52,11 +52,11 @@ public class DidSchemaParserTest {
         Assert.assertNotNull(schoolRefConfig.getKeyFields());
         Assert.assertEquals("nested schoolId ref should contain 1 key field", 1, schoolRefConfig.getKeyFields().size());
 
-        KeyFieldDef school_stateOrgId = schoolRefConfig.getKeyFields().get(0);
-        Assert.assertNotNull(school_stateOrgId);
-        Assert.assertEquals(SCHOOL_KEYFIELD, school_stateOrgId.getKeyFieldName());
-        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", school_stateOrgId.getValueSource());
-        Assert.assertNull("school stateOrgId should not contain a nested reference", school_stateOrgId.getRefConfig());
+        KeyFieldDef schoolStateOrgId = schoolRefConfig.getKeyFields().get(0);
+        Assert.assertNotNull(schoolStateOrgId);
+        Assert.assertEquals(SCHOOL_KEYFIELD, schoolStateOrgId.getKeyFieldName());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", schoolStateOrgId.getValueSource());
+        Assert.assertNull("school stateOrgId should not contain a nested reference", schoolStateOrgId.getRefConfig());
     }
 
     @Test
@@ -116,11 +116,11 @@ public class DidSchemaParserTest {
         Assert.assertTrue(entityConfigs.containsKey(GRADEBOOKENTRY_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get(GRADEBOOKENTRY_TYPE);
-        Assert.assertNotNull(GBEConfig);
-        Assert.assertNotNull(GBEConfig.getReferenceSources());
+        DidEntityConfig gbeConfig = entityConfigs.get(GRADEBOOKENTRY_TYPE);
+        Assert.assertNotNull(gbeConfig);
+        Assert.assertNotNull(gbeConfig.getReferenceSources());
 
-        List<DidRefSource> refSources = GBEConfig.getReferenceSources();
+        List<DidRefSource> refSources = gbeConfig.getReferenceSources();
         Assert.assertEquals("entity config should contain a single DidRefSource (section)", 1, refSources.size());
         DidRefSource refSource = refSources.get(0);
         Assert.assertNotNull(refSource);
@@ -142,11 +142,11 @@ public class DidSchemaParserTest {
         Assert.assertTrue(entityConfigs.containsKey(OPTIONAL_REF_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
-        Assert.assertNotNull(GBEConfig);
-        Assert.assertNotNull(GBEConfig.getReferenceSources());
+        DidEntityConfig gbeConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
+        Assert.assertNotNull(gbeConfig);
+        Assert.assertNotNull(gbeConfig.getReferenceSources());
 
-        List<DidRefSource> refSources = GBEConfig.getReferenceSources();
+        List<DidRefSource> refSources = gbeConfig.getReferenceSources();
         Assert.assertEquals("entity config should contain a single DidRefSource (edOrg)", 1, refSources.size());
         DidRefSource refSource = refSources.get(0);
         Assert.assertNotNull(refSource);
@@ -169,11 +169,11 @@ public class DidSchemaParserTest {
         Assert.assertTrue(entityConfigs.containsKey(OPTIONAL_REF_TYPE));
 
         //test the entityConfig for StudentSectionAssociation
-        DidEntityConfig GBEConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
-        Assert.assertNotNull(GBEConfig);
-        Assert.assertNotNull(GBEConfig.getReferenceSources());
+        DidEntityConfig gbeConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
+        Assert.assertNotNull(gbeConfig);
+        Assert.assertNotNull(gbeConfig.getReferenceSources());
 
-        List<DidRefSource> refSources = GBEConfig.getReferenceSources();
+        List<DidRefSource> refSources = gbeConfig.getReferenceSources();
         Assert.assertEquals("entity config should contain 2 DidRefSource (edOrg)", 2, refSources.size());
 
         //put the refSources into a map since order doesn't matter
