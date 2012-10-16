@@ -30,6 +30,15 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -54,14 +63,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -786,22 +787,13 @@ public class BasicService implements EntityService {
             // organizations of the user
             List<String> whitelist = edOrgNodeFilter.getWhitelist();
             Set<String> finalSet = new HashSet<String>(whitelist);
-            if (toType.equals(EntityNames.PROGRAM) || toType.equals(EntityNames.COHORT)
-                    || toType.equals(EntityNames.SESSION) || toType.equals(EntityNames.COURSE)) {
+            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
                 for (String id : whitelist) {
                     finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
                 }
             }
 
             if (!whitelist.isEmpty()) {
-                //List<String> intersection = computeIntersectionOfEdOrgs(whitelist, principal.getEntity(), toType);
-                //info("principal: {} --> metaData.edOrgs: {}", new Object[]{principal.getEntity().getEntityId(), intersection});
-
-                // List<String> intersection = computeIntersectionOfEdOrgs(whitelist,
-                // principal.getEntity(), toType);
-
-                info("principal: {} --> metaData.edOrgs: {}", new Object[]{principal.getEntity().getEntityId(), finalSet});
-
                 securityCriteria
                     .setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in",
                         new ArrayList<String>(finalSet), false));
@@ -819,49 +811,6 @@ public class BasicService implements EntityService {
         }
 
         return securityCriteria;
-    }
-
-    /**
-     * Computes the intersection of education organizations authorized to use the application
-     * (whitelist) with the education organizations directly associated to the user.
-     *
-     * @param whitelist
-     *            List of Education Organizations authorized to use application.
-     * @param user
-     *            Mongo Entity representing user making API call.
-     * @param toType
-     *            Type of entity being queried for.
-     * @return List of Education Organizations directly associated to user that data can be accessed
-     *         for.
-     */
-    private List<String> computeIntersectionOfEdOrgs(List<String> whitelist, Entity user, String toType) {
-        List<String> intersection = new LinkedList<String>();
-        List<String> directEdOrgs = edOrgHelper.getDirectEdOrgAssociations(user);
-
-        info("principal: {} --> direct ed orgs: {}", new Object[]{user.getEntityId(), directEdOrgs});
-        info("whitelist: {}", whitelist);
-
-        Map<String, Set<String>> parents = edOrgNodeFilter.fetchParents(new HashSet<String>(directEdOrgs));
-        if (directEdOrgs != null && !directEdOrgs.isEmpty()) {
-            for (String directEdOrg : directEdOrgs) {
-                if (parents.containsKey(directEdOrg)) {
-                    Set<String> directEdOrgParents = parents.get(directEdOrg);
-                    for (String directEdOrgParent : directEdOrgParents) {
-                        if (whitelist.contains(directEdOrgParent)) {
-                            intersection.add(directEdOrg);
-                            if (toType.equals(EntityNames.PROGRAM)
-                                    || toType.equals(EntityNames.COHORT)
-                                    || toType.equals(EntityNames.SESSION)
-                                    || toType.equals(EntityNames.COURSE)) {
-                                intersection.addAll(directEdOrgParents);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return intersection;
     }
 
     private boolean isPublic() {
