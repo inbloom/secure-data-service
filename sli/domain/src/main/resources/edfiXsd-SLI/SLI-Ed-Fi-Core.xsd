@@ -91,8 +91,8 @@
           <xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0" />
           <xs:element name="AssessmentItemResult" type="AssessmentItemResultType" />
           <xs:element name="RawScoreResult" type="xs:int" minOccurs="0" />
-          <xs:element name="StudentObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" />
           <xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0" />
+          <xs:element name="StudentObjectiveAssessmentReference" type="ReferenceType" minOccurs="0" />
           <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" />
         </xs:sequence>
       </xs:extension>
