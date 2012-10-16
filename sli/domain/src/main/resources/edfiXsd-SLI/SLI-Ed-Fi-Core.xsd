@@ -1353,13 +1353,9 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="SLC-StudentAcademicRecordReferenceType">
+    <xs:complexType name="TEMPORARY-StudentAcademicRecordReferenceType">
         <xs:annotation>
             <xs:documentation/>
-            <!-- <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>studentAcademicRecord</sli:refType>
-            </xs:appinfo> -->
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ReferenceType">
@@ -1373,7 +1369,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
       <xs:complexType name="TEMPORARY-StudentAcademicRecordIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
@@ -1395,7 +1390,26 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
+    <xs:complexType name="SLC-StudentAcademicRecordReferenceType">
+        <xs:annotation>
+            <xs:documentation/>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>studentAcademicRecord</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType">
+                <xs:sequence>
+                    <xs:element name="StudentAcademicRecordIdentity" type="SLC-StudentAcademicRecordIdentityType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation/>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
       <xs:complexType name="SLC-StudentAcademicRecordIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
@@ -1649,7 +1663,7 @@ Withdrawn
 							<xs:documentation>The Education Organization that provided the reported instruction.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType">
+					<xs:element name="StudentAcademicRecordReference" type="TEMPORARY-StudentAcademicRecordReferenceType">
 						<xs:annotation>
 							<xs:documentation>Link to the Student's academic record for a semester/school year.</xs:documentation>
 						</xs:annotation>
