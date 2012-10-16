@@ -135,6 +135,10 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
 }
 
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
+
 def assert(bool, message = 'assertion failure')
   raise message unless bool
 end
@@ -505,9 +509,6 @@ def findLink(id, type, rel, href)
   return found
 end
 
-def convertTenantIdToDbName(tenantId)
-  return Digest::SHA1.hexdigest tenantId
-end
 
 ########################################################################
 ########################################################################
@@ -642,12 +643,6 @@ module EntityProvider
 
 end
 
-module TenantConverter
-    def convertTenantIdToDbName(tenantId)
-      return Digest::SHA1.hexdigest tenantId
-    end
-end
-
 ######################
 ######################
 ### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
@@ -667,6 +662,3 @@ def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
 
-def convertTenantIdToDbName(tenantId)
-      return Digest::SHA1.hexdigest tenantId
-end
