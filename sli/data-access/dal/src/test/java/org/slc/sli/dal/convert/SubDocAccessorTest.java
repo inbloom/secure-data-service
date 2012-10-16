@@ -19,6 +19,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
@@ -26,26 +40,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.NoNaturalKeysDefinedException;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-
 /**
  * Test for sub doc accessor
- *
+ * 
  * @author nbrown
- *
+ * 
  */
 public class SubDocAccessorTest {
 
@@ -356,5 +355,13 @@ public class SubDocAccessorTest {
         count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
         assertEquals(0L, count);
     }
-
+    
+    @Test
+    public void testExists() {
+        boolean exists = underTest.subDoc("studentSectionAssociation").exists("parent_idchild");
+        assertTrue(exists);
+        boolean nonExists = underTest.subDoc("studentSectionAssociation").exists("nonExistId");
+        assertFalse(nonExists);
+        
+    }
 }
