@@ -431,7 +431,7 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            public Map<String, List<Entity>> getEmbeddedData() {
                 return null;
             }
 
@@ -513,7 +513,7 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            public Map<String, List<Entity>> getEmbeddedData() {
                 return null;
             }
 
