@@ -272,5 +272,5 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
 
   Scenario: Sad path - Selector embeds too many documents
     Given selector "(students:(*, sections:(*, students:(*))), teachers:(*, sections:(*, students:(*))), studentSchoolAssociations:(*), teacherSchoolAssociations:(*))"
-    When I navigate to GET "/v1/schools"
+    When I navigate to GET "/v1/schools/8cc0a1ac-ccb5-dffc-1d74-32964722179b,92d6d5a0-852c-45f4-907a-912752831772,a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb,ec2e4218-6483-4e9c-8954-0aecccfd4731"
     Then I should receive a return code of 413

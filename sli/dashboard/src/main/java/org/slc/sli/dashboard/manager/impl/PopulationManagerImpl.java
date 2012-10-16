@@ -1384,6 +1384,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         }
 
         GenericEntity firstWrapper = attendanceList.get(0);
+        String schoolId = (String) firstWrapper.get("schoolId");
         List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
             return ge;
@@ -1416,7 +1417,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         try {
             // get begin/end dates for the current school year
-            currentYearDates = getCurrentYearDates(token);
+            currentYearDates = getCurrentYearDates(token, schoolId);
 
             // filter out 'In Attendance' events, remove whitespace
             for (Map attEvent : attList) {
@@ -1447,11 +1448,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      * @throws Exception
      */
-    private List<String> getCurrentYearDates(String token) throws Exception {
+    private List<String> getCurrentYearDates(String token, String schoolId) throws Exception {
 
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<GenericEntity> sessions = getApiClient().getSessions(token, null);
+        List<GenericEntity> sessions = getApiClient().getSessions(token, schoolId, null);
 
         // sort sessions latest to earliest
         Comparator<Map> c = new Comparator<Map>() {
@@ -1524,5 +1525,5 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 	@Override
 	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
 		return entityManager.getStateEdorgProfile(token, (String) edorgId);
-	}	
+	}
 }
