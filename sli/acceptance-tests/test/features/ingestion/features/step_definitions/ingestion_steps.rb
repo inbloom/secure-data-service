@@ -26,6 +26,7 @@ require 'net/http'
 require 'rest-client'
 
 require 'json'
+require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
@@ -54,7 +55,7 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 ############################################################
 
 Before do
-  @ingestion_db_name = 'Midgar'
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
@@ -116,6 +117,10 @@ Before do
   end
 
   initializeTenants()
+end
+
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
 end
 
 def ensureBatchJobIndexes(db_connection)
