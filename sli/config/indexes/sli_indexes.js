@@ -70,7 +70,7 @@ db["securityEvent"].ensureIndex({"metaData.tenantId":1,"body.targetEdOrg":1,"bod
 
 db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1,"body.landingZone.preload.status":1});
 db["tenant"].ensureIndex({"body.landingZone.path":1});
-db["tenant"].ensureIndex({"body.tenantId":1});
+db["tenant"].ensureIndex({"body.tenantId":1},{unique:true});
 db["tenant"].ensureIndex({"type":1});
 
 db["userSession"].ensureIndex({"body.appSession.code.value":1});
