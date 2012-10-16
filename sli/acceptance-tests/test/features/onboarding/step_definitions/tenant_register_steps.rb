@@ -132,7 +132,8 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => UNIQUE_TENANT_ID_1
+      "tenantId" => UNIQUE_TENANT_ID_1,
+      "dbName" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPut(arg1, data)
