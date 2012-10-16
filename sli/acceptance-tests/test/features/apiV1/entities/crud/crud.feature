@@ -273,7 +273,7 @@ Examples:
 | "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
-| "studentAcademicRecord" | "studentAcademicRecords"  | 1     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
+| "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                

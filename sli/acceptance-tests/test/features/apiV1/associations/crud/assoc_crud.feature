@@ -106,8 +106,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
       | studentParentAssociation               | studentParentAssociations                | 2     |"/sections/@ids/studentSectionAssociations/students/studentParentAssociations"|
       | studentProgramAssociation              | studentProgramAssociations               | 0     |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
-      | student                                | students                                 | 29    |"/sections/@ids/studentSectionAssociations/students"|
-      | studentSchoolAssociation               | studentSchoolAssociations                | 58    |"/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations"|
+      | student                                | students                                 | 31    |"/sections/@ids/studentSectionAssociations/students"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 67    |"/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations"|
       | studentSectionAssociation              | studentSectionAssociations               | 31    |"/sections/@ids/studentSectionAssociations"|
       | studentTranscriptAssociation           | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
       | teacher                                | teachers                                 | 1     |"/schools/@ids/teacherSchoolAssociations/teachers"|
