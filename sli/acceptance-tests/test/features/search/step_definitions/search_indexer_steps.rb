@@ -200,6 +200,10 @@ Given /^I see the following fields:$/ do |table|
   end
 end
 
+Given /^I wait for "(.*?)" seconds$/ do |time|
+  sleep(Integer(time))
+end
+
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
