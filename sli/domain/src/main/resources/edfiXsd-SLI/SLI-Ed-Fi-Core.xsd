@@ -452,7 +452,7 @@ Other</xs:documentation>
       <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="GradebookEntryType" type="xs:string" minOccurs="0">
+      <xs:element name="GradebookEntryType" type="xs:string">
         <xs:annotation>
           <xs:documentation/>
             <xs:appinfo>
@@ -460,7 +460,7 @@ Other</xs:documentation>
             </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="DateAssigned" type="xs:date" minOccurs="0">
+      <xs:element name="DateAssigned" type="xs:date">
         <xs:annotation>
           <xs:documentation/>
             <xs:appinfo>
@@ -468,7 +468,7 @@ Other</xs:documentation>
             </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0">
+      <xs:element name="SectionReference" type="SLC-SectionReferenceType">
         <xs:annotation>
           <xs:documentation/>
             <xs:appinfo>
@@ -533,17 +533,17 @@ Other</xs:documentation>
       <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="AdministrationDate" type="xs:date" minOccurs="0">
+      <xs:element name="AdministrationDate" type="xs:date">
         <xs:annotation>
           <xs:documentation/>
         </xs:annotation>
       </xs:element>
-      <xs:element name="StudentReference" type="StudentReferenceType" minOccurs="0">
+      <xs:element name="StudentReference" type="StudentReferenceType">
         <xs:annotation>
           <xs:documentation/>
         </xs:annotation>
       </xs:element>
-      <xs:element name="AssessmentReference" type="AssessmentReferenceType" minOccurs="0">
+      <xs:element name="AssessmentReference" type="AssessmentReferenceType">
         <xs:annotation>
           <xs:documentation/>
         </xs:annotation>
@@ -582,7 +582,7 @@ Other</xs:documentation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of sections at a school. </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
+			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:documentation>The education agency.</xs:documentation>
 					<xs:appinfo>
@@ -608,7 +608,7 @@ Other</xs:documentation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="SectionIdentity" type="TEMPORARY-SectionIdentityType" minOccurs="0">
+					<xs:element name="SectionIdentity" type="TEMPORARY-SectionIdentityType">
 						<xs:annotation>
 							<xs:documentation>Provide user information to lookup and link to an existing section record in the receiving system.  Two cases are supported:
 1. SchoolOrganizationID + UniqueSectionCode
@@ -629,6 +629,7 @@ Other</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+
 				<xs:annotation>
 					<xs:documentation>The education agency.</xs:documentation>
 				</xs:annotation>
@@ -866,10 +867,10 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	<xs:complexType name="SLC-StudentSectionAssociationReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
-            <xs:appinfo>
+            <!-- <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>blah
                 <sli:refType>studentSectionAssociation</sli:refType>
-            </xs:appinfo>
+            </xs:appinfo> -->
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -893,7 +894,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 					<xs:documentation>The attributes that can be used to specify the student.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionIdentity" type="SLC-SectionIdentityType">
+			<xs:element name="SectionIdentity" type="TEMPORARY-SectionIdentityType">
 				<xs:annotation>
 					<xs:documentation>The attributes used to specifiy a section</xs:documentation>
 				</xs:annotation>
@@ -1236,7 +1237,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
-                    <xs:element name="StudentAcademicRecordIdentity" type="SLC-StudentAcademicRecordIdentityType" minOccurs="0">
+                    <xs:element name="StudentAcademicRecordIdentity" type="TEMPORARY-StudentAcademicRecordIdentityType" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation/>
                         </xs:annotation>
@@ -1246,7 +1247,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
         </xs:complexContent>
     </xs:complexType>
     
-      <xs:complexType name="SLC-StudentAcademicRecordIdentityType">
+      <xs:complexType name="TEMPORARY-StudentAcademicRecordIdentityType">
         <xs:annotation>
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
         </xs:annotation>
@@ -1256,9 +1257,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     <xs:documentation>
                     	Identifies the student that is associated wth the Student Academic Record.
                     </xs:documentation>
-                    <!-- <xs:appinfo>
-                        <sli:keyFieldName>studentId</sli:keyFieldName>
-                    </xs:appinfo> -->
                 </xs:annotation>
             </xs:element>
             <xs:element name="SessionReference" type="TEMPORARY-SessionReferenceType">
@@ -1266,9 +1264,34 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     <xs:documentation>
                     	The session associated with the session.
                     </xs:documentation>
-                    <!-- <xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+      <xs:complexType name="SLC-StudentAcademicRecordIdentityType">
+        <xs:annotation>
+            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="StudentReference" type="SLC-StudentReferenceType">
+                <xs:annotation>
+                    <xs:documentation>
+                    	Identifies the student that is associated wth the Student Academic Record.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>studentId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SessionReference" type="SLC-SessionReferenceType">
+                <xs:annotation>
+                    <xs:documentation>
+                    	The session associated with the session.
+                    </xs:documentation>
+                    <xs:appinfo>
                         <sli:keyFieldName>sessionId</sli:keyFieldName>
-                    </xs:appinfo> -->
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -1296,7 +1319,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of students.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-			<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier" minOccurs="0">
+			<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to a student by a state education agency.</xs:documentation>
 				</xs:annotation>
@@ -1330,7 +1353,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of students.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-			<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier" minOccurs="0">
+			<xs:element name="StudentUniqueStateId" type="UniqueStateIdentifier">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to a student by a state education agency.</xs:documentation>
                     <xs:appinfo>
@@ -1363,7 +1386,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:documentation/>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="EducationalOrgReference" type="TEMPORARY-EducationalOrgReferenceType">
+            <xs:element name="EducationalOrgReference" type="TEMPORARY-EducationalOrgReferenceType" minOccurs="0">
                 <xs:annotation>
                 	<xs:documentation/>
                 </xs:annotation>
@@ -1402,7 +1425,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:documentation/>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
                 <xs:annotation>
                 	<xs:documentation/>
                     <xs:appinfo>
