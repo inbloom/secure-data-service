@@ -286,7 +286,6 @@
                                <targetPath>../classes</targetPath>
                                <filtering>true</filtering>
                                <includes>
-                                   <include>**/sli_shards.js</include>
                                    <include>**/sli-shard-presplit.js</include>
                                </includes>
                            </resource>
