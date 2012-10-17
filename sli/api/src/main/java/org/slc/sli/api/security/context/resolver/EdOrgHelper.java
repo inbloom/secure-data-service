@@ -157,6 +157,11 @@ public class EdOrgHelper {
 		return ids;
 	}
 
+	/**
+	 * Walks the edorg hierarchy to get all schools
+	 * @param principal
+	 * @return
+	 */
 	public List<String> getUserSchools(Entity principal) {
 		List<String> schools = new ArrayList<String>();
 
@@ -177,6 +182,25 @@ public class EdOrgHelper {
 				else {
 					ids.add(e.getEntityId());
 				}
+			}
+		}
+		
+		return schools;
+	}
+	
+	/**
+	 * Finds schools directly associated to this user
+	 * @param principal
+	 * @return
+	 */
+	public List<String> getDirectSchools(Entity principal) {
+		List<String> ids = getDirectEdOrgAssociations(principal);
+		Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria("_id", "in",ids,false)));
+		
+		List<String> schools = new ArrayList<String>();
+		for(Entity e:edorgs) {
+			if(isSchool(e)) {
+				schools.add(e.getEntityId());
 			}
 		}
 		

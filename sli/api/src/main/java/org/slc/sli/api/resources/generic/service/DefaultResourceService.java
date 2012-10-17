@@ -15,7 +15,22 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -35,20 +50,7 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 import org.slc.sli.modeling.uml.ClassType;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Default implementation of the resource service.
@@ -326,10 +328,13 @@ public class DefaultResourceService implements ResourceService {
             apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
 
             for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
+                @SuppressWarnings("unchecked")
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
-                for (EntityBody associationEntity : associations) {
-                    filteredIdList.add((String) associationEntity.get(resourceKey));
+                if (associations != null) {
+                    for (EntityBody associationEntity : associations) {
+                        filteredIdList.add((String) associationEntity.get(resourceKey));
+                    }
                 }
             }
         } else {

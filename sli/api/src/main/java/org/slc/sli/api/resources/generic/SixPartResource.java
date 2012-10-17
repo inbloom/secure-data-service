@@ -51,6 +51,7 @@ public class SixPartResource extends GenericResource {
         List<String> segments = extractSegments(uriInfo.getPathSegments(), Arrays.asList(0, 4, 5, 6));
         segments.add(2, ids);
         String newUri = String.format("/rest/%s/%s/%s/%s/%s", segments.toArray());
+		info("Executing: "+newUri);
         Response res = four.get(new ChangedUriInfo(newUri, uriInfo.getBaseUriBuilder()), ids);
         return res;
     }

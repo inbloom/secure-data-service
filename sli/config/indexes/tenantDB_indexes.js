@@ -111,8 +111,8 @@ db["student"].ensureIndex({"studentAssessmentAssociation.assessmentId":1});
 db["student"].ensureIndex({"studentAssessmentAssociation.studentId":1});  // do we need this?
 db["studentCohortAssociation"].ensureIndex({"body.cohortId":1});
 db["studentCohortAssociation"].ensureIndex({"body.studentId":1});
-db["studentCompetency"].ensureIndex({"body.learningObjectiveId":1});
-db["studentCompetency"].ensureIndex({"body.studentCompetencyObjectiveId":1});
+db["studentCompetency"].ensureIndex({"body.objectiveId.learningObjectiveId":1});
+db["studentCompetency"].ensureIndex({"body.objectiveId.studentCompetencyObjectiveId":1});
 db["studentCompetency"].ensureIndex({"body.studentSectionAssociationId":1});
 db["studentCompetencyObjective"].ensureIndex({"body.educationOrganizationId":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"body.disciplineIncidentId":1});
