@@ -220,7 +220,8 @@ getJsonData = () ->
     rights = []
     $(@).find("td:eq(1) .customLabel").each ->
       rights.push($(@).text())
-    data.push({"groupTitle": groupName, "names": roles, "rights": rights})
+    isAdminRole = $(@).find(".isAdmin").prop("checked")
+    data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
   console.log(data)
   return data
 
