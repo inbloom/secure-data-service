@@ -830,7 +830,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   end
 
   # set instance var to this value (used for future db connections)
-  @ingestion_db_name = tenant
+  @ingestion_db_name = convertTenantIdToDbName(tenant)
   puts "setting ingestion_db_name to #{@ingestion_db_name}"
 
   # index the new tenant db
