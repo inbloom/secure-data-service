@@ -2,6 +2,7 @@ package org.slc.sli.search.util;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 
+@SuppressWarnings("unchecked")
 public class MockRestTemplate implements RestOperations {
     
     private List<HttpEntity<?>> callsCollector = new ArrayList<HttpEntity<?>>();
@@ -173,22 +175,23 @@ public class MockRestTemplate implements RestOperations {
         return null;
     }
     
+   
     public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
             Class<T> responseType, Object... uriVariables) throws RestClientException {
         callsCollector.add(requestEntity);
-        return (ResponseEntity<T>) mockResponse;
+        return (ResponseEntity<T>) ((url.contains("_mget")) ? (ResponseEntity<T>) getMockResponse(requestEntity) : mockResponse);
     }
     
     public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
             Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException {
         callsCollector.add(requestEntity);
-        return (ResponseEntity<T>) mockResponse;
+        return (ResponseEntity<T>) ((url.contains("_mget")) ? (ResponseEntity<T>) getMockResponse(requestEntity) : mockResponse);
     }
     
     public <T> ResponseEntity<T> exchange(URI url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType)
             throws RestClientException {
         callsCollector.add(requestEntity);
-        return (ResponseEntity<T>) mockResponse;
+        return (ResponseEntity<T>) ((url.getPath().contains("_mget")) ? (ResponseEntity<T>) getMockResponse(requestEntity) : mockResponse);
     }
     
     public <T> T execute(String url, HttpMethod method, RequestCallback requestCallback,
@@ -207,6 +210,23 @@ public class MockRestTemplate implements RestOperations {
             ResponseExtractor<T> responseExtractor) throws RestClientException {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    private ResponseEntity<String> getMockResponse(HttpEntity<?> requestEntity) {
+        String body = (String)requestEntity.getBody();
+        Map<String, Object> entity = IndexEntityUtil.getEntity(body);
+        
+        List<Map<String, Object>> array = new ArrayList<Map<String, Object>>();
+        Map<String, Object> tmp = new HashMap<String, Object>();
+        for (Map<String, Object> entry : (List<Map<String, Object>>)entity.get("docs")) {
+            tmp.putAll(entry);
+            tmp.put("exists", true);
+            tmp.put("_source", new HashMap<String, Object>());
+            array.add(tmp);
+        }
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("docs", array);
+        return new ResponseEntity<String>(IndexEntityUtil.getBodyForIndex(response), HttpStatus.OK);
     }
     
 }

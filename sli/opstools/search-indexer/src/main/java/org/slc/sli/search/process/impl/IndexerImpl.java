@@ -44,7 +44,7 @@ public class IndexerImpl implements Indexer {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private static final int DEFAULT_BULK_SIZE = 5000;
+    private static final int DEFAULT_BULK_SIZE = 3000;
     private static final int MAX_AGGREGATE_PERIOD = 500;
     
     private static final int INDEX_WORKER_POOL_SIZE = 4;

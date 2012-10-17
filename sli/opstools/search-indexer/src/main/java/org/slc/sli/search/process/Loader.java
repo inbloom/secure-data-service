@@ -2,6 +2,8 @@ package org.slc.sli.search.process;
 
 import java.io.File;
 
+import org.slc.sli.search.entity.IndexEntity.Action;
+
 /**
  * Loads records from a file for indexing
  * @author agrebneva
@@ -10,5 +12,7 @@ import java.io.File;
 public interface Loader {
     
     public abstract void processFile(File inFile);
+    
+    public abstract void processFile(Action action, File inFile);
     
 }

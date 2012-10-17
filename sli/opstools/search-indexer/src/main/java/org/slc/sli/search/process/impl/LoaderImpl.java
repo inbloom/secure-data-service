@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
 import org.slc.sli.search.transform.IndexEntityConverter;
@@ -67,10 +68,12 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      */
     private class LoaderWorker implements Runnable {
 
-        File inFile;
+        private final File inFile;
+        private final Action action;
 
-        LoaderWorker(File inFile) {
+        LoaderWorker(Action action, File inFile) {
             this.inFile = inFile;
+            this.action = action;
         }
 
         public void run() {
@@ -81,10 +84,14 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             try {
                 br = new BufferedReader(new FileReader(inFile));
                 while ((entity = br.readLine()) != null) {
-                    indexer.index(indexEntityConverter.fromEntityJson(entity));
+                    try {
+                        indexer.index(indexEntityConverter.fromEntityJson(action, entity));
+                    } catch (Throwable e) {
+                        logger.error("Error reading record:" + entity, e); 
+                    }
                 }
                 success = true;
-            } catch (Throwable e) {
+            } catch (IOException e) {
                 logger.error("Error loading from file", e);
             } finally {
                 IOUtils.closeQuietly(br);
@@ -101,7 +108,13 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * @param inFile
      */
     public void archive(File inFile) {
-        inFile.delete();
+        if (!inFile.delete()) {
+            logger.error("Unable to delete processed file: " + inFile.getAbsolutePath());
+        }
+    }
+    
+    public void processFile(File inFile) {
+        processFile(Action.INDEX, inFile);
     }
 
     /*
@@ -109,7 +122,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * 
      * @see org.slc.sli.search.process.Loader#processFile(java.io.File)
      */
-    public void processFile(File inFile) {
+    public void processFile(Action action, File inFile) {
 
         logger.info("Processing file: " + inFile.getName());
         // protect from incomplete files
@@ -129,7 +142,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 IOUtils.closeQuietly(fis);
             }
         }
-        executor.execute(new LoaderWorker(inFile));
+        executor.execute(new LoaderWorker(action, inFile));
     }
 
     public void onDirectoryChange(File inFile) {

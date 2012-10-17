@@ -3,10 +3,6 @@ package org.slc.sli.search.util;
 public class SearchIndexerException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
-    public SearchIndexerException() {
-        super();
-    }
-    
     public SearchIndexerException(String message){
         super(message);
     }

@@ -27,8 +27,8 @@ public class IncrementalListenerTest {
     private String opLogUpdate;
     private String opLogDelete;
     
-    private IncrementalListenerImpl listener = new IncrementalListenerImpl();
-    private IndexEntityConverter indexEntityConverter = new IndexEntityConverter();;
+    private final IncrementalListenerImpl listener = new IncrementalListenerImpl();
+    private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();;
     
     @Before
     public void init() throws Exception {
@@ -81,7 +81,7 @@ public class IncrementalListenerTest {
         IndexEntity entity = listener.convertToEntity(opLogUpdate);
         
         // check result
-        Assert.assertEquals(entity.getActionValue(), "get_index");
+        Assert.assertEquals(entity.getActionValue(), "index");
         Assert.assertEquals(entity.getId(), "067198fd6da91e1aa8d67e28e850f224d6851713_id");
         Assert.assertEquals(entity.getType(), "student");
         Assert.assertEquals(entity.getIndex(), "midgar");

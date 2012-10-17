@@ -5,23 +5,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.process.Loader;
 import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +53,8 @@ public class ExtractorImpl implements Extractor {
     private MongoTemplate mongoTemplate;
 
     private IndexConfigStore indexConfigStore;
+    
+    private Loader loader;
 
     private String extractDir = Constants.DEFAULT_TMP_DIR;
 
@@ -77,12 +78,16 @@ public class ExtractorImpl implements Extractor {
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
-            executor.execute(new Runnable() {public void run() {execute();}});
+            executor.execute(new Runnable() {public void run() {execute(Action.INDEX);}});
         }
     }
 
     public void createExtractDir() {
         new File(extractDir).mkdirs();
+    }
+    
+    public void execute() {
+        execute(Action.UPDATE);
     }
 
     /*
@@ -90,7 +95,7 @@ public class ExtractorImpl implements Extractor {
      * 
      * @see org.slc.sli.search.process.Extractor#execute()
      */
-    public void execute() {
+    public void execute(Action action) {
         // TODO: implement isRunning flag to make sure only one extract is running at a time
         IndexConfig config;
         Collection<String> collections = indexConfigStore.getCollections();
@@ -102,7 +107,7 @@ public class ExtractorImpl implements Extractor {
             if (config.isChildDoc()) {
                 continue;
             }
-            call = executor.submit(new ExtractWorker(config));
+            call = executor.submit(new ExtractWorker(config, action));
             futures.add(call);
             if (config.hasDependents()) {
                 for (String dependent : config.getDependents()) {
@@ -110,14 +115,17 @@ public class ExtractorImpl implements Extractor {
                 }
             }
         }
-        
         //wait job to be finished.
         for (Future<List<File>> future : futures) {
-            try {
-                future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
-            } catch (Exception e) {
-                logger.error("Error while waiting extractor job to be finished", e);
-            }
+            processFuture(future);
+        }
+    }
+    
+    protected void processFuture(Future<List<File>> future) {
+        try {
+            future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error("Error while waiting extractor job to be finished", e);
         }
     }
 
@@ -139,8 +147,12 @@ public class ExtractorImpl implements Extractor {
         DBCollection collection = mongoTemplate.getCollection(collectionName);
         return collection.find(new BasicDBObject(), keys);
     }
+    
+    public List<File> extractCollection(IndexConfig config, Action action) {
+        return extractCollection(config, action, 0);
+    }
 
-    public List<File> extractCollection(IndexConfig config, int retryCount) {
+    private List<File> extractCollection(IndexConfig config, Action action, int retryCount) {
 
         logger.info("Extracting " + config);
         String collectionName = config.getCollectionName();
@@ -150,6 +162,7 @@ public class ExtractorImpl implements Extractor {
         File outFile = null;
         DBCursor cursor = null;
         List<File> producedFiles = new ArrayList<File>();
+        int fileCount = 0;
         try {
             cursor = getDBCursor(collectionName, config.getFields());
             // write each record to file
@@ -157,11 +170,11 @@ public class ExtractorImpl implements Extractor {
                 if (numberOfLineWritten % maxLinePerFile == 0) {
                     numberOfLineWritten = 0;
                     IOUtils.closeQuietly(bw);
-                    // move file to inbox for indexer
-                    finishProcessing(outFile, producedFiles);
+                    finishProcessing(outFile, action, producedFiles);
+                    fileCount ++;
 
                     // open file to write
-                    outFile = createTempFile(collectionName);
+                    outFile = createTempFile(collectionName, fileCount);
                     bw = new BufferedWriter(new FileWriter(outFile));
                     logger.info("File [" + outFile.getName() + "] was created");
                 }
@@ -172,7 +185,7 @@ public class ExtractorImpl implements Extractor {
             }
             IOUtils.closeQuietly(bw);
 
-            finishProcessing(outFile, producedFiles);
+            finishProcessing(outFile, action, producedFiles);
             logger.info("Finished extracting " + collectionName);
         } catch (FileNotFoundException e) {
             logger.error("Error writing entities file", e);
@@ -181,7 +194,7 @@ public class ExtractorImpl implements Extractor {
             if (retryCount <= 1) {
                 logger.error("Retrying extract for " + collectionName);
                 ThreadUtil.sleep(1000);
-                extractCollection(config, ++retryCount);
+                extractCollection(config, action, ++retryCount);
             }
         } finally {
 
@@ -194,13 +207,11 @@ public class ExtractorImpl implements Extractor {
         return producedFiles;
     }
 
-    private void finishProcessing(File outFile, List<File> producedFiles) throws IOException {
+    protected void finishProcessing(File outFile, Action action, List<File> producedFiles) {
         // finish up
-        // move file to inbox for indexer
         if (outFile != null) {
-            File movedFile = new File(inboxDir, outFile.getName());
-            FileUtils.moveFile(outFile, movedFile);
-            producedFiles.add(movedFile);
+            loader.processFile(action, outFile);
+            producedFiles.add(outFile);
         }
     }
 
@@ -215,8 +226,8 @@ public class ExtractorImpl implements Extractor {
         return collection.find(new BasicDBObject(), keys);
     }
 
-    private File createTempFile(String collectionName) {
-        return new File(extractDir, collectionName + "." + UUID.randomUUID() + ".json");
+    private File createTempFile(String collectionName, int increment) {
+        return new File(extractDir, collectionName + "_" + increment + ".json");
     }
 
     public void setIndexConfigStore(IndexConfigStore config) {
@@ -250,6 +261,10 @@ public class ExtractorImpl implements Extractor {
     public void setJobWaitTimeoutInMins(int jobWaitTimeoutInMins) {
         this.jobWaitTimeoutInMins = jobWaitTimeoutInMins;
     }
+    
+    public void setLoader(Loader loader) {
+        this.loader = loader;
+    }
 
     /**
      * Runnable Thread class to write into file read from Mongo.
@@ -260,13 +275,15 @@ public class ExtractorImpl implements Extractor {
     private class ExtractWorker implements Callable<List<File>> {
 
         final IndexConfig config;
+        final Action action;
 
-        public ExtractWorker(IndexConfig config) {
+        public ExtractWorker(IndexConfig config, Action action) {
             this.config = config;
+            this.action = action;
         }
 
         public List<File> call() throws Exception {
-            return extractCollection(config, 0);
+            return extractCollection(config, action, 0);
         }
     }
 
@@ -280,7 +297,7 @@ public class ExtractorImpl implements Extractor {
         private final Future<List<File>> parentJob;
 
         public DependentExtractWorker(IndexConfig config, Future<List<File>> parentJob) {
-            super(config);
+            super(config, Action.UPDATE);
             this.parentJob = parentJob;
         }
 

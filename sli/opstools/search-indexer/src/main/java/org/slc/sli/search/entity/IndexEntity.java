@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class IndexEntity {
     public enum Action {
-        UPDATE("get_index"),
+        UPDATE("index"), // update will be get-reindex, so action remains as index
         QUICK_UPDATE("update"),
         INDEX("index"),
         DELETE("delete");
@@ -33,10 +33,6 @@ public class IndexEntity {
         this.id = id;
         this.body = body;
         this.parentId = parentId;
-    }
-    
-    public IndexEntity(String index, String type, String id, String parentId, Map<String, Object> body) {
-        this(Action.INDEX, index, type, id, parentId, body);
     }
     
     public IndexEntity(String index, String type, String id, Map<String, Object> body) {
@@ -78,14 +74,6 @@ public class IndexEntity {
     @Override
     public String toString() {
         return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + ", body:" + body + ", parent: " + parentId + "}";
-    }
-
-    public boolean isUpdate() {
-        return action == Action.UPDATE;
-    }
-    
-    public IndexEntity cloneWithBody(Map<String, Object> body) {
-        return new IndexEntity(index, type, id, body);
     }
 
     @Override

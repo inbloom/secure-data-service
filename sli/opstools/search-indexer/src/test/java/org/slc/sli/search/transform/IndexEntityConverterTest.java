@@ -1,4 +1,4 @@
-package org.slc.sli.search.process;
+package org.slc.sli.search.transform;
 
 import org.junit.Assert;
 import org.junit.Before;

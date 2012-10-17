@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Extractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,12 +115,14 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 case Extract:
                     logger.info("Remote Service received Extract command");
                     option = command.getOption();
-                    if (option != null && option.equals("sync")) {
-                        this.extractor.execute();
+                    if ("sync".equals(option)) {
+                        this.extractor.execute(Action.INDEX);
+                    } else if ("update".equals(option)) {
+                        this.extractor.execute(Action.UPDATE);    
                     } else {
                         scheduledService.schedule(new Runnable() {
                             public void run() {
-                                extractor.execute();
+                                extractor.execute(Action.INDEX);
                             }
                         }, 0, TimeUnit.SECONDS);
                     }

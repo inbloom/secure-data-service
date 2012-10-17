@@ -1,5 +1,6 @@
 package org.slc.sli.search.process;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.entity.IndexEntity;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.IndexerImpl;
 import org.slc.sli.search.util.MockRestTemplate;
 import org.springframework.http.HttpEntity;
@@ -41,5 +43,20 @@ public class IndexerTest {
         List<HttpEntity<?>> calls = searchTemplate.getCalls();
         Assert.assertEquals(1, calls.size());
         Assert.assertEquals("{\"index\":{\"_index\":\"tests\", \"_type\":\"test\",\"_id\":\"1\"}}\n{\"body\":1}\n", calls.get(0).getBody());
+    }
+    
+    @Test
+    public void testBulkGetUpdate() throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("body", 1);
+        List<IndexEntity> ies = new ArrayList<IndexEntity>();
+        ies.add(new IndexEntity(Action.UPDATE, "tests", "test", "1", null, map));
+        ies.add(new IndexEntity(Action.UPDATE, "tests1", "test1", "2", null, map));
+        indexer.executeBulkGetUpdate(ies);
+        List<HttpEntity<?>> calls = searchTemplate.getCalls();
+        // 2 class - _mget and _bulk 
+        Assert.assertEquals(2, calls.size());
+        Assert.assertEquals("{\"docs\": [{\"_index\":\"tests\", \"_type\":\"test\",\"_id\":\"1\"},\n" +
+        		                        "{\"_index\":\"tests1\", \"_type\":\"test1\",\"_id\":\"2\"}\n]}", calls.get(0).getBody());
     }
 }
