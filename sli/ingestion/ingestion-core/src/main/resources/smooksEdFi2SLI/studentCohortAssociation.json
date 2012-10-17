@@ -1,41 +1,42 @@
 {
     "keyFields" : [ "body.studentId", "body.cohortId", "body.beginDate"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.studentId",
+        "deprecated" : false,
         "ref" :
         {
-	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.cohortId",
         "ref" :
         {
-	        "entityType" : "cohort",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.cohortIdentifier",
-		                "values" :
-		                [{
-			                "valueSource" : "body.cohortId.CohortIdentity.CohortIdentifier"
-		                }]
-		            },
+            "entityType" : "cohort",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.cohortIdentifier",
+                        "values" :
+                        [{
+                            "valueSource" : "body.cohortId.CohortIdentity.CohortIdentifier"
+                        }]
+                    },
                     {
                         "path" : "body.educationOrgId",
                         "values" :
@@ -58,8 +59,8 @@
                             }
                         ]
                     }
-	            ]
-	        ]
+                ]
+            ]
         }
     }],
 

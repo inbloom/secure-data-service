@@ -1465,7 +1465,6 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
 	else  

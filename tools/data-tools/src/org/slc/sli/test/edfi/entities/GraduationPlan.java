@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="TotalCreditsRequired" type="{http://ed-fi.org/0100}Credits"/>
  *         &lt;element name="CreditsBySubject" type="{http://ed-fi.org/0100}CreditsBySubject" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="CreditsByCourse" type="{http://ed-fi.org/0100}CreditsByCourse" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="EducationOrganizationReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="EducationOrganizationReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -90,9 +90,9 @@ public class GraduationPlan
     @XmlElement(name = "CreditsByCourse")
     protected List<CreditsByCourse> creditsByCourse;
     @XmlElement(name = "EducationOrganizationReference")
-    protected List<EducationalOrgReferenceType> educationOrganizationReference;
+    protected EducationalOrgReferenceType educationOrganizationReference;
 
-    /**
+	/**
      * Gets the value of the graduationPlanType property.
      * 
      * @return
@@ -226,29 +226,25 @@ public class GraduationPlan
      * Gets the value of the educationOrganizationReference property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
+     * This accessor method returns a reference to the live JAXB object,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the educationOrganizationReference property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEducationOrganizationReference().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EducationalOrgReferenceType }
+     * returned entity will be present inside the JAXB object.
      * 
      * 
      */
-    public List<EducationalOrgReferenceType> getEducationOrganizationReference() {
-        if (educationOrganizationReference == null) {
-            educationOrganizationReference = new ArrayList<EducationalOrgReferenceType>();
-        }
+    public EducationalOrgReferenceType getEducationOrganizationReference() {
         return this.educationOrganizationReference;
     }
 
+    /**
+     * Sets the value of the educationOrganizationReference property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EducationOrganizationReference }
+     *     
+     */
+    public void setEducationOrganizationReference(EducationalOrgReferenceType educationOrganizationReference) {
+		this.educationOrganizationReference = educationOrganizationReference;
+	}
 }

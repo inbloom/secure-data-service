@@ -9,8 +9,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -22,8 +26,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -35,8 +43,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -48,8 +60,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -61,8 +77,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -74,8 +94,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -87,8 +111,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -100,8 +128,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -113,8 +145,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -126,8 +162,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -139,8 +179,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -152,8 +196,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -165,8 +213,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -178,8 +230,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -191,8 +247,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -204,8 +264,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -217,8 +281,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -230,8 +298,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -243,8 +315,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -256,8 +332,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -269,8 +349,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -282,8 +366,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -295,8 +383,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -308,8 +400,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -321,8 +417,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -337,8 +437,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -350,8 +454,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -363,8 +471,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -376,8 +488,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -389,8 +505,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -402,8 +522,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -415,8 +539,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -428,8 +556,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -441,8 +573,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -454,8 +590,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -467,8 +607,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -480,8 +624,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -493,8 +641,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -506,8 +658,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -519,8 +675,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -532,8 +692,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -545,8 +709,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -558,8 +726,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -571,8 +743,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -584,8 +760,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -597,8 +777,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -610,8 +794,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -623,8 +811,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -636,8 +828,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -649,8 +845,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -664,8 +864,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -677,8 +881,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -690,8 +898,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -703,8 +915,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -716,8 +932,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -729,8 +949,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -742,8 +966,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -755,8 +983,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -768,8 +1000,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -781,8 +1017,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -794,8 +1034,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -807,8 +1051,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -820,8 +1068,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -833,8 +1085,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -846,8 +1102,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -859,8 +1119,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -872,8 +1136,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -885,8 +1153,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -898,8 +1170,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -911,8 +1187,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -924,8 +1204,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -937,8 +1221,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -950,8 +1238,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -963,8 +1255,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -976,8 +1272,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -991,8 +1291,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Algebra II - Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Algebra II - Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1004,8 +1308,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>State History II - Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>State History II - Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1017,8 +1325,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Earth Sciences II - Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Earth Sciences II - Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1030,8 +1342,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Vocal Perf II - Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Vocal Perf II - Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1043,8 +1359,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Nutrition - Sec 6s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Nutrition - Sec 6s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1056,8 +1376,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Algebra I - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Algebra I - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1069,8 +1393,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>State History I - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>State History I - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1082,8 +1410,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Earth Sciences I - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Earth Sciences I - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1095,8 +1427,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Vocal Performance I - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Vocal Performance I - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1108,8 +1444,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Weight Training - Sec 6f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Weight Training - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1121,8 +1461,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>English 9B ELL - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>English 9B ELL - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1134,8 +1478,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Basic Math II - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Basic Math II - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1147,8 +1495,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>World History II - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>World History II - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1160,8 +1512,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Env Studies II - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Env Studies II - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1173,8 +1529,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Vocal Ensemble II - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Vocal Ensemble II - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1186,8 +1546,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Track and Field - Sec 6s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Track and Field - Sec 6s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1199,8 +1563,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>English 9A ELL - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>English 9A ELL - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1212,8 +1580,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Basic Math I - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Basic Math I - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1225,8 +1597,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>World History I - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>World History I - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1238,8 +1614,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Env Studies I - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Env Studies I - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1251,8 +1631,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Vocal Ensemble I - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Vocal Ensemble I - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1264,8 +1648,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Yoga and Fitness - Sec 6f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Yoga and Fitness - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1277,8 +1665,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>ELA 8B - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>ELA 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1290,8 +1682,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Pre-Algebra II - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Pre-Algebra II - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1303,8 +1699,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>U.S. History II - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>U.S. History II - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1316,8 +1716,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 8B - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1329,8 +1733,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Choir - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Choir - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1342,8 +1750,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 8B - Sec 6s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1355,8 +1767,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>ELA 8A - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>ELA 8A - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1368,8 +1784,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Pre-Algebra I - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Pre-Algebra I - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1381,8 +1801,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>U.S. History I - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>U.S. History I - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1394,8 +1818,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 8A - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 8A - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1407,8 +1835,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Choir - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Choir - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1420,8 +1852,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 8A - Sec 6f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 8A - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1434,8 +1870,12 @@
     </StudentReference>
     <SectionReference>  
         <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
              <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-             <UniqueSectionCode>Gym Class - 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Gym Class - 4</UniqueSectionCode>
        </SectionIdentity>
      </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1448,8 +1888,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1461,8 +1905,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1474,8 +1922,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1487,8 +1939,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1500,8 +1956,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1513,8 +1973,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1526,8 +1990,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1539,8 +2007,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1552,8 +2024,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1565,8 +2041,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1578,8 +2058,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1591,8 +2075,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1604,8 +2092,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1617,8 +2109,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1630,8 +2126,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1643,8 +2143,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1656,8 +2160,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1669,8 +2177,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1682,8 +2194,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1695,8 +2211,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1708,8 +2228,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1721,8 +2245,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1734,8 +2262,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1747,8 +2279,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1760,8 +2296,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1773,8 +2313,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -1788,8 +2332,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1801,8 +2349,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1817,8 +2369,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1830,8 +2386,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1843,8 +2403,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1856,8 +2420,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1869,8 +2437,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1882,8 +2454,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1895,8 +2471,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1908,8 +2488,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1921,8 +2505,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1934,8 +2522,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1947,8 +2539,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1960,8 +2556,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1973,8 +2573,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1986,8 +2590,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -1999,8 +2607,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2012,8 +2624,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2025,8 +2641,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2038,8 +2658,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2051,8 +2675,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2064,8 +2692,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2077,8 +2709,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2090,8 +2726,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2103,8 +2743,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2116,8 +2760,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2129,8 +2777,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2142,8 +2794,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2155,8 +2811,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2168,8 +2828,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2184,8 +2848,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2197,8 +2865,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2210,8 +2882,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2223,8 +2899,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2236,8 +2916,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2249,8 +2933,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2262,8 +2950,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2275,8 +2967,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2288,8 +2984,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2301,8 +3001,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2314,8 +3018,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2327,8 +3035,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2340,8 +3052,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2353,8 +3069,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2366,8 +3086,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2379,8 +3103,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2392,8 +3120,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2405,8 +3137,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2418,8 +3154,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2431,8 +3171,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2444,8 +3188,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2457,8 +3205,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2470,8 +3222,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2483,8 +3239,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2496,8 +3256,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2509,8 +3273,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2522,8 +3290,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2535,8 +3307,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2550,8 +3326,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Math 7B - Sec 5s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 7B - Sec 5s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2563,8 +3343,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>State History II - Sec 5s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>State History II - Sec 5s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2576,8 +3360,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 7B - Sec 5s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 7B - Sec 5s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2589,8 +3377,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Spanish II - Sec 5s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spanish II - Sec 5s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2602,8 +3394,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Jazz Band - Sec 5s11</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Jazz Band - Sec 5s11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2615,8 +3411,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Math 7A - Sec 5f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 7A - Sec 5f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2628,8 +3428,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>State History I - Sec 5f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>State History I - Sec 5f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2641,8 +3445,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 7A - Sec 5f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 7A - Sec 5f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2654,8 +3462,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Spanish I - Sec 5f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Spanish I - Sec 5f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2667,8 +3479,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Conditioning - Sec 5f10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Conditioning - Sec 5f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2680,8 +3496,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>ELA 6B - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>ELA 6B - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2693,8 +3513,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Math 6B - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 6B - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2706,8 +3530,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>World History II - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>World History II - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2719,8 +3547,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 6B - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 6B - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2732,8 +3564,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Drama II - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Drama II - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2745,8 +3581,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Nutrition - Sec 5s10</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Nutrition - Sec 5s10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2758,8 +3598,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>ELA 6A - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>ELA 6A - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2771,8 +3615,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Math 6A - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 6A - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2784,8 +3632,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>World History I - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>World History I - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2797,8 +3649,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Science 6A - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 6A - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2810,8 +3666,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Drama I - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Drama I - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2823,8 +3683,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Team Sports - Sec 5f09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Team Sports - Sec 5f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2836,8 +3700,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Reading 5B - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Reading 5B - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2849,8 +3717,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Writing 5B - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Writing 5B - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2862,8 +3734,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Math 5B - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 5B - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2875,8 +3751,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Geography - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Geography - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2888,8 +3768,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Science 5B - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 5B - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2901,8 +3785,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 5B - Sec 5s09</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 5B - Sec 5s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2916,8 +3804,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Reading 5A - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Reading 5A - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2929,8 +3821,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Writing 5A - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Writing 5A - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2942,8 +3838,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Math 5A - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 5A - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2955,8 +3855,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Government - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Government - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2968,8 +3872,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Science 5A - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 5A - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2981,8 +3889,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 5A - Sec 5f08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 5A - Sec 5f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -2994,8 +3906,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3007,8 +3923,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Math - Sec 2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Math - Sec 2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3020,8 +3940,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>6th Grade Math - Sec 1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>6th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3033,8 +3957,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3046,8 +3974,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3059,8 +3991,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3073,8 +4009,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Reading 4B - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Reading 4B - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3086,8 +4026,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Writing 4B - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Writing 4B - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3099,8 +4043,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Math 4B - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 4B - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3112,8 +4060,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Geography - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Geography - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3125,8 +4077,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Science 4B - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 4B - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3138,8 +4094,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 4B - Sec 5s08</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 4B - Sec 5s08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3151,8 +4111,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Reading 4A - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Reading 4A - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3164,8 +4128,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Writing 4A - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Writing 4A - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3177,8 +4145,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Math 4A - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Math 4A - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3190,8 +4162,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Government - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Government - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3203,8 +4179,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Science 4A - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Science 4A - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3216,8 +4196,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Phys-Ed 4A - Sec 5f07</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Phys-Ed 4A - Sec 5f07</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3229,8 +4213,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3245,8 +4233,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3258,8 +4250,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3271,8 +4267,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3284,8 +4284,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3297,8 +4301,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3310,8 +4318,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3323,8 +4335,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3336,8 +4352,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3349,8 +4369,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3362,8 +4386,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3375,8 +4403,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3388,8 +4420,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3401,8 +4437,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3414,8 +4454,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3427,8 +4471,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3440,8 +4488,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3453,8 +4505,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3466,8 +4522,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3479,8 +4539,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3492,8 +4556,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3505,8 +4573,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3518,8 +4590,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3531,8 +4607,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3544,8 +4624,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3557,8 +4641,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3570,8 +4658,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3583,8 +4675,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3596,8 +4692,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -3611,8 +4711,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3626,8 +4730,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3641,8 +4749,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3656,8 +4768,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3671,8 +4787,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3686,8 +4806,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3701,8 +4825,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3716,8 +4844,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3731,8 +4863,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3746,8 +4882,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3761,8 +4901,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3776,8 +4920,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3791,8 +4939,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3806,8 +4958,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3821,8 +4977,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3836,8 +4996,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3851,8 +5015,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3866,8 +5034,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3881,8 +5053,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3896,8 +5072,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3911,8 +5091,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3926,8 +5110,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3941,8 +5129,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3956,8 +5148,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3971,8 +5167,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -3988,8 +5188,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4003,8 +5207,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4018,8 +5226,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4033,8 +5245,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4048,8 +5264,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4063,8 +5283,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4078,8 +5302,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4093,8 +5321,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4108,8 +5340,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4123,8 +5359,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4138,8 +5378,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4153,8 +5397,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4168,8 +5416,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4183,8 +5435,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4198,8 +5454,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4213,8 +5473,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4228,8 +5492,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4243,8 +5511,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4258,8 +5530,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4273,8 +5549,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4288,8 +5568,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4303,8 +5587,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4318,8 +5606,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4333,8 +5625,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>
@@ -4348,8 +5644,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2011-09-01</BeginDate>

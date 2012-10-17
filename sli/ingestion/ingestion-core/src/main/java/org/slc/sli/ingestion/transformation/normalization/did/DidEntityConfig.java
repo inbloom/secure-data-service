@@ -18,6 +18,7 @@ package org.slc.sli.ingestion.transformation.normalization.did;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -29,7 +30,13 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public class DidEntityConfig {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private List<DidRefSource> referenceSources;
+
+    public DidEntityConfig() {
+        referenceSources = new ArrayList<DidRefSource>();
+    }
 
     public List<DidRefSource> getReferenceSources() {
         return referenceSources;
@@ -40,7 +47,6 @@ public class DidEntityConfig {
     }
 
     public static DidEntityConfig parse(InputStream inputStream) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(inputStream, DidEntityConfig.class);
+        return MAPPER.readValue(inputStream, DidEntityConfig.class);
     }
 }

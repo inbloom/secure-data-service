@@ -22,10 +22,10 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 public class GraduationPlanMeta {
 	public final String id;
 
-	public String schoolIds;
+	public String schoolId;
 	
 	public GraduationPlanMeta (String id, SchoolMeta schoolMeta){
 		this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id;
-		this.schoolIds = schoolMeta.id;
+		this.schoolId = schoolMeta.id;
 	}
 }

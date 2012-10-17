@@ -7,7 +7,11 @@
 		<DateAssigned>2011-09-27</DateAssigned>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -22,8 +26,12 @@
 					<StudentUniqueStateId>800000025</StudentUniqueStateId>
 				</StudentIdentity>
 				<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 					<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-					<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
@@ -33,8 +41,12 @@
 				<DateAssigned>2011-09-27</DateAssigned>
 				<SectionReference>
 					<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 						<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-						<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
 					</SectionIdentity>
 				</SectionReference>
 			</GradebookEntryIdentity>
@@ -57,8 +69,12 @@
 					<StudentUniqueStateId>800000025</StudentUniqueStateId>
 				</StudentIdentity>
 				<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
@@ -72,8 +88,12 @@
 					<StudentUniqueStateId>800000025</StudentUniqueStateId>
 				</StudentIdentity>
 				<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
