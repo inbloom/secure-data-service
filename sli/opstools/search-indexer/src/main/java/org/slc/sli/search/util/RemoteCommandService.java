@@ -72,11 +72,11 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     // Main function, Listen server socket
-    private void listen() throws Exception {
-
+    private void listen() throws Throwable {
+        Socket socket = null;
         try {
             // Wait for client to connect
-            Socket socket = this.serverSocket.accept();
+            socket = this.serverSocket.accept();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -154,10 +154,14 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             out.println(command.getReply());
             out.close();
-            socket.close();
-        } catch (SocketException e) {
+        } catch (Throwable t) {
             // SocketException is thrown by calling close while socket is blocked by accept.
             // this is expected exception because search-indexer is about shutting down.
+            throw t;
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
         }
     }
 
