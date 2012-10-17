@@ -3614,13 +3614,16 @@
     createOnElement="InterchangeStudentGrade/StudentCompetency">
     <jb:value property="studentCompetencyId" data="StudentCompetency/@id" />
     <jb:wiring property="competencyLevel" beanIdRef="StudentCompetency_CompetencyLevelDescriptors" />
-    <jb:wiring property="learningObjectiveReference" beanIdRef="StudentCompetency_LearningObjectiveReference" />
-    <jb:wiring property="studentCompetencyObjectiveReference" beanIdRef="StudentCompetency_StudentCompetencyObjectiveReference" />
+    <jb:wiring property="objectiveId" beanIdRef="StudentCompetency_ObjectiveReference"/>
     <jb:value property="diagnosticStatement" data="StudentCompetency/DiagnosticStatement" />
     <jb:value property="studentId" data="StudentCompetency/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentCompetency/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
-
   </jb:bean>
+
+    <jb:bean beanId="StudentCompetency_ObjectiveReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetency">
+        <jb:wiring property="learningObjectiveReference" beanIdRef="StudentCompetency_LearningObjectiveReference" />
+        <jb:wiring property="studentCompetencyObjectiveReference" beanIdRef="StudentCompetency_StudentCompetencyObjectiveReference" />
+    </jb:bean>
 
  <jb:bean beanId="StudentCompetency_CompetencyLevelDescriptors" class="java.util.ArrayList"
     createOnElement="InterchangeStudentGrade/StudentCompetency/CompetencyLevel">
@@ -3652,6 +3655,7 @@
   <jb:bean beanId="StudentCompetency_LearningObjectiveReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentCompetency">
     <jb:value property="LearningObjectiveId" data="StudentCompetency/LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
+    <jb:value property="Objective" data="StudentCompetency/LearningObjectiveReference/LearningObjectiveIdentity/Objective" />
   </jb:bean>
   <!-- End StudentCompetency mapping -->
 
