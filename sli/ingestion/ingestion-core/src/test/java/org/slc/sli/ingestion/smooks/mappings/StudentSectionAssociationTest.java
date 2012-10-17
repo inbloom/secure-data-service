@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -37,6 +38,9 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSectionAssociationTest {
+
+    @Value("${sli.ingestion.recordLevelDeltaEntities}")
+    private String recordLevelDeltaEnabledEntityNames;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentSectionAssociation>"
@@ -91,7 +95,7 @@ public class StudentSectionAssociationTest {
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXMLTestData);
+                invalidXMLTestData, recordLevelDeltaEnabledEntityNames);
         checkInValidSectionNeutralRecord(record);
     }
 
@@ -100,7 +104,8 @@ public class StudentSectionAssociationTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
 
-        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                xmlTestData, recordLevelDeltaEnabledEntityNames);
         checkValidSectionNeutralRecord(record);
     }
 

@@ -131,13 +131,13 @@ Scenario: Confirm default limit of 50 entities and ability to override
 
    When parameter "limit" is "0"
     And I navigate to GET "/v1/schools/ec2e4218-6483-4e9c-8954-0aecccfd4731/studentSchoolAssociations/students"
-   Then I should receive a collection with 61 elements
+   Then I should receive a collection with 62 elements
     And the a next link should not exist
     
     
 @DE1688
 Scenario: Confirm negative limit is blocked by API
-  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+  Given I am logged in using "cgray" "rrogers1234" to realm "IL"
     And format "application/json"
    When parameter "limit" is "1"
     And I navigate to GET "/v1/schools"
@@ -148,7 +148,7 @@ Scenario: Confirm negative limit is blocked by API
     
 @DE1688
 Scenario: Confirm negative offset is blocked by API
-  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+  Given I am logged in using "cgray" "rrogers1234" to realm "IL"
     And format "application/json"
    When parameter "offset" is "1"
     And parameter "limit" is "1"

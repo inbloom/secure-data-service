@@ -30,14 +30,15 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.dashboard.client.APIClient;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -70,6 +71,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
         return null;
     }
 
+    @Override
     public String getId(String token) {
         return null;
     }
@@ -172,7 +174,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getSessions(String token, Map<String, String> params) {
+    public List<GenericEntity> getSessions(String token, String schoolId, Map<String, String> params) {
         return new ArrayList<GenericEntity>();
     }
 
