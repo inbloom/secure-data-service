@@ -136,7 +136,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
 }
 
 def convertTenantIdToDbName(tenantId)
-  return Digest::SHA1.hexdigest tenantId
+  db_name = Digest::SHA1.hexdigest tenantId
+  puts "Tenant: #{tenantId} DB: #{db_name}"
+  return db_name
 end
 
 def assert(bool, message = 'assertion failure')
