@@ -256,7 +256,21 @@ public class DeterministicIdResolver {
             // populate naturalKeys
             String value = null;
             if (keyFieldDef.getRefConfig() != null) {
-                value = getId(reference, tenantId, keyFieldDef.getRefConfig());
+                Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
+
+                if (nestedRef == null) {// && keyFieldDef.isOptional() == false) {
+                    throw new IdResolutionException("No value found for required reference",
+                            keyFieldDef.getValueSource(), "");
+                }
+
+                if (nestedRef instanceof Map) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
+                    value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                } else {
+                    throw new IdResolutionException("Non map value found from entity", keyFieldDef.getValueSource(), "");
+                }
+
             } else {
                 value = (String) getProperty(reference, keyFieldDef.getValueSource());
             }
