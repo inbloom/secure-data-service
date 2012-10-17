@@ -14,7 +14,7 @@
                         "path" : "body.stateOrganizationId",
                         "values" :
                         [
-                            {"valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"}
+                            {"valueSource" : "body.schoolId"}
                         ]
                     }
                 ]
@@ -34,7 +34,7 @@
                         "path" : "body.studentUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                            "valueSource" : "body.studentId"
                         }]
                     }
                 ]
@@ -43,7 +43,6 @@
     },
     {
         "fieldPath" : "body.graduationPlanId",
-        "deprecated" : true,
         "ref" :
         {
             "entityType" : "graduationPlan",
@@ -55,7 +54,14 @@
                         "path" : "body.graduationPlanType",
                         "values" :
                         [{
-                            "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.GraduationPlanIdentity"
+                            "valueSource" : "body.graduationPlanId.graduationPlanType"
+                        }]
+                    },
+                    {
+                        "path" : "body.totalCreditsRequired.credit",
+                        "values" :
+                        [{
+                            "valueSource" : "body.graduationPlanId.totalCreditsRequired.credit"
                         }]
                     }
                 ]
