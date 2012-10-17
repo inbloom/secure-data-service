@@ -42,6 +42,7 @@ public class TenantMongoDA implements TenantDA {
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
     public static final String TENANT_ID = "tenantId";
+    public static final String DB_NAME = "dbName";
     public static final String INGESTION_SERVER = "ingestionServer";
     public static final String PATH = "path";
     public static final String LANDING_ZONE = "landingZone";
@@ -79,6 +80,7 @@ public class TenantMongoDA implements TenantDA {
     private Map<String, Object> getTenantBody(TenantRecord tenant) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenant.getTenantId());
+        body.put(DB_NAME, tenant.getDbName());
         List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
         if (tenant.getLandingZone() != null) {
             for (LandingZoneRecord landingZoneRecord : tenant.getLandingZone()) {
