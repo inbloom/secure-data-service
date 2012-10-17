@@ -5,7 +5,6 @@
         {
             "keyFieldName" : "key_field",
             "valueSource" : "nested_reference",
-            "optional" : true,
             "refConfig" :
             {
                 "entityType" : "nested_entity_type",
