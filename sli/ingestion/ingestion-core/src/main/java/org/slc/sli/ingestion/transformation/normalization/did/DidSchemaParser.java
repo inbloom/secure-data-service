@@ -213,7 +213,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> refType : referenceTypes.entrySet()) {
-            DidRefConfig refConfig = extractRefConfig(refType.getValue(), "");
+            DidRefConfig refConfig = extractRefConfig(refType.getValue());
             if (refConfig != null) {
                 refConfigs.put(refConfig.getEntityType(), refConfig);
             }
@@ -396,7 +396,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     /**
      * Extract refConfig for a refType
      */
-    private DidRefConfig extractRefConfig(XmlSchemaComplexType refType, String baseXPath) {
+    private DidRefConfig extractRefConfig(XmlSchemaComplexType refType) {
         // get the identityType out of the refType
         DidRefConfig refConfig = null;
 
@@ -412,7 +412,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             if (identityTypeElement != null) {
                 XmlSchemaComplexType identityType = null;
                 identityType = complexTypes.get(identityTypeElement.getSchemaTypeName().getLocalPart());
-                baseXPath = baseXPath + identityTypeElement.getName() + ".";
+                String baseXPath = identityTypeElement.getName() + ".";
 
                 // need this to recursively extract refConfigs
                 refConfig = new DidRefConfig();
@@ -502,11 +502,10 @@ public class DidSchemaParser implements ResourceLoaderAware {
                     // check whether we have a nested Ref and create
                     if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
-                        DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType, xPath + ".");
+                        DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType);
                         keyfield.setRefConfig(nestedRefConfig);
-                    } else {
-                        keyfield.setValueSource(xPath);
                     }
+                    keyfield.setValueSource(xPath);
 
                     refConfig.getKeyFields().add(keyfield);
 
