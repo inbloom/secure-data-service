@@ -55,20 +55,20 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
     // Thread run
     public void run() {
-        // make infinite loop
-        try {
-            while (this.stopRemoteCommandService == false) {
+        // make loop
+        while (this.stopRemoteCommandService == false) {
+            try {
                 listen();
-            }
-
-        } catch (Exception e) {
-            logger.error("Error detected stopping Remote Command Service...", e);
-        } finally {
-            scheduledService.shutdownNow();
-            if (this.stopRemoteCommandService) {
-                this.context.close();
+            } catch (Throwable t) {
+                logger.error("Error detected in Remote Command Service...", t);
             }
         }
+
+        scheduledService.shutdownNow();
+        if (this.stopRemoteCommandService) {
+            this.context.close();
+        }
+
     }
 
     // Main function, Listen server socket
@@ -80,39 +80,37 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            Commands command = null;
+            RemoteCommand command = null;
             // read Input String
             String inputCommand = in.readLine();
             if (inputCommand != null) {
-                StringTokenizer st = new StringTokenizer(inputCommand);
-                int tokenCount = 0;
+                String[] commandLine = inputCommand.split("\\s+");
 
-                // build Command
-
-                while (st.hasMoreTokens()) {
-                    String token = st.nextToken();
-
-                    // this is the first read token.
-                    // it means command
-                    if (tokenCount == 0) {
-                        if (token.toLowerCase().equals("extract")) {
-                            command = Commands.Extract;
-                        } else if (token.toLowerCase().equals("stop")) {
-                            command = Commands.Stop;
+                if (commandLine == null || commandLine.length == 0) {
+                    command = new RemoteCommand(Commands.Help);
+                } else {
+                    for (int index = 0; index < commandLine.length; index++) {
+                        // this is the first read token.
+                        // it means command
+                        if (index == 0) {
+                            if (commandLine[0].toLowerCase().equals("extract")) {
+                                command = new RemoteCommand(Commands.Extract);
+                            } else if (commandLine[0].toLowerCase().equals("stop")) {
+                                command = new RemoteCommand(Commands.Stop);
+                            } else {
+                                command = new RemoteCommand(Commands.Help);
+                            }
                         } else {
-                            command = Commands.Help;
+                            // token is an option for a command
+                            command.setOption(commandLine[index].toLowerCase());
                         }
-                    } else {
-                        // token is an option for a command
-                        command.setOption(token.toLowerCase());
                     }
-                    tokenCount++;
                 }
             }
 
             String option = null;
             // execute command
-            switch (command) {
+            switch (command.getCommands()) {
                 case Extract:
                     logger.info("Remote Service received Extract command");
                     option = command.getOption();
@@ -186,11 +184,14 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         this.extractor = extractor;
     }
 
-    private enum Commands {
-        Extract, Stop, Help;
-
+    private class RemoteCommand {
+        private Commands command;
         private String reply;
         private String option;
+
+        public RemoteCommand(Commands command) {
+            this.command = command;
+        }
 
         public String getReply() {
             return this.reply;
@@ -207,6 +208,14 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         public String getOption() {
             return this.option;
         }
+
+        public Commands getCommands() {
+            return this.command;
+        }
+    }
+
+    private enum Commands {
+        Extract, Stop, Help;
     }
 
 }
