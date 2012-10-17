@@ -119,7 +119,7 @@ Then /^I put back the application authorizations in daybreak/ do
 end
 
 def coll
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('Midgar')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('Midgar'))
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end

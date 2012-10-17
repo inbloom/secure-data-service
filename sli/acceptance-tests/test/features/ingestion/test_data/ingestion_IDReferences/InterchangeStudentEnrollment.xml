@@ -8,7 +8,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Able School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -25,7 +29,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Baker School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -42,7 +50,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Charlie School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -59,7 +71,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Dog School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -76,7 +92,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Echo School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>

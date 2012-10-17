@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require_relative '../../../utils/sli_utils.rb'
 
 Given /^the district "([^\"]*)" has dissallowed use of the dashboard$/ do |district|
 dissallowDashboard(district, "Midgar") 
@@ -28,7 +29,7 @@ def dissallowDashboard(district, tenantName)
   dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
   puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
   
-  dbTenant = conn[tenantName]
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
   appAuthColl = dbTenant.collection("applicationAuthorization")
   edOrgColl = dbTenant.collection("educationOrganization")
 

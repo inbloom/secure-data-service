@@ -35,7 +35,7 @@ Before do
   @edorgId =  "Test_Ed_Org"
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
   dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
-  @tenantDb = Mongo::Connection.new.db(dbName)
+  @tenantDb = Mongo::Connection.new.db(convertTenantIdToDbName(dbName))
 end
 
 After do

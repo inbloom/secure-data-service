@@ -1,15 +1,19 @@
 require 'mongo'
 require 'rbconfig'
 
+
 Dir.glob('suites/*.rake').each { |r| import r }
 
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
 
 ###################################################
 # Section to setup necessary env vars and overrides
 
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 
-DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 SYSTEM_DB_NAME = ENV['SYSTEM_DB_NAME'] ? ENV['DB_NAME'] : "sli"
 
 MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
@@ -24,7 +28,7 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos_mokey_org", "fakedev_zork_net"]
+TENANT_COLLECTION = [convertTenantIdToDbName("Midgar"), convertTenantIdToDbName("Hyrule"), convertTenantIdToDbName("Security"), convertTenantIdToDbName("Other"), convertTenantIdToDbName("Zork"), convertTenantIdToDbName("SLI"), convertTenantIdToDbName("T1"), convertTenantIdToDbName("T2"), convertTenantIdToDbName("T3"), convertTenantIdToDbName("mreynolds"), convertTenantIdToDbName("chaos_mokey_org"), convertTenantIdToDbName("fakedev_zork_net")]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
@@ -353,43 +357,43 @@ task :realmInit => [:appInit] do
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anotherfakerealm")
   setFixture("customRole", "customRole_anotherfakerealm_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer_email_slidev_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
   setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
   setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator_slidev_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator@slidev.org")
   setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper_slidev_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper@slidev.org")
   setFixture("customRole", "customRole_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setFixture("customRole", "customRole_Security_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Zork")
   setFixture("customRole", "customRole_Zork_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   setFixture("customRole", "customRole_Hyrule_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
   swap_realm_ids()
 
@@ -409,17 +413,17 @@ task :appInit do
   setFixture("application", "application_fixture.json", "test/data", false)
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule");
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
 
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setFixture("userSession", "oauth_authentication_tokens.json")
-  swap_app_ids("Midgar")
-  swap_app_ids("Hyrule")
+  swap_app_ids(convertTenantIdToDbName("Midgar"))
+  swap_app_ids(convertTenantIdToDbName("Hyrule"))
 end
 
 desc "Approve SLC apps for ingested realms"
@@ -1011,9 +1015,9 @@ task :importZorkSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
 
    ]
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
   setMultipleFixtureFiles(testHash)
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
 end
 
@@ -1025,9 +1029,9 @@ task :importChaosSandboxData do
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
 
    ]
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setMultipleFixtureFiles(testHash)
-  DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar"
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
 end
 

@@ -28,7 +28,7 @@ require_relative '../../../utils/selenium_common.rb'
 
 Before do 
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 120)
-   @db = Mongo::Connection.new.db('Midgar')
+   @db = Mongo::Connection.new.db(convertTenantIdToDbName('Midgar'))
 end
 
 

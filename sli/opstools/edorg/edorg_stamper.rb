@@ -62,6 +62,9 @@ def launch_fixer
   @threads.each {|th| th.join } unless @terminates
   connection.close
 end
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
 if ARGV.count < 1
   puts "Usage: edorg_stamper <dbhost:port> <database> <terminates>"
   puts "\t dbhost - hostname for mongo"
@@ -75,7 +78,7 @@ else
   @tenants = Set.new
   @terminates = (ARGV[2].nil? ? false : true)
   #change databasae from 'sli' to 'Security' as a result of DataPartitioning
-  @database = (ARGV[1].nil? ? 'Security' : ARGV[1])
+  @database = convertTenantIdToDbName((ARGV[1].nil? ? 'Security' : ARGV[1]))
   @hp = ARGV[0].split(":")
   @log = Logger.new(STDOUT)
   @log.level = Logger::INFO

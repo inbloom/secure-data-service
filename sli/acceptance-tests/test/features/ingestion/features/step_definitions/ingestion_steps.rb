@@ -54,7 +54,7 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 ############################################################
 
 Before do
-  @ingestion_db_name = 'Midgar'
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
@@ -391,12 +391,13 @@ Given /^I am using the tenant "([^"]*)"$/ do |tenantId|
 end
 
 def initializeTenantDatabase(lz_key)
-  @ingestion_db_name = lz_key
 
-  # split tenant from edOrg on hyphen
-  if @ingestion_db_name.index('-') != nil
-    @ingestion_db_name = @ingestion_db_name[0, @ingestion_db_name.index('-')]
+  # split tenant from edOrg on hyphen, if necessary
+  if lz_key.index('-') != nil
+    lz_key = lz_key[0, lz_key.index('-')]
   end
+
+  @ingestion_db_name = convertTenantIdToDbName(lz_key)
 end 
 
 def initializeLandingZone(lz)
@@ -829,11 +830,12 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   end
 
   # set instance var to this value (used for future db connections)
-  @ingestion_db_name = tenant
+  @ingestion_db_name = convertTenantIdToDbName(tenant)
   puts "setting ingestion_db_name to #{@ingestion_db_name}"
 
   # index the new tenant db
-  cloneAllIndexes(@conn, 'Midgar', @ingestion_db_name)
+  dbName = convertTenantIdToDbName('Midgar')
+  cloneAllIndexes(@conn, dbName, @ingestion_db_name)
 
   @body = {
     "tenantId" => tenant,
@@ -1465,7 +1467,6 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
 	else  
@@ -1507,7 +1508,7 @@ end
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
   
-  @db = @conn[tenantId]
+  @db = @conn[convertTenantIdToDbName(tenantId)]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"

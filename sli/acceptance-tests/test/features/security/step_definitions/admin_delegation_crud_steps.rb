@@ -20,6 +20,8 @@ limitations under the License.
 require 'json'
 require 'mongo'
 
+require_relative '../../utils/sli_utils.rb'
+
 Transform /^district "([^"]*)"$/ do |district|
   id = "4726e42f-b265-372a-3c17-dc8d5d5fb263" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
@@ -122,7 +124,7 @@ Then /^I put back app authorizations/ do
 end
 
 def appAuthColl
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('DB_NAME')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('DB_NAME'))
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end

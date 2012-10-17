@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
@@ -43,10 +42,10 @@ import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
 /**
-*
-* @author ablum
-*
-*/
+ *
+ * @author ablum
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSectionAssociationEntityTest {
@@ -63,61 +62,60 @@ public class TeacherSectionAssociationEntityTest {
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
-                + "<TeacherSectionAssociation>"
-                + "<TeacherReference>"
-                   + "<StaffIdentity>"
-                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
-                + "<Name>"
-                   + "<PersonalTitlePrefix>Ms</PersonalTitlePrefix>"
-                   + "<FirstName>Jane</FirstName>"
-                   + "<MiddleName>Sarah</MiddleName>"
-                   + "<LastSurname>Smith</LastSurname>"
-                   + "<GenerationCodeSuffix>III</GenerationCodeSuffix>"
-                   + "<MaidenName>Jimenez</MaidenName>"
-               + "</Name>"
-               + "<OtherName OtherNameType=\"Alias\">"
-                   + "<PersonalTitlePrefix>Ms</PersonalTitlePrefix>"
-                   + "<FirstName>Jo</FirstName>"
-                   + "<MiddleName>Gannon</MiddleName>"
-                   + "<LastSurname>Grant</LastSurname>"
-                   + "<GenerationCodeSuffix>II</GenerationCodeSuffix>"
-               + "</OtherName>"
-               + "<Sex>Female</Sex>"
-                   + "<BirthDate>1999-07-12</BirthDate>"
-                   + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
-                   + "<Race>"
-                        + "<RacialCategory>White</RacialCategory>"
-                   + "</Race>"
-               + "<Telephone TelephoneNumberType=\"Mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
-                   + "<TelephoneNumber>410-555-0248</TelephoneNumber>"
-               + "</Telephone>"
-               + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
-                   + "<EmailAddress>sjsmith@email.com</EmailAddress>"
-               + "</ElectronicMail>"
-               +       "<StaffIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
-               +            "<Id>23</Id>"
-               +       "</StaffIdentificationCode>"
-                   + "</StaffIdentity>"
-                + "</TeacherReference>"
-                + "<SectionReference>"
-                   + "<SectionIdentity>"
-                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
-                      + "<LocalCourseCode>MATH1</LocalCourseCode>"
-                      + "<SchoolYear>2010-2011</SchoolYear>"
-                      + "<Term>Summer Semester</Term>"
-                      + "<ClassPeriodName>A03</ClassPeriodName>"
-                      + "<Location>CC100</Location>"
-                      +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
-                      +            "<Id>23</Id>"
-                      +       "</CourseCode>"
-                   + "</SectionIdentity>"
-                + "</SectionReference>"
-                + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
-                + "<BeginDate>1998-01-01</BeginDate>"
-                + "<EndDate>2008-01-01</EndDate>"
-                + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>"
-          + "</TeacherSectionAssociation>"
-          + "</InterchangeStaffAssociation>";
+            + "<TeacherSectionAssociation>"
+            + "<TeacherReference>"
+            + "<StaffIdentity>"
+            + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+            + "<Name>"
+            + "<PersonalTitlePrefix>Ms</PersonalTitlePrefix>"
+            + "<FirstName>Jane</FirstName>"
+            + "<MiddleName>Sarah</MiddleName>"
+            + "<LastSurname>Smith</LastSurname>"
+            + "<GenerationCodeSuffix>III</GenerationCodeSuffix>"
+            + "<MaidenName>Jimenez</MaidenName>"
+            + "</Name>"
+            + "<OtherName OtherNameType=\"Alias\">"
+            + "<PersonalTitlePrefix>Ms</PersonalTitlePrefix>"
+            + "<FirstName>Jo</FirstName>"
+            + "<MiddleName>Gannon</MiddleName>"
+            + "<LastSurname>Grant</LastSurname>"
+            + "<GenerationCodeSuffix>II</GenerationCodeSuffix>"
+            + "</OtherName>"
+            + "<Sex>Female</Sex>"
+            + "<BirthDate>1999-07-12</BirthDate>"
+            + "<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>"
+            + "<Race>"
+            + "<RacialCategory>White</RacialCategory>"
+            + "</Race>"
+            + "<Telephone TelephoneNumberType=\"Mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
+            + "<TelephoneNumber>410-555-0248</TelephoneNumber>"
+            + "</Telephone>"
+            + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
+            + "<EmailAddress>sjsmith@email.com</EmailAddress>"
+            + "</ElectronicMail>"
+            + "<StaffIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
+            + "<Id>23</Id>"
+            + "</StaffIdentificationCode>"
+            + "</StaffIdentity>"
+            + "</TeacherReference>"
+            + "<SectionReference>"
+            + "<SectionIdentity>"
+            + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+            + "<LocalCourseCode>MATH1</LocalCourseCode>"
+            + "<SchoolYear>2010-2011</SchoolYear>"
+            + "<Term>Summer Semester</Term>"
+            + "<ClassPeriodName>A03</ClassPeriodName>"
+            + "<Location>CC100</Location>"
+            + "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
+            + "<Id>23</Id>"
+            + "</CourseCode>"
+            + "</SectionIdentity>"
+            + "</SectionReference>"
+            + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
+            + "<BeginDate>1998-01-01</BeginDate>"
+            + "<EndDate>2008-01-01</EndDate>"
+            + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>"
+            + "</TeacherSectionAssociation>" + "</InterchangeStaffAssociation>";
 
     @Before
     public void setup() {
@@ -129,26 +127,26 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-    String invalidXmlMissingTeacherReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+        String invalidXmlMissingTeacherReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
                 + "<TeacherSectionAssociation>"
                 + "<SectionReference>"
-                   + "<SectionIdentity>"
-                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
-                   + "</SectionIdentity>"
+                + "<SectionIdentity>"
+                + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                + "</SectionIdentity>"
                 + "</SectionReference>"
                 + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
-          + "</TeacherSectionAssociation>"
-          + "</InterchangeStaffAssociation>";
+                + "</TeacherSectionAssociation>"
+                + "</InterchangeStaffAssociation>";
 
     NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
             invalidXmlMissingTeacherReference, recordLevelDeltaEnabledEntityNames);
 
-    Entity e = mock(Entity.class);
-    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-    when(e.getType()).thenReturn("teacherSectionAssociation");
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("teacherSectionAssociation");
 
-    validator.validate(e);
+        validator.validate(e);
 
     }
 
@@ -157,26 +155,26 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-    String invalidXmlMissingSectionReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+        String invalidXmlMissingSectionReference = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
                 + "<TeacherSectionAssociation>"
                 + "<TeacherReference>"
-                   + "<StaffIdentity>"
-                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
-                   + "</StaffIdentity>"
+                + "<StaffIdentity>"
+                + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                + "</StaffIdentity>"
                 + "</TeacherReference>"
                 + "<ClassroomPosition>Teacher of Record</ClassroomPosition>"
-          + "</TeacherSectionAssociation>"
-          + "</InterchangeStaffAssociation>";
+                + "</TeacherSectionAssociation>"
+                + "</InterchangeStaffAssociation>";
 
     NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
             invalidXmlMissingSectionReference, recordLevelDeltaEnabledEntityNames);
 
-    Entity e = mock(Entity.class);
-    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-    when(e.getType()).thenReturn("teacherSectionAssociation");
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("teacherSectionAssociation");
 
-    validator.validate(e);
+        validator.validate(e);
 
     }
 
@@ -185,30 +183,30 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-    String invalidXmlMissingClassroomPosition = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+        String invalidXmlMissingClassroomPosition = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
                 + "<TeacherSectionAssociation>"
                 + "<TeacherReference>"
-                   + "<StaffIdentity>"
-                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
-                   + "</StaffIdentity>"
+                + "<StaffIdentity>"
+                + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                + "</StaffIdentity>"
                 + "</TeacherReference>"
                 + "<SectionReference>"
-                   + "<SectionIdentity>"
-                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
-                   + "</SectionIdentity>"
+                + "<SectionIdentity>"
+                + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                + "</SectionIdentity>"
                 + "</SectionReference>"
-          + "</TeacherSectionAssociation>"
-          + "</InterchangeStaffAssociation>";
+                + "</TeacherSectionAssociation>"
+                + "</InterchangeStaffAssociation>";
 
     NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
             invalidXmlMissingClassroomPosition, recordLevelDeltaEnabledEntityNames);
 
-    Entity e = mock(Entity.class);
-    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-    when(e.getType()).thenReturn("teacherSectionAssociation");
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("teacherSectionAssociation");
 
-    validator.validate(e);
+        validator.validate(e);
 
     }
 
@@ -217,31 +215,31 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-    String invalidXmlIncorrectEnum = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
+        String invalidXmlIncorrectEnum = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
                 + "<TeacherSectionAssociation>"
                 + "<TeacherReference>"
-                   + "<StaffIdentity>"
-                      + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
-                   + "</StaffIdentity>"
+                + "<StaffIdentity>"
+                + "<StaffUniqueStateId>333333332</StaffUniqueStateId>"
+                + "</StaffIdentity>"
                 + "</TeacherReference>"
                 + "<SectionReference>"
-                   + "<SectionIdentity>"
-                      + "<UniqueSectionCode>123456111</UniqueSectionCode>"
-                   + "</SectionIdentity>"
+                + "<SectionIdentity>"
+                + "<UniqueSectionCode>123456111</UniqueSectionCode>"
+                + "</SectionIdentity>"
                 + "</SectionReference>"
                 + "<ClassroomPosition>Teacher of Records</ClassroomPosition>"
-          + "</TeacherSectionAssociation>"
-          + "</InterchangeStaffAssociation>";
+                + "</TeacherSectionAssociation>"
+                + "</InterchangeStaffAssociation>";
 
     NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
             invalidXmlIncorrectEnum, recordLevelDeltaEnabledEntityNames);
 
-    Entity e = mock(Entity.class);
-    when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-    when(e.getType()).thenReturn("teacherSectionAssociation");
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("teacherSectionAssociation");
 
-    validator.validate(e);
+        validator.validate(e);
 
     }
 
@@ -266,23 +264,23 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-                targetSelector, xmlTestData, recordLevelDeltaEnabledEntityNames);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                xmlTestData, recordLevelDeltaEnabledEntityNames);
 
         checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
-   }
+    }
 
-   private void checkValidTeacherSectionAssociationNeutralRecord(NeutralRecord record) {
-       Map<String, Object> entity = record.getAttributes();
+    private void checkValidTeacherSectionAssociationNeutralRecord(NeutralRecord record) {
+        Map<String, Object> entity = record.getAttributes();
 
-       Assert.assertEquals("333333332", entity.get("teacherId"));
+        Assert.assertEquals("333333332", entity.get("teacherId"));
 
-       Assert.assertEquals("123456111", entity.get("sectionId"));
+        Assert.assertEquals("123456111", entity.get("SectionReference"));
 
-       Assert.assertEquals("Teacher of Record", entity.get("classroomPosition"));
-       Assert.assertEquals("1998-01-01", entity.get("beginDate"));
-       Assert.assertEquals("2008-01-01", entity.get("endDate"));
-       Assert.assertEquals("true", entity.get("highlyQualifiedTeacher").toString());
+        Assert.assertEquals("Teacher of Record", entity.get("classroomPosition"));
+        Assert.assertEquals("1998-01-01", entity.get("beginDate"));
+        Assert.assertEquals("2008-01-01", entity.get("endDate"));
+        Assert.assertEquals("true", entity.get("highlyQualifiedTeacher").toString());
 
-   }
+    }
 }
