@@ -15,8 +15,9 @@ fi
 sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
 echo Shards killed.
 
-sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
-echo Shards started.
+echo starting shards.
+$SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
+echo
 
 mongo admin $SLI_HOME/config/shards/sli_shards.js
 #mongo admin $SLI_HOME/config/shards/is_shards.js
