@@ -16,7 +16,7 @@ sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
 echo
 
 echo starting shards.
-sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
+$SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo
 
 echo setting the maximum number of open file descriptors to 20000
