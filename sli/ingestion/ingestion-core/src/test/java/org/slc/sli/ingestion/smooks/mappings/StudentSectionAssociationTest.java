@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.util.Map;
@@ -48,6 +47,11 @@ public class StudentSectionAssociationTest {
 
             + "<SectionReference>"
             + "<SectionIdentity>"
+            + "<EducationalOrgReference>"
+            + "<EducationalOrgIdentity>"
+            + "<StateOrganizationId>State Organization Id</StateOrganizationId>"
+            + "</EducationalOrgIdentity>"
+            + "</EducationalOrgReference>"
             + "<UniqueSectionCode>MT100</UniqueSectionCode>"
             + "</SectionIdentity>"
             + "</SectionReference>"
@@ -60,8 +64,7 @@ public class StudentSectionAssociationTest {
 
             + " <BeginDate>2009-09-15</BeginDate>"
             + " <EndDate>2010-06-02</EndDate>"
-            + " <HomeroomIndicator>false</HomeroomIndicator>"
-            + " <RepeatIdentifier>Not repeated</RepeatIdentifier>"
+            + " <HomeroomIndicator>false</HomeroomIndicator>" + " <RepeatIdentifier>Not repeated</RepeatIdentifier>"
 
             + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
 
@@ -69,6 +72,11 @@ public class StudentSectionAssociationTest {
             + "<StudentSectionAssociation>"
             + "<SectionReference>"
             + "<SectionIdentity>"
+            + "<EducationalOrgReference>"
+            + "<EducationalOrgIdentity>"
+            + "<StateOrganizationId>State Organization Id</StateOrganizationId>"
+            + "</EducationalOrgIdentity>"
+            + "</EducationalOrgReference>"
             + "<UniqueSectionCode>MT100</UniqueSectionCode>"
             + "</SectionIdentity>"
             + "</SectionReference>"
@@ -104,8 +112,10 @@ public class StudentSectionAssociationTest {
     @SuppressWarnings("unchecked")
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-        Assert.assertEquals("111220001", ((Map<String, Object>) ((Map<String, Object>) entity.get("StudentReference")).get("StudentIdentity")).get("StudentUniqueStateId"));
-        Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode"));
+        Assert.assertEquals("111220001", ((Map<String, Object>) ((Map<String, Object>) entity.get("StudentReference"))
+                .get("StudentIdentity")).get("StudentUniqueStateId"));
+        Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("SectionReference"))
+                .get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
@@ -116,7 +126,8 @@ public class StudentSectionAssociationTest {
     private void checkInValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
         Assert.assertEquals(null, entity.get("StudentReference"));
-        Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("sectionReference")).get("sectionIdentity")).get("uniqueSectionCode"));
+        Assert.assertEquals("MT100", ((Map<String, Object>) ((Map<String, Object>) entity.get("SectionReference"))
+                .get("sectionIdentity")).get("uniqueSectionCode"));
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals(null, entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());

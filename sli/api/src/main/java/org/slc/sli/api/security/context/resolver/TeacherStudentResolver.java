@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -107,8 +108,19 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         List<String> sectionIds = getTeachersSectionIds(principal);
 
-        // section -> studentSectionAssociation
-        Iterable<Entity> studentSectionAssociations = helper.getReferenceEntities(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, sectionIds);
+        Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ParameterConstants.ID, sectionIds);
+
+        List<Entity> studentSectionAssociations = new ArrayList<Entity>();
+        for (Entity section : sections) {
+            Map<String, List<Entity>> embeddedData = section.getEmbeddedData();
+
+            if (embeddedData != null) {
+                List<Entity> associations = embeddedData.get(EntityNames.STUDENT_SECTION_ASSOCIATION);
+                if (associations != null) {
+                    studentSectionAssociations.addAll(associations);
+                }
+            }
+        }
 
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();

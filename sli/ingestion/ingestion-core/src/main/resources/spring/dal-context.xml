@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
   default-autowire="byName">
-  
+
   <!-- SHARED CONFIG -->
 
   <tx:annotation-driven />
@@ -21,7 +21,7 @@
   <!-- MONGODB CONFIG -->
   <mongo:mongo id="stagingMongo" host="${sli.ingestion.staging.mongodb.host}" port="${sli.ingestion.staging.mongodb.port}">
     <mongo:options connections-per-host="${sli.stagingmongodb.connections}" auto-connect-retry="true"
-      socket-timeout="60000" socket-keep-alive="true" />
+      socket-timeout="600000" socket-keep-alive="true" />
   </mongo:mongo>
 
   <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}"
@@ -78,7 +78,7 @@
   <!-- MONGODB BATCHJOB CONFIG -->
   <mongo:mongo id="batchJobMongo" host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}">
     <mongo:options connections-per-host="${sli.batchjobmongodb.connections}" auto-connect-retry="true"
-      socket-timeout="60000" socket-keep-alive="true" />
+      socket-timeout="600000" socket-keep-alive="true" />
   </mongo:mongo>
 
   <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"

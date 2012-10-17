@@ -36,8 +36,6 @@ public class DefaultQueryMangler extends Mangler {
             if (criteria.getKey().equals("_id")) {
                 idCriteria = criteria;
                 isList = false;
-            } else if (!criteria.getKey().equals("metaData.tenantId")) {
-                isQueried = true;
             }
         }
         if (isList) {

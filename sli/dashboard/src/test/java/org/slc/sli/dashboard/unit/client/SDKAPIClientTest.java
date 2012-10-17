@@ -459,7 +459,7 @@ public class SDKAPIClientTest {
         // never used by any call at this time
 
         when(mockSdk.read(anyString())).thenReturn(fromFile(filename));
-        List<GenericEntity> sessions = client.getSessions(token, null);
+        List<GenericEntity> sessions = client.getSessions(token, (String) null, null);
 
         assertNotNull(sessions);
         assertEquals(5, sessions.size());

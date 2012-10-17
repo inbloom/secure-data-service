@@ -17,12 +17,7 @@
 package org.slc.sli.domain;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import org.bson.BasicBSONObject;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
@@ -60,7 +55,7 @@ public class MongoEntity implements Entity, Serializable {
     private final Map<String, Object> metaData;
     private final CalculatedData<String> calculatedData;
     private final CalculatedData<Map<String, Integer>> aggregates;
-    private final Map<String, List<Map<String, Object>>> embeddedData;
+    private final Map<String, List<Entity>> embeddedData;
 
     private static final List<String> BASE_ATTRIBUTES = Arrays.asList("_id", "body", "type", "metaData",
             "calculatedValues", "aggregations");
@@ -106,19 +101,19 @@ public class MongoEntity implements Entity, Serializable {
         this.metaData = metaData == null ? new BasicBSONObject() : metaData;
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
-        this.embeddedData = new HashMap<String, List<Map<String, Object>>>();
+        this.embeddedData = new HashMap<String, List<Entity>>();
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
-            Map<String, List<Map<String, Object>>> embeddedData) {
+            Map<String, List<Entity>> embeddedData) {
         this.type = type;
         this.entityId = id;
         this.body = body == null ? new BasicBSONObject() : body;
         this.metaData = metaData == null ? new BasicBSONObject() : metaData;
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
-        this.embeddedData = embeddedData == null ? new HashMap<String, List<Map<String, Object>>>() : embeddedData;
+        this.embeddedData = embeddedData == null ? new HashMap<String, List<Entity>>() : embeddedData;
     }
 
     @Override
@@ -237,20 +232,24 @@ public class MongoEntity implements Entity, Serializable {
         Map<String, Map<String, Map<String, Map<String, Integer>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Integer>>>>) dbObj
                 .get("aggregations");
 
-        Map<String, List<Map<String, Object>>> embeddedData = extractEmbeddedData(dbObj);
+        Map<String, List<Entity>> embeddedData = extractEmbeddedData(dbObj);
 
         return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
                 new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData);
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, List<Map<String, Object>>> extractEmbeddedData(DBObject dbObj) {
-        Map<String, List<Map<String, Object>>> embeddedData = new HashMap<String, List<Map<String, Object>>>();
+    private static Map<String, List<Entity>> extractEmbeddedData(DBObject dbObj) {
+        Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
         for (String key : dbObj.keySet()) {
             // if (!BASE_ATTRIBUTES.contains(key)) {
             if (EmbeddedDocumentRelations.getSubDocuments().contains(key)) {
                 List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
-                embeddedData.put(key, Collections.unmodifiableList(values));
+                List<Entity> subEntityList = new ArrayList<Entity>();
+                for(Map<String, Object> subEntity : values) {
+                   subEntityList.add(fromDBObject((DBObject)subEntity));
+                }
+                embeddedData.put(key, subEntityList);
             }
         }
 
@@ -286,7 +285,7 @@ public class MongoEntity implements Entity, Serializable {
     }
 
     @Override
-    public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+    public Map<String, List<Entity>> getEmbeddedData() {
         return embeddedData;
     }
 }

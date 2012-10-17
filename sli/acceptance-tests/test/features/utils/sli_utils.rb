@@ -27,6 +27,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
+require 'digest/sha1'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -133,6 +134,12 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
 }
+
+def convertTenantIdToDbName(tenantId)
+  db_name = Digest::SHA1.hexdigest tenantId
+  puts "Tenant: #{tenantId} DB: #{db_name}"
+  return db_name
+end
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -312,110 +319,110 @@ end
 def ensureIndexes(db)
 
   @collection = @db["assessment"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["attendance"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["course"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["educationOrganization"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["gradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["parent"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["school"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["section"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
 
   @collection = @db["session"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["staff"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["staffEducationOrganizationAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["student"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["studentAssessmentAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["studentParentAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
   @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
 
   @collection = @db["studentSchoolAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
 
   @collection = @db["studentSectionAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
 
   @collection = @db["studentGradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["studentTranscriptAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.save( {'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['body.courseId', 1]])
+  @collection.remove( {'body' => {'courseId' => " ", 'studentId' => " "}} )
 
   @collection = @db["teacher"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.save({ 'metaData' => {'externalId' => " "} })
+  @collection.ensure_index([['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " "} })
 
   @collection = @db["teacherSectionAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
-  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.save( {'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['body.sectionId', 1]])
+  @collection.remove( {'body' => {'teacherId' => " ", 'sectionId' => " "}} )
 
 end
 
@@ -666,3 +673,4 @@ end
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
+

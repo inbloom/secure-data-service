@@ -21,13 +21,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -47,6 +49,7 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
@@ -114,6 +117,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
+
+    @Resource
+    private EdOrgHelper edOrgHelper;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -372,11 +378,11 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
@@ -416,7 +422,7 @@ public class BasicService implements EntityService {
 
         String clientId = getClientId();
 
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                 getEntityDefinition().getType(), id, clientId });
 
         NeutralQuery query = new NeutralQuery();
@@ -476,20 +482,20 @@ public class BasicService implements EntityService {
 
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new String[] { getEntityDefinition().getType(), id, clientId });
+                    new Object[] { getEntityDefinition().getType(), id, clientId });
             return;
         }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
 
@@ -534,10 +540,11 @@ public class BasicService implements EntityService {
 
             if (found != ids.size()) {
 
-                //Here's the deal - we want to avoid having to index based on createdBy/isOrphan
-                //So found won't include any orphaned entities that the user created.
-                //We do an additional query of the referenced fields without any additional security criteria
-                //and check the isOrphaned and createdBy on each of those
+                // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                // So found won't include any orphaned entities that the user created.
+                // We do an additional query of the referenced fields without any additional
+                // security criteria
+                // and check the isOrphaned and createdBy on each of those
                 neutralQuery = new NeutralQuery();
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
@@ -547,9 +554,8 @@ public class BasicService implements EntityService {
                 SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
                 String userId = user.getEntity().getEntityId();
                 for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
-
-                    if (userId.equals(ent.getMetaData().get("createdBy")) &&
-                        "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                    if (userId.equals(ent.getMetaData().get("createdBy"))
+                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                         found++;
                     }
                 }
@@ -576,6 +582,21 @@ public class BasicService implements EntityService {
      * @return
      */
     private EntityBody makeEntityBody(Entity entity) {
+        EntityBody toReturn = createBody(entity);
+
+        if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
+            for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
+                List<EntityBody> subDocbody = new ArrayList<EntityBody>();
+                for (Entity subEntity : enbDocList.getValue()) {
+                    subDocbody.add(createBody(subEntity));
+                }
+                toReturn.put(enbDocList.getKey(), subDocbody);
+            }
+        }
+        return toReturn;
+    }
+
+    private EntityBody createBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
 
         for (Treatment treatment : treatments) {
@@ -616,18 +637,20 @@ public class BasicService implements EntityService {
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-            	EntityService referencingEntityService = referencingEntity.getService();
+                EntityService referencingEntityService = referencingEntity.getService();
 
-            	List<String> includeFields = new ArrayList<String>();
-            	includeFields.add(referenceField);
+                List<String> includeFields = new ArrayList<String>();
+                includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
                 neutralQuery.setIncludeFields(includeFields);
 
                 try {
-                	//entities that have arrays of references only cascade delete the array entry, not the whole entity
-                	if (referencingEntity.hasArrayField(referenceField)) {
-                		// list all entities that have the deleted entity's ID in one of their arrays
+                    // entities that have arrays of references only cascade delete the array entry,
+                    // not the whole entity
+                    if (referencingEntity.hasArrayField(referenceField)) {
+                        // list all entities that have the deleted entity's ID in one of their
+                        // arrays
                         for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
                             String idToBePatched = (String) entityBody.get("id");
                             List<?> basicDBList = (List<?>) entityBody.get(referenceField);
@@ -636,8 +659,9 @@ public class BasicService implements EntityService {
                             patchEntityBody.put(referenceField, basicDBList);
                             referencingEntityService.patch(idToBePatched, patchEntityBody);
                         }
-                	} else {
-                		// list all entities that have the deleted entity's ID in their reference field (for deletion)
+                    } else {
+                        // list all entities that have the deleted entity's ID in their reference
+                        // field (for deletion)
                         for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
                             String idToBeDeleted = (String) entityBody.get("id");
                             // delete that entity as well
@@ -645,7 +669,7 @@ public class BasicService implements EntityService {
                             // delete custom entities attached to this entity
                             deleteAttachedCustomEntities(idToBeDeleted);
                         }
-                	}
+                    }
                 } catch (AccessDeniedException ade) {
                     debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
@@ -751,7 +775,7 @@ public class BasicService implements EntityService {
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
         String securityField = "_id";
-        String blackListedEdOrgs = null;
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         securityCriteria.setCollectionName(toType);
 
@@ -760,9 +784,8 @@ public class BasicService implements EntityService {
         }
 
         Entity entity = principal.getEntity();
-        String type = entity != null ? entity.getType() : null;   // null for super admins because
-        // they don't contain mongo
-        // entries
+        String type = entity.getType();
+        // null for super admins because they don't contain mongo entries
 
         if (isPublic()) {
             securityCriteria.setSecurityCriteria(null);
@@ -773,34 +796,38 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = new DenyAllContextResolver();
         if (!securityCachingStrategy.contains(toType)) {
             resolver = contextResolverStore.findResolver(type, toType);
-
             allowed = resolver.findAccessible(principal.getEntity());
-
         } else {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (type != null) {
-            // Prevent apps from using data that wasn't allowed
-            Set<String> blacklist = edOrgNodeFilter.getBlacklist();
-            blackListedEdOrgs = StringUtils.join(blacklist, ',');
-            if (!blacklist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "nin", blackListedEdOrgs,
-                        false));
+        if (!type.equals("user")) {
+            // Rather than using a blacklist, compute the intersection of authorized app's education
+            // organizations ('whitelist') and the parents of directly associated education
+            // organizations of the user
+            List<String> whitelist = edOrgNodeFilter.getWhitelist();
+            Set<String> finalSet = new HashSet<String>(whitelist);
+            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+                for (String id : whitelist) {
+                    finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
+                }
             }
 
-
+            if (!whitelist.isEmpty()) {
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in",
+                        new ArrayList<String>(finalSet), false));
+            }
         }
         if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
         }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
+            securityCriteria.setBlacklistCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
         }
-
 
         return securityCriteria;
     }
@@ -995,10 +1022,21 @@ public class BasicService implements EntityService {
         metadata.put("createdBy", createdBy);
         metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
-        // add the edorgs for staff
-        createEdOrgMetaDataForStaff(principal, metadata);
+        if (isStaff(principal)) {
+            createEdOrgMetaDataForStaff(principal, metadata);
+        } else if (isTeacher(principal)) {
+            createEdOrgMetaDataForTeacher(principal, metadata);
+        }
 
         return metadata;
+    }
+
+    private boolean isStaff(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.STAFF);
+    }
+
+    private boolean isTeacher(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.TEACHER);
     }
 
     /**
@@ -1016,6 +1054,25 @@ public class BasicService implements EntityService {
         if (!edOrgIds.isEmpty()) {
             debug("Updating metadData with edOrg ids");
             metaData.put("edOrgs", edOrgIds);
+        }
+    }
+
+    /**
+     * Update the metaData for an entity created by a teacher by adding the current list of edOrgs
+     * on the teacher to the created entity.
+     *
+     * @param principal
+     *            SLI Principal (contains mongo entity).
+     * @param metaData
+     *            HashMap representing metaData of entity to be updated.
+     */
+    private void createEdOrgMetaDataForTeacher(SLIPrincipal principal, Map<String, Object> metaData) {
+        Entity entity = principal.getEntity();
+        if (entity.getMetaData().containsKey("edOrgs")) {
+            @SuppressWarnings("unchecked")
+            List<String> lineage = (List<String>) entity.getMetaData().get("edOrgs");
+            debug("Updating metadData with edOrg ids");
+            metaData.put("edOrgs", lineage);
         }
     }
 

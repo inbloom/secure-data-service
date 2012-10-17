@@ -1,63 +1,64 @@
 {
     "keyFields" : [ "body.studentId", "body.programId", "body.beginDate"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.studentId",
+        "deprecated" : false,
         "ref" :
         {
-	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.programId",
         "ref" :
         {
-	        "entityType" : "program",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.programId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "program",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.programId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.educationOrganizationId",
         "ref" :
         {
-	        "entityType" : "educationOrganization",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.stateOrganizationId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "educationOrganization",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.stateOrganizationId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
+                        }]
+                    }
+                ]
+            ]
         }
     }],
 

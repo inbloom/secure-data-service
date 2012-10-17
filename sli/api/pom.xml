@@ -272,6 +272,24 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <classesClassifier>classes</classesClassifier>
+                    <webResources>
+                       <resource>
+                               <directory>../config/indexes/</directory>
+                               <targetPath>../classes</targetPath>
+                               <filtering>true</filtering>
+                               <includes>
+                                   <include>**/tenantDB_indexes.js</include>
+                               </includes>
+                           </resource>
+                           <resource>
+                               <directory>../config/shards/</directory>
+                               <targetPath>../classes</targetPath>
+                               <filtering>true</filtering>
+                               <includes>
+                                   <include>**/sli-shard-presplit.js</include>
+                               </includes>
+                           </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
@@ -306,37 +324,13 @@
                             implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
-                            <!-- increase header buffer size to support our 
+                            <!-- increase header buffer size to support our
                                 aggressive linking strategy -->
                             <headerBufferSize>16384</headerBufferSize>
                         </connector>
                     </connectors>
                 </configuration>
             </plugin>
-            
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>copy-resources</id>
-                           <!-- here the phase you need -->
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                            <outputDirectory>src/main/resources</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>../config/shards</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                            </configuration>
-                        </execution>
-                   </executions>
-             </plugin>
-            
         </plugins>
     </build>
 </project>

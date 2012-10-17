@@ -9,6 +9,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,19 +30,15 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import com.mongodb.WriteResult;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import com.mongodb.DBCollection;
 
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.CalculatedData;
@@ -341,15 +340,15 @@ public class ElasticSearchRepository implements Repository<Entity> {
         public String getStagedEntityId() {
             return null;
         }
-        
+
         @Override
-        public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+        public Map<String, List<Entity>> getEmbeddedData() {
             return null;
         }
     }
-    
-    
-    
+
+
+
     // Unimplemented methods
 
     @Override

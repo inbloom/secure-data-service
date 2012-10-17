@@ -29,7 +29,10 @@ require_relative '../../utils/api_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 API_DB = PropLoader.getProps['DB_HOST']
-API_DB_NAME = PropLoader.getProps['api_database_name']
+
+DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar";
+API_DB_NAME = convertTenantIdToDbName(DB_NAME);
+
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
