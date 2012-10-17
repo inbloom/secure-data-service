@@ -453,7 +453,6 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-StudentSchoolAssociationExtension">
-      <xs:documentation/>
     <xs:complexContent>
       <xs:extension base="SLC-StudentSchoolAssociationRestriction">
         <xs:sequence>
