@@ -365,7 +365,7 @@ task :realmInit => [:appInit] do
   setFixture("customRole", "customRole_chaos_mokey_org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer_email_slidev_org")
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "developer-email@slidev.org")
   setFixture("customRole", "customRole_developer-email@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
@@ -373,11 +373,11 @@ task :realmInit => [:appInit] do
   setFixture("customRole", "customRole_fakedev_zork_net_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator_slidev_org")
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "sandboxadministrator@slidev.org")
   setFixture("customRole", "customRole_sandboxadministrator@slidev.org_fixture.json", "test/data")
   swap_realm_ids()
 
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper_slidev_org")
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "anothersandboxdeveloper@slidev.org")
   setFixture("customRole", "customRole_fixture.json", "test/data")
   swap_realm_ids()
 

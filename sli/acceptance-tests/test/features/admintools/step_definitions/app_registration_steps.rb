@@ -372,7 +372,7 @@ end
 
 When /^I click on the In Progress button$/ do
   @mongo_ids = []
-  db = Mongo::Connection.new[convertTenantIdToDbName('developer_email_slidev_org')]['educationOrganization']
+  db = Mongo::Connection.new[convertTenantIdToDbName('developer-email@slidev.org')]['educationOrganization']
 
   ed_org = build_edorg("Some State", "developer-email@slidev.org")
   ed_org[:body][:organizationCategories] = ["State Education Agency"]

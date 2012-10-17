@@ -37,8 +37,9 @@ Before do
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(convertTenantIdToDbName('mreynolds'))
-   @sandboxdb = Mongo::Connection.new.db(convertTenantIdToDbName('devldapuser_slidev_org'))
-   @sandboxdb_name = convertTenantIdToDbName('devldapuser_slidev_org')
+
+   @sandboxdb_name = convertTenantIdToDbName('devldapuser@slidev.org')
+   @sandboxdb = Mongo::Connection.new.db(@sandboxdb_name)
    @slidb = Mongo::Connection.new.db("sli")
 end
 
