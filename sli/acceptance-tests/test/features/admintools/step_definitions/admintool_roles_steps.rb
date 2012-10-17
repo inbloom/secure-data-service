@@ -27,7 +27,7 @@ require_relative '../../utils/selenium_common.rb'
 # ENVIRONMENT CONFIGURATION - for security event testing
 ############################################################
 
-INGESTION_DB_NAME = 'Midgar'
+INGESTION_DB_NAME = convertTenantIdToDbName('Midgar')
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 
 ############################################################
