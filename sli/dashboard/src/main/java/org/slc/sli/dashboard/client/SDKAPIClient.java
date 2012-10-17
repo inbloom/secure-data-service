@@ -412,12 +412,15 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @Override
-    public List<GenericEntity> getSessions(String token, Map<String, String> params) {
+    public List<GenericEntity> getSessions(String token, String schoolId, Map<String, String> params) {
         String url = "";
+        if (schoolId != null) {
+            url = SDKConstants.SCHOOLS_ENTITY + schoolId;
+        }
         if (params != null && !params.isEmpty()) {
-            url = SDKConstants.SESSIONS_ENTITY + "?" + this.buildQueryString(params);
+            url += SDKConstants.SESSIONS_ENTITY + "?" + this.buildQueryString(params);
         } else {
-            url = SDKConstants.SESSIONS_ENTITY;
+            url += SDKConstants.SESSIONS_ENTITY;
         }
         return this.readEntityList(token, url);
     }
@@ -500,7 +503,7 @@ public class SDKAPIClient implements APIClient {
         List<GenericEntity> sections = this.getSections(token, params);
 
         // Enrich sections with session details
-        enrichSectionsWithSessionDetails(token, sections);
+        enrichSectionsWithSessionDetails(token, null, sections);
 
         // Enable filtering
         sections = filterCurrentSections(sections, true);
@@ -645,7 +648,7 @@ public class SDKAPIClient implements APIClient {
             sections = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY + schoolId + SDKConstants.SECTIONS + "?"
                     + Constants.LIMIT + "=" + Constants.MAX_RESULTS);
 
-            enrichSectionsWithSessionDetails(token, sections);
+            enrichSectionsWithSessionDetails(token, schoolId, sections);
 
             sections = filterCurrentSections(sections, true);
 
@@ -669,7 +672,7 @@ public class SDKAPIClient implements APIClient {
         // get courses
         List<GenericEntity> courses = new ArrayList<GenericEntity>();
         if (sections != null && !sections.isEmpty()) {
-            courses = getCourseSectionMappings(sections, token);
+            courses = getCourseSectionMappings(sections, schoolId, token);
         }
 
         return courses;
@@ -1344,9 +1347,9 @@ public class SDKAPIClient implements APIClient {
      * @param token
      * @param sections
      */
-    private void enrichSectionsWithSessionDetails(String token, List<GenericEntity> sections) {
+    private void enrichSectionsWithSessionDetails(String token, String schoolId, List<GenericEntity> sections) {
 
-        List<GenericEntity> sessions = this.getSessions(token, null);
+        List<GenericEntity> sessions = this.getSessions(token, schoolId, null);
         if ((sessions != null) && (sections != null)) {
 
             // Setup sessions lookup map
@@ -1489,7 +1492,7 @@ public class SDKAPIClient implements APIClient {
      * Get the associations between courses and sections
      */
     @Override
-    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
+    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String schoolId, String token) {
         Map<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
 
@@ -1502,10 +1505,13 @@ public class SDKAPIClient implements APIClient {
         if (sections != null) {
 
             Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
-
+            String url = "";
+            if (schoolId != null) {
+                url = SDKConstants.SCHOOLS_ENTITY + schoolId;
+            }
             // find the course for each course offering
             List<GenericEntity> courseOfferings = readEntityList(token,
-                    SDKConstants.COURSE_OFFERINGS + "?" + this.buildQueryString(null));
+                    url + SDKConstants.COURSE_OFFERINGS + "?" + this.buildQueryString(null));
             if (courseOfferings != null) {
                 for (GenericEntity courseOffering : courseOfferings) {
                     // Get course using courseId reference in section
@@ -1528,7 +1534,7 @@ public class SDKAPIClient implements APIClient {
 
             // get course Entity
             List<GenericEntity> courses = readEntityList(token,
-                    SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
+                    url + SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {

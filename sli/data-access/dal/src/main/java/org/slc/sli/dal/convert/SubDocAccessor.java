@@ -312,7 +312,7 @@ public class SubDocAccessor {
         }
 
         public Entity findById(String id) {
-            LOG.info("the subDoc id is: {}", id);
+            LOG.debug("the subDoc id is: {}", id);
             Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
             Query parentQuery = subDocQuery;
             if (!id.equals(getParentId(id))) {
@@ -451,7 +451,7 @@ public class SubDocAccessor {
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
-            LOG.info("the aggregate query command is: {}", queryCommand);
+            LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
