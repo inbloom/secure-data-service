@@ -47,7 +47,7 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
-  @ingestion_db_name = 'Midgar'
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   
   # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
   # it can go away once there is no lingering bad data anywhere
