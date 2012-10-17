@@ -36,9 +36,9 @@ CUSTOM_DATA_SET_CHOICE = "custom"
 Before do
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-   @db = Mongo::Connection.new.db("mreynolds")
-   @sandboxdb = Mongo::Connection.new.db("devldapuser_slidev_org")
-   @sandboxdb_name = 'devldapuser_slidev_org'
+   @db = Mongo::Connection.new.db(convertTenantIdToDbName('mreynolds'))
+   @sandboxdb = Mongo::Connection.new.db(convertTenantIdToDbName('devldapuser_slidev_org'))
+   @sandboxdb_name = convertTenantIdToDbName('devldapuser_slidev_org')
    @slidb = Mongo::Connection.new.db("sli")
 end
 
