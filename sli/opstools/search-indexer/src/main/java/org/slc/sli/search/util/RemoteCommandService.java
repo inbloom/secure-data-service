@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.StringTokenizer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +50,19 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
         Thread thread = new Thread(this);
         thread.setDaemon(true);
-        thread.run();
+        thread.start();
+    }
+
+    public void destroy() throws Exception {
+        scheduledService.shutdownNow();
+        closeSocket();
+    }
+
+    private void closeSocket() throws Exception {
+        if (this.serverSocket != null) {
+            this.serverSocket.close();
+            this.serverSocket = null;
+        }
     }
 
     // Thread run
@@ -60,6 +71,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         while (this.stopRemoteCommandService == false) {
             try {
                 listen();
+            } catch (SocketException e) {
+                // Most likely Socket is closed because of "stop" command
             } catch (Throwable t) {
                 logger.error("Error detected in Remote Command Service...", t);
             }
@@ -67,7 +80,9 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
         scheduledService.shutdownNow();
         if (this.stopRemoteCommandService) {
-            this.context.close();
+            if (this.context != null) {
+                this.context.close();
+            }
         }
 
     }
@@ -109,54 +124,58 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 }
             }
 
-            String option = null;
-            // execute command
-            switch (command.getCommands()) {
-                case Extract:
-                    logger.info("Remote Service received Extract command");
-                    option = command.getOption();
-                    if ("sync".equals(option)) {
-                        this.extractor.execute(Action.INDEX);
-                    } else if ("update".equals(option)) {
-                        this.extractor.execute(Action.UPDATE);    
-                    } else {
-                        scheduledService.schedule(new Runnable() {
-                            public void run() {
-                                extractor.execute(Action.INDEX);
-                            }
-                        }, 0, TimeUnit.SECONDS);
-                    }
-                    command.setReply("sent extract command");
-                    break;
-                case Stop:
-
-                    int delay = 5;
-                    try {
+            // if command is null, it is invalid socket request. just ignore it
+            if (command != null) {
+                String option = null;
+                // execute command
+                switch (command.getCommands()) {
+                    case Extract:
+                        logger.info("Remote Service received Extract command");
                         option = command.getOption();
-                        if (option != null && !option.isEmpty()) {
-                            delay = Integer.parseInt(option);
+                        if ("sync".equals(option)) {
+                            this.extractor.execute(Action.INDEX);
+                        } else if ("update".equals(option)) {
+                            this.extractor.execute(Action.UPDATE);
+                        } else {
+                            scheduledService.schedule(new Runnable() {
+                                public void run() {
+                                    extractor.execute(Action.INDEX);
+                                }
+                            }, 0, TimeUnit.SECONDS);
                         }
-                    } finally {
-                        logger.info("Remote Service received Stop command, shutting down in " + delay + " second(s)");
-                        scheduledService.schedule(new Runnable() {
-                            public void run() {
-                                commandShutdown();
-                            }
-                        }, delay, TimeUnit.SECONDS);
-                    }
-                    command.setReply("Shutting down in " + delay + " second(s)\n");
-                    break;
-                default:
-                    command.setReply("Available Commands:\n" + "extract (start Extractor job)\n"
-                            + "extract sync(start Extract job with synchronization)\n"
-                            + "stop (stop search-indexer with 5 seconds delay)\n"
-                            + "stop # (stop search-indexer with # second(s) delay\n");
-                    break;
-            }
+                        command.setReply("sent extract command");
+                        break;
+                    case Stop:
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            out.println(command.getReply());
-            out.close();
+                        int delay = 5;
+                        try {
+                            option = command.getOption();
+                            if (option != null && !option.isEmpty()) {
+                                delay = Integer.parseInt(option);
+                            }
+                        } finally {
+                            logger.info("Remote Service received Stop command, shutting down in " + delay
+                                    + " second(s)");
+                            scheduledService.schedule(new Runnable() {
+                                public void run() {
+                                    commandShutdown();
+                                }
+                            }, delay, TimeUnit.SECONDS);
+                        }
+                        command.setReply("Shutting down in " + delay + " second(s)\n");
+                        break;
+                    default:
+                        command.setReply("Available Commands:\n" + "extract (start Extractor job)\n"
+                                + "extract sync(start Extract job with synchronization)\n"
+                                + "stop (stop search-indexer with 5 seconds delay)\n"
+                                + "stop # (stop search-indexer with # second(s) delay\n");
+                        break;
+                }
+
+                PrintWriter out = new PrintWriter(socket.getOutputStream());
+                out.println(command.getReply());
+                out.close();
+            }
         } catch (Throwable t) {
             // SocketException is thrown by calling close while socket is blocked by accept.
             // this is expected exception because search-indexer is about shutting down.
@@ -172,8 +191,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         try {
             logger.info("Shutting down search-indexer");
             this.stopRemoteCommandService = true;
-            this.serverSocket.close();
-        } catch (IOException e) {
+            closeSocket();
+        } catch (Exception e) {
             // something went wrong.
             logger.error("Exception while shutting down socket", e);
         }
