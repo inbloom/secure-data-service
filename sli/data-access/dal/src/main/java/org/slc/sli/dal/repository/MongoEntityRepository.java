@@ -133,9 +133,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         for (String tenantId : distinctTenantIds) {
             // escape nasty characters
 
-            tenantId = TenantIdToDbName.convertTenantIdToDbName(tenantId);
+            String dbName = TenantIdToDbName.convertTenantIdToDbName(tenantId);
 
-            if (isValidDbName(tenantId)) {
+            if (isValidDbName(dbName)) {
                 TenantContext.setTenantId(tenantId);
 
                 List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);

@@ -99,6 +99,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+
         resolveReferences(item, errorReport);
 
         if (errorReport.hasErrors()) {
@@ -157,8 +158,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
-        // TODO: uncomment when deterministic id reference resolution should be activated
-        // didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 

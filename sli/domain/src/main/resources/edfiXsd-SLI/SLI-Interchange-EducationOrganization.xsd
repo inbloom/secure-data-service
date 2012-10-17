@@ -17,9 +17,9 @@
 				<xs:element name="School" type="School"/>
 				<xs:element name="Location" type="Location"/>
 				<xs:element name="ClassPeriod" type="ClassPeriod"/>
-				<xs:element name="Course" type="SLI-CourseExtension"/>
+				<xs:element name="Course" type="SLC-CourseExtension"/>
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
-				<xs:element name="Program" type="SLI-ProgramRestriction"/>
+				<xs:element name="Program" type="SLC-ProgramRestriction"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

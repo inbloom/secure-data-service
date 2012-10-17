@@ -52,7 +52,7 @@ db["application"].ensureIndex({"body.admin_visible":1});
 db["application"].ensureIndex({"body.allowed_for_all_edorgs":1});
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["application"].ensureIndex({"body.authorized_for_all_edorgs":1});
-db["application"].ensureIndex({"body.client_secret":1,"body.client_id":1});
+db["application"].ensureIndex({"body.client_id":1,"body.client_secret":1});
 db["application"].ensureIndex({"body.name":1});
 
 db["applicationAuthorization"].ensureIndex({"body.appIds":1});
@@ -70,7 +70,7 @@ db["securityEvent"].ensureIndex({"metaData.tenantId":1,"body.targetEdOrg":1,"bod
 
 db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1,"body.landingZone.preload.status":1});
 db["tenant"].ensureIndex({"body.landingZone.path":1});
-db["tenant"].ensureIndex({"body.tenantId":1});
+db["tenant"].ensureIndex({"body.tenantId":1},{unique:true});
 db["tenant"].ensureIndex({"type":1});
 
 db["userSession"].ensureIndex({"body.appSession.code.value":1});

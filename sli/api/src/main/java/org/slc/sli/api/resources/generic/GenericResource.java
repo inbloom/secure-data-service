@@ -15,21 +15,10 @@
  */
 package org.slc.sli.api.resources.generic;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.resources.generic.response.DefaultResponseBuilder;
-import org.slc.sli.api.resources.generic.service.ResourceService;
-import org.slc.sli.api.resources.generic.response.GetAllResponseBuilder;
-import org.slc.sli.api.resources.generic.response.GetResponseBuilder;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -37,6 +26,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.response.DefaultResponseBuilder;
+import org.slc.sli.api.resources.generic.response.GetAllResponseBuilder;
+import org.slc.sli.api.resources.generic.response.GetResponseBuilder;
+import org.slc.sli.api.resources.generic.service.ResourceService;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 /**
  * Base resource class for all dynamic end points
@@ -87,7 +90,7 @@ public abstract class GenericResource {
 	/**
 	 * Runs the first four path segments as a separate call to fetch ids to
 	 * inject into Subsequent call for URI rewrites
-	 * 
+	 *
 	 * @param uriInfo
 	 * @param template
 	 * @return
@@ -100,15 +103,19 @@ public abstract class GenericResource {
 			template);
 
         ServiceResponse resp = resourceService.getEntities(base, id,
-				association, resource, uriInfo.getRequestUri());
+				association, resource, URI.create(uriInfo.getRequestUri().getPath()));
 
         StringBuilder ids = new StringBuilder();
 
-        for (EntityBody eb : resp.getEntityBodyList()) {
-            ids.append(eb.get("id") + ",");
+        for (Iterator<EntityBody> i = resp.getEntityBodyList().iterator(); i.hasNext(); ) {
+        	EntityBody eb = i.next();
+        	ids.append(eb.get("id"));
+        	if (i.hasNext()) {
+        		ids.append(",");
+        	}
         }
 
-        return ids.toString().replaceAll(",$", "");
+        return ids.toString();
     }
 
     protected List<String> extractSegments(List<PathSegment> segments, List<Integer> indices) {

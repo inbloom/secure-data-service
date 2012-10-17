@@ -68,7 +68,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>

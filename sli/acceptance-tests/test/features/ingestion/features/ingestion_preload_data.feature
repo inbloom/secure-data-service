@@ -74,7 +74,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
-     | learningObjective                        |                197|
+     | learningObjective                        |                198|
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|

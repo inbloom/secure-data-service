@@ -94,7 +94,7 @@ public class InterchangeStudentEnrollmentGenerator {
 				graduationPlan = null;
 			} else {
 				graduationPlan = GraduationPlanGenerator
-						.generateLowFi(graduationPlanMeta.id);
+						.generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
 			}
 
 

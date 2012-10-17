@@ -82,6 +82,8 @@ public class IdNormalizer {
 
     @Autowired
     private SchemaRepository schemaRepository;
+    @Autowired
+    private ContextTaker contextTaker;
 
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
@@ -108,6 +110,15 @@ public class IdNormalizer {
                 // if (reference.isDeprecated()) {
                 // continue;
                 // }
+
+                if (reference.isDeprecated()) {
+                    // TODO: remove IdNormalizerFlag
+                    if (IdNormalizerFlag.useOldNormalization) {
+                        // override deprecated flag, complete processing
+                    } else {
+                        continue;
+                    }
+                }
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
                 NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());
@@ -345,7 +356,7 @@ public class IdNormalizer {
                 for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
                     //Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
                     Criteria choice = new Criteria();
-                    List<Criteria> andList = new ArrayList<Criteria> ();
+                    List<Criteria> andList = new ArrayList<Criteria>();
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
 
@@ -470,40 +481,7 @@ public class IdNormalizer {
 
         List<String> takesContext = refConfig.getTakesContext();
         if (takesContext != null) {
-            // if takes context is set, once records are queried for, peel off metaData.[Takes] and
-            // store on current record
-            // cannot check in cache --> need whole records for metaData propagation
-            // update cache with query results
-            @SuppressWarnings("deprecation")
-            Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
-
-            if (foundRecords != null && foundRecords.iterator().hasNext()) {
-                // for each string in takesContext array
-                // -> metaData.get(takesField) --> get context in metaData
-                // -> add context to local record
-                // -> add entity id to ids array (normal part of id normalization)
-                for (String takesField : takesContext) {
-                    for (Entity record : foundRecords) {
-                        if (record.getMetaData().containsKey(takesField)) {
-                            BasicDBList addToContext = (BasicDBList) record.getMetaData().get(takesField);
-
-                            if (entity.getMetaData().containsKey(takesField)) {
-                                BasicDBList original = (BasicDBList) entity.getMetaData().get(takesField);
-                                for (int i = 0; i < addToContext.size(); i++) {
-                                    String context = (String) addToContext.get(i);
-                                    if (!original.contains(context)) {
-                                        original.add(context);
-                                    }
-                                }
-                                entity.getMetaData().put(takesField, original);
-                            } else {
-                                entity.getMetaData().put(takesField, addToContext);
-                            }
-                        }
-                        ids.add(record.getEntityId());
-                    }
-                }
-            }
+            contextTaker.addContext(entity, takesContext, collection, filter, ids);
             cache(ids, collection, tenantId, filter);
         } else {
             // if takes context is null, query for records normally (check cache first), store on
