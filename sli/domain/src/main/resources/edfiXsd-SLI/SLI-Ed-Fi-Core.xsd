@@ -634,10 +634,10 @@ Other</xs:documentation>
   <xs:complexType name="SLC-StudentAssessmentReferenceType">
     <xs:annotation>
       <xs:documentation/>
-		<xs:appinfo>
-          <sli:applyKeyFields>true</sli:applyKeyFields>
-          <sli:refType>studentAssessmentAssociation</sli:refType>
-        </xs:appinfo>
+      <xs:appinfo>
+        <sli:applyKeyFields>true</sli:applyKeyFields>
+        <sli:refType>studentAssessmentAssociation</sli:refType>
+      </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
@@ -672,7 +672,7 @@ Other</xs:documentation>
             </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="AssessmentReference" type="AssessmentReferenceType">
+      <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType">
         <xs:annotation>
           <xs:documentation/>
             <xs:appinfo>
@@ -2010,7 +2010,7 @@ Withdrawn
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAssessmentReference" type="ReferenceType">
+			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
 			<!-- TODO: replace with SLC-StudentAssessmentReferenceType -->
 				<xs:annotation>
 					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
@@ -2044,7 +2044,7 @@ Withdrawn
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentAssessmentReference" type="ReferenceType">
+			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
 			<!-- TODO: replace with SLC-StudentAssessmentReferenceType -->
 				<xs:annotation>
 					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
