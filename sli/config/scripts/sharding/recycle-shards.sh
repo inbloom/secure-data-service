@@ -18,6 +18,9 @@ echo Shards killed.
 sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo Shards started.
 
+ulimit -n 20000
+echo Set the maximum number of open file descriptors to 20000
+
 mongo admin $SLI_HOME/config/shards/sli_shards.js --eval "var database = '02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a'"
 #mongo admin $SLI_HOME/config/shards/is_shards.js
 echo shards configured.
