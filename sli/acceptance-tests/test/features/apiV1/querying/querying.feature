@@ -64,5 +64,5 @@ Scenario Outline: Query subdoc
   And I should see a sorted list with "<offset>" offset and "<limit>" limit sorted by "<sort by>"
   Examples:
     | resource name                    | sort by   | sort order | offset | limit |
-    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | beginDate | descending | 10     | 10    |
-    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | beginDate | ascending  | 0      | 20    |
+    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | studentId | descending | 10     | 10    |
+    | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | studentId | ascending  | 0      | 20    |

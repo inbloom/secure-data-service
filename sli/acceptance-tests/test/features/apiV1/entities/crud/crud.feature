@@ -205,7 +205,6 @@ Examples:
 | "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "c549e272-9a7b-4c02-aff7-b105ed76c904"       |
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
