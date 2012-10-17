@@ -37,6 +37,7 @@ if __FILE__ == $0
   config.keys().each { |k| config[k.to_sym] = config.delete(k) }
 
   #set up logger configuration
+  $stdout.sync = true
   logger = Logger.new(Logger.const_get(config[:logger_output]))
   logger.level = Logger.const_get(config[:logger_level])
 
