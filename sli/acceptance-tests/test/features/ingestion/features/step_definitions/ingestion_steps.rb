@@ -1400,7 +1400,7 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
         @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
    elsif searchType == "double"
         @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   elseif searchType == "boolean"
+   elsif searchType == "boolean"
      if searchValue == "false"
        @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
      else
