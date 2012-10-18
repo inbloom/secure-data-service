@@ -105,21 +105,21 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
 
             // make sure a criterion for tenantId has not already been added to this query
-            boolean addCrit = true;
-            List<NeutralCriteria> criteria = query.getCriteria();
-            if (criteria != null) {
-                ListIterator<NeutralCriteria> li = criteria.listIterator();
-                while (li.hasNext()) {
-                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
-                        addCrit = false;
-                        break;
-                    }
-                }
-            }
-            // add the tenant ID if it's not already there
-            if (addCrit) {
-                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-            }
+//            boolean addCrit = true;
+//            List<NeutralCriteria> criteria = query.getCriteria();
+//            if (criteria != null) {
+//                ListIterator<NeutralCriteria> li = criteria.listIterator();
+//                while (li.hasNext()) {
+//                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
+//                        addCrit = false;
+//                        break;
+//                    }
+//                }
+//            }
+//            // add the tenant ID if it's not already there
+//            if (addCrit) {
+//                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+//            }
         }
         return query;
     }
