@@ -114,6 +114,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
         // send an elasticsearch REST query
         String query = Converter.getQuery(getClient(), neutralQuery, TenantContext.getTenantId()).toString();
 
+        System.out.println(query);
+
         // convert the response to search hits
         return Converter.toEntityCol(sendRESTQuery(query));
     }
@@ -200,13 +202,13 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 ObjectMapper mapper = new ObjectMapper();
                 String id = hitNode.get("_id").getTextValue();
                 String type = hitNode.get("_type").getTextValue();
-                JsonNode bodyNode = hitNode.get("fields").get("body");
+                JsonNode bodyNode = hitNode.get("_source");
                 Map<String, Object> body = mapper.readValue(bodyNode, tr);
-                JsonNode metaDataNode = hitNode.get("fields").get("metaData");
-                Map<String, Object> metaData = mapper.readValue(metaDataNode, tr);
+                body.remove("context");
 
                 // create a return the search hit entity
-                return new SearchHitEntity(id, type, body, metaData);
+                return new SearchHitEntity(id, type, body, null);
+
             } catch (JsonMappingException e) {
                 LOG.error("Error converting search json response to search hit entity", e);
             } catch (IOException e) {
@@ -234,7 +236,11 @@ public class ElasticSearchRepository implements Repository<Entity> {
             for (NeutralCriteria s : query.getCriteria()) {
                 if ("query".equals(s.getKey())) {
                     queryString = ((String) s.getValue()).trim();
-                    queryString = "+" + StringUtils.join(queryString.split(" "), "* +") + "*";
+
+                    // if query string is at least 3 characters, do partial match. else do exact match.
+                    if (queryString.length() >= 3) {
+                        queryString = StringUtils.join(queryString.split(" "), "* +") + "*";
+                    }
                     bqb.must(new QueryStringQueryBuilder(queryString.toLowerCase()));
                 } else {
                     bfb.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
@@ -256,8 +262,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
                     }
                 }
             }
-            srb.setQuery(bqb).setFilter(bfb).addFields("id", "body", "metaData").setFrom(query.getOffset())
-                    .setSize(query.getLimit());
+
+            srb.setQuery(bqb).setFilter(bfb).setFrom(query.getOffset()).setSize(query.getLimit());
             return srb;
         }
 

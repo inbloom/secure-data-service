@@ -18,6 +18,9 @@ package org.slc.sli.dal.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -39,16 +42,16 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ElasticSearchRepositoryTest {
 
-    //@Resource(name = "mongoEntityRepository")
-    //private Repository<Entity> repository;
-
     @Test
     public void testConvertJsonToSearchHit() throws Exception {
 
-        String json = "{\"_index\":\"midgar\",\"_type\":\"course\",\"_id\":\"id\",\"_score\":1.0," +
-        		"\"fields\":{\"body\":{\"subjectArea\":\"Mathematics\",\"courseTitle\":\"6th Grade Math\"}," +
-                "\"metaData\":{\"tenantId\":\"Midgar\",\"teacherContext\":[\"2012di\",\"2012eq\"]," +
-        		"\"edOrgs\":[\"2012rn\"],\"externalId\":\"6th Grade Math\"}}}";
+        String json = "{\"_index\" : \"midgar\"," +
+                      "\"_type\" : \"student\"," +
+                      "\"_id\" : \"someid\"," +
+                      "\"_score\" : 1.0," +
+                      "\"_source\" : {\"otherName\":[]," +
+                      "               \"name\":{\"middleName\":\"Daniella\",\"lastSurname\":\"Ortiz\",\"firstName\":\"Carmen\"}," +
+                      "               \"context\":{}}}";
 
         // create json node
         ObjectMapper mapper = new ObjectMapper();
@@ -60,9 +63,11 @@ public class ElasticSearchRepositoryTest {
 
         // check result
         assertNotNull(hit);
-        assertEquals(hit.getEntityId(), "id");
-        assertEquals(hit.getBody().get("subjectArea"), "Mathematics");
-        assertEquals(hit.getMetaData().get("tenantId"), "Midgar");
+        assertEquals(hit.getEntityId(), "someid");
+        Map<String, Object> name = (Map<String, Object>) hit.getBody().get("name");
+        assertEquals(name.get("firstName"), "Carmen");
+        assertNull(hit.getBody().get("context"));
+        assertNull(hit.getMetaData());
 
     }
 
@@ -93,11 +98,33 @@ public class ElasticSearchRepositoryTest {
         JsonNode srbNode = mapper.readTree(srbStr);
         assertEquals(srbNode.get("from").getIntValue(), 0);
         assertEquals(srbNode.get("size").getIntValue(), 100);
-        assertEquals(srbNode.get("query").get("bool").get("must").get("query_string").get("query").getTextValue(), "+matt*");
+        assertEquals(srbNode.get("query").get("bool").get("must").get("query_string").get("query").getTextValue(), "matt*");
         assertEquals(srbNode.get("filter").get("bool").get("must").get("terms").get("temp").getElements().next().asText(), "temptemp");
         assertEquals(srbNode.get("filter").get("bool").get("should").get("terms").get("test").getElements().next().asText(), "1");
-        assertEquals(srbNode.get("fields").getElements().next().asText(), "id");
     }
 
+    @Test
+    public void testGetQueryExactMatch() throws Exception {
+
+        // create transport client, neutral query
+        TransportClient esClient = new TransportClient();
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(100);
+        query.setOffset(0);
+        NeutralCriteria crit1 = new NeutralCriteria("query=ma");
+        query.addCriteria(crit1);
+
+        // make the getQuery call
+        SearchRequestBuilder srb = ElasticSearchRepository.Converter.getQuery(esClient, query, "tenant");
+        String srbStr = srb.toString();
+        //System.out.println(srbStr);
+
+        // check results
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode srbNode = mapper.readTree(srbStr);
+        assertEquals(srbNode.get("from").getIntValue(), 0);
+        assertEquals(srbNode.get("size").getIntValue(), 100);
+        assertEquals(srbNode.get("query").get("bool").get("must").get("query_string").get("query").getTextValue(), "ma");
+    }
 
 }
