@@ -1085,16 +1085,36 @@ end
 desc "Import Tenant Metrics Data"
 task :importTenantMetricsData do
   testHash = Hash[
-    "assessment" => "metrics/assessment_fixture.json",
-    "educationOrganization" => "metrics/educationOrganization_fixture.json",
-    "grade" => "metrics/grade_fixture.json",
-    "parent" => "metrics/parent_fixture.json",
-    "program" => "metrics/program_fixture.json",
-    "section" => "metrics/section_fixture.json",
-    "session" => "metrics/session_fixture.json",
-    "staff" => "metrics/staff_fixture.json",
-    "student" => "metrics/student_fixture.json",
-    "tenant" => "metrics/tenant_fixture.json"
+    "assessment" => "metrics/T1//assessment_fixture.json",
+    "educationOrganization" => "metrics/T1//educationOrganization_fixture.json",
+    "grade" => "metrics/T1//grade_fixture.json",
+    "parent" => "metrics/T1//parent_fixture.json",
+    "program" => "metrics/T1//program_fixture.json",
+    "section" => "metrics/T1//section_fixture.json",
+    "session" => "metrics/T1//session_fixture.json",
+    "staff" => "metrics/T1//staff_fixture.json",
+    "student" => "metrics/T1//student_fixture.json",
+    "tenant" => "metrics/T1/tenant_fixture.json"
+    "assessment" => "metrics/T2//assessment_fixture.json",
+    "educationOrganization" => "metrics/T2//educationOrganization_fixture.json",
+    "grade" => "metrics/T2//grade_fixture.json",
+    "parent" => "metrics/T2//parent_fixture.json",
+    "program" => "metrics/T2//program_fixture.json",
+    "section" => "metrics/T2//section_fixture.json",
+    "session" => "metrics/T2//session_fixture.json",
+    "staff" => "metrics/T2//staff_fixture.json",
+    "student" => "metrics/T2//student_fixture.json",
+    "tenant" => "metrics/T2/tenant_fixture.json"
+    "assessment" => "metrics/T3//assessment_fixture.json",
+    "educationOrganization" => "metrics/T1//educationOrganization_fixture.json",
+    "grade" => "metrics/T3//grade_fixture.json",
+    "parent" => "metrics/T3//parent_fixture.json",
+    "program" => "metrics/T3//program_fixture.json",
+    "section" => "metrics/T3//section_fixture.json",
+    "session" => "metrics/T3//session_fixture.json",
+    "staff" => "metrics/T3//staff_fixture.json",
+    "student" => "metrics/T3//student_fixture.json",
+    "tenant" => "metrics/T3/tenant_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
