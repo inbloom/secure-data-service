@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
