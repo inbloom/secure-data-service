@@ -45,6 +45,7 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -148,7 +149,7 @@ public class ApplicationAuthorizationResource {
         }
 
         EntityBody oldAuth = service.get(uuid);
-        String oldTenant = (String) ((Map<String, Object>) oldAuth.get("metaData")).get("tenantId");
+        String oldTenant = TenantContext.getTenantId();//(String) ((Map<String, Object>) oldAuth.get("metaData")).get("tenantId");
         verifyAccess((String) oldAuth.get(AUTH_ID), oldTenant);
 
         if (!oldAuth.get(AUTH_ID).equals(auth.get(AUTH_ID))) {
