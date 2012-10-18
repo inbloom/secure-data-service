@@ -16,12 +16,9 @@
 package org.slc.sli.api.search.service;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -35,6 +32,10 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Search service
@@ -53,6 +54,11 @@ public class SearchResourceService {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
+    //keep parameters for ElasticSearch
+    //q, size, offset
+    //offset is filtered ApiQuery, but accessible by getOffset()
+    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q", "size" });
+
     public ServiceResponse list(Resource resource, URI queryUri) {
 
         List<EntityBody> entityBodies = null;
@@ -67,6 +73,19 @@ public class SearchResourceService {
         // Call BasicService to query the elastic search repo
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
+
+        // keep only whitelist parameters
+        List<NeutralCriteria> criterias = apiQuery.getCriteria();
+        if (criterias != null) {
+            //use iterator to remove Object on the fly
+            Iterator<NeutralCriteria> iteratorCriteria=criterias.iterator();
+            while(iteratorCriteria.hasNext()){
+                NeutralCriteria criteria = iteratorCriteria.next();
+                if (!whilteListParameters.contains(criteria.getKey())) {
+                    iteratorCriteria.remove();
+                }
+            }
+        }
 
         // get allSchools for staff
         List<String> schoolIds = this.edOrgHelper.getUserSchools(prinipalEntity);
