@@ -382,9 +382,9 @@ task :importCompletedAggData => [:importSandboxData] do
     "student" => "completedAggregation/students.json",
     "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
     "studentSectionAssociation" => "completedAggregation/studentSections.json",
-    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json"
-    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json"
-    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json"
+    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json",
+    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json",
+    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json",
     "educationOrganization_fakedev@zork.net" => "completedAggregation/fakedev@zork.net/educationOrganization.json"
   ]
   setMultipleFixtureFiles(data)
