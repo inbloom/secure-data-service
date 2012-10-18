@@ -15,31 +15,25 @@
 //
 
 // The canonical list of sharded entity collections in tenant databases.
+// (The following low cardinality collections have been removed from the shard list. 
+//  This list may evolve with super doc and other efforts:
+//  "assessment","calendarDate","competencyLevelDescriptor","course","courseOffering","educationOrganization","gradingPeriod","learningObjective","learningStandard","program","session")
+// 
+
 var sharded_collections = [
-    "assessment",
     "attendance",
-    "calendarDate",
     "cohort",
-    "competencyLevelDescriptor",
-    "course",
-    "courseOffering",
     "courseSectionAssociation",
     "disciplineAction",
     "disciplineIncident",
-    "educationOrganization",
     "educationOrganizationAssociation",
     "educationOrganizationSchoolAssociation",
     "grade",
     "gradebookEntry",
-    "gradingPeriod",
     "graduationPlan",
-    "learningObjective",
-    "learningStandard",
     "parent",
-    "program",
     "reportCard",
     "section",
-    "session",
     "staff",
     "staffCohortAssociation",
     "staffEducationOrganizationAssociation",
