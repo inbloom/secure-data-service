@@ -64,7 +64,7 @@ db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
 
 db["realm"].ensureIndex({"body.idp.id":1});
 db["realm"].ensureIndex({"body.uniqueIdentifier":1});
-db["realm"].ensureIndex({"metaData.tenantId":1,"body.edOrg":1});
+db["realm"].ensureIndex({"body.tenantId":1,"body.edOrg":1});
 
 db["securityEvent"].ensureIndex({"metaData.tenantId":1,"body.targetEdOrg":1,"body.roles":1});
 
@@ -77,5 +77,6 @@ db["userSession"].ensureIndex({"body.appSession.code.value":1});
 db["userSession"].ensureIndex({"body.appSession.samlId":1});
 db["userSession"].ensureIndex({"body.appSession.token":1});
 db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.appSession.token":1});
+db["userSession"].ensureIndex({"body.hardLogout":1});
 db["userSession"].ensureIndex({"body.principal.externalId":1});
 db["userSession"].ensureIndex({"body.principal.realm":1});
