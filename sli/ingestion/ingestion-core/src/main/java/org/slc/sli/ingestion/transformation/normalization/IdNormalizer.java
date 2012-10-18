@@ -42,6 +42,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -354,9 +355,10 @@ public class IdNormalizer {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
 
                 for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                    //Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
-                    Criteria choice = new Criteria();
-                    List<Criteria> andList = new ArrayList<Criteria>();
+
+                    Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
+                    List<Criteria> andList = new ArrayList<Criteria> ();
+
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
 
@@ -482,6 +484,7 @@ public class IdNormalizer {
         List<String> takesContext = refConfig.getTakesContext();
         if (takesContext != null) {
             contextTaker.addContext(entity, takesContext, collection, filter, ids);
+
             cache(ids, collection, tenantId, filter);
         } else {
             // if takes context is null, query for records normally (check cache first), store on
@@ -559,7 +562,8 @@ public class IdNormalizer {
                 if (fieldValueCriteria == null) {
                     continue;
                 }
-                Criteria criteria = new Criteria();
+                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                        tenantId);
                 criteria = criteria.and(path).elemMatch(fieldValueCriteria);
                 // add the subquery to overall query
                 queryOrList.add(criteria);

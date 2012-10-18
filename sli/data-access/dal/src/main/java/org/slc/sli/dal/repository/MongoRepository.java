@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -103,7 +104,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
 
             // make sure a criterion for tenantId has not already been added to this query
-            /*
             boolean addCrit = true;
             List<NeutralCriteria> criteria = query.getCriteria();
             if (criteria != null) {
@@ -116,12 +116,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
             // add the tenant ID if it's not already there
-            //if (addCrit) {
-            //    query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-            //}
-             * */
+            if (addCrit) {
+                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+            }
         }
-
         return query;
     }
 
