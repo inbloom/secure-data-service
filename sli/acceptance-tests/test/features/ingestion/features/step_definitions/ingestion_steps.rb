@@ -834,7 +834,8 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   puts "setting ingestion_db_name to #{@ingestion_db_name}"
 
   # index the new tenant db
-  cloneAllIndexes(@conn, 'Midgar', @ingestion_db_name)
+  dbName = convertTenantIdToDbName('Midgar')
+  cloneAllIndexes(@conn, dbName, @ingestion_db_name)
 
   @body = {
     "tenantId" => tenant,
