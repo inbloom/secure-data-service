@@ -55,6 +55,7 @@ public abstract class JMSBase {
                 
                 broker.addConnector("stomp://localhost:61613");
                 broker.addConnector("tcp://localhost:61616");
+                broker.getSystemUsage().getTempUsage().setLimit(1024*1024*1024);
                 broker.start();
             }
             //use localhost and port 61616 for embedded broker to access
