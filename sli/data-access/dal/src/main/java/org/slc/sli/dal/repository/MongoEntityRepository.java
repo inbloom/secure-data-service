@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slc.sli.dal.convert.Denormalizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -86,10 +87,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private SubDocAccessor subDocs;
 
+    private Denormalizer denormalizer;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
+        denormalizer = new Denormalizer(getTemplate());
     }
 
     @Override
@@ -240,16 +244,31 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
+            denormalize(collectionName, entity);
+
             return entity;
         } else {
-            return super.insert(entity, collectionName);
+            Entity result = super.insert(entity, collectionName);
+            denormalize(collectionName, result);
+
+            return result;
+        }
+    }
+
+    private void denormalize(String collectionName, Entity entity) {
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).create(entity);
         }
     }
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).insert(records);
+        }
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
             return records;
@@ -338,9 +357,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
+
+        if (denormalizer.isDenormalizedDoc(collection)) {
+            denormalizer.denormalization(collection).create(entity);
+        }
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+
         return update(collection, entity, null); // body);
     }
 
