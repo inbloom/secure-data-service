@@ -232,13 +232,13 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
 end
 

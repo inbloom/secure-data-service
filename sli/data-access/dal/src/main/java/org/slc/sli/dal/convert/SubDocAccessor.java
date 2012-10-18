@@ -396,10 +396,7 @@ public class SubDocAccessor {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (isParentQuery && key.equals("metaData.tenantId")) {
-                        // assume the super doc has same tenantId as sub Doc
-                        newDBObject.put(newKey, newValue);
-                    } else if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
+                    if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
                         newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                     } else {
                         // for other query, append the subfield to original key
