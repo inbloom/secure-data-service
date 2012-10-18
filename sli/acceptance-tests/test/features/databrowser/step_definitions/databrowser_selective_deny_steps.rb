@@ -30,6 +30,12 @@ Transform /^IDs for "([^"]*)"$/ do |idCategory|
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak only"
     expectedIds
 end
+
+Transform /the realm "([^"]*)"/ do |realm|
+  realmId = "45b02cb0-1bad-4606-a936-094331bd47fe" if realm == "Daybreak"
+  realmId
+end
+
 Then /^I should see only myself$/ do
   begin
     @driver.find_element(:id, 'simple-table')
@@ -97,5 +103,19 @@ def coll
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end
+
+Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
+  db = Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  coll = db.collection('customRole')
+  customRoleDoc = coll.find_one({"body.realmId" => realm})
+  coll.remove({"body.realmId" => realm})
+  customRoleDoc["body"]["roles"].each do |curRole|
+    if curRole["groupTitle"] == role
+      curRole["isAdminRole"] = isAdminRole == "true" ? true : false
+    end
+  end
+  coll.insert(customRoleDoc)
+end
+
 
 
