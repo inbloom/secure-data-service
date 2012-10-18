@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
@@ -98,7 +114,6 @@ public class TeacherToStudentValidatorTest {
         Entity tsa = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
         Map<String, Object> ssaBody = generateSSA("2", "3", false);
         Entity ssa = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
-
         
         Mockito.when(
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
@@ -141,6 +156,27 @@ public class TeacherToStudentValidatorTest {
                 ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("" + j, "" + i, false)));
                 studentIds.add("" + j);
             }
+        }
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(ssas);
+        
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(tsas);
+        assertTrue(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanGetAccessThroughStudentsWithManySections() throws Exception {
+        List<Entity> tsas = new ArrayList<Entity>();
+        for (int i = 0; i < 1; ++i) {
+            tsas.add(new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, generateTSA("1", "" + i, false)));
+        }
+        List<Entity> ssas = new ArrayList<Entity>();
+        for (int i = 0; i < 10; ++i) {
+            ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("2", "" + i, false)));
+            studentIds.add("2");
         }
         Mockito.when(
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
