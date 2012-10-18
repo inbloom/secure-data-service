@@ -107,8 +107,8 @@ db["studentAcademicRecord"].ensureIndex({"body.reportCards":1});
 db["studentAcademicRecord"].ensureIndex({"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"body.studentId":1});
 //studentAssessmentAssociation is embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation.assessmentId":1});
-db["student"].ensureIndex({"studentAssessmentAssociation.studentId":1});  // do we need this?
+db["student"].ensureIndex({"studentAssessmentAssociation.body.assessmentId":1});
+db["student"].ensureIndex({"studentAssessmentAssociation.body.studentId":1});  // do we need this?
 db["studentCohortAssociation"].ensureIndex({"body.cohortId":1});
 db["studentCohortAssociation"].ensureIndex({"body.studentId":1});
 db["studentCompetency"].ensureIndex({"body.objectiveId.learningObjectiveId":1});
@@ -130,8 +130,8 @@ db["studentSchoolAssociation"].ensureIndex({"body.graduationPlanId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.schoolId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.studentId":1});
 //studentSectionAssociation is embedded into section
-db["section"].ensureIndex({"studentSectionAssociation.sectionId":1});  // do we need this?
-db["section"].ensureIndex({"studentSectionAssociation.studentId":1});
+db["section"].ensureIndex({"studentSectionAssociation.body.sectionId":1});  // do we need this?
+db["section"].ensureIndex({"studentSectionAssociation.body.studentId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.courseId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.studentAcademicRecordId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1});
