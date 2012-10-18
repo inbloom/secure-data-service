@@ -24,7 +24,7 @@ import java.util.Formatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;

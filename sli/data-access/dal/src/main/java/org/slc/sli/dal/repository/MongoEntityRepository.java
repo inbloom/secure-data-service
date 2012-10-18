@@ -37,10 +37,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;

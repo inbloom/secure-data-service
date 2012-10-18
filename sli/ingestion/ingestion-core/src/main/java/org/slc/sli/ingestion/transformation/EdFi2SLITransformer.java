@@ -34,7 +34,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
