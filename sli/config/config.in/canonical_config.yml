@@ -87,7 +87,7 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
-        sli.search.embedded: true
+        sli.search.embedded: false
         sli.search.service.timeout: 3000
 
         # Key substitutions
@@ -405,7 +405,7 @@ default:
         sli.search.indexer.queue.username: system
         sli.search.indexer.queue.password: manager
         sli.search.indexer.queue.name: search_events
-        sli.search.indexer.broker.embedded: false
+        sli.search.indexer.broker.embedded: true
 
 acceptance-tests:
     api:
