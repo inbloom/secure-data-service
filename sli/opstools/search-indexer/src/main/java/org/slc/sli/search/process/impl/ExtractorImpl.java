@@ -62,8 +62,6 @@ public class ExtractorImpl implements Extractor {
 
     private String extractDir = Constants.DEFAULT_TMP_DIR;
 
-    private String inboxDir;
-
     private ExecutorService executor;
 
     private int executorThreads = DEFAULT_EXECUTOR_THREADS;
@@ -266,10 +264,6 @@ public class ExtractorImpl implements Extractor {
 
     public void setExtractDir(String extractDir) {
         this.extractDir = extractDir;
-    }
-
-    public void setInboxDir(String inboxDir) {
-        this.inboxDir = inboxDir;
     }
 
     public void setMaxLinePerFile(int maxLinePerFile) {
