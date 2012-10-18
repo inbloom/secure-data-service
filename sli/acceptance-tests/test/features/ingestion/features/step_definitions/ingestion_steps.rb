@@ -2141,8 +2141,7 @@ Then /^I check that ids were generated properly:$/ do |table|
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    puts "subdoc_parent #{subdoc_parent}"
-    
+
     did = row['deterministicId']
     field = row['field']
     value = row['value']
