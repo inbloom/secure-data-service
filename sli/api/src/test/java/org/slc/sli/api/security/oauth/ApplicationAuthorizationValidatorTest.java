@@ -117,6 +117,7 @@ public class ApplicationAuthorizationValidatorTest {
         body = new HashMap<String, Object>();
         body.put("name", "Approved App");
         body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        body.put("is_admin", false);
         approvedApp = repo.create("application", body);
 
         //Create a normal app that's authorized by the edorg but not approved by developer
