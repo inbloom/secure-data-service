@@ -31,7 +31,7 @@ class SLCFixer
     $stdout.sync = true
     @forever = forever
     @tenant = tenant
-    @basic_query = tenant.nil? ? {} : {"metaData.tenantId" => tenant} 
+    @basic_query = tenant.nil? ? {} : {} 
     @mutex = Mutex.new
     @db = db
     @students = @db['student']
