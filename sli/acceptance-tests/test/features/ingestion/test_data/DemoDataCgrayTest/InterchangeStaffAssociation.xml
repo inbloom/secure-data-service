@@ -73,8 +73,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 923</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -87,8 +91,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 142</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 142</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -101,8 +109,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 143</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 143</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -115,8 +127,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -129,8 +145,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -143,8 +163,12 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-        <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>

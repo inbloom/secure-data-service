@@ -54,9 +54,13 @@ public class GraduationPlanGenerator {
         this(true);
     }
 
-    public static GraduationPlan generateLowFi(String graduationPlanId) {
-    	
-   	 GraduationPlan gp = new GraduationPlan();
+    public static GraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
+    	//TODO: this is a hack that needs to come out upon completion of US4349.TA6826
+        if (GraduationPlanType.NUM_TYPES <= typeIndex)
+        	return null;
+        //End hack
+
+   	    GraduationPlan gp = new GraduationPlan();
 
         gp.setId(graduationPlanId);
 
@@ -65,22 +69,21 @@ public class GraduationPlanGenerator {
         Credits cs = new Credits();
         cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
         gp.setTotalCreditsRequired(cs);
-        
+
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        //eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
+        eoit.setStateOrganizationId(edOrg);
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        eort.setEducationalOrgIdentity(eoit);
+        gp.setEducationOrganizationReference(eort);
+
         return gp;
    }
     
-    public GraduationPlan generate(String graduationPlanId, List<String> courses, List<String> edOrgs) {
-        GraduationPlan gp = new GraduationPlan();
+    public GraduationPlan generate(String graduationPlanId, List<String> courses, String edOrg) {
+        GraduationPlan gp = generateLowFi(graduationPlanId, edOrg);
 
-        gp.setId(graduationPlanId);
-
-        gp.setGraduationPlanType(GraduationPlanType.fromIndex(typeIndex++));
-
-        Credits cs = new Credits();
-        cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
-        gp.setTotalCreditsRequired(cs);
-
-        if (optional) {
+        if (null != gp && optional) {
             gp.setIndividualPlan(random.nextBoolean());
 
             for (int i = 0 ; i < numberOfCreditsBySubject ; i++ ) {
@@ -108,15 +111,6 @@ public class GraduationPlanGenerator {
                 cbc.setGradeLevel(gradeLevels[random.nextInt(gradeLevels.length)]);
 
                 gp.getCreditsByCourse().add(cbc);
-            }
-
-            for (String edOrg : edOrgs) {
-                EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-//                eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
-                eoit.setStateOrganizationId(edOrg);
-                EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-                eort.setEducationalOrgIdentity(eoit);
-                gp.getEducationOrganizationReference().add(eort);
             }
         }
 

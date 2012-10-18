@@ -115,7 +115,7 @@ public class DefaultQueryManglerTest {
     public void testMangleListWithPagingAndQuery() {
         DefaultQueryMangler mangler = new DefaultQueryMangler();
         NeutralQuery query = new NeutralQuery();
-        List<String> totalQuery = buildLargeQuery(100);
+        List<String> totalQuery = buildLargeQuery(50);
         query.setOffset(0);
         query.setLimit(50);
         NeutralCriteria baseCriteria = new NeutralCriteria("body.something", NeutralCriteria.OPERATOR_EQUAL,
@@ -130,7 +130,7 @@ public class DefaultQueryManglerTest {
         assertTrue(finalQuery.getCriteria().size() == 1); // Search criteria
         assertTrue(finalQuery.getOrQueries().size() == 1); // Security Criteria
         NeutralCriteria finalCriteria = finalQuery.getOrQueries().get(0).getCriteria().get(0);
-        assertEquals(((List) finalCriteria.getValue()).size(), 100);
+        assertEquals(((List) finalCriteria.getValue()).size(), 50);
     }
 
     private List<String> buildLargeQuery(int size) {

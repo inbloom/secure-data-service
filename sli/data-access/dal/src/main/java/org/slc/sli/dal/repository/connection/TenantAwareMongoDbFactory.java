@@ -14,44 +14,56 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository.connection;
-
-import org.apache.commons.codec.binary.Hex;
-import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.dal.TenantContext;
 
 /**
  * @author okrook
  *
  */
 public class TenantAwareMongoDbFactory extends SimpleMongoDbFactory {
-    
+
     /**
-     * Create an instance of {@link TenantAwareMongoDbFactory} given the {@link Mongo} instance and database name.
+     * Create an instance of {@link TenantAwareMongoDbFactory} given the {@link Mongo} instance and
+     * database name.
      *
-     * @param mongo Mongo instance, must not be {@literal null}.
-     * @param systemDatabaseName system database name, not be {@literal null}.
+     * @param mongo
+     *            Mongo instance, must not be {@literal null}.
+     * @param systemDatabaseName
+     *            system database name, not be {@literal null}.
      */
     public TenantAwareMongoDbFactory(Mongo mongo, String systemDatabaseName) {
         super(mongo, systemDatabaseName);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.springframework.data.mongodb.core.SimpleMongoDbFactory#getDb()
      */
     @Override
     public DB getDb() throws DataAccessException {
-        String tenantId = CurrentTenantHolder.getCurrentTenant();
-        return tenantId == null ? super.getDb() : super.getDb(getTenantDatabaseName(tenantId));            
+
+        String tenantId = TenantContext.getTenantId();
+        boolean isSystemCall = TenantContext.isSystemCall();
+
+        if (isSystemCall || tenantId == null) {
+            return super.getDb();
+        } else {
+            return super.getDb(getTenantDatabaseName(tenantId));
+        }
     }
-    
+
     public static String getTenantDatabaseName(String tenantId) {
-        return Hex.encodeHexString(tenantId.getBytes());        
+        return TenantIdToDbName.convertTenantIdToDbName(tenantId);
     }
-    
+
 }

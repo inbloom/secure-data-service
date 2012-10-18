@@ -1,27 +1,28 @@
 {
     "keyFields" : ["body.sectionId", "body.studentId"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.sectionId",
+        "deprecated" : false,
         "ref" :
         {
-	        "entityType" : "section",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.uniqueSectionCode",
-		                "values" :
-		                [{
-			                "valueSource" : "body.sectionReference.sectionIdentity.uniqueSectionCode"
-		                }]
-		            },
-		            {
-	                    "path" : "body.schoolId",
-	                    "values" :
-	                    [{
-	                        "ref":
+            "entityType" : "section",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference.sectionIdentity.uniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
                              {
                                  "entityType" : "school",
                                  "choiceOfFields" :
@@ -31,36 +32,37 @@
                                               "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
-                                                    "valueSource" : "body.sectionReference.sectionIdentity.stateOrganizationId"
+                                                    "valueSource" : "body.SectionReference.sectionIdentity.stateOrganizationId"
                                                }]
                                           }
                                       ]
                                   ]
                              }
-	                    }]
-	                }
-	            ]
-	        ]
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
         "fieldPath" : "body.studentId",
+        "deprecated" : false,
         "ref" :
         {
-	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

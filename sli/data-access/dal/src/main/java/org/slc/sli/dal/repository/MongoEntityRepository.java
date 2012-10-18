@@ -17,6 +17,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,7 +25,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
@@ -37,16 +50,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -105,6 +108,61 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return Entity.class;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Iterable<Entity> findAllAcrossTenants(String collectionName, Query mongoQuery) {
+        List<Entity> crossTenantResults = Collections.emptyList();
+
+        guideIfTenantAgnostic("realm");
+        List<String> distinctTenantIds = template.getCollection("realm").distinct("body.tenantId");
+
+        String originalTenantId = TenantContext.getTenantId();
+        try {
+            crossTenantResults = issueQueryToTenantDbs(collectionName, mongoQuery, distinctTenantIds);
+        } finally {
+            TenantContext.setTenantId(originalTenantId);
+        }
+
+        return crossTenantResults;
+    }
+
+    private List<Entity> issueQueryToTenantDbs(String collectionName, Query mongoQuery, List<String> distinctTenantIds) {
+        List<Entity> crossTenantResults = new ArrayList<Entity>();
+
+        guideIfTenantAgnostic(collectionName);
+        for (String tenantId : distinctTenantIds) {
+            // escape nasty characters
+
+            String dbName = TenantIdToDbName.convertTenantIdToDbName(tenantId);
+
+            if (isValidDbName(dbName)) {
+                TenantContext.setTenantId(tenantId);
+
+                List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);
+                crossTenantResults.addAll(resultsForThisTenant);
+            }
+        }
+        return crossTenantResults;
+    }
+
+    private boolean isValidDbName(String tenantId) {
+        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
+    }
+
+
+    public Entity createWithRetries(final String type, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return create(type, body, metaData, collectionName);
+            }
+        };
+        return (Entity) rc.executeOperation(noOfRetries);
+    }
+
+
     @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
@@ -124,12 +182,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
-            
+
             // prepare to find desired record to be patched
             Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
             query.addCriteria(createTenantCriteria(collectionName));
-            
+
             // prepare update operation for record to be patched
             Update update = new Update();
             for (Entry<String, Object> patch : newValues.entrySet()) {
@@ -158,7 +216,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+        if (tenantId != null && !isTenantAgnostic(collectionName)) {
             if (metaData.get("tenantId") == null) {
                 metaData.put("tenantId", tenantId);
             }
@@ -337,6 +395,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
+            this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
@@ -366,7 +425,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.count(collectionName, query);
     }
-    
+
 
     @Override
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {

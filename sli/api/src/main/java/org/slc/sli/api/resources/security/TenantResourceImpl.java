@@ -17,9 +17,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +46,12 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
@@ -56,21 +60,18 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.MongoCommander;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
-import org.slc.sli.api.util.StreamGobbler;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
- * 
+ *
  * Provides CRUD operations on registered application through the /tenants path.
- * 
+ *
  * @author
  */
 @Component
@@ -78,7 +79,7 @@ import org.springframework.stereotype.Component;
 @Path("tenants")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
-    
+
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
 
@@ -103,7 +104,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Autowired
     private IngestionTenantLockChecker lockChecker;
-    
+
     @Autowired
     private SecurityUtilProxy secUtil;
 
@@ -128,6 +129,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
+    public static final String DB_NAME = "dbName";
     public static final String LZ = "landingZone";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String LZ_INGESTION_SERVER = "ingestionServer";
@@ -140,7 +142,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
-    public static final String PRE_SPLITTING_SCRIPT = "./sli-shard-presplit.js";
+    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
+    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -222,10 +225,16 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             existingIds.add(id);
         }
 
+        // If more than exists, something is wrong
+        if (existingIds.size() > 1) {
+            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
+        }
+
         // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
             newTenant.put(TENANT_ID, tenantId);
+            newTenant.put(DB_NAME, getDatabaseName(tenantId));
             Map<String, Object> nlz = buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(nlz);
@@ -236,83 +245,62 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
-            
-            // Call the pre-splitting script for mongo
-            // WARNING: Shelling out to call a javascript occurs in this block
-            // of code. This should be done extremely rarely and only with
-            // the explicit consent of security. This particular block of code
-            // was permitted by Daniel Fiedler and requested by Daniel Shaw.
-            try {
-                Runtime rt = Runtime.getRuntime();
-                String varString = "var num_years=1, tenant='" + tenantId + "'";
-                URL resourceFile = Thread.currentThread().getContextClassLoader().getResource(PRE_SPLITTING_SCRIPT);
-                Process p = rt.exec(new String[] { "mongo", "admin", "--eval", varString, resourceFile.getPath() });
-                // any error message?
-                StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
 
-                // any output?
-                StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+            // Spin up the new database
+            runDbSpinUpScripts(tenantId);
 
-                // kick them off
-                errorGobbler.start();
-                outputGobbler.start();
-
-                try {
-                    p.waitFor();
-                } catch (InterruptedException ie) {
-                    // TODO Auto-generated catch block
-                    ie.printStackTrace();
-                }
-            } catch (IOException ioe) {
-                // TODO Auto-generated catch block
-                ioe.printStackTrace();
-            }
             return tenantService.create(newTenant);
-        }
-        // If more than exists, something is wrong
-        if (existingIds.size() > 1) {
-            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
-        }
-
-        String existingTenantId = existingIds.get(0);
-        // combine lzs from existing tenant and new tenant entry, overwriting with values of new
-        // tenant entry if there is conflict.
-        TreeSet allLandingZones = new TreeSet(new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                Map<String, Object> lz1 = (Map<String, Object>) o1;
-                Map<String, Object> lz2 = (Map<String, Object>) o2;
-                if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
-                        || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                    throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
+        } else {
+            String existingTenantId = existingIds.get(0);
+            // combine lzs from existing tenant and new tenant entry, overwriting with values of new
+            // tenant entry if there is conflict.
+            TreeSet allLandingZones = new TreeSet(new Comparator<Object>() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Map<String, Object> lz1 = (Map<String, Object>) o1;
+                    Map<String, Object> lz2 = (Map<String, Object>) o2;
+                    if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
+                            || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                        throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
+                    }
+                    if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
+                            || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                        throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
+                    }
+                    return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
+                            .get(LZ_EDUCATION_ORGANIZATION));
                 }
-                if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
-                        || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                    throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
+            });
+
+            Set<Map<String, Object>> all = allLandingZones;
+            for (Map<String, Object> lz : all) {
+                if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
+                    throw new TenantResourceCreationException(Status.CONFLICT,
+                            "This tenant/educational organization combination all ready has a landing zone provisioned.");
                 }
-                return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
-                        .get(LZ_EDUCATION_ORGANIZATION));
             }
-        });
 
-        Set<Map<String, Object>> all = allLandingZones;
-        for (Map<String, Object> lz : all) {
-            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
-                throw new TenantResourceCreationException(Status.CONFLICT,
-                        "This tenant/educational organization combination all ready has a landing zone provisioned.");
-            }
+            EntityBody existingBody = tenantService.get(existingTenantId);
+            List existingLandingZones = (List) existingBody.get(LZ);
+            allLandingZones.addAll(existingLandingZones);
+
+            Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
+            allLandingZones.add(nlz);
+
+            existingBody.put(LZ, new ArrayList(allLandingZones));
+            tenantService.update(existingTenantId, existingBody);
+            return existingTenantId;
         }
+    }
 
-        EntityBody existingBody = tenantService.get(existingTenantId);
-        List existingLandingZones = (List) existingBody.get(LZ);
-        allLandingZones.addAll(existingLandingZones);
+    private void runDbSpinUpScripts(String tenantId) {
+        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+        MongoCommander.exec(getDatabaseName(jsEscapedTenantId), INDEX_SCRIPT, " ");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
+    }
 
-        Map<String, Object> nlz = this.buildLandingZone(edOrgId, desc, ingestionServer, path, userNames);
-        allLandingZones.add(nlz);
-
-        existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-        return existingTenantId;
+    private String getDatabaseName(String tenantId) {
+        return TenantIdToDbName.convertTenantIdToDbName(tenantId);
     }
 
     private Map<String, Object> buildLandingZone(String edOrgId, String desc, String ingestionServer, String path,
@@ -338,7 +326,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * TODO: add javadoc
-     * 
+     *
      */
     static class MutableInt {
         int value = 0;
@@ -406,7 +394,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/tenants/<tenantId>
-     * 
+     *
      * @param tenantId
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
@@ -427,7 +415,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     /**
      * Preload a landing zone with a sample data set
-     * 
+     *
      * @param tenantId
      *            tenant id
      * @param dataSet
@@ -443,7 +431,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         EntityService service = getEntityDefinition("tenant").getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
-        
+
         if (!SecurityUtil.hasRight(Right.INGEST_DATA) || !isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized.");
@@ -466,7 +454,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 break;
             }
         }
-        
+
         // Map<String, Object> landingZone = landingZones.get(0);
         // landingZone.put("preload", preload(Arrays.asList(dataSet)));
         service.update(tenantId, entity);
@@ -476,7 +464,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     /**
      * Get the status for the preloading job
      * This functionality is not available at this point
-     * 
+     *
      * @return
      */
     @GET

@@ -39,7 +39,7 @@ public class TeacherSectionAssociationGenerator {
         tsa.setTeacherReference(TeacherGenerator.getTeacherReference(teacher));
 
         SectionIdentityType secit = new SectionIdentityType();
-        secit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(school);
+        secit.setStateOrganizationId(school);
         secit.setUniqueSectionCode(sectionCode);
         SectionReferenceType secrt = new SectionReferenceType();
         secrt.setSectionIdentity(secit);
@@ -70,7 +70,7 @@ public class TeacherSectionAssociationGenerator {
         // construct and add the section references
         SectionIdentityType sectionIdentity = new SectionIdentityType();
         sectionIdentity.setUniqueSectionCode(sectionId);
-        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(teacherMeta.schoolIds.get(0));
+        sectionIdentity.setStateOrganizationId(teacherMeta.schoolIds.get(0));
 
 //        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
 //        edOrgIdCode.setID(sectionId);

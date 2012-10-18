@@ -7,7 +7,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>ENG_8_1</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>ENG_8_1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -24,7 +28,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>ENG_8_2</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>ENG_8_2</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -41,7 +49,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>ENG_8_3</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>ENG_8_3</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -58,7 +70,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>a</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>a</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -75,7 +91,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>ENG_8_1</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>ENG_8_1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>

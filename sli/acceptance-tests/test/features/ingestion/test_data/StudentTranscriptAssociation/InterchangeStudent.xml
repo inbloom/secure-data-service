@@ -185,7 +185,7 @@
     <StudentUniqueStateId>91919011</StudentUniqueStateId>
     <Name>
       <FirstName>Tanya</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Hervey</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -275,7 +275,7 @@
     <StudentUniqueStateId>91919016</StudentUniqueStateId>
     <Name>
       <FirstName>Darren</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Mansfield</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -293,7 +293,7 @@
     <StudentUniqueStateId>91919017</StudentUniqueStateId>
     <Name>
       <FirstName>Michelle</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>McGurrin</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -311,7 +311,7 @@
     <StudentUniqueStateId>91919018</StudentUniqueStateId>
     <Name>
       <FirstName>Kevin</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Murray</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -329,7 +329,7 @@
     <StudentUniqueStateId>91919019</StudentUniqueStateId>
     <Name>
       <FirstName>Mieu</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Phan</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -347,7 +347,7 @@
     <StudentUniqueStateId>91919020</StudentUniqueStateId>
     <Name>
       <FirstName>Catherine</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Zacharias</LastSurname>
     </Name>
     <Sex>Female</Sex>

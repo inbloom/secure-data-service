@@ -1,9 +1,9 @@
 {
-    "keyFields" : ["metaData.externalId", "body.studentSectionAssociationId"],
+    "keyFields" : ["body.competencyLevel", "body.objectiveId.learningObjectiveId", "body.objectiveId.studentCompetencyObjectiveId", "body.studentSectionAssociationId"],
     "references" :
     [
         {
-            "fieldPath" : "body.learningObjectiveId",
+            "fieldPath" : "body.objectiveId.learningObjectiveId",
             "ref" :
             {
                 "entityType" : "learningObjective",
@@ -15,7 +15,14 @@
                             "path" : "body.learningObjectiveId.identificationCode",
                             "values" :
                             [{
-                                "valueSource" : "body.learningObjectiveReference.LearningObjectiveId"
+                                "valueSource" : "body.objectiveId.learningObjectiveReference.LearningObjectiveId"
+                            }]
+                        },
+                        {
+                            "path" : "body.objective",
+                            "values" :
+                            [{
+                                "valueSource" : "body.objectiveId.learningObjectiveReference.Objective"
                             }]
                         }
                     ]
@@ -23,7 +30,7 @@
             }
         },
         {
-            "fieldPath" : "body.studentCompetencyObjectiveId",
+            "fieldPath" : "body.objectiveId.studentCompetencyObjectiveId",
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",
@@ -35,7 +42,7 @@
                             "path" : "body.studentCompetencyObjectiveId",
                             "values" :
                             [{
-                                "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+                                "valueSource" : "body.objectiveId.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
                         }
                     ]

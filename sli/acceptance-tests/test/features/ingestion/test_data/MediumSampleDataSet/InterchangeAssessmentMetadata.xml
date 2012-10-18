@@ -34,7 +34,7 @@
         <LearningObjectiveId ContentStandardName="Content Standard Name">
             <IdentificationCode>lobj0</IdentificationCode>
         </LearningObjectiveId>
-        <Objective>Learning Objective </Objective>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
         <Description>Learning Objective Desciption </Description>
         <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
         <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
@@ -199,6 +199,11 @@
         <AssessmentPeriod>
             <CodeValue>apd0</CodeValue>
         </AssessmentPeriod>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
                 <AssessmentFamilyIdentificationCode AssigningOrganizationCode="AssigningOrganizationCode" IdentificationSystem="Federal">
@@ -206,10 +211,5 @@
                 </AssessmentFamilyIdentificationCode>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
-        <ObjectiveAssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAssessmentReference>
     </Assessment>
 </InterchangeAssessmentMetadata>

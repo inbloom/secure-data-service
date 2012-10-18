@@ -36,7 +36,7 @@ public class StudentSectionAssociationGenerator {
         ssa.setStudentReference(srt);
 
         SectionIdentityType secit = new SectionIdentityType();
-        secit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        secit.setStateOrganizationId(schoolId);
         secit.setUniqueSectionCode(sectionCode);
         SectionReferenceType secrt = new SectionReferenceType();
         secrt.setSectionIdentity(secit);

@@ -3450,8 +3450,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3460,8 +3464,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3470,8 +3478,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3480,8 +3492,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3490,8 +3506,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3500,8 +3520,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3510,8 +3534,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3520,8 +3548,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3530,8 +3562,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3540,8 +3576,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3550,8 +3590,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3560,8 +3604,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3570,8 +3618,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3580,8 +3632,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3590,8 +3646,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3600,8 +3660,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3610,8 +3674,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3620,8 +3688,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3630,8 +3702,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3640,8 +3716,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3650,8 +3730,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3660,8 +3744,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3670,8 +3758,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3680,8 +3772,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3690,8 +3786,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3700,8 +3800,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3710,8 +3814,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3720,8 +3828,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3730,8 +3842,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3740,8 +3856,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3750,8 +3870,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3760,8 +3884,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3770,8 +3898,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3780,8 +3912,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3790,8 +3926,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3800,8 +3940,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3810,8 +3954,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3820,8 +3968,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3830,8 +3982,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3840,8 +3996,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3850,8 +4010,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-8-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-8-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3860,8 +4024,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-6-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-6-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3870,8 +4038,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3880,8 +4052,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3890,8 +4066,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3900,8 +4080,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3910,8 +4094,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3920,8 +4108,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3930,8 +4122,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3940,8 +4136,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3950,8 +4150,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-0-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-0-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3960,8 +4164,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-1-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3970,8 +4178,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3980,8 +4192,12 @@
     <TeacherReference ref="CAP0-D0-HSch0-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -3990,8 +4206,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4000,8 +4220,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4010,8 +4234,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4020,8 +4248,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4030,8 +4262,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4040,8 +4276,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4050,8 +4290,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4060,8 +4304,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4070,8 +4318,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4080,8 +4332,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4090,8 +4346,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4100,8 +4360,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4110,8 +4374,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4120,8 +4388,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4130,8 +4402,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4140,8 +4416,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4150,8 +4430,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4160,8 +4444,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4170,8 +4458,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4180,8 +4472,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4190,8 +4486,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-3-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-3-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4200,8 +4500,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4210,8 +4514,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4220,8 +4528,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4230,8 +4542,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4240,8 +4556,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4250,8 +4570,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4260,8 +4584,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4270,8 +4598,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4280,8 +4612,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4290,8 +4626,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4300,8 +4640,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4310,8 +4654,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4320,8 +4668,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4330,8 +4682,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4340,8 +4696,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4350,8 +4710,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4360,8 +4724,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4370,8 +4738,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4380,8 +4752,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4390,8 +4766,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4400,8 +4780,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4410,8 +4794,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4420,8 +4808,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4430,8 +4822,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-4-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-4-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4440,8 +4836,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-7-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-7-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4450,8 +4850,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4460,8 +4864,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4470,8 +4878,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4480,8 +4892,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-0-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-0-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4490,8 +4906,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4500,8 +4920,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4510,8 +4934,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-1-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-1-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4520,8 +4948,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4530,8 +4962,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-2-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-2-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4540,8 +4976,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-6-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-6-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4550,8 +4990,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4560,8 +5004,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-9-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-9-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4570,8 +5018,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-5-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-5-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4580,8 +5032,12 @@
     <TeacherReference ref="CAP0-D0-HSch1-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS1-8-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS1-8-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4590,8 +5046,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4600,8 +5060,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4610,8 +5074,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4620,8 +5088,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4630,8 +5102,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4640,8 +5116,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4650,8 +5130,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4660,8 +5144,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4670,8 +5158,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4680,8 +5172,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4690,8 +5186,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4700,8 +5200,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4710,8 +5214,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4720,8 +5228,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4730,8 +5242,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4740,8 +5256,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4750,8 +5270,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4760,8 +5284,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4770,8 +5298,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4780,8 +5312,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4790,8 +5326,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-1-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-1-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4800,8 +5340,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4810,8 +5354,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4820,8 +5368,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4830,8 +5382,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4840,8 +5396,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4850,8 +5410,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4860,8 +5424,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4870,8 +5438,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4880,8 +5452,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-4-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-4-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4890,8 +5466,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4900,8 +5480,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4910,8 +5494,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4920,8 +5508,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4930,8 +5522,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4940,8 +5536,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4950,8 +5550,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4960,8 +5564,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4970,8 +5578,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4980,8 +5592,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -4990,8 +5606,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5000,8 +5620,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5010,8 +5634,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5020,8 +5648,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5030,8 +5662,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5040,8 +5676,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5050,8 +5690,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5060,8 +5704,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5070,8 +5718,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5080,8 +5732,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5090,8 +5746,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-3-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-3-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5100,8 +5760,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-8-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-8-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5110,8 +5774,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-2-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-2-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5120,8 +5788,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5130,8 +5802,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-6-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-6-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5140,8 +5816,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5150,8 +5830,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-7-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-7-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5160,8 +5844,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-5-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-5-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5170,8 +5858,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-0-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-0-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5180,8 +5872,12 @@
     <TeacherReference ref="CAP0-D0-HSch2-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS2-9-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS2-9-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5190,8 +5886,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5200,8 +5900,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5210,8 +5914,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5220,8 +5928,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5230,8 +5942,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5240,8 +5956,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5250,8 +5970,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5260,8 +5984,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5270,8 +5998,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5280,8 +6012,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5290,8 +6026,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5300,8 +6040,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5310,8 +6054,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5320,8 +6068,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5330,8 +6082,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5340,8 +6096,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5350,8 +6110,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5360,8 +6124,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5370,8 +6138,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5380,8 +6152,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5390,8 +6166,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5400,8 +6180,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-3-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-3-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5410,8 +6194,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5420,8 +6208,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5430,8 +6222,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5440,8 +6236,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5450,8 +6250,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5460,8 +6264,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5470,8 +6278,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5480,8 +6292,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5490,8 +6306,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5500,8 +6320,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5510,8 +6334,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5520,8 +6348,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5530,8 +6362,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5540,8 +6376,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5550,8 +6390,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5560,8 +6404,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5570,8 +6418,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5580,8 +6432,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5590,8 +6446,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5600,8 +6460,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5610,8 +6474,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5620,8 +6488,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-9-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-9-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5630,8 +6502,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-1-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-1-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5640,8 +6516,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5650,8 +6530,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5660,8 +6544,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5670,8 +6558,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-2-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-2-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5680,8 +6572,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5690,8 +6586,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5700,8 +6600,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5710,8 +6614,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5720,8 +6628,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-7-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-7-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5730,8 +6642,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5740,8 +6656,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-0-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-0-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5750,8 +6670,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-6-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-6-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5760,8 +6684,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-5-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-5-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5770,8 +6698,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-8-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-8-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5780,8 +6712,12 @@
     <TeacherReference ref="CAP0-D0-HSch3-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS3-4-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS3-4-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5790,8 +6726,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5800,8 +6740,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5810,8 +6754,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5820,8 +6768,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5830,8 +6782,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5840,8 +6796,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher0"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5850,8 +6810,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5860,8 +6824,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5870,8 +6838,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5880,8 +6852,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5890,8 +6866,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5900,8 +6880,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher1"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5910,8 +6894,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5920,8 +6908,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5930,8 +6922,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5940,8 +6936,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5950,8 +6950,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5960,8 +6964,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher2"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5970,8 +6978,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5980,8 +6992,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -5990,8 +7006,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6000,8 +7020,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6010,8 +7034,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6020,8 +7048,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher3"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6030,8 +7062,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6040,8 +7076,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6050,8 +7090,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6060,8 +7104,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6070,8 +7118,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6080,8 +7132,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher4"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6090,8 +7146,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6100,8 +7160,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6110,8 +7174,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-0-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-0-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6120,8 +7188,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6130,8 +7202,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6140,8 +7216,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher5"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6150,8 +7230,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6160,8 +7244,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6170,8 +7258,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-8-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-8-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6180,8 +7272,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6190,8 +7286,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6200,8 +7300,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher6"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6210,8 +7314,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6220,8 +7328,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6230,8 +7342,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6240,8 +7356,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6250,8 +7370,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6260,8 +7384,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher7"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6270,8 +7398,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6280,8 +7412,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-7-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-7-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6290,8 +7426,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6300,8 +7440,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-4-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-4-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6310,8 +7454,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-6-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-6-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6320,8 +7468,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher8"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-9-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-9-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6330,8 +7482,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-0-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-0-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6340,8 +7496,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-2-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-2-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6350,8 +7510,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-1-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-1-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6360,8 +7524,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6370,8 +7538,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-5-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-5-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6380,8 +7552,12 @@
     <TeacherReference ref="CAP0-D0-HSch4-teacher9"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS4-3-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS4-3-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6390,8 +7566,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-9-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-9-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6400,8 +7580,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-7-1-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-7-1-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6410,8 +7594,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-5-0-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-5-0-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6420,8 +7608,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-4-0-sec2</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-4-0-sec2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6430,8 +7622,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-3-1-sec1</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-3-1-sec1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -6440,8 +7636,12 @@
     <TeacherReference ref="lroslin"/>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
-        <UniqueSectionCode>CAP0-D0-HS0-2-1-sec0</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>CAP0-D0-HS0-2-1-sec0</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
