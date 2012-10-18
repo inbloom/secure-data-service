@@ -77,6 +77,8 @@ public class IncrementalListenerImpl implements IncrementalListener {
 
         try {
             String opLog = "";
+            // for now we will always receive ActiveMQBytesMessage. 
+            // we also support TextMessage if it ever needs to be used.
             if (message instanceof ActiveMQBytesMessage) {
                 ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
                 ByteSequence bs = byteMessage.getContent();
@@ -105,6 +107,13 @@ public class IncrementalListenerImpl implements IncrementalListener {
         }
     }
 
+    /**
+     * Convert oplog message to an IndexEntity, based on the action type (insert, update, delete)
+     * 
+     * @param opLog
+     * @return
+     * @throws Exception
+     */
     public IndexEntity convertToEntity(String opLog) throws Exception {
 
         IndexEntity entity = null;
