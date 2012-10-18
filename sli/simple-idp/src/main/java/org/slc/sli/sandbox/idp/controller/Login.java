@@ -106,7 +106,7 @@ public class Login {
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
-        if (user != null && !requestInfo.isForceAuthn()) {
+        if (user != null && (!requestInfo.isForceAuthn() || (isAdminRealm(realm) && isSandboxImpersonationEnabled))) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                     user.getAttributes(), requestInfo);
@@ -116,7 +116,7 @@ public class Login {
         }
 
         boolean isForgotPasswordVisible = false;
-        if ((realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName)) || realm == null) {
+        if (user == null && (isAdminRealm(realm) || realm == null) ) {
             isForgotPasswordVisible = true;
         }
 
@@ -133,6 +133,10 @@ public class Login {
         mav.addObject("realm", realm);
         mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
         return mav;
+    }
+    
+    private boolean isAdminRealm(String realm) {
+        return realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -157,76 +161,78 @@ public class Login {
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
 
-        User user;
-        try {
-            user = userService.authenticate(realm, userId, password);
+        User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
-            if (shouldForcePasswordChange(user, incomingRealm)) {
-
-                //create timestamp as part of resetKey for user
-                Date date = new Date();
-                Timestamp ts = new Timestamp(date.getTime());
-
-                SecureRandom sRandom = new SecureRandom();
-                byte[] bytes = new byte[20];
-                sRandom.nextBytes(bytes);
-
-                StringBuilder sb = new StringBuilder();
-                for (byte bt : bytes) { sb.append((char) bt); }
-
-                String token = sb.toString() + user.getAttributes().get("mail");
-
-                PasswordEncoder pe = new Md5PasswordEncoder();
-                String hashedToken = pe.encodePassword(token, null);
-
-                String resetKey = hashedToken + "@" + (ts.getTime() / 1000);
-
-                userService.updateUser(realm, user, resetKey, password);
-                ModelAndView mav = new ModelAndView("forcePasswordChange");
-                String resetUri = adminUrl + "/resetPassword";
-                mav.addObject("resetUri", resetUri);
-                mav.addObject("key", hashedToken);
+        if(user == null){
+            try {
+                user = userService.authenticate(realm, userId, password);
+                if (shouldForcePasswordChange(user, incomingRealm)) {
+    
+                    //create timestamp as part of resetKey for user
+                    Date date = new Date();
+                    Timestamp ts = new Timestamp(date.getTime());
+    
+                    SecureRandom sRandom = new SecureRandom();
+                    byte[] bytes = new byte[20];
+                    sRandom.nextBytes(bytes);
+    
+                    StringBuilder sb = new StringBuilder();
+                    for (byte bt : bytes) { sb.append((char) bt); }
+    
+                    String token = sb.toString() + user.getAttributes().get("mail");
+    
+                    PasswordEncoder pe = new Md5PasswordEncoder();
+                    String hashedToken = pe.encodePassword(token, null);
+    
+                    String resetKey = hashedToken + "@" + (ts.getTime() / 1000);
+    
+                    userService.updateUser(realm, user, resetKey, password);
+                    ModelAndView mav = new ModelAndView("forcePasswordChange");
+                    String resetUri = adminUrl + "/resetPassword";
+                    mav.addObject("resetUri", resetUri);
+                    mav.addObject("key", hashedToken);
+                    return mav;
+                }
+            } catch (AuthenticationException e) {
+                ModelAndView mav = new ModelAndView("login");
+                mav.addObject("msg", "Invalid User Name or password");
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                mav.addObject("realm", incomingRealm);
+                mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
+                mav.addObject("adminUrl", adminUrl);
+                if (doImpersonation) {
+                    mav.addObject("is_sandbox", true);
+                    mav.addObject("impersonate_user", impersonateUser);
+                    mav.addObject("roles", roleService.getAvailableRoles());
+                } else {
+                    mav.addObject("is_sandbox", false);
+                }
+    
+                // if a user with this userId exists, get his info and roles/groups and
+                // log that information as a failed login attempt.
+                String edOrg = "UnknownEdOrg";
+                String tenant = "UnknownTenant";
+                List<String> userRoles = Collections.emptyList();
+                try {
+                    User unauthenticatedUser = userService.getUser(realm, userId);
+                    if (unauthenticatedUser != null) {
+                        Map<String, String> attributes = unauthenticatedUser.getAttributes();
+                        if (attributes != null) {
+                            edOrg = attributes.get("edOrg");
+                            tenant = attributes.get("tenant");
+                        }
+                    }
+                    userRoles = userService.getUserGroups(realm, userId);
+                } catch (EmptyResultDataAccessException noMatchesException) {
+                    LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
+                } catch (Exception exception) {
+                    LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
+                }
+                writeLoginSecurityEvent(false, userId, userRoles, edOrg, tenant, request);
                 return mav;
             }
-        } catch (AuthenticationException e) {
-            ModelAndView mav = new ModelAndView("login");
-            mav.addObject("msg", "Invalid User Name or password");
-            mav.addObject("SAMLRequest", encodedSamlRequest);
-            mav.addObject("realm", incomingRealm);
-            mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
-            mav.addObject("adminUrl", adminUrl);
-            if (doImpersonation) {
-                mav.addObject("is_sandbox", true);
-                mav.addObject("impersonate_user", impersonateUser);
-                mav.addObject("roles", roleService.getAvailableRoles());
-            } else {
-                mav.addObject("is_sandbox", false);
-            }
-
-            // if a user with this userId exists, get his info and roles/groups and
-            // log that information as a failed login attempt.
-            String edOrg = "UnknownEdOrg";
-            String tenant = "UnknownTenant";
-            List<String> userRoles = Collections.emptyList();
-            try {
-                User unauthenticatedUser = userService.getUser(realm, userId);
-                if (unauthenticatedUser != null) {
-                    Map<String, String> attributes = unauthenticatedUser.getAttributes();
-                    if (attributes != null) {
-                        edOrg = attributes.get("edOrg");
-                        tenant = attributes.get("tenant");
-                    }
-                }
-                userRoles = userService.getUserGroups(realm, userId);
-            } catch (EmptyResultDataAccessException noMatchesException) {
-                LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
-            } catch (Exception exception) {
-                LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
-            }
-            writeLoginSecurityEvent(false, userId, userRoles, edOrg, tenant, request);
-            return mav;
         }
-
+        
         if (doImpersonation) {
             if (customRoles != null) {
                 List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));

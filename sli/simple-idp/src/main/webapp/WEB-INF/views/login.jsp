@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page session="false"%>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
@@ -105,14 +104,16 @@
 				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
-					<div class="control-group">
-						<label for="user_id" class="control-label">User Name:</label>
-						<input type="text" id="user_id" name="user_id" />
-					</div>
-					<div class="control-group">
-						<label for="password" class="control-label">Password:</label>
-						<input type="password" id="password" name="password" autocomplete="off"/>
-					</div>
+					<c:if test="${sessionScope.user_session_key==null}">
+						<div class="control-group">
+							<label for="user_id" class="control-label">User Name:</label>
+							<input type="text" id="user_id" name="user_id" />
+						</div>
+						<div class="control-group">
+							<label for="password" class="control-label">Password:</label>
+							<input type="password" id="password" name="password" autocomplete="off"/>
+						</div>
+					</c:if>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">
 							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
