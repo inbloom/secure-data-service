@@ -71,7 +71,7 @@ public class ApplicationAuthorizationValidator {
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
         List<Entity> districts = isHostedUser ? new ArrayList<Entity>() : findUsersDistricts(principal);
 
-        Set<String> bootstrapApps = getDefaultAllowedApps(principal.isAdminUser());
+        Set<String> bootstrapApps = getDefaultAllowedApps();
         Set<String> results = isHostedUser ? new HashSet<String>() : getDefaultAuthorizedApps();
 
         for (Entity district : districts) {
@@ -86,9 +86,6 @@ public class ApplicationAuthorizationValidator {
 
                 NeutralQuery appCollQuery = new NeutralQuery(0);
                 appCollQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
-                if (!principal.isAdminUser()) {
-                    appCollQuery.addCriteria(new NeutralCriteria("is_admin", "=", false));
-                }
 
                 Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
 
@@ -138,13 +135,10 @@ public class ApplicationAuthorizationValidator {
      * to select the districts that can use the app.
      * @return
      */
-    private Set<String> getDefaultAllowedApps(boolean allowAdmin) {
+    private Set<String> getDefaultAllowedApps() {
         Set<String> toReturn = new HashSet<String>();
         NeutralQuery bootstrapQuery = new NeutralQuery(0);
         bootstrapQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", "=", true));
-        if (!allowAdmin) {
-            bootstrapQuery.addCriteria(new NeutralCriteria("is_admin", "=", false));
-        }
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
 
         for (Entity currentApp : bootstrapApps) {
