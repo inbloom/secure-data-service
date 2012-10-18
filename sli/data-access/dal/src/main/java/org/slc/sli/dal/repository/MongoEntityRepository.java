@@ -42,6 +42,7 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.SubDocAccessor;
+import org.slc.sli.dal.convert.SubDocAccessor.Location;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -182,6 +183,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
+            boolean result = true;
 
             // prepare to find desired record to be patched
             Query query = new Query();
@@ -193,7 +195,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             for (Entry<String, Object> patch : newValues.entrySet()) {
                 update.set("body." + patch.getKey(), patch.getValue());
             }
-            return subDocs.subDoc(collectionName).doUpdate(query, update);
+
+            List<Location> locations = subDocs.subDoc(collectionName);
+            for (Location location : locations) {
+                result &= location.doUpdate(query, update);
+            }
+            return result;
         }
 
         return super.patch(type, collectionName, id, newValues);
@@ -241,7 +248,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         this.addTimestamps(entity);
         if (subDocs.isSubDoc(collectionName)) {
-            subDocs.subDoc(collectionName).create(entity);
+            for (Location location : subDocs.subDoc(collectionName)) {
+                location.create(entity);
+            }
             return entity;
         } else {
             return super.insert(entity, collectionName);
@@ -251,7 +260,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
         if (subDocs.isSubDoc(collectionName)) {
-            subDocs.subDoc(collectionName).insert(records);
+            for (Location location : subDocs.subDoc(collectionName)) {
+                location.insert(records);
+            }
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -276,7 +287,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Entity findOne(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
-            List<Entity> entities = subDocs.subDoc(collectionName).findAll(query);
+            List<Location> locations = subDocs.subDoc(collectionName);
+            // TODO: put entireObject flag on location --> if entire object isn't embedded, just go to super.findOne()
+            Location location = locations.get(0);
+            List<Entity> entities = location.findAll(query);
             if (entities != null && entities.size() > 0) {
                 return entities.get(0);
             }
@@ -288,7 +302,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean delete(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).delete(id);
+            boolean result = true;
+            for (Location location : subDocs.subDoc(collectionName)) {
+                result &= location.delete(id);
+            }
+            return result;
         }
         return super.delete(collectionName, id);
     }
@@ -339,7 +357,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validate(entity);
         this.updateTimestamp(entity);
         if (subDocs.isSubDoc(collection)) {
-            return subDocs.subDoc(collection).create(entity);
+            boolean result = true;
+            for (Location location : subDocs.subDoc(collection)) {
+                result &= location.create(entity);
+            }
+            return result;
         }
         return update(collection, entity, null); // body);
     }
@@ -366,9 +388,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Entity findById(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).findById(id);
-            // return new MongoEntity(collectionName, id, subDocs.subDoc(collectionName).read(id),
-            // null);
+            // TODO: update this when entireObject flag is on location
+            return subDocs.subDoc(collectionName).get(0).findById(id);
         }
         return super.findById(collectionName, id);
     }
@@ -384,7 +405,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             Query q = getQueryConverter().convert(collectionName, neutralQuery);
 
             List<String> ids = new LinkedList<String>();
-            for (Entity e : subDocs.subDoc(collectionName).findAll(q)) {
+            // TODO: update this when entireObject flag is on location
+            for (Entity e : subDocs.subDoc(collectionName).get(0).findAll(q)) {
                 ids.add(e.getEntityId());
             }
             return ids;
@@ -396,7 +418,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
-            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
+            // TODO: update this when entireObject flag is on location
+            return subDocs.subDoc(collectionName).get(0).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
     }
@@ -404,7 +427,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean exists(String collectionName, String id) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).exists(id);
+            // TODO: update this when entireObject flag is on location
+            return subDocs.subDoc(collectionName).get(0).exists(id);
         }
         return super.exists(collectionName, id);
     }
@@ -421,7 +445,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public long count(String collectionName, Query query) {
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).count(query);
+            // TODO: update this when entireObject flag is on location
+            return subDocs.subDoc(collectionName).get(0).count(query);
         }
         return super.count(collectionName, query);
     }
@@ -431,7 +456,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         if (subDocs.isSubDoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
-            return subDocs.subDoc(collectionName).doUpdate(query, update);
+            boolean result = true;
+            for (Location location : subDocs.subDoc(collectionName)) {
+                result &= location.doUpdate(query, update);
+            }
+            return result;
         }
         return super.doUpdate(collectionName, neutralQuery, update);
     }
@@ -441,7 +470,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
-            subDocs.subDoc(collectionName).deleteAll(query);
+            for (Location location : subDocs.subDoc(collectionName)) {
+                location.deleteAll(query);
+            }
         } else {
             super.deleteAll(collectionName, neutralQuery);
         }
@@ -465,7 +496,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         query.skip(skip).limit(max);
 
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).findAll(query);
+            return subDocs.subDoc(collectionName).get(0).findAll(query);
         }
 
         return findByQuery(collectionName, query);

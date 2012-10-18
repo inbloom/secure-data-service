@@ -16,8 +16,10 @@
 
 package org.slc.sli.common.domain;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,12 +31,14 @@ import java.util.Set;
  */
 public class EmbeddedDocumentRelations {
 
-    private static final Map<String, Parent> SUBDOC_TO_PARENT;
+    private static final Map<String, List<Parent>> SUBDOC_TO_PARENT;
 
     static {
-        Map<String, Parent> map = new HashMap<String, Parent>();
-        map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        Map<String, List<Parent>> map = new HashMap<String, List<Parent>>();
+        Parent embedCompletelyOnSection = new Parent("section", "sectionId");
+        Parent embedCompletelyOnStudent = new Parent("student", "studentId");
+        map.put("studentSectionAssociation", Arrays.asList(embedCompletelyOnSection));
+        map.put("studentAssessmentAssociation", Arrays.asList(embedCompletelyOnStudent));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
     };
 
@@ -42,32 +46,51 @@ public class EmbeddedDocumentRelations {
         return SUBDOC_TO_PARENT.keySet();
     }
 
-    public static String getParentFieldReference(String entityType) {
-        Parent parent = getParent(entityType);
-        return (parent != null ? parent.getParentReferenceFieldName() : null);
-    }
-
-    public static String getParentEntityType(String entityType) {
-        Parent parent = getParent(entityType);
-        return (parent != null ? parent.getParentEntityType() : null);
-    }
-
-    private static Parent getParent(String entityType) {
-        if (!SUBDOC_TO_PARENT.containsKey(entityType)) {
-            return null;
-        }
-
+    public static List<Parent> getParents(String entityType) {
         return SUBDOC_TO_PARENT.get(entityType);
     }
 
-    private static class Parent {
-
+    /**
+     * Holds information about the parent of an embedded sub-document.
+     */
+    public static class Parent {
         private String parentEntityType;
         private String parentReferenceFieldName;
+        private Map<String, String> fieldMapping;
+        private boolean remainsFirstClassEntity;
 
+        /**
+         * Constructor used when an entity is to be wholly embedded on another object.
+         *
+         * @param parentEntityType
+         *            Type of the parent entity.
+         * @param parentReferenceFieldName
+         *            Field used to match sub-document with parent document.
+         */
         public Parent(String parentEntityType, String parentReferenceFieldName) {
             this.parentEntityType = parentEntityType;
             this.parentReferenceFieldName = parentReferenceFieldName;
+            this.fieldMapping = new HashMap<String, String>();
+            this.fieldMapping.put(parentReferenceFieldName, "_id");
+            this.remainsFirstClassEntity = false;
+        }
+
+        /**
+         * Constructor used when pieces of an entity are to be de-normalized on another object.
+         *
+         * @param parentEntityType
+         *            Type of the parent entity.
+         * @param parentReferenceFieldName
+         *            Field used to match sub-document with parent document.
+         * @param fieldsToBeMapped
+         *            Map containing entries { Original document field (key) --> Embedded
+         *            sub-document field (key) }
+         */
+        public Parent(String parentEntityType, String parentReferenceFieldName, Map<String, String> fieldsToBeMapped) {
+            this.parentEntityType = parentEntityType;
+            this.parentReferenceFieldName = parentReferenceFieldName;
+            this.fieldMapping = fieldsToBeMapped;
+            this.remainsFirstClassEntity = true;
         }
 
         public String getParentEntityType() {
@@ -76,6 +99,14 @@ public class EmbeddedDocumentRelations {
 
         public String getParentReferenceFieldName() {
             return parentReferenceFieldName;
+        }
+
+        public Map<String, String> getFieldMapping() {
+            return fieldMapping;
+        }
+
+        public boolean getRemainsFirstClassEntity() {
+            return remainsFirstClassEntity;
         }
     }
 }

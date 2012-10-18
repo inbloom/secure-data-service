@@ -278,7 +278,7 @@ public class DeterministicIdResolver {
         String parentId = null;
         String entityType = didRefConfig.getEntityType();
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
-            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
+            String parentKey = EmbeddedDocumentRelations.getParents(entityType).get(0).getParentReferenceFieldName();
             parentId = naturalKeys.get(parentKey);
         }
 

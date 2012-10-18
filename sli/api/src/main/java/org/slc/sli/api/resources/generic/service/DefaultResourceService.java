@@ -33,7 +33,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
@@ -47,6 +46,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations.Parent;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -62,9 +62,6 @@ import org.slc.sli.modeling.uml.ClassType;
 
 @Component
 public class DefaultResourceService implements ResourceService {
-
-    @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
 
     @Autowired
     private LogicalEntity logicalEntity;
@@ -87,7 +84,7 @@ public class DefaultResourceService implements ResourceService {
     protected ServiceResponse handle(final Resource resource, ServiceLogic logic) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        ServiceResponse serviceResponse  = logic.run(resource, definition);
+        ServiceResponse serviceResponse = logic.run(resource, definition);
 
         return serviceResponse;
     }
@@ -101,8 +98,8 @@ public class DefaultResourceService implements ResourceService {
                 final int idLength = idList.split(",").length;
 
                 if (idLength > MAX_MULTIPLE_UUIDS) {
-                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
-                            + MAX_MULTIPLE_UUIDS + " (allowed)";
+                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs " + MAX_MULTIPLE_UUIDS
+                            + " (allowed)";
                     throw new PreConditionFailedException(errorMessage);
                 }
 
@@ -126,7 +123,7 @@ public class DefaultResourceService implements ResourceService {
                     throw new EntityNotFoundException(ids.get(0));
                 }
 
-                //inject error entities if needed
+                // inject error entities if needed
                 finalResults = injectErrors(definition, ids, finalResults);
 
                 return new ServiceResponse(finalResults, idLength);
@@ -135,8 +132,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public ServiceResponse getEntities(final Resource resource, final URI requestURI,
-                                       final boolean getAllEntities) {
+    public ServiceResponse getEntities(final Resource resource, final URI requestURI, final boolean getAllEntities) {
 
         return handle(resource, new ServiceLogic() {
             @Override
@@ -170,8 +166,8 @@ public class DefaultResourceService implements ResourceService {
 
         if (apiQuery != null && entityDefinition != null
                 && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
-            apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition
-                    .getType()), false));
+            apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays
+                    .asList(entityDefinition.getType()), false));
         }
 
         return apiQuery;
@@ -210,6 +206,7 @@ public class DefaultResourceService implements ResourceService {
     protected ApiQuery getApiQuery(EntityDefinition definition) {
         return getApiQuery(definition, null);
     }
+
     @Override
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -264,7 +261,8 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
-    public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
+    public ServiceResponse getEntities(final Resource base, final String id, final Resource resource,
+            final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         if (isAssociation(base)) {
@@ -309,8 +307,9 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
+
     private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
-                                                  final Resource resource, final String associationKey, final URI requestUri) {
+            final Resource resource, final String associationKey, final URI requestUri) {
         List<String> valueList = Arrays.asList(id.split(","));
         final List<String> filteredIdList = new ArrayList<String>();
 
@@ -321,8 +320,8 @@ public class DefaultResourceService implements ResourceService {
         final String resourceKey = getConnectionKey(association, resource);
         String key = "_id";
 
-        String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
-        if ((parentType != null) && baseEntity.getType().equals(parentType)) {
+        List<Parent> parents = EmbeddedDocumentRelations.getParents(assocEntity.getType());
+        if (parents != null && (parents.get(0).getParentEntityType() != null) && baseEntity.getType().equals(parents.get(0).getParentEntityType())) {
             final ApiQuery apiQuery = getApiQuery(baseEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
@@ -345,9 +344,9 @@ public class DefaultResourceService implements ResourceService {
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
                 List<String> filteredIds = entityBody.getId(resourceKey);
                 if ((filteredIds == null) || (filteredIds.isEmpty())) {
-                   key = resourceKey;
-                   filteredIdList.addAll(valueList);
-                   break;
+                    key = resourceKey;
+                    filteredIdList.addAll(valueList);
+                    break;
                 } else {
                     for (String filteredId : filteredIds) {
                         filteredIdList.add(filteredId);
@@ -381,7 +380,8 @@ public class DefaultResourceService implements ResourceService {
         return provider.getConnectionPath(fromEntityType, toEntityType);
     }
 
-    protected List<EntityBody> injectErrors(EntityDefinition definition, final List<String> ids, List<EntityBody> finalResults) {
+    protected List<EntityBody> injectErrors(EntityDefinition definition, final List<String> ids,
+            List<EntityBody> finalResults) {
         int idLength = ids.size();
 
         if (idLength > 1) {

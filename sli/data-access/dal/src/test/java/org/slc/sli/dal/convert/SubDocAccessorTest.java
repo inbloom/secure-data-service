@@ -19,20 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.NoNaturalKeysDefinedException;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
@@ -40,11 +26,26 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+
 /**
  * Test for sub doc accessor
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessorTest {
 
@@ -162,7 +163,7 @@ public class SubDocAccessorTest {
     public void testSingleInsert() {
         MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
         entity.getMetaData().put("tenantId", "TEST");
-        assertTrue(underTest.subDoc("studentSectionAssociation").create(entity));
+        assertTrue(underTest.subDoc("studentSectionAssociation").get(0).create(entity));
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
 
@@ -197,7 +198,7 @@ public class SubDocAccessorTest {
         Entity ssa3 = new MongoEntity("studentSectionAssociation", new HashMap<String, Object>(
                 studentSectionAssociation));
         ssa3.getBody().put("sectionId", SECTION2);
-        assertTrue(underTest.subDoc("studentSectionAssociation").insert(Arrays.asList(ssa1, ssa2, ssa3)));
+        assertTrue(underTest.subDoc("studentSectionAssociation").get(0).insert(Arrays.asList(ssa1, ssa2, ssa3)));
         // Test that fry gets enrolled in mathematics of wonton burrito meals
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION2).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -261,8 +262,8 @@ public class SubDocAccessorTest {
     public void testMakeSubDocQuery() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant"));
-        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, true);
-        DBObject childQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, false);
+        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").get(0).toSubDocQuery(originalQuery, true);
+        DBObject childQuery = underTest.subDoc("studentSectionAssociation").get(0).toSubDocQuery(originalQuery, false);
         assertEquals("someValue", parentQuery.get("studentSectionAssociation.someProperty"));
         assertEquals("parent_id", parentQuery.get("_id"));
         assertEquals("parent_idchild", parentQuery.get("studentSectionAssociation._id"));
@@ -276,7 +277,7 @@ public class SubDocAccessorTest {
     @Test
     public void testSearchByParentId() {
         Query originalQuery = new Query(Criteria.where("body.sectionId").in("parentId1", "parentId2"));
-        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, true);
+        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").get(0).toSubDocQuery(originalQuery, true);
         assertEquals(new BasicDBObject("$in", Arrays.asList("parentId1", "parentId2")), parentQuery.get("_id"));
     }
 
@@ -287,21 +288,21 @@ public class SubDocAccessorTest {
                 .and("metaData.tenantId").is("myTenant"));
         Update update = new Update();
         update.set("someProperty", "someNewValue");
-        boolean result = underTest.subDoc("studentSectionAssociation").doUpdate(originalQuery, update);
+        boolean result = underTest.subDoc("studentSectionAssociation").get(0).doUpdate(originalQuery, update);
         assertTrue(result);
 
         originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant"));
         update = new Update();
         update.set("nonExistProperty", "someNewValue");
-        result = underTest.subDoc("studentSectionAssociation").doUpdate(originalQuery, update);
+        result = underTest.subDoc("studentSectionAssociation").get(0).doUpdate(originalQuery, update);
         assertFalse(result);
 
     }
 
     @Test
     public void testFindById() {
-        Entity resultEntity = underTest.subDoc("studentSectionAssociation").findById("parent_idchild");
+        Entity resultEntity = underTest.subDoc("studentSectionAssociation").get(0).findById("parent_idchild");
         assertNotNull(resultEntity);
         assertEquals("parent_idchild", resultEntity.getEntityId());
         assertEquals("someValue", resultEntity.getBody().get("someProperty"));
@@ -313,7 +314,7 @@ public class SubDocAccessorTest {
 
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant")).skip(0).limit(1);
-        List<Entity> entityResults = underTest.subDoc("studentSectionAssociation").findAll(originalQuery);
+        List<Entity> entityResults = underTest.subDoc("studentSectionAssociation").get(0).findAll(originalQuery);
         assertNotNull(entityResults);
         assertEquals(1, entityResults.size());
         assertEquals("parent_idchild", entityResults.get(0).getEntityId());
@@ -323,10 +324,10 @@ public class SubDocAccessorTest {
 
     @Test
     public void testDelete() {
-        boolean result = underTest.subDoc("studentSectionAssociation").delete("parent_idchild");
+        boolean result = underTest.subDoc("studentSectionAssociation").get(0).delete("parent_idchild");
         assertTrue(result);
 
-        result = underTest.subDoc("studentSectionAssociation").delete("nonExistId");
+        result = underTest.subDoc("studentSectionAssociation").get(0).delete("nonExistId");
         assertFalse(result);
     }
 
@@ -334,21 +335,21 @@ public class SubDocAccessorTest {
     public void testCount() {
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant"));
-        long count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        long count = underTest.subDoc("studentSectionAssociation").get(0).count(originalQuery);
         assertEquals(1L, count);
 
         originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue")
                 .and("metaData.tenantId").is("myTenant"));
-        count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        count = underTest.subDoc("studentSectionAssociation").get(0).count(originalQuery);
         assertEquals(0L, count);
     }
-    
+
     @Test
     public void testExists() {
-        boolean exists = underTest.subDoc("studentSectionAssociation").exists("parent_idchild");
+        boolean exists = underTest.subDoc("studentSectionAssociation").get(0).exists("parent_idchild");
         assertTrue(exists);
-        boolean nonExists = underTest.subDoc("studentSectionAssociation").exists("nonExistId");
+        boolean nonExists = underTest.subDoc("studentSectionAssociation").get(0).exists("nonExistId");
         assertFalse(nonExists);
-        
+
     }
 }

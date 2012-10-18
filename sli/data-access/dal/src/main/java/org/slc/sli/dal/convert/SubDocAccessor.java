@@ -10,12 +10,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,21 +21,25 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBObject;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations.Parent;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessor {
 
     private static final Logger LOG = LoggerFactory.getLogger(SubDocAccessor.class);
 
-    private final Map<String, Location> locations = new HashMap<String, SubDocAccessor.Location>();
+    private final Map<String, List<Location>> locations = new HashMap<String, List<SubDocAccessor.Location>>();
 
     private final MongoTemplate template;
 
@@ -56,17 +58,20 @@ public class SubDocAccessor {
         // "_id")
         // .register();
         for (String entityType : EmbeddedDocumentRelations.getSubDocuments()) {
-            String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
-            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
-            if (parent != null && parentKey != null) {
-                store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").register();
+            List<Parent> parents = EmbeddedDocumentRelations.getParents(entityType);
+            //String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
+            //String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
+            for (Parent parent : parents) {
+                if (parent != null) {
+                    store(entityType).within(parent).as(entityType).mapping(parent.getFieldMapping()).register();
+                }
             }
         }
     }
 
     /**
      * Start a location for a given sub doc type
-     * 
+     *
      * @param type
      * @return
      */
@@ -87,19 +92,19 @@ public class SubDocAccessor {
 
         /**
          * Store the subdoc within the given super doc collection
-         * 
+         *
          * @param collection
          *            the collection the subdoc gets stored in
          * @return
          */
-        public LocationBuilder within(String collection) {
-            this.collection = collection;
+        public LocationBuilder within(EmbeddedDocumentRelations.Parent parent) {
+            this.collection = parent.getParentEntityType();
             return this;
         }
 
         /**
          * The field the subdocs show up in
-         * 
+         *
          * @param subField
          *            The field the subdocs show up in
          * @return
@@ -111,13 +116,13 @@ public class SubDocAccessor {
 
         /**
          * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
-         * 
+         *
          * @param subDocField
          * @param superDocField
          * @return
          */
-        public LocationBuilder mapping(String subDocField, String superDocField) {
-            lookup.put(subDocField, superDocField);
+        public LocationBuilder mapping(Map<String, String> mapping) {
+            lookup.putAll(mapping);
             return this;
         }
 
@@ -125,16 +130,21 @@ public class SubDocAccessor {
          * Register it as a sub resource location
          */
         public void register() {
-            locations.put(type, new Location(collection, lookup, subField));
+            Location location = new Location(collection, lookup, subField);
+            LOG.info("Created sub-document mapping: {} -> {}", type, location);
+            if (!locations.containsKey(type)) {
+                locations.put(type, new ArrayList<Location>());
+            }
+            locations.get(type).add(location);
         }
 
     }
 
     /**
      * THe location of the subDoc
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     public class Location {
 
@@ -144,7 +154,7 @@ public class SubDocAccessor {
 
         /**
          * Create a new location to store subdocs
-         * 
+         *
          * @param collection
          *            the collection the superdoc is in
          * @param key
@@ -493,13 +503,24 @@ public class SubDocAccessor {
                 delete(e.getEntityId());
             }
         }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("Location={");
+            builder.append("collection=" + collection + ", ");
+            builder.append("sub-field=" + subField + ", ");
+            builder.append("mapping=" + lookup);
+            builder.append("}");
+            return builder.toString();
+        }
     }
 
     public boolean isSubDoc(String docType) {
         return locations.containsKey(docType);
     }
 
-    public Location subDoc(String docType) {
+    public List<Location> subDoc(String docType) {
         return locations.get(docType);
     }
 }

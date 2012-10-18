@@ -31,13 +31,13 @@ public class EmbeddedDocumentRelationsTest {
     @Test
     public void studentSectionAssociationTest() {
         assertTrue(EmbeddedDocumentRelations.getSubDocuments().contains("studentSectionAssociation"));
-        assertEquals(EmbeddedDocumentRelations.getParentEntityType("studentSectionAssociation"), "section");
-        assertEquals(EmbeddedDocumentRelations.getParentFieldReference("studentSectionAssociation"), "sectionId");
+        assertEquals(EmbeddedDocumentRelations.getParents("studentSectionAssociation").get(0).getParentEntityType(), "section");
+        assertEquals(EmbeddedDocumentRelations.getParents("studentSectionAssociation").get(0).getParentReferenceFieldName(), "sectionId");
     }
 
     @Test
     public void nonSubDocTest() {
-        assertTrue(EmbeddedDocumentRelations.getParentEntityType("does not exist") == null);
-        assertTrue(EmbeddedDocumentRelations.getParentFieldReference("does not exist") == null);
+        assertTrue(EmbeddedDocumentRelations.getParents("does not exist") == null);
+        assertTrue(EmbeddedDocumentRelations.getParents("does not exist") == null);
     }
 }
