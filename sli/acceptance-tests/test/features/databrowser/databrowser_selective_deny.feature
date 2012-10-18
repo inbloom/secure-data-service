@@ -14,7 +14,6 @@ Scenario: An Educator is denied access because they are not an administrator
     When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
      Then I get message that I am not authorized
 
-@foo
 Scenario: A user who is a Educator and an IT Admin is denied access because the Educator role is not an admin role
 	Given I have an open web browser
     And I navigated to the Data Browser Home URL
