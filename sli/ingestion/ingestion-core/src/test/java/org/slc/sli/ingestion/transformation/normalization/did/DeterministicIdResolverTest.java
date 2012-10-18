@@ -329,6 +329,7 @@ public class DeterministicIdResolverTest {
         ErrorReport errorReport = new TestErrorReport();
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", "");
         naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
         String tenantId = TENANT;
         NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);

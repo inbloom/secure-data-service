@@ -261,6 +261,9 @@ public class DeterministicIdResolver {
                     if (keyFieldDef.isOptional() == false) {
                         throw new IdResolutionException("No value found for required reference",
                                 keyFieldDef.getValueSource(), "");
+                    } else {
+                        // since it's an optional field, replace it with "" in the natural key list
+                        value = "";
                     }
                     // otherwise, continue to end of loop with null 'value'
                 } else {
@@ -280,7 +283,7 @@ public class DeterministicIdResolver {
 
             String fieldName = keyFieldDef.getKeyFieldName();
             // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null || value.isEmpty()) {
+            if (fieldName == null || fieldName.isEmpty() || value == null) {
                 continue;
             }
             naturalKeys.put(fieldName, value);
@@ -291,7 +294,7 @@ public class DeterministicIdResolver {
             return null;
         }
 
-        //TODO: need to verify this
+        // TODO: need to verify this
         String parentId = null;
         String entityType = didRefConfig.getEntityType();
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
