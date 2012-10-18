@@ -101,6 +101,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+
         resolveReferences(item, errorReport);
 
         if (errorReport.hasErrors()) {
@@ -159,8 +160,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
-        // TODO: uncomment when deterministic id reference resolution should be activated
-        // didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
@@ -476,7 +476,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         Query query;
 
         if (NaturalKeyExtractor.useDeterministicIds()) {
-            
+
             NaturalKeyDescriptor naturalKeyDescriptor;
             try {
                 naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
@@ -484,7 +484,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 String message = "An entity is missing one or more required natural key fields" + "\n"
                         + "       Entity     " + entity.getType() + "\n" + "       Instance   "
                         + entity.getRecordNumber();
-                
+
                 for (String fieldName : e1.getNaturalKeys()) {
                     message += "\n" + "       Field      " + fieldName;
                 }
@@ -494,12 +494,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 LOG.error(e.getMessage(), e);
                 return null;
             }
-            
+
             if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
                 // Okay for embedded entities
                 LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
                         + "       Instance   " + entity.getRecordNumber());
-                
+
                 query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
             } else {
                 query = new Query();
@@ -512,17 +512,17 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         } else {
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
         }
-        
+
         return query;
     }
-    
+
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             ErrorReport errorReport) {
         Query query = new Query();
-        
+
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
         query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
-        
+
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
@@ -540,12 +540,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                             collectionName = appInfo.getCollectionType();
                         }
                     }
-                    
+
                     errorMessage += "       collection = " + collectionName + "\n";
                 }
             }
         }
-        
+
         try {
             for (String field : entityConfig.getKeyFields()) {
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
@@ -572,7 +572,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             if (complexField != null) {
                 String propertyString = complexField.getListPath() + ".[0]." + complexField.getFieldPath();
                 Object fieldValue = PropertyUtils.getProperty(entity, propertyString);
-                
+
                 query.addCriteria(Criteria.where(complexField.getListPath() + "." + complexField.getFieldPath()).is(
                         fieldValue));
             }

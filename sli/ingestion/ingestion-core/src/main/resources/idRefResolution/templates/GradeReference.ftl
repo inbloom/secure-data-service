@@ -5,8 +5,12 @@
                 <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
             </StudentIdentity>
             <SectionIdentity>
-                    <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.StateOrganizationId}</StateOrganizationId>
-                    <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
             </SectionIdentity>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>

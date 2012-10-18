@@ -3,7 +3,11 @@
     <DateAssigned>${GradebookEntry.DateAssigned}</DateAssigned>
     <SectionReference>
         <SectionIdentity>
-            <StateOrganizationId>${GradebookEntry.SectionReference.SectionIdentity.StateOrganizationId}</StateOrganizationId>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>${GradebookEntry.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
             <UniqueSectionCode>${GradebookEntry.SectionReference.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
         </SectionIdentity>
     </SectionReference>
