@@ -1374,6 +1374,8 @@ def subDocParent(collectionName)
 	 "section"
 	when "gradebookEntry"
 	 "section"
+	when "teacherSectionAssociation"
+	 "section"
 	when "studentAssessmentAssociation"
 	 "student"
     else 

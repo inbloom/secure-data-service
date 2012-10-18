@@ -36,6 +36,7 @@ public class EmbeddedDocumentRelations {
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
+        map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
     };
 
