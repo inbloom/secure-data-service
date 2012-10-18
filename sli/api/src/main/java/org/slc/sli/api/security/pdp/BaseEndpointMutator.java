@@ -32,12 +32,12 @@ import com.sun.jersey.spi.container.ContainerRequest;
  * @author dkornishev
  */
 @Component
-public class PolicyEnforcer {
+public class BaseEndpointMutator {
 
 	@Resource
-	private ContextInferenceHelper inferer;
+	private InferedURIHelper inferedURIHelper;
 
-	public void enforce(Authentication auth, ContainerRequest request) {
+	public void mutateURI(Authentication auth, ContainerRequest request) {
 
 		if (request.getMethod() == "POST") {
 			return;
@@ -67,7 +67,7 @@ public class PolicyEnforcer {
 		if (segs.get(0).getPath().equals("v1")) {
 			if (segs.size() < 3) {
 				request.getProperties().put("requestedPath", request.getPath());
-				String newPath = inferer.getInferredUri(segs.get(1).getPath(), user.getEntity());
+				String newPath = inferedURIHelper.getInferredUri(segs.get(1).getPath(), user.getEntity());
 
 				if (newPath != null) {
 					String parameters = request.getRequestUri().getQuery();
