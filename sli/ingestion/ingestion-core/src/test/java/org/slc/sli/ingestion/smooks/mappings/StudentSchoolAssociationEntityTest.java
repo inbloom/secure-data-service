@@ -17,7 +17,6 @@
 
 package org.slc.sli.ingestion.smooks.mappings;
 
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -87,10 +86,6 @@ public class StudentSchoolAssociationEntityTest {
         Assert.assertEquals("2011-09-12", entity.get("ExitWithdrawDate"));
         Assert.assertEquals("End of school year", entity.get("ExitWithdrawType"));
         Assert.assertEquals("true", entity.get("SchoolChoiceTransfer").toString());
-        List<?> educationalPlans = (List<?>) record.getAttributes().get("educationalPlans");
-        Assert.assertTrue(educationalPlans != null);
-
-        Assert.assertEquals("Full Time Employment", educationalPlans.get(0));
 
     }
 
