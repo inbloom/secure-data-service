@@ -32,7 +32,12 @@
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 	<mongo:mongo id="searchMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
-	<mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="searchMongo" />
+	<bean id="mongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
+		<constructor-arg ref="searchMongo" />
+		<constructor-arg value="${sli.mongodb.database}" />
+	</bean>
+
+
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="mappingConverter" />
@@ -49,7 +54,8 @@
 	</bean>
 
 	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">
-		<constructor-arg name="configFile" value="${sli.search.index.config:index-config.json}" />
+		<constructor-arg name="configFile"
+			value="${sli.search.index.config:index-config.json}" />
 	</bean>
 	<bean id="extractor" class="org.slc.sli.search.process.impl.ExtractorImpl"
 		init-method="init" destroy-method="destroy">
@@ -101,11 +107,13 @@
 	</bean>
 
 	<task:scheduled-tasks scheduler="scheduler">
-		<task:scheduled ref="extractor" method="execute" cron="${sli.search.indexer.extract.schedule}" />
+		<task:scheduled ref="extractor" method="execute"
+			cron="${sli.search.indexer.extract.schedule}" />
 	</task:scheduled-tasks>
-    <task:scheduler id="scheduler" pool-size="5" />
-	
-	<bean class="org.slc.sli.search.util.RemoteCommandService" init-method="init">
+	<task:scheduler id="scheduler" pool-size="5" />
+
+	<bean class="org.slc.sli.search.util.RemoteCommandService"
+		init-method="init">
 		<property name="extractor" ref="extractor" />
 		<property name="port" value="${sli.search.indexer.service.port:10024}" />
 	</bean>

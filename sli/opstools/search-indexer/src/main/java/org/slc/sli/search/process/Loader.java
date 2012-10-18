@@ -13,6 +13,6 @@ public interface Loader {
     
     public abstract void processFile(File inFile);
     
-    public abstract void processFile(Action action, File inFile);
+    public abstract void processFile(String index, Action action, File inFile);
     
 }

@@ -25,17 +25,17 @@ public class IndexEntityConverter {
     // decrypt records flag
     private boolean decrypt = true;
     
-    public IndexEntity fromEntityJson(String entity) {
-        return fromEntityJson(Action.INDEX, entity);
+    public IndexEntity fromEntityJson(String index, String entity) {
+        return fromEntityJson(index, Action.INDEX, entity);
     }
     
-    public IndexEntity fromEntityJson(Action action, String entity) {
+    public IndexEntity fromEntityJson(String index, Action action, String entity) {
         Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);
-        return fromEntityJson(action, entityMap);
+        return fromEntityJson(index, action, entityMap);
     }
     
     @SuppressWarnings("unchecked")
-    public IndexEntity fromEntityJson(Action action, Map<String, Object> entityMap) {
+    public IndexEntity fromEntityJson(String index, Action action, Map<String, Object> entityMap) {
         try {
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
@@ -43,7 +43,7 @@ public class IndexEntityConverter {
             // decrypt body if needed
             Map<String, Object> decryptedMap = decrypt ? entityEncryption.decrypt(type, body): body;
             // get tenantId
-            String indexName = ((String)metaData.get("tenantId")).toLowerCase();
+            String indexName = (index == null) ? ((String)metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
             IndexConfig config = indexConfigStore.getConfig(type);
             //re-assemble entity map
             entityMap.put("body", decryptedMap);

@@ -81,20 +81,20 @@ public class LoaderTester {
     
     @Test
     public void testLoadFile() throws Exception {
-        File file = new File(getClass().getResource("/testLoad.json").getFile());
+        File file = new File(getClass().getResource("/test_load.json").getFile());
         setNumOfFilesToWait(1);
         loader.processFile(file);
         waitForFiles(1);
         Assert.assertEquals(3, indexer.getEntities().size());
         Assert.assertEquals("another", indexer.getEntities().get(0).getId());
         Assert.assertEquals("student", indexer.getEntities().get(1).getType());
-        Assert.assertEquals("tenant", indexer.getEntities().get(2).getIndex());
+        Assert.assertEquals("test", indexer.getEntities().get(2).getIndex());
     }
     
     @Test
     public void testLoadTwoFiles() throws Exception {
-        File file = new File(getClass().getResource("/testLoad.json").getFile());
-        File file1 = new File(getClass().getResource("/testLoad2.json").getFile());
+        File file = new File(getClass().getResource("/test_load.json").getFile());
+        File file1 = new File(getClass().getResource("/test_load_2.json").getFile());
         
         setNumOfFilesToWait(2);
         FileUtils.copyFile(file, new File(inbox, file.getName()));

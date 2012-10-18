@@ -70,10 +70,12 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
         private final File inFile;
         private final Action action;
+        private final String index;
 
-        LoaderWorker(Action action, File inFile) {
+        LoaderWorker(String index, Action action, File inFile) {
             this.inFile = inFile;
             this.action = action;
+            this.index = index;
         }
 
         public void run() {
@@ -85,7 +87,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 br = new BufferedReader(new FileReader(inFile));
                 while ((entity = br.readLine()) != null) {
                     try {
-                        indexer.index(indexEntityConverter.fromEntityJson(action, entity));
+                        indexer.index(indexEntityConverter.fromEntityJson(index, action, entity));
                     } catch (Throwable e) {
                         logger.error("Error reading record:" + entity, e); 
                     }
@@ -114,7 +116,11 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     }
     
     public void processFile(File inFile) {
-        processFile(Action.INDEX, inFile);
+        String[] nameTokens = inFile.getName().split("_");
+        if (nameTokens.length < 2) {
+            throw new IllegalArgumentException("The filename must contain index name - {index}_{collection}_{optional id}");
+        }
+        processFile(nameTokens[0], Action.INDEX, inFile);
     }
 
     /*
@@ -122,7 +128,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * 
      * @see org.slc.sli.search.process.Loader#processFile(java.io.File)
      */
-    public void processFile(Action action, File inFile) {
+    public void processFile(String index, Action action, File inFile) {
 
         logger.info("Processing file: " + inFile.getName());
         // protect from incomplete files
@@ -142,7 +148,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 IOUtils.closeQuietly(fis);
             }
         }
-        executor.execute(new LoaderWorker(action, inFile));
+        executor.execute(new LoaderWorker(index, action, inFile));
     }
 
     public void onDirectoryChange(File inFile) {

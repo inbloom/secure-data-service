@@ -146,9 +146,8 @@ public class IncrementalListenerImpl implements IncrementalListener {
         }
         Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> entityMap = (Map<String, Object>) opLogMap.get("o");
-
         // convert to index entity object
-        return indexEntityConverter.fromEntityJson(IndexEntity.Action.INDEX, entityMap);
+        return indexEntityConverter.fromEntityJson(getMeta(opLogMap).getIndex(), IndexEntity.Action.INDEX, entityMap);
     }
 
     @SuppressWarnings("unchecked")
@@ -166,8 +165,8 @@ public class IncrementalListenerImpl implements IncrementalListener {
 
         Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
         String id = (String) o2.get("_id");
-        String type = (String) opLogMap.get("ns");
-        type = type.substring(type.lastIndexOf('.') + 1);
+        Meta meta = getMeta(opLogMap);
+        String type = meta.getType();
         Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
         Map<String, Object> updates = (Map<String, Object>) o.get("$set");
@@ -185,10 +184,9 @@ public class IncrementalListenerImpl implements IncrementalListener {
         }
 
         // convert to index entity object
-        return indexEntityConverter.fromEntityJson(IndexEntity.Action.UPDATE, entityMap);
+        return indexEntityConverter.fromEntityJson(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
     }
 
-    @SuppressWarnings("unchecked")
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
 
         logger.info("Action type: delete");
@@ -218,6 +216,11 @@ public class IncrementalListenerImpl implements IncrementalListener {
          * return indexEntityConverter.fromEntityJson(IndexEntity.Action.DELETE, entityMap);
          */
         return null;
+    }
+    
+    private Meta getMeta(Map<String, Object> opLogMap) {
+        String[] meta = ((String) opLogMap.get("ns")).split("\\.");
+        return new Meta(meta[0], meta[1]);
     }
 
     // TODO : is there a better way to make the json valid?
@@ -259,6 +262,25 @@ public class IncrementalListenerImpl implements IncrementalListener {
 
     public void setActiveMQConsumer(JMSQueueConsumer activeMQConsumer) {
         this.activeMQConsumer = activeMQConsumer;
+    }
+    
+    private static class Meta {
+        private final String index;
+        private final String type;
+        
+        public Meta(String index, String type) {
+            super();
+            this.index = index;
+            this.type = type;
+        }
+        
+        public String getIndex() {
+            return index;
+        }
+        
+        public String getType() {
+            return type;
+        }
     }
 
 }

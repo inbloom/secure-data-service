@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.ExtractorImpl;
+import org.slc.sli.search.process.impl.ExtractorImpl.Tenant;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.Constants;
 import org.slc.sli.search.util.MockDBCursorFactory;
@@ -42,7 +44,12 @@ public class ExtractorImplTest {
         } 
         
         @Override
-        protected void finishProcessing(File outFile, Action action, List<File> producedFiles) {
+        public List<Tenant> getTenants() {
+            return Arrays.asList(new Tenant[]{new Tenant("test", "test")});
+        }
+        
+        @Override
+        protected void finishProcessing(String index, File outFile, Action action, List<File> producedFiles) {
             if (outFile != null) {
                 producedFiles.add(outFile);
             }
@@ -87,7 +94,7 @@ public class ExtractorImplTest {
     public void testFileCounts() throws Exception {
         // set max lines per file is 10
         extractor.setMaxLinePerFile(10);
-        List<File> files = extractor.extractCollection(indexConfigStore.getConfig("student"), Action.INDEX);
+        List<File> files = extractor.extractCollection(indexConfigStore.getConfig("student"), Action.INDEX, new Tenant("test", "test"));
 
         Assert.assertEquals(20, files.size());
         int totalLines=0;

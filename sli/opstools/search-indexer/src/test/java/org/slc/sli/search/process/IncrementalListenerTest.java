@@ -58,10 +58,10 @@ public class IncrementalListenerTest {
         IndexEntity entity = listener.convertToEntity(opLogInsert);
         
         // check result
-        Assert.assertEquals(entity.getActionValue(), "index");
-        Assert.assertEquals(entity.getId(), "4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id");
-        Assert.assertEquals(entity.getType(), "student");
-        Assert.assertEquals(entity.getIndex(), "midgar");
+        Assert.assertEquals("index", entity.getActionValue());
+        Assert.assertEquals("4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id", entity.getId());
+        Assert.assertEquals("student", entity.getType());
+        Assert.assertEquals("midgar", entity.getIndex());
         Map<String, Object> name = (Map<String, Object>) entity.getBody().get("name"); 
         Assert.assertEquals(name.get("firstName"), "ESTRING:oF9iD6JYVIXWiLxhlEY5Rw==");
         Assert.assertEquals(name.get("lastSurname"), "ESTRING:B8eYiF6KTM4Fab9/A1lHsQ==");
