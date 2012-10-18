@@ -882,7 +882,12 @@ task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   if $SUCCESS
     $collectionSet.each do |collection|
+      sh "rm -f test/data/storied_data/Hyrule/sds_#{collection}.json"
+      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
+
       sh "rm -f test/data/storied_data/sds_#{collection}.json"
+      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
@@ -897,6 +902,14 @@ end
 
 desc "Import Storied Data Set"
 task :importStoriedData do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  hyruleHash = Hash[]
+  $collectionSet.each do |collection|
+    hyruleHash["#{collection}"] = "storied_data/Hyrule/sds_#{collection}.json"
+  end
+  setMultipleFixtureFiles(hyruleHash)
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   testHash = Hash[]
   $collectionSet.each do |collection|
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
