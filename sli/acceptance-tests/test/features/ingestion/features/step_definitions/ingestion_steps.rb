@@ -1369,12 +1369,14 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 def subDocParent(collectionName)
-  case collectionName 
+  case collectionName
     when "studentSectionAssociation"
-	 "section"
-	when "studentAssessmentAssociation"
-	 "student"
-    else 
+      "section"
+    when "studentAssessmentAssociation"
+      "student"
+    when "studentProgramAssociation"
+      "program"
+    else
       nil 
   end
 end
