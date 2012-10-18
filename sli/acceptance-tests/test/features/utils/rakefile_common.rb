@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'ldapstorage'
+require 'digest/sha1'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
@@ -42,7 +43,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
   appId = appColl.find_one({"body.name" => appName})["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
-  dbTenant = conn[tenantName]
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
   appAuthColl = dbTenant.collection("applicationAuthorization")
   edOrgColl = dbTenant.collection("educationOrganization")
 
@@ -66,6 +67,9 @@ def allLeaAllowAppForTenant(appName, tenantName)
   end
 end
 
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
 # Property Loader class
 
 class PropLoader

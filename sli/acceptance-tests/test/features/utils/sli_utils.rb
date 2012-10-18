@@ -27,6 +27,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
+require 'digest/sha1'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -133,6 +134,12 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
 }
+
+def convertTenantIdToDbName(tenantId)
+  db_name = Digest::SHA1.hexdigest tenantId
+  puts "Tenant: #{tenantId} DB: #{db_name}"
+  return db_name
+end
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -656,3 +663,4 @@ end
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
+

@@ -24,11 +24,11 @@ public class TenantIdToDbNameTest {
 
     @Test
     public void testConvertTenantIdToDbName() {
-        Assert.assertEquals("ABCDE", TenantIdToDbName.convertTenantIdToDbName("ABCDE"));
-        Assert.assertEquals("ABC_DE", TenantIdToDbName.convertTenantIdToDbName("ABC.DE"));
-        Assert.assertEquals("_ABC_DE_", TenantIdToDbName.convertTenantIdToDbName(" ABC DE "));
-        Assert.assertEquals("_ABCDE", TenantIdToDbName.convertTenantIdToDbName("$ABCDE"));
-        Assert.assertEquals("ABC_DE", TenantIdToDbName.convertTenantIdToDbName("ABC/DE"));
+        Assert.assertEquals("7be07aaf460d593a323d0db33da05b64bfdcb3a5", TenantIdToDbName.convertTenantIdToDbName("ABCDE"));
+        Assert.assertEquals("782a35eb5b9cd3e771047a60381e1274d76bc069", TenantIdToDbName.convertTenantIdToDbName("ABC.DE"));
+        Assert.assertEquals("1072a2a56f16654387d030014968a48f04ca7488", TenantIdToDbName.convertTenantIdToDbName(" ABC DE "));
+        Assert.assertEquals("f89b39e01f5b1bb76655211472cd71274766070e", TenantIdToDbName.convertTenantIdToDbName("$ABCDE"));
+        Assert.assertEquals("8e1cea182e0e0499fe1e0fe28e02d9ffb47ba098", TenantIdToDbName.convertTenantIdToDbName("ABC/DE"));
     }
 
 }

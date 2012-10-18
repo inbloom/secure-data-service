@@ -47,7 +47,7 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
-  @ingestion_db_name = 'Midgar'
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   
   # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
   # it can go away once there is no lingering bad data anywhere
@@ -132,7 +132,8 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => UNIQUE_TENANT_ID_1
+      "tenantId" => UNIQUE_TENANT_ID_1,
+      "dbName" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPut(arg1, data)

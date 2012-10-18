@@ -24,10 +24,10 @@ Scenario: Deny creation when specifying invalid fields
     Then I should receive a return code of 201
     And I should see following map of indexes in the corresponding collections:
      | collectionName                             | index                                                                |
-     | parent                                     | metaData.tenantId_1__id_1                                            |
-     | student                                    | metaData.tenantId_1_body.studentUniqueStateId_1                      |
-     | teacherSchoolAssociation                   | metaData.tenantId_1_body.schoolId_1                                  |
-     
+     | section                                    | body.schoolId_1                                                      |
+     | student                                    | body.studentUniqueStateId_1                                          |
+     | teacherSchoolAssociation                   | body.schoolId_1                                                      |
+
     When I navigate to GET "/tenants?tenantId=Midgar"
     Then I should receive a return code of 200
     And I should receive a UUID
@@ -107,7 +107,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     | Value |
     | "123456789012345678901234567890123456789012345678A" |
     | "" |
-    
+
 Scenario Outline: Deny creation when specifying individual landingZone wrong size fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -129,5 +129,5 @@ Scenario Outline: Deny creation when specifying individual landingZone wrong siz
     | "desc"                  | "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A" |
 
 
-    
-    
+
+

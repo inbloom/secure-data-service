@@ -21,14 +21,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.avro.generic.GenericData;
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -39,6 +49,7 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
@@ -52,14 +63,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -109,9 +112,12 @@ public class BasicService implements EntityService {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
-    
+
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
+
+    @Resource
+    private EdOrgHelper edOrgHelper;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -137,7 +143,7 @@ public class BasicService implements EntityService {
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     * 
+     *
      * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
@@ -366,11 +372,11 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
@@ -409,8 +415,8 @@ public class BasicService implements EntityService {
         checkAccess(readRight, id);
 
         String clientId = getClientId();
-        
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
+
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                 getEntityDefinition().getType(), id, clientId });
 
         NeutralQuery query = new NeutralQuery();
@@ -447,7 +453,7 @@ public class BasicService implements EntityService {
         }
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-        
+
         debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
@@ -470,23 +476,23 @@ public class BasicService implements EntityService {
 
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new String[] { getEntityDefinition().getType(), id, clientId });
+                    new Object[] { getEntityDefinition().getType(), id, clientId });
             return;
         }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
-            
+
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
@@ -527,23 +533,24 @@ public class BasicService implements EntityService {
             }
 
             if (found != ids.size()) {
-                
-                //Here's the deal - we want to avoid having to index based on createdBy/isOrphan
-                //So found won't include any orphaned entities that the user created.
-                //We do an additional query of the referenced fields without any additional security criteria
-                //and check the isOrphaned and createdBy on each of those
+
+                // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                // So found won't include any orphaned entities that the user created.
+                // We do an additional query of the referenced fields without any additional
+                // security criteria
+                // and check the isOrphaned and createdBy on each of those
                 neutralQuery = new NeutralQuery();
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-                
+
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
                 String userId = user.getEntity().getEntityId();
                 for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
-                    
-                    if (userId.equals(ent.getMetaData().get("createdBy")) &&
-                        "true".equals(ent.getMetaData().get("isOrphaned"))) {
+
+                    if (userId.equals(ent.getMetaData().get("createdBy"))
+                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                         found++;
                     }
                 }
@@ -565,20 +572,20 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity, make the entity body to expose
-     * 
+     *
      * @param entity
      * @return
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = createBody(entity);
 
-        if ((entity.getEmbeddedData()!=null) && !entity.getEmbeddedData().isEmpty()) {
+        if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
             for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
                 List<EntityBody> subDocbody = new ArrayList<EntityBody>();
-                for(Entity subEntity : enbDocList.getValue()) {
+                for (Entity subEntity : enbDocList.getValue()) {
                     subDocbody.add(createBody(subEntity));
                 }
-                toReturn.put(enbDocList.getKey(),subDocbody);
+                toReturn.put(enbDocList.getKey(), subDocbody);
             }
         }
         return toReturn;
@@ -601,7 +608,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     * 
+     *
      * @param content
      * @return
      */
@@ -616,7 +623,7 @@ public class BasicService implements EntityService {
     /**
      * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
      * still exists so that authorization/context can be checked.
-     * 
+     *
      * @param sourceId
      *            ID that was deleted, where anything else with that ID should also be deleted
      */
@@ -625,18 +632,20 @@ public class BasicService implements EntityService {
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
-            	EntityService referencingEntityService = referencingEntity.getService();
-            	
-            	List<String> includeFields = new ArrayList<String>();
-            	includeFields.add(referenceField);
+                EntityService referencingEntityService = referencingEntity.getService();
+
+                List<String> includeFields = new ArrayList<String>();
+                includeFields.add(referenceField);
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
                 neutralQuery.setIncludeFields(includeFields);
 
                 try {
-                	//entities that have arrays of references only cascade delete the array entry, not the whole entity
-                	if (referencingEntity.hasArrayField(referenceField)) {
-                		// list all entities that have the deleted entity's ID in one of their arrays
+                    // entities that have arrays of references only cascade delete the array entry,
+                    // not the whole entity
+                    if (referencingEntity.hasArrayField(referenceField)) {
+                        // list all entities that have the deleted entity's ID in one of their
+                        // arrays
                         for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
                             String idToBePatched = (String) entityBody.get("id");
                             List<?> basicDBList = (List<?>) entityBody.get(referenceField);
@@ -645,8 +654,9 @@ public class BasicService implements EntityService {
                             patchEntityBody.put(referenceField, basicDBList);
                             referencingEntityService.patch(idToBePatched, patchEntityBody);
                         }
-                	} else {
-                		// list all entities that have the deleted entity's ID in their reference field (for deletion)
+                    } else {
+                        // list all entities that have the deleted entity's ID in their reference
+                        // field (for deletion)
                         for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
                             String idToBeDeleted = (String) entityBody.get("id");
                             // delete that entity as well
@@ -654,7 +664,7 @@ public class BasicService implements EntityService {
                             // delete custom entities attached to this entity
                             deleteAttachedCustomEntities(idToBeDeleted);
                         }
-                	}
+                    }
                 } catch (AccessDeniedException ade) {
                     debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
@@ -675,7 +685,7 @@ public class BasicService implements EntityService {
     /**
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
-     * 
+     *
      * @param right
      *            needed Right for action
      * @param entityId
@@ -695,7 +705,7 @@ public class BasicService implements EntityService {
             warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
-        
+
         // TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
@@ -707,7 +717,7 @@ public class BasicService implements EntityService {
 
     /**
      * Checks to see if the entity id is allowed by security
-     * 
+     *
      * @param entityId
      *            The id to check
      * @return
@@ -760,7 +770,7 @@ public class BasicService implements EntityService {
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
         String securityField = "_id";
-        String blackListedEdOrgs = null;
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         securityCriteria.setCollectionName(toType);
 
@@ -769,9 +779,8 @@ public class BasicService implements EntityService {
         }
 
         Entity entity = principal.getEntity();
-        String type = entity != null ? entity.getType() : null;   // null for super admins because
-        // they don't contain mongo
-        // entries
+        String type = entity.getType();
+        // null for super admins because they don't contain mongo entries
 
         if (isPublic()) {
             securityCriteria.setSecurityCriteria(null);
@@ -782,34 +791,38 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = new DenyAllContextResolver();
         if (!securityCachingStrategy.contains(toType)) {
             resolver = contextResolverStore.findResolver(type, toType);
-
             allowed = resolver.findAccessible(principal.getEntity());
-            
         } else {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (type != null) {
-            // Prevent apps from using data that wasn't allowed
-            Set<String> blacklist = edOrgNodeFilter.getBlacklist();
-            blackListedEdOrgs = StringUtils.join(blacklist, ',');
-            if (!blacklist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "nin", blackListedEdOrgs,
-                        false));
+        if (!type.equals("user")) {
+            // Rather than using a blacklist, compute the intersection of authorized app's education
+            // organizations ('whitelist') and the parents of directly associated education
+            // organizations of the user
+            List<String> whitelist = edOrgNodeFilter.getWhitelist();
+            Set<String> finalSet = new HashSet<String>(whitelist);
+            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+                for (String id : whitelist) {
+                    finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
+                }
             }
 
-
+            if (!whitelist.isEmpty()) {
+                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in",
+                        new ArrayList<String>(finalSet), false));
+            }
         }
         if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
         }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
+            securityCriteria.setBlacklistCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
         }
-
 
         return securityCriteria;
     }
@@ -824,7 +837,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     private void filterFields(Map<String, Object> eb) {
@@ -871,7 +884,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     @SuppressWarnings("unchecked")
@@ -906,7 +919,7 @@ public class BasicService implements EntityService {
 
     /**
      * Returns the needed right for a field by examining the schema
-     * 
+     *
      * @param fieldPath
      *            The field name
      * @return
@@ -929,7 +942,7 @@ public class BasicService implements EntityService {
 
     /**
      * Checks query params for access restrictions
-     * 
+     *
      * @param query
      *            The query to check
      */
@@ -955,7 +968,7 @@ public class BasicService implements EntityService {
 
     /**
      * Figures out if writing to restricted fields
-     * 
+     *
      * @param eb
      *            data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
@@ -991,7 +1004,7 @@ public class BasicService implements EntityService {
 
     /**
      * Creates the metaData HashMap to be added to the entity created in mongo.
-     * 
+     *
      * @return Map containing important metadata for the created entity.
      */
     private Map<String, Object> createMetadata() {
@@ -1004,16 +1017,27 @@ public class BasicService implements EntityService {
         metadata.put("createdBy", createdBy);
         metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
-        // add the edorgs for staff
-        createEdOrgMetaDataForStaff(principal, metadata);
+        if (isStaff(principal)) {
+            createEdOrgMetaDataForStaff(principal, metadata);
+        } else if (isTeacher(principal)) {
+            createEdOrgMetaDataForTeacher(principal, metadata);
+        }
 
         return metadata;
+    }
+
+    private boolean isStaff(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.STAFF);
+    }
+
+    private boolean isTeacher(SLIPrincipal principal) {
+        return principal.getEntity().getType().equals(EntityNames.TEACHER);
     }
 
     /**
      * Add the list of ed orgs a principal entity can see
      * Needed for staff security
-     * 
+     *
      * @param principal
      * @param metaData
      */
@@ -1025,6 +1049,25 @@ public class BasicService implements EntityService {
         if (!edOrgIds.isEmpty()) {
             debug("Updating metadData with edOrg ids");
             metaData.put("edOrgs", edOrgIds);
+        }
+    }
+
+    /**
+     * Update the metaData for an entity created by a teacher by adding the current list of edOrgs
+     * on the teacher to the created entity.
+     *
+     * @param principal
+     *            SLI Principal (contains mongo entity).
+     * @param metaData
+     *            HashMap representing metaData of entity to be updated.
+     */
+    private void createEdOrgMetaDataForTeacher(SLIPrincipal principal, Map<String, Object> metaData) {
+        Entity entity = principal.getEntity();
+        if (entity.getMetaData().containsKey("edOrgs")) {
+            @SuppressWarnings("unchecked")
+            List<String> lineage = (List<String>) entity.getMetaData().get("edOrgs");
+            debug("Updating metadData with edOrg ids");
+            metaData.put("edOrgs", lineage);
         }
     }
 

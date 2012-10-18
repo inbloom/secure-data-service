@@ -7,6 +7,7 @@
 #
 # mongodump --db sli --collection system.profile
 # bsondump dump/sli/system.profile.bson > system.profile.json
+#   (remove lines that have % progress in them)
 # python parse-profile-dump.py system.profile.json [current_sli_indexes]
 
 import sys
@@ -15,7 +16,7 @@ import re
 import collections
 from copy import deepcopy
 
-IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["metaData.tenantId", "metaData.externalId"], ["$msg"], ["$and"], ["metaData"], ["metaData.tenantId"], ["metaData.edOrgs"], ["metaData.teacherContext"], ["body"], ["metaData.externalId"], ["metaData.externalId", "metaData.tenantId"]]  # indexes to ignore
+IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["$msg"], ["$and"], ["metaData"], ["metaData.tenantId"], ["metaData.edOrgs"], ["metaData.teacherContext"], ["body"]]  # , ["metaData.externalId"], ["metaData.externalId", "metaData.tenantId"], ["metaData.tenantId", "metaData.externalId"]]  # indexes to ignore
 QUERY_OPS = ['query', 'remove', 'update']  # 'getmore' operation ignored
 
 TENANT_ID = "metaData.tenantId"

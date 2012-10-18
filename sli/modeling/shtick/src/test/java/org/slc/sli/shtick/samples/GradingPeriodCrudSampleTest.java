@@ -52,22 +52,20 @@ public class GradingPeriodCrudSampleTest {
             assertEquals("Should match", "2012-01-01", gradingPeriod.getBeginDate());
             assertEquals("Should match", "2012-06-06", gradingPeriod.getEndDate());
             assertEquals("Should match", new Integer(20), gradingPeriod.getTotalInstructionalDays());
-            assertEquals("Should match", GradingPeriodType.FIFTH_SIX_WEEKS, gradingPeriod.getGradingPeriodIdentity().getGradingPeriod());
+            assertEquals("Should match", GradingPeriodType.SIXTH_SIX_WEEKS, gradingPeriod.getGradingPeriodIdentity().getGradingPeriod());
             assertEquals("Should match", SCHOOL_ID, gradingPeriod.getGradingPeriodIdentity().toMap().get("schoolId"));
             assertEquals("Should match", SchoolYearType.FUDGED_2000_HYPHEN_2001, gradingPeriod.getGradingPeriodIdentity().getSchoolYear());
 
             // UPDATE
-            gradingPeriod.setBeginDate("2011-12-10");
             gradingPeriod.setTotalInstructionalDays(30);
             doPutGradingPeriodsById(client, gradingPeriodId, gradingPeriod);
 
             GradingPeriod updatedGradingPeriod = doGetGradingPeriodsById(client, gradingPeriodId);
 
             assertEquals("Should match", gradingPeriodId, updatedGradingPeriod.getId());
-            assertEquals("Should match", "2011-12-10", updatedGradingPeriod.getBeginDate());
             assertEquals("Should match", "2012-06-06", updatedGradingPeriod.getEndDate());
             assertEquals("Should match", new Integer(30), gradingPeriod.getTotalInstructionalDays());
-            assertEquals("Should match", GradingPeriodType.FIFTH_SIX_WEEKS, updatedGradingPeriod.getGradingPeriodIdentity().getGradingPeriod());
+            assertEquals("Should match", GradingPeriodType.SIXTH_SIX_WEEKS, updatedGradingPeriod.getGradingPeriodIdentity().getGradingPeriod());
             assertEquals("Should match", SCHOOL_ID, gradingPeriod.getGradingPeriodIdentity().toMap().get("schoolId"));
             assertEquals("Should match", SchoolYearType.FUDGED_2000_HYPHEN_2001, updatedGradingPeriod.getGradingPeriodIdentity().getSchoolYear());
 
@@ -92,7 +90,7 @@ public class GradingPeriodCrudSampleTest {
         GradingPeriod gradingPeriod = new GradingPeriod();
 
         GradingPeriodIdentityType identityType = new GradingPeriodIdentityType();
-        identityType.setGradingPeriod(GradingPeriodType.FIFTH_SIX_WEEKS);
+        identityType.setGradingPeriod(GradingPeriodType.SIXTH_SIX_WEEKS);
         identityType.toMap().put("schoolId", SCHOOL_ID);
         identityType.setSchoolYear(SchoolYearType.FUDGED_2000_HYPHEN_2001);
 

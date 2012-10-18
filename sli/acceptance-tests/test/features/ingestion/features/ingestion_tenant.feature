@@ -30,8 +30,8 @@ Then I should see following map of entry counts in the corresponding collections
 #This test will not run on Windows, because "?" is not an valid character in Windows path
 @not-windows
 Scenario: Add a invalid landing zone
-Given I add a new named landing zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:#$|<>;"
-  And I am using preconfigured Ingestion Landing Zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:#$|<>;"
+Given I add a new named landing zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:\#$|<>;"
+  And I am using preconfigured Ingestion Landing Zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:\#$|<>;"
   And I post "tenant.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
@@ -45,8 +45,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should not see an error log file created
 
 Scenario: Add a landing zone to an existing tenant
-Given I add a new landing zone for "Midgar-Newtowne.te_#&5st@wgen.net"
-  And I am using preconfigured Ingestion Landing Zone for "Midgar-Newtowne.te_#&5st@wgen.net"
+Given I add a new landing zone for "Midgar-Newtowne.te_\#&5st@wgen.net"
+  And I am using preconfigured Ingestion Landing Zone for "Midgar-Newtowne.te_\#&5st@wgen.net"
   And I post "tenant.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |

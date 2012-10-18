@@ -150,7 +150,6 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 schema = schema.getFields().get(chunk);
 
                 if (schema == null) {
-                    warn("Reached end of the line for type {} and path {}", entityType, fieldPath);
                     schema = defaultSchema;
                     break;
                 }

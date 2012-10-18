@@ -25,15 +25,10 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -48,23 +43,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
- *         &lt;choice>
+ *           &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReference"/>
  *           &lt;element name="UniqueSectionCode" type="{http://ed-fi.org/0100}UniqueSectionCode"/>
- *           &lt;sequence>
- *             &lt;choice>
- *               &lt;element name="CourseCode" type="{http://ed-fi.org/0100}CourseCode"/>
- *               &lt;element name="LocalCourseCode" type="{http://ed-fi.org/0100}LocalCourseCode"/>
- *             &lt;/choice>
- *             &lt;element name="SchoolYear" type="{http://ed-fi.org/0100}SchoolYearType"/>
- *             &lt;element name="Term" type="{http://ed-fi.org/0100}TermType"/>
- *             &lt;element name="ClassPeriodName" type="{http://ed-fi.org/0100}ClassPeriodNameType"/>
- *             &lt;element name="Location" type="{http://ed-fi.org/0100}ClassroomIdentificationCode"/>
- *           &lt;/sequence>
- *         &lt;/choice>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -75,66 +55,54 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SectionIdentityType", propOrder = {
-    "stateOrganizationIdOrEducationOrgIdentificationCode",
-    "uniqueSectionCode",
-    "courseCode",
-    "localCourseCode",
-    "schoolYear",
-    "term",
-    "classPeriodName",
-    "location"
+    "educationalOrgReference",
+    "uniqueSectionCode"
 })
 public class SectionIdentityType {
 
-    @XmlElements({
-        @XmlElement(name = "StateOrganizationId", type = String.class),
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    @XmlElement(name = "EducationalOrgReference")
+    protected EducationalOrgReferenceType educationalOrgReference;
     @XmlElement(name = "UniqueSectionCode")
     protected String uniqueSectionCode;
-    @XmlElement(name = "CourseCode")
-    protected CourseCode courseCode;
-    @XmlElement(name = "LocalCourseCode")
-    protected String localCourseCode;
-    @XmlElement(name = "SchoolYear")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String schoolYear;
-    @XmlElement(name = "Term")
-    protected TermType term;
-    @XmlElement(name = "ClassPeriodName")
-    protected String classPeriodName;
-    @XmlElement(name = "Location")
-    protected String location;
 
     /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
+     * Gets the value of the educationalOrgReference property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link EducationOrgIdentificationCode }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
+    }
+
+    /**
+     * Sets the value of the educationalOrgReference property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EducationalOrgReferenceType }
+     *     
+     */
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
+    }
+
+    /**
+     * Convenience method for setting the educationalOrgReference property.
+     * 
+     * @param stateOrganizationId
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStateOrganizationId(String stateOrganizationId) {
+    	EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+    	EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+    	identity.setStateOrganizationId(stateOrganizationId);
+    	ref.setEducationalOrgIdentity(identity);
+    	setEducationalOrgReference(ref);
     }
 
     /**
@@ -160,149 +128,4 @@ public class SectionIdentityType {
     public void setUniqueSectionCode(String value) {
         this.uniqueSectionCode = value;
     }
-
-    /**
-     * Gets the value of the courseCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CourseCode }
-     *     
-     */
-    public CourseCode getCourseCode() {
-        return courseCode;
-    }
-
-    /**
-     * Sets the value of the courseCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CourseCode }
-     *     
-     */
-    public void setCourseCode(CourseCode value) {
-        this.courseCode = value;
-    }
-
-    /**
-     * Gets the value of the localCourseCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLocalCourseCode() {
-        return localCourseCode;
-    }
-
-    /**
-     * Sets the value of the localCourseCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLocalCourseCode(String value) {
-        this.localCourseCode = value;
-    }
-
-    /**
-     * Gets the value of the schoolYear property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSchoolYear() {
-        return schoolYear;
-    }
-
-    /**
-     * Sets the value of the schoolYear property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSchoolYear(String value) {
-        this.schoolYear = value;
-    }
-
-    /**
-     * Gets the value of the term property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TermType }
-     *     
-     */
-    public TermType getTerm() {
-        return term;
-    }
-
-    /**
-     * Sets the value of the term property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TermType }
-     *     
-     */
-    public void setTerm(TermType value) {
-        this.term = value;
-    }
-
-    /**
-     * Gets the value of the classPeriodName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getClassPeriodName() {
-        return classPeriodName;
-    }
-
-    /**
-     * Sets the value of the classPeriodName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setClassPeriodName(String value) {
-        this.classPeriodName = value;
-    }
-
-    /**
-     * Gets the value of the location property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLocation() {
-        return location;
-    }
-
-    /**
-     * Sets the value of the location property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLocation(String value) {
-        this.location = value;
-    }
-
 }

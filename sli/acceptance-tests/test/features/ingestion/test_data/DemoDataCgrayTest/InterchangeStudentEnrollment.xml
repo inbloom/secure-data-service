@@ -10,8 +10,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 923</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -23,8 +27,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 923</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -36,8 +44,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -49,8 +61,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -62,8 +78,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -75,8 +95,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -88,8 +112,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -101,8 +129,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -114,8 +146,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -127,8 +163,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -140,8 +180,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -153,8 +197,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -166,8 +214,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -179,8 +231,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -192,8 +248,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -205,8 +265,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -218,8 +282,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -231,8 +299,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -244,8 +316,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -257,8 +333,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -270,8 +350,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -283,8 +367,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -296,8 +384,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -309,8 +401,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -322,8 +418,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -335,8 +435,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -348,8 +452,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -361,8 +469,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -374,8 +486,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -387,8 +503,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -400,8 +520,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -413,8 +537,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -426,8 +554,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -439,8 +571,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -452,8 +588,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -465,8 +605,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -478,8 +622,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -491,8 +639,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -504,8 +656,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -517,8 +673,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -530,8 +690,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -543,8 +707,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -556,8 +724,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -569,8 +741,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -582,8 +758,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -595,8 +775,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -608,8 +792,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -621,8 +809,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -634,8 +826,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -647,8 +843,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
@@ -660,8 +860,12 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   <BeginDate>2011-09-01</BeginDate></StudentSectionAssociation>
