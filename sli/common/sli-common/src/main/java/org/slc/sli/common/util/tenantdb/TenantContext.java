@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal;
+package org.slc.sli.common.util.tenantdb;
 
 /**
  * Class that provides thread-local context for non-local jump use cases.
