@@ -1369,12 +1369,14 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 def subDocParent(collectionName)
-  case collectionName 
+  case collectionName
     when "studentSectionAssociation"
-	 "section"
-	when "studentAssessmentAssociation"
-	 "student"
-    else 
+      "section"
+    when "studentAssessmentAssociation"
+      "student"
+    when "studentProgramAssociation"
+      "program"
+    else
       nil 
   end
 end
@@ -1398,7 +1400,7 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
         @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
    elsif searchType == "double"
         @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   elseif searchType == "boolean"
+   elsif searchType == "boolean"
      if searchValue == "false"
        @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
      else
@@ -2139,8 +2141,7 @@ Then /^I check that ids were generated properly:$/ do |table|
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    puts "subdoc_parent #{subdoc_parent}"
-    
+
     did = row['deterministicId']
     field = row['field']
     value = row['value']
