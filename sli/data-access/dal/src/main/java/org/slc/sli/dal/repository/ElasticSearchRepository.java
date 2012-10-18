@@ -14,7 +14,6 @@ import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -237,11 +236,16 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 if ("query".equals(s.getKey())) {
                     queryString = ((String) s.getValue()).trim();
 
-                    // if query string is at least 3 characters, do partial match. else do exact match.
-                    if (queryString.length() >= 3) {
-                        queryString = StringUtils.join(queryString.split(" "), "* +") + "*";
+                    // if query token is at least 3 characters, do partial match. else do exact match.
+                    StringBuilder sb = new StringBuilder("");
+                    for (String queryToken : queryString.split(" ")) {
+                        sb.append(queryToken);
+                        if (queryToken.length() >= 3) {
+                            sb.append("*");
+                        }
+                        sb.append(" ");
                     }
-                    bqb.must(new QueryStringQueryBuilder(queryString.toLowerCase()));
+                    bqb.must(new QueryStringQueryBuilder(sb.toString().trim().toLowerCase()));
                 } else {
                     bfb.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
                 }
