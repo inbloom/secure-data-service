@@ -945,10 +945,12 @@ task :importSecuredData do
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
-  tenant = {
+
+   tenant = {
     "type" => "tenant",
     "body" => {
-      "tenantId" => "Security"
+      "tenantId" => "Security",
+      "dbName" => "f25ce1b8a399bd8621a57427a20039b4b13935db"
       },
     "metaData" => {
         "tenantId" => "Security"
@@ -956,7 +958,9 @@ task :importSecuredData do
   }
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   addSecurityData()
 end
 
