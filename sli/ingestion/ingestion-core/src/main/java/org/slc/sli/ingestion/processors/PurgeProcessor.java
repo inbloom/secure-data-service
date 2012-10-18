@@ -30,13 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.WorkNote;
@@ -131,7 +129,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 } else {
 
                     purgeForTenant(exchange, tenantId);
-                  
+
                 }
 
             } catch (Exception exception) {
@@ -151,8 +149,6 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     private void purgeForTenant(Exchange exchange, String tenantId) {
 
         Query searchTenantId = new Query();
-        searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                tenantId));
 
         Set<String> collectionNames = mongoTemplate.getCollectionNames();
         Iterator<String> iter = collectionNames.iterator();
@@ -169,7 +165,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
                 mongoTemplate.remove(searchTenantId, collectionName);
             }
         }
-        
+
         batchJobDAO.removeRecordHashByTenant(tenantId);
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
