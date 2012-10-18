@@ -965,51 +965,80 @@ task :importSecuredData do
   addSecurityData()
 end
 
-desc "Import Sandbox Test Data"
-task :importSandboxData do
+desc "Import Sandbox Test Data to Midgar"
+task :importSandboxMidgarData do
   testHash = Hash[
-    "session" => "session_fixture.json",
-    "program" => "program_fixture.json",
-    "section" => "section_fixture.json",
-    "course" => "course_fixture.json",
-    "student" => "student_fixture.json",
-    "parent" => "parent_fixture.json",
-    "studentParentAssociation" => "studentParentAssociation_fixture.json",
-    "staff" => "staff_fixture.json",
-    "assessment" => "assessment_fixture.json",
-    "attendance" => "attendance_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
-    "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
-    "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
-    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
-    "educationOrganization" => "educationOrganization_fixture.json",
-    "aggregationDefinition" => "aggregationdefinition_fixture.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
-    "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
-    "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
-    "disciplineIncident" => "disciplineIncident_fixture.json",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
-    "disciplineAction" => "disciplineAction_fixture.json",
-    "cohort" => "cohort_fixture.json",
-    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
-    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
-    "learningStandard" => "learningStandard_fixture.json",
-    "learningObjective" => "learningObjective_fixture.json",
-    "grade" => "grade_fixture.json",
-    "studentCompetency" => "studentCompetency_fixture.json",
-    "adminDelegation" => "adminDelegation_fixture.json",
-    "gradingPeriod" => "gradingPeriod_fixture.json",
-    "reportCard" => "reportCard_fixture.json",
-    "graduationPlan" => "graduationPlan_fixture.json"
+    "session" => "Midgar_data/session_fixture.json",
+    "program" => "Midgar_data/program_fixture.json",
+    "section" => "Midgar_data/section_fixture.json",
+    "course" => "Midgar_data/course_fixture.json",
+    "student" => "Midgar_data/student_fixture.json",
+    "parent" => "Midgar_data/parent_fixture.json",
+    "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
+    "staff" => "Midgar_data/staff_fixture.json",
+    "assessment" => "Midgar_data/assessment_fixture.json",
+    "attendance" => "Midgar_data/attendance_fixture.json",
+    "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
+    "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
+    "studentAssessmentAssociation" => "Midgar_data/studentAssessmentAssociation_fixture.json",
+    "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
+    "staffEducationOrganizationAssociation" => "Midgar_data/staffEducationOrganizationAssociation_fixture.json",
+    "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
+    "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
+    "studentTranscriptAssociation" => "Midgar_data/studentTranscriptAssociation_fixture.json",
+    "gradebookEntry" => "Midgar_data/gradebookEntry_fixture.json",
+    "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
+    "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
+    "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
+    "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
+    "cohort" => "Midgar_data/cohort_fixture.json",
+    "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "Midgar_data/studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "Midgar_data/studentProgramAssociation_fixture.json",
+    "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
+    "learningStandard" => "Midgar_data/learningStandard_fixture.json",
+    "learningObjective" => "Midgar_data/learningObjective_fixture.json",
+    "grade" => "Midgar_data/grade_fixture.json",
+    "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
+    "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "reportCard" => "Midgar_data/reportCard_fixture.json",
+    "graduationPlan" => "Midgar_data/graduationPlan_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+
+desc "Import Sandbox Test Data to Hyrule"
+task :importSandboxHyruleData do
+  testHash = Hash[
+    "session" => "Hyrule_data/session_fixture.json",
+    "section" => "Hyrule_data/section_fixture.json",
+    "course" => "Hyrule_data/course_fixture.json",
+    "student" => "Hyrule_data/student_fixture.json",
+    "staff" => "Hyrule_data/staff_fixture.json",
+    "assessment" => "Hyrule_data/assessment_fixture.json",
+    "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
+    "teacherSectionAssociation" => "Hyrule_data/teacherSectionAssociation_fixture.json",
+    "studentSectionAssociation" => "Hyrule_data/studentSectionAssociation_fixture.json",
+    "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
+    "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
+    "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
+    "reportCard" => "Hyrule_data/reportCard_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
+desc "Import Sandbox Test Data"
+task :importSandboxData do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  Rake::Task["importSandboxMidgarData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  Rake::Task["importSandboxHyruleData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Import Sandbox Test Data"
