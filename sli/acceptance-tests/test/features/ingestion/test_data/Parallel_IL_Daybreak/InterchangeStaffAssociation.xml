@@ -89,7 +89,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Sec 145</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -103,7 +107,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Debate Clinic - Sec 1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -178,7 +186,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -250,7 +262,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
