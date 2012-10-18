@@ -99,7 +99,7 @@ public class Denormalizer {
         }
 
         public void register() {
-            denormalizations.put(type, new Denormalization(collection, field, referenceKeys, idKey, fields));
+            denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, fields));
         }
 
     }
@@ -110,14 +110,16 @@ public class Denormalizer {
      */
     public class Denormalization {
 
+        private String type;
         private String denormalizeToEntity;
         private Map<String, String> denormalizationReferenceKeys;
         private String denormalizedIdKey;
         private List<String> denormalizedFields;
         private String denormalizedToField;
 
-        public Denormalization(String denormalizeToEntity, String denormalizedToField, Map<String, String> denormalizationReferenceKeys,
+        public Denormalization(String type, String denormalizeToEntity, String denormalizedToField, Map<String, String> denormalizationReferenceKeys,
                                String denormalizedIdKey, List<String> denormalizedFields) {
+            this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.denormalizationReferenceKeys = denormalizationReferenceKeys;
@@ -240,6 +242,29 @@ public class Denormalizer {
         private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
         }
+
+        public boolean delete(Entity entity, String id) {
+
+            if (entity == null) {
+                entity = findTypeEntity(id);
+            }
+
+            DBObject parentQuery = getParentQuery(entity.getBody());
+            List<Entity> subEntities = new ArrayList<Entity>();
+            subEntities.add(entity);
+            TenantContext.setIsSystemCall(false);
+
+            return template.getCollection(denormalizeToEntity).update(parentQuery, buildPullObject(subEntities), false, true)
+                    .getLastError().ok();
+        }
+
+        private Entity findTypeEntity(String id) {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("_id").is(id));
+
+            return template.findOne(query, Entity.class, type);
+        }
+
 
     }
 

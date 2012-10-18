@@ -323,10 +323,12 @@ public class SubDocAccessorTest {
 
     @Test
     public void testDelete() {
-        boolean result = underTest.subDoc("studentSectionAssociation").delete("parent_idchild");
+        Entity entity = underTest.subDoc("studentSectionAssociation").findById("parent_idchild");
+        boolean result = underTest.subDoc("studentSectionAssociation").delete(entity);
         assertTrue(result);
 
-        result = underTest.subDoc("studentSectionAssociation").delete("nonExistId");
+        entity = underTest.subDoc("studentSectionAssociation").findById("nonExistId");
+        result = underTest.subDoc("studentSectionAssociation").delete(entity);
         assertFalse(result);
     }
 

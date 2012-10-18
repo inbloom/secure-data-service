@@ -277,8 +277,7 @@ public class SubDocAccessor {
             return doUpdate(parentQuery, subEntities);
         }
 
-        public boolean delete(String id) {
-            Entity entity = findById(id);
+        public boolean delete(Entity entity) {
 
             if (entity == null) {
                 return false;
@@ -490,7 +489,8 @@ public class SubDocAccessor {
 
         public void deleteAll(Query query) {
             for (Entity e : findAll(query)) {
-                delete(e.getEntityId());
+                Entity entity = findById(e.getEntityId());
+                delete(entity);
             }
         }
     }

@@ -247,30 +247,33 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
-            denormalize(collectionName, entity);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
 
             return entity;
         } else {
             Entity result = super.insert(entity, collectionName);
-            denormalize(collectionName, result);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
 
             return result;
         }
     }
 
-    private void denormalize(String collectionName, Entity entity) {
-        if (denormalizer.isDenormalizedDoc(collectionName)) {
-            denormalizer.denormalization(collectionName).create(entity);
-        }
-    }
-
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
-        if (denormalizer.isDenormalizedDoc(collectionName)) {
-            denormalizer.denormalization(collectionName).insert(records);
-        }
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -288,7 +291,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 keyEncoder.encodeEntityKey(entity);
                 persist.add(entity);
             }
-            return super.insert(persist, collectionName);
+
+            List<Entity> results = super.insert(persist, collectionName);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
+            return results;
         }
     }
 
@@ -306,9 +316,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
+
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).delete(id);
+            Entity entity = subDocs.subDoc(collectionName).findById(id);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(entity, id);
+            }
+
+            return subDocs.subDoc(collectionName).delete(entity);
         }
+
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).delete(null, id);
+        }
+
         return super.delete(collectionName, id);
     }
 
