@@ -43,6 +43,8 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.Grade;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradebookEntry;
+import org.slc.sli.test.edfi.entities.GradebookEntryIdentityType;
+import org.slc.sli.test.edfi.entities.GradebookEntryReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
@@ -573,8 +575,15 @@ public final class InterchangeStudentGradeGenerator {
 
                         StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
                                 sectionRef, studentRef);
-                        ReferenceType ref = new ReferenceType();
-                        ref.setRef(new Ref(gradeBookEntryMeta.getId()));
+                        
+                        GradebookEntryIdentityType identity = new GradebookEntryIdentityType();
+                        identity.setGradebookEntryType(gradeBookEntryMeta.getGradebookEntryType());
+                        identity.setDateAssigned(gradeBookEntryMeta.getDateAssigned());
+                        identity.setSectionReference(sectionRef);
+                        
+                        GradebookEntryReferenceType ref = new GradebookEntryReferenceType();
+                        ref.setGradebookEntryIdentity(identity);
+                        
                         studentGradeBookEntry.setGradebookEntryReference(ref);
 
                         writer.marshal(studentGradeBookEntry);           
