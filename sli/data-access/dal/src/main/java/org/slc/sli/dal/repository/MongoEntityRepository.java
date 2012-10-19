@@ -216,11 +216,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !isTenantAgnostic(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
