@@ -485,10 +485,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
     | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.beginDate            | 2011-03-01                           |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idfbdb2bd12da6fa64d2e74242c20c2235cd3f04d4_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
     | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.uniqueSectionCode    | Drama I - Sec 5f09 |
     | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.schoolId             | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
