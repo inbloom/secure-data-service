@@ -738,13 +738,20 @@ Given /^the following collections are empty in datastore:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    parent = subDocParent row["collectionName"]
+    if parent 
+        @entity_collection = @db[parent]
+        superDocs = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+        cleanupSubDoc(superDocs, row["collectionName"])
+    else
+      @entity_collection = @db[row["collectionName"]]
+      @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
 
-    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+      puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
-      @result = "false"
+      if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+        @result = "false"
+      end
     end
   end
   createIndexesOnDb(@conn,@ingestion_db_name)
@@ -1366,6 +1373,13 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
   assert(@result == "true", "Some indexes were not created successfully.")
 
+end
+
+def cleanupSubDoc(superdocs, subdoc)
+  superdocs.each do |superdoc|
+      superdoc[subdoc] = nil
+      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
+  end
 end
 
 def subDocParent(collectionName)
