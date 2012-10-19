@@ -27,6 +27,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -42,6 +43,7 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ElasticSearchRepositoryTest {
 
+    @Autowired
     ElasticSearchQueryConverter converter;
 
     @Test
@@ -80,7 +82,7 @@ public class ElasticSearchRepositoryTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(100);
         query.setOffset(0);
-        NeutralCriteria crit1 = new NeutralCriteria("query=matt");
+        NeutralCriteria crit1 = new NeutralCriteria("q=matt");
         query.addCriteria(crit1);
         NeutralCriteria crit11 = new NeutralCriteria("temp=temptemp");
         query.addCriteria(crit11);
@@ -97,11 +99,9 @@ public class ElasticSearchRepositoryTest {
         // check results
         ObjectMapper mapper = new ObjectMapper();
         JsonNode srbNode = mapper.readTree(srbStr);
-        assertEquals(srbNode.get("from").getIntValue(), 0);
-        assertEquals(srbNode.get("size").getIntValue(), 100);
-        assertEquals(srbNode.get("query").get("bool").get("must").get("query_string").get("query").getTextValue(), "matt*");
-        assertEquals(srbNode.get("filter").get("bool").get("must").get("terms").get("temp").getElements().next().asText(), "temptemp");
-        assertEquals(srbNode.get("filter").get("bool").get("should").get("terms").get("test").getElements().next().asText(), "1");
+        assertEquals("matt", srbNode.get("bool").get("must").get(0).get("query_string").get("query").getTextValue());
+        assertEquals("temptemp", srbNode.get("bool").get("must").get(1).get("terms").get("temp").getElements().next().asText());
+        assertEquals("1", srbNode.get("bool").get("should").get("terms").get("test").getElements().next().asText());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ElasticSearchRepositoryTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(100);
         query.setOffset(0);
-        NeutralCriteria crit1 = new NeutralCriteria("query=ma");
+        NeutralCriteria crit1 = new NeutralCriteria("q=ma");
         query.addCriteria(crit1);
 
         // make the getQuery call
@@ -122,9 +122,7 @@ public class ElasticSearchRepositoryTest {
         // check results
         ObjectMapper mapper = new ObjectMapper();
         JsonNode srbNode = mapper.readTree(srbStr);
-        assertEquals(srbNode.get("from").getIntValue(), 0);
-        assertEquals(srbNode.get("size").getIntValue(), 100);
-        assertEquals(srbNode.get("query").get("bool").get("must").get("query_string").get("query").getTextValue(), "ma");
+        assertEquals("ma", srbNode.get("query_string").get("query").getTextValue());
     }
 
 }
