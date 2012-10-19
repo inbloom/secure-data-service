@@ -2160,7 +2160,7 @@
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" property="StudentAcademicRecordReference"/>
   </jb:bean>
 
-  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
+    <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType" property="StudentAcademicRecordIdentity"/>
   </jb:bean>
   <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType_SLC-StudentAcademicRecordIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity">

@@ -1714,7 +1714,7 @@ Withdrawn
 							<xs:documentation>The Education Organization that provided the reported instruction.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentAcademicRecordReference" type="TEMPORARY-StudentAcademicRecordReferenceType">
+					<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType">
 					<!-- TODO: switch this to SLC-StudentAcademicRecordReferenceType and deprecate the JSON -->
 						<xs:annotation>
 							<xs:documentation>Link to the Student's academic record for a semester/school year.</xs:documentation>

@@ -12,6 +12,7 @@
     [
         {
             "fieldPath" : "body.StudentAcademicRecordReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentAcademicRecord",
