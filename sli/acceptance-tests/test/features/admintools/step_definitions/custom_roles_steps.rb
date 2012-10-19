@@ -25,12 +25,12 @@ require_relative '../../utils/selenium_common.rb'
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "ADMIN_APPS"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL"] if arg1 == "New Custom"
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "AGGREGATE_WRITE", "ADMIN_APPS"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "AGGREGATE_WRITE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
@@ -258,7 +258,7 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  row = @driver.find_element(:xpath, "//td/input/../..")
+  row = @driver.find_element(:xpath, "//td/input[@type='text']/../..")
   button = row.find_element(:class, "rowEditToolCancelButton")
   button.click
 end
@@ -287,3 +287,47 @@ end
 Then /^I wait for 5 seconds$/ do
   sleep(5)
 end
+
+Then /^the IT Administrator role is the only admin role$/ do
+  ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
+    row = @driver.find_element(:xpath, "//tr/td/div[text()='#{role}']/../..")
+    checked = row.find_element(:class, "isAdmin").attribute("checked")
+    assert(((role != "IT Administrator" and !checked) or (role == "IT Administrator" and checked)), "Role is #{role} and admin status is #{checked}")
+  end
+end
+
+When /^I check the admin role box$/ do
+  checkboxes = @driver.find_elements(:class, "isAdmin")
+  checkboxes.each do |checkbox|
+      checkbox.click
+      puts("Clicking the check")
+  end
+end
+
+Then /^the group "(.*?)" has the admin role box checked$/ do |title|
+  sleep 2
+  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+  checkbox = group.find_element(:class, "isAdmin")
+  puts("The group is #{group.text} and checked is #{checkbox.attribute("checked").inspect}")
+  assert(checkbox.attribute("checked") == "true", "The admin checkbox for group #{title} is not checked")
+end
+
+Then /^the user "(.*?)" in tenant "(.*?)" can access the API with adminUser "(.*?)"$/ do |user, tenant, adminChecked|
+  # Login and get a session ID
+  idpRealmLogin(user, user+"1234", tenant)
+  assert(@sessionId != nil, "Session returned was nil")
+  
+  # Make a call to Session debug and look that we are authenticated
+  restHttpGet("/system/session/debug", "application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+
+  puts("The result is #{result.inspect}")
+  puts("\nand the thing is #{result["authentication"]["principal"]["adminUser"].class}")
+  adminChecked = adminChecked == "true" ? true : false
+  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
+  assert(result["authentication"]["principal"]["adminUser"] == adminChecked, "User's admin status is not #{adminChecked}")
+end
+
