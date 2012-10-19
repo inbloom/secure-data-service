@@ -504,9 +504,9 @@ $validationTestData = {
         "gradeType" => "Final"
     },
     "studentCompetency" => {
-        "competencyLevel" => [{
+        "competencyLevel" => {
                                   "description" => "really hard competency"
-                              }],
+                              },
         "diagnosticStatement" => "Validation Test Diag. Stmt."
     },
     "reportCard" => {
