@@ -2,6 +2,46 @@
     "keyFields" : [ "body.stateOrganizationId" ],
     "references" :
     [
+         {
+            "fieldPath" : "body.localEducationAgencyReference",
+            "ref" :
+            {
+                "collectionName" : "educationOrganization",
+                "optional" : true,
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.localEducationAgencyReference"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.educationServiceCenterReference",
+            "ref" :
+            {
+                "collectionName" : "educationOrganization",
+                "optional" : true,
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.educationServiceCenterReference"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
         {
             "fieldPath" : "body.parentEducationAgencyReference",
             "ref" :
