@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -204,8 +204,8 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
     }
 
     private String retrieveParentId(Entity entity) {
-        if(EmbedDocumentRelations.getSubDocuments().contains(entity.getType())) {
-            String parentKey = EmbedDocumentRelations.getParentFieldReference(entity.getType());
+        if(EmbeddedDocumentRelations.getSubDocuments().contains(entity.getType())) {
+            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entity.getType());
             String parentId = (String) entity.getBody().get(parentKey);
             return parentId;
         }

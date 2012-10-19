@@ -1,8 +1,8 @@
 package org.slc.sli.api.security.context;
 
-import com.sun.jersey.spi.container.ContainerRequest;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.stereotype.Component;
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
