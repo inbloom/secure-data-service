@@ -58,8 +58,7 @@ public class SearchResourceService {
     private EdOrgHelper edOrgHelper;
 
     // keep parameters for ElasticSearch
-    // q, size, offset
-    // offset is filtered ApiQuery, but accessible by getOffset()
+    // q,
     private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q" });
 
     public ServiceResponse list(Resource resource, URI queryUri) {
