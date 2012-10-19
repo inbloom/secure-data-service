@@ -20,7 +20,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.naming.LimitExceededException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -34,16 +39,10 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * Search service
- * 
+ *
  */
 
 @Component
@@ -121,7 +120,7 @@ public class SearchResourceService {
 
     /**
      * find current user role is a teacher or not.
-     * 
+     *
      * @param prinipalEntity
      * @return
      */
@@ -131,7 +130,7 @@ public class SearchResourceService {
 
     /**
      * apply default query for ElasticSearch
-     * 
+     *
      * @param criterias
      * @throws LimitExceededException
      */

@@ -23,14 +23,10 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.index.query.BoolFilterBuilder;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.node.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpEntity;
@@ -39,10 +35,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
@@ -51,9 +47,12 @@ import org.slc.sli.domain.Repository;
  */
 public class ElasticSearchRepository implements Repository<Entity> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ElasticSearchRepository.class);
+    static final Logger LOG = LoggerFactory.getLogger(ElasticSearchRepository.class);
 
     private static final String EMBEDDED_DATA = "data";
+
+    @Autowired
+    private ElasticSearchQueryConverter converter;
 
     private String esUri;
 
@@ -81,7 +80,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by init-method
-     * 
+     *
      * @throws Exception
      */
     public void init() throws Exception {
@@ -97,7 +96,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by destroy-method
-     * 
+     *
      * @throws Exception
      */
     public void destroy() throws Exception {
@@ -109,17 +108,16 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-
-        // send an elasticsearch REST query
-        String query = Converter.getQuery(getClient(), neutralQuery, TenantContext.getTenantId()).toString();
-
+        SearchRequestBuilder srb = getClient().prepareSearch(
+                TenantContext.getTenantId().toLowerCase()).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+        srb.setQuery(converter.getQuery(neutralQuery));
         // convert the response to search hits
-        return Converter.toEntityCol(sendRESTQuery(query));
+        return EntityConverter.toEntityCol(sendRESTQuery(srb.toString()));
     }
 
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
@@ -137,8 +135,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         // make the REST call
         try {
-            return searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId()
-                    .toLowerCase());
+            return searchTemplate.exchange(esUri, method, entity, String.class, getIndex());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
             throw rce;
@@ -146,122 +143,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
         }
     }
 
-    /**
-     * Converter SLI to/from ES
-     * 
-     * @author agrebneva
-     */
-    public static class Converter {
-
-        /**
-         * Converts elasticsearch http response to collection of entities
-         * 
-         * @param response
-         * @return
-         */
-        static Collection<Entity> toEntityCol(HttpEntity<String> response) {
-
-            ObjectMapper mapper = new ObjectMapper();
-            Collection<Entity> hits = new ArrayList<Entity>();
-            JsonNode node = null;
-            try {
-
-                // get the hits from the response
-                node = mapper.readTree(response.getBody());
-                JsonNode hitsNode = node.get("hits").get("hits");
-
-                LOG.info("Hits returned from elasticsearch: " + hitsNode);
-                SearchHitEntity hit;
-
-                // create a search hit entity object for each hit
-                for (int i = 0; i < hitsNode.size(); i++) {
-                    hit = convertJsonToSearchHitEntity(hitsNode.get(i));
-                    if (hit != null) {
-                        hits.add(hit);
-                    }
-                }
-            } catch (JsonProcessingException e) {
-                LOG.error("Error converting search response to entities", e);
-            } catch (IOException e) {
-                LOG.error("Error converting search response to entities", e);
-            }
-            return hits;
-        }
-
-        /**
-         * Converts a json response to a search hit entity
-         */
-        static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
-            try {
-                TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
-                };
-                // read the values from the json
-                ObjectMapper mapper = new ObjectMapper();
-                String id = hitNode.get("_id").getTextValue();
-                String type = hitNode.get("_type").getTextValue();
-                JsonNode bodyNode = hitNode.get("_source");
-                Map<String, Object> body = mapper.readValue(bodyNode, tr);
-                body.remove("context");
-
-                // create a return the search hit entity
-                return new SearchHitEntity(id, type, body, null);
-
-            } catch (JsonMappingException e) {
-                LOG.error("Error converting search json response to search hit entity", e);
-            } catch (IOException e) {
-                LOG.error("Error converting search json response to search hit entity", e);
-            }
-            return null;
-        }
-
-        /**
-         * Build elasticsearch query
-         * 
-         * @param client
-         * @param query
-         * @return
-         */
-        static SearchRequestBuilder getQuery(Client client, NeutralQuery query, String tenantId) {
-
-            SearchRequestBuilder srb = client.prepareSearch(tenantId.toLowerCase()).setSearchType(
-                    SearchType.DFS_QUERY_THEN_FETCH);
-            BoolQueryBuilder bqb = QueryBuilders.boolQuery();
-            BoolFilterBuilder bfb = FilterBuilders.boolFilter(), inFilter;
-
-            // set query criteria
-            for (NeutralCriteria criteria : query.getCriteria()) {
-                if ("q".equals(criteria.getKey())) {
-                    bqb.must(new QueryStringQueryBuilder(criteria.getValue().toString()));
-                } else {
-                    bfb.must(FilterBuilders.termsFilter(criteria.getKey(), getTermTokens(criteria.getValue())));
-                }
-            }
-
-            // set context metadata filter
-            if (!query.getOrQueries().isEmpty()) {
-                for (NeutralQuery q : query.getOrQueries()) {
-                    if (q.getCriteria().size() == 1) {
-                        NeutralCriteria s = q.getCriteria().get(0);
-                        bfb.should(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
-                    } else if (q.getCriteria().size() > 1) {
-                        inFilter = FilterBuilders.boolFilter();
-                        for (NeutralCriteria s : q.getCriteria()) {
-                            inFilter.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
-                        }
-                        bfb.should(inFilter);
-                    }
-                }
-            }
-
-            srb.setQuery(bqb).setFilter(bfb).setFrom(query.getOffset()).setSize(query.getLimit());
-            return srb;
-        }
-
-        @SuppressWarnings("unchecked")
-        private static String[] getTermTokens(Object value) {
-            return (value instanceof List) ? ((List<String>) value).toArray(new String[0]) : ((String) value)
-                    .split(",");
-        }
+    private String getIndex() {
+        return TenantIdToDbName.convertTenantIdToDbName(TenantContext.getTenantId()).toLowerCase();
     }
 
     public void setSearchUrl(String esUrl) {
@@ -286,9 +169,9 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Simple adapter for SearchHits to Entity
-     * 
+     *
      */
-    private static final class SearchHitEntity implements Entity {
+    static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
         private Map<String, Object> metaData;
         private String type;
@@ -469,5 +352,69 @@ public class ElasticSearchRepository implements Repository<Entity> {
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public static class EntityConverter {
+        /**
+         * Converts elasticsearch http response to collection of entities
+         *
+         * @param response
+         * @return
+         */
+        static Collection<Entity> toEntityCol(HttpEntity<String> response) {
+
+            ObjectMapper mapper = new ObjectMapper();
+            Collection<Entity> hits = new ArrayList<Entity>();
+            JsonNode node = null;
+            try {
+
+                // get the hits from the response
+                node = mapper.readTree(response.getBody());
+                JsonNode hitsNode = node.get("hits").get("hits");
+
+                ElasticSearchRepository.LOG.info("Hits returned from elasticsearch: " + hitsNode);
+                SearchHitEntity hit;
+
+                // create a search hit entity object for each hit
+                for (int i = 0; i < hitsNode.size(); i++) {
+                    hit = convertJsonToSearchHitEntity(hitsNode.get(i));
+                    if (hit != null) {
+                        hits.add(hit);
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                ElasticSearchRepository.LOG.error("Error converting search response to entities", e);
+            } catch (IOException e) {
+                ElasticSearchRepository.LOG.error("Error converting search response to entities", e);
+            }
+            return hits;
+        }
+
+        /**
+         * Converts a json response to a search hit entity
+         */
+        static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
+            try {
+                TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
+                };
+                // read the values from the json
+                ObjectMapper mapper = new ObjectMapper();
+                String id = hitNode.get("_id").getTextValue();
+                String type = hitNode.get("_type").getTextValue();
+                JsonNode bodyNode = hitNode.get("_source");
+                Map<String, Object> body = mapper.readValue(bodyNode, tr);
+                body.remove("context");
+
+                // create a return the search hit entity
+                return new SearchHitEntity(id, type, body, null);
+
+            } catch (JsonMappingException e) {
+                ElasticSearchRepository.LOG.error("Error converting search json response to search hit entity", e);
+            } catch (IOException e) {
+                ElasticSearchRepository.LOG.error("Error converting search json response to search hit entity", e);
+            }
+            return null;
+        }
+
     }
 }

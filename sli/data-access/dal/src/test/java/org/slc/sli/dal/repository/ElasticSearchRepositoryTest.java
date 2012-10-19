@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.repository.ElasticSearchRepository.EntityConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -41,6 +41,8 @@ import org.slc.sli.domain.NeutralQuery;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ElasticSearchRepositoryTest {
+
+    ElasticSearchQueryConverter converter;
 
     @Test
     public void testConvertJsonToSearchHit() throws Exception {
@@ -59,7 +61,7 @@ public class ElasticSearchRepositoryTest {
         //System.out.println(hitNode);
 
         // call method
-        Entity hit = ElasticSearchRepository.Converter.convertJsonToSearchHitEntity(hitNode);
+        Entity hit = EntityConverter.convertJsonToSearchHitEntity(hitNode);
 
         // check result
         assertNotNull(hit);
@@ -75,7 +77,6 @@ public class ElasticSearchRepositoryTest {
     public void testGetQuery() throws Exception {
 
         // create transport client, neutral query
-        TransportClient esClient = new TransportClient();
         NeutralQuery query = new NeutralQuery();
         query.setLimit(100);
         query.setOffset(0);
@@ -89,7 +90,7 @@ public class ElasticSearchRepositoryTest {
         query.addOrQuery(orQuery);
 
         // make the getQuery call
-        SearchRequestBuilder srb = ElasticSearchRepository.Converter.getQuery(esClient, query, "tenant");
+        QueryBuilder srb = converter.getQuery(query);
         String srbStr = srb.toString();
         //System.out.println(srbStr);
 
@@ -107,7 +108,6 @@ public class ElasticSearchRepositoryTest {
     public void testGetQueryExactMatch() throws Exception {
 
         // create transport client, neutral query
-        TransportClient esClient = new TransportClient();
         NeutralQuery query = new NeutralQuery();
         query.setLimit(100);
         query.setOffset(0);
@@ -115,7 +115,7 @@ public class ElasticSearchRepositoryTest {
         query.addCriteria(crit1);
 
         // make the getQuery call
-        SearchRequestBuilder srb = ElasticSearchRepository.Converter.getQuery(esClient, query, "tenant");
+        QueryBuilder srb = converter.getQuery(query);
         String srbStr = srb.toString();
         //System.out.println(srbStr);
 
