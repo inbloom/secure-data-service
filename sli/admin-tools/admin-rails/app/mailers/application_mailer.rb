@@ -74,12 +74,22 @@ class ApplicationMailer < ActionMailer::Base
     @redirect_email = APP_CONFIG['redirect_slc_url']
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
-  
-  def auto_provision_email(email_address, firstName, login_user)
+
+  def processing_prev_job_email(email_address, firstName)
     @firstName = firstName
-    @portal_link = APP_CONFIG["portal_url"]
-    @login_user = login_user
-    mail(:to => email_address,:subject => PROVISION_EMAIL_SUBJECT_SANDBOX)
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
+  end
+
+  def processing_prev_job_email(email_address, firstName)
+    @firstName = firstName
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
+  end
+
+  def already_provisioned_email(email_address, firstName, serverName, edorgId)
+    @firstName = firstName
+    @serverName = serverName
+    @edorgId = edorgId
+    mail(:to => email_address,:subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
 
   def notify_operator(support_email, app, dev_name)
