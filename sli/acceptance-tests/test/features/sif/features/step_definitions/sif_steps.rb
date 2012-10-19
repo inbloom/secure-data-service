@@ -67,11 +67,11 @@ Given /^the following collections are clean and bootstrapped in datastore:$/ do 
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS})
+    @entity_collection.remove( "_id" => {"$nin" => BOOTSTRAPPED_GUIDS})
 
-    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS}).count.to_s != "0"
+    if @entity_collection.find( "_id" => {"$nin" => BOOTSTRAPPED_GUIDS}).count.to_s != "0"
       @result = "false"
     end
   end
@@ -137,7 +137,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+    @entity_count = @entity_collection.count().to_i
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
@@ -173,15 +173,15 @@ def getEntitiesForParameters(row)
   @entity_collection = @db.collection(row["collectionName"])
 
   if row["searchType"] == "integer"
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).to_a
   elsif row["searchType"] == "boolean"
     if row["searchValue"] == "false"
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).to_a
     else
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).to_a
     end
   else
-    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).to_a
   end
 
 end
