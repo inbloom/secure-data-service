@@ -117,20 +117,14 @@ class LandingZone
       begin
         if isDuplicate == false
           if sample_data_select !=nil && sample_data_select != ""
-            Rails.logger.info("SUCCESS EMAIL FOR SANDBOX")
             ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
           elsif (sample_data_select == nil || sample_data_select == "")
-            Rails.logger.info("SUCCESS EMAIL FOR LZ")
             ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
           end
        else
          if sample_data_select !=nil && sample_data_select != ""
-           Rails.logger.info("Send mail: The system is currently processing your previous job");
-          #Send mail: The system is currently processing your previous job
           ApplicationMailer.processing_prev_job_email(user_info[:emailAddress], user_info[:first]).deliver
           else
-            Rails.logger.info("Send mail: Your landing zone has already been provisioned")
-            #Send mail: Your landing zone has already been provisioned
             ApplicationMailer.already_provisioned_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
          end
        end
