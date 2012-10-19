@@ -21,23 +21,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -49,8 +36,6 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
@@ -63,6 +48,14 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -110,16 +103,10 @@ public class BasicService implements EntityService {
     private EdOrgContextResolver edOrgContextResolver;
 
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
-
-    @Autowired
     private BasicDefinitionStore definitionStore;
 
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
-
-    @Resource
-    private EdOrgHelper edOrgHelper;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -305,19 +292,11 @@ public class BasicService implements EntityService {
 
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
         // this.addDefaultQueryParams(neutralQuery, collectionName);
-        if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
+        if (!repo.findAll(collectionName, neutralQuery).iterator().hasNext()) {
             return new ArrayList<EntityBody>();
         } else {
             throw new AccessDeniedException("Access to resource denied.");
         }
-    }
-
-    private List<Entity> makeEntityList(Iterable<Entity> items) {
-        List<Entity> myList = new ArrayList<Entity>();
-        for (Entity item : items) {
-            myList.add(item);
-        }
-        return myList;
     }
 
     @Override
@@ -384,17 +363,18 @@ public class BasicService implements EntityService {
 
         List<EntityBody> results = new ArrayList<EntityBody>();
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
+       
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
         }
-
+        
         if (results.isEmpty()) {
             return noEntitiesFound(neutralQuery);
         }
 
         return results;
     }
-
+    
     @Override
     public boolean exists(String id) {
         checkRights(readRight);
@@ -801,29 +781,11 @@ public class BasicService implements EntityService {
             allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
         }
 
-        if (!type.equals("user")) {
-            // Rather than using a blacklist, compute the intersection of authorized app's education
-            // organizations ('whitelist') and the parents of directly associated education
-            // organizations of the user
-            List<String> whitelist = edOrgNodeFilter.getWhitelist();
-            Set<String> finalSet = new HashSet<String>(whitelist);
-            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-                for (String id : whitelist) {
-                    finalSet.addAll(edOrgNodeFilter.fetchLineage(id));
-                }
-            }
-
-            if (!whitelist.isEmpty()) {
-                securityCriteria.setBlacklistCriteria(new NeutralCriteria("metaData.edOrgs", "in",
-                        new ArrayList<String>(finalSet), false));
-            }
-        }
         if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
         }
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
-            securityCriteria.setBlacklistCriteria(null);
         } else {
             securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
                     allowed, false));
