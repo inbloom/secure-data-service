@@ -3,10 +3,12 @@
         <GraduationPlanType>
             ${GraduationPlan.GraduationPlanType}
         </GraduationPlanType>
-        <TotalCreditsRequired>
-            <Credit>
-                ${GraduationPlan.TotalCreditsRequired.Credit}
-            </Credit>
-        </TotalCreditsRequired>
+        <#if (GraduationPlan.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId[0])??>
+        <EducationalOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>${GraduationPlan.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        </#if>
     </GraduationPlanIdentity>
 </GraduationPlanReference>
