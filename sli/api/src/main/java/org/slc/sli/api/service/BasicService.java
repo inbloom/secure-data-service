@@ -30,15 +30,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -63,6 +54,15 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -115,6 +115,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
+    
+    @Value("${sli.security.in_clause_size}")
+    private String securityInClauseSize;
 
     @Resource
     private EdOrgHelper edOrgHelper;
@@ -143,7 +146,7 @@ public class BasicService implements EntityService {
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     *
+     * 
      * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
@@ -453,7 +456,6 @@ public class BasicService implements EntityService {
         }
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-
         debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
@@ -477,6 +479,7 @@ public class BasicService implements EntityService {
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
                     new Object[] { getEntityDefinition().getType(), id, clientId });
+
             return;
         }
 
@@ -484,6 +487,7 @@ public class BasicService implements EntityService {
 
         if (entity != null) {
             debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[] {
+
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
@@ -492,6 +496,7 @@ public class BasicService implements EntityService {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
+
 
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
@@ -572,7 +577,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity, make the entity body to expose
-     *
+     * 
      * @param entity
      * @return
      */
@@ -608,7 +613,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     *
+     * 
      * @param content
      * @return
      */
@@ -769,6 +774,11 @@ public class BasicService implements EntityService {
 
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
+        try {
+            securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
+        } catch (NumberFormatException e) {
+            // It defaulted to 100000
+        }
         String securityField = "_id";
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -833,11 +843,12 @@ public class BasicService implements EntityService {
                 || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
                 || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)
                 || defn.getType().equals(EntityNames.GRADUATION_PLAN);
+
     }
 
     /**
      * Removes fields user isn't entitled to see
-     *
+     * 
      * @param eb
      */
     private void filterFields(Map<String, Object> eb) {
@@ -884,7 +895,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     *
+     * 
      * @param eb
      */
     @SuppressWarnings("unchecked")
@@ -901,6 +912,7 @@ public class BasicService implements EntityService {
 
                 String fieldPath = prefix + fieldName;
                 Right neededRight = getNeededRight(fieldPath);
+
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
@@ -1004,7 +1016,7 @@ public class BasicService implements EntityService {
 
     /**
      * Creates the metaData HashMap to be added to the entity created in mongo.
-     *
+     * 
      * @return Map containing important metadata for the created entity.
      */
     private Map<String, Object> createMetadata() {
@@ -1037,7 +1049,7 @@ public class BasicService implements EntityService {
     /**
      * Add the list of ed orgs a principal entity can see
      * Needed for staff security
-     *
+     * 
      * @param principal
      * @param metaData
      */
