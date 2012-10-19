@@ -49,9 +49,7 @@ class SLCFixer
       @log.info "We are stamping #{@tenant}"
       time = Time.now
       @threads = []
-      puts "BEFORE build ed org list"
       fix {build_edorg_list}
-      puts "AFTER build ed org list"
       fix {fix_students}
       fix {fix_sections}
       fix {fix_staff}
@@ -384,7 +382,6 @@ class SLCFixer
       end
     end
     @log.info "Iterating courseOffering with query: #{@basic_query}"
-    puts @db.name
     @db['courseOffering'].find(@basic_query, @basic_options) do |cur|
       cur.each do |courseOffering|
         edorg = courseOffering['metaData']['edOrgs']
