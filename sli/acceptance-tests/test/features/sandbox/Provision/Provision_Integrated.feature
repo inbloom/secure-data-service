@@ -81,7 +81,7 @@ And there is a landing zone for the "<PROD_EDORG>" in LDAP
 When the Ingestion Admin go to the provisioning application web page
 Then the Ingestion Admin is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
 When the Ingestion Admin provision a Landing zone
-Then the user gets an error message
+#Then the user gets an already provisioned email
 
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create a LZ for my sandbox tenancy
@@ -130,7 +130,7 @@ When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
 When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
 Then the directory structure for the landing zone is stored in ldap
-Then the user gets an error message
+#Then the user gets an error email
 
 @sandbox
 Scenario: As a developer I can use the provisioning tool to pre-populate my tenant with a sample data set
@@ -151,7 +151,7 @@ And the user gets a success message indicating preloading has been triggered
 Then "20" seconds have elapsed
 When the developer go to the provisioning application web page
 When the developer selects to preload "Small Dataset"
-Then the user gets an error message
+#Then the user gets an error mail
 Then "5" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
