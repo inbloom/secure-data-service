@@ -74,25 +74,25 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .makeRole(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                        Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
                         .makeRole(SEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
+                                        Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,
                 RoleBuilder
                         .makeRole(SANDBOX_SLC_OPERATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_SLC_OPERATOR,
-                                        Right.CRUD_SANDBOX_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
+                                        Right.CRUD_SANDBOX_ADMIN }).setAdmin(true).build());
         adminRoles
                 .put(SANDBOX_ADMINISTRATOR,
                         RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
-                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.ADMIN_APPS }).setAdmin(true)
+                                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN }).setAdmin(true)
                                 .build());
         adminRoles.put(
                 REALM_ADMINISTRATOR,
@@ -100,20 +100,20 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .makeRole(REALM_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
-                                        Right.READ_PUBLIC, Right.CRUD_ROLE, Right.ADMIN_APPS }).setAdmin(true).build());
+                                        Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
         
         Right[] appDevRights = null;
         if (isSandboxEnabled) {
             appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC,
-                    Right.CRUD_ROLE, Right.ADMIN_APPS, Right.INGEST_DATA };
+                    Right.CRUD_ROLE, Right.INGEST_DATA };
         } else {
-            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC, Right.ADMIN_APPS };
+            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC };
         }
         adminRoles.put(APP_DEVELOPER, RoleBuilder.makeRole(APP_DEVELOPER).addRights(appDevRights).setAdmin(true)
                 .build());
         
         adminRoles.put(INGESTION_USER,
-                RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS, Right.ADMIN_APPS })
+                RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
                         .setAdmin(true).build());
         adminRoles.put(
                 SLC_OPERATOR,
@@ -122,7 +122,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
                                         Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN,
-                                        Right.CRUD_LEA_ADMIN, Right.ADMIN_APPS }).setAdmin(true).build());
+                                        Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
         
     }
     
