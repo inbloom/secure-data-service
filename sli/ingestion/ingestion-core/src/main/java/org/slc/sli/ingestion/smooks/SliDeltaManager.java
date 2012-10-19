@@ -16,13 +16,11 @@
 
 package org.slc.sli.ingestion.smooks;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -37,30 +35,19 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  */
 public final class SliDeltaManager {
 
-    // Logging
-    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
 
-        try {
-            String recordId = createRecordHash((n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId()).getBytes("utf8"), "SHA-1");
+        String recordId = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId());
 
-            RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
-            if (record == null) {
-                RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
-                n.addMetaData("rhId", recordHash._id);
-                n.addMetaData("rhTenantId", recordHash.tenantId);
-                n.addMetaData("rhTimeStamp", recordHash.timestamp);
-            }
-            return (record != null);
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
+        if (record == null) {
+            RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
+            n.addMetaData("rhId", recordHash._id);
+            n.addMetaData("rhTenantId", recordHash.tenantId);
+            n.addMetaData("rhTimeStamp", recordHash.timestamp);
         }
-
-        return false;
+        return (record != null);
     }
 
     public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
