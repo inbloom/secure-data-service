@@ -31,7 +31,6 @@ import com.mongodb.DBCursor;
  */
 public class ExtractorImplTest {
 
-    private static final String INBOX = Constants.DEFAULT_DATA_DIR + "/inbox-test";
     private IndexConfigStore indexConfigStore;
     private IndexEntityConverter indexEntityConverter;
     
@@ -70,20 +69,16 @@ public class ExtractorImplTest {
     @Before
     public void init() throws IOException {
         extractor.init();
-        (new File(INBOX)).mkdirs();
-        deleteFolder(INBOX);
         indexConfigStore = new IndexConfigStore("index-config-test.json");
         indexEntityConverter = new IndexEntityConverter();
         indexEntityConverter.setIndexConfigStore(indexConfigStore);
         
         extractor.setIndexConfigStore(indexConfigStore);
-        extractor.setInboxDir(INBOX);
         extractor.reset();
     }
     
     @After
     public void destroy() {
-        deleteFolder(INBOX);
         extractor.destroy();
     }
 /**

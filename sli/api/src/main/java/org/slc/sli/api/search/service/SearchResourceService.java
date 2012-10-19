@@ -61,7 +61,7 @@ public class SearchResourceService {
     // keep parameters for ElasticSearch
     // q, size, offset
     // offset is filtered ApiQuery, but accessible by getOffset()
-    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q", "size", "offset" });
+    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q" });
 
     public ServiceResponse list(Resource resource, URI queryUri) {
 
@@ -77,6 +77,25 @@ public class SearchResourceService {
         // Call BasicService to query the elastic search repo
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
+
+        doFilter(apiQuery);
+
+        // get allSchools for staff
+        List<String> schoolIds = this.edOrgHelper.getUserSchools(prinipalEntity);
+
+        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
+
+        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+
+        // return results
+        return new ServiceResponse(entityBodies, entityBodies.size());
+    }
+    
+    /**
+     * NeutralCriteria filter.  Keep NeutralCriteria only on the White List
+     * @param apiQuery
+     */
+    public void doFilter(ApiQuery apiQuery) {
 
         // keep only whitelist parameters
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
@@ -98,16 +117,6 @@ public class SearchResourceService {
                 criterias.removeAll(removalList);
             }
         }
-
-        // get allSchools for staff
-        List<String> schoolIds = this.edOrgHelper.getUserSchools(prinipalEntity);
-
-        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
-
-        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
-
-        // return results
-        return new ServiceResponse(entityBodies, entityBodies.size());
     }
 
     /**
@@ -130,9 +139,9 @@ public class SearchResourceService {
         String queryString = ((String) criteria.getValue()).trim();
 
         // filter rule:
-        // first, token must be at least 2 tokens
+        // first, token must be at least 1 tokens
         String[] tokens = queryString.split("\\s+");
-        if (tokens == null || tokens.length < 2) {
+        if (tokens == null || tokens.length < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
 
