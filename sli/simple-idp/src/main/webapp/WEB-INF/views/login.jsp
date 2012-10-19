@@ -72,8 +72,14 @@
   }
 </script>
 </head>
-<body onload="document.login_form.user_id.focus();">
+<c:if test="${sessionScope.user_session_key==null}">
+	<c:set var="onload" value="document.login_form.user_id.focus();"  />
+</c:if>
+<c:if test="${sessionScope.user_session_key!=null}">
+	<c:set var="onload" value="document.login_form.impersonate_user.focus();" />
+</c:if>
 
+<body onload="${onload}">
 	<div class="container">
 		
 		<div class="realm-name">
@@ -94,11 +100,24 @@
 				</span>
 			</h1>
 		</div>
+		
+		<c:if test="${msg!=null}">
+				<div class="error-message"><c:out value="${msg}"/></div>
+		</c:if>
+		<c:if test="${sessionScope.user_session_key!=null}">
+			<form id="logout_form" name="logout_form" action="logout" method="post" class="form-horizontal">
+			<div>Currently logged in as: ${sessionScope.user_session_key.userId}. 
+			<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+			<a href="#" onclick="javascript:document.forms['logout_form'].submit();">Logout</a>				
+			</div>
+			</form>
+		</c:if>
+		<c:if test="${message!=null}">
+			<div>${message}</div>
+		</c:if>
 
 		<div class='form-container'>
-			<c:if test="${msg!=null}">
-				<div class="error-message"><c:out value="${msg}"/></div>
-			</c:if>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
 				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>

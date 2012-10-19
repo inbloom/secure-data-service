@@ -98,6 +98,24 @@ public class Login {
      * Loads required data and redirects to the login page view.
      *
      */
+    @RequestMapping(value = "/logout")
+    public ModelAndView logout(@RequestParam(value="SAMLRequest", required=false) String encodedSamlRequest,
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+        httpSession.setAttribute(USER_SESSION_KEY, null);
+        if(encodedSamlRequest!=null){
+            ModelAndView mav = form(encodedSamlRequest, realm, httpSession);
+            mav.addObject("message", "You are now logged out");
+            return mav;
+        }else{
+            return new ModelAndView("loggedOut");
+        }
+            
+    }
+    
+    /**
+     * Loads required data and redirects to the login page view.
+     *
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
@@ -141,8 +159,8 @@ public class Login {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(
-            @RequestParam("user_id") String userId,
-            @RequestParam("password") String password,
+            @RequestParam(value = "user_id", required = false) String userId,
+            @RequestParam(value = "password", required = false) String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String incomingRealm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
@@ -233,6 +251,7 @@ public class Login {
             }
         }
         
+        User samlUser = null;
         if (doImpersonation) {
             if (customRoles != null) {
                 List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
@@ -254,26 +273,28 @@ public class Login {
             if (roles == null || roles.size() == 0) {
                 mav.addObject("msg", ROLE_SELECT_MESSAGE);
                 return mav;
-            }
-            user.setUserId(impersonateUser);
-            user.setRoles(roles);
-            // only send the tenant - no other values since this is impersonatation
+            } 
+            User impersonationUser = new User();
+            impersonationUser.setUserId(impersonateUser);
+            impersonationUser.setRoles(roles);
             String tenant = user.getAttributes().get("tenant");
             if (tenant == null || tenant.length() == 0) {
                 mav.addObject("msg", "User account not properly configured for impersonation.");
                 return mav;
             }
-            user.getAttributes().clear();
-            user.getAttributes().put("tenant", tenant);
+            impersonationUser.getAttributes().put("tenant", tenant);
+            samlUser = impersonationUser;
+        }else{
+            samlUser = user;
         }
-
+        
+        httpSession.setAttribute(USER_SESSION_KEY, user);
+        
         try {
-            SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
-                    user.getAttributes(), requestInfo);
+            SamlAssertion samlAssertion = samlService.buildAssertion(samlUser.getUserId(), samlUser.getRoles(),
+                    samlUser.getAttributes(), requestInfo);
 
-            writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
-
-            httpSession.setAttribute(USER_SESSION_KEY, user);
+            writeLoginSecurityEvent(true, user.getUserId(), user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
 
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);

@@ -215,26 +215,31 @@ public class LoginTest {
         Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
-        Map<String, String> attributes = Mockito.mock(HashMap.class);
-        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
-        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
-        Mockito.when(attributes.get("tenant")).thenReturn("myTenant");
+        Map<String, String> userAttributes = Mockito.mock(HashMap.class);
+        Mockito.when(userAttributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(userAttributes.get("emailToken")).thenReturn("mockToken");
+        Mockito.when(userAttributes.get("tenant")).thenReturn("myTenant");
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> impUserAttributes = Mockito.mock(HashMap.class);
+        Mockito.when(impUserAttributes.get("tenant")).thenReturn("myTenant");
+
         
         List<String> roles = Arrays.asList("role1", "role2");
-        UserService.User user = new User("userId", roles, attributes);
+        UserService.User user = new User("userId", roles, userAttributes);
         
         Mockito.when(userService.authenticate("SLIAdmin", "userId", "password")).thenReturn(user);
         List<RoleService.Role> defaultRoles = new ArrayList<RoleService.Role>();
         defaultRoles.add(new RoleService.Role("roleName"));
         Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
-        Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
+        Mockito.when(loginService.buildAssertion(Mockito.eq("impersonate"), Mockito.eq(roles), Mockito.anyMap(), Mockito.eq(reqInfo))).thenReturn(samlResponse);
         
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles, false,
                 null, httpSession, null);
-        Mockito.verify(attributes, Mockito.times(1)).clear();
-        Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
         
+        
+        Mockito.verify(httpSession, Mockito.times(1)).setAttribute("user_session_key", user);
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
     }
