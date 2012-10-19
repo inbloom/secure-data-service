@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
  * manageable) scope.
  */
 @Component
-public class ContextInferenceHelper {
+public class InferedURIHelper {
 
     @Resource
     private EdOrgHelper edorger;
