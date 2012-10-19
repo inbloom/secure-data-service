@@ -7,6 +7,7 @@
             "ref" :
             {
                 "collectionName" : "educationOrganization",
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [
@@ -28,6 +29,7 @@
                 "collectionName" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.programReference",
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [
