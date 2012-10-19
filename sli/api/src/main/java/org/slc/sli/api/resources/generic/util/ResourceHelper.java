@@ -31,5 +31,6 @@ public interface ResourceHelper {
     public Resource getAssociationName(UriInfo uriInfo, ResourceTemplate template);
     public EntityDefinition getEntityDefinition(final Resource resource);
     public EntityDefinition getEntityDefinition(final String resource);
+    public EntityDefinition getEntityDefinitionByType(String type);
     public boolean resolveResourcePath(final String uri, final ResourceTemplate template);
 }

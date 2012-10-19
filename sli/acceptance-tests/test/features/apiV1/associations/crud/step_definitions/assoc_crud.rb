@@ -54,6 +54,13 @@ Given /^a valid association json document for ([^"]*)$/ do |arg1|
   @fields = deep_copy($entityData[arg1])
 end
 
+Given /^my contextual access is defined by table:$/ do |table|
+  @ctx={}
+  table.hashes.each do |hash|
+  @ctx[hash["Context"]]=hash["Ids"]
+  end
+end
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
@@ -65,6 +72,30 @@ end
 Then /^I should receive a new ID for the association I just created$/ do
   step "I should receive an ID for the newly created entity"
   assert(@newId != nil, "Cannot obtain new ID (== nil)")
+end
+
+
+Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
+  root = expectedUri.match(/v1\/(.+?)\/|$/)[1]
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expectedUri.gsub("@ids", "[^/]*")
+  expectedPath.slice!(0) #Delete the extra beginning slash
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
+  if @ctx.has_key? root
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
+  end
 end
 
 ###############################################################################

@@ -73,5 +73,5 @@ public interface Entity {
      *
      * @return
      */
-    public Map<String, List<Map<String, Object>>> getEmbeddedData();
+    public Map<String, List<Entity>> getEmbeddedData();
 }

@@ -148,7 +148,7 @@ public final class InterchangeStudentGradeGenerator {
         SectionIdentityType sectionIdentity = new SectionIdentityType();
         sectionIdentity.setUniqueSectionCode(sectionId);
         sectionRef.setSectionIdentity(sectionIdentity);
-        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        sectionIdentity.setStateOrganizationId(schoolId);
         return sectionRef;
     }
 

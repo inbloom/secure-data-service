@@ -2,7 +2,7 @@
     "keyFields" : ["body.sectionId", "body.teacherId"],
 	"references" :
 	[{
-        "fieldPath" : "body.sectionId",
+        "fieldPath" : "body.SectionReference",
         "ref" :
         {
 	        "entityType" : "section",
@@ -14,7 +14,7 @@
 		           	    "path" : "body.uniqueSectionCode",
 		                "values" :
 		                [{
-			                "valueSource" : "body.sectionId"
+			                "valueSource" : "body.SectionReference"
 		                }]
 		            },
 		            {

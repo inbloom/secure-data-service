@@ -56,7 +56,7 @@ public class AttendanceEventGenerator {
             SectionReferenceType sectionReferenceType = new SectionReferenceType();
             SectionIdentityType sectionIdentityType = new SectionIdentityType();
             sectionIdentityType.setUniqueSectionCode(sectionCode);
-            sectionIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolID);
+            sectionIdentityType.setStateOrganizationId(schoolID);
             sectionReferenceType.setSectionIdentity(sectionIdentityType);
             ae.setSectionReference(sectionReferenceType);
         }

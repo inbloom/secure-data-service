@@ -67,7 +67,7 @@ When /^I click on the Add Group button$/ do
 end
 
 When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
-  input = @driver.find_element(:id, "groupName")
+  input = @driver.find_element(:id, "groupNameInput")
   input.send_keys(title)
 end
 
@@ -258,7 +258,7 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  row = @driver.find_element(:xpath, "//td/input[@type='text']/../..")
+  row = @driver.find_element(:xpath, "//div[@id='addRoleUi']/../..")
   button = row.find_element(:class, "rowEditToolCancelButton")
   button.click
 end

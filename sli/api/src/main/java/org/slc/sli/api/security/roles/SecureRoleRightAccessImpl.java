@@ -27,8 +27,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -37,7 +35,7 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * A basic implementation of RoleRightAccess
- * 
+ *
  * @author rlatta
  */
 @Component
@@ -45,15 +43,15 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
-    
+
     @Resource(name = "validationRepo")
     private Repository<Entity> repo;
-    
+
     public static final String EDUCATOR = "Educator";
     public static final String LEADER = "Leader";
     public static final String AGGREGATOR = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
-    
+
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
@@ -62,12 +60,12 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public static final String INGESTION_USER = "Ingestion User";
     public static final String SANDBOX_SLC_OPERATOR = "Sandbox SLC Operator";
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
-    
+
     private final Map<String, Role> adminRoles = new HashMap<String, Role>();
-    
+
     @PostConstruct
     public void init() {
-        
+
         adminRoles.put(
                 LEA_ADMINISTRATOR,
                 RoleBuilder
@@ -111,7 +109,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         }
         adminRoles.put(APP_DEVELOPER, RoleBuilder.makeRole(APP_DEVELOPER).addRights(appDevRights).setAdmin(true)
                 .build());
-        
+
         adminRoles.put(INGESTION_USER,
                 RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
                         .setAdmin(true).build());
@@ -125,44 +123,38 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                                         Right.CRUD_LEA_ADMIN }).setAdmin(true).build());
         
     }
-    
+
     @Override
     public List<Role> findAdminRoles(List<String> roleNames) {
         List<Role> roles = new ArrayList<Role>();
-        
+
         for (String roleName : roleNames) {
             if (adminRoles.containsKey(roleName)) {
                 roles.add(adminRoles.get(roleName));
             }
         }
-        
+
         return roles;
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public List<Role> findRoles(String tenantId, String realmId, List<String> roleNames) {
         List<Role> roles = new ArrayList<Role>();
-        
+
         if (roleNames != null) {
             final NeutralQuery neutralQuery = new NeutralQuery();
-            neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
             neutralQuery.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-            
-            Entity doc = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
-                
-                @Override
-                public Entity execute() {
-                    return repo.findOne("customRole", neutralQuery);
-                }
-            });
-            
+
+            Entity doc = repo.findOne("customRole", neutralQuery);
+
+
             if (doc != null) {
                 Map<String, Object> roleDefs = doc.getBody();
-                
+
                 if (roleDefs != null) {
                     List<Map<String, Object>> roleData = (List<Map<String, Object>>) roleDefs.get("roles");
-                    
+
                     for (Map<String, Object> role : roleData) {
                         List<String> names = (List<String>) role.get("names");
                         String groupTitle = (String) role.get("groupTitle");
@@ -188,5 +180,5 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         }
         return roles;
     }
-    
+
 }

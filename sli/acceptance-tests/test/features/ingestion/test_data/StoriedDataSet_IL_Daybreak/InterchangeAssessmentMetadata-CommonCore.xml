@@ -1176,6 +1176,21 @@
   </LearningObjective>
   <LearningObjective>
     <LearningObjectiveId>
+      <IdentificationCode>LO-GK-10</IdentificationCode>
+    </LearningObjectiveId>
+    <Objective>Calculus</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <LearningStandardId>
+          <IdentificationCode>LS-GK-3</IdentificationCode>
+        </LearningStandardId>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+  </LearningObjective>
+  <LearningObjective>
+    <LearningObjectiveId>
       <IdentificationCode>LO-GK-11</IdentificationCode>
     </LearningObjectiveId>
     <Objective>Measurement</Objective>

@@ -131,12 +131,12 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 And I have navigated to the "Schools" listing of the Data Browser
-When I click on "Krypton Middle School" in the list of schools
-And then click on the "GetTeachers" link
+When I should navigate to "/entities/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+And I click on the "GetTeachers" link
 Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
- 
+
  @wip
 Scenario: Click on an entity ID in Simple View (same for Detail View)
 

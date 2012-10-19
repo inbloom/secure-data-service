@@ -92,8 +92,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
 
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL,
                         entityId, false));
-                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                        entity.getMetaData().get("tenantId"), false));
+
                 Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
                 if (existingEntity != null) {
                     try {
@@ -119,6 +118,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                     }
                 }
             }
+
         }
     }
 }

@@ -31,7 +31,6 @@ public class ChangedUriInfo implements UriInfo {
 	private UriBuilder baseUriBuilder;
 
 	public ChangedUriInfo(String uri, UriBuilder builder) {
-		System.out.println("NEW URI: " + uri);
 		this.uri = URI.create(uri);
 		this.baseUriBuilder = builder;
 	}
@@ -67,8 +66,7 @@ public class ChangedUriInfo implements UriInfo {
 
 	@Override
 	public UriBuilder getRequestUriBuilder() {
-		// TODO Auto-generated method stub
-		return null;
+	    return UriBuilder.fromUri(uri);
 	}
 
 	@Override
