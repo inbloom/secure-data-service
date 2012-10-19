@@ -245,8 +245,8 @@ end
 desc "Run V1 White List Validation Tests"
 task :v1WhiteListValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("student", "student_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
@@ -319,7 +319,7 @@ end
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("student", "student_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
 
