@@ -17,8 +17,10 @@ package org.slc.sli.api.search.service;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.naming.LimitExceededException;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -33,9 +35,11 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * Search service
@@ -54,10 +58,10 @@ public class SearchResourceService {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
-    //keep parameters for ElasticSearch
-    //q, size, offset
-    //offset is filtered ApiQuery, but accessible by getOffset()
-    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q", "size" });
+    // keep parameters for ElasticSearch
+    // q, size, offset
+    // offset is filtered ApiQuery, but accessible by getOffset()
+    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q", "size", "offset" });
 
     public ServiceResponse list(Resource resource, URI queryUri) {
 
@@ -77,13 +81,21 @@ public class SearchResourceService {
         // keep only whitelist parameters
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
         if (criterias != null) {
-            //use iterator to remove Object on the fly
-            Iterator<NeutralCriteria> iteratorCriteria=criterias.iterator();
-            while(iteratorCriteria.hasNext()){
-                NeutralCriteria criteria = iteratorCriteria.next();
+
+            // set doFilter true if "q" is in the list of NetralCriteria
+            boolean doFilter = false;
+            List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
+            for (NeutralCriteria criteria : criterias) {
                 if (!whilteListParameters.contains(criteria.getKey())) {
-                    iteratorCriteria.remove();
+                    removalList.add(criteria);
+
+                } else if ("q".equals(criteria.getKey())) {
+                    doFilter = true;
+                    applyDefaultPattern(criteria);
                 }
+            }
+            if (doFilter) {
+                criterias.removeAll(removalList);
             }
         }
 
@@ -98,10 +110,58 @@ public class SearchResourceService {
         return new ServiceResponse(entityBodies, entityBodies.size());
     }
 
-    private boolean isTeacher(Entity prinipalEntity) {
-
-        String type = prinipalEntity != null ? prinipalEntity.getType() : null;
-        return (type != null && type.equals(EntityNames.TEACHER));
+    /**
+     * find current user role is a teacher or not.
+     * 
+     * @param prinipalEntity
+     * @return
+     */
+    private static boolean isTeacher(Entity prinipalEntity) {
+        return (prinipalEntity != null) && EntityNames.TEACHER.equals(prinipalEntity.getType());
     }
 
+    /**
+     * apply default query for ElasticSearch
+     * 
+     * @param criterias
+     * @throws LimitExceededException
+     */
+    private static void applyDefaultPattern(NeutralCriteria criteria) {
+        String queryString = ((String) criteria.getValue()).trim();
+
+        // filter rule:
+        // first, token must be at least 2 tokens
+        String[] tokens = queryString.split("\\s+");
+        if (tokens == null || tokens.length < 2) {
+            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+        }
+
+        // second, one of tokens must have at least 2 characters
+        // third, total number of characters must be at least 3 characters
+        StringBuilder sb = new StringBuilder("");
+        int totalCharacters = 0;
+        int maxCharacters = 0;
+        for (String token : tokens) {
+            if (totalCharacters > 0) {
+                sb.append(" ");
+            }
+            sb.append(token.toLowerCase());
+            int length = token.length();
+            totalCharacters += length;
+            if (maxCharacters < length) {
+                maxCharacters = length;
+            }
+            // if query token is at least 3 characters, do partial match. else do exact match.
+            if (length >= 3) {
+                sb.append("*");
+            }
+        }
+        if (maxCharacters < 2) {
+            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+        }
+        if (totalCharacters < 3) {
+            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+        }
+        criteria.setValue(sb.toString());
+    }
 }

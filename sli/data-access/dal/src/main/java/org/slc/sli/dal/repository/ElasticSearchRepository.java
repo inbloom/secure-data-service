@@ -81,7 +81,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by init-method
-     *
+     * 
      * @throws Exception
      */
     public void init() throws Exception {
@@ -97,7 +97,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by destroy-method
-     *
+     * 
      * @throws Exception
      */
     public void destroy() throws Exception {
@@ -113,15 +113,13 @@ public class ElasticSearchRepository implements Repository<Entity> {
         // send an elasticsearch REST query
         String query = Converter.getQuery(getClient(), neutralQuery, TenantContext.getTenantId()).toString();
 
-        System.out.println(query);
-
         // convert the response to search hits
         return Converter.toEntityCol(sendRESTQuery(query));
     }
 
     /**
      * Send REST query to elasticsearch server
-     *
+     * 
      * @param query
      * @return
      */
@@ -139,8 +137,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         // make the REST call
         try {
-            return searchTemplate.exchange(
-                    esUri, method, entity, String.class, TenantContext.getTenantId().toLowerCase());
+            return searchTemplate.exchange(esUri, method, entity, String.class, TenantContext.getTenantId()
+                    .toLowerCase());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
             throw rce;
@@ -150,14 +148,14 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Converter SLI to/from ES
-     *
+     * 
      * @author agrebneva
      */
     public static class Converter {
 
         /**
          * Converts elasticsearch http response to collection of entities
-         *
+         * 
          * @param response
          * @return
          */
@@ -218,7 +216,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         /**
          * Build elasticsearch query
-         *
+         * 
          * @param client
          * @param query
          * @return
@@ -227,27 +225,15 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
             SearchRequestBuilder srb = client.prepareSearch(tenantId.toLowerCase()).setSearchType(
                     SearchType.DFS_QUERY_THEN_FETCH);
-            String queryString = null;
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             BoolFilterBuilder bfb = FilterBuilders.boolFilter(), inFilter;
 
             // set query criteria
-            for (NeutralCriteria s : query.getCriteria()) {
-                if ("query".equals(s.getKey())) {
-                    queryString = ((String) s.getValue()).trim();
-
-                    // if query token is at least 3 characters, do partial match. else do exact match.
-                    StringBuilder sb = new StringBuilder("");
-                    for (String queryToken : queryString.split(" ")) {
-                        sb.append(queryToken);
-                        if (queryToken.length() >= 3) {
-                            sb.append("*");
-                        }
-                        sb.append(" ");
-                    }
-                    bqb.must(new QueryStringQueryBuilder(sb.toString().trim().toLowerCase()));
+            for (NeutralCriteria criteria : query.getCriteria()) {
+                if ("q".equals(criteria.getKey())) {
+                    bqb.must(new QueryStringQueryBuilder(criteria.getValue().toString()));
                 } else {
-                    bfb.must(FilterBuilders.termsFilter(s.getKey(), getTermTokens(s.getValue())));
+                    bfb.must(FilterBuilders.termsFilter(criteria.getKey(), getTermTokens(criteria.getValue())));
                 }
             }
 
@@ -300,7 +286,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Simple adapter for SearchHits to Entity
-     *
+     * 
      */
     private static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
@@ -356,8 +342,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
             return null;
         }
     }
-
-
 
     // Unimplemented methods
 
