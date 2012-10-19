@@ -69,6 +69,14 @@ Transform /^the student "([^"]*)"$/ do |arg1|
   id
 end
 
+
+Transform /^the student competency objective "([^"]*)"$/ do |arg1|
+  id = "313db42ad65b911b0897d8240e26ca4b50bddb5e_id" if arg1 == "Learn to read"
+  id
+end
+
+
+
 Transform /list of teachers from school "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d574-1d729a37fd2d",
            "eb4d7e1b-7bed-890a-d974-1d729a37fd2d"] if arg1 == "Fry High School"
@@ -134,6 +142,12 @@ end
 Given /^my School is "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
 end
+
+When /^I make an API call to get (the student competency objective "[^"]*")$/ do |arg1|
+  restHttpGet("/v1/studentCompetencyObjectives/"+arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+                                  
 
 When /^I make an API call to get (the school "[^"]*")$/ do |arg1|
   restHttpGet("/v1/schools/"+arg1)
