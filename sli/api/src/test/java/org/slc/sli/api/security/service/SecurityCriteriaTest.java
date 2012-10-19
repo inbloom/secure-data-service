@@ -69,7 +69,6 @@ public class SecurityCriteriaTest {
 
         SecurityCriteria securityCriteria = new SecurityCriteria();
         securityCriteria.setSecurityCriteria(new NeutralCriteria("key1", "in", "value1"));
-        securityCriteria.setBlacklistCriteria(new NeutralCriteria("key2", "nin", "value2"));
 
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);

@@ -67,7 +67,7 @@ When /^I click on the Add Group button$/ do
 end
 
 When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
-  input = @driver.find_element(:id, "groupName")
+  input = @driver.find_element(:id, "groupNameInput")
   input.send_keys(title)
 end
 
@@ -112,7 +112,6 @@ end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
-  puts("The select is #{@driver.find_element(:id, "addRightSelect").text}")
   select.select_by(:text, right)
   @driver.find_element(:id, "addRightButton").click
 end
@@ -258,7 +257,7 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  row = @driver.find_element(:xpath, "//td/input/../..")
+  row = @driver.find_element(:xpath, "//div[@id='addRoleUi']/../..")
   button = row.find_element(:class, "rowEditToolCancelButton")
   button.click
 end
