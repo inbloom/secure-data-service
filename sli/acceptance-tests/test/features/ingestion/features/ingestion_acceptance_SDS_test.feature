@@ -480,8 +480,8 @@ Scenario: Verify deterministic ids generated: Clean Database
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
-   | teacherSectionAssociation            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
-   | teacherSectionAssociation            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
+   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
+   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
     | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
