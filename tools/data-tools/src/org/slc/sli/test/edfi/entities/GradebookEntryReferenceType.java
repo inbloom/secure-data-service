@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradebookeEntryReferenceType", propOrder = {
+@XmlType(name = "GradebookEntryReferenceType", propOrder = {
     "gradebookEntryIdentity"
 })
 public class GradebookEntryReferenceType
