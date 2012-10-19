@@ -15,16 +15,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require_relative '../../../utils/sli_utils.rb'
 
 Given /^the district "([^\"]*)" has dissallowed use of the dashboard$/ do |district|
+dissallowDashboard(district, "Midgar") 
+dissallowDashboard(district, "Hyrule") 
+end
+
+def dissallowDashboard(district, tenantName) 
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
   dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
   puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
   
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  edOrgColl = dbTenant.collection("educationOrganization")
 
   edOrg = edOrgColl.find_one({"body.stateOrganizationId" => district})
   if edOrg != nil

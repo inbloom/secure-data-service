@@ -26,15 +26,16 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  *
@@ -98,9 +99,10 @@ public class RealmHelperTest {
 
     private Entity buildRealm(Entity edOrg) {
         Map<String, Object> metaData = new HashMap<String, Object>();
-        metaData.put("tenantId", "foo");
+
         Map<String, Object> body = new HashMap<String, Object>();
         body = new HashMap<String, Object>();
+        body.put("tenantId", "foo");
         body.put("uniqueIdentifier", "BlahBlah");
         body.put("edOrg", edOrg.getBody().get("stateOrganizationId"));
         Entity realm = repo.create("realm", body, metaData, "realm");

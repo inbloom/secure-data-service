@@ -105,9 +105,9 @@
       <GenerationCodeSuffix></GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-    <EconomicDisadvantaged>True</EconomicDisadvantaged>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>Motor Impairment</Section504Disabilities>

@@ -48,9 +48,6 @@ public class EdOrgContextResolver implements EntityContextResolver {
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
-    @Autowired
-    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
-
     @Resource(name = "simpleSecurityCachingStrategy")
     private SecurityCachingStrategy securityCachingStrategy;
 
@@ -77,9 +74,6 @@ public class EdOrgContextResolver implements EntityContextResolver {
         List<String> ids = helper.findEntitiesContainingReference(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference",
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
                 Arrays.asList((NodeFilter) staffEdOrgEdOrgIDNodeFilter));
-        
-        //get the created edorgs
-        ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 
         securityCachingStrategy.warm(EntityNames.STAFF, new HashSet<String>(ids));
 

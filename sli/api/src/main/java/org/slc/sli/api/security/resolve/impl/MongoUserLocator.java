@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -31,6 +32,7 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.dal.TenantContext;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -54,9 +56,9 @@ public class MongoUserLocator implements UserLocator {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
         neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
 
+        TenantContext.setTenantId(tenantId);
         Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
 
         if (staff != null && staff.iterator().hasNext()) {

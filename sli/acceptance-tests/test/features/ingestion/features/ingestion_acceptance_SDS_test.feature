@@ -91,7 +91,7 @@ Then I should see following map of entry counts in the corresponding collections
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
         | graduationPlan              | 4     |
-        | learningObjective           | 197   |
+        | learningObjective           | 198   |
         | learningStandard            | 1499  |
         | parent                      | 9     |
         | program                     | 2     |
@@ -172,7 +172,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4260 records." in the resulting batch job file
+    And I should see "Processed 4261 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -255,8 +255,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 98" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 98" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
 
 @smoke
@@ -418,12 +418,12 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
-    | studentAssessmentAssociation         | 37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id                                 |
-    | studentCompetency                    | 5d7cd177f4a6059a8474a9afef7aa3486a9553a6_id | body.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
@@ -476,9 +476,10 @@ Scenario: Verify deterministic ids generated: Clean Database
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |
-   | studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-   | studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
-   | studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id | body.beginDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate            | 2011-09-01                              |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
+   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
    | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
@@ -508,7 +509,7 @@ Scenario: Verify deterministic ids generated: Clean Database
 
 @smoke
 Scenario: Verify ingestion context stamping for Midgar: Populated Database
-   And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -552,7 +553,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "IL-DAYBREAK" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -596,7 +597,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 29    |
@@ -640,7 +641,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentTranscriptAssociation          | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 24    |
@@ -684,7 +685,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentTranscriptAssociation          | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 25    |
@@ -798,7 +799,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
 Scenario: Verify ingestion inline context stamping for Midgar: Populated Database
-   And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -842,7 +843,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 14    |
-   And I check _id of stateOrganizationId "IL-DAYBREAK" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -886,7 +887,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 29    |
@@ -930,7 +931,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 24    |
@@ -974,7 +975,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 25    |
@@ -1018,7 +1019,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
-   And I check _id of stateOrganizationId "IL-SUNSET" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1062,7 +1063,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
-   And I check _id of stateOrganizationId "Sunset Central High School" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1111,44 +1112,85 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
+      And the following collections are empty in datastore:
+        | collectionName                      |
+        | student                             |
+        | studentSchoolAssociation            |
+        | course                              |
+        | educationOrganization               |
+        | section                             |
+        | studentSectionAssociation           |
+        | staff                               |
+        |staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation            |
+        | teacherSectionAssociation           |
+        | session                             |
+        | assessment                          |
+        | studentAssessmentAssociation        |
+        | gradebookEntry                      |
+        | studentTranscriptAssociation        |
+        | studentGradebookEntry               |
+        | parent                              |
+        | studentParentAssociation            |
+        | attendance                          |
+        | program                             |
+        | staffProgramAssociation             |
+        | studentProgramAssociation           |
+        | cohort                              |
+        | staffCohortAssociation              |
+        | studentCohortAssociation            |
+        | studentCompetency                   |
+        | studentCompetencyObjective          |
+        | learningStandard                    |
+        | learningObjective                   |
+        | disciplineIncident                  |
+        | disciplineAction                    |
+        | studentDisciplineIncidentAssociation|
+        | grade                               |
+        | gradingPeriod                       |
+        | calendarDate                        |
+        | reportCard                          |
+        | courseOffering                      |
+        | studentAcademicRecord               |
+        | graduationPlan                      |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | assessment                  | 19    |
-        | attendance                  | 75    |
-        | cohort                      | 3     |
-        | course                      | 104   |
-        | courseOffering              | 104   |
-        | disciplineAction            | 3     |
-        | disciplineIncident          | 4     |
-        | educationOrganization       | 14    |
-        | grade                       | 4     |
-        | gradebookEntry              | 12    |
-        | parent                      | 9     |
-        | program                     | 2     |
-        | reportCard                  | 2     |
-        | section                     | 116   |
-        | session                     | 27    |
-        | staff                       | 58    |
-        | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 37 |
-        | staffProgramAssociation     | 7     |
-        | student                     | 191    |
-        | studentAssessmentAssociation| 203   |
-        | studentCohortAssociation    | 6     |
-        | studentDisciplineIncidentAssociation| 8|
-        | studentGradebookEntry       | 315   |
-        | studentParentAssociation    | 9     |
-        | studentProgramAssociation   | 6     |
-        | studentSchoolAssociation    | 280   |
-        | studentSectionAssociation   | 410   |
-        | studentTranscriptAssociation| 196   |
-        | teacherSchoolAssociation    | 20    |
-        | teacherSectionAssociation   | 30    |
+        | assessment                  | 0     |
+        | attendance                  | 0     |
+        | cohort                      | 0     |
+        | course                      | 8     |
+        | courseOffering              | 8     |
+        | disciplineAction            | 1     |
+        | disciplineIncident          | 2     |
+        | educationOrganization       | 7     |
+        | grade                       | 0     |
+        | gradebookEntry              | 0     |
+        | parent                      | 0     |
+        | program                     | 0     |
+        | reportCard                  | 0     |
+        | section                     | 16    |
+        | session                     | 4     |
+        | staff                       | 37    |
+        | staffCohortAssociation      | 0     |
+        | staffEducationOrganizationAssociation| 21 |
+        | staffProgramAssociation     | 0     |
+        | student                     | 8     |
+        | studentAssessmentAssociation| 0     |
+        | studentCohortAssociation      | 0     |
+        | studentDisciplineIncidentAssociation| 4|
+        | studentGradebookEntry       | 0     |
+        | studentParentAssociation    | 0     |
+        | studentProgramAssociation   | 0     |
+        | studentSchoolAssociation    | 8     |
+        | studentSectionAssociation   | 8     |
+        | studentTranscriptAssociation| 0     |
+        | teacherSchoolAssociation    | 16    |
+        | teacherSectionAssociation   | 16    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | student                     | 2                   | body.studentUniqueStateId     | 100000006                  | string               |
+       | student                     | 1                   | body.studentUniqueStateId| 100000006                  | string               |
        | staff                       | 1                   | body.staffUniqueStateId  | jcarlyle                   | string               |
        | section                     | 1                   | body.uniqueSectionCode   | Mason201-Sec1              | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
@@ -1179,7 +1221,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
 Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Populated Database
-   And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -1223,7 +1265,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 14    |
-   And I check _id of stateOrganizationId "IL-DAYBREAK" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -1267,7 +1309,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 29    |
@@ -1311,7 +1353,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 24    |
@@ -1355,7 +1397,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 25    |
@@ -1399,7 +1441,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
-   And I check _id of stateOrganizationId "IL-SUNSET" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1443,7 +1485,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
-   And I check _id of stateOrganizationId "Sunset Central High School" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1487,7 +1529,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
-   And I check _id of stateOrganizationId "NY" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1531,7 +1573,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 16    |
-   And I check _id of stateOrganizationId "NY-Dusk" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1575,7 +1617,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "NY-Parker" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1619,7 +1661,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "1000000112" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1663,7 +1705,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "10000000121" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1707,7 +1749,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000111" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1751,7 +1793,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000122" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -1806,18 +1848,18 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                           | 23    |
      | attendance                           | 75    |
      | cohort                               | 4     |
-     | courseOffering                       | 105   |
-     | disciplineAction                     | 4     |
-     | disciplineIncident                   | 7     |
+     | courseOffering                       | 97    |
+     | disciplineAction                     | 3     |
+     | disciplineIncident                   | 5     |
      | gradebookEntry                       | 13    |
      | parent                               | 12    |
      | program                              | 4     |
      | staffProgramAssociation              | 16    |
-     | student                              | 193   |
+     | student                              | 185   |
      | studentAcademicRecord                | 121   |
      | studentAssessmentAssociation         | 204   |
      | studentCohortAssociation             | 6     |
-     | studentDisciplineIncidentAssociation | 9     |
+     | studentDisciplineIncidentAssociation | 5     |
      | studentParentAssociation             | 11    |
      | studentProgramAssociation            | 9     |
      | studentTranscriptAssociation         | 200   |
@@ -1877,11 +1919,11 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineAction            | 3                   | body.disciplineActionLength | 74                      | integer              |
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Bullying                | string               |
      | disciplineIncident          | 1                   | body.incidentIdentifier     | Hazing                  | string               |
-     | disciplineIncident          | 2                   | body.incidentIdentifier     | Disruption              | string               |
-     | disciplineIncident          | 2                   | body.incidentIdentifier     | Tardiness               | string               |
+     | disciplineIncident          | 1                   | body.incidentIdentifier     | Disruption              | string               |
+     | disciplineIncident          | 1                   | body.incidentIdentifier     | Tardiness               | string               |
      | disciplineIncident          | 2                   | body.weapons                | Non-Illegal Knife       | string               |
-     | disciplineIncident          | 3                   | body.incidentDate           | 2011-02-01              | string               |
-     | disciplineIncident          | 5                   | body.incidentLocation       | On School               | string               |
+     | disciplineIncident          | 2                   | body.incidentDate           | 2011-02-01              | string               |
+     | disciplineIncident          | 3                   | body.incidentLocation       | On School               | string               |
      | gradebookEntry              | 2                   | body.dateAssigned           | 2011-10-27              | string               |
      | gradebookEntry              | 4                   | body.dateAssigned           | 2011-10-13              | string               |
      | gradebookEntry              | 4                   | body.gradebookEntryType     | Quiz                    | string               |
@@ -1911,24 +1953,22 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
-     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
+     | studentAssessmentAssociation | 24                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-3       |string                  |
-     | studentAssessmentAssociation| 26                  | body.studentAssessmentItems.assessmentItem.identificationCode  | AssessmentItem-4       |string                  |
+     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
      | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
      | studentCohortAssociation    | 1                   | body.endDate                | 2011-12-31              | string               |
-     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Witness              | string               |
-     | studentDisciplineIncidentAssociation    | 3                   | body.studentParticipationCode       | Victim               | string               |
-     | studentDisciplineIncidentAssociation    | 4                   | body.studentParticipationCode       | Perpetrator          | string               |
+     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Witness              | string               |
+     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Victim               | string               |
+     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Perpetrator          | string               |
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-31              | string               |
      | studentProgramAssociation   | 1                   | body.endDate                | 2012-02-15              | string               |
      | studentProgramAssociation   | 2                   | body.beginDate              | 2011-05-01              | string               |
@@ -2024,9 +2064,47 @@ Then I should see following map of entry counts in the corresponding collections
 
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+        | studentSchoolAssociation    |
+        | course                      |
+        | educationOrganization       |
+        | section                     |
+        | studentSectionAssociation   |
+        | staff                       |
+        | staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        | session                     |
+        | assessment                  |
+        | studentAssessmentAssociation|
+        | gradebookEntry              |
+        | studentTranscriptAssociation|
+        | studentGradebookEntry       |
+        | parent                      |
+        | studentParentAssociation    |
+        | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
+        | cohort                      |
+        | staffCohortAssociation      |
+        | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
+        | learningStandard            |
+        | learningObjective           |
+        | disciplineIncident          |
+        | disciplineAction            |
+        | studentDisciplineIncidentAssociation|
+        | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
+        | courseOffering              |
+        | studentAcademicRecord       |
     And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
-    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
-    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
     And the following collections are empty in datastore:
         | collectionName              |
         | assessment                  |
@@ -2067,6 +2145,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         |staffEducationOrganizationAssociation|
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
 
 When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
   And zip file is scp to ingestion landing zone for "Hyrule-NYC"
@@ -2075,47 +2155,47 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | assessment                  | 19    |
-        | attendance                  | 75    |
-        | calendarDate                | 1112  |
-        | cohort                      | 3     |
-        | course                      | 103   |
-        | courseOffering              | 103   |
-        | disciplineAction            | 3     |
-        | disciplineIncident          | 4     |
-        | educationOrganization       | 12    |
-        | grade                       | 4     |
-        | gradebookEntry              | 12    |
-        | gradingPeriod               | 23    |
-        | learningObjective           | 197   |
-        | learningStandard            | 1499  |
-        | parent                      | 9     |
-        | program                     | 2     |
-        | reportCard                  | 2     |
-        | section                     | 113   |
-        | session                     | 26    |
-        | staff                       | 51    |
-        | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 31 |
-        | staffProgramAssociation     | 7     |
-        | student                     | 86    |
-        | studentAcademicRecord       | 117   |
-        | studentAssessmentAssociation| 203   |
-        | studentCohortAssociation    | 6     |
-        | studentCompetency           | 59    |
-        | studentCompetencyObjective  | 4     |
-        | studentDisciplineIncidentAssociation| 8 |
-        | studentGradebookEntry       | 315   |
-        | studentParentAssociation    | 9     |
-        | studentProgramAssociation   | 6     |
-        | studentSchoolAssociation    | 175   |
-        | studentSectionAssociation   | 305   |
-        | studentTranscriptAssociation| 196   |
-        | teacherSchoolAssociation    | 19    |
-        | teacherSectionAssociation   | 27    |
+        | assessment                  | 0     |
+        | attendance                  | 0     |
+        | calendarDate                | 556   |
+        | cohort                      | 0     |
+        | course                      | 8     |
+        | courseOffering              | 8     |
+        | disciplineAction            | 1     |
+        | disciplineIncident          | 2     |
+        | educationOrganization       | 7     |
+        | grade                       | 0     |
+        | gradebookEntry              | 0     |
+        | gradingPeriod               | 6     |
+        | learningObjective           | 0     |
+        | learningStandard            | 0     |
+        | parent                      | 0     |
+        | program                     | 0     |
+        | reportCard                  | 0     |
+        | section                     | 16    |
+        | session                     | 4     |
+        | staff                       | 37    |
+        | staffCohortAssociation      | 0     |
+        | staffEducationOrganizationAssociation| 21 |
+        | staffProgramAssociation     | 0     |
+        | student                     | 8     |
+        | studentAcademicRecord       | 0     |
+        | studentAssessmentAssociation| 0     |
+        | studentCohortAssociation    | 0     |
+        | studentCompetency           | 0     |
+        | studentCompetencyObjective  | 0     |
+        | studentDisciplineIncidentAssociation| 4 |
+        | studentGradebookEntry       | 0     |
+        | studentParentAssociation    | 0     |
+        | studentProgramAssociation   | 0     |
+        | studentSchoolAssociation    | 8     |
+        | studentSectionAssociation   | 8     |
+        | studentTranscriptAssociation| 0     |
+        | teacherSchoolAssociation    | 16    |
+        | teacherSectionAssociation   | 16    |
 
 Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyrule: Populated Database
-   And I check _id of stateOrganizationId "IL" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -2159,7 +2239,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "IL-DAYBREAK" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 75    |
@@ -2203,7 +2283,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
-   And I check _id of stateOrganizationId "East Daybreak Junior High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 29    |
@@ -2247,7 +2327,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "South Daybreak Elementary" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 24    |
@@ -2291,7 +2371,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
-   And I check _id of stateOrganizationId "Daybreak Central High" with tenantId "Midgar" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 25    |
@@ -2335,7 +2415,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
-   And I check _id of stateOrganizationId "NY" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2379,7 +2459,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 16    |
-   And I check _id of stateOrganizationId "NY-Dusk" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2423,7 +2503,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "NY-Parker" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2467,7 +2547,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
-   And I check _id of stateOrganizationId "1000000112" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2511,7 +2591,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "10000000121" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2555,7 +2635,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000111" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |
@@ -2599,7 +2679,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentTranscriptAssociation          | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
-   And I check _id of stateOrganizationId "1000000122" with tenantId "Hyrule" is in metaData.edOrgs:
+   And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
      | attendance                            | 0     |

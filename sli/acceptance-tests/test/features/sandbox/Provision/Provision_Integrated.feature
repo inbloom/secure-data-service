@@ -152,6 +152,7 @@ Then "15" seconds have elapsed
 When the developer go to the provisioning application web page
 When the developer selects to preload "Small Dataset"
 Then the user gets an error message
+Then "5" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
@@ -162,9 +163,10 @@ When the developer go to the provisioning application web page
 And the developer selects to preload "Small Dataset"
 Then the "small" data to preload is stored for the tenant in mongo
 And the user gets a success message indicating preloading has been triggered
+Then "10" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
-And I should see "Processed 4251 records." in the resulting batch job file
+And I should see "All records processed successfully." in the resulting batch job file
 And I clean the landing zone
 

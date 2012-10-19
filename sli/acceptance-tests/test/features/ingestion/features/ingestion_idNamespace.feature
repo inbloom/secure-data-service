@@ -18,7 +18,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | student                     | 1                   | metaData.tenantId           | Midgar           | string               |
+     | student                     | 1                   | body.studentUniqueStateId   | 530425896        | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
@@ -37,9 +37,6 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter           | searchValue    | searchType           |
-     | student                     | 1                   | metaData.tenantId         | SLI            | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file

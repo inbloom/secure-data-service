@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.logging.Logger" %>
 <%@ page session="false"%>
+
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <title>Simple IDP</title>
@@ -32,6 +34,8 @@
 </head>
 
 <body>
+    <% Logger logger = Logger.getLogger(this.getClass().getName());%>
+        
 	<div class="error-container">
 		<div class="error-header">ERROR</div>
 		<div class="error-content">
@@ -43,6 +47,11 @@
 				<c:if test="${errMessage==null}">
 					<h3>We're sorry, an error occurred. Please try again.</h3>
 				</c:if>
+                <% 
+                   String message = "SimpleIDP Request Error: " + request.getAttribute("javax.servlet.error.message").toString();
+                   logger.severe( message );
+                 %>				
+				<!--  log:error "${requestScope['javax.servlet.error.message']}"/ -->
 			</div>
 		</div>
 	</div>

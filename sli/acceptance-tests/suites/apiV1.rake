@@ -33,9 +33,12 @@ task :apiV1DuplicateLinkTest => [:realmInit] do
   runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
 end
 
+desc "Run API querying tests"
 task :apiV1QueryingTests => [:realmInit] do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/querying/querying.feature")
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Run V1 XML Tests"
@@ -315,6 +318,7 @@ end
 
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   setFixture("student", "student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
@@ -344,12 +348,20 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  Rake::Task["importSandboxData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
   runTests("test/features/security")
 end
 
 desc "Run Security MegaTest"
-task :apiMegaTests => [:realmInit, :importSecuredData] do
+#task :apiMegaTests => [:realmInit, :importSecuredData] do
+task :apiMegaTests => [:realmInit] do
+    DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
+    Rake::Task["importSecuredData"].execute
     runTests("test/features/apiV1/entities/student_security")
+    DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 ############################################################
 # Security tests end

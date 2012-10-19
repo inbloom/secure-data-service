@@ -34,7 +34,6 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
@@ -178,15 +177,15 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      */
     private boolean isAssociationExpired(Entity entity) {
         boolean expired = false;
-        if (entity.getType().equals("studentSchoolAssociation") && entity.getBody().containsKey("exitWithdrawDate")) {
+        if (entity.getType().equals("studentSchoolAssociation") && entity.getBody().containsKey("ExitWithdrawDate")) {
             try {
-                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody().get("exitWithdrawDate"));
+                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody().get("ExitWithdrawDate"));
                 if (exitWithdrawDate.isBefore(DateTime.now().minusDays(Integer.valueOf(gracePeriod)))) {
                     expired = true;
                 }
             } catch (Exception e) {
                 LOG.warn(
-                        "Error parsing exitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.",
+                        "Error parsing ExitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.",
                         new Object[] { entity.getBody().get("studentId"), entity.getBody().get("schoolId") });
             }
         }
@@ -266,8 +265,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private void updateContext(String referencedEntityType, String typeOfContext, Object context,
             List<String> idsToQuery) {
         NeutralQuery query = new NeutralQuery(idsToQuery.size());
-        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, TenantContext
-                .getTenantId(), false));
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, idsToQuery, false));
 
         // need to use $each operator to add an array with $addToSet
@@ -293,7 +290,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgId != null) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("metaData.edOrgs", "=", edOrgId, false));
             Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
 
@@ -318,7 +314,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgIds != null) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("educationOrgId", "=", edOrgIds));
             Iterable<Entity> cohorts = entityRepository.findAll("cohort", query);
 
@@ -349,7 +344,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (edOrgIds != null && edOrgIds.size() > 0) {
             NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", TenantContext.getTenantId(), false));
             query.addCriteria(new NeutralCriteria("_id", "=", edOrgIds, false));
             Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
 

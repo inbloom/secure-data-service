@@ -2,6 +2,7 @@ package org.slc.sli.shtick.samples;
 
 import org.junit.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.slc.sli.shtick.JsonLevel1Client;
@@ -75,6 +76,7 @@ public class StudentCrudSampleTest {
     }
 
     @Test
+    @Ignore("This won't work until DE1876 is fixed")
     public void testNaturalKeys() throws IOException, StatusCodeException {
         final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
         final Level3Client client = new StandardLevel3Client(inner);

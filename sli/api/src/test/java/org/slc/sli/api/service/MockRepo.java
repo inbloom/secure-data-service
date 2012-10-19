@@ -431,6 +431,11 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
             public String getStagedEntityId() {
                 // TODO Auto-generated method stub
                 return null;
@@ -504,6 +509,11 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getEmbeddedData() {
                 return null;
             }
 

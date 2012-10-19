@@ -16,16 +16,17 @@
 
 package org.slc.sli.api.security.pdp;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * Infers context about the user and restricts blanket API calls to smaller (and generally more
@@ -47,16 +48,12 @@ public class ContextInferenceHelper {
      *            root resource being accessed.
      * @param user
      *            entity representing user making API call.
-     * @return Mutated String representing new API call.
+     * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public String getInferredUri(String resource, Entity user) {
         String result = null;
+        boolean success = true;
         String actorId = user.getEntityId();
-
-        // remove any number of trailing slashes --> explicit string matching to ensue
-        // -> multiple slashes are caught in URI validation, but on the off-chance that validation
-        //    fails, peel off all trailing slashes
-        resource = resource.replaceAll("(/+)$", "");
 
         if (isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)) {
@@ -68,10 +65,6 @@ public class ContextInferenceHelper {
                 result = String.format("/staff/%s/staffCohortAssociations/cohorts", actorId);
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)) {
                 result = "/" + resource;
-            } else if (ResourceNames.PARENTS.equals(resource)) {
-                result = String.format(
-                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
-                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)) {
                 result = "/" + resource;
             } else if (ResourceNames.COURSES.equals(resource)) {
@@ -105,25 +98,42 @@ public class ContextInferenceHelper {
             } else if (ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 result = "/" + resource;
             } else if (ResourceNames.PARENTS.equals(resource)) {
-                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format(
-                        "/sections/%s/studentSectionsAssociations/students/studentParentAssociations/parents", ids);
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
+            } else if (ResourceNames.PROGRAMS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramAssociations/programs", actorId);
             } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/students/reportCards", ids);
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 result = String.format("/teachers/%s/teacherSectionAssociations/sections", actorId);
+            } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            	List<String> ids = edorger.getDirectSchools(user);
+                result = String.format("/schools/%s", StringUtils.join(edorger.getDirectSchools(user),","));
+                success = !ids.isEmpty();
             } else if (ResourceNames.SESSIONS.equals(resource)) {
-                result = String.format("/schools/%s/sessions",
+                result = String.format("/educationOrganizations/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.STAFF.equals(resource)) {
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                		StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/staff/%s/staffCohortAssociations", actorId);
+            } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations",
+                		StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
+                result = String.format("/staff/%s/staffProgramAssociations", actorId);
+            } else if (ResourceNames.STUDENTS.equals(resource)) {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                result = String.format("/sections/%s/studentSectionAssociations/students", ids);
             } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
             } else if (ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                result = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments ", ids);
+                result = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments", ids);
             } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 result = String.format("/sections/%s/studentSectionAssociations/studentCompetencies", ids);
@@ -146,7 +156,10 @@ public class ContextInferenceHelper {
                         ids);
             } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
                 result = String
-                        .format("/staff/%s/staffProgramAssociations/programs/studentParentAssociations", actorId);
+                        .format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations", actorId);
+            } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            	String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                result = String.format("sections/%s/studentSectionAssociations/students/studentSchoolAssociations", ids);
             } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
                 result = String.format("/sections/%s/studentSectionAssociations",
                         StringUtils.join(sectionHelper.getTeachersSections(user), ","));
@@ -210,11 +223,15 @@ public class ContextInferenceHelper {
             } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/studentSchoolAssociations/students/reportCards", ids);
+            } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            	List<String> ids = edorger.getDirectSchools(user);
+                result = String.format("/schools/%s", StringUtils.join(edorger.getDirectSchools(user),","));
+                success = !ids.isEmpty();
             } else if (ResourceNames.SECTIONS.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
                 result = String.format("/schools/%s/sections", ids);
             } else if (ResourceNames.SESSIONS.equals(resource)) {
-                result = String.format("/schools/%s/sessions",
+                result = String.format("/educationOrganizations/%s/sessions",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STAFF.equals(resource)) {
                 String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
@@ -271,16 +288,18 @@ public class ContextInferenceHelper {
                 result = String.format(
                         "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents",
                         StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","));
+            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+            	String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ",");
+            	result = String.format("/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
             }
 
-            /*
-             * Endpoints to be implemented: } else if
-             * (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
-             * String ids = StringUtils.join(edorger.getDirectEdOrgAssociations(user), ","); result
-             * =
-             * String.format("/schools/%s/teacherSectionAssociations", ids); } else if
-             */
         }
+        
+        if(!success) {
+        	error("Context Inferance Failed");
+        	throw new ContextInferrenceFailedException();
+        }
+        
         return result;
     }
 
