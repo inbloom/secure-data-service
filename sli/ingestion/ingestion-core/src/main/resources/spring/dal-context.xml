@@ -68,6 +68,9 @@
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
 
+  <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository">
+  </bean>
+
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
