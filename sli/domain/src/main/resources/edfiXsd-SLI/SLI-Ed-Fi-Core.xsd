@@ -525,7 +525,7 @@ Other</xs:documentation>
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+      <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
             <xs:annotation>
                 <xs:appinfo>
                     <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
