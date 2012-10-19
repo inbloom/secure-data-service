@@ -436,7 +436,13 @@ Other</xs:documentation>
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="SLC-StudentSchoolAssociationExtension">
+    <xs:annotation>
+        <xs:appinfo>
+          <sli:recordType>studentSchoolAssociation</sli:recordType>
+        </xs:appinfo>
+    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="SLC-StudentSchoolAssociationRestriction">
         <xs:sequence>
@@ -488,6 +494,10 @@ Other</xs:documentation>
   <xs:complexType name="SLC-GraduationPlanReferenceType">
     <xs:annotation>
       <xs:documentation/>
+      <xs:appinfo>
+            <sli:applyKeyFields>true</sli:applyKeyFields>
+            <sli:refType>graduationPlan</sli:refType>
+        </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ReferenceType">
@@ -501,6 +511,7 @@ Other</xs:documentation>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="SLC-GraduationPlanIdentityType">
     <xs:annotation>
       <xs:documentation/>
@@ -509,12 +520,17 @@ Other</xs:documentation>
       <xs:element name="GraduationPlanType" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation/>
+          <xs:appinfo>
+            <sli:keyFieldName>graduationPlanType</sli:keyFieldName>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TotalCreditsRequired" type="Credits" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation/>
-        </xs:annotation>
+      <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
+            <xs:annotation>
+                <xs:appinfo>
+                    <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
+                </xs:appinfo>
+            </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
