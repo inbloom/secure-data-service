@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -38,6 +39,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,6 +75,10 @@ public class AuthController {
     private OauthSessionManager sessionManager;
 
     @Autowired
+    @Value("${sli.sandbox.enabled}")
+    private boolean sandboxEnabled;
+    
+    @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
@@ -102,25 +108,37 @@ public class AuthController {
                 debug("session does not map to a valid oauth session");
             }
         }
+        
 
-        Map<String, String> map = getRealmMap(realmUniqueId);
+        Map<String, String> map = getRealmMap(realmUniqueId, sandboxEnabled);
         
         // Only one realm, so let's bypass the realm selection and direct them straight to that
         // realm
         if (map.size() == 1) {
             return ssoInit(map.keySet().iterator().next(), sessionId, redirectUri, clientId, state, res, model);
         }
-
-        model.addAttribute("dummy", new HashMap<String, String>());
-        model.addAttribute("realms", map);
+        
         model.addAttribute("redirect_uri", redirectUri != null ? redirectUri : "");
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
 
-        return "realms";
+        if (sandboxEnabled) {
+            for(Map.Entry<String, String> entry : map.entrySet()){
+                if(entry.getValue().equals("SandboxIDP")){
+                    model.addAttribute("sandboxRealm", entry.getKey());
+                } else if(entry.getValue().equals(RealmInitializer.ADMIN_REALM_ID)){
+                    model.addAttribute("adminRealm", entry.getKey());
+                }
+            }
+            return "sandboxRealms";
+        } else {
+            model.addAttribute("dummy", new HashMap<String, String>());
+            model.addAttribute("realms", map);    
+            return "realms";
+        }
     }
-
-    private Map<String, String> getRealmMap(final String realmUniqueId) {
+    
+    private Map<String, String> getRealmMap(final String realmUniqueId, final boolean useUniqueIdentifier) {
         Map<String, String> result = SecurityUtil.runWithAllTenants(new SecurityTask<Map<String, String>>() {
             
             @Override
@@ -131,7 +149,8 @@ public class AuthController {
                         Iterable<Entity> realmList = repo.findAll("realm", new NeutralQuery());
                         Map<String, String> map = new HashMap<String, String>();
                         for (Entity realmEntity : realmList) {
-                            map.put(realmEntity.getEntityId(), (String) realmEntity.getBody().get("name"));
+                            String name = extractRealmName(useUniqueIdentifier, realmEntity);
+                            map.put(realmEntity.getEntityId(), name);
                             
                             // We found the requested realm, so let's only return a map with just
                             // that entry
@@ -139,12 +158,22 @@ public class AuthController {
                             if (realmUniqueId != null && !realmUniqueId.isEmpty()) {
                                 if (realmUniqueId.equals(realmEntity.getBody().get("uniqueIdentifier"))) {
                                     map.clear();
-                                    map.put(realmEntity.getEntityId(), (String) realmEntity.getBody().get("name"));
+                                    map.put(realmEntity.getEntityId(), name);
                                     return map;
                                 }
                             }
                         }
                         return map;
+                    }
+
+                    private String extractRealmName(final boolean useUniqueIdentifier, Entity realmEntity) {
+                        String name;
+                        if(useUniqueIdentifier){
+                            name = (String) realmEntity.getBody().get("uniqueIdentifier");
+                        }else{
+                            name = (String) realmEntity.getBody().get("name");
+                        }
+                        return name;
                     }
                 });
             }
