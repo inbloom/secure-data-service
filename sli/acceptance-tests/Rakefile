@@ -973,6 +973,29 @@ task :importSecuredData do
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
+ 
+  testHash = Hash[
+    "educationOrganization" => "secured/Other/educationOrganization.json",
+    "student" => "secured/Other/student.json",
+    "studentSchoolAssociation" => "secured/Other/studentSchoolAssociation.json"
+  ]
+
+     tenant = {
+    "type" => "tenant",
+    "body" => {
+      "tenantId" => "Other",
+      "dbName" => convertTenantIdToDbName("Other")
+      },
+    "metaData" => {
+        "tenantId" => "Other"
+      }
+  }
+
+  db = Mongo::Connection.new(DB_HOST)['sli']
+  db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
+  setMultipleFixtureFiles(testHash)
+
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   addSecurityData()
 end
