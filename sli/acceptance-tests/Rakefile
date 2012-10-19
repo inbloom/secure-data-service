@@ -249,7 +249,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   if collectionName == "tenant"
     cleanseTenantCollection
   else
-    coll.remove({"metaData.tenantId" => {"$in" => specificTenants}}, :safe => true)
+    coll.remove({}, :safe => true)
   end
 end
 
