@@ -46,10 +46,10 @@ import org.slc.sli.domain.Entity;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class ContextInferenceHelperTest {
+public class InferedURIHelperTest {
 
     @Autowired
-    ContextInferenceHelper contextInferranceHelper;
+    InferedURIHelper contextInferranceHelper;
 
     private SectionHelper sectionHelper;
     private EdOrgHelper edOrgHelper;
