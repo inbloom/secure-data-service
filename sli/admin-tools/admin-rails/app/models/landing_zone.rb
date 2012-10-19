@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require "erb"
+require "forwardable"
 
 class LandingZone
   def self.possible_edorgs
@@ -114,13 +115,21 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       begin
-        if sample_data_select !=nil && sample_data_select != "" && isDuplicate == false
-          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
-        elsif (sample_data_select == nil || sample_data_select == "")
-          ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
-        end
+        if isDuplicate == false
+          if sample_data_select !=nil && sample_data_select != ""
+            ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
+          elsif (sample_data_select == nil || sample_data_select == "")
+            ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
+          end
+       else
+         if sample_data_select !=nil && sample_data_select != ""
+          ApplicationMailer.processing_prev_job_email(user_info[:emailAddress], user_info[:first]).deliver
+          else
+            ApplicationMailer.already_provisioned_email(user_info[:emailAddress], user_info[:first], @server,edorg_id).deliver
+         end
+       end
       rescue => e
-        Rails.logger.error "Could not send email to #{email[:email_addr]}."
+        Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
       end
 
       @emailWarningMessage = ""
