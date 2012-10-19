@@ -5,6 +5,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 
+@wip
 @production
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone
 Given there is an production Ingestion Admin account in ldap
@@ -18,6 +19,7 @@ And an ed-org is created in Mongo with the "stateOrganizationId" is "<EDORG_NAME
 And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap
 
+@wip
 @production
 Scenario: As an ingestion admin I can use the provisioning tool to create a LZ for my district
 Given there is an production Ingestion Admin account in ldap
@@ -36,7 +38,7 @@ And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 
-
+@wip
 @production
 Scenario: As an ingestion admin I can use the provisioning tool to get added to an existing LZ
 Given there is an production Ingestion Admin account in ldap
@@ -52,6 +54,7 @@ When the Ingestion Admin provision a Landing zone
 And the directory structure for the landing zone is stored in ldap
 And the Ingestion Admin gets a success message
 
+@wip
 @production
 Scenario: As an ingestion admin I can use the provisioning tool to add a new district LZ
 Given there is an production Ingestion Admin account in ldap
@@ -69,6 +72,7 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the Ingestion Admin gets a success message
 
+@wip
 @production
 Scenario: As an ingestion admin I can use the provisioning tool to to have only one LZ as my home directory
 Given there is an production Ingestion Admin account in ldap
@@ -83,6 +87,7 @@ Then the Ingestion Admin is authenticated to Simple IDP as user "<USERID>" with 
 When the Ingestion Admin provision a Landing zone
 Then the user gets an error message
 
+@wip
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create a LZ for my sandbox tenancy
 Given there is an sandbox account in ldap
@@ -100,6 +105,7 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the user gets a success message
 
+@wip
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create more than one LZ for my sandbox tenancy
 Given there is an sandbox account in ldap
@@ -117,6 +123,7 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the user gets a success message
 
+@wip
 @sandbox
 Scenario: As an developer I can use the provisioning tool to switch between LZ
 Given there is an sandbox account in ldap
@@ -132,6 +139,7 @@ When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_ED
 Then the directory structure for the landing zone is stored in ldap
 Then the user gets an error message
 
+@wip
 @sandbox
 Scenario: As a developer I can use the provisioning tool to pre-populate my tenant with a sample data set
 Given there is an sandbox account in ldap

@@ -2,6 +2,7 @@
 Feature: Tenant Registration Entity
 As an administrator for SLI, I want to create a tenant entity so that it listen for files on landing zone
 
+@wip
 Scenario: CRUD operations on Tenants
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -17,6 +18,7 @@ Scenario: CRUD operations on Tenants
     Then I should receive a return code of 204
     And I should no longer be able to get that tenant's data
 
+@wip
 Scenario: Deny creation when specifying invalid fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -34,6 +36,7 @@ Scenario: Deny creation when specifying invalid fields
     And I PUT a tenant specifying an invalid field
     Then I should receive a return code of 400
 
+@wip
 Scenario Outline: Deny access when logging in as invalid user
 
     Given I am logged in using "baduser" "baduser1234" to realm "SLI"
@@ -51,6 +54,7 @@ Scenario: Deny creation when missing userName
     When I POST a basic tenant with no userName
     Then I should receive a return code of 400
 
+@wip
 Scenario Outline: Deny creation when missing individual fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -60,7 +64,7 @@ Scenario Outline: Deny creation when missing individual fields
     | Property      |
     | "stateOrganizationId" |
 
-
+@wip
 Scenario Outline: Deny update when missing individual fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -75,6 +79,7 @@ Scenario Outline: Deny update when missing individual fields
     | Property      |
     | "landingZone" |
 
+@wip
 Scenario Outline: Deny creation when missing individual landingZone fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -92,7 +97,7 @@ Scenario Outline: Deny creation when missing individual landingZone fields
     | "path"                  |
     | "ingestionServer"       |
 
-
+@wip
 Scenario Outline: Deny creation when specifying individual wrong size fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -108,6 +113,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     | "123456789012345678901234567890123456789012345678A" |
     | "" |
 
+@wip
 Scenario Outline: Deny creation when specifying individual landingZone wrong size fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"

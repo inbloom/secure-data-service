@@ -4,6 +4,7 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
+@wip
 Scenario: Ingestion User Provisions LZ (Currently, SEA)
 When I navigate to the Portal home page
 #When I selected the realm "Shared Learning Collaborative"
