@@ -209,7 +209,7 @@ Scenario: Paging tests from the context of a teacher
         Given parameter "offset" is "1"
         And parameter "limit" is "9"
         When I navigate to GET "/v1/students"
-        Then I should receive a collection with 10 unique elements
+        Then I should receive a collection with 9 unique elements
         And the header "TotalCount" equals 25
 
 @DE1580
