@@ -3765,6 +3765,7 @@
     <jb:value property="studentCompetencyId" data="StudentCompetency/@id" />
     <jb:wiring property="competencyLevel" beanIdRef="StudentCompetency_CompetencyLevelDescriptor" />
     <jb:wiring property="objectiveId" beanIdRef="StudentCompetency_ObjectiveReference"/>
+    <jb:wiring beanIdRef="StudentCompetency_Attributes_StudentCompetencyObjectiveReferenceType" property="StudentCompetencyObjectiveReference"/>
     <jb:value property="diagnosticStatement" data="StudentCompetency/DiagnosticStatement" />
     <jb:value property="studentId" data="StudentCompetency/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentCompetency/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
@@ -3781,14 +3782,12 @@
     <jb:value property="description" data="StudentCompetency/CompetencyLevel/Description" />
   </jb:bean>
 
-  <jb:bean beanId="StudentCompetency_StudentCompetencyObjectiveReference" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentCompetency">
-    <jb:wiring property="StudentCompetencyObjectiveIdentity" beanIdRef="StudentCompetency_StudentCompetencyObjectiveIdentity" />
+  <jb:bean beanId="StudentCompetency_Attributes_StudentCompetencyObjectiveReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference">
+    <jb:wiring beanIdRef="StudentCompetency_Attributes_StudentCompetencyObjectiveReferenceType_StudentCompetencyObjectiveIdentityType" property="StudentCompetencyObjectiveIdentity"/>
   </jb:bean>
-
-  <jb:bean beanId="StudentCompetency_StudentCompetencyObjectiveIdentity" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentCompetency">
-    <jb:value property="StudentCompetencyObjectiveId" data="StudentCompetencyObjectiveReference/StudentCompetencyObjectiveIdentity/StudentCompetencyObjectiveId" />
+  <jb:bean beanId="StudentCompetency_Attributes_StudentCompetencyObjectiveReferenceType_StudentCompetencyObjectiveIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference/StudentCompetencyObjectiveIdentity">
+    <jb:value data="StudentCompetency/StudentCompetencyObjectiveReference/StudentCompetencyObjectiveIdentity/StudentCompetencyObjectiveId" property="StudentCompetencyObjectiveId"/>
+    <jb:value data="StudentCompetency/StudentCompetencyObjectiveReference/StudentCompetencyObjectiveIdentity/Objective" property="Objective"/>
   </jb:bean>
 
   <jb:bean beanId="StudentCompetency_LearningObjectiveReference" class="java.util.HashMap"

@@ -30,7 +30,7 @@
             }
         },
         {
-            "fieldPath" : "body.objectiveId.studentCompetencyObjectiveId",
+            "fieldPath" : "body.StudentCompetencyObjectiveReference",
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",
@@ -42,7 +42,7 @@
                             "path" : "body.studentCompetencyObjectiveId",
                             "values" :
                             [{
-                                "valueSource" : "body.objectiveId.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+                                "valueSource" : "body.StudentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
                         }
                     ]
