@@ -1,17 +1,21 @@
 <GradeIdentity>
     <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
-            <StudentIdentity>
-                <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
-            </StudentIdentity>
-            <SectionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
-            </SectionIdentity>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <GradingPeriodReference>

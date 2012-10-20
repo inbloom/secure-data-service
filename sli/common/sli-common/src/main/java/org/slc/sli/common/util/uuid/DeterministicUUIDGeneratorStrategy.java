@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,15 +71,19 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
 
         // Concatenate values together into one string
         StringBuffer keyValues = new StringBuffer();
-        keyValues.append(escapeDelimiters(naturalKeyDescriptor.getEntityType())).append(DELIMITER);
-        keyValues.append(escapeDelimiters(naturalKeyDescriptor.getTenantId())).append(DELIMITER);
+        keyValues.append("entityType:").append(escapeDelimiters(naturalKeyDescriptor.getEntityType())).append(DELIMITER);
+        keyValues.append("tenantId:").append(escapeDelimiters(naturalKeyDescriptor.getTenantId())).append(DELIMITER);
+        int i = 0;
         for (String key : keyList) {
-            keyValues.append(escapeDelimiters(naturalKeys.get(key))).append(DELIMITER);
+            keyValues.append("key"+i+":").append(escapeDelimiters(naturalKeys.get(key))).append(DELIMITER);
+            i++;
         }
         // Digest keyValue string into hash
-        String hexHash = DigestUtils.shaHex(keyValues.toString().getBytes());
+        String hexHash = keyValues.toString();//DigestUtils.shaHex(keyValues.toString().getBytes());
         if (naturalKeyDescriptor.getParentId() != null) {
-            hexHash = naturalKeyDescriptor.getParentId() + hexHash;
+            hexHash = "[" + naturalKeyDescriptor.getParentId() + "]" + hexHash;
+        } else {
+            hexHash = "blah" + hexHash;
         }
         return hexHash + "_id";
     }

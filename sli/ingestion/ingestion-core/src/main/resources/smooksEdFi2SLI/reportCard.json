@@ -3,6 +3,7 @@
     "references":[
         {
             "fieldPath":"body.grades",
+            "deprecated" : true,
             "ref":{
                 "entityType":"grade",
                 "isRefList":true,
