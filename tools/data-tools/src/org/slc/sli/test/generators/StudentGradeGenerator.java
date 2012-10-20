@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.generators;
 
 import java.math.BigDecimal;
@@ -60,6 +59,7 @@ import org.slc.sli.test.edfi.entities.ReportCard;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
+import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.StudentGradebookEntry;
@@ -77,7 +77,7 @@ public class StudentGradeGenerator {
     private static final int MAX_DAYS_ATTENDANCE = 100;
     private static final int MAX_DAYS_TARDY = 20;
 
-    private static final String[] GRADES = {"A", "B", "C", "D", "E", "F"};
+    private static final String[] GRADES = { "A", "B", "C", "D", "E", "F" };
 
     static {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -174,7 +174,7 @@ public class StudentGradeGenerator {
 
     public static Grade getGrade(StudentSectionAssociationReferenceType ssaRef,
             GradingPeriodReferenceType gradingPeriodRef) {
-        
+
         Grade grade = new Grade();
         grade.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
         grade.setNumericGradeEarned(new BigInteger("3"));
@@ -193,9 +193,9 @@ public class StudentGradeGenerator {
         StudentCompetency studentCompetancy = new StudentCompetency();
         CompetencyLevelDescriptorType cl = new CompetencyLevelDescriptorType();
         studentCompetancy.setCompetencyLevel(cl);
-//        cl.getCodeValueOrDescription()
-//                .add(objectFactory
-//                        .createCompetencyLevelDescriptorTypeCodeValue("Competency Level Descriptor Type Code or Value"));
+        // cl.getCodeValueOrDescription()
+        // .add(objectFactory
+        // .createCompetencyLevelDescriptorTypeCodeValue("Competency Level Descriptor Type Code or Value"));
         cl.setCodeValue("Competency Level Descriptor Code Value");
         cl.setDescription("Competency Level Description");
         studentCompetancy.setDiagnosticStatement("DiagnosticStatement for Student Competancy");
@@ -233,8 +233,8 @@ public class StudentGradeGenerator {
         return diploma;
     }
 
-    public static CourseTranscript getCourseTranscript(CourseReferenceType courseRef, ReferenceType academicRecordRef,
-            EducationalOrgReferenceType school) {
+    public static CourseTranscript getCourseTranscript(CourseReferenceType courseRef,
+            StudentAcademicRecordReferenceType academicRecordRef, EducationalOrgReferenceType school) {
         CourseTranscript courseTranscript = new CourseTranscript();
         courseTranscript.setCourseAttemptResult(CourseAttemptResultType.PASS);
 
@@ -290,7 +290,7 @@ public class StudentGradeGenerator {
         gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
         period.setGradingPeriodIdentity(gpit);
 
-        //period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+        // period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
 
         period.setTotalInstructionalDays(92);
         return period;
@@ -302,7 +302,7 @@ public class StudentGradeGenerator {
         GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
         identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
-        //identity.setStateOrganizationId(edOrg);
+        // identity.setStateOrganizationId(edOrg);
         ref.setGradingPeriodIdentity(identity);
         return ref;
     }
