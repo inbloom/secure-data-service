@@ -2256,14 +2256,13 @@ Second grade
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- Make choice required -->
 	<xs:complexType name="TEMPORARY-CompetencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice>
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
@@ -2284,7 +2283,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice>
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
