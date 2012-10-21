@@ -26,7 +26,7 @@
     <jb:bean beanId="reportCardBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="studentId" data="attributes studentId" />
         <jb:wiring property="studentCompetencyId" beanIdRef="reportCard_studentCompetencyIdArray" />
-        <jb:value property="gradingPeriodId" data="attributes gradingPeriodId" />
+        <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
         <jb:value property="gpaGivenGradingPeriod" data="attributes gpaGivenGradingPeriod" decoder="Double" />
         <jb:value property="gpaCumulative" data="attributes gpaCumulative" decoder="Double" />
         <jb:value property="numberOfDaysAbsent" data="attributes numberOfDaysAbsent" decoder="Integer" />
