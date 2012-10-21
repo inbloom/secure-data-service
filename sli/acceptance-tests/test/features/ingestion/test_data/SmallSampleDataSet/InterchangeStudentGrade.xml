@@ -18428,6 +18428,7 @@
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<GradingPeriod>End of Year</GradingPeriod>
+				<BeginDate>2010-08-23</BeginDate>
 				<SchoolYear>2010-2011</SchoolYear>
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</GradingPeriodIdentity>
@@ -19400,6 +19401,7 @@
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<GradingPeriod>End of Year</GradingPeriod>
+				<BeginDate>2010-10-04</BeginDate>
 				<SchoolYear>2010-2011</SchoolYear>
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</GradingPeriodIdentity>

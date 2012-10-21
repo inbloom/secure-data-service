@@ -3,17 +3,17 @@
         <StudentSectionAssociationIdentity>
             <StudentReference>
                 <StudentIdentity>
-                    <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
+                    <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
             <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
-                            <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+                            <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
                         </EducationalOrgIdentity>
                     </EducationalOrgReference>
-                    <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
+                    <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
                 </SectionIdentity>
             </SectionReference>
         </StudentSectionAssociationIdentity>

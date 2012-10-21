@@ -1235,7 +1235,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                         </xs:simpleType>
                     </xs:element>
                     <xs:element name="StudentReference" type="StudentReferenceType"/>
-                    <xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType"/>
+                    <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
