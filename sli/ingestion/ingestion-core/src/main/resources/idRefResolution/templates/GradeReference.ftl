@@ -21,6 +21,7 @@
     <GradingPeriodReference>
         <GradingPeriodIdentity>
             <GradingPeriod>${Grade.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod}</GradingPeriod>
+            <BeginDate>${Grade.GradingPeriodReference.GradingPeriodIdentity.BeginDate}</BeginDate>
             <SchoolYear>${Grade.GradingPeriodReference.GradingPeriodIdentity.SchoolYear}</SchoolYear>
              <StateOrganizationId>${Grade.GradingPeriodReference.GradingPeriodIdentity.StateOrganizationId}</StateOrganizationId>
         </GradingPeriodIdentity>
