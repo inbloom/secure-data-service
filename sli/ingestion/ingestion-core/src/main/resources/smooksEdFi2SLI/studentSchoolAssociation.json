@@ -42,7 +42,7 @@
         }
     },
     {
-        "fieldPath" : "body.graduationPlanId",
+        "fieldPath" : "body.GraduationPlanReference",
         "deprecated" : true,
         "ref" :
         {
@@ -55,7 +55,29 @@
                         "path" : "body.graduationPlanType",
                         "values" :
                         [{
-                            "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.GraduationPlanIdentity"
+                            "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.GraduationPlanType"
+                        }]
+                    },
+                    {
+                        "path" : "body.educationOrganizationId",
+                        "values" :
+                        [{
+                            "ref" :
+                            {
+                                "entityType" : "school",
+                                "choiceOfFields" :
+                                [[
+                                    {
+                                        "path" : "body.stateOrganizationId",
+                                        "values" :
+                                        [
+                                            {
+                                                "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                            }
+                                        ]
+                                    }
+                                ]]
+                            }
                         }]
                     }
                 ]
