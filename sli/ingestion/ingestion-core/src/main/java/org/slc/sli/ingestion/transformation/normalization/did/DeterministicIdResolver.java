@@ -80,9 +80,7 @@ public class DeterministicIdResolver {
             // TODO: remove IdNormalizerFlag
             return;
         }
-        if (entity.getType().equals("reportCard")) {
-            System.out.println(entity.getType());
-        }
+
         DidEntityConfig entityConfig = getEntityConfig(entity.getType());
 
         if (entityConfig == null) {
