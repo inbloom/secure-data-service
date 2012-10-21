@@ -39,8 +39,8 @@
   </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveId" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="learningObjectiveId" data="attributes objectiveId learningObjectiveId"/>
-        <jb:value property="objective" data="attributes objectiveId objective"/>
+        <jb:value property="learningObjectiveId" data="attributes LearningObjectiveReference"/>
+        <!-- <jb:value property="objective" data="attributes objectiveId objective"/> -->
         <jb:value property="studentCompetencyObjectiveId" data="attributes StudentCompetencyObjectiveReference"/>
     </jb:bean>
 

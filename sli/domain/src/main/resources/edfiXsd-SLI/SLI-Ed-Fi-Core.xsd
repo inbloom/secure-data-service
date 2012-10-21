@@ -216,7 +216,7 @@ Met standard
     </xs:complexContent>
   </xs:complexType>
 
-   <!--Make StudentSectionAssociationReference required, retype StudentCompetencyObjectiveReference, StudentSectionAssociationReference -->
+   <!--Make StudentSectionAssociationReference required, retype LearningObjectiveReference, StudentCompetencyObjectiveReference, StudentSectionAssociationReference -->
 	<xs:complexType name="SLC-StudentCompetency">
 		<xs:annotation>
 			<xs:documentation>This entity represents the competency assessed or evaluated for the student against a specific Learning Objective.</xs:documentation>
@@ -225,7 +225,7 @@ Met standard
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:choice>
-						<xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType">
+						<xs:element name="LearningObjectiveReference" type="TEMPORARY-LearningObjectiveReferenceType">
 							<xs:annotation>
 								<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
 							</xs:annotation>
@@ -1757,8 +1757,7 @@ Withdrawn
         </xs:annotation>
         <xs:sequence>
 			<xs:choice>
-				<xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType">
-				<!-- TODO <xs:element name="LearningObjectiveReference" type="TEMPORARY-LearningObjectiveReferenceType"> -->
+				<xs:element name="LearningObjectiveReference" type="TEMPORARY-LearningObjectiveReferenceType">
 					<xs:annotation>
 						<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
 					</xs:annotation>
