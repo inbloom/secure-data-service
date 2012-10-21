@@ -3766,15 +3766,23 @@
         <jb:wiring property="grades" beanIdRef="reportCard_gradesArray" />
         <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradeReferenceTypeArray" property="GradeReference"/>
     </jb:bean>
+    
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference">
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType" property="GradingPeriodIdentity"/>
   </jb:bean>
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference/GradingPeriodIdentity">
-    <jb:value data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" property="StateOrganizationId"/>
+    <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
     <jb:value data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/BeginDate" property="BeginDate"/>
     <jb:value data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" property="GradingPeriod"/>
     <jb:value data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/SchoolYear" property="SchoolYear"/>
   </jb:bean>
+  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradingPeriodReferenceType_SLC-GradingPeriodIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
+  </jb:bean>
+   
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradeReferenceTypeArray" class="java.util.ArrayList" createOnElement="ReportCard">
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradeReferenceType"/>
   </jb:bean>

@@ -1301,7 +1301,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="StateOrganizationId" type="IdentificationCode">
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
                 <xs:annotation>
                     <xs:appinfo>
                         <sli:keyFieldName>schoolId</sli:keyFieldName>
@@ -1326,9 +1326,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:element name="SchoolYear" type="SchoolYearType">
                 <xs:annotation>
                     <xs:documentation>The identifier for the school year.</xs:documentation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>schoolYear</sli:keyFieldName>
-                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
