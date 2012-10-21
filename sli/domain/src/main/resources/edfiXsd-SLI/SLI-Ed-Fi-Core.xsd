@@ -236,7 +236,7 @@ Met standard
 							</xs:annotation>
 						</xs:element>
 					</xs:choice>
-					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType">
+					<xs:element name="CompetencyLevel" type="TEMPORARY-CompetencyLevelDescriptorType">
 						<xs:annotation>
 							<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
 						</xs:annotation>
@@ -1735,6 +1735,39 @@ Withdrawn
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="TEMPORARY2-StudentSectionAssociationReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="StudentSectionAssociationIdentity" type="TEMPORARY2-StudentSectionAssociationIdentityType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing student-section association record in the receiving system</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TEMPORARY2-StudentSectionAssociationIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the student-section association - a composite of the student reference type and the section reference type.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentIdentity" type="TEMPORARY-StudentReferenceType">
+				<xs:annotation>
+					<xs:documentation>The attributes that can be used to specify the student.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SectionIdentity" type="TEMPORARY-SectionReferenceType">
+				<xs:annotation>
+					<xs:documentation>The attributes used to specifiy a section</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
     <xs:complexType name="TEMPORARY-StudentCompetencyReferenceType">
         <xs:annotation>
             <xs:documentation/>
@@ -1768,14 +1801,12 @@ Withdrawn
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType">
+			<xs:element name="CompetencyLevel" type="TEMPORARY-CompetencyLevelDescriptorType">
 				<xs:annotation>
 					<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="StudentSectionAssociationReference" type="StudentSectionAssociationReferenceType">
-            <!-- TODO <xs:element name="StudentSectionAssociationReference" type="TEMPORARY-StudentSectionAssociationReferenceType"> -->
-            <!--  TODO: this mapping skips over the internal references straight to the identities, so it's not really correct -->
+            <xs:element name="StudentSectionAssociationReference" type="TEMPORARY2-StudentSectionAssociationReferenceType">
                 <xs:annotation>
                     <xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
                 </xs:annotation>
@@ -1825,7 +1856,7 @@ Withdrawn
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType">
+			<xs:element name="CompetencyLevel" type="SLC-CompetencyLevelDescriptorType">
 				<xs:annotation>
 					<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
                     <xs:appinfo>
@@ -2223,6 +2254,53 @@ Second grade
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Make choice required -->
+	<xs:complexType name="TEMPORARY-CompetencyLevelDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:choice>
+					<xs:element name="CodeValue" type="CodeValue">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="Description">
+						<xs:annotation>
+							<xs:documentation>The description of the competency level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-CompetencyLevelDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:choice>
+					<xs:element name="CodeValue" type="CodeValue">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+							<xs:appinfo>
+								<sli:keyFieldName>codeValue</sli:keyFieldName>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Description" type="Description">
+						<xs:annotation>
+							<xs:documentation>The description of the competency level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 </xs:schema>
