@@ -331,6 +331,7 @@ public class DeterministicIdResolverTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
         naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
+        naturalKeys.put("schoolId", "");
         String tenantId = TENANT;
         NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);
         Mockito.when(didGenerator.generateId(Mockito.eq(sessionNKD))).thenReturn("sessionDID");
