@@ -46,10 +46,9 @@
 //
 
 
-db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"body.authId":1,"body.authType":1});
+db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});
 
-db["customRole"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
+db["customRole"].ensureIndex({"body.realmId":1});
 
 
 //custom entities
@@ -84,6 +83,7 @@ db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
 db["gradebookEntry"].ensureIndex({"body.sectionId":1});
 db["graduationPlan"].ensureIndex({"body.educationOrganizationId":1});
+db["graduationPlan"].ensureIndex({"body.graduationPlanType":1});
 db["learningObjective"].ensureIndex({"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"body.parentLearningObjective":1});
 db["reportCard"].ensureIndex({"body.grades":1});
@@ -188,19 +188,22 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 
 //profiled - ingestion
 db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
-db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calendarEvent":1});
-db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode":1});
-db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
-db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodIdentity.schoolYear":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningObjectiveId":1});
+db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
+db["course"].ensureIndex({"body.courseCode.ID":1});
+db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
+db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
+db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode":1});
+db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId":1});
+db["learningObjective"].ensureIndex({"body.objective":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId.identificationCode":1});
 db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
-db["parent"].ensureIndex({"metaData.tenantId":1,"body.parentUniqueStateId":1});
+db["parent"].ensureIndex({"body.parentUniqueStateId":1});
 db["program"].ensureIndex({"body.programId":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1});
+db["section"].ensureIndex({"body.uniqueSectionCode":1});
+db["session"].ensureIndex({"body.sessionName":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyObjectiveId":1});
+db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId":1});
 
 
 //oprhan detection - this should be removed when done in API
@@ -215,47 +218,3 @@ db["gradingPeriod"].ensureIndex({"body.beginDate":1,"metaData.edOrgs":1});
 db["staff"].ensureIndex({"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"type":1});
 
-
-//index on tenantId - these should be removed ASAP
-// commented are redundant on indexes above
-db["assessment"].ensureIndex({"metaData.tenantId":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1});
-// db["calendarDate"].ensureIndex({"metaData.tenantId":1});
-db["cohort"].ensureIndex({"metaData.tenantId":1});
-db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1});
-// db["course"].ensureIndex({"metaData.tenantId":1});
-db["courseOffering"].ensureIndex({"metaData.tenantId":1});
-db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1});
-// db["disciplineIncident"].ensureIndex({"metaData.tenantId":1});
-// db["educationOrganization"].ensureIndex({"metaData.tenantId":1});
-db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1});
-db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["grade"].ensureIndex({"metaData.tenantId":1});
-db["gradebookEntry"].ensureIndex({"metaData.tenantId":1});
-// db["gradingPeriod"].ensureIndex({"metaData.tenantId":1});
-db["graduationPlan"].ensureIndex({"metaData.tenantId":1});
-// db["learningObjective"].ensureIndex({"metaData.tenantId":1});
-db["learningStandard"].ensureIndex({"metaData.tenantId":1});
-// db["parent"].ensureIndex({"metaData.tenantId":1});
-db["program"].ensureIndex({"metaData.tenantId":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1});
-// db["section"].ensureIndex({"metaData.tenantId":1});
-// db["session"].ensureIndex({"metaData.tenantId":1});
-db["staff"].ensureIndex({"metaData.tenantId":1});
-db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1});
-db["student"].ensureIndex({"metaData.tenantId":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1});
-db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentCompetency"].ensureIndex({"metaData.tenantId":1});
-// db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1});
-db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1});
