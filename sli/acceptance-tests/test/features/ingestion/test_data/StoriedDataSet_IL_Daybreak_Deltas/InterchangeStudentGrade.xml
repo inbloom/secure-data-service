@@ -52,6 +52,9 @@
 			</GradebookEntryIdentity>
 		</GradebookEntryReference>
 	</StudentGradebookEntry>
+	
+	<!--
+	There is no appopriate studentCompetency field to update that is not a key field
  	<StudentCompetency id="SC-GR3-800000025-1">
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
@@ -79,6 +82,7 @@
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
 	</StudentCompetency>
+	-->
 	<Grade id="GR-GR3-800000025-1">
 		<LetterGradeEarned>U</LetterGradeEarned>
 		<GradeType>Mid-Term Grade</GradeType>

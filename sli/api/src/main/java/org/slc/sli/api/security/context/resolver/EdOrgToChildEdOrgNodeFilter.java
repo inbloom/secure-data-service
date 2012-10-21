@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,16 +27,15 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 
 /**
  *
@@ -51,7 +50,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
     private CallingApplicationInfoProvider clientInfo;
 
     @Autowired
-    
     private PagingRepositoryDelegate<Entity> repo;
 
     @Override
@@ -98,29 +96,91 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         }
         return myEdOrgsIds;
     }
-    
-    public Set<String> fetchParents(Set<String> ids) {
-        Set<String> returned = new HashSet<String>(ids);
-        String toResolve = "";
-        for (String id : ids) {
-            if (repo.exists(EntityNames.EDUCATION_ORGANIZATION, id)) {
-                debug("We found a valid ED-ORG id {}", id);
-                toResolve = id;
-            }
-        }
-        while (toResolve.length() > 0) {
-            Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, toResolve);
+
+    /**
+     * Fetches the education organization lineage for the specified education organization id. Use
+     * sparingly, as this will recurse up the education organization hierarchy.
+     *
+     * @param id
+     *            Education Organization for which the lineage must be assembled.
+     * @return Set of parent education organization ids.
+     */
+    public Set<String> fetchLineage(String id) {
+        Set<String> parents = new HashSet<String>();
+        Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+        if (edOrg != null) {
+            parents.add(id);
             Map<String, Object> body = edOrg.getBody();
             if (body.containsKey(REFERENCE)) {
-                toResolve = (String) body.get(REFERENCE);
-            } else {
-                toResolve = "";
+                String myParent = (String) body.get(REFERENCE);
+                parents.addAll(fetchLineage(myParent));
             }
-            debug("Adding a parent Ed-Org {}", (String) edOrg.getEntityId());
-            returned.add(edOrg.getEntityId());
+        }
+        return parents;
+    }
+
+    /**
+     * Fetches parents for a list of education organization ids. For each id in the input set, there
+     * will be a corresponding map entry returned with a set of parent education organizations ids
+     * (preserves lineage of education organizations back to SEA).
+     *
+     * @param ids
+     *            Set of education organization ids to perform lineage lookup on.
+     * @return HashMap containing entries of the form: { education organization id --> set of parent
+     *         education organization ids }
+     */
+    public Map<String, Set<String>> fetchParents(Set<String> ids) {
+        Map<String, Set<String>> parents = new HashMap<String, Set<String>>();
+        for (String id : ids) {
+            parents.put(id, new HashSet<String>());
         }
 
-        return returned;
+        for (String edOrgId : parents.keySet()) {
+            Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
+            if (edOrg != null) {
+                Map<String, Object> body = edOrg.getBody();
+                if (body.containsKey(REFERENCE)) {
+                    String myParent = (String) body.get(REFERENCE);
+                    parents.get(edOrgId).add(myParent);
+                    parents.get(edOrgId).addAll(fetchLineage(myParent));
+                }
+            }
+        }
+        return parents;
+    }
+
+    /**
+     * Returns a list of education organization ids (corresponding to Local Education Agencies, or
+     * Districts) that have been authorized to use the application.
+     *
+     * @return List of Education Organization ids.
+     */
+    public List<String> getWhitelist() {
+        List<String> whitelist = new LinkedList<String>();
+        String clientId = clientInfo.getClientId();
+
+        if (clientId == null) {
+            return whitelist;
+        }
+
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
+        Entity appEntity = repo.findOne("application", nq);
+
+        // No application found with this client ID
+        if (appEntity == null) {
+            return whitelist;
+        }
+
+        String appId = appEntity.getEntityId();
+        NeutralQuery nq2 = new NeutralQuery();
+        nq2.addCriteria(new NeutralCriteria("appIds", "=", appId));
+        Iterable<Entity> entities = repo.findAll("applicationAuthorization", nq2);
+
+        for (Entity entity : entities) {
+            whitelist.add((String) entity.getBody().get("authId"));
+        }
+
+        return whitelist;
     }
 
     public Set<String> getBlacklist() {
@@ -144,10 +204,11 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
 
         for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
             Entity appAuth = i.next();
+            @SuppressWarnings("unchecked")
             List<String> appIdArray = (List<String>) appAuth.getBody().get("appIds");
             if (!appIdArray.contains(appId)) {
-                NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
-                        NeutralCriteria.OPERATOR_EQUAL, appAuth.getBody().get("authId"), false));
+                NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL,
+                        appAuth.getBody().get("authId"), false));
                 Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
                 if (edorgEntity != null) {
                     blacklist.add(edorgEntity.getEntityId());

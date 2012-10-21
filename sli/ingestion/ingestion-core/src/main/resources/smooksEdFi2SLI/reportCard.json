@@ -144,40 +144,143 @@
             }
         },
         {
-            "fieldPath":"body.studentCompetencyReference",
+            "fieldPath":"body.StudentCompetencyReference",
             "ref":{
                 "entityType":"studentCompetency",
                 "isRefList":true,
-                "refObjectPath":"body.studentCompetencyReference",
-                "choiceOfFields":[
+                "refObjectPath":"body.StudentCompetencyReference",
+            	"optional" : true,
+                "choiceOfFields":
+				[
                     [
-                        {
-                            "path":"metaData.externalId",
-                            "values":[
-                                {
-                                    "valueSource":"body.studentCompetencyReference.studentCompetencyId"
-                                }
-                            ]
-                        },
-                        {
-                            "path":"metaData.studentUniqueStateId",
-                            "values":[
-                                {
-                                    "valueSource":"body.studentCompetencyReference.studentId"
-                                }
-                            ]
-                        },
-                        {
-                            "path":"metaData.uniqueSectionCode",
-                            "values":[
-                                {
-                                    "valueSource":"body.studentCompetencyReference.sectionId"
-                                }
-                            ]
-                        }
-                    ]
-                ]
-            }
-        }
-    ]
+						{
+							"path" : "body.learningObjectiveId",
+							"values" :
+							[{
+					            "ref" :
+					            {
+					                "entityType" : "learningObjective",
+					                "optional" : true,
+					                "choiceOfFields" :
+					                [
+					                    [
+					                       {
+					                            "path" : "body.objective",
+					                            "values" :
+					                            [{
+					                                "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.LearningObjectiveReference.LearningObjectiveIdentity.Objective"
+					                            }]
+					                        },
+					                       {
+					                            "path" : "body.academicSubject",
+					                            "values" :
+					                            [{
+					                                "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject"
+					                            }]
+					                        },
+					                       {
+					                            "path" : "body.objectiveGradeLevel",
+					                            "values" :
+					                            [{
+					                                "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel"
+					                            }]
+					                        }
+					                    ]
+					                ]
+					            }
+							}]
+						},
+						{
+							"path" : "body.studentCompetencyObjectiveId",
+							"values" :
+							[{
+					            "ref" :
+					            {
+					                "entityType" : "studentCompetencyObjective",
+					                "optional" : true,
+					                "choiceOfFields" :
+					                [
+					                    [
+					                        {
+					                            "path" : "body.studentCompetencyObjectiveId",
+					                            "values" :
+					                            [{
+					                                "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.StudentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+					                            }]
+					                        }
+					                    ]
+					                ]
+					            }
+							}]
+						},
+						{
+							"path" : "body.competencyLevel.codeValue",
+							"values" :
+							[{
+								"valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.CompetencyLevel.CodeValue"
+							}]
+						},
+						{
+				            "path" : "body.studentSectionAssociationId",
+							"values" :
+							[{
+					            "ref" :
+					            {
+					                "entityType" : "studentSectionAssociation",
+					                "takesContext" : ["edOrgs"],
+					                "choiceOfFields" :
+					                [
+					                    [
+					                        {
+					                            "path" : "body.studentId",
+					                            "values" :
+					                            [{
+					                                 "ref":
+					                                 {
+					                                     "entityType" : "student",
+					                                     "choiceOfFields" :
+					                                      [
+					                                          [
+					                                              {
+					                                                  "path" : "body.studentUniqueStateId",
+					                                                  "values" :
+					                                                   [{
+					                                                         "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference.StudentIdentity.StudentUniqueStateId"
+					                                                   }]
+					                                              }
+					                                          ]
+					                                      ]
+					                                 }
+					                            }]
+					                        },
+					                        {
+					                            "path" : "body.sectionId",
+					                            "values" :
+					                             [{
+					                                 "ref":
+					                                 {
+					                                     "entityType" : "section",
+					                                     "choiceOfFields" :
+					                                      [
+					                                          [{
+					                                              "path" : "body.uniqueSectionCode",
+					                                              "values" :
+					                                               [{
+					                                                   "valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
+					                                               }]
+					                                          }]
+					                                      ]
+					                                 }
+					                             }]
+					                        }
+					                    ]
+					                ]
+					            }
+							}]
+						}
+                	]
+				]
+        	}
+    	}
+	]
 }

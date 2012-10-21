@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.transformation;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
@@ -108,5 +110,10 @@ public class SimpleEntity implements Entity {
     @Override
     public CalculatedData<Map<String, Integer>> getAggregates() {
         return new CalculatedData<Map<String, Integer>>();
+    }
+
+    @Override
+    public Map<String,List<Entity>> getEmbeddedData() {
+        return new HashMap<String, List<Entity>>();
     }
 }

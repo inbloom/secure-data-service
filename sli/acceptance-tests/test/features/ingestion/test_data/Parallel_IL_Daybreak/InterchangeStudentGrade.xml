@@ -17770,9 +17770,9 @@
     <StudentCompetency id="SC-GR3-800000025-1">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-1</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Fluency and Expression</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17797,9 +17797,9 @@
     <StudentCompetency id="SC-GR3-800000025-2">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-2</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Story Grammar</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17824,9 +17824,9 @@
     <StudentCompetency id="SC-GR3-800000025-3">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-3</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Informational Text</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17851,9 +17851,9 @@
     <StudentCompetency id="SC-GR3-800000025-4">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-4</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Comprehension</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17878,9 +17878,9 @@
     <StudentCompetency id="SC-GR3-800000025-5">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-5</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Expository Writing</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17905,9 +17905,9 @@
     <StudentCompetency id="SC-GR3-800000025-6">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-6</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Narrative Writing</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17932,9 +17932,9 @@
     <StudentCompetency id="SC-GR3-800000025-7">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-7</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Spelling</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17959,9 +17959,9 @@
     <StudentCompetency id="SC-GR3-800000025-8">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-8</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Punctuation</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -17986,9 +17986,9 @@
     <StudentCompetency id="SC-GR3-800000025-9">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-9</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Grammar and Usage</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18013,9 +18013,9 @@
     <StudentCompetency id="SC-GR3-800000025-10">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-10</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Fractions</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18040,9 +18040,9 @@
     <StudentCompetency id="SC-GR3-800000025-11">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-11</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>2 x 2 Multiplication</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18067,9 +18067,9 @@
     <StudentCompetency id="SC-GR3-800000025-12">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-12</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Weights and Measures</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18094,9 +18094,9 @@
     <StudentCompetency id="SC-GR3-800000025-13">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-13</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Place Value</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18121,9 +18121,9 @@
     <StudentCompetency id="SC-GR3-800000025-14">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-14</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Addition (Sums to 100)</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18148,9 +18148,9 @@
     <StudentCompetency id="SC-GR3-800000025-15">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-15</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Subtraction (Differences to 50)</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18175,9 +18175,9 @@
     <StudentCompetency id="SC-GR3-800000025-16">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-16</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>The Revolutionary Period</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18202,9 +18202,9 @@
     <StudentCompetency id="SC-GR3-800000025-17">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-17</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>U.S. Geography</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18229,9 +18229,9 @@
     <StudentCompetency id="SC-GR3-800000025-18">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-18</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Polls and Surveys</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18256,9 +18256,9 @@
     <StudentCompetency id="SC-GR3-800000025-19">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-19</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Elections and Legislation</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18283,9 +18283,9 @@
     <StudentCompetency id="SC-GR3-800000025-20">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-20</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Gravity</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18310,9 +18310,9 @@
     <StudentCompetency id="SC-GR3-800000025-21">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-21</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Electro-Magnetism</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18337,9 +18337,9 @@
     <StudentCompetency id="SC-GR3-800000025-22">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-22</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Data Collection</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18364,9 +18364,9 @@
     <StudentCompetency id="SC-GR3-800000025-23">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-23</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Experimental Design</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18391,9 +18391,9 @@
     <StudentCompetency id="SC-GR3-800000025-24">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-24</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Soccer</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18418,9 +18418,9 @@
     <StudentCompetency id="SC-GR3-800000025-25">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-25</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Sportsmanship</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18445,9 +18445,9 @@
     <StudentCompetency id="SC-GR3-800000025-26">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-26</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Track and Field</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18472,9 +18472,9 @@
     <StudentCompetency id="SC-GR3-800000025-27">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-G3-27</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Archery</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18615,9 +18615,9 @@
     <StudentCompetency id="SC-100000017-1">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-1</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Phonemic Awareness</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18642,9 +18642,9 @@
     <StudentCompetency id="SC-100000017-2">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-2</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Phonics</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18669,9 +18669,9 @@
     <StudentCompetency id="SC-100000017-3">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-3</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Comprehension</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18696,9 +18696,9 @@
     <StudentCompetency id="SC-100000017-4">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-4</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Fluency</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18723,9 +18723,9 @@
     <StudentCompetency id="SC-100000017-5">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-5</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Content</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18750,9 +18750,9 @@
     <StudentCompetency id="SC-100000017-6">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-6</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Sentence Structure</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18777,9 +18777,9 @@
     <StudentCompetency id="SC-100000017-7">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-7</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Conventions</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18804,9 +18804,9 @@
     <StudentCompetency id="SC-100000017-8">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-8</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Handwriting</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18831,9 +18831,9 @@
     <StudentCompetency id="SC-100000017-9">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-9</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Computation</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18858,9 +18858,9 @@
     <StudentCompetency id="SC-100000017-10">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-10</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Geometry</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18885,9 +18885,9 @@
     <StudentCompetency id="SC-100000017-11">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-11</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Measurement</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18912,9 +18912,9 @@
     <StudentCompetency id="SC-100000017-12">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-12</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Statistics</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18939,9 +18939,9 @@
     <StudentCompetency id="SC-100000017-13">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-13</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>States of Matter</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18966,9 +18966,9 @@
     <StudentCompetency id="SC-100000017-14">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-14</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>The Water Cycle</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -18993,9 +18993,9 @@
     <StudentCompetency id="SC-100000017-15">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-15</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>The Universe</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19020,9 +19020,9 @@
     <StudentCompetency id="SC-100000017-16">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-16</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Scientific Method</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19047,9 +19047,9 @@
     <StudentCompetency id="SC-100000017-17">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-17</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Initial Sounds</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19074,9 +19074,9 @@
     <StudentCompetency id="SC-100000017-18">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-18</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Final Sounds</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19101,9 +19101,9 @@
     <StudentCompetency id="SC-100000017-19">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-19</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Digraphs</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19128,9 +19128,9 @@
     <StudentCompetency id="SC-100000017-20">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-20</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Summary</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19155,9 +19155,9 @@
     <StudentCompetency id="SC-100000017-21">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-21</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Handwriting</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19182,9 +19182,9 @@
     <StudentCompetency id="SC-100000017-22">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-22</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Spelling</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19209,9 +19209,9 @@
     <StudentCompetency id="SC-100000017-23">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-23</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Initial and Terminal Punctuation</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19236,9 +19236,9 @@
     <StudentCompetency id="SC-100000017-24">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-24</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Sentences in SVO Form</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19263,9 +19263,9 @@
     <StudentCompetency id="SC-100000017-25">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-25</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Counting: Up to 20 by 1s, 2s, and 5s</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19290,9 +19290,9 @@
     <StudentCompetency id="SC-100000017-26">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-26</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Addition: Sums 0 to 20</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19317,9 +19317,9 @@
     <StudentCompetency id="SC-100000017-27">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-27</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Subtraction: Differences 0 to 10</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19344,9 +19344,9 @@
     <StudentCompetency id="SC-100000017-28">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-28</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Spelling of numerals</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19371,9 +19371,9 @@
     <StudentCompetency id="SC-100000017-29">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-29</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Dinosaurs</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19398,9 +19398,9 @@
     <StudentCompetency id="SC-100000017-30">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-30</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>The Rainforest</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19425,9 +19425,9 @@
     <StudentCompetency id="SC-100000017-31">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-31</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>The Solar System</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>
@@ -19452,9 +19452,9 @@
     <StudentCompetency id="SC-100000017-32">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
-          <LearningObjectiveId>
-            <IdentificationCode>LO-GK-32</IdentificationCode>
-          </LearningObjectiveId>
+    <Objective>Hypothesis</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
       <CompetencyLevel>

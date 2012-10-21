@@ -15,7 +15,22 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -31,23 +46,11 @@ import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 import org.slc.sli.modeling.uml.ClassType;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Default implementation of the resource service.
@@ -266,7 +269,7 @@ public class DefaultResourceService implements ResourceService {
 
         if (isAssociation(base)) {
             final String key = "_id";
-            return getAssociatedEntities(base, id, resource, key, requestURI);
+            return getAssociatedEntities(base, base, id, resource, key, requestURI);
         }
 
         final String associationKey = getConnectionKey(base, resource);
@@ -289,7 +292,7 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
         final String associationKey = getConnectionKey(base, association);
-        return getAssociatedEntities(association, id, resource, associationKey, requestUri);
+        return getAssociatedEntities(base, association, id, resource, associationKey, requestUri);
     }
 
     private boolean isAssociation(Resource base) {
@@ -306,28 +309,49 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
-    private ServiceResponse getAssociatedEntities(final Resource association, final String id,
+    private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
                                                   final Resource resource, final String associationKey, final URI requestUri) {
+        List<String> valueList = Arrays.asList(id.split(","));
+        final List<String> filteredIdList = new ArrayList<String>();
+
         final EntityDefinition finalEntity = resourceHelper.getEntityDefinition(resource);
         final EntityDefinition assocEntity = resourceHelper.getEntityDefinition(association);
-
-        List<String> valueList = Arrays.asList(id.split(","));
-        final ApiQuery apiQuery = getApiQuery(assocEntity);
-        apiQuery.setLimit(0);
-        apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+        final EntityDefinition baseEntity = resourceHelper.getEntityDefinition(base);
 
         final String resourceKey = getConnectionKey(association, resource);
-        final List<String> filteredIdList = new ArrayList<String>();
         String key = "_id";
-        for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-            List<String> filteredIds = entityBody.getId(resourceKey);
-            if ((filteredIds == null) || (filteredIds.isEmpty())) {
-               key = resourceKey;
-               filteredIdList.addAll(valueList);
-               break;
-            } else {
-                for (String filteredId : filteredIds) {
-                    filteredIdList.add(filteredId);
+
+        String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
+        if ((parentType != null) && baseEntity.getType().equals(parentType)) {
+            final ApiQuery apiQuery = getApiQuery(baseEntity);
+            apiQuery.setLimit(0);
+            apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+
+            for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
+                @SuppressWarnings("unchecked")
+                List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
+
+                if (associations != null) {
+                    for (EntityBody associationEntity : associations) {
+                        filteredIdList.add((String) associationEntity.get(resourceKey));
+                    }
+                }
+            }
+        } else {
+            final ApiQuery apiQuery = getApiQuery(assocEntity);
+            apiQuery.setLimit(0);
+            apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+
+            for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
+                List<String> filteredIds = entityBody.getId(resourceKey);
+                if ((filteredIds == null) || (filteredIds.isEmpty())) {
+                   key = resourceKey;
+                   filteredIdList.addAll(valueList);
+                   break;
+                } else {
+                    for (String filteredId : filteredIds) {
+                        filteredIdList.add(filteredId);
+                    }
                 }
             }
         }

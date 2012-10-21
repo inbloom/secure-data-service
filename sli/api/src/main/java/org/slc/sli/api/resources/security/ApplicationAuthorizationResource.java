@@ -188,7 +188,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery query = new NeutralQuery();
                 query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrgId));
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, query);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
@@ -202,7 +201,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
-                finalQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());

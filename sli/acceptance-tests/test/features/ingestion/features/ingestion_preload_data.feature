@@ -2,7 +2,8 @@
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
 Scenario: Preload Small Sample Data Set
-  Given the following collections are empty in datastore:
+  Given I am using the tenant "TENANT-EDORG"
+  And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
      | attendance                                |
@@ -73,7 +74,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
-     | learningObjective                        |                197|
+     | learningObjective                        |                198|
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|

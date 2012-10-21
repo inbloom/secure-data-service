@@ -262,4 +262,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    protected Iterable<NeutralRecord> findAllAcrossTenants(String collectionName, Query mongoQuery) {
+        throw new UnsupportedOperationException();
+    }
 }

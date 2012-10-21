@@ -24,6 +24,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -36,6 +37,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
+import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -55,6 +57,8 @@ import org.springframework.data.mongodb.core.query.Query;
  * 
  */
 public class DeterministicIdResolverTest {
+
+    ObjectMapper MAPPER = new ObjectMapper();
 
     @InjectMocks
     DeterministicIdResolver didResolver;
@@ -316,33 +320,42 @@ public class DeterministicIdResolverTest {
 
     }
 
-    // @Test
-    // public void shouldResolveNestedDidWithOptionalNestedReference() throws IOException {
-    //
-    // DidRefConfig refConfig = createRefConfig("nested_DID_optional_ref_config.json");
-    // DidEntityConfig entityConfig = createEntityConfig("Simple_DID_entity_config.json");
-    // ErrorReport errorReport = new TestErrorReport();
-    // Entity entity = createOptionalNestedSourceEntity();
-    //
-    // Map<String, String> naturalKeys = new HashMap<String, String>();
-    // String entityType = ENTITY_TYPE;
-    // String tenantId = TENANT;
-    // NaturalKeyDescriptor ndk = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, null);
-    //
-    // mockRefConfig(refConfig, ENTITY_TYPE);
-    // mockEntityConfig(entityConfig, ENTITY_TYPE);
-    // Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
-    // Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
-    // System.out.println(entity.getBody());
-    // didResolver.resolveInternalIds(entity, TENANT, errorReport);
-    // System.out.println(entity.getBody());
-    //
-    // Object resolvedId = entity.getBody().get(REF_FIELD);
-    // Assert.assertEquals(DID_VALUE, resolvedId);
-    // Assert.assertFalse("no errors should be reported from reference resolution ",
-    // errorReport.hasErrors());
-    //
-    // }
+    @Test
+    public void shouldResolveNestedDidWithOptionalNestedReference() throws IOException {
+
+        Entity entity = createEntity("NeutralRecord_StudentTranscriptAssoc_missingOptionalEdOrg.json");
+        DidRefConfig refConfig = createRefConfig("StudentAcademicRecord_optional_ref_config.json");
+        DidEntityConfig entityConfig = createEntityConfig("StudentTranscriptAssoc_entity_config.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", "");
+        naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
+        naturalKeys.put("schoolId", "");
+        String tenantId = TENANT;
+        NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);
+        Mockito.when(didGenerator.generateId(Mockito.eq(sessionNKD))).thenReturn("sessionDID");
+
+        naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("sessionId", "sessionDID");
+        NaturalKeyDescriptor studentAcademicRecordNKD = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                "studentAcademicRecord", null);
+        Mockito.when(didGenerator.generateId(Mockito.eq(studentAcademicRecordNKD))).thenReturn(
+                "studentAcademicRecordDID");
+
+        mockRefConfig(refConfig, "studentAcademicRecord");
+        mockEntityConfig(entityConfig, "studentTranscriptAssociation");
+        Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
+
+        System.out.println(entity.getBody());
+        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        System.out.println(entity.getBody());
+
+        Object resolvedId = entity.getBody().get("StudentAcademicRecordReference");
+        Assert.assertEquals("studentAcademicRecordDID", resolvedId);
+        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+
+    }
 
     @Test
     public void testErrorReportingOnRefConfigEntityTypeEmpty() throws IOException {
@@ -465,6 +478,12 @@ public class DeterministicIdResolverTest {
         Resource jsonFile = new ClassPathResource("DeterministicIdResolverConfigs/" + fileName);
         DidRefConfig refConfig = DidRefConfig.parse(jsonFile.getInputStream());
         return refConfig;
+    }
+
+    private Entity createEntity(String fileName) throws IOException {
+        Resource jsonFile = new ClassPathResource("DeterministicIdResolverConfigs/" + fileName);
+        SimpleEntity entity = MAPPER.readValue(jsonFile.getInputStream(), SimpleEntity.class);
+        return entity;
     }
 
     /**

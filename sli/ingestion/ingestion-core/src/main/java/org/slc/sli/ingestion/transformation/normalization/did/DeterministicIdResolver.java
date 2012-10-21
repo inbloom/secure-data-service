@@ -23,15 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.domain.EmbedDocumentRelations;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -45,13 +37,20 @@ import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Resolver for deterministic id resolution.
- *
+ * 
  * @author jtully
  * @author vmcglaughlin
- *
+ * 
  */
 @Component
 public class DeterministicIdResolver {
@@ -121,8 +120,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
-            throws IdResolutionException {
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
+            String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -161,7 +160,7 @@ public class DeterministicIdResolver {
                 }
             }
             setProperty(entity, sourceRefPath, uuidList);
-        } else if(referenceObject instanceof Map){
+        } else if (referenceObject instanceof Map) {
             // handle a single reference object
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;
@@ -258,17 +257,24 @@ public class DeterministicIdResolver {
             if (keyFieldDef.getRefConfig() != null) {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
-                if (nestedRef == null) {// && keyFieldDef.isOptional() == false) {
-                    throw new IdResolutionException("No value found for required reference",
-                            keyFieldDef.getValueSource(), "");
-                }
-
-                if (nestedRef instanceof Map) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
-                    value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                if (nestedRef == null) {
+                    if (keyFieldDef.isOptional() == false) {
+                        throw new IdResolutionException("No value found for required reference",
+                                keyFieldDef.getValueSource(), "");
+                    } else {
+                        // since it's an optional field, replace it with "" in the natural key list
+                        value = "";
+                    }
+                    // otherwise, continue to end of loop with null 'value'
                 } else {
-                    throw new IdResolutionException("Non map value found from entity", keyFieldDef.getValueSource(), "");
+                    if (nestedRef instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
+                        value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                    } else {
+                        throw new IdResolutionException("Non-map value found from entity",
+                                keyFieldDef.getValueSource(), "");
+                    }
                 }
 
             } else {
@@ -277,7 +283,7 @@ public class DeterministicIdResolver {
 
             String fieldName = keyFieldDef.getKeyFieldName();
             // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null || value.isEmpty()) {
+            if (fieldName == null || fieldName.isEmpty() || value == null) {
                 continue;
             }
             naturalKeys.put(fieldName, value);
@@ -288,19 +294,16 @@ public class DeterministicIdResolver {
             return null;
         }
 
-        //TODO: need to verify this
+        // TODO: need to verify this
         String parentId = null;
         String entityType = didRefConfig.getEntityType();
-        if (EmbedDocumentRelations.getSubDocuments().contains(entityType)) {
-            String parentKey = EmbedDocumentRelations.getParentFieldReference(entityType);
+        if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
+            String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             parentId = naturalKeys.get(parentKey);
         }
 
-        if (parentId != null) {
-            LOG.warn("Non-null parentId for reference entity type: " + entityType);
-        }
-
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId, didRefConfig.getEntityType(), parentId);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                didRefConfig.getEntityType(), parentId);
         return uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
     }
 }

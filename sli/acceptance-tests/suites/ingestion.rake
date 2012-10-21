@@ -58,6 +58,12 @@ task :ingestionBatchJobTest do
   runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
 end
 
+
+desc "Run Ingestion Delta Tests"
+task :ingestionDeltaTest do
+  runTests("test/features/ingestion/features/ingestion_delta.feature")
+end
+
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
@@ -207,6 +213,11 @@ end
 desc "Ingestion Index Validation Test"
 task :IngestionIndexValidationTest do
   runTests("test/features/ingestion/features/ingestion_indexValidation.feature")
+end
+
+desc "Ingestion Jefferson County Onbarding Test"
+task :ingestionJeffCoOnboardingTest do
+  runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
 end
 
 ############################################################

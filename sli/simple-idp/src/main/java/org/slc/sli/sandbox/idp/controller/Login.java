@@ -194,6 +194,7 @@ public class Login {
             mav.addObject("SAMLRequest", encodedSamlRequest);
             mav.addObject("realm", incomingRealm);
             mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
+            mav.addObject("adminUrl", adminUrl);
             if (doImpersonation) {
                 mav.addObject("is_sandbox", true);
                 mav.addObject("impersonate_user", impersonateUser);

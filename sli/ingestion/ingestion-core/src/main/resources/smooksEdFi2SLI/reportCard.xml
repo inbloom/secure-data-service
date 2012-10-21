@@ -40,7 +40,7 @@
     </jb:bean>
 
     <jb:bean beanId="reportCard_studentCompetencyIdArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes studentCompetencyReference element" />
+        <jb:value data="attributes StudentCompetencyReference element" />
     </jb:bean>
 
 </smooks-resource-list>
