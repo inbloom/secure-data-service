@@ -54,26 +54,14 @@ class LandingZoneController < ApplicationController
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
+
+      if sample_data_select != nil && sample_data_select != ""
+        @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
+        @landingzone[:preload] = sample_data_select
+      else
+        @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
+      end
     end
-
-    # fork this out as an async process
-    asnyc_lz_provision = fork do
-      Rails.logger.info "calling lz provision in new thread"
-      provision_landing_zone(ed_org_id, tenant, uid, sample_data_select, @public_key)
-    end
-
-    Process.detach(asnyc_lz_provision)
-  end
-
-  def provision_landing_zone(ed_org_id, tenant, uid, sample_data_select, public_key)
-    if sample_data_select != nil && sample_data_select != ""
-      landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, public_key
-      landingzone[:preload] = sample_data_select
-    else
-      landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, public_key
-    end
-
-    Rails.logger.info "finished calling lz provision in new thread"
   end
 
   def index
