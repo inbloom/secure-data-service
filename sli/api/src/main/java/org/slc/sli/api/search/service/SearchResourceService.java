@@ -88,7 +88,7 @@ public class SearchResourceService {
         // return results
         return new ServiceResponse(entityBodies, entityBodies.size());
     }
-    
+
     /**
      * NeutralCriteria filter.  Keep NeutralCriteria only on the White List
      * @param apiQuery
@@ -145,30 +145,20 @@ public class SearchResourceService {
 
         // second, one of tokens must have at least 2 characters
         // third, total number of characters must be at least 3 characters
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         int totalCharacters = 0;
-        int maxCharacters = 0;
+        boolean tokenLengthCriteriaMet = false;
+        int length = 0;
         for (String token : tokens) {
-            if (totalCharacters > 0) {
-                sb.append(" ");
-            }
-            sb.append(token.toLowerCase());
-            int length = token.length();
+            sb.append(" ").append(token.toLowerCase()).append("*");
+            length = token.length();
             totalCharacters += length;
-            if (maxCharacters < length) {
-                maxCharacters = length;
-            }
-            // if query token is at least 3 characters, do partial match. else do exact match.
-            if (length >= 3) {
-                sb.append("*");
-            }
+            tokenLengthCriteriaMet = tokenLengthCriteriaMet || length >= 2;
         }
-        if (maxCharacters < 2) {
+        if (!tokenLengthCriteriaMet || totalCharacters < 3) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
-        if (totalCharacters < 3) {
-            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
-        }
-        criteria.setValue(sb.toString());
+        // first char will be space
+        criteria.setValue(sb.substring(1).toString());
     }
 }

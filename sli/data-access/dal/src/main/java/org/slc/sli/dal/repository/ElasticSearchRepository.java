@@ -286,17 +286,17 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public boolean update(String collection, Entity object) {
-        return false;  // To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("ElasticSearchRepository.update not implemented");
     }
 
     @Override
     public boolean delete(String collectionName, String id) {
-        return false;  // To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("ElasticSearchRepository.delete not implemented");
     }
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery query) {
-        // To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("ElasticSearchRepository.deleteAll not implemented");
     }
 
     @Override
@@ -321,12 +321,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public void setWriteConcern(String writeConcern) {
-        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -336,27 +334,23 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        // TODO Auto-generated method stub
-        return false;
+        throw new UnsupportedOperationException("ElasticSearchRepository.doUpdate not implemented");
     }
 
     @Override
     public boolean updateWithRetries(String collection, Entity object, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return false;
+        throw new UnsupportedOperationException("ElasticSearchRepository.updateWithRetries not implemented");
     }
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("ElasticSearchRepository.insert not implemented");
     }
 
     @Override
     public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("ElasticSearchRepository.createWithRetries not implemented");
     }
 
     @Override
@@ -366,8 +360,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("ElasticSearchRepository.updateMulti not implemented");
     }
 
     public static class EntityConverter {
