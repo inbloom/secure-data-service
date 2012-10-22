@@ -12,6 +12,12 @@ task :apiV1AssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/links/assoc_links.feature")
 end
 
+desc "Run API SuperDoc Tests"
+task :apiSuperDocTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/superdoc")
+end
+
 desc "Run API PATCH Tests"
 task :apiPatchTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
