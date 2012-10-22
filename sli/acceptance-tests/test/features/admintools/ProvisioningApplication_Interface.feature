@@ -4,7 +4,6 @@ Feature: Developer/Admin has an interface to create a High Level Ed-Org and link
 Background:
 Given LDAP and email server has been setup and running
 
-@wip
 Scenario: As a Admin I can define a High Level Ed-Org and Provision my Landing Zone
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser
@@ -15,7 +14,6 @@ And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login pa
 When I click the Provision button
 Then I get the success message
 
-@wip
 @sandbox
 Scenario: As a developer I can define a High Level Ed-Org and Provision my Landing Zone on sandbox
 Given there is a sandbox account in ldap for vendor "Macro Corp"
@@ -29,7 +27,6 @@ And I click the Provision button
 Then I get the success message
 Then I check to find if default roles were created for the tenant
 
-@wip
 Scenario: As a Admin I cannot provision my landing zone twice
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser

@@ -6,7 +6,7 @@ Given I have an open web browser
 #And I have a "mock" SMTP/Email server configured
 And I have a SMTP/Email server configured
 
-@wip
+
 @sandbox
 Scenario: Developer is on-boarded in a sandbox environment
 Given I go to the sandbox account registration page
@@ -43,7 +43,6 @@ And the sandbox db should have the following map of indexes in the corresponding
      | student                                    | body.studentUniqueStateId_1                                          |
      | teacherSchoolAssociation                   | body.schoolId_1                                                      |
 
-@wip
 @sandbox
 Scenario: Developer logs in after on-boarding on sandbox
 Given the user has an approved sandbox account
@@ -54,7 +53,6 @@ And the user is redirected to "<URL_TO_ADMIN_APP>"
 #When the user is successfully authenticated
 #Then the user can access "<DASHBOARD_APP>", "<DATABROWSER_APP>"
 
-@wip
 @sandbox
 Scenario: Developer is able to register applications on sandbox
 Given the user has an approved sandbox account
@@ -62,7 +60,6 @@ When the user clicks on "<URL_TO_APPLICATION_REGISTRATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
 And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>" after "5" seconds
 
-@wip
 @production
 Scenario: Vendor registers on a production environment
 Given I go to the production account registration page
@@ -83,7 +80,6 @@ And the SLC operator approves the vendor account for "<USER_EMAIL>"
 Then a "production" approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PORTAL>"
 
-@wip
 @production
 Scenario: District admin provisions LZ for an Ed-Org
 Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
