@@ -47,25 +47,20 @@ public class TeacherToStaffValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(Set<String> staffIds) {
+        //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
+        
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
-        basicQuery.addCriteria(endDateCriteria);
+        basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
+        basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
         
         Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         
         Map<String, List<String>> staffEdorgMap = new HashMap<String, List<String>>();
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
 
-        //repeat query to get associations without an enddate--should probably put this in an or query somehow
-        basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
-        basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
-        endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false);
-        basicQuery.addCriteria(endDateCriteria);
-        edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
-        
-        //Query current teacher
+        //Query current teacher's schools
         basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.OPERATOR_EQUAL,
                 SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         basicQuery.setIncludeFields(Arrays.asList("schoolId"));
@@ -74,13 +69,16 @@ public class TeacherToStaffValidator extends AbstractContextValidator {
         for (Entity assoc : schoolAssoc) {
             schools.add((String) assoc.getBody().get("schoolId"));
         }
-        
+
         for (List<String> edorgs : staffEdorgMap.values() ) {
             HashSet<String> tmpSchools = new HashSet<String>(schools);
             tmpSchools.retainAll(edorgs);
             if (tmpSchools.size() == 0) {
                 return false;
             }
+        }
+        if (staffEdorgMap.size() == 0) {
+            return false;
         }
         return true;
         
