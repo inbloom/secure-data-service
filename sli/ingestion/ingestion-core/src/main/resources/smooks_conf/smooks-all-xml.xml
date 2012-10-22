@@ -3893,7 +3893,7 @@
     <jb:value data="ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionReference/SectionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
   </jb:bean>
 
-  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceTypeArray" class="java.util.ArrayList" createOnElement="ReportCard">
+  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceType"/>
   </jb:bean>
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
