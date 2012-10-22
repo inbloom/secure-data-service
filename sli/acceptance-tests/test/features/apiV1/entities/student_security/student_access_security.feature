@@ -362,7 +362,6 @@ Examples:
 | "staff11" | "Empty"   |  200 | 3     | State-staff should see all students currently enrolled at the school. |
 
 
-@foo
 Scenario Outline: Seeing data about student only if you can see the student
 Given I am user <User> in IDP "SEC"
 When I make an API call to get my student list

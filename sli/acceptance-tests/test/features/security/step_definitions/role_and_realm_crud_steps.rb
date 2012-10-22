@@ -145,7 +145,7 @@ When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"]}
+    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"], "isAdminRole" => false}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
@@ -165,7 +165,7 @@ When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right]}
+    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right], "isAdminRole" => false}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
