@@ -152,7 +152,7 @@
 				[
                     [
 						{
-							"path" : "body.learningObjectiveId",
+							"path" : "body.objectiveId.learningObjectiveId",
 							"values" :
 							[{
 					            "ref" :
@@ -189,7 +189,7 @@
 							}]
 						},
 						{
-							"path" : "body.studentCompetencyObjectiveId",
+							"path" : "body.objectiveId.studentCompetencyObjectiveId",
 							"values" :
 							[{
 					            "ref" :
