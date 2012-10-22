@@ -111,11 +111,10 @@ public class IdNormalizer {
 
                 if (reference.isDeprecated()) {
                     // TODO: remove IdNormalizerFlag
-                    if (IdNormalizerFlag.useOldNormalization) {
-                        // override deprecated flag, complete processing
-                    } else {
+                    if (!IdNormalizerFlag.useOldNormalization) {
                         continue;
                     }
+                    // override deprecated flag, complete processing
                 }
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
@@ -552,6 +551,7 @@ public class IdNormalizer {
                     } else {
                         fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
                     }
+                    criteria = criteria.and(path + "." + fieldName).is(fieldValue);
                 }
                 if (fieldValueCriteria == null) {
                     continue;
