@@ -551,7 +551,6 @@ public class IdNormalizer {
                     } else {
                         fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
                     }
-                    criteria = criteria.and(path + "." + fieldName).is(fieldValue);
                 }
                 if (fieldValueCriteria == null) {
                     continue;
