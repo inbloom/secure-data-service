@@ -27,15 +27,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.generic.representation.Resource;
-import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -47,6 +38,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.web.client.HttpClientErrorException;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.generic.representation.Resource;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.enums.Right;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -82,7 +83,7 @@ public class SearchResourceServiceTest {
         ServiceResponse serviceResponse = resourceService.list(resource, queryUri);
         Assert.assertNotNull(serviceResponse);
     }
-    
+
     @Test(expected = HttpClientErrorException.class)
     public void testNotEnoughCharactersInToken() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
@@ -90,7 +91,7 @@ public class SearchResourceServiceTest {
         resourceService.doFilter(new ApiQuery(queryUri));
         Assert.fail("should be trown HttpClientErrorException");
     }
-    
+
     @Test
     public void testNeutralCriteriaForNotES() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
@@ -110,7 +111,7 @@ public class SearchResourceServiceTest {
         List<NeutralCriteria> criterias=apiQuery.getCriteria();
         Assert.assertEquals(1, criterias.size());
         NeutralCriteria criteria=criterias.get(0);
-        Assert.assertEquals("david* wu", criteria.getValue());
+        Assert.assertEquals("david* wu*", criteria.getValue());
     }
 
     private static void setupAuth(String type) {
