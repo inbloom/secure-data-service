@@ -260,15 +260,15 @@ public class DefaultResourceService implements ResourceService {
     @Override
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-
-        if (isAssociation(base)) {
-            final String key = "_id";
-            return getAssociatedEntities(base, base, id, resource, key, requestURI);
-        }
         ServiceResponse serviceResponse = getEntityFromSuperDoc(base,id,resource);
         if (serviceResponse != null) {
             return serviceResponse;
         }
+        if (isAssociation(base)) {
+            final String key = "_id";
+            return getAssociatedEntities(base, base, id, resource, key, requestURI);
+        }
+
 
         final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
@@ -301,6 +301,7 @@ public class DefaultResourceService implements ResourceService {
         if((baseParentType != null) && (baseParentType.equals(resourceDefinition.getType()))) {
             apiQuery = getApiQuery(resourceDefinition);
             parentEntityDef = resourceDefinition;
+            valueList = extractParentIds(valueList);
         } else if ((resourceParentType != null) && (resourceParentType.equals(baseDefinition.getType()))) {
             apiQuery = getApiQuery(baseDefinition);
             parentEntityDef = baseDefinition;
@@ -313,12 +314,23 @@ public class DefaultResourceService implements ResourceService {
                 for (EntityBody entityBody : baseDefinition.getService().list(apiQuery)) {
                     entityBodyList.addAll((Collection<? extends EntityBody>)entityBody.get(resourceDefinition.getType()));
                 }
+            } else {
+                entityBodyList = (List<EntityBody>)resourceDefinition.getService().list(apiQuery);
             }
             count = entityBodyList.size();
             serviceResponse = new ServiceResponse(entityBodyList, count);
         }
 
         return serviceResponse;
+    }
+
+    private List<String> extractParentIds(List<String> valueList) {
+        List<String> parentIdList = new ArrayList<String>();
+        for (String id : valueList) {
+            Integer idIndex = id.indexOf("_id") + 3;
+            parentIdList.add(id.substring(0,idIndex));
+        }
+        return parentIdList;
     }
 
     @Override
