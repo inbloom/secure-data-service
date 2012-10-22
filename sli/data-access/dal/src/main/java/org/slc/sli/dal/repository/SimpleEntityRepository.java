@@ -26,9 +26,7 @@ import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 /**
@@ -80,12 +78,6 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         // TODO Auto-generated method stub
         return null;
@@ -110,25 +102,13 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public void deleteAll(String collectionName) {
+    public void deleteAll(String collectionName, NeutralQuery q) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public CommandResult execute(DBObject command) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -143,12 +123,6 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public boolean collectionExists(String collection) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public void createCollection(String collection) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -175,22 +149,9 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public boolean doUpdate(String collection, String id, Update update) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         // TODO Auto-generated method stub
         return false;
-    }
-
-    @Override
-    public Entity createWithRetries(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
