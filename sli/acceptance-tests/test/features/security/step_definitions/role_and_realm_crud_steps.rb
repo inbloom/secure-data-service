@@ -208,7 +208,7 @@ When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group
   assert(@res != nil, "Response from custom role request is nil")
   data = JSON.parse(@res.body)[0]
   puts("\n\nThe data is #{data.inspect}")
-  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right]}
+  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right], "isAdminRole" => false}
   data["roles"].push(newGroup)
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
