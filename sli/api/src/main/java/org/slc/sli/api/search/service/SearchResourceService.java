@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,19 +81,13 @@ public class SearchResourceService {
         Entity principalEntity = principal.getEntity();
 
         // get allSchools for user
-        List<String> schoolIds;
-        if (principalEntity.getType().equals(EntityNames.STAFF)) {
-            schoolIds = this.edOrgHelper.getUserSchools(principalEntity);
-        } else {
-            schoolIds = this.edOrgHelper.getDirectSchools(principalEntity);
-        }
+
 
         // set up query criteria
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
         doFilter(apiQuery);
-        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
-
+        addContext(apiQuery);
         int maxResults = apiQuery.getLimit();
         int maxPerQuery = maxResults;
 
@@ -200,16 +195,6 @@ public class SearchResourceService {
     }
 
     /**
-     * find current user role is a teacher or not.
-     *
-     * @param prinipalEntity
-     * @return
-     */
-    private static boolean isTeacher(Entity prinipalEntity) {
-        return (prinipalEntity != null) && EntityNames.TEACHER.equals(prinipalEntity.getType());
-    }
-
-    /**
      * apply default query for ElasticSearch
      *
      * @param criterias
@@ -241,5 +226,16 @@ public class SearchResourceService {
         }
         // first char will be space
         criteria.setValue(sb.substring(1).toString());
+    }
+    
+    private void addContext(ApiQuery apiQuery) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Entity principalEntity = principal.getEntity();
+        // get allSchools for staff
+        Set<String> schoolIds = new HashSet<String>();
+        schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
+        schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
+        schoolIds.add("ALL");
+        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
     }
 }
