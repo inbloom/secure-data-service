@@ -1,4 +1,4 @@
-defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "ADMIN_APPS"]
+defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC"]
 
 jQuery ->
   unless initCustomRoleScripts?
@@ -20,10 +20,10 @@ jQuery ->
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
+    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
 
     # Disable the save button until they've added a role and right
     newRow.find(".rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
@@ -84,6 +84,7 @@ editRow = (tr) ->
   $("#addGroupButton").attr('disabled', 'disabled')
   tr.find(".saveButtons").show()
   tr.find(".editButtons").hide()
+  tr.find(".isAdmin").prop("disabled", false)
 
   populateRightComboBox(tr)
   tr.find("td:eq(1)").prepend($("#addRightUi"))
@@ -215,7 +216,9 @@ getJsonData = () ->
     rights = []
     $(@).find("td:eq(1) .customLabel").each ->
       rights.push($(@).text())
-    data.push({"groupTitle": groupName, "names": roles, "rights": rights})
+    isAdminRole = $(@).find(".isAdmin").prop("checked")
+    data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
+  console.log(data)
   return data
 
 getRights = (tr) ->
@@ -240,7 +243,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find("td:eq(0)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
@@ -254,7 +257,11 @@ populateTable = (data) ->
       newRow.find("td:eq(1)").append(createLabel('right', right))
       newRow.find("td:eq(1)").append(" ")
 
-    newRow.find("td:eq(2)").append($("#rowEditTool").clone().children())
+    newRow.find("td:eq(2)").append("<input type='checkbox' class='isAdmin' disabled='true'>")
+    if (role.isAdminRole)
+      newRow.find(".isAdmin").prop("checked", true)
+
+    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
     wireEditButtons(newRow)
 
 wireEditButtons = (tr) ->

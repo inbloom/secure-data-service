@@ -161,7 +161,7 @@ Examples:
 | "school"                | "schools"                 |  200 | 0    |/schools|
 | "section"               | "sections"                |  200 | 0     |/schools/@ids/sections|
 | "session"               | "sessions"                |  200 | 0     |/educationOrganizations/@ids/sessions|
-| "staff"                 | "staff"                   |  200 | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+| "staff"                 | "staff"                   |  200 | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
 | "student"               | "students"                |  200 | 0     |/schools/@ids/studentSchoolAssociations/students|
 | "studentAcademicRecord" | "studentAcademicRecords"  |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
 | "studentGradebookEntry" | "studentGradebookEntries" |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
