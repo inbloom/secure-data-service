@@ -44,6 +44,13 @@ public class IndexEntityConverterTest {
     }
     
     @Test
+    public void testFilter() throws Exception {
+        String entity = "{\"_id\": \"1\", \"type\": \"test\", \"body\":{\"name\":\"a\", \"a\":\"1\", \"b\":\"x\"}, \"test\": { \"filter\": \"notnull\"}, \"metaData\": {\"tenantId\": \"tenant\"}}";
+        IndexEntity indexEntity = indexEntityConverter.fromEntityJson("tenant", entity);
+        Assert.assertNull("Entity must be filtered out", indexEntity);
+    }
+    
+    @Test
     public void testException() throws Exception {
         String entity = "{\"_id\": \"1\", \"type\": \"test\", \"body\":{\"b\":\"x\"}}";
         try {

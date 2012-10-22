@@ -22,7 +22,7 @@
       "metaData.tenantId",
       "type"
     ],
-    "rename" : {"body.studentId" : "_id", "body.schoolId": "body.context.schoolId"},
+    "rename" : {"body.studentId" : "_id", "body.schoolId": "body.context.schoolId", "body.exitWithdrawDate": "metaData.exitWithdrawDate"},
     "filterCondition":{"body.exitWithdrawDate": null}
   }
 }

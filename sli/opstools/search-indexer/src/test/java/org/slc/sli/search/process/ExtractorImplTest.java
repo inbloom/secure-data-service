@@ -15,9 +15,7 @@
  */
 package org.slc.sli.search.process;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,6 +23,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +32,6 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.ExtractorImpl;
 import org.slc.sli.search.process.impl.ExtractorImpl.Tenant;
 import org.slc.sli.search.transform.IndexEntityConverter;
-import org.slc.sli.search.util.Constants;
 import org.slc.sli.search.util.MockDBCursorFactory;
 
 import com.mongodb.DBCursor;
@@ -51,6 +49,7 @@ public class ExtractorImplTest {
     
     private class MockExtractor extends ExtractorImpl {
         final HashSet<Action> actions = new HashSet<Action>();
+        int numOfLines = 0;
         @Override
         protected DBCursor getDBCursor(String collectionName, List<String> fields) {
             // get cursor from static file
@@ -66,6 +65,12 @@ public class ExtractorImplTest {
         protected void finishProcessing(String index, File outFile, Action action, List<File> producedFiles) {
             if (outFile != null) {
                 producedFiles.add(outFile);
+                try {
+                    numOfLines += FileUtils.readLines(outFile).size();
+                } catch (IOException e) {
+                    throw new RuntimeException("Something with the extract file", e);
+                }
+                outFile.delete();
             }
             actions.add(action);
         }
@@ -76,6 +81,7 @@ public class ExtractorImplTest {
         
         public void reset() {
             actions.clear();
+            numOfLines = 0;
         }
     };
     
@@ -84,6 +90,7 @@ public class ExtractorImplTest {
     @Before
     public void init() throws IOException {
         extractor.init();
+        extractor.setJobWaitTimeoutInMins(1);
         indexConfigStore = new IndexConfigStore("index-config-test.json");
         indexEntityConverter = new IndexEntityConverter();
         indexEntityConverter.setIndexConfigStore(indexConfigStore);
@@ -107,32 +114,8 @@ public class ExtractorImplTest {
         List<File> files = extractor.extractCollection(indexConfigStore.getConfig("student"), Action.INDEX, new Tenant("test", "test"));
 
         Assert.assertEquals(20, files.size());
-        int totalLines=0;
-        for (File file : files) {
-            totalLines+=getNumberOfLine(file);
-        }
-        Assert.assertEquals(191, totalLines);
+        Assert.assertEquals(191, extractor.numOfLines);
     }
-
-    private void deleteFolder(String folder) {
-        File[] files = listFiles(folder);
-        for (File file : files) {
-            file.delete();
-        }
-    }
-
-    private File[] listFiles(String folder) {
-        return (new File(folder)).listFiles();
-    }
-
-    private int getNumberOfLine(File file) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        int lines = 0;
-        while (br.readLine() != null)
-            lines++;
-        return lines;
-    }
-    
     
     @Test
     public void testAction() throws Exception {

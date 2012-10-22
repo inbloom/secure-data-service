@@ -63,8 +63,9 @@ public class IndexEntityConverter {
             //re-assemble entity map
             entityMap.put("body", decryptedMap);
             // filter out
-            if (!filter.matchesCondition(config, decryptedMap))
+            if (!filter.matchesCondition(config, entityMap))
                 return null;
+            
             // transform the entities
             transformer.transform(config, entityMap);
             
