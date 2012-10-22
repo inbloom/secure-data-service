@@ -88,7 +88,7 @@ public class TeacherToStudentValidatorTest {
         
         studentIds = new HashSet<String>();
         
-        badDate = Integer.parseInt(gracePeriod) * -1 - 5 + "";
+        badDate = "2001-01-01";
 
     }
     
@@ -221,7 +221,7 @@ public class TeacherToStudentValidatorTest {
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
         ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
         if (isExpired) {
-            ssaBody.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            ssaBody.put(ParameterConstants.END_DATE, badDate);
         }
         return ssaBody;
     }
@@ -231,7 +231,7 @@ public class TeacherToStudentValidatorTest {
         tsaBody.put("teacherId", teacherId);
         tsaBody.put("sectionId", sectionId);
         if (isExpired) {
-            tsaBody.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            tsaBody.put(ParameterConstants.END_DATE, badDate);
         }
 
         return tsaBody;
