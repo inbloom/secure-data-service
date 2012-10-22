@@ -16,13 +16,7 @@
 package org.slc.sli.api.resources.generic.service;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.ws.rs.core.Response;
 
@@ -271,6 +265,10 @@ public class DefaultResourceService implements ResourceService {
             final String key = "_id";
             return getAssociatedEntities(base, base, id, resource, key, requestURI);
         }
+        ServiceResponse serviceResponse = getEntityFromSuperDoc(base,id,resource);
+        if (serviceResponse != null) {
+            return serviceResponse;
+        }
 
         final String associationKey = getConnectionKey(base, resource);
         List<EntityBody> entityBodyList;
@@ -287,6 +285,40 @@ public class DefaultResourceService implements ResourceService {
 
         long count = getEntityCount(definition, apiQuery);
         return new ServiceResponse(entityBodyList, count);
+    }
+
+    private  ServiceResponse getEntityFromSuperDoc(Resource base, String id, Resource resource) {
+        final EntityDefinition resourceDefinition = resourceHelper.getEntityDefinition(resource);
+        final EntityDefinition baseDefinition = resourceHelper.getEntityDefinition(base);
+        ApiQuery apiQuery = null;
+        List<EntityBody> entityBodyList = null;
+        EntityDefinition parentEntityDef = null;
+        ServiceResponse serviceResponse = null;
+        String baseParentType = EmbeddedDocumentRelations.getParentEntityType(baseDefinition.getType());
+        String resourceParentType = EmbeddedDocumentRelations.getParentEntityType(resourceDefinition.getType());
+        List<String> valueList = Arrays.asList(id.split(","));
+        long count = 0;
+        if((baseParentType != null) && (baseParentType.equals(resourceDefinition.getType()))) {
+            apiQuery = getApiQuery(resourceDefinition);
+            parentEntityDef = resourceDefinition;
+        } else if ((resourceParentType != null) && (resourceParentType.equals(baseDefinition.getType()))) {
+            apiQuery = getApiQuery(baseDefinition);
+            parentEntityDef = baseDefinition;
+        }
+        if (apiQuery != null) {
+            apiQuery.setLimit(0);
+            apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+            entityBodyList = new ArrayList<EntityBody>();
+            if( parentEntityDef == baseDefinition) {
+                for (EntityBody entityBody : baseDefinition.getService().list(apiQuery)) {
+                    entityBodyList.addAll((Collection<? extends EntityBody>)entityBody.get(resourceDefinition.getType()));
+                }
+            }
+            count = entityBodyList.size();
+            serviceResponse = new ServiceResponse(entityBodyList, count);
+        }
+
+        return serviceResponse;
     }
 
     @Override
