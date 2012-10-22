@@ -188,19 +188,20 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 
 //profiled - ingestion
 db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
-db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calendarEvent":1});
-db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode":1});
-db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
-db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodIdentity.schoolYear":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningObjectiveId":1});
+db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
+db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode":1});  // TODO elemMatch, change - tenantId only for notablescan
+db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
+db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
+db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId":1});  // needs to combined with next
+db["learningObjective"].ensureIndex({"body.learningObjectiveId.identificationCode":1});
 db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
-db["parent"].ensureIndex({"metaData.tenantId":1,"body.parentUniqueStateId":1});
+db["parent"].ensureIndex({"body.parentUniqueStateId":1});
 db["program"].ensureIndex({"body.programId":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1});
+db["section"].ensureIndex({"body.uniqueSectionCode":1});
+db["session"].ensureIndex({"body.sessionName":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyObjectiveId":1});
+db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId":1});
 
 
 //oprhan detection - this should be removed when done in API
