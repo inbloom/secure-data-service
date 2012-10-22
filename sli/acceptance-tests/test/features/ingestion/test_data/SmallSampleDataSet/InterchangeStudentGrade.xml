@@ -18503,8 +18503,76 @@
         </GradingPeriodReference>
     </Grade>
     <ReportCard>
-        <GradeReference ref="GR-GR3-800000025-1"/>
-        <GradeReference ref="GR-GR3-800000025-2"/>
+        <GradeReference>
+            <GradeIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Six Weeks</GradingPeriod>
+                        <BeginDate>2012-04-16</BeginDate>
+                        <SchoolYear>2010-2011</SchoolYear>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </GradeIdentity>
+        </GradeReference>
+        <GradeReference>
+            <GradeIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+                        <BeginDate>2012-04-16</BeginDate>
+                        <SchoolYear>2010-2011</SchoolYear>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </GradeIdentity>
+        </GradeReference>
         <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
         <StudentCompetencyReference ref="SC-GR3-800000025-2"/>
         <StudentCompetencyReference ref="SC-GR3-800000025-3"/>
@@ -18544,7 +18612,7 @@
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <GradingPeriod>End of Year</GradingPeriod>
-				<BeginDate>2010-08-23</BeginDate>
+                <BeginDate>2010-08-23</BeginDate>
                 <SchoolYear>2010-2011</SchoolYear>
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </GradingPeriodIdentity>
@@ -19468,8 +19536,76 @@
         </GradingPeriodReference>
     </Grade>
     <ReportCard id="RC-GK-100000017-1">
-        <GradeReference ref="GR-GRK-100000017-1"/>
-        <GradeReference ref="GR-GRK-100000017-2"/>
+        <GradeReference>
+            <GradeIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>First Six Weeks</GradingPeriod>
+                        <BeginDate>2012-04-16</BeginDate>
+                        <SchoolYear>2010-2011</SchoolYear>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </GradeIdentity>
+        </GradeReference>
+        <GradeReference>
+            <GradeIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+                        <BeginDate>2012-04-16</BeginDate>
+                        <SchoolYear>2010-2011</SchoolYear>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </GradeIdentity>
+        </GradeReference>
         <StudentCompetencyReference ref="SC-100000017-1"/>
         <StudentCompetencyReference ref="SC-100000017-2"/>
         <StudentCompetencyReference ref="SC-100000017-3"/>
@@ -19517,7 +19653,7 @@
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <GradingPeriod>End of Year</GradingPeriod>
-				<BeginDate>2010-10-04</BeginDate>
+                <BeginDate>2010-10-04</BeginDate>
                 <SchoolYear>2010-2011</SchoolYear>
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </GradingPeriodIdentity>
