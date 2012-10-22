@@ -3878,6 +3878,7 @@
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradeReferenceType_SLC-GradeIdentityType_SLC-StudentSectionAssociationReferenceType_SLC-StudentSectionAssociationIdentityType" property="StudentSectionAssociationIdentity"/>
   </jb:bean>
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-GradeReferenceType_SLC-GradeIdentityType_SLC-StudentSectionAssociationReferenceType_SLC-StudentSectionAssociationIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity">
+    <jb:value data="ReportCard/GradeReference/GradeIdentity/StudentSectionAssociationReference/StudentSectionAssociationIdentity/BeginDate" property="BeginDate"/>
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradeReferenceType_SLC-GradeIdentityType_SLC-StudentSectionAssociationReferenceType_SLC-StudentSectionAssociationIdentityType_SLC-StudentReferenceType" property="StudentReference"/>
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-GradeReferenceType_SLC-GradeIdentityType_SLC-StudentSectionAssociationReferenceType_SLC-StudentSectionAssociationIdentityType_SLC-SectionReferenceType" property="SectionReference"/>
   </jb:bean>
