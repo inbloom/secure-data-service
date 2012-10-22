@@ -189,7 +189,7 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 //profiled - ingestion
 db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
 db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
-db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode":1});  // TODO elemMatch, change - tenantId only for notablescan
+db["course"].ensureIndex({"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
 db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
 db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
@@ -219,7 +219,7 @@ db["attendance"].ensureIndex({"metaData.tenantId":1});
 db["calendarDate"].ensureIndex({"metaData.tenantId":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1});
 db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1});
-// db["course"].ensureIndex({"metaData.tenantId":1});
+db["course"].ensureIndex({"metaData.tenantId":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1});
 db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1});
