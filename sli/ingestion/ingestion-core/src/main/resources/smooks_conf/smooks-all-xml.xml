@@ -3817,7 +3817,7 @@
         <jb:wiring property="grades" beanIdRef="reportCard_gradesArray" />
     </jb:bean>
 
-  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceTypeArray" class="java.util.ArrayList" createOnElement="ReportCard">
+  <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
     <jb:wiring beanIdRef="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceType"/>
   </jb:bean>
   <jb:bean beanId="SLC-ReportCard_Attributes_SLC-StudentCompetencyReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
