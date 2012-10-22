@@ -46,10 +46,10 @@
 //
 
 
-db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"body.authId":1,"body.authType":1});
+db["applicationAuthorization"].ensureIndex({"body.appIds":1});  //app auth
+db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});  //app auth
 
-db["customRole"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
+db["customRole"].ensureIndex({"body.realmId":1});  //api-every call
 
 
 //custom entities
