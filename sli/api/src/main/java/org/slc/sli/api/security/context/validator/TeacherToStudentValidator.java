@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,33 +49,40 @@ public class TeacherToStudentValidator implements IContextValidator {
     @Override
     public boolean validate(Set<String> ids) {
         Set<String> teacherSections = new HashSet<String>();
+        boolean match = false;
         
-        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_GTE, getFilterDate(gracePeriod));
+        NeutralCriteria endDateCriteria = getEndDateCriteria();
 
         NeutralQuery basicQuery = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
                         .getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.addCriteria(endDateCriteria);
+        // basicQuery.addCriteria(endDateCriteria);
         Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
         for (Entity tsa : tsas) {
             teacherSections.add((String) tsa.getBody().get(ParameterConstants.SECTION_ID));
         }
         for(String id : ids) {
+            Set<String> studentSections = new HashSet<String>();
             basicQuery = new NeutralQuery(
-                    new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(
-                            ids)));
-            basicQuery.addCriteria(endDateCriteria);
+new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                    NeutralCriteria.OPERATOR_EQUAL, id));
+            // basicQuery.addCriteria(endDateCriteria);
             Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, basicQuery);
             for (Entity ssa : ssas) {
-                if (!teacherSections.contains((String) ssa.getBody().get(ParameterConstants.SECTION_ID))) {
-                    return false;
-                }
+                studentSections.add((String) ssa.getBody().get(ParameterConstants.SECTION_ID));
+            }
+            Set<String> tempSet = new HashSet<String>(teacherSections);
+            tempSet.retainAll(studentSections);
+            if (tempSet.size() == 0) {
+                return false;
             }
         }
-        
-
         return true;
+    }
+
+    public NeutralCriteria getEndDateCriteria() {
+        return new NeutralCriteria(ParameterConstants.END_DATE,
+                NeutralCriteria.CRITERIA_GTE, getFilterDate(gracePeriod));
     }
     
     public String getFilterDate(String gracePeriod) {
