@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Data access object for batch job data.
@@ -48,7 +48,7 @@ public interface BatchJobDAO {
     @Deprecated
     List<Error> findBatchJobErrors(String batchJobId);
 
-    public Iterable<Error> getBatchJobErrors(String jobId, int limit);
+    public Iterable<Error> getBatchJobErrors(String jobId, String fileName, FaultType type, int limit);
 
     void saveError(Error error);
 
