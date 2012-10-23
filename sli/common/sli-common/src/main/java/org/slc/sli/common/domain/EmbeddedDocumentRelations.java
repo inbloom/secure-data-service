@@ -16,7 +16,6 @@
 
 package org.slc.sli.common.domain;
 
-import com.sun.tools.javac.util.Pair;
 
 import java.util.Arrays;
 import java.util.Collections;
