@@ -99,7 +99,7 @@ function prepareJava {
 
 function show_help {
    echo "# run search-indexer"
-   echo "local_search_indexer.sh search_indexer.tar.gz -Dsli.conf=<file> -Dsli.encryption.keyStore=<file> search_indexer.tar.gz"
+   echo "local_search_indexer.sh search_indexer.tar.gz -Dsli.conf=<file> -Dsli.encryption.keyStore=<file>"
    echo "# run search-indexer widh debug mode"
    echo "local_search_indexer.sh debug search_indexer.tar.gz -Dsli.conf=<file> -Dsli.encryption.keyStore=<file>"
    echo "# extract search-indexer bundle"
