@@ -31,7 +31,7 @@ class SLCFixer
     $stdout.sync = true
     @forever = forever
     @tenant = tenant
-    @basic_query = tenant.nil? ? {} : {"metaData.tenantId" => tenant} 
+    @basic_query = tenant.nil? ? {} : {} 
     @mutex = Mutex.new
     @db = db
     @students = @db['student']
@@ -235,15 +235,24 @@ class SLCFixer
   end
 
   def fix_programs
-    set_stamps(@db['studentProgramAssociation'])
     set_stamps(@db['program'])
     set_stamps(@db['staffProgramAssociation'])
-    @log.info "Iterating studentProgramAssociation with query: #{@basic_query}"
-    @db['studentProgramAssociation'].find(@basic_query, @basic_options) do |cur|
+    @log.info "Iterating program with query: #{@basic_query}"
+    @db['program'].find(@basic_query, @basic_options) do |cur|
       cur.each do |program|
-        edorg = student_edorgs(program['body']['studentId'])
-        stamp_id(@db['studentProgramAssociation'], program['_id'], program['body']['educationOrganizationId'], program['metaData']['tenantId'])
-        stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'], program['metaData']['tenantId'])
+        stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'],
+                 program['metaData']['tenantId'])
+        studentProgramAssociations = program['studentProgramAssociation']
+        if !studentProgramAssociations.nil?
+          studentProgramAssociations.each do |studentProgram| 
+            edOrg = []
+            student_edorg = student_edorgs(studentProgram['body']['studentId'])
+            edOrg << student_edorg
+            edOrg = edOrg.flatten.uniq
+            stamp_id(@db['program'], studentProgram['_id'], edOrg, studentProgram['metaData']['tenantId'], 
+                     "studentProgramAssociation", program["_id"])
+          end
+        end
       end
     end
     @log.info "Iterating staffProgramAssociation with query: #{@basic_query}"

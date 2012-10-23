@@ -26,6 +26,7 @@ import java.util.Map;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -80,7 +81,7 @@ public class TenantMongoDA implements TenantDA {
     private Map<String, Object> getTenantBody(TenantRecord tenant) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenant.getTenantId());
-        body.put(DB_NAME, tenant.getDbName());
+        body.put(DB_NAME, TenantIdToDbName.convertTenantIdToDbName(tenant.getDbName()));
         List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
         if (tenant.getLandingZone() != null) {
             for (LandingZoneRecord landingZoneRecord : tenant.getLandingZone()) {

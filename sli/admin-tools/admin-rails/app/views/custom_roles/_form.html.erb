@@ -10,6 +10,7 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
     <tr>
       <th style='width: 200px'>Roles</th>
       <th>Rights</th>
+      <th>Admin Role</th>
       <th style='width: 120px'></th>
     </tr>
   </thead>
@@ -55,6 +56,12 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 
 
 <div id="addRoleUi" class="control-group">
+  <label class="control-label" for="groupNameInput">Group Name:</label>
+  <div class="controls">
+    <div class="input-append">
+      <input size="16" type="text" id="groupNameInput">
+   </div>
+  </div>
   <label class="control-label" for="addRoleInput">New Role Name:</label>
   <div class="controls">
     <div class="input-append">

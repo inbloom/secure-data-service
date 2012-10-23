@@ -46,10 +46,9 @@
 //
 
 
-db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"body.authId":1,"body.authType":1});
+db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});
 
-db["customRole"].ensureIndex({"metaData.tenantId":1,"_id":1});
-db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
+db["customRole"].ensureIndex({"body.realmId":1});
 
 
 //custom entities
@@ -84,6 +83,7 @@ db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
 db["gradebookEntry"].ensureIndex({"body.sectionId":1});
 db["graduationPlan"].ensureIndex({"body.educationOrganizationId":1});
+db["graduationPlan"].ensureIndex({"body.graduationPlanType":1});
 db["learningObjective"].ensureIndex({"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"body.parentLearningObjective":1});
 db["reportCard"].ensureIndex({"body.grades":1});
@@ -107,8 +107,8 @@ db["studentAcademicRecord"].ensureIndex({"body.reportCards":1});
 db["studentAcademicRecord"].ensureIndex({"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"body.studentId":1});
 //studentAssessmentAssociation is embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation.assessmentId":1});
-db["student"].ensureIndex({"studentAssessmentAssociation.studentId":1});  // do we need this?
+db["student"].ensureIndex({"studentAssessmentAssociation.body.assessmentId":1});
+db["student"].ensureIndex({"studentAssessmentAssociation.body.studentId":1});  // do we need this?
 db["studentCohortAssociation"].ensureIndex({"body.cohortId":1});
 db["studentCohortAssociation"].ensureIndex({"body.studentId":1});
 db["studentCompetency"].ensureIndex({"body.objectiveId.learningObjectiveId":1});
@@ -130,8 +130,8 @@ db["studentSchoolAssociation"].ensureIndex({"body.graduationPlanId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.schoolId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.studentId":1});
 //studentSectionAssociation is embedded into section
-db["section"].ensureIndex({"studentSectionAssociation.sectionId":1});  // do we need this?
-db["section"].ensureIndex({"studentSectionAssociation.studentId":1});
+db["section"].ensureIndex({"studentSectionAssociation.body.sectionId":1});  // do we need this?
+db["section"].ensureIndex({"studentSectionAssociation.body.studentId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.courseId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.studentAcademicRecordId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1});
@@ -188,19 +188,22 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 
 //profiled - ingestion
 db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
-db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calendarEvent":1});
-db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode":1});
-db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
-db["gradingPeriod"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodIdentity.schoolYear":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningObjectiveId":1});
+db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
+db["course"].ensureIndex({"body.courseCode.ID":1});
+db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
+db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
+db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode":1});
+db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId":1});
+db["learningObjective"].ensureIndex({"body.objective":1});
+db["learningObjective"].ensureIndex({"body.learningObjectiveId.identificationCode":1});
 db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
-db["parent"].ensureIndex({"metaData.tenantId":1,"body.parentUniqueStateId":1});
+db["parent"].ensureIndex({"body.parentUniqueStateId":1});
 db["program"].ensureIndex({"body.programId":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1});
-db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1});
+db["section"].ensureIndex({"body.uniqueSectionCode":1});
+db["session"].ensureIndex({"body.sessionName":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyObjectiveId":1});
+db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId":1});
 
 
 //oprhan detection - this should be removed when done in API
@@ -214,10 +217,4 @@ db["educationOrganization"].ensureIndex({"type":1,"body.nameOfInstitution":1});
 db["gradingPeriod"].ensureIndex({"body.beginDate":1,"metaData.edOrgs":1});
 db["staff"].ensureIndex({"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"type":1});
-
-db["assessment"].ensureIndex({"metaData.tenantId":1});
-db["graduationPlan"].ensureIndex({"metaData.tenantId":1});
-db["learningStandard"].ensureIndex({"metaData.tenantId":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1});
 

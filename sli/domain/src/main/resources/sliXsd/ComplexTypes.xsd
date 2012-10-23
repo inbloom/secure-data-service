@@ -4733,12 +4733,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programReference" type="xs:string"
+			<xs:element name="programReference" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The programs offered at the education
+					<xs:documentation>References to programs offered at the education
 						organization.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>program</sli:ReferenceType>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="agencyHierarchyName" type="agencyHierarchyType"

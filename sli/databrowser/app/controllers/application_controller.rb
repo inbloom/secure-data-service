@@ -130,7 +130,13 @@ class ApplicationController < ActionController::Base
         end
         SessionResource.access_token = oauth.token
         Check.url_type = "check"
-        session[:full_name] = Check.get("")["full_name"]
+        check = Check.get("")
+        session[:full_name] = check["full_name"]
+        session[:is_admin] = check["isAdminUser"]
+        if !session[:is_admin]
+          render :auth_error_page
+        end
+
       elsif params[:code] && !oauth.has_code
         SessionResource.access_token = oauth.get_token(params[:code])
       else
