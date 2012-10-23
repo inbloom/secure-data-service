@@ -2024,9 +2024,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Discipline2.xml records considered: 2" in the resulting batch job file
   And I should see "Discipline2.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "Discipline2.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records considered: 8" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records ingested successfully: 8" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records failed: 0" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records considered: 8" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records ingested successfully: 8" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records failed: 0" in the resulting batch job file
   And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file

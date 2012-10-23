@@ -1,4 +1,4 @@
-Feature: StudentTranscriptAssociation and CourseOffering Ingestion Test
+Feature: CourseTranscript and CourseOffering Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
