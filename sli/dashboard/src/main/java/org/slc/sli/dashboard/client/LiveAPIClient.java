@@ -903,7 +903,7 @@ public class LiveAPIClient {
      * @return
      */
     //@Override
-    public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
+    public List<GenericEntity> getCourseTranscripts(final String token, final String studentId,
             Map<String, String> params) {
         // get the entities
         List<GenericEntity> entities = createEntitiesFromAPI(

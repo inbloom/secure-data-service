@@ -2695,7 +2695,7 @@
       </wadl:method>
     </wadl:resource>
     <wadl:resource path="v1/courseTranscripts">
-      <wadl:doc>Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$StudentTranscriptAssociation$$ resources.</wadl:doc>
+      <wadl:doc>Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$CourseTranscript$$ resources.</wadl:doc>
       <wadl:method name="GET" id="getCourseTranscripts">
         <wadl:response>
           <wadl:representation mediaType="application/json; charset=utf-8" element="courseTranscriptList"></wadl:representation>
@@ -3558,7 +3558,7 @@
       </wadl:method>
     </wadl:resource>
     <wadl:resource path="v1/studentAcademicRecords">
-      <wadl:doc>Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources.</wadl:doc>
+      <wadl:doc>Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use CourseTranscriptResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources.</wadl:doc>
       <wadl:method name="GET" id="getStudentAcademicRecords">
         <wadl:response>
           <wadl:representation mediaType="application/json; charset=utf-8" element="studentAcademicRecordList"></wadl:representation>

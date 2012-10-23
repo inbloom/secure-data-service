@@ -17,7 +17,7 @@
 				for the student at the end of a semester or school year.
 
 				If you're looking for records for a particular course, use
-				StudentTranscriptAssociationResource instead.
+				CourseTranscriptResource instead.
 
 				For detailed information, see the schema for $$StudentAcademicRecord$$
 				resources.
