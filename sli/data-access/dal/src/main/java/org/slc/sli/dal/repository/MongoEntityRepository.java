@@ -182,6 +182,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        boolean result = false;
         Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
@@ -197,10 +198,28 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             for (Entry<String, Object> patch : newValues.entrySet()) {
                 update.set("body." + patch.getKey(), patch.getValue());
             }
-            return subDocs.subDoc(collectionName).doUpdate(query, update);
+            result = subDocs.subDoc(collectionName).doUpdate(query, update);
+        } else {
+            result = super.patch(type, collectionName, id, newValues);
         }
 
-        return super.patch(type, collectionName, id, newValues);
+        if (result && denormalizer.isDenormalizedDoc(collectionName)) {
+            Entity updateEntity;
+            if (subDocs.isSubDoc(collectionName)) {
+                updateEntity = subDocs.subDoc(collectionName).findById(id);
+            } else {
+                updateEntity = super.findById(collectionName, id);
+            }
+
+            Update update = new Update();
+            for (Map.Entry<String, Object> patch : newValues.entrySet()) {
+                update.set(patch.getKey(), patch.getValue());
+            }
+
+            denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
+        }
+
+        return result;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.slc.sli.dal.convert;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.dal.TenantContext;
@@ -249,6 +250,10 @@ public class Denormalizer {
                 entity = findTypeEntity(id);
             }
 
+            if (entity == null) {
+                return false;
+            }
+
             DBObject parentQuery = getParentQuery(entity.getBody());
             List<Entity> subEntities = new ArrayList<Entity>();
             subEntities.add(entity);
@@ -263,6 +268,38 @@ public class Denormalizer {
             query.addCriteria(Criteria.where("_id").is(id));
 
             return template.findOne(query, Entity.class, type);
+        }
+
+        public boolean doUpdate(Entity parentEntity, Update update) {
+            if (parentEntity == null) return false;
+
+            DBObject parentQuery = getParentQuery(parentEntity.getBody());
+            parentQuery.put(denormalizedToField + "._id", parentEntity.getBody().get(denormalizedIdKey));
+
+            DBObject patchUpdate = toDenormalizedObjectUpdate(update);
+
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true)
+                        .getLastError().ok();
+
+            return result;
+        }
+
+        private DBObject toDenormalizedObjectUpdate(Update originalUpdate) {
+            DBObject updateDBObject = new BasicDBObject();
+
+            for (String key : originalUpdate.getUpdateObject().keySet()) {
+                if (key.startsWith("$")) {
+                    Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
+                    Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
+                    for (String field : fieldAndValue.keySet()) {
+                        if (!field.startsWith("$")) {
+                            newFieldAndValue.put(denormalizedToField + ".$." + field, fieldAndValue.get(field));
+                        }
+                    }
+                    updateDBObject.put(key, newFieldAndValue);
+                }
+            }
+            return updateDBObject;
         }
 
 
