@@ -15,8 +15,6 @@
  */
 package org.slc.sli.search.process.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +27,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
+import org.slc.sli.search.config.IndexConfig;
+import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
@@ -41,8 +40,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -70,6 +70,8 @@ public class IndexerImpl implements Indexer {
 
     private String mGetUri;
     
+    private String mUpdateUri;
+    
     private RestOperations searchTemplate;
     
     private String esUsername;
@@ -78,8 +80,11 @@ public class IndexerImpl implements Indexer {
     
     private int bulkSize = DEFAULT_BULK_SIZE;
     // queue of indexrequests limited to bulkSize
-    LinkedBlockingQueue<IndexEntity> indexRequests;
+    private LinkedBlockingQueue<IndexEntity> indexRequests;
     
+    private IndexConfigStore indexConfigStore;
+
+
     private int indexerWorkerPoolSize = INDEX_WORKER_POOL_SIZE;
     
     private ScheduledExecutorService queueWatcherExecutor;
@@ -89,10 +94,6 @@ public class IndexerImpl implements Indexer {
     // this is helpful to avoid adding index mappings for each index operation. The map does not have to be accurate
     // and no harm will be done if re-mapping is issued
     private final ConcurrentHashMap<String, Boolean> knownIndexesMap = new ConcurrentHashMap<String, Boolean>();
-    
-    private String indexMappingTemplate;
-
-    private String mUpdateUri;
 
     
     public void init() {
@@ -177,26 +178,24 @@ public class IndexerImpl implements Indexer {
             IndexEntity ie;
             final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
             for (Map<String, Object> entity : docs) {
-                if (entity != null) {
-                    if (entity != null && (Boolean)entity.get("exists")) {
-                        orig = (Map<String, Object>) entity.get("_source");
-                        try {
-                            ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
-                            
-                            if (ie != null) {
-                                // if an update happened, re-index, if no update, skip the insert
-                                if (NestedMapUtil.merge(orig, ie.getBody()))
-                                    reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
-                            } else {
-                                logger.error("Unable to match response from get " + entity);
-                            }
-                        } catch (Exception e) {
-                            logger.error("Unable to process entry from ES for re-index " + entity);
+                if (entity != null && entity.containsKey("exists") && (Boolean)entity.get("exists")) {
+                    orig = (Map<String, Object>) entity.get("_source");
+                    try {
+                        ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
+                        
+                        if (ie != null) {
+                            // if an update happened, re-index, if no update, skip the insert
+                            if (NestedMapUtil.merge(orig, ie.getBody()))
+                                reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
+                        } else {
+                            logger.error("Unable to match response from get " + entity);
                         }
-                    } else { // if doesn't exist, add
-                        ie = indexUpdateMap.remove(entity.get("_id"));
-                        reindex.add(ie);
+                    } catch (Exception e) {
+                        logger.error("Unable to process entry from ES for re-index " + entity);
                     }
+                } else { // if doesn't exist, add
+                    ie = indexUpdateMap.remove(entity.get("_id"));
+                    reindex.add(ie);
                 }
             }
             executeBulkIndex(reindex);
@@ -279,11 +278,23 @@ public class IndexerImpl implements Indexer {
      */
     public void addIndexMappingIfNeeded(String index) {
         synchronized(knownIndexesMap) {
-            if (indexMappingTemplate != null && !knownIndexesMap.containsKey(index)) {
-                logger.info("Sending mapping for " + index + ": " + indexMappingTemplate);
+            if (!knownIndexesMap.containsKey(index)) {
+                logger.info("Updating mappings for " + index);
                 try {
-                    ResponseEntity<String> response = sendRESTCall(HttpMethod.PUT, esUri + "/" + index, indexMappingTemplate);
-                    logger.info(String.format("Bulk index response: %S, %s ", response.getStatusCode().name(), response.getBody()));
+                    if (sendRESTCall(HttpMethod.HEAD, esUri + "/" + index, null).getStatusCode() != HttpStatus.OK) {
+                        logger.info("Creating new index " + index);
+                        sendRESTCall(HttpMethod.POST, esUri + "/" + index, null);
+                    }
+                    ResponseEntity<String> response;
+                    for (IndexConfig config : indexConfigStore.getConfigs()) {
+                        if (!config.isChildDoc()) {
+                            response = sendRESTCall(HttpMethod.PUT, 
+                                    esUri + "/" + index + "/" + config.getCollectionName() + "/_mapping?ignore_conflicts=true", 
+                                    IndexEntityUtil.getBodyForIndex(config.getMapping()));
+                            logger.info(String.format("Mapping response: %S ", response.getStatusCode().name()));
+                        }
+                    }
+                    
                 } catch (Exception e) {
                     logger.info("Index " + index + " already exists");
                 }
@@ -317,9 +328,8 @@ public class IndexerImpl implements Indexer {
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, uriParams);
-        } catch (RestClientException rce) {
-            logger.error("Error sending elastic search request!", rce);
-            throw rce;
+        } catch (HttpClientErrorException rce) {
+            return new ResponseEntity<String>(rce.getStatusCode());
         }
     }
     
@@ -327,7 +337,7 @@ public class IndexerImpl implements Indexer {
         this.esUri = esUrl;
         this.bulkUri = esUrl + "/_bulk";
         this.mGetUri = esUrl + "/_mget";
-        this.mUpdateUri = esUrl + "/{index}/{type}/{id}" + "/_update";
+        this.mUpdateUri = esUrl + "/{index}/{type}/{id}/_update";
     }
     
     public void setSearchUsername(String esUsername) {
@@ -354,14 +364,7 @@ public class IndexerImpl implements Indexer {
         this.indexerWorkerPoolSize  = indexerWorkerPoolSize;
     }
     
-    public void setIndexMappingFile(File indexMappingFile) throws IOException {
-        if (!indexMappingFile.exists()) {
-            if (!indexMappingFile.getName().startsWith("/")) {
-                indexMappingFile = new File(getClass().getResource("/" + indexMappingFile.getName()).getFile());
-            }
-            if (!indexMappingFile.exists())
-                throw new IllegalArgumentException("Index mapping file does not exists: " + indexMappingFile.getAbsolutePath());
-        }
-        this.indexMappingTemplate = FileUtils.readFileToString(indexMappingFile);
+    public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
+        this.indexConfigStore = indexConfigStore;
     }
 }

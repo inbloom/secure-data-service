@@ -45,6 +45,8 @@ public final class IndexConfig {
     
     private Map<String, Object> filterCondition;
     
+    private Map<String, Object> mapping;
+    
     @JsonIgnore
     private Map<List<String>, List<String>> renameMap;
     
@@ -93,6 +95,10 @@ public final class IndexConfig {
     
     public boolean hasDependents() {
         return !dependents.isEmpty();
+    }
+    
+    public Map<String, Object> getMapping() {
+        return mapping;
     }
     
     public List<String> getDependents() {

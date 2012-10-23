@@ -70,6 +70,10 @@ public class IndexConfigStore {
         return configs.keySet();
     }
     
+    public Collection<IndexConfig> getConfigs() {
+        return configs.values();
+    }
+    
     public IndexConfig getConfig(String collection) {
         IndexConfig config = configs.get(collection);
         if (config == null) {
