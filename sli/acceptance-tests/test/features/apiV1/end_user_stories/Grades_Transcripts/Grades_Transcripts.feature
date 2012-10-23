@@ -42,10 +42,10 @@ Scenario Outline:  As a fourth grade teacher, for my class, I want to get the fi
 	And "subjectArea" is "Critical Reading"
 	And "courseDescription" is "Critical Reading course for 4th graders"
 	And "courseGPAApplicability" is "1"
-	And I should receive a link named "getStudentTranscriptAssociations" with URI "/student-transcript-association/<'Reading I' ID>"
+	And I should receive a link named "getCourseTranscripts" with URI "/student-transcript-association/<'Reading I' ID>"
 	
-	When I navigate to "getCourseTranscriptAssociations" with URI "/student-transcript-associations/<'Reading I' ID>" 
-	Then I should receive a collection of 7 studentTranscriptAssoc 
+	When I navigate to "getCourseTranscripts" with URI "/student-transcript-associations/<'Reading I' ID>" 
+	Then I should receive a collection of 7 CourseTranscripts 
 	
 	When I navigate to GET "/student-transcript-association/<'Reading I' ID>"  And filter by studentId is  <'John Doe' ID> 
 	Then  I should receive a collection of 1 student-transcript-association link 

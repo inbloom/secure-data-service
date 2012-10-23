@@ -14333,7 +14333,7 @@
             </UML:Attribute>
           </UML:Classifier.feature>
         </UML:Class>
-        <UML:Class xmi.id = '12eef011-3084-4627-b2d8-ece6ba5570fa' name = 'StudentTranscriptAssociation'
+        <UML:Class xmi.id = '12eef011-3084-4627-b2d8-ece6ba5570fa' name = 'CourseTranscript'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
           isActive = 'false'>
           <UML:ModelElement.taggedValue>
@@ -24572,7 +24572,7 @@
             </UML:AssociationEnd>
           </UML:Association.connection>
         </UML:Association>
-        <UML:Association xmi.id = '26413557-cb6a-437e-a2db-31c19307ea3c' name = 'studentTranscriptAssociations&lt;=&gt;course'
+        <UML:Association xmi.id = '26413557-cb6a-437e-a2db-31c19307ea3c' name = 'courseTranscript&lt;=&gt;course'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = 'a5763638-3e89-4163-a28a-296e9c56948a' name = 'courseTranscripts'
@@ -24637,10 +24637,10 @@
             </UML:AssociationEnd>
           </UML:Association.connection>
         </UML:Association>
-        <UML:Association xmi.id = 'b2793c7e-e13e-4104-a482-c8047402e9d0' name = 'studentTranscriptAssociations&lt;=&gt;studentAcademicRecord'
+        <UML:Association xmi.id = 'b2793c7e-e13e-4104-a482-c8047402e9d0' name = 'courseTranscripts&lt;=&gt;studentAcademicRecord'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id = '3e25ee40-5ed3-4399-a67c-c94a1aaf31bc' name = 'studentTranscriptAssociations'
+            <UML:AssociationEnd xmi.id = '3e25ee40-5ed3-4399-a67c-c94a1aaf31bc' name = 'courseTranscripts'
               isSpecification = 'false' isNavigable = 'true'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = 'f3a3ba85-293a-4110-885c-413796d70a84'>

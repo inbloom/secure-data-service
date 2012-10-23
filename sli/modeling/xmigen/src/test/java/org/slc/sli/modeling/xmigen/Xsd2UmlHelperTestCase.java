@@ -129,9 +129,9 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         checkEndName("disciplineIncidents", "Staff", "staff", 1, "DisciplineIncident");
         checkEndName("disciplineIncidents", "School", "school", 1, "DisciplineIncident");
         checkEndName("fooBarAssociations", "EducationOrganization", "educationOrganization", 1, "FooBarAssociation");
-        checkEndName("studentTranscriptAssociations", "Course", "course", 1, "StudentTranscriptAssociation");
+        checkEndName("courseTranscripts", "Course", "course", 1, "CourseTranscript");
         checkEndName("fooBarAssociations", "FooAcademicRecord", "fooAcademicRecord", 1, "FooBarAssociation");
-        checkEndName("studentTranscriptAssociations", "Student", "student", 1, "StudentTranscriptAssociation");
+        checkEndName("courseTranscripts", "Student", "student", 1, "CourseTranscript");
         checkEndName("cohorts", "Program", "programs", 1, "Cohort");
         checkEndName("cohorts", "EducationOrganization", "educationOrg", 1, "Cohort");
         checkEndName("studentGradebookEntries", "Student", "student", 1, "StudentGradebookEntry");
