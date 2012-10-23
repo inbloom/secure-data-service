@@ -43,7 +43,6 @@ import org.slc.sli.api.ldap.User.Status;
 /**
  * Unit tests
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LdapServiceImplTest {
