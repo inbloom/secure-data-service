@@ -529,6 +529,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
+                     :apiSuperDocTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1WhiteListValidationTests,
@@ -605,7 +606,6 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/databrowser_selective_deny.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1007,7 +1007,8 @@ task :importSandboxData do
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json",
-    "graduationPlan" => "graduationPlan_fixture.json"
+    "graduationPlan" => "graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "studentCompetencyObjective_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

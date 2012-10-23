@@ -17,15 +17,8 @@
 
 package org.slc.sli.api.security.service;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.service.mangler.DefaultQueryMangler;
-import org.slc.sli.api.security.service.mangler.Mangler;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityCriteria {
     //The collection this query pertains to
@@ -33,14 +26,7 @@ public class SecurityCriteria {
 
     //main security criteria
     private NeutralCriteria securityCriteria;
-    //black list criteria
-    private NeutralCriteria blacklistCriteria;
     
-    private Mangler queryMangler;
-    
-    public SecurityCriteria() {
-        this.queryMangler = new DefaultQueryMangler();
-    }
 
     public String getCollectionName() {
         return collectionName;
@@ -54,18 +40,9 @@ public class SecurityCriteria {
         return securityCriteria;
     }
 
-    public NeutralCriteria getBlacklistCriteria() {
-        return blacklistCriteria;
-    }
-
     public void setSecurityCriteria(NeutralCriteria securityCriteria) {
         this.securityCriteria = securityCriteria;
     }
-
-    public void setBlacklistCriteria(NeutralCriteria blacklistCriteria) {
-        this.blacklistCriteria = blacklistCriteria;
-    }
-
     /**
      * Apply the security criteria to the given query
      *
@@ -73,10 +50,7 @@ public class SecurityCriteria {
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        if (blacklistCriteria != null) {
-            query.addCriteria(blacklistCriteria);
-        }
-        
+
         if (securityCriteria != null) {
             query.addOrQuery(new NeutralQuery(securityCriteria));
         }
