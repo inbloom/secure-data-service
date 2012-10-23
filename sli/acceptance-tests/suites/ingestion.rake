@@ -220,6 +220,11 @@ task :ingestionJeffCoOnboardingTest do
   runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
 end
 
+desc "Ingestion Db Spinup Test"
+task :ingestionDbSpinupTest do
+  runTests("test/features/ingestion/features/ingestion_db_spinup.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
