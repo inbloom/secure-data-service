@@ -187,7 +187,7 @@ public final class Constants {
     public static final String ATTR_STUDENTS = "students";
     public static final String ATTR_TEACHERS = "teachers";
     public static final String ATTR_TRANSCRIPT = "transcript";
-    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
+    public static final String ATTR_COURSE_TRANSCRIPTS = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
     public static final String ATTR_INTERNAL_METADATA = "meta";
     public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";

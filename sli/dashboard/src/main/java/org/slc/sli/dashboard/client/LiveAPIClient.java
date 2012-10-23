@@ -86,7 +86,7 @@ public class LiveAPIClient {
     private static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations";
     private static final String SECTIONS = "/sections";
     private static final String STUDENTS = "/students";
-    private static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
+    private static final String COURSE_TRANSCRIPTS = "/courseTranscripts";
     private static final String CUSTOM_DATA = "/custom";
     private static final String STUDENT_PARENT_ASSOC = "/studentParentAssociations";
     private static final String PARENTS = "/parents";
@@ -907,7 +907,7 @@ public class LiveAPIClient {
             Map<String, String> params) {
         // get the entities
         List<GenericEntity> entities = createEntitiesFromAPI(
-                buildStudentURI(studentId, STUDENT_TRANSCRIPT_ASSOC, params), token);
+                buildStudentURI(studentId, COURSE_TRANSCRIPTS, params), token);
 
         return entities;
     }

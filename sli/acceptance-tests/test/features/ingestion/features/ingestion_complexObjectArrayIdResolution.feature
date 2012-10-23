@@ -14,7 +14,7 @@ Given I post "complexObjectArrayIdResolutionTest.zip" file as the payload of the
 	   | gradingPeriod                 |
 	   | session                       |
 	   | studentAcademicRecord         |
-	   | studentTranscriptAssociation  |
+	   | courseTranscript              |
 When zip file is scp to ingestion landing zone
 	And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -25,14 +25,14 @@ Then I should see following map of entry counts in the corresponding collections
 	   | gradingPeriod                 | 1     |
 	   | session                       | 1     |
 	   | studentAcademicRecord         | 1     |
-	   | studentTranscriptAssociation  | 3     |
+	   | courseTranscript              | 3     |
 	 And I check to find if record is in collection:
 	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue          | searchType           |
-	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit             | 1                    | integer              |
-	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit          | 2                    | integer              |
-	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit          | 9                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 3                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 4                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit           | 5                    | integer              |
+	   | courseTranscript              | 1                   | body.creditsEarned.credit             | 1                    | integer              |
+	   | courseTranscript              | 1                   | body.creditsEarned.credit          | 2                    | integer              |
+	   | courseTranscript              | 1                   | body.creditsEarned.credit          | 9                    | integer              |
+	   | courseTranscript              | 0                   | body.creditsEarned.credit          | 3                    | integer              |
+	   | courseTranscript              | 0                   | body.creditsEarned.credit          | 4                    | integer              |
+	   | courseTranscript              | 0                   | body.creditsEarned.credit           | 5                    | integer              |
 	And I should see "Processed 21 records." in the resulting batch job file
 

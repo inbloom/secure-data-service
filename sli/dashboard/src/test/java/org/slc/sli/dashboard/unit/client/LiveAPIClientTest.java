@@ -220,9 +220,9 @@ public class LiveAPIClientTest {
     }
 
     @Test
-    public void testGetStudentTranscriptAssociations() {
+    public void testGetCourseTranscripts() {
         String url = client.getApiUrl()
-                + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
+                + "/v1/students/56789/courseTranscripts?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
         String token = "token";
 
         // build the params
