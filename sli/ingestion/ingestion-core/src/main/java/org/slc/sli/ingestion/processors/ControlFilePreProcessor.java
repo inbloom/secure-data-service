@@ -62,6 +62,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.Validator;
@@ -192,8 +193,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
-        //MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
-        //MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + dbName + "\";");
+        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + dbName + "\";");
 
         batchJobDAO.setTenantReadyFlag(tenantId);
     }
