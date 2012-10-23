@@ -66,6 +66,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
     private static final String BATCHJOB_NEW_BATCH_JOB_COLLECTION = "newBatchJob";
+    private static final String TENANT_READY_FIELD = "body.tenantIsReady";
 
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
@@ -173,7 +174,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                     @Override
                     public Object execute() {
-                    	TenantContext.setIsSystemCall(true);
+                        TenantContext.setIsSystemCall(true);
                         sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).insert(tenantLock, WriteConcern.SAFE);
                         return null;
                     }
@@ -207,7 +208,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                 @Override
                 public Object execute() {
-                	TenantContext.setIsSystemCall(true);
+                    TenantContext.setIsSystemCall(true);
                     sliMongo.remove(tenantLockQuery, TENANT_JOB_LOCK_COLLECTION);
                     return null;
                 }
@@ -626,7 +627,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         RecordHash rh = this.findRecordHash(tenantId, recordId);
 
         if (rh == null) {
-            //record was not found
+            // record was not found
             rh = new RecordHash();
             rh._id = recordId;
             rh.tenantId = tenantId;
@@ -642,22 +643,65 @@ public class BatchJobMongoDA implements BatchJobDAO {
         }
     }
 
-
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Query query = new Query().limit(1);
-//        query.addCriteria(Criteria.where("tenantId").is(tenantId));
+        // query.addCriteria(Criteria.where("tenantId").is(tenantId));
         query.addCriteria(Criteria.where("_id").is(recordId));
         return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override
     public void removeRecordHashByTenant(String tenantId) {
-//       batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);
-         Query searchTenantId = new Query();
-            searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
-                    tenantId));
-            batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
+        // batchJobMongoTemplate.remove(new
+        // Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")),
+        // RECORD_HASH);
+        Query searchTenantId = new Query();
+        searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
+        batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
+    }
+
+    @Override
+    public boolean tenantDbIsReady(String tenantId) {
+        boolean isPartitioned = false;
+
+        // checking for indexes ensures that the scripts were capable of running
+        TenantContext.setTenantId(tenantId);
+        boolean isIndexed = sliMongo.count(new Query(), "system.indexes") > 20;
+
+        if (isIndexed != false) {
+
+            // checking for flag that will only be set after scripts run
+            Query query = new Query();
+            query.addCriteria(Criteria.where("body.tenantId").is(tenantId));
+            query.addCriteria(Criteria.where(TENANT_READY_FIELD).is(true));
+
+            try {
+                TenantContext.setIsSystemCall(true);
+                isPartitioned = sliMongo.count(query, "tenant") > 0;
+            } finally {
+                TenantContext.setIsSystemCall(false);
+            }
+        }
+
+        return isPartitioned;
+    }
+
+    @Override
+    public void setTenantReadyFlag(String tenantId) {
+
+        final BasicDBObject query = new BasicDBObject();
+        query.put("body.tenantId", tenantId);
+
+        final BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(TENANT_READY_FIELD, true));
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            // (query, fields, sort, remove, update, returnNew, upsert)
+            sliMongo.getCollection("tenant").findAndModify(query, null, null, false, update, true, true);
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.util;
+package org.slc.sli.ingestion.util;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 /**
  * @author tke
  *
@@ -42,22 +43,22 @@ public class MongoCommanderTest {
 
     @Test
     public void test() {
-        MongoCommander.exec("api_test", "test_indexes.js", " ");
+        MongoCommander.exec("ingestion_test", "test_indexes.js", " ");
 
         try {
             Mongo mongo = new Mongo();
-            DB db = mongo.getDB("api_test");
-            DBCollection  assessment = db.getCollection("assessment");
+            DB db = mongo.getDB("ingestion_test");
+            DBCollection assessment = db.getCollection("assessment");
             DBCollection attendance = db.getCollection("attendance");
 
             List<DBObject> assessmentIndexes = assessment.getIndexInfo();
             List<DBObject> attendanceIndexes = attendance.getIndexInfo();
 
-            Map<String, Integer> temp = (Map<String, Integer>)assessmentIndexes.get(0).get("key");
-            Assert.assertEquals(1,(int)temp.get("_id"));
-            Map<String, Double> attIndex = (Map<String, Double>)attendanceIndexes.get(1).get("key");
-            //Not quite sure why it is double in Mongo
-            Assert.assertEquals(-1.0, (double)attIndex.get("metaData.edOrgs"));
+            Map<String, Integer> temp = (Map<String, Integer>) assessmentIndexes.get(0).get("key");
+            Assert.assertEquals(1, (int) temp.get("_id"));
+            Map<String, Double> attIndex = (Map<String, Double>) attendanceIndexes.get(1).get("key");
+            // Not quite sure why it is double in Mongo
+            Assert.assertEquals(-1.0, (double) attIndex.get("metaData.edOrgs"));
             db.dropDatabase();
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block

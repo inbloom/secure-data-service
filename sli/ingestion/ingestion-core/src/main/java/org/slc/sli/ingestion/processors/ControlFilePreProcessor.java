@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -78,6 +80,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     private static final String BATCH_JOB_STAGE_DESC = "Parses the control file";
+
+    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
+    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -126,6 +131,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             if (jobValidator.isValid(newBatchJob, errorReport)) {
 
+                /* tenant job lock has been acquired */
+
+                // FIXME: Move to appropriate processor (maybe its own)
+                boolean dbIsReady = ensureTenantDbIsReady(newBatchJob.getTenantId());
+
                 controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
                 auditSecurityEvent(controlFile);
@@ -163,6 +173,29 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                         errorReport, batchJobDAO);
             }
         }
+    }
+
+    protected boolean ensureTenantDbIsReady(String tenantId) {
+
+        if (batchJobDAO.tenantDbIsReady(tenantId)) {
+
+            return true;
+        } else {
+
+            runDbSpinUpScripts(tenantId);
+
+            return batchJobDAO.tenantDbIsReady(tenantId);
+        }
+    }
+
+    private void runDbSpinUpScripts(String tenantId) {
+        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+        String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
+
+        //MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        //MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + dbName + "\";");
+
+        batchJobDAO.setTenantReadyFlag(tenantId);
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
