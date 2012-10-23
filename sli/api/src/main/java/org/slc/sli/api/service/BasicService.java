@@ -114,7 +114,7 @@ public class BasicService implements EntityService {
     private SessionSecurityCache securityCachingStrategy;
     
     @Value("${sli.security.in_clause_size}")
-    private String securityInClauseSize;
+    private Long securityInClauseSize;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -707,11 +707,9 @@ public class BasicService implements EntityService {
 
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
-        try {
-            securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
-        } catch (NumberFormatException e) {
-            // It defaulted to 100000
-        }
+        
+        securityCriteria.setInClauseSize(securityInClauseSize);
+
         String securityField = "_id";
         String blackListedEdOrgs = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -733,7 +731,7 @@ public class BasicService implements EntityService {
 
         List<String> allowed = null;
         EntityContextResolver resolver = new DenyAllContextResolver();
-        if(!securityCachingStrategy.contains(toType)) {
+        if (!securityCachingStrategy.contains(toType)) {
             resolver = contextResolverStore.findResolver(type, toType);
 
             allowed = resolver.findAccessible(principal.getEntity());
@@ -756,7 +754,8 @@ public class BasicService implements EntityService {
         if (resolver instanceof AllowAllEntityContextResolver) {
             securityCriteria.setSecurityCriteria(null);
         } else {
-            securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false));
+            securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
+                    allowed, false));
         }
 
         return securityCriteria;

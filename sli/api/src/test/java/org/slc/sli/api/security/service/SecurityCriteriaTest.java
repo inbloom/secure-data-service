@@ -57,7 +57,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class SecurityCriteriaTest {
     
     @Value("${sli.security.in_clause_size}")
-    private String inClauseSize;
+    private Long inClauseSize;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -104,13 +104,12 @@ public class SecurityCriteriaTest {
         
         injector.setCustomContext("DerpSir", "Derp sir", "Merple", Arrays.asList("Educator"), body, "111");
         List<String> ids = new ArrayList<String>();
-        Long size = Long.parseLong(inClauseSize);
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < inClauseSize; ++i) {
             ids.add("" + i);
         }
         SecurityCriteria securityCriteria = new SecurityCriteria();
         securityCriteria.setCollectionName("Waffles");
-        securityCriteria.setInClauseSize(size);
+        securityCriteria.setInClauseSize(inClauseSize);
         securityCriteria.setSecurityCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         try {
             securityCriteria.applySecurityCriteria(new NeutralQuery());
