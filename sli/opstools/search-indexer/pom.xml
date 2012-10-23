@@ -264,7 +264,7 @@
                 <configuration>
                     <finalName>search_indexer</finalName>
                     <descriptors>
-                        <descriptor>assembly/zip.xml</descriptor>
+                        <descriptor>assembly/tgz.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>
