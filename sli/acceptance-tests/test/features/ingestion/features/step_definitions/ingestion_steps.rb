@@ -1008,8 +1008,9 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
 end
 
 Given /^the tenant database does not exist/ do
-  puts "dropping " + @ingestion_db_name
-    @conn.drop_database(@ingestion_db_name)
+  puts "Dropping database:" + @ingestion_db_name
+  @conn.drop_database(@ingestion_db_name)
+  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -2117,9 +2118,7 @@ Then /^the database is sharded for the following collections/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
-    puts "ns = " + @ingestion_db_name + "." + row["collectionName"]
     @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
-    puts @chunksCount
     if @chunksCount.to_s == "0"
       puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
       @result = "false"
