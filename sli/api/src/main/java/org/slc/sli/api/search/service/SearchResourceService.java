@@ -50,7 +50,7 @@ import org.slc.sli.domain.NeutralCriteria;
 
 /**
  * Search service
- *
+ * 
  */
 
 @Component
@@ -75,19 +75,20 @@ public class SearchResourceService {
     // q,
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
 
-    public ServiceResponse list(Resource resource, URI queryUri) {
+    public ServiceResponse list(Resource resource, String entity, URI queryUri) {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
-
-        // get allSchools for user
-
 
         // set up query criteria
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
         doFilter(apiQuery);
         addContext(apiQuery);
+        if (entity != null) {
+            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, entity));
+        }
+
         int maxResults = apiQuery.getLimit();
         int maxPerQuery = maxResults;
 
@@ -97,7 +98,7 @@ public class SearchResourceService {
         List<EntityBody> accessibleEntities = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-        while(finalEntities.size() < maxResults) {
+        while (finalEntities.size() < maxResults) {
 
             // Call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
@@ -121,18 +122,18 @@ public class SearchResourceService {
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
-
     /**
      * Return list of accessible entities, filtered through the security context.
      * Original list may by cross-collection.
      * Retains the original order of entities.
+     * 
      * @param entities
      * @return
      */
     public List<EntityBody> checkAccessible(List<EntityBody> entities, Entity user) {
 
         // find entity types
-        if (user.getType().equals(EntityNames.STAFF)) {
+        if (EntityNames.STAFF.equals(user.getType())) {
             return entities;
         }
 
@@ -167,7 +168,8 @@ public class SearchResourceService {
     }
 
     /**
-     * NeutralCriteria filter.  Keep NeutralCriteria only on the White List
+     * NeutralCriteria filter. Keep NeutralCriteria only on the White List
+     * 
      * @param apiQuery
      */
     public void doFilter(ApiQuery apiQuery) {
@@ -196,7 +198,7 @@ public class SearchResourceService {
 
     /**
      * apply default query for ElasticSearch
-     *
+     * 
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
