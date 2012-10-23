@@ -36,7 +36,7 @@
 		<constructor-arg ref="searchMongo" />
 		<constructor-arg value="${sli.mongodb.database}" />
 	</bean>
-
+    <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository"/>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
