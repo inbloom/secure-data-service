@@ -153,5 +153,9 @@
     </constructor-arg>
   </bean>
 
+  <bean id="validationRepository" name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">
+  </bean>
+  <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.validation.DummyEntityRepository">
+  </bean>
 
 </beans>
