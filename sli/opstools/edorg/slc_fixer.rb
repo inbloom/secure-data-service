@@ -249,7 +249,7 @@ class SLCFixer
             student_edorg = student_edorgs(studentProgram['body']['studentId'])
             edOrg << student_edorg
             edOrg = edOrg.flatten.uniq
-            stamp_id(@db['program'], studentProgram['_id'], edOrg, studentProgram['metaData']['tenantId'], 
+            stamp_id(@db['program'], studentProgram['_id'], edOrg,  
                      "studentProgramAssociation", program["_id"])
           end
         end
