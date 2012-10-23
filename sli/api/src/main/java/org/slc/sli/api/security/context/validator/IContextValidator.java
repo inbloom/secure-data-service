@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package org.slc.sli.common.domain;
+package org.slc.sli.api.security.context.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.Set;
 
-import org.junit.Test;
+public interface IContextValidator {
 
-public class EmbedDocumentRelationsTest {
-
-    @Test
-    public void studentSectionAssociationTest() {
-        assertTrue(EmbedDocumentRelations.getSubDocuments().contains("studentSectionAssociation"));
-        assertEquals(EmbedDocumentRelations.getParentEntityType("studentSectionAssociation"), "section");
-        assertEquals(EmbedDocumentRelations.getParentFieldReference("studentSectionAssociation"), "sectionId");
-    }
-
+    public abstract boolean canValidate(String entityType);
+    
+    public abstract boolean validate(Set<String> ids);
+    
 }

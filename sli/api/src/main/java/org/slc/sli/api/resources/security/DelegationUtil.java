@@ -21,17 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Common methods for classes that deal with delegation
@@ -41,11 +40,11 @@ import org.slc.sli.domain.Repository;
 public class DelegationUtil {
 
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
-
-    @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
+    
+    @Autowired
+    EdOrgHelper helper;
 
     public List<String> getAppApprovalDelegateEdOrgs() {
         List<String> delegateEdOrgs = getDelegateEdOrgs("appApprovalEnabled");
@@ -80,7 +79,8 @@ public class DelegationUtil {
 
     private List<String> getDelegateEdOrgs(String delegateFeature) {
         String edOrgId = SecurityUtil.getEdOrgId();
-        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrgId);
+        Entity sea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
+        List<String> myEdOrgsIds = helper.getChildLEAsOfEdOrg(sea);
         List<String> delegateEdOrgs = new ArrayList<String>();
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();

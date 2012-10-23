@@ -529,6 +529,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
+                     :apiSuperDocTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1WhiteListValidationTests,
@@ -605,7 +606,6 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/databrowser_selective_deny.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -945,18 +945,23 @@ task :importSecuredData do
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
-  tenant = {
+
+   tenant = {
     "type" => "tenant",
     "body" => {
-      "tenantId" => "Security"
+      "tenantId" => "Security",
+      "dbName" => convertTenantIdToDbName("Security")
       },
     "metaData" => {
         "tenantId" => "Security"
       }
   }
+
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   addSecurityData()
 end
 
@@ -1002,7 +1007,8 @@ task :importSandboxData do
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json",
-    "graduationPlan" => "graduationPlan_fixture.json"
+    "graduationPlan" => "graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "studentCompetencyObjective_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
