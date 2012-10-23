@@ -33,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 ############################################################
 
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
@@ -1004,6 +1005,11 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+end
+
+Given /^the tenant database does not exist/ do
+  puts "dropping " + @ingestion_db_name
+    @conn.drop_database(@ingestion_db_name)
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -2104,6 +2110,25 @@ Then /^the jobs ran concurrently$/ do
 
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
 end
+
+Then /^the database is sharded for the following collections/ do |table|
+  @configDb = @conn.db(CONFIG_DB_NAME)
+  @chunksCollection = @configDb.collection("chunks")
+  @result = "true"
+
+  table.hashes.map do |row|
+    puts "ns = " + @ingestion_db_name + "." + row["collectionName"]
+    @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
+    puts @chunksCount
+    if @chunksCount.to_s == "0"
+      puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Database was not sharder successfully.")
+end
+
 
 When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collection, searchTerm, value|
   step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
