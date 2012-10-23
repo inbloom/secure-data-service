@@ -93,6 +93,8 @@
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="tenantAgnosticCollections" ref="tenantAgnosticCollections" />
   </bean>
+  <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository">
+  </bean>
   <bean id="mongoPerfEntityRepository" name="performanceRepo" class="org.slc.sli.dal.repository.MongoPerfRepository">
     <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
