@@ -50,7 +50,7 @@ import org.slc.sli.domain.NeutralCriteria;
 
 /**
  * Search service
- * 
+ *
  */
 
 @Component
@@ -126,7 +126,7 @@ public class SearchResourceService {
      * Return list of accessible entities, filtered through the security context.
      * Original list may by cross-collection.
      * Retains the original order of entities.
-     * 
+     *
      * @param entities
      * @return
      */
@@ -169,7 +169,7 @@ public class SearchResourceService {
 
     /**
      * NeutralCriteria filter. Keep NeutralCriteria only on the White List
-     * 
+     *
      * @param apiQuery
      */
     public void doFilter(ApiQuery apiQuery) {
@@ -198,7 +198,7 @@ public class SearchResourceService {
 
     /**
      * apply default query for ElasticSearch
-     * 
+     *
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -229,7 +229,7 @@ public class SearchResourceService {
         // first char will be space
         criteria.setValue(sb.substring(1).toString());
     }
-    
+
     private void addContext(ApiQuery apiQuery) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
@@ -238,6 +238,6 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
-        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
+        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
     }
 }
