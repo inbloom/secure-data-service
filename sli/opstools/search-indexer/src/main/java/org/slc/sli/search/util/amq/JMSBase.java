@@ -50,6 +50,9 @@ public abstract class JMSBase {
     private boolean embeddedBroker = false;
     private static BrokerService broker = null;
 
+    private static final String STOMP_URL = "stomp://localhost:61613";
+    private static final String JMS_URL = "tcp://localhost:61616";
+
     enum MessageType {
         QUEUE, TOPIC;
     }
@@ -66,13 +69,13 @@ public abstract class JMSBase {
                 broker.setPersistent(false);
                 broker.setUseJmx(true);
 
-                broker.addConnector("stomp://localhost:61613");
-                broker.addConnector("tcp://localhost:61616");
+                broker.addConnector(STOMP_URL);
+                broker.addConnector(JMS_URL);
                 broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
                 broker.start();
             }
             // use localhost and port 61616 for embedded broker to access
-            this.brokerURI = "tcp://localhost:61616";
+            this.brokerURI = JMS_URL;
 
         } else {
             this.brokerURI = this.mqURL;
