@@ -65,4 +65,11 @@ public class DefaultUsersServiceTest {
         assertEquals("Educator", lindaKim.getRole());
         assertEquals("IT Administrator", rrogers.getRole());
     }
+    
+    @Test
+    public void testGetUser() {
+        DefaultUser user = service.getUser("TestDataset", "linda.kim");
+        
+        assertEquals("linda.kim", user.getUserId());
+    }
 }

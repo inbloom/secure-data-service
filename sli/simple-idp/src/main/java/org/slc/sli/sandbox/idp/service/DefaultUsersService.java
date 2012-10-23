@@ -52,7 +52,7 @@ public class DefaultUsersService {
     public static class DefaultUser {
         String userId, name, role;
         
-        private DefaultUser(String userId, String name, String role) {
+        public DefaultUser(String userId, String name, String role) {
             this.userId = userId;
             this.name = name;
             this.role = role;
@@ -127,7 +127,7 @@ public class DefaultUsersService {
         String key;
         String displayName;
         
-        Dataset(String key, String displayName){
+        public Dataset(String key, String displayName){
             this.key = key;
             this.displayName = displayName;
         }
