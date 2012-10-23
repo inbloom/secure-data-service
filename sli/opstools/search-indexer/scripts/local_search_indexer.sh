@@ -45,8 +45,8 @@ function readOption {
 
 function isJavaReady {
 
-   ##CHECK FOR STOP
-   if [ ${RUN_STOP} == 1 ]; then
+   ##CHECK FOR STOP/EXTRACT
+   if [ ${RUN_STOP} == 1 -o ${RUN_EXTRACT} == 1 ]; then
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          return 0;
       fi
@@ -55,18 +55,6 @@ function isJavaReady {
          return 0
       fi
       REMOTE_COMMAND_PORT=`grep sli.search.indexer.service.port ${CHECK_SLI_CONF}|cut -d '=' -f2`
-      return 1
-   fi
-
-   ##CHECK FOR EXTRACT
-   if [ ${RUN_EXTRACT} == 1 ]; then
-      if [ -z ${SEARCH_INDEXER_TAR} ]; then
-         echo "Please specify search_indexer.tar.gz"
-         return 0;
-      elif [ ! -f ${SEARCH_INDEXER_TAR} ]; then
-         echo "File [${SEARCH_INDEXER_TAR}] does not exist"
-         return 0
-      fi
       return 1
    fi
 
@@ -94,7 +82,7 @@ function isJavaReady {
 }
 
 function prepareJava {
-   tar -C `dirname ${SEARCH_INDEXER_TAR}` -zx${1}f ${SEARCH_INDEXER_TAR}
+   tar -C `dirname ${SEARCH_INDEXER_TAR}` -zxf ${SEARCH_INDEXER_TAR}
 }
 
 function show_help {
@@ -103,7 +91,7 @@ function show_help {
    echo "# run search-indexer widh debug mode"
    echo "local_search_indexer.sh debug search_indexer.tar.gz -Dsli.conf=<file> -Dsli.encryption.keyStore=<file>"
    echo "# extract search-indexer bundle"
-   echo "local_search_indexer.sh extract search_indexer.tar.gz"
+   echo "local_search_indexer.sh extract -Dsli.conf=<file>"
    echo "# stop search-indexer"
    echo "local_search_indexer.sh stop -Dsli.conf=<file>"
 }
@@ -119,8 +107,12 @@ function run {
          echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
       fi
    elif [ ${RUN_EXTRACT} == 1 ]; then
-      prepareJava "v"
-      echo "Extracted in `dirname ${SEARCH_INDEXER_TAR}`"
+      if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+         echo "Extracting.... accessing port ${REMOTE_COMMAND_PORT}"
+         echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+      else
+         echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+      fi
    else
       prepareJava
       echo java ${SEARCH_INDEXER_OPT} -jar `dirname ${SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}
