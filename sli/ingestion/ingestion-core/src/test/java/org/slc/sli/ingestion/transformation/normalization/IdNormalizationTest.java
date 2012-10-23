@@ -671,7 +671,7 @@ public class IdNormalizationTest {
 
         NeutralRecord nr = new NeutralRecord();
         nr.setSourceId("someNamespace");
-        nr.setRecordType("studentTranscriptAssociation");
+        nr.setRecordType("courseTranscript");
         nr.setAttributes(attributes);
         return new NeutralRecordEntity(nr);
     }

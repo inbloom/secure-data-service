@@ -36,9 +36,9 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
     private static final Map<QName, QName> NAME_MAP = new HashMap<QName, QName>();
     static {
         NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "courseTranscript"),
-                new QName("http://www.slcedu.org/api/v1", "studentTranscriptAssociation"));
+                new QName("http://www.slcedu.org/api/v1", "courseTranscript"));
         NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "courseTranscriptList"),
-                new QName("http://www.slcedu.org/api/v1", "studentTranscriptAssociationList"));
+                new QName("http://www.slcedu.org/api/v1", "courseTranscriptList"));
         NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "staffEducationOrgAssignmentAssociation"),
                 new QName("http://www.slcedu.org/api/v1", "staffEducationOrganizationAssociation"));
         NAME_MAP.put(new QName("http://www.slcedu.org/api/v1", "staffEducationOrgAssignmentAssociationList"),

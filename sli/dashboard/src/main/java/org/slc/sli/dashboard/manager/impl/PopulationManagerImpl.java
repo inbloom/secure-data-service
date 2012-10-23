@@ -522,7 +522,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             addSemesterFinalGrades(student, interSections,
-                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC),
+                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_COURSE_TRANSCRIPTS),
                     curSessionEndDate);
 
         } catch (ClassCastException ex) {
