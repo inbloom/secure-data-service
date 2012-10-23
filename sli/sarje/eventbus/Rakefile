@@ -1,6 +1,10 @@
 #!/usr/bin/env rake
+
+$LOAD_PATH << File.dirname(__FILE__) + "/lib"
+
 require "bundler/gem_tasks"
 require 'rake/testtask'
+require 'eventbus'
 
 Rake::TestTask.new do |t|
    t.libs << "test"
@@ -9,10 +13,26 @@ Rake::TestTask.new do |t|
 end
 
 Rake::TestTask.new do |t|
-   t.libs << "test"
-   t.name = "integrationTest"
-   t.test_files = FileList['test/integration_test.rb']
-   t.verbose = true
+  t.libs << "test"
+  t.name = "integrationTest"
+  t.test_files = FileList['test/integration_test.rb']
+  t.verbose = true
+end
+
+desc "Initialize Stress Test"
+task :initStressTest do
+
+  config = {
+      :mongo_host           => "127.0.0.1",
+      :mongo_port           => 27017,
+      :mongo_db             => "eventbus",
+      :mongo_job_collection => "jobs",
+      :poll_interval        => 5,
+      :fixture_file_path    => File.dirname(__FILE__) + '/test/data/stress_test_triggers.json'
+  }
+  mongo_helper = Eventbus::MongoHelper.new(config)
+  mongo_helper.removeDatabase
+  mongo_helper.setFixture
 end
 
 task :default =>  'test'

@@ -49,7 +49,6 @@ module Eventbus
               sleep(1)
             end
           rescue Exception => e
-           # puts e
            @logger.error e if @logger
             cursor = get_oplog_mongo_cursor
           end
@@ -79,8 +78,10 @@ module Eventbus
   end
 
   class OpLogThrottler
-    def initialize(throttle_polling_period = 5)
-      @throttle_polling_period = throttle_polling_period
+    def initialize(config = {}, logger = nil)
+      @logger = logger
+      @throttle_polling_period = config[:collect_events_interval]
+
       @oplog_queue = Queue.new
       @subscription_events_lock = Mutex.new
       set_subscription_events([])
@@ -103,6 +104,7 @@ module Eventbus
           events_to_send = []
           events = Hash.new
           subscription_events = get_subscription_events
+          # TODO: this is terribly inefficient when large enough subscription events and messages. Consider optimization.
           subscription_events.each do |subscription_event|
             event_added = false
             messages_to_process.each do |message_to_process|
@@ -131,11 +133,12 @@ module Eventbus
             end
           end
           if (!events_to_send.empty?)
-            events_to_send.each do |evt|
-              evt.each_pair do |key, value|
-                @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
-              end
-            end
+            @logger.info "sending #{events_to_send.size} events" if @logger
+            #events_to_send.each do |evt|
+            #  evt.each_pair do |key, value|
+            #    @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
+            #  end
+            #end
             yield events_to_send
           end
         end
@@ -167,7 +170,7 @@ module Eventbus
       @event_subscriber = config[:event_subscriber]
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new(config[:collect_events_interval])
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config, logger)
       @oplog_reader = OpLogReader.new(config, logger)
 
       @threads << Thread.new do
