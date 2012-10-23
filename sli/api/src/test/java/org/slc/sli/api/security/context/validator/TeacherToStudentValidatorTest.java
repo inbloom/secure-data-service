@@ -55,6 +55,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
         DirtiesContextTestExecutionListener.class })
 public class TeacherToStudentValidatorTest {
     
+    private static final String ED_ORG_ID = "111";
+    
+    private static final String TEACHER_ID = "1";
+
     @Autowired
     private TeacherToStudentValidator validator;
     
@@ -80,8 +84,8 @@ public class TeacherToStudentValidatorTest {
         
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("teacher");
-        Mockito.when(entity.getEntityId()).thenReturn("1");
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, "111");
+        Mockito.when(entity.getEntityId()).thenReturn(TEACHER_ID);
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
         
         studentIds = new HashSet<String>();
         
@@ -93,7 +97,18 @@ public class TeacherToStudentValidatorTest {
     public void tearDown() {
         mockRepo.deleteAll(EntityNames.TEACHER_SECTION_ASSOCIATION, new NeutralQuery());
         mockRepo.deleteAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery());
+        cleanProgramCohorts();
         SecurityContextHolder.clearContext();
+    }
+
+    private void cleanProgramCohorts() {
+        mockRepo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.COHORT, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.PROGRAM, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
     }
 
     @Test
@@ -108,7 +123,7 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCanGetAccessThroughSingleValidStudent() throws Exception {
-        generateTSA("1", "3", false);
+        generateTSA(TEACHER_ID, "3", false);
         generateSSA("2", "3", false);
         studentIds.add("2");
         assertTrue(validator.validate(studentIds));
@@ -116,7 +131,7 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCanNotGetAccessThroughInvalidStudent() throws Exception {
-        generateTSA("1", "-1", false);
+        generateTSA(TEACHER_ID, "-1", false);
         
         generateSSA("2", "3", false);
         
@@ -128,7 +143,7 @@ public class TeacherToStudentValidatorTest {
     public void testCanGetAccessThroughManyStudents() throws Exception {
 
         for (int i = 0; i < 100; ++i) {
-            generateTSA("1", "" + i, false);
+            generateTSA(TEACHER_ID, "" + i, false);
         }
 
         for (int i = 0; i < 100; ++i) {
@@ -144,7 +159,7 @@ public class TeacherToStudentValidatorTest {
     @Test
     public void testCanGetAccessThroughStudentsWithManySections() throws Exception {
         
-        generateTSA("1", "0", false);
+        generateTSA(TEACHER_ID, "0", false);
 
         List<Entity> ssas = new ArrayList<Entity>();
         for (int i = 0; i < 10; ++i) {
@@ -158,7 +173,7 @@ public class TeacherToStudentValidatorTest {
     public void testCanNotGetAccessThroughManyStudents() throws Exception {
 
         for (int i = 100; i < 200; ++i) {
-            generateTSA("1", "" + i, false);
+            generateTSA(TEACHER_ID, "" + i, false);
         }
 
         for (int i = 0; i < 100; ++i) {
@@ -174,7 +189,7 @@ public class TeacherToStudentValidatorTest {
     public void testCanNotGetAccessThroughManyStudentsWithOneFailure() throws Exception {
 
         for (int i = 0; i < 100; ++i) {
-            generateTSA("1", "" + i, false);
+            generateTSA(TEACHER_ID, "" + i, false);
         }
 
         for (int i = 0; i < 100; ++i) {
@@ -188,6 +203,46 @@ public class TeacherToStudentValidatorTest {
         assertFalse(validator.validate(studentIds));
     }
     
+    // @Test
+    // public void testCanGetAccessThroughValidCohort() throws Exception {
+    // generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+    // String cohortId = generateCohort(ED_ORG_ID).getEntityId();
+    // generateStaffCohort(TEACHER_ID, cohortId, false, true);
+    // for (int i = 0; i < 10; ++i) {
+    // generateStudentCohort(i + "", cohortId, false);
+    // studentIds.add(i + "");
+    // }
+    //
+    // assertTrue(validator.validate(studentIds));
+    // }
+    //
+    //
+    //
+    // @Test
+    // public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
+    // assertFalse(validator.validate(studentIds));
+    // }
+    //
+    // @Test
+    // public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
+    // assertFalse(validator.validate(studentIds));
+    // }
+    //
+    // @Test
+    // public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
+    // assertFalse(validator.validate(studentIds));
+    // }
+    //
+    // @Test
+    // public void testCanNotGetAccessThroughOutsideOfEdorg() throws Exception {
+    // assertFalse(validator.validate(studentIds));
+    // }
+    //
+    // @Test
+    // public void testCohortAccessIntersectionRules() throws Exception {
+    // assertFalse(validator.validate(studentIds));
+    // }
+
     private void generateSSA(String studentId, String sectionId, boolean isExpired) {
         Map<String, Object> ssaBody = new HashMap<String, Object>();
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
@@ -198,6 +253,14 @@ public class TeacherToStudentValidatorTest {
         mockRepo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
     
+    private void generateTeacherSchool(String teacherId, String edorgId) {
+        Map<String, Object> tsaBody = new HashMap<String, Object>();
+        tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
+        tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
+        
+        mockRepo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
+    }
+
     private void generateTSA(String teacherId, String sectionId, boolean isExpired) {
         Map<String, Object> tsaBody = new HashMap<String, Object>();
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
@@ -206,6 +269,38 @@ public class TeacherToStudentValidatorTest {
             tsaBody.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
         }
         mockRepo.create(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
+    }
+    
+    private Entity generateCohort(String edOrgId) {
+        Map<String, Object> cohortBody = new HashMap<String, Object>();
+        cohortBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edOrgId);
+        
+        return mockRepo.create(EntityNames.COHORT, cohortBody);
+    }
+    
+    private void generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
+        Map<String, Object> staffCohort = new HashMap<String, Object>();
+        staffCohort.put(ParameterConstants.STAFF_ID, teacherId);
+        staffCohort.put(ParameterConstants.COHORT_ID, cohortId);
+        if (isExpired) {
+            staffCohort.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+        }
+        staffCohort.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
+        
+        mockRepo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
+        
+    }
+    
+    private void generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
+        Map<String, Object> studentCohort = new HashMap<String, Object>();
+        studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
+        studentCohort.put(ParameterConstants.COHORT_ID, cohortId);
+        if (isExpired) {
+            studentCohort.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+        }
+        
+        mockRepo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
+        
     }
 
 }
