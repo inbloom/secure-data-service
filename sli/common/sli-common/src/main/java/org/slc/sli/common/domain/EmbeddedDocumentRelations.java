@@ -39,13 +39,22 @@ public class EmbeddedDocumentRelations {
         Map<String, Parent> map = new HashMap<String, Parent>();
         Map<String, Denormalization> denormalizationMap = new HashMap<String, Denormalization>();
 
-        Map<String, String> sectionReferenceMap = new HashMap<String, String>();
-        sectionReferenceMap.put("studentId", "_id");
-        denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section", sectionReferenceMap,
+        Map<String, String> studentReferenceMap = new HashMap<String, String>();
+        studentReferenceMap.put("studentId", "_id");
+
+        //student section association de-normalization
+        denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section", studentReferenceMap,
                 "sectionId", Arrays.asList("endDate")));
         //Student--program
-        denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program", sectionReferenceMap,
+        denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program", studentReferenceMap,
                 "programId", Arrays.asList("endDate")));
+        //student school association de-normalization
+        // -> puts information from the student school association on the student db object
+        // -> assembles school's 'education organization lineage' and denormalizes onto student with school _id
+        // -> required for staff context resolvers
+        denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
+                "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
+
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
@@ -95,9 +104,14 @@ public class EmbeddedDocumentRelations {
         return (denormalization != null ? denormalization.getDenormalizedIdKey() : null);
     }
 
-    public static List<String> getDenormalizedFields(String entityType) {
+    public static List<String> getDenormalizedBodyFields(String entityType) {
         Denormalization denormalization = getDenormalization(entityType);
-        return (denormalization != null ? denormalization.getDenormalizedFields() : null);
+        return (denormalization != null ? denormalization.getDenormalizedBodyFields() : null);
+    }
+
+    public static List<String> getDenormalizedMetaFields(String entityType) {
+        Denormalization denormalization = getDenormalization(entityType);
+        return (denormalization != null ? denormalization.getDenormalizedMetaDataFields() : null);
     }
 
     public static String getDenormalizedToField(String entityType) {
@@ -132,21 +146,32 @@ public class EmbeddedDocumentRelations {
         }
     }
 
-    private static class Denormalization {
+    protected static class Denormalization {
 
         private String denormalizeToEntity;
         private Map<String, String> referenceKeys;
         private String denormalizedIdKey;
-        private List<String> denormalizedFields;
+        private List<String> denormalizedBodyFields;
+        private List<String> denormalizedMetaFields;
         private String denormalizedToField;
 
         public Denormalization(String denormalizeToEntity, String denormalizedToField, Map<String, String> referenceKeys,
-                               String denormalizedIdKey, List<String> denormalizedFields) {
+                String denormalizedIdKey, List<String> denormalizedBodyFields) {
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.referenceKeys = referenceKeys;
             this.denormalizedIdKey = denormalizedIdKey;
-            this.denormalizedFields = denormalizedFields;
+            this.denormalizedBodyFields = denormalizedBodyFields;
+        }
+
+        public Denormalization(String denormalizeToEntity, String denormalizedToField, Map<String, String> referenceKeys,
+                               String denormalizedIdKey, List<String> denormalizedBodyFields, List<String> denormalizedMetaFields) {
+            this.denormalizeToEntity = denormalizeToEntity;
+            this.denormalizedToField = denormalizedToField;
+            this.referenceKeys = referenceKeys;
+            this.denormalizedIdKey = denormalizedIdKey;
+            this.denormalizedBodyFields = denormalizedBodyFields;
+            this.denormalizedMetaFields = denormalizedMetaFields;
         }
 
         public String getDenormalizeToEntity() {
@@ -161,8 +186,12 @@ public class EmbeddedDocumentRelations {
             return denormalizedIdKey;
         }
 
-        public List<String> getDenormalizedFields() {
-            return denormalizedFields;
+        public List<String> getDenormalizedBodyFields() {
+            return denormalizedBodyFields;
+        }
+
+        public List<String> getDenormalizedMetaDataFields() {
+            return denormalizedMetaFields;
         }
 
         public String getDenormalizedToField() {

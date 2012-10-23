@@ -25,9 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.slc.sli.dal.convert.Denormalizer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,6 +39,7 @@ import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
@@ -61,8 +59,6 @@ import org.slc.sli.validation.schema.NaturalKeyExtractor;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     @Autowired
     private EntityValidator validator;
