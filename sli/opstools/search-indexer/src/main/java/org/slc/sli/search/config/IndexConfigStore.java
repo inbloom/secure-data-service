@@ -17,7 +17,8 @@ package org.slc.sli.search.config;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -40,17 +41,20 @@ public class IndexConfigStore {
             throw new IllegalArgumentException("sli.search.index.config must be provided");
         }
         File config = new File(configFile);
+        InputStream is = null; 
         if (!configFile.startsWith("/")) {
-            URL url = getClass().getResource("/" + configFile);
-            if (url == null) {
-                throw new IllegalArgumentException("File" + configFile + " does not exist");
+            is = getClass().getResourceAsStream("/" + configFile);
+            if (is == null){
+                throw new IllegalArgumentException("File " + configFile + " does not exist");
             }
-            config = new File(url.getFile());
         }
-        if (!config.exists()) {
-            throw new IllegalArgumentException("File" + config.getAbsolutePath() + " does not exist");
+        else {
+            if (!config.exists()) {
+                throw new IllegalArgumentException("File " + config.getAbsolutePath() + " does not exist");
+            }
+            is = new FileInputStream(config);
         }
-        Map<String, IndexConfig> map = mapper.readValue(config, new TypeReference<Map<String, IndexConfig>>(){});
+        Map<String, IndexConfig> map = mapper.readValue(is, new TypeReference<Map<String, IndexConfig>>(){});
         IndexConfig indexConfig;
         for (Map.Entry<String, IndexConfig> entry: map.entrySet()) {
             indexConfig = entry.getValue();  
