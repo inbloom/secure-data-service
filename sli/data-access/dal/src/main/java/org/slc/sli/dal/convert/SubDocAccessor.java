@@ -463,6 +463,9 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
+
+            simplifyParentQuery(parentQuery);
+
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
@@ -478,6 +481,49 @@ public class SubDocAccessor {
                 }
             }
             return entities;
+        }
+
+        @SuppressWarnings("unchecked")
+        private void simplifyParentQuery(final DBObject query) {
+            final Set<String> parentSet = new HashSet<String>();
+            if (isSubDoc(this.subField) && subDoc(this.subField).collection.equals(this.collection)) {
+                final String childLoc = this.subField.concat("._id");
+                final String parentLoc = "_id";
+                final Object dbOrObj = query.get("$or");
+                if (dbOrObj != null && dbOrObj instanceof List) {
+                    final List<DBObject> dbOrList = (List<DBObject>) dbOrObj;
+                    for (DBObject childQuery : dbOrList) {
+                        Object childInQuery = childQuery.get(childLoc);
+                        if (childInQuery instanceof DBObject && ((DBObject) childInQuery).containsField("$in")) {
+                            Object inList = ((DBObject) childInQuery).get("$in");
+                            parentSet.addAll(getParentIds(inList));
+                            if (dbOrList.size() == 1) {
+                                query.removeField("$or");
+                            } else {
+                                dbOrList.remove(childQuery);
+                            }
+                        }
+                    }
+                }
+                if (parentSet.size() == 1) {
+                    query.put(parentLoc, parentSet);
+                } else if (parentSet.size() > 1) {
+                    query.put(parentLoc, new BasicDBObject("$in", parentSet));
+                }
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        private Set<String> getParentIds(final Object childIds) {
+            final Set<String> parentSet = new HashSet<String>();
+            if (childIds instanceof Iterable) {
+                for (String childId : (Iterable<String>) childIds) {
+                    parentSet.add(getParentId(childId));
+                }
+            } else if (childIds instanceof String) {
+                parentSet.add((String) childIds);
+            }
+            return parentSet;
         }
 
         public boolean exists(String id) {
