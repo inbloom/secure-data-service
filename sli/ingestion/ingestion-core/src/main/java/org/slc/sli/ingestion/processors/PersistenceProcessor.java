@@ -555,7 +555,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
      private void upsertRecordHash(NeutralRecord nr){
             if (nr.getMetaDataByName("rhId") != null) {
-                batchJobDAO.findAndUpsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
+                batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
                         nr.getMetaDataByName("rhId").toString());
             }
         }

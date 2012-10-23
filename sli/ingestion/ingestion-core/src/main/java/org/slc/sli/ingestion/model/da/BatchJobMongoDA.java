@@ -531,25 +531,16 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean findAndUpsertRecordHash(String tenantId, String recordId) {
-        RecordHash rh = this.findRecordHash(tenantId, recordId);
+    public boolean upsertRecordHash(String tenantId, String recordId) {
 
-        if (rh == null) {
-            // record was not found
-            rh = new RecordHash();
-            rh._id = recordId;
-            rh.tenantId = tenantId;
-            rh.timestamp = "" + System.currentTimeMillis();
-            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-            return false;
-        } else {
-            rh.timestamp = "" + System.currentTimeMillis();
-            rh.tenantId = tenantId;
-            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-
-            return true;
-        }
-    }
+        // record was not found
+        RecordHash rh = new RecordHash();
+        rh._id = recordId;
+        rh.tenantId = tenantId;
+        rh.timestamp = "" + System.currentTimeMillis();
+        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+        return false;
+   }
 
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
