@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Specify your gem's dependencies in eventbus.gemspec
 gemspec
-gem 'mongo'
+gem 'mongo', '>=0.7.0'
 gem 'stomp'
 gem 'systemu'
 gem 'daemons'
