@@ -240,4 +240,46 @@ public class DidSchemaParserTest {
         Assert.assertEquals("stateOrganizationId", keyField.getKeyFieldName());
         Assert.assertTrue(keyField.isOptional());
     }
+
+    @Test
+    public void shouldExtractEntityConfigsWithChoiceKeyFields() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/OptionalChoiceKeyField-Extension.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
+
+        Assert.assertEquals("Should extract 1 ref config", 1, refConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
+
+        //test the entityConfig for StudentSectionAssociation
+        DidRefConfig edOrgConfig = refConfigs.get(EDORG_TYPE);
+        Assert.assertNotNull(edOrgConfig);
+        Assert.assertNotNull(edOrgConfig.getKeyFields());
+
+        List<KeyFieldDef> keyFields = edOrgConfig.getKeyFields();
+        Assert.assertEquals("entity config should contain 2 keyfield", 2, keyFields.size());
+
+        //order doesn't matter so put them into a map
+        Map<String, KeyFieldDef> keyFieldMap = new HashMap<String, KeyFieldDef>();
+        for (KeyFieldDef keyField : keyFields) {
+            keyFieldMap.put(keyField.getKeyFieldName(), keyField);
+        }
+
+        Assert.assertTrue(keyFieldMap.containsKey("keyFieldA"));
+        Assert.assertTrue(keyFieldMap.containsKey("keyFieldB"));
+
+        Assert.assertNotNull(keyFieldMap.get("keyFieldA"));
+        KeyFieldDef keyFieldA = keyFieldMap.get("keyFieldA");
+        Assert.assertEquals("keyFieldA", keyFieldA.getKeyFieldName());
+        Assert.assertTrue(keyFieldA.isOptional());
+
+        Assert.assertNotNull(keyFieldMap.get("keyFieldB"));
+        KeyFieldDef keyFieldB = keyFieldMap.get("keyFieldB");
+        Assert.assertEquals("keyFieldB", keyFieldB.getKeyFieldName());
+        Assert.assertTrue(keyFieldB.isOptional());
+    }
+
 }
