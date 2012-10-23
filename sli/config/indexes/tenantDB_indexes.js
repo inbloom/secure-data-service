@@ -132,9 +132,9 @@ db["studentSchoolAssociation"].ensureIndex({"body.studentId":1});
 //studentSectionAssociation is embedded into section
 db["section"].ensureIndex({"studentSectionAssociation.body.sectionId":1});  // do we need this?
 db["section"].ensureIndex({"studentSectionAssociation.body.studentId":1});
-db["studentTranscriptAssociation"].ensureIndex({"body.courseId":1});
-db["studentTranscriptAssociation"].ensureIndex({"body.studentAcademicRecordId":1});
-db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1});
+db["courseTranscript"].ensureIndex({"body.courseId":1});
+db["courseTranscript"].ensureIndex({"body.studentAcademicRecordId":1});
+db["courseTranscript"].ensureIndex({"body.studentId":1});
 db["teacherSchoolAssociation"].ensureIndex({"body.schoolId":1});
 db["teacherSchoolAssociation"].ensureIndex({"body.teacherId":1});
 db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
@@ -181,7 +181,7 @@ db["studentGradebookEntry"].ensureIndex({"metaData.edOrgs":1});
 db["studentParentAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["studentProgramAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["studentTranscriptAssociation"].ensureIndex({"metaData.edOrgs":1});
+db["courseTranscript"].ensureIndex({"metaData.edOrgs":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 

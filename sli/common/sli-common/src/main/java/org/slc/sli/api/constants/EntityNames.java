@@ -34,6 +34,7 @@ public final class EntityNames {
     public static final String COURSE = "course";
     public static final String COURSE_OFFERING = "courseOffering";
     public static final String COURSE_SECTION_ASSOCIATION = "courseSectionAssociation";
+    public static final String COURSE_TRANSCRIPT = "courseTranscript";
     public static final String DISCIPLINE_INCIDENT = "disciplineIncident";
     public static final String DISCIPLINE_ACTION = "disciplineAction";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
@@ -68,7 +69,6 @@ public final class EntityNames {
     public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
     public static final String TEACHER = "teacher";
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";

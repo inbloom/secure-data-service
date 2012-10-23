@@ -93,11 +93,11 @@ task :v1StudentParentAssociationTests => [:realmInit] do
 end
 
 desc "Run V1 Student Transcript Association Tests"
-task :v1StudentTranscriptAssociationTests => [:realmInit] do
+task :v1CourseTranscriptTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("course", "course_fixture.json")
-  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/studentTranscriptAssociation")
+  setFixture("courseTranscript", "courseTranscript_fixture.json")
+  runTests("test/features/apiV1/associations/legacy_tests/courseTranscript")
 end
 
 desc "Run V1 Teacher School Association Tests"

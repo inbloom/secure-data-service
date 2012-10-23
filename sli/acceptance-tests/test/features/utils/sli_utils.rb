@@ -399,7 +399,7 @@ def ensureIndexes(db)
   @collection.ensure_index([['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " "} })
 
-  @collection = @db["studentTranscriptAssociation"]
+  @collection = @db["courseTranscript"]
   @collection.save( {'body' => {'courseId' => " ", 'studentId' => " "}} )
   @collection.ensure_index([ ['body.studentId', 1], ['body.courseId', 1]])
   @collection.remove( {'body' => {'courseId' => " ", 'studentId' => " "}} )
