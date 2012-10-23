@@ -51,7 +51,7 @@ $collectionSet = ["student",
                   "assessment",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
-                  "studentTranscriptAssociation",
+                  "courseTranscript",
                   "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
@@ -529,6 +529,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
+                     :apiSuperDocTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1WhiteListValidationTests,
@@ -605,7 +606,6 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/databrowser_selective_deny.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -692,7 +692,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 #task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionCourseTranscriptTests, :ingestionProgramTest, :ingestionCohortTest,
 #                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
 #                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
 #                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
@@ -917,6 +917,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
@@ -933,9 +934,7 @@ task :importSecuredData do
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
     "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",
-    "studentTranscriptAssociation" => "secured/studentTranscriptAssociation.json",
-    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
@@ -988,7 +987,7 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
+    "courseTranscript" => "courseTranscript_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
     "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
@@ -1007,7 +1006,8 @@ task :importSandboxData do
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json",
-    "graduationPlan" => "graduationPlan_fixture.json"
+    "graduationPlan" => "graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "studentCompetencyObjective_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1075,7 +1075,7 @@ task :importUnifiedData => [:realmInit] do
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
-    "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
+    "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"

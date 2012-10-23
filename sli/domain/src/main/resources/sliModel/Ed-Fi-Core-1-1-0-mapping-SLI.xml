@@ -18961,7 +18961,7 @@
     <rhs>
       <name>courseAttemptResult</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTanscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19009,7 +19009,7 @@
     <rhs>
       <name>methodCreditEarned</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19057,7 +19057,7 @@
     <rhs>
       <name>performanceBaseConversion</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19069,7 +19069,7 @@
     <rhs>
       <name>courseRepeatCode</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19093,7 +19093,7 @@
     <rhs>
       <name>creditsAttempted</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19105,7 +19105,7 @@
     <rhs>
       <name>diagnosticStatement</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19165,7 +19165,7 @@
     <rhs>
       <name>finalNumericGradeEarned</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19201,7 +19201,7 @@
     <rhs>
       <name>additionalCreditsEarned</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19237,7 +19237,7 @@
     <rhs>
       <name>studentAcademicRecord</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19259,7 +19259,7 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>studentTranscriptAssociations</name>
+      <name>courseTranscripts</name>
       <exists>true</exists>
       <owner-name>StudentAcademicRecord</owner-name>
       <owner-exists>true</owner-exists>
@@ -19285,7 +19285,7 @@
     <rhs>
       <name>gradeLevelWhenTaken</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19307,7 +19307,7 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>studentTranscriptAssociations</name>
+      <name>courseTranscripts</name>
       <exists>true</exists>
       <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
@@ -19345,7 +19345,7 @@
     <rhs>
       <name>gradeType</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19357,7 +19357,7 @@
     <rhs>
       <name>creditsEarned</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19393,7 +19393,7 @@
     <rhs>
       <name>student</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19429,7 +19429,7 @@
     <rhs>
       <name>finalLetterGradeEarned</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19441,7 +19441,7 @@
     <rhs>
       <name>course</name>
       <exists>true</exists>
-      <owner-name>StudentTranscriptAssociation</owner-name>
+      <owner-name>CourseTranscript</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>

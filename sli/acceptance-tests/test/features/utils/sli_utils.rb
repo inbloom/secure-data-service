@@ -399,7 +399,7 @@ def ensureIndexes(db)
   @collection.ensure_index([['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " "} })
 
-  @collection = @db["studentTranscriptAssociation"]
+  @collection = @db["courseTranscript"]
   @collection.save( {'body' => {'courseId' => " ", 'studentId' => " "}} )
   @collection.ensure_index([ ['body.studentId', 1], ['body.courseId', 1]])
   @collection.remove( {'body' => {'courseId' => " ", 'studentId' => " "}} )
@@ -537,7 +537,7 @@ module DataProvider
   def self.getValidCustomRoleData()
     return {
       "realmId" => "",
-      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "roles" => [{"groupTitle" => "Educator", "isAdminRole" => false, "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
       "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
     }
   end

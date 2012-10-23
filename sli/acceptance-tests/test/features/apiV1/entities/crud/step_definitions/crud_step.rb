@@ -494,3 +494,8 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   end
 end
 
+And /^field "(.*?)" is removed from the json document$/ do |arg1|
+  puts @fields.inspect 
+  @fields.delete "beginDate" 
+  puts @fields.inspect 
+end
