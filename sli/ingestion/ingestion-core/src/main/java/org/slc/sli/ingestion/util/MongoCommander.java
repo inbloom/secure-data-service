@@ -45,7 +45,10 @@ public class MongoCommander {
             URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
             if (scriptFile != null) {
                 String path = (new File(scriptFile.getFile())).getPath();
-                ProcessBuilder pb = new ProcessBuilder(new String[] { "mongo", db, "--eval", jsContent, path });
+                String[] args = { "mongo", db, "--eval", jsContent, path };
+
+                LOG.info("Running process with args: {} {} {} {} {}", args);
+                ProcessBuilder pb = new ProcessBuilder(args);
                 Process pr = pb.start();
                 try {
                     pr.waitFor();
