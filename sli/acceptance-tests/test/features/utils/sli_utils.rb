@@ -537,7 +537,7 @@ module DataProvider
   def self.getValidCustomRoleData()
     return {
       "realmId" => "",
-      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "roles" => [{"groupTitle" => "Educator", "isAdminRole" => false, "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
       "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
     }
   end
