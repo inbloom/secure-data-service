@@ -35,6 +35,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -80,7 +81,7 @@ public class RealmHelperTest {
 
     private Entity buildEdOrg(String stateOrgId, Entity parent, boolean isSEA) {
         Map<String, Object> metaData = new HashMap<String, Object>();
-        metaData.put("tenantId", "foo");
+        TenantContext.setTenantId("foo");
         Map<String, Object> body = new HashMap<String, Object>();
         body = new HashMap<String, Object>();
         if (isSEA) {
@@ -102,7 +103,8 @@ public class RealmHelperTest {
 
         Map<String, Object> body = new HashMap<String, Object>();
         body = new HashMap<String, Object>();
-        body.put("tenantId", "foo");
+
+        TenantContext.setTenantId("foo");
         body.put("uniqueIdentifier", "BlahBlah");
         body.put("edOrg", edOrg.getBody().get("stateOrganizationId"));
         Entity realm = repo.create("realm", body, metaData, "realm");
