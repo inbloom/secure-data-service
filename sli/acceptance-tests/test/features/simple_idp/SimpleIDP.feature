@@ -18,7 +18,7 @@ Scenario: Use Mock IDP to log in as IT Administrator
   Then I should see the name "Charles Gray" on the page
   # Verify role not blank if custom role not specified
 When I navigate to databrowsers "/entities/system/session/debug" page
-Then I should see my roles as "Educator"
+Then I should see my roles as "IT Administrator"
 And I should see my rights include "READ_PUBLIC"
 And I should see my rights include "READ_GENERAL"
 And I should see my rights include "AGGREGATE_READ"
