@@ -17777,19 +17777,11 @@
     </CourseTranscript>
     <!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
     <StudentCompetency id="SC-GR3-800000025-1">
-        <LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <Objective>Fluency and Expression</Objective>
-                <AcademicSubject>Reading</AcademicSubject>
-                <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
-        <!--StudentCompetencyObjectiveReference>
-		<StudentCompetencyObjectiveIdentity>
-		  <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
-		</StudentCompetencyObjectiveIdentity>
-	  </StudentCompetencyObjectiveReference-->
+        <StudentCompetencyObjectiveReference>
+			<StudentCompetencyObjectiveIdentity>
+		  		<StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+			</StudentCompetencyObjectiveIdentity>
+	  </StudentCompetencyObjectiveReference>
         <CompetencyLevel>
             <CodeValue>3</CodeValue>
         </CompetencyLevel>
@@ -18574,13 +18566,11 @@
         <GradeReference ref="GR-GR3-800000025-2"/>
         <StudentCompetencyReference>
             <StudentCompetencyIdentity>
-                <LearningObjectiveReference>
-                    <LearningObjectiveIdentity>
-                        <Objective>Fluency and Expression</Objective>
-                        <AcademicSubject>Reading</AcademicSubject>
-                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-                    </LearningObjectiveIdentity>
-                </LearningObjectiveReference>
+        		<StudentCompetencyObjectiveReference>
+					<StudentCompetencyObjectiveIdentity>
+		  				<StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+					</StudentCompetencyObjectiveIdentity>
+	  			</StudentCompetencyObjectiveReference>
                 <CodeValue>3</CodeValue>
                 <StudentSectionAssociationReference>
                     <StudentSectionAssociationIdentity>

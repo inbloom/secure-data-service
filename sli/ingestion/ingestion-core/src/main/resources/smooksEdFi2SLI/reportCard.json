@@ -143,6 +143,7 @@
         },
         {
             "fieldPath":"body.StudentCompetencyReference",
+        	"deprecated" : false,
             "ref":{
                 "entityType":"studentCompetency",
                 "isRefList":true,
@@ -215,7 +216,7 @@
 							"path" : "body.competencyLevel.codeValue",
 							"values" :
 							[{
-								"valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.CompetencyLevel.CodeValue"
+								"valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.CodeValue"
 							}]
 						},
 						{
@@ -225,6 +226,8 @@
 					            "ref" :
 					            {
 					                "entityType" : "studentSectionAssociation",
+                					"isRefList":true,
+                					"refObjectPath":"body.StudentCompetencyReference",
 					                "choiceOfFields" :
 					                [
 					                    [
