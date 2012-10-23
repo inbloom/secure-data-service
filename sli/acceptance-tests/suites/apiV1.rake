@@ -282,7 +282,7 @@ end
 desc "Run Tests for new endpoints"
 task :v1NewEndpointTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/endpoints/")
+  runTests("test/features/apiV1/endpoints")
 end
 
 desc "Run V1 Assessment User Story Tests"
