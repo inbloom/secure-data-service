@@ -19,7 +19,7 @@ package org.slc.sli.dal.convert;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
