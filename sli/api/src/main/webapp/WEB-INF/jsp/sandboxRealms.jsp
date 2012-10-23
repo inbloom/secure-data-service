@@ -18,6 +18,17 @@ body {
   font-size: 13px;
   line-height: 18px;
 }
+h1 {
+	font-size: 20px;
+}
+.box {
+	float: left;
+	width: 400px;
+	padding: 20px;
+}
+.boxRight {
+	border-left: 1px solid #C0C0C0;
+}
 </style>
 <script>
 function submit(id){
@@ -34,8 +45,18 @@ function submit(id){
 			<input type="hidden" name="state" value="${fn:escapeXml(state)}" />
 		</c:if>
 		<input type="hidden" id="realmId" name="realmId" value ="none"/>
-		<a href="#" onclick="submit('<c:out value="${adminRealm}" />')"><img src="/api/resources/administrate.jpeg" /></a>
-		<a href="#" onclick="submit('<c:out value="${sandboxRealm}" />');"><img src="/api/resources/sandbox.jpeg" /></a>
+		
+		<div class="box">
+			<h1>Administering my Sandbox</h1>
+			<p>Administering your sandbox allows you to ingest test data, register applications, and manage accounts on your sandbox.</p>
+			<a href="#" onclick="submit('<c:out value="${adminRealm}" />')">Next</a>
+		</div>
+		
+		<div class="box boxRight">
+			<h1>Test Applications in my Sandbox</h1>
+			<p>The sandbox gives you a safe place to test your applications while you are developing them.</p>
+			<a href="#" onclick="submit('<c:out value="${sandboxRealm}" />');">Next</a>
+		</div>
 	</form:form>
 </body>
 </html>
