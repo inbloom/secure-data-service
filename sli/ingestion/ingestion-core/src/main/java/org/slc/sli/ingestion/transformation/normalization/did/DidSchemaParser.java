@@ -419,7 +419,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 refConfig.setEntityType(refSource.getEntityType());
 
                 // parse the reference type
-                parseParticleForRefConfig(extractParticle(identityType), refConfig, baseXPath);
+                parseParticleForRefConfig(extractParticle(identityType), refConfig, baseXPath, false);
 
             } else {
                 LOG.error("Failed to extract IdentityType for referenceType " + refType.getName());
@@ -478,7 +478,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Recursively parse through an XmlSchemaPatricle to the elements
      * filling in the refConfig data, including nested refConfigs
      */
-    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath) {
+    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath, boolean isOptional) {
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
@@ -496,8 +496,10 @@ public class DidSchemaParser implements ResourceLoaderAware {
                     QName elementType = element.getSchemaTypeName();
 
                     if (element.getMinOccurs() == 0) {
-                        keyfield.setOptional(true);
+                        isOptional = true;
                     }
+
+                    keyfield.setOptional(isOptional);
 
                     // check whether we have a nested Ref and create
                     if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
@@ -516,17 +518,20 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
                     XmlSchemaObject item = schemaSequence.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath);
+                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath, isOptional);
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
 
+                //treat fields within a choice as being optional
+                isOptional = true;
+
                 for (int i = 0; i < choices.getCount(); i++) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath);
+                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath, isOptional);
                     }
                 }
             }
