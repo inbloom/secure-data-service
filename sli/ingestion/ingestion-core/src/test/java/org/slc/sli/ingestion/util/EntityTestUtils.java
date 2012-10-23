@@ -48,7 +48,6 @@ import org.milyn.payload.StringSource;
 import org.mockito.Mockito;
 import org.xml.sax.SAXException;
 
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -78,11 +77,8 @@ public class EntityTestUtils {
 
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
 
-        DeterministicUUIDGeneratorStrategy mockUidGenerator = Mockito.mock(DeterministicUUIDGeneratorStrategy.class);
-
         Smooks smooks = new Smooks(smooksConfig);
-        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null, null,
-                mockUidGenerator);
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
         HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
