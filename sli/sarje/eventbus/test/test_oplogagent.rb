@@ -21,37 +21,63 @@ $LOAD_PATH << testdir + "/../lib"
 
 require 'eventbus'
 require 'test/unit'
+require 'mongo'
 
 class TestOpLogAgent < Test::Unit::TestCase
 
   def setup
   end
 
+  def xxxtest_get_connection
+    config = {
+      :mongo_host => "localhost:10001, localhost:10002, localhost:10003"
+    }
+
+    oplog_reader = Eventbus::OpLogReader.new(config)
+    con = oplog_reader.get_connection
+
+    db = con['local']
+    col = db['oplog.rs']
+    tail = Mongo::Cursor.new(col, :tailable => true, :timeout => false)
+    while tail.has_next?
+      puts tail.next 
+    end 
+  end 
+
   # TODO: fix this test
-  def test_oplog_reader
+  def xxxtest_oplog_reader
     threads = []
 
-    oplog_reader = Eventbus::OpLogReader.new
-    oplog_queue = Queue.new
+    # create one config for each sharded replica set 
+    configs = [
+        { :mongo_host => "localhost:10001, localhost:10002, localhost:10003" },
+        { :mongo_host => "localhost:10004, localhost:10005, localhost:10006" }
+    ]
 
-    threads << Thread.new do
-      oplog_reader.handle_oplogs do |oplog|
-        puts oplog
-        oplog_queue << oplog
-      end
+    oplog_queue = Queue.new
+    threads = [] 
+    configs.each do |conf|
+        threads << Thread.new do
+          oplog_reader = Eventbus::OpLogReader.new(conf)
+          oplog_reader.handle_oplogs do |oplog_doc|
+              # only record inserts 
+              if oplog_doc["op"] == "i"
+                  oplog_queue << oplog_doc 
+              end
+          end
+        end
     end
+    sleep 5   # wait for initial reading to clear
 
     conn = Mongo::Connection.new
     db   = conn['sample-db']
     coll = db['test']
     coll.remove
 
-    sleep 10 # wait for initial reading to clear
-
     oplog_count = 5
     threads << Thread.new do
       oplog_count.times do |i|
-        puts "inserting #{i}"
+        # puts "inserting #{i}"
         coll.insert({'a' => i+1})
       end
     end
