@@ -18533,7 +18533,7 @@
                             </EducationalOrgIdentity>
                         </EducationalOrgReference>
                         <GradingPeriod>First Six Weeks</GradingPeriod>
-                        <BeginDate>2012-04-16</BeginDate>
+                        <BeginDate>2010-08-23</BeginDate>
                         <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
@@ -18569,7 +18569,7 @@
                             </EducationalOrgIdentity>
                         </EducationalOrgReference>
                         <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-                        <BeginDate>2012-04-16</BeginDate>
+                        <BeginDate>2011-04-11</BeginDate>
                         <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
@@ -18619,6 +18619,7 @@
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
                 <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-05-27</BeginDate>
                 <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
@@ -19571,7 +19572,7 @@
                             </EducationalOrgIdentity>
                         </EducationalOrgReference>
                         <GradingPeriod>First Six Weeks</GradingPeriod>
-                        <BeginDate>2012-04-16</BeginDate>
+                        <BeginDate>2010-08-23</BeginDate>
                         <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
@@ -19607,7 +19608,7 @@
                             </EducationalOrgIdentity>
                         </EducationalOrgReference>
                         <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-                        <BeginDate>2012-04-16</BeginDate>
+                        <BeginDate>2011-04-11</BeginDate>
                         <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
@@ -19665,6 +19666,7 @@
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
                 <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-05-27</BeginDate>
                 <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
@@ -19684,6 +19686,26 @@
                 <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <ReportCardReference ref="RC-GK-100000017-1"/>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2011-05-27</BeginDate>
+                        <SchoolYear>2010-2011</SchoolYear>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
     </StudentAcademicRecord>
 </InterchangeStudentGrade>

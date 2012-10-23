@@ -1064,13 +1064,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 			</xs:element>
 			<xs:element name="BeginDate" type="xs:date">
 				<xs:annotation>
-					<xs:appinfo>
-						<sli:keyFieldName>beginDate</sli:keyFieldName>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BeginDate" type="xs:date">
-				<xs:annotation>
 					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
 </xs:documentation>
                     <xs:appinfo>
