@@ -347,7 +347,9 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
-
+        # List of sample user files for our standard datasets. Values are in pairs, where the first is the display name, second is the file name
+        sli.simple-idp.sandbox.users: SmallDatasetUsers,Small Sample Dataset,MediumDatasetUsers,Medium Sample Dataset
+        
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers

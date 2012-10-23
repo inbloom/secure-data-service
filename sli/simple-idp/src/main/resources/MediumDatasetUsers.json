@@ -1,0 +1,4 @@
+[
+	{'userId': 'other', 'name':'Medium User', 'role':'Educator'},
+	{'userId': 'other2', 'name':'Medium User2', 'role':'Leader'},
+]

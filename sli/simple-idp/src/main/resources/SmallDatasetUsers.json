@@ -1,0 +1,6 @@
+[
+	{'userId': 'linda.kim', 'name':'Linda Kim', 'role':'Educator'},
+	{'userId': 'cgray', 'name':'Charles Gray', 'role':'Educator'},
+	{'userId': 'rrogers', 'name':'Rick Rogers', 'role':'IT Administrator'},
+	{'userId': 'jstevenson', 'name':'John Stevenson', 'role':'IT Administrator'}
+]

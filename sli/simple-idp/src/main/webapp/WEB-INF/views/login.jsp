@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page import="org.slc.sli.sandbox.idp.service.DefaultUsersService.Dataset" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -16,6 +17,8 @@
 						</c:otherwise>
 	</c:choose></title>
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
+<script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
+
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -51,9 +54,14 @@
     margin-top: 10px;
 }
 
+
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript">
+$(document).ready(function() {
+	datasetChanged();
+});
+
   function disableTextbox() {
 	  select = document.getElementById("selected_roles")
 	  textbox = document.getElementById("customRoles")
@@ -70,6 +78,15 @@
 	   } 
 	  
   }
+  
+  function datasetChanged(){
+	  $(".userListDiv").hide();
+	  $(".userList").prop("disabled", true);
+	  dataset = $("#datasets").val();
+	  $("#" + dataset + "-usersDiv").show();
+	  $("#" + dataset).prop("disabled", false);
+  }
+  
 </script>
 </head>
 <c:if test="${sessionScope.user_session_key==null}">
@@ -139,23 +156,48 @@
 						</div>
 					</c:if>
 					<c:if test="${is_sandbox}">
-					<div class="control-group">
-						<label for="impersonate_user" class="control-label">Login as User:</label>
-						<input type="text" id="impersonate_user" name="impersonate_user" value="${impersonate_user}"/>
-					</div>
-					<div class="control-group">
-						<label for="selected_roles" class="control-label">Roles:</label>
-							<select id="selected_roles" name="selected_roles" class="input-xlarge " onchange="disableTextbox();">
+						<div class="control-group">
+							<h2>Use a Sample Dataset User</h2>
+						</div>
+						<div class="control-group">
+							<label for="datasets" class="control-label">Datasets:</label>
+							<select id="datasets" name="datasets" class="input-xlarge " onchange="datasetChanged()">
                                 <option> </option>
-								<c:forEach items="${roles}" var="role">
-									<option value="${role.id}">${role.name}</option>
+								<c:forEach items="${datasets}" var="dataset">
+									<option value="${dataset.key}">${dataset.displayName}</option>
 								</c:forEach>
 							</select>
-                            <div class="control-group top-gap">
-                                <label for='customRoles' class="control-label">Or Custom Role:</label>
-                                <input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" />
-                            </div>
-					</div>
+						</div>
+							<c:forEach items="${datasets}" var="dataset">
+								<div class="control-group userListDiv" id="${dataset.key}-usersDiv">
+									<label for="${dataset.key}" class="control-label">Available Users:</label>
+									<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
+										<c:forEach items="<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>" var="userList">
+		                                	 <option value="${userList.userId}">${userList.name} - ${userList.role}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</c:forEach>
+						<div class="control-group">
+							<h2>Or Manually Specify a User</h2>
+						</div>
+						<div class="control-group">
+							<label for="impersonate_user" class="control-label">Login as User:</label>
+							<input type="text" id="impersonate_user" name="impersonate_user" value="${impersonate_user}"/>
+						</div>
+						<div class="control-group">
+							<label for="selected_roles" class="control-label">Roles:</label>
+								<select id="selected_roles" name="selected_roles" class="input-xlarge " onchange="disableTextbox();">
+	                                <option> </option>
+									<c:forEach items="${roles}" var="role">
+										<option value="${role.id}">${role.name}</option>
+									</c:forEach>
+								</select>
+	                            <div class="control-group top-gap">
+	                                <label for='customRoles' class="control-label">Or Custom Role:</label>
+	                                <input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" />
+	                            </div>
+						</div>
 					</c:if>
 					<div class="control-group">
 						<div class="controls">
