@@ -35,7 +35,7 @@ Scenario: Zombie Bug 3: Infinite redirect loop when accessing Databrowser while 
     And I choose realm "Illinois Sunset School District 4526" in the drop-down list
     And I click on the realm page Go button
     And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+    And I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
     Then I should be redirected to the Data Browser home page
 
 Scenario: Zombie Bug 4: Deny logging in when user supplies incorrect credentials due to case sensitivity
@@ -45,5 +45,5 @@ Scenario: Zombie Bug 4: Deny logging in when user supplies incorrect credentials
 	And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 	And I click on the realm page Go button
 	And I was redirected to the "Simple" IDP Login page
-	When I submit the credentials "CGray" "cgray1234" for the "Simple" login page
+	When I submit the credentials "Jwashington" "jwashington1234" for the "Simple" login page
 	Then I should see a message that I am an invalid user
