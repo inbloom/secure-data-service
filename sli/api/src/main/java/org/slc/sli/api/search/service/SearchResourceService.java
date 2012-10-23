@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,10 +39,8 @@ import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -68,20 +65,11 @@ public class SearchResourceService {
     @Autowired
     private ContextResolverStore contextResolverStore;
 
-    @Autowired
-    private SessionSecurityCache securityCachingStrategy;
-
     // keep parameters for ElasticSearch
     // q,
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
 
     public ServiceResponse list(Resource resource, URI queryUri) {
-
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Entity principalEntity = principal.getEntity();
-
-        // get allSchools for user
-
 
         // set up query criteria
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -103,7 +91,7 @@ public class SearchResourceService {
             entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
 
             // filter results through security context
-            accessibleEntities = checkAccessible(entityBodies, principalEntity);
+            accessibleEntities = checkAccessible(entityBodies);
 
             finalEntities.addAll(accessibleEntities);
 
@@ -129,7 +117,9 @@ public class SearchResourceService {
      * @param entities
      * @return
      */
-    public List<EntityBody> checkAccessible(List<EntityBody> entities, Entity user) {
+    public List<EntityBody> checkAccessible(List<EntityBody> entities) {
+
+        Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
 
         // find entity types
         if (user.getType().equals(EntityNames.STAFF)) {
@@ -145,14 +135,9 @@ public class SearchResourceService {
 
         // get all accessible ids for all entity types
         List<String> allowed = null;
-        EntityContextResolver resolver = null;
         for (String toType : accessibleIds.keySet()) {
-            resolver = new DenyAllContextResolver();
-            if (!securityCachingStrategy.contains(toType)) {
-                resolver = contextResolverStore.findResolver(user.getType(), toType);
-                allowed = resolver.findAccessible(user);
-                accessibleIds.put(toType, new HashSet<String>(allowed));
-            }
+            allowed = findAccessible(toType);
+            accessibleIds.put(toType, new HashSet<String>(allowed));
         }
 
         // filter out entities that are not accessible
@@ -165,6 +150,19 @@ public class SearchResourceService {
 
         return accessible;
     }
+
+
+    /**
+     * Returns list of accessible ids for one entity type
+     * @param toType
+     * @return
+     */
+    public List<String> findAccessible(String toType) {
+        Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
+        EntityContextResolver resolver = contextResolverStore.findResolver(user.getType(), toType);
+        return resolver.findAccessible(user);
+    }
+
 
     /**
      * NeutralCriteria filter.  Keep NeutralCriteria only on the White List
@@ -227,12 +225,12 @@ public class SearchResourceService {
         // first char will be space
         criteria.setValue(sb.substring(1).toString());
     }
-    
+
     private void addContext(ApiQuery apiQuery) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
         // get allSchools for staff
-        Set<String> schoolIds = new HashSet<String>();
+        List<String> schoolIds = new ArrayList<String>();
         schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");

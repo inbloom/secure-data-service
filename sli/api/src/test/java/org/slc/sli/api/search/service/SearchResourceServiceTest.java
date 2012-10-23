@@ -18,6 +18,7 @@ package org.slc.sli.api.search.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +41,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -130,10 +132,55 @@ public class SearchResourceServiceTest {
         Collection<GrantedAuthority> auths = new LinkedList<GrantedAuthority>();
         auths.add(Right.FULL_ACCESS);
         Mockito.when(mockAuth.getAuthorities()).thenReturn(auths);
-
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         Mockito.when(entity.getType()).thenReturn(type);
+        Mockito.when(entity.getEntityId()).thenReturn("id");
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
     }
+
+    @Test
+    public void testCheckAccessibleAsStaff() {
+
+        setupAuth(EntityNames.STAFF);
+
+        // for staff, list of entities should not change
+        List<EntityBody> result = resourceService.checkAccessible(getEntities());
+        Assert.assertEquals(3, result.size());
+    }
+
+    @Test
+    public void testCheckAccessibleAsTeacher() {
+
+        setupAuth(EntityNames.TEACHER);
+
+        SearchResourceService rs = Mockito.spy(resourceService);
+        Mockito.doReturn(Arrays.asList("1")).when(rs).findAccessible("student");
+        Mockito.doReturn(Arrays.asList("3")).when(rs).findAccessible("section");
+        Mockito.doReturn(Arrays.asList("2")).when(rs).findAccessible("someRandomType");
+
+        List<EntityBody> result = rs.checkAccessible(getEntities());
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals("1", result.get(0).get("id"));
+        Assert.assertEquals("3", result.get(1).get("id"));
+    }
+
+    private List<EntityBody> getEntities() {
+        // set up entities
+        List<EntityBody> entities = new ArrayList<EntityBody>();
+        EntityBody e1 = new EntityBody();
+        e1.put("id", "1");
+        e1.put("type", "student");
+        EntityBody e2 = new EntityBody();
+        e2.put("id", "2");
+        e2.put("type", "student");
+        EntityBody e3 = new EntityBody();
+        e3.put("id", "3");
+        e3.put("type", "section");
+        entities.add(e1);
+        entities.add(e2);
+        entities.add(e3);
+        return entities;
+    }
+
 
 }
