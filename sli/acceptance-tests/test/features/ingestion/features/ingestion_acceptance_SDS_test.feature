@@ -294,8 +294,8 @@ Scenario: Check the collections: Clean Database
      | disciplineAction            | 2                   | body.disciplineActionLength | 74                      | integer              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | studentProgramAssociation   | 1                   | body.beginDate              | 2011-01-01              | string               |
-     | studentProgramAssociation   | 1                   | body.beginDate              | 2011-03-01              | string               |
+     | studentProgramAssociation   | 3                   | body.beginDate              | 2011-01-01              | string               |
+     | studentProgramAssociation   | 3                   | body.beginDate              | 2011-03-01              | string               |
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-31              | string               |
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-01              | string               |
  And I check to find if record is in collection:
@@ -1971,9 +1971,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation   | 1                   | body.endDate                | 2011-12-31              | string               |
      | studentProgramAssociation   | 1                   | body.endDate                | 2012-02-15              | string               |
      | studentProgramAssociation   | 2                   | body.beginDate              | 2011-05-01              | string               |
-     | studentProgramAssociation   | 1                   | body.beginDate              | 2011-01-01              | string               |
-     | studentProgramAssociation   | 2                   | body.beginDate              | 2011-03-01              | string               |
-     | studentProgramAssociation   | 3                   | body.endDate                | 2012-04-12              | string               |
+     | studentProgramAssociation   | 3                   | body.beginDate              | 2011-01-01              | string               |
+     | studentProgramAssociation   | 4                   | body.beginDate              | 2011-03-01              | string               |
+     | studentProgramAssociation   | 6                   | body.endDate                | 2012-04-12              | string               |
      | studentTranscriptAssociation  | 200                 | body.courseAttemptResult              | Pass                    | string               |
      | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
      | studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |

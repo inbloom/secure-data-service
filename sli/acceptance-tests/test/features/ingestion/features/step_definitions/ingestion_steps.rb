@@ -1383,7 +1383,7 @@ def cleanupSubDoc(superdocs, subdoc)
 end
 
 def subDocParent(collectionName)
-  case collectionName
+  case collectionName 
     when "studentSectionAssociation"
      "section"
     when "gradebookEntry"
@@ -1394,7 +1394,7 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
-    else
+    else 
       nil 
   end
 end
