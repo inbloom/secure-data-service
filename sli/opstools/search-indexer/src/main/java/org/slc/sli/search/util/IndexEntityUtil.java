@@ -109,5 +109,4 @@ public class IndexEntityUtil {
     public static IndexEntity getIndexEntity(Map<String, Object> entity) {
         return new IndexEntity((String)entity.get("_index"), (String)entity.get("_type"), (String)entity.get("_id"));
     }
-    
 }

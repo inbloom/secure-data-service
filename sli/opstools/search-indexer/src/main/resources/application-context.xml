@@ -97,12 +97,7 @@
 		<property name="searchUsername" value="${sli.search.username}" />
 		<property name="searchPassword" value="${sli.search.password}" />
 		<property name="searchTemplate" ref="searchTemplate" />
-		<property name="indexMappingFile">
-			<bean class="java.io.File">
-				<constructor-arg
-					value="${sli.search.indexer.mappingTemplate:index-mapping.json}" />
-			</bean>
-		</property>
+		<property name="indexConfigStore" ref="indexConfigStore"/>
 	</bean>
 
 	<task:scheduled-tasks scheduler="scheduler">

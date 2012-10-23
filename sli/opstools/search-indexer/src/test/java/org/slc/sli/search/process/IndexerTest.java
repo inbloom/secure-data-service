@@ -56,8 +56,12 @@ public class IndexerTest {
         indexer.index(new IndexEntity("tests", "test", "1", map));
         indexer.flushIndexQueue();
         List<HttpEntity<?>> calls = searchTemplate.getCalls();
-        Assert.assertEquals(1, calls.size());
-        Assert.assertEquals("{\"index\":{\"_index\":\"tests\", \"_type\":\"test\",\"_id\":\"1\"}}\n{\"body\":1}\n", calls.get(0).getBody());
+        for (HttpEntity<?> entity : calls) {
+            if ("{\"index\":{\"_index\":\"tests\", \"_type\":\"test\",\"_id\":\"1\"}}\n{\"body\":1}\n".equals(entity.getBody())) {
+                return;
+            }
+        }
+        Assert.fail("Must find the indexed entity in the calls");
     }
     
     @Test
