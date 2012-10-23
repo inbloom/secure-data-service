@@ -16,13 +16,16 @@
 package org.slc.sli.api.search.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -35,7 +38,11 @@ import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -57,36 +64,111 @@ public class SearchResourceService {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
+    @Autowired
+    private ContextResolverStore contextResolverStore;
+
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
+
     // keep parameters for ElasticSearch
     // q,
-    private static final List<String> whilteListParameters = Arrays.asList(new String[] { "q" });
+    private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
 
     public ServiceResponse list(Resource resource, URI queryUri) {
 
-        List<EntityBody> entityBodies = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Entity prinipalEntity = principal.getEntity();
-        // Temporary until teacher security is in place
-        // If teacher, return unauthorized error
-        if (isTeacher(prinipalEntity)) {
-            throw new AccessDeniedException("Search currently available only for staff.");
+        Entity principalEntity = principal.getEntity();
+
+        // get allSchools for user
+        List<String> schoolIds;
+        if (principalEntity.getType().equals(EntityNames.STAFF)) {
+            schoolIds = this.edOrgHelper.getUserSchools(principalEntity);
+        } else {
+            schoolIds = this.edOrgHelper.getDirectSchools(principalEntity);
         }
 
-        // Call BasicService to query the elastic search repo
+        // set up query criteria
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         ApiQuery apiQuery = new ApiQuery(queryUri);
-
         doFilter(apiQuery);
-
-        // get allSchools for staff
-        List<String> schoolIds = this.edOrgHelper.getUserSchools(prinipalEntity);
-
         apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, schoolIds));
 
-        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+        int maxResults = apiQuery.getLimit();
+        int maxPerQuery = maxResults;
+
+        // execute the query
+        int queryOffset = 0;
+        List<EntityBody> entityBodies = null;
+        List<EntityBody> accessibleEntities = null;
+        ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
+
+        while(finalEntities.size() < maxResults) {
+
+            // Call BasicService to query the elastic search repo
+            entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+
+            // filter results through security context
+            accessibleEntities = checkAccessible(entityBodies, principalEntity);
+
+            finalEntities.addAll(accessibleEntities);
+
+            // if no more results to grab, then we're done
+            if (entityBodies.size() < maxPerQuery) {
+                break;
+            }
+
+            // adjust api query offset
+            queryOffset += maxPerQuery;
+            apiQuery.setOffset(queryOffset);
+        }
 
         // return results
-        return new ServiceResponse(entityBodies, entityBodies.size());
+        return new ServiceResponse(finalEntities, finalEntities.size());
+    }
+
+
+    /**
+     * Return list of accessible entities, filtered through the security context.
+     * Original list may by cross-collection.
+     * Retains the original order of entities.
+     * @param entities
+     * @return
+     */
+    public List<EntityBody> checkAccessible(List<EntityBody> entities, Entity user) {
+
+        // find entity types
+        if (user.getType().equals(EntityNames.STAFF)) {
+            return entities;
+        }
+
+        Map<String, HashSet<String>> accessibleIds = new HashMap<String, HashSet<String>>();
+        for (EntityBody entity : entities) {
+            if (!accessibleIds.containsKey(entity.get("type"))) {
+                accessibleIds.put((String) entity.get("type"), null);
+            }
+        }
+
+        // get all accessible ids for all entity types
+        List<String> allowed = null;
+        EntityContextResolver resolver = null;
+        for (String toType : accessibleIds.keySet()) {
+            resolver = new DenyAllContextResolver();
+            if (!securityCachingStrategy.contains(toType)) {
+                resolver = contextResolverStore.findResolver(user.getType(), toType);
+                allowed = resolver.findAccessible(user);
+                accessibleIds.put(toType, new HashSet<String>(allowed));
+            }
+        }
+
+        // filter out entities that are not accessible
+        List<EntityBody> accessible = new ArrayList<EntityBody>();
+        for (EntityBody entity : entities) {
+            if (accessibleIds.get(entity.get("type")).contains(entity.get("id"))) {
+                accessible.add(entity);
+            }
+        }
+
+        return accessible;
     }
 
     /**
@@ -103,7 +185,7 @@ public class SearchResourceService {
             boolean doFilter = false;
             List<NeutralCriteria> removalList = new LinkedList<NeutralCriteria>();
             for (NeutralCriteria criteria : criterias) {
-                if (!whilteListParameters.contains(criteria.getKey())) {
+                if (!whiteListParameters.contains(criteria.getKey())) {
                     removalList.add(criteria);
 
                 } else if ("q".equals(criteria.getKey())) {
@@ -131,7 +213,6 @@ public class SearchResourceService {
      * apply default query for ElasticSearch
      *
      * @param criterias
-     * @throws LimitExceededException
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
         String queryString = ((String) criteria.getValue()).trim();
