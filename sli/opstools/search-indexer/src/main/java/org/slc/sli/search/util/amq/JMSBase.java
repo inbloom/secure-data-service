@@ -33,9 +33,7 @@ import org.apache.activemq.broker.BrokerService;
  */
 public abstract class JMSBase {
 
-    private String mqHost;
-
-    private int mqPort;
+    private String mqURL;
 
     private String mqUsername;
 
@@ -52,6 +50,9 @@ public abstract class JMSBase {
     private boolean embeddedBroker = false;
     private static BrokerService broker = null;
 
+    private static final String STOMP_URL = "stomp://localhost:61613";
+    private static final String JMS_URL = "tcp://localhost:61616";
+
     enum MessageType {
         QUEUE, TOPIC;
     }
@@ -62,26 +63,26 @@ public abstract class JMSBase {
 
     public void init() throws Exception {
         if (this.embeddedBroker) {
-            //start embedded broker
+            // start embedded broker
             if (broker == null) {
                 broker = new BrokerService();
                 broker.setPersistent(false);
                 broker.setUseJmx(true);
-                
-                broker.addConnector("stomp://localhost:61613");
-                broker.addConnector("tcp://localhost:61616");
-                broker.getSystemUsage().getTempUsage().setLimit(1024*1024*1024);
+
+                broker.addConnector(STOMP_URL);
+                broker.addConnector(JMS_URL);
+                broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
                 broker.start();
             }
-            //use localhost and port 61616 for embedded broker to access
-            this.brokerURI = "tcp://localhost:61616";
+            // use localhost and port 61616 for embedded broker to access
+            this.brokerURI = JMS_URL;
 
         } else {
-            this.brokerURI = "tcp://" + this.mqHost + ":" + this.mqPort;
+            this.brokerURI = this.mqURL;
         }
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.brokerURI);
-        if ((this.mqUsername == null && this.mqPswd == null)||this.embeddedBroker) {
+        if ((this.mqUsername == null && this.mqPswd == null) || this.embeddedBroker) {
             this.connection = connectionFactory.createConnection();
         } else {
             this.connection = connectionFactory.createConnection(this.mqUsername, this.mqPswd);
@@ -138,12 +139,8 @@ public abstract class JMSBase {
         this.brokerURI = brokerURI;
     }
 
-    public void setMqHost(String mqHost) {
-        this.mqHost = mqHost;
-    }
-
-    public void setMqPort(int mqPort) {
-        this.mqPort = mqPort;
+    public void setMqURL(String mqURL) {
+        this.mqURL = mqURL;
     }
 
     public void setMqPswd(String mqPswd) {

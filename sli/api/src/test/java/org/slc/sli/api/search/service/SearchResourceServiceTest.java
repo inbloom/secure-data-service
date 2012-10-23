@@ -60,7 +60,6 @@ public class SearchResourceServiceTest {
     @Autowired
     SearchResourceService resourceService;
 
-
     @Test(expected = HttpClientErrorException.class)
     public void testNotEnoughToken() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
@@ -83,7 +82,7 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.TEACHER);
         Resource resource = new Resource("v1", "search");
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu");
-        ServiceResponse serviceResponse = resourceService.list(resource, queryUri);
+        ServiceResponse serviceResponse = resourceService.list(resource, null, queryUri);
         Assert.assertNotNull(serviceResponse);
     }
 
@@ -99,9 +98,9 @@ public class SearchResourceServiceTest {
     public void testNeutralCriteriaForNotES() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?abc=David%20Wu&efg=hij");
-        ApiQuery apiQuery=new ApiQuery(queryUri);
+        ApiQuery apiQuery = new ApiQuery(queryUri);
         resourceService.doFilter(apiQuery);
-        List<NeutralCriteria> criteria=apiQuery.getCriteria();
+        List<NeutralCriteria> criteria = apiQuery.getCriteria();
         Assert.assertEquals(2, criteria.size());
     }
 
@@ -109,11 +108,11 @@ public class SearchResourceServiceTest {
     public void testNeutralCriteriaForES() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu&abc=efg");
-        ApiQuery apiQuery=new ApiQuery(queryUri);
+        ApiQuery apiQuery = new ApiQuery(queryUri);
         resourceService.doFilter(apiQuery);
-        List<NeutralCriteria> criterias=apiQuery.getCriteria();
+        List<NeutralCriteria> criterias = apiQuery.getCriteria();
         Assert.assertEquals(1, criterias.size());
-        NeutralCriteria criteria=criterias.get(0);
+        NeutralCriteria criteria = criterias.get(0);
         Assert.assertEquals("david* wu*", criteria.getValue());
     }
 

@@ -45,7 +45,6 @@
 
 
 //app, auth, realm
-db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"body.localEdOrgId":1,"body.appApprovalEnabled":1});
 
 db["application"].ensureIndex({"body.admin_visible":1});
@@ -59,7 +58,6 @@ db["applicationAuthorization"].ensureIndex({"body.appIds":1});
 db["applicationAuthorization"].ensureIndex({"body.authId":1});
 db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1,"body.authId":1,"body.authType":1});
 
-db["customRole"].ensureIndex({"metaData.tenantId":1,"_id":1});
 db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});
 
 db["realm"].ensureIndex({"body.idp.id":1});

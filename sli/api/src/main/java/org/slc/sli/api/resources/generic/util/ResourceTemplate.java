@@ -28,7 +28,8 @@ public enum ResourceTemplate {
     SIX_PART("/rest/{version}/{base}/{id}/{association}/{resource}/{part5}/{part6}"),
     CUSTOM("/rest/{version}/{resource}/{id}/custom"),
     AGGREGATES("/rest/{version}/{resource}/{id}/aggregations"),
-    CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues");
+    CALCULATED_VALUES("/rest/{version}/{resource}/{id}/calculatedValues"),
+    SEARCH("/rest/{version}/{resource}/{entity}");
 
     private final String template;
 

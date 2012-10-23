@@ -210,3 +210,13 @@ Examples:
 | "IL"  | "ejane"    | "ejane1234"    | "Forrest Hopper" | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "Emil Oneil"     | 403  |
 | "IL"  | "tbear"    | "tbear1234"    | "Doris Hanes"    | 403  |
+
+Scenario Outline: Teacher searching for student competency objectives gets only those for their ed-org
+Given I am logged in using <Username> <Password> to realm <Realm> 
+And I have a Role attribute that equals "Educator" 
+When I make an API call to get the student competency objective <Objective>
+Then I should receive a return code of <Code>
+Examples:
+| Realm | Username    | Password        | Objective       | Code | 
+| "IL"  | "linda.kim" | "linda.kim1234" | "Learn to read" | 200  | 
+| "IL"  | "cgray"     | "cgray1234"     | "Learn to read" | 403  |

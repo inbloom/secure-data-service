@@ -36,7 +36,7 @@
 		<constructor-arg ref="searchMongo" />
 		<constructor-arg value="${sli.mongodb.database}" />
 	</bean>
-
+    <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository"/>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
@@ -75,8 +75,7 @@
 
 	<bean id="jMSQueueConsumer" class="org.slc.sli.search.util.amq.JMSQueueConsumer"
 		init-method="init" destroy-method="destroy">
-		<property name="mqHost" value="${sli.search.indexer.queue.host}" />
-		<property name="mqPort" value="${sli.search.indexer.queue.port}" />
+		<property name="mqURL" value="${sli.search.indexer.queue.url}" />
 		<property name="mqUsername" value="${sli.search.indexer.queue.username}" />
 		<property name="mqPswd" value="${sli.search.indexer.queue.password}" />
 		<property name="queue" value="${sli.search.indexer.queue.name}" />
