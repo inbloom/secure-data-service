@@ -12,7 +12,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="StudentAcademicRecord" type="SLC-StudentAcademicRecord"/>
 				<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
-				<xs:element name="ReportCard" type="ReportCard"/>
+				<xs:element name="ReportCard" type="SLC-ReportCard"/>
 				<xs:element name="Grade" type="SLC-Grade"/>
 				<xs:element name="StudentCompetency" type="SLC-StudentCompetency"/>
 				<xs:element name="Diploma" type="Diploma"/>
