@@ -40,10 +40,12 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.web.client.HttpClientErrorException;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -59,6 +61,9 @@ public class SearchResourceServiceTest {
 
     @Autowired
     SearchResourceService resourceService;
+
+    @Autowired
+    private ResourceHelper resourceHelper;
 
     @Test(expected = HttpClientErrorException.class)
     public void testNotEnoughToken() throws URISyntaxException {
@@ -152,15 +157,27 @@ public class SearchResourceServiceTest {
 
         setupAuth(EntityNames.TEACHER);
 
+        // mock the list of accessible entities returned by security context
         SearchResourceService rs = Mockito.spy(resourceService);
         Mockito.doReturn(Arrays.asList("1")).when(rs).findAccessible("student");
         Mockito.doReturn(Arrays.asList("3")).when(rs).findAccessible("section");
         Mockito.doReturn(Arrays.asList("2")).when(rs).findAccessible("someRandomType");
-
         List<EntityBody> result = rs.checkAccessible(getEntities());
         Assert.assertEquals(2, result.size());
         Assert.assertEquals("1", result.get(0).get("id"));
         Assert.assertEquals("3", result.get(1).get("id"));
+
+        Mockito.doReturn(Arrays.asList("1", "2", "5")).when(rs).findAccessible("student");
+        Mockito.doReturn(Arrays.asList()).when(rs).findAccessible("section");
+        result = rs.checkAccessible(getEntities());
+        Assert.assertEquals(2, result.size());
+        Assert.assertEquals("1", result.get(0).get("id"));
+        Assert.assertEquals("2", result.get(1).get("id"));
+
+        Mockito.doReturn(null).when(rs).findAccessible("student");
+        Mockito.doReturn(Arrays.asList()).when(rs).findAccessible("section");
+        result = rs.checkAccessible(getEntities());
+        Assert.assertEquals(0, result.size());
     }
 
     private List<EntityBody> getEntities() {
@@ -181,5 +198,70 @@ public class SearchResourceServiceTest {
         return entities;
     }
 
+    @Test
+    public void testPagination()  throws URISyntaxException {
 
+        setupAuth(EntityNames.TEACHER);
+        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
+        SearchResourceService rs = Mockito.spy(resourceService);
+        //Resource resource = null;
+        EntityDefinition definition = Mockito.mock(EntityDefinition.class);
+        ApiQuery apiQuery = rs.prepareQuery(null, queryUri);
+
+        // offset 0, limit 10
+        // return 10 results, filter down to 4
+        // repeat until limit
+        // check total 10
+        //Mockito.when(rs.retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class))).thenReturn(getResults(20)).thenReturn(getResults(15));
+        //Mockito.when(rs.checkAccessible(Mockito.isA(List<String>.class)).thenReturn(getResults(4)).thenReturn(getResults(5));
+        Mockito.doReturn(getResults(10)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
+        Mockito.doReturn(getResults(4)).when(rs).checkAccessible(Mockito.isA(List.class));
+        List<EntityBody> results = rs.retrieveResults(definition, apiQuery);
+        Assert.assertEquals(10, results.size());
+
+
+        // offset 0, limit 10
+        // return 8 results, filter down to 6
+        // check total 6
+        Mockito.doReturn(getResults(8)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
+        Mockito.doReturn(getResults(6)).when(rs).checkAccessible(Mockito.isA(List.class));
+        results = rs.retrieveResults(definition, apiQuery);
+        Assert.assertEquals(6, results.size());
+
+
+        // offset 0, limit 10
+
+        // return 20, filter to 3
+
+        // return 20, filter to 12
+
+        // check total 10
+
+
+        // offset 0, limit 10
+
+        // return 9, filter to 5
+
+        // check total 5
+
+
+        // desired results is 10
+
+        // return 0
+
+        // check total 0
+
+
+        // offset 10, limit 10
+
+        // return
+    }
+
+    private List<EntityBody> getResults(int num) {
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        for (int i=0; i<num; i++) {
+            results.add(new EntityBody());
+        }
+        return results;
+    }
 }

@@ -71,33 +71,38 @@ public class SearchResourceService {
 
     public ServiceResponse list(Resource resource, String entity, URI queryUri) {
 
-        // set up query criteria
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        ApiQuery apiQuery = new ApiQuery(queryUri);
-        doFilter(apiQuery);
-        addContext(apiQuery);
-        if (entity != null) {
-            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, entity));
-        }
 
-        int maxResults = apiQuery.getLimit();
-        int maxPerQuery = maxResults;
+        // set up query criteria, make query
+        ApiQuery apiQuery = prepareQuery(entity, queryUri);
+        List<EntityBody> finalEntities = retrieveResults(definition, apiQuery);
+
+        return new ServiceResponse(finalEntities, finalEntities.size());
+    }
+
+    public List<EntityBody> retrieveResults(EntityDefinition definition, ApiQuery apiQuery) {
+
+        int limit = apiQuery.getLimit();
+        int maxPerQuery = limit;
 
         // execute the query
-        int queryOffset = 0;
         List<EntityBody> entityBodies = null;
-        List<EntityBody> accessibleEntities = null;
+        List<EntityBody> accessible = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-        while (finalEntities.size() < maxResults) {
+        while (finalEntities.size() < limit) {
 
             // Call BasicService to query the elastic search repo
-            entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+            entityBodies = retrieve(apiQuery, definition);
 
             // filter results through security context
-            accessibleEntities = checkAccessible(entityBodies);
+            accessible = checkAccessible(entityBodies);
 
-            finalEntities.addAll(accessibleEntities);
+            if (finalEntities.size() + accessible.size() <= limit) {
+                finalEntities.addAll(accessible);
+            } else {
+                finalEntities.addAll(accessible.subList(0, limit - finalEntities.size()));
+            }
 
             // if no more results to grab, then we're done
             if (entityBodies.size() < maxPerQuery) {
@@ -105,12 +110,25 @@ public class SearchResourceService {
             }
 
             // adjust api query offset
-            queryOffset += maxPerQuery;
-            apiQuery.setOffset(queryOffset);
+            apiQuery.setOffset(apiQuery.getOffset() + maxPerQuery);
         }
+        return finalEntities;
+    }
 
-        // return results
-        return new ServiceResponse(finalEntities, finalEntities.size());
+    public List<EntityBody> retrieve(ApiQuery apiQuery, final EntityDefinition definition) {
+        List<EntityBody> entityBodies;
+        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+        return entityBodies;
+    }
+
+    public ApiQuery prepareQuery(String entity, URI queryUri) {
+        ApiQuery apiQuery = new ApiQuery(queryUri);
+        doFilter(apiQuery);
+        addContext(apiQuery);
+        if (entity != null) {
+            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, entity));
+        }
+        return apiQuery;
     }
 
     /**
@@ -141,7 +159,11 @@ public class SearchResourceService {
         List<String> allowed = null;
         for (String toType : accessibleIds.keySet()) {
             allowed = findAccessible(toType);
-            accessibleIds.put(toType, new HashSet<String>(allowed));
+            if (allowed == null) {
+                accessibleIds.put(toType, new HashSet<String>());
+            } else {
+                accessibleIds.put(toType, new HashSet<String>(allowed));
+            }
         }
 
         // filter out entities that are not accessible
@@ -164,7 +186,11 @@ public class SearchResourceService {
     public List<String> findAccessible(String toType) {
         Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
         EntityContextResolver resolver = contextResolverStore.findResolver(user.getType(), toType);
-        return resolver.findAccessible(user);
+        if (resolver == null) {
+            return new ArrayList<String>();
+        } else {
+            return resolver.findAccessible(user);
+        }
     }
 
 
