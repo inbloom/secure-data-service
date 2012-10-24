@@ -15,7 +15,7 @@ end
 desc "Run API SuperDoc Tests"
 task :apiSuperDocTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/superdoc")
+  runTests("test/features/superdoc/denormalization_api.feature")
 end
 
 desc "Run API PATCH Tests"
@@ -93,11 +93,11 @@ task :v1StudentParentAssociationTests => [:realmInit] do
 end
 
 desc "Run V1 Student Transcript Association Tests"
-task :v1StudentTranscriptAssociationTests => [:realmInit] do
+task :v1CourseTranscriptTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("course", "course_fixture.json")
-  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/studentTranscriptAssociation")
+  setFixture("courseTranscript", "courseTranscript_fixture.json")
+  runTests("test/features/apiV1/associations/legacy_tests/courseTranscript")
 end
 
 desc "Run V1 Teacher School Association Tests"
@@ -282,7 +282,7 @@ end
 desc "Run Tests for new endpoints"
 task :v1NewEndpointTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/endpoints/")
+  runTests("test/features/apiV1/endpoints")
 end
 
 desc "Run V1 Assessment User Story Tests"

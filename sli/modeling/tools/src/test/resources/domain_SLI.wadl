@@ -17,7 +17,7 @@
 				for the student at the end of a semester or school year.
 
 				If you're looking for records for a particular course, use
-				StudentTranscriptAssociationResource instead.
+				CourseTranscriptResource instead.
 
 				For detailed information, see the schema for $$StudentAcademicRecord$$
 				resources.
@@ -1711,10 +1711,10 @@
           <wadl:doc>Returns the requested collection of resources that are
 						associated with the specified resource.</wadl:doc>
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentTranscriptAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="courseTranscriptList"></wadl:representation>
           </wadl:response>
         </wadl:method>
       </wadl:resource>
@@ -2838,10 +2838,10 @@
           <wadl:doc>Returns the requested collection of resources that are
 						associated with the specified resource.</wadl:doc>
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentTranscriptAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="courseTranscriptList"></wadl:representation>
           </wadl:response>
         </wadl:method>
       </wadl:resource>
@@ -3695,14 +3695,14 @@
 				their courses at the end of semester or school year.
 
 				For more information, see the schema for
-				$$StudentTranscriptAssociation$$ resources.
+				$$CourseTranscript$$ resources.
 			</wadl:doc>
       <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
       <wadl:method name="POST" id="postCourseTranscripts">
         <wadl:request>
-          <wadl:representation mediaType="application/json" element="studentTranscriptAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="studentTranscriptAssociation"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="courseTranscript"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscript"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="courseTranscript"></wadl:representation>
         </wadl:request>
         <wadl:response>
           <wadl:representation mediaType="application/json"></wadl:representation>
@@ -3717,10 +3717,10 @@
           <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
         </wadl:request>
         <wadl:response>
-          <wadl:representation mediaType="application/json" element="studentTranscriptAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="studentTranscriptAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="studentTranscriptAssociationList"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="courseTranscriptList"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscriptList"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="courseTranscriptList"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+xml" element="courseTranscriptList"></wadl:representation>
         </wadl:response>
       </wadl:method>
       <wadl:resource path="{courseTranscriptId}/course">
@@ -3769,17 +3769,17 @@
         </wadl:method>
         <wadl:method name="GET" id="getCourseTranscriptsById">
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentTranscriptAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentTranscriptAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="courseTranscriptList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="courseTranscriptList"></wadl:representation>
           </wadl:response>
         </wadl:method>
         <wadl:method name="PUT" id="putCourseTranscriptsById">
           <wadl:request>
-            <wadl:representation mediaType="application/json" element="studentTranscriptAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentTranscriptAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentTranscriptAssociation"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="courseTranscript"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="courseTranscript"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="courseTranscript"></wadl:representation>
           </wadl:request>
           <wadl:response>
             <wadl:representation mediaType="application/json"></wadl:representation>

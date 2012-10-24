@@ -137,9 +137,9 @@ public class StudentSummaryBuilder {
     
     public static void addFullDetailTranscripts(Map<String, Object> student) {
         // StudentTranscripts
-        List<Map<String, Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
-        studentTranscriptAssociations.add(createSeventhGradeEnglishTranscript());
-        studentTranscriptAssociations.add(createSeventhGradeCompositionTranscript());
+        List<Map<String, Object>> courseTranscripts = new ArrayList<Map<String, Object>>();
+        courseTranscripts.add(createSeventhGradeEnglishTranscript());
+        courseTranscripts.add(createSeventhGradeCompositionTranscript());
         
         // StudentSections
         List<Map<String, Object>> studentSectionAssociations = new ArrayList<Map<String, Object>>();
@@ -148,7 +148,7 @@ public class StudentSummaryBuilder {
         studentSectionAssociations.add(createSeventhGradeCompositionSection());
         
         Map<String, Object> transcripts = new LinkedHashMap<String, Object>();
-        transcripts.put("courseTranscripts", studentTranscriptAssociations);
+        transcripts.put("courseTranscripts", courseTranscripts);
         transcripts.put("studentSectionAssociations", studentSectionAssociations);
         student.put("transcript", transcripts);
     }
