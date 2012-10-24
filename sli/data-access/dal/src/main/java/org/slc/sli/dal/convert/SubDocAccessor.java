@@ -523,15 +523,18 @@ public class SubDocAccessor {
             final Set<String> parentSet = new HashSet<String>();
             if (childIds instanceof Iterable) {
                 for (String childId : (Iterable<String>) childIds) {
-                    if (childId.equals(getParentId(childId))) {
-                        throw new InvalidIdException("ChildId == ParentId");
-                    }
-                    parentSet.add(getParentId(childId));
+                    addParentId(parentSet, childId);
                 }
             } else if (childIds instanceof String) {
-                parentSet.add(getParentId((String) childIds));
+                addParentId(parentSet, (String) childIds);
             }
             return parentSet;
+        }
+
+        private void addParentId(final Set<String> parentIds, final String childId) throws InvalidIdException {
+            final String parentId = getParentId(childId);
+            if (childId.equals(parentId)) throw new InvalidIdException("ChildId == ParentId");
+            parentIds.add(parentId);
         }
 
         public boolean exists(String id) {
