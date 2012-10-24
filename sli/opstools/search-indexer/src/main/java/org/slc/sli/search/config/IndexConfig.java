@@ -44,11 +44,6 @@ public final class IndexConfig {
     // append to map
     private Map<String, Object> append;
     
-    // if child entity, parentId field
-    private String parentField;
-    
-    private List<String> parentFieldChain;
-    
     private Map<String, Object> filterCondition;
     
     private Map<String, Object> mapping;
@@ -93,10 +88,6 @@ public final class IndexConfig {
     
     public String getIndexType() {
         return indexType == null ? collectionName : indexType;
-    }
-    
-    public List<String> getParentField() {
-        return parentFieldChain;
     }
     
     public Map<List<String>, Object> getFilterCondition() {
@@ -164,7 +155,5 @@ public final class IndexConfig {
         for (String field: fields)
             flattenedFields.addAll(NestedMapUtil.getPathLinkFromDotNotation(field));
         this.flattenedFields = Collections.unmodifiableList(new ArrayList<String>(flattenedFields));
-        if (this.parentField != null)
-            this.parentFieldChain = NestedMapUtil.getPathLinkFromDotNotation(this.parentField);
     }
 }

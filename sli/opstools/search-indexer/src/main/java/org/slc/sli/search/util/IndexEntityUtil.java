@@ -58,9 +58,6 @@ public class IndexEntityUtil {
     private static void addHeader(StringBuilder sb, IndexEntity ie) {
         sb.append("{").append("\"_index\":\"").append(ie.getIndex()).append("\", \"_type\":\"").
                 append(ie.getType()).append("\",\"_id\":\"").append(ie.getId()).append("\"");
-        if (ie.getParentId() != null) {
-            sb.append(", \"_parent\":\"").append(ie.getParentId()).append("\"");
-        }
         sb.append("}");
     }
     

@@ -69,8 +69,8 @@ public class IndexerTest {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("body", 1);
         List<IndexEntity> ies = new ArrayList<IndexEntity>();
-        ies.add(new IndexEntity(Action.UPDATE, "tests", "test", "1", null, map));
-        ies.add(new IndexEntity(Action.UPDATE, "tests1", "test1", "2", null, map));
+        ies.add(new IndexEntity(Action.UPDATE, "tests", "test", "1", map));
+        ies.add(new IndexEntity(Action.UPDATE, "tests1", "test1", "2", map));
         indexer.executeBulkGetUpdate(ies);
         List<HttpEntity<?>> calls = searchTemplate.getCalls();
         // 2 class - _mget and _bulk 

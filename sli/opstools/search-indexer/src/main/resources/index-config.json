@@ -59,7 +59,7 @@
             "properties": {
               "schoolId": {
                 "type": "string",
-                "analyzer": "not_analyzed"
+                "index": "not_analyzed"
               }
             },
             "learningStandardId": {

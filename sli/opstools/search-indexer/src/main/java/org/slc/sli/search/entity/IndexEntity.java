@@ -38,24 +38,22 @@ public class IndexEntity {
     private final String index;
     private final String type;
     private final String id;
-    private final String parentId;
     private final Map<String, Object> body;
     
-    public IndexEntity(Action action, String index, String type, String id, String parentId, Map<String, Object> body) {
+    public IndexEntity(Action action, String index, String type, String id, Map<String, Object> body) {
         this.action = action;
         this.index = index;
         this.type = type;
         this.id = id;
         this.body = body;
-        this.parentId = parentId;
     }
     
     public IndexEntity(String index, String type, String id, Map<String, Object> body) {
-        this(Action.INDEX, index, type, id, null, body);
+        this(Action.INDEX, index, type, id, body);
     }
     
     public IndexEntity(String index, String type, String id) {
-        this(Action.INDEX, index, type, id, null, null);
+        this(Action.INDEX, index, type, id, null);
     }
 
     public String getIndex() {
@@ -74,10 +72,6 @@ public class IndexEntity {
         return body;
     }
     
-    public String getParentId() {
-        return parentId;
-    }
-    
     public String getActionValue() {
         return action.getType();
     }
@@ -88,43 +82,6 @@ public class IndexEntity {
     
     @Override
     public String toString() {
-        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + ", body:" + body + ", parent: " + parentId + "}";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((index == null) ? 0 : index.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        IndexEntity other = (IndexEntity) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (index == null) {
-            if (other.index != null)
-                return false;
-        } else if (!index.equals(other.index))
-            return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
-        return true;
+        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + "}";
     }
 }

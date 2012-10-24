@@ -25,7 +25,6 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.transform.impl.GenericFilter;
 import org.slc.sli.search.transform.impl.GenericTransformer;
 import org.slc.sli.search.util.IndexEntityUtil;
-import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 
 /**
@@ -70,11 +69,9 @@ public class IndexEntityConverter {
             transformer.transform(config, entityMap);
             
             String id = (String)entityMap.get("_id");
-            String parent = (config.getParentField() != null) ? 
-                    (String)NestedMapUtil.get(config.getParentField(), entityMap) : null;
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
             action = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
-            return new IndexEntity(action, indexName, indexType, id, parent, (Map<String, Object>)entityMap.get("body"));
+            return new IndexEntity(action, indexName, indexType, id, (Map<String, Object>)entityMap.get("body"));
             
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert entity", e);
