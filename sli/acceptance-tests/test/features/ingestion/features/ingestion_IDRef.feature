@@ -33,7 +33,7 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                 |   9     |
      | course                       |   6     |
      | educationOrganization        |   8     |
-     | gradebookEntry               |  20     |
+     | gradebookEntry               |  18     |
      | gradingPeriod                |  10     |
      | learningObjective            |   6     |
      | learningStandard             |   6     |

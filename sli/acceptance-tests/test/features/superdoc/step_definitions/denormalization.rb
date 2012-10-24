@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 
-require_relative '../../associations/crud/step_definitions/assoc_crud.rb'
-require 'mongo'
+require_relative '../../apiV1/associations/crud/step_definitions/assoc_crud.rb'
+require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 ###############################################################################
 # BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
@@ -32,13 +32,23 @@ end
 ###############################################################################
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
+  # General
+  id = @newId                                        if human_readable_id == "NEW ID"
+  # Student
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085"        if human_readable_id == "MARVIN MILLER"
+  id = "067198fd6da91e1aa8d67e28e850f224d6851713_id" if human_readable_id == "INGESTED MATT SOLLARS"
+  # Section
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"        if human_readable_id == "8TH GRADE ENGLISH SEC 6"
+  id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
+  # Program
+  id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
+  id = "983dd657325009aefa88a234fa18bdb1e11c82a8_id" if human_readable_id == "INGESTED ACC TEST PROG 2"
+  # Session
+  id = "1cb50f82-7200-441a-a1b6-02d6532402a0"        if human_readable_id == "FALL 2011"
+  # StudentSchoolAssociation
+  id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
 
-  #general
-  id = @newId                                 if human_readable_id == "NEW ID"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if human_readable_id == "MARVIN MILLER"
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e" if human_readable_id == "8TH GRADE ENGLISH SEC 6"
-
-  #return the translated value
+  # Return the translated value
   id
 end
 
@@ -71,15 +81,18 @@ Then /^I should receive a new ID$/ do
 end
 
 Then /^I (should|should not) find "([^\"]*)" in "([^\"]*)"$/ do |should_or_not, id, field|
-  check = should_or_not == "should"? true : false
+  should = should_or_not == "should"? true : false
   found = false
-  @doc[0][field].each do |row|
-    if row["_id"] == id
-      found = true
-      break
+  sub_doc = @doc[0][field]
+  unless sub_doc.nil?
+    sub_doc.each do |row|
+      if row["_id"] == id
+        found = true
+        break
+      end
     end
   end
-  assert(found == check, "Failed should / should not check")
+  assert(found == should, "Failed should / should not check")
 end
 
 ###############################################################################
@@ -94,5 +107,25 @@ $entity_data = {
     "beginDate" => "2011-12-01",
     "endDate" => "2012-01-01",
     "homeroomIndicator" => true
-  }
+  },
+  "studentProgramAssociation" => {
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+    "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+    "beginDate" => "2012-01-12",
+    "endDate" => "2012-05-01",
+    "reasonExited" => "Refused services",
+    "educationOrganizationId" =>"ec2e4218-6483-4e9c-8954-0aecccfd4731"
+  },
+  "attendance" => {
+    "entityType" => "attendance",
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+    "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+    "schoolYearAttendance" => [{
+      "schoolYear" => "2011-2012",
+      "attendanceEvent" => [{
+        "date" => "2011-09-16",
+        "event" => "Tardy"
+      }]
+    }]
+  },
 }

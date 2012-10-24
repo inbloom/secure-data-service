@@ -1974,12 +1974,12 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation   | 3                   | body.beginDate              | 2011-01-01              | string               |
      | studentProgramAssociation   | 4                   | body.beginDate              | 2011-03-01              | string               |
      | studentProgramAssociation   | 6                   | body.endDate                | 2012-04-12              | string               |
-     | studentTranscriptAssociation  | 200                 | body.courseAttemptResult              | Pass                    | string               |
-     | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-     | studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
-     | studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
-     | studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
-     | studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+     | courseTranscript            | 200                 | body.courseAttemptResult              | Pass                    | string               |
+     | courseTranscript            | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+     | courseTranscript  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
+     | courseTranscript  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
+     | courseTranscript  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
+     | courseTranscript  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-1"
   Then the field "learningStandards" is an array of size 2
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
