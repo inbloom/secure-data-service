@@ -219,6 +219,11 @@ task :ingestionJeffCoOnboardingTest do
   runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
 end
 
+desc "Ingestion Superdoc Tests"
+task :ingestionSuperDocTests do
+  runTests("test/features/superdoc/denormalization_ingestion.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

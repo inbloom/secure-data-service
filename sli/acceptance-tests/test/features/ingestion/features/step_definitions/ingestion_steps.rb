@@ -739,13 +739,20 @@ Given /^the following collections are empty in datastore:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove()
+    parent = subDocParent row["collectionName"]
+    if parent 
+        @entity_collection = @db[parent]
+        superDocs = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+        cleanupSubDoc(superDocs, row["collectionName"])
+    else
+      @entity_collection = @db[row["collectionName"]]
+      @entity_collection.remove()
 
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+      puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.count.to_s != "0"
-      @result = "false"
+      if @entity_collection.count.to_s != "0"
+        @result = "false"
+      end
     end
   end
   assert(@result == "true", "Some collections were not cleared successfully.")
@@ -1361,49 +1368,132 @@ end
 # STEPS: THEN
 ############################################################
 
+def cleanupSubDoc(superdocs, subdoc)
+  superdocs.each do |superdoc|
+      superdoc[subdoc] = nil
+      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
+  end
+end
+
 def subDocParent(collectionName)
-  case collectionName
+  case collectionName 
     when "studentSectionAssociation"
-      "section"
+     "section"
+    when "gradebookEntry"
+     "section"
+    when "teacherSectionAssociation"
+     "section"
     when "studentAssessmentAssociation"
-      "student"
+     "student"
     when "studentProgramAssociation"
       "program"
-    else
+    else 
       nil 
   end
 end
 
-def verifySubDoc(parent, subdoc, count) 
+def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil) 
     total = 0
     coll = @db.collection(parent)
     coll.find().each do |doc| 
         unless doc[subdoc] == nil
-            total += doc[subdoc].size
+            if key == nil and match_value == nil and opts==nil
+                total += doc[subdoc].size
+            else
+                array = doc[subdoc] 
+                array.each do |sub| 
+                    @contains = true
+                    if (key != nil && match_value != nil)
+                        @contains = false
+                        subdocMatch(sub, key, match_value)
+                    end
+                    @failed = false
+                    if (@contains and opts != nil) 
+                        opts.each_pair do |opt_key, opt_value| 
+                           #and only now
+                           @contains = false
+                           subdocMatch(sub, opt_key, opt_value)  
+                           if not @contains
+                               @failed = true
+                           end
+                        end 
+                        if not @failed
+                            total += 1
+                        end
+                    elsif (@contains) 
+                        total += 1
+                    end 
+                end 
+            end
         end 
     end
-    total == count
+    total 
 end
 
-def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue)
-   @entity_collection = @db.collection(subdoc_parent)
-   param = subdoc + "." + searchParameter
-   
-   if searchType == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}]}).count().to_s
-   elsif searchType == "double"
-        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   elsif searchType == "boolean"
-     if searchValue == "false"
-       @entity_count = @entity_collection.find({"$and" => [{param => false}]}).count().to_s
-     else
-	   @entity_count = @entity_collection.find({"$and" => [{param => true}]}).count().to_s
-     end
-   elsif searchType == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{param => nil}]}).count().to_s  
-   else     
-     @entity_count = @entity_collection.find({"$and" => [{param => searchValue}]}).count().to_s
-   end  
+def subdocMatch(subdoc, key, match_value)
+    if key.is_a? Array
+        keys = key
+    else
+        keys = key.split('.')
+    end
+    tmp = subdoc
+    for i in 0...keys.length
+        path = keys[i]
+        if tmp.is_a? Hash 
+            tmp = tmp[path] 
+            if i == keys.length - 1 
+                if match_value.is_a? Array and tmp.is_a? Array
+                    @contains = true if (match_value & tmp).size > 0
+                elsif match_value.is_a? Array
+                    @contains = true if match_value.include? tmp
+                elsif tmp == match_value
+                    @contains = true 
+                end
+            end
+        elsif tmp.is_a? Array
+            newkey = Array.new(keys[i...keys.length])
+            tmp.each do |newsubdoc|
+                subdocMatch(newsubdoc, newkey, match_value)
+            end
+        end
+    end
+end
+
+def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue, opts=nil)
+  subDocCount(subdoc_parent, subdoc, opts, searchParameter, searchValue)
+
+  #  This requires mongo driver 1.7.0, on CI it is still 1.6.4... Shall we upgrade?
+  #
+  #  coll.aggregate([ {"$match" => {"#{subdoc}.#{searchParameter}" => {"$exists" => true}}},
+  #                 {"$project" => {"#{subdoc}" => 1, "_id" => 0, "count" => 1}},
+  #                 {"$unwind" => "$#{subdoc}"},
+  #                 {"$match" => {"#{subdoc}.#{searchParameter}" => "#{searchValue}"}},
+  #              ]).size
+
+  # 
+  # This does not work as it counts the number of the parents, not number of 
+  # subdocs
+  #
+  #------------------------------------------- 
+  # @entity_collection = @db.collection(subdoc_parent)
+  # param = subdoc + "." + searchParameter
+  # 
+  # if searchType == "integer"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # elsif searchType == "double"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # elseif searchType == "boolean"
+  #   if searchValue == "false"
+  #     @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  #   else
+  #     @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  #   end
+  # elsif searchType == "nil"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
+  # else     
+  #   @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # end  
+  # ----------------------------------------
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
@@ -1415,19 +1505,18 @@ Then /^I should see following map of entry counts in the corresponding collectio
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
     if parent 
-        verifySubDoc(parent, row["collectionName"], row["count"])
+      @entity_count = subDocCount(parent, row["collectionName"], {"metaData.tenantId" => TENANT_COLLECTION})
     else 
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.count().to_i
 
-      if @entity_count.to_s != row["count"].to_s
-        @result = "false"
-        red = "\e[31m"
-        reset = "\e[0m"
-      end
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
 
-      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
-      end
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
@@ -1468,8 +1557,8 @@ Then /^I check to find if record is in collection:$/ do |table|
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
     if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
-	else  
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"], {"metaData.tenantId" => TENANT_COLLECTION})
+    else  
       @entity_collection = @db.collection(row["collectionName"])
 
       if row["searchType"] == "integer"
@@ -1519,19 +1608,19 @@ Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
     if parent 
-        verifySubDoc(parent, row["collectionName"], row["count"])
+       @entity_count = subDocCount(parent, row["collectionName"], {"metaData.edOrgs" => [@stateOrganizationId]})
     else 
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
-
-      if @entity_count.to_s != row["count"].to_s
-        @result = "false"
-        red = "\e[31m"
-        reset = "\e[0m"
-      end
-
-      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
     end
+    
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
 
   assert(@result == "true", "Some records do not have the correct education organization context.")

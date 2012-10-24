@@ -15,7 +15,7 @@ end
 desc "Run API SuperDoc Tests"
 task :apiSuperDocTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/superdoc")
+  runTests("test/features/superdoc/denormalization_api.feature")
 end
 
 desc "Run API PATCH Tests"

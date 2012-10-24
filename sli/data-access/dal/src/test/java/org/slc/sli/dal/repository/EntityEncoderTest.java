@@ -16,23 +16,23 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.junit.runner.RunWith;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
-
-import org.slc.sli.domain.Entity;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
 /**
@@ -46,18 +46,19 @@ public class EntityEncoderTest {
     @Resource(name = "entityKeyEncoder")
     private EntityKeyEncoder entityKeyEncoder;
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testEncodeEntityKey() {
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> embedded = new HashMap<String, Object>();
         Map<String, Object> inlist1 = new HashMap<String, Object>();
         Map<String, Object> inlist2 = new HashMap<String, Object>();
-        
+
         body.put("normal-key", "normal-value");
         body.put("period.key", "period.value");
         body.put("percent%key", "percent%value");
         body.put("both.%.%key", "both.%.%value");
-        
+
         inlist1.put("inlist1", "1");
         inlist2.put("inlist", "inlist");
         inlist2.put("in.list", "in.list");
@@ -65,23 +66,21 @@ public class EntityEncoderTest {
         List<Object> list = new ArrayList<Object>();
         list.add(inlist1);
         list.add(inlist2);
-        
+
         embedded.put("normal-key-embedded", "normal-key-embedded");
         embedded.put("period.key-embedded", "period.value-embedded");
         embedded.put("percent%key-embedded", "percent%value-embedded");
         embedded.put("both.%.%key-embedded", "both.%.%value-embedded");
         embedded.put("list", list);
-        
+
         body.put("embedded.key", embedded);
-        
+
         Entity e = new MongoEntity("dummy", body);
 
         entityKeyEncoder.encodeEntityKey(e);
-        
+
         body = e.getBody();
-        
-        System.out.println(body);
-        
+
         assertTrue(body.containsKey("normal-key"));
         assertEquals("normal-value", body.get("normal-key"));
         assertTrue(body.containsKey("period%2Ekey"));
@@ -103,7 +102,7 @@ public class EntityEncoderTest {
         assertEquals("both.%.%value-embedded", embedded.get("both%2E%25%2E%25key-embedded"));
 
         assertTrue(embedded.containsKey("list"));
-        list = (List) embedded.get("list");
+        list = (List<Object>) embedded.get("list");
         assertNotNull(list);
         assertEquals(2, list.size());
         inlist1 = (Map<String, Object>) list.get(0);
@@ -118,5 +117,5 @@ public class EntityEncoderTest {
         assertEquals("period.percentage%", inlist2.get("period%2Epercentage%25"));
 
     }
-    
+
 }

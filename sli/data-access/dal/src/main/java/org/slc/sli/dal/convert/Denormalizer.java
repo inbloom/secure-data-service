@@ -16,6 +16,16 @@
 
 package org.slc.sli.dal.convert;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,16 +35,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * Utility for denormalizing entities
@@ -323,6 +323,10 @@ public class Denormalizer {
                 entity = findTypeEntity(id);
             }
 
+            if (entity == null) {
+                return false;
+            }
+
             DBObject parentQuery = getParentQuery(entity.getBody());
             List<Entity> subEntities = new ArrayList<Entity>();
             subEntities.add(entity);
@@ -337,6 +341,38 @@ public class Denormalizer {
             query.addCriteria(Criteria.where("_id").is(id));
 
             return template.findOne(query, Entity.class, type);
+        }
+
+        public boolean doUpdate(Entity parentEntity, Update update) {
+            if (parentEntity == null) return false;
+
+            DBObject parentQuery = getParentQuery(parentEntity.getBody());
+            parentQuery.put(denormalizedToField + "._id", parentEntity.getBody().get(denormalizedIdKey));
+
+            DBObject patchUpdate = toDenormalizedObjectUpdate(update);
+
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true)
+                        .getLastError().ok();
+
+            return result;
+        }
+
+        private DBObject toDenormalizedObjectUpdate(Update originalUpdate) {
+            DBObject updateDBObject = new BasicDBObject();
+
+            for (String key : originalUpdate.getUpdateObject().keySet()) {
+                if (key.startsWith("$")) {
+                    Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
+                    Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
+                    for (String field : fieldAndValue.keySet()) {
+                        if (!field.startsWith("$")) {
+                            newFieldAndValue.put(denormalizedToField + ".$." + field, fieldAndValue.get(field));
+                        }
+                    }
+                    updateDBObject.put(key, newFieldAndValue);
+                }
+            }
+            return updateDBObject;
         }
 
     }
