@@ -69,6 +69,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private Map<Object, NeutralRecord> attendances;
 
     private MessageSource messageSource;
+    private List<NeutralRecord> transformedAttendances;
 
     @Autowired
     private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
@@ -78,6 +79,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     public AttendanceTransformer() {
         attendances = new HashMap<Object, NeutralRecord>();
+        transformedAttendances = new ArrayList<NeutralRecord>();
     }
 
     /**
@@ -88,6 +90,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     public void performTransformation() {
         loadData();
         transform();
+        insertRecords(transformedAttendances, ATTENDANCE_TRANSFORMED);
     }
 
     /**
@@ -240,17 +243,22 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
-                query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
-                        NeutralCriteria.OPERATOR_EQUAL, schoolYear));
+                query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
-                Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
-                attendanceEventsToPush.put("body.schoolYearAttendance.$.attendanceEvent", events.toArray());
-                Map<String, Object> update = new HashMap<String, Object>();
-                update.put("pushAll", attendanceEventsToPush);
-                getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
-                        ATTENDANCE_TRANSFORMED, getBatchJobId());
+                Iterable<NeutralRecord> attendances = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                                                         ATTENDANCE_TRANSFORMED, getBatchJobId(), query);
 
-                LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
+                for (NeutralRecord neutralRecord : attendances) {
+                    Map<String, Object> attributes = neutralRecord.getAttributes();
+                    for (Map<String, Object> event : events){
+                        attributes.put ("attendanceEvent", event);
+                    }
+
+                    neutralRecord.setAttributes (attributes);
+                    transformedAttendances.add (neutralRecord);
+                }
+
+                LOG.debug("Added {} school year attendance events: {}", events.size(), schoolYear);
             }
         } else {
             LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG3", studentId, schoolId));
@@ -271,23 +279,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         Map<String, List<Map<String, Object>>> placeholders = createAttendancePlaceholdersFromSessions(sessions);
 
+        Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+        attendanceAttributes.put("studentId", studentId);
+        attendanceAttributes.put("schoolId", schoolId);
+
         List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
         for (Map.Entry<String, List<Map<String, Object>>> year : placeholders.entrySet()) {
             String schoolYear = year.getKey();
             List<Map<String, Object>> events = year.getValue();
-            Map<String, Object> schoolYearAttendanceEvents = new HashMap<String, Object>();
-            schoolYearAttendanceEvents.put("schoolYear", schoolYear);
-            schoolYearAttendanceEvents.put("attendanceEvent", events);
-            daily.add(schoolYearAttendanceEvents);
+            // Map<String, Object> schoolYearAttendanceEvents = new HashMap<String, Object>();
+            attendanceAttributes.put("schoolYear", schoolYear);
+            attendanceAttributes.put("attendanceEvent", events);
         }
 
-        Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-        attendanceAttributes.put("studentId", studentId);
-        attendanceAttributes.put("schoolId", schoolId);
-        attendanceAttributes.put("schoolYearAttendance", daily);
-
         record.setAttributes(attendanceAttributes);
-
         record.setSourceFile(attendances.values().iterator().next().getSourceFile());
         record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
 
