@@ -1123,7 +1123,10 @@ task :importTenantMetricsData do
     "session" => "metrics/T1/session_fixture.json",
     "staff" => "metrics/T1/staff_fixture.json",
     "student" => "metrics/T1/student_fixture.json",
-    "tenant" => "metrics/T1/tenant_fixture.json",
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
     "assessment" => "metrics/T2/assessment_fixture.json",
     "educationOrganization" => "metrics/T2/educationOrganization_fixture.json",
     "grade" => "metrics/T2/grade_fixture.json",
@@ -1133,7 +1136,10 @@ task :importTenantMetricsData do
     "session" => "metrics/T2/session_fixture.json",
     "staff" => "metrics/T2/staff_fixture.json",
     "student" => "metrics/T2/student_fixture.json",
-    "tenant" => "metrics/T2/tenant_fixture.json",
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T2@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
     "assessment" => "metrics/T3/assessment_fixture.json",
     "educationOrganization" => "metrics/T1/educationOrganization_fixture.json",
     "grade" => "metrics/T3/grade_fixture.json",
@@ -1142,9 +1148,14 @@ task :importTenantMetricsData do
     "section" => "metrics/T3/section_fixture.json",
     "session" => "metrics/T3/session_fixture.json",
     "staff" => "metrics/T3/staff_fixture.json",
-    "student" => "metrics/T3/student_fixture.json",
-    "tenant" => "metrics/T3/tenant_fixture.json"
+    "student" => "metrics/T3/student_fixture.json"
   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
+    "tenant" => "metrics/tenant_fixture.json"
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setMultipleFixtureFiles(testHash)
 end
 
