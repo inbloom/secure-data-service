@@ -12,7 +12,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="Staff" type="Staff"/>
 				<xs:element name="StaffEducationOrgEmploymentAssociation" type="StaffEducationOrgEmploymentAssociation"/>
-				<xs:element name="StaffEducationOrgAssignmentAssociation" type="StaffEducationOrgAssignmentAssociation"/>
+				<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
 				<xs:element name="Teacher" type="Teacher"/>
 				<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociationRestriction"/>
 				<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
