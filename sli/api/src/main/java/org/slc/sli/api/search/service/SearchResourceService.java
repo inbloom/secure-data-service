@@ -83,35 +83,50 @@ public class SearchResourceService {
     public List<EntityBody> retrieveResults(EntityDefinition definition, ApiQuery apiQuery) {
 
         int limit = apiQuery.getLimit();
-        int maxPerQuery = limit;
+        if (limit == 0) {
+            limit = 1000;
+        }
+        int offset = apiQuery.getOffset();
+        int totalLimit = limit + offset;
+        int total = 0, newTotal = 0;
 
-        // execute the query
+        // TODO : make configurable
+        int limitPerQuery = limit + offset;
+        apiQuery.setLimit(limitPerQuery);
+        apiQuery.setOffset(0);
+
         List<EntityBody> entityBodies = null;
         List<EntityBody> accessible = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-        while (finalEntities.size() < limit) {
+        while (total < totalLimit) {
 
-            // Call BasicService to query the elastic search repo
+            // call BasicService to query the elastic search repo
             entityBodies = retrieve(apiQuery, definition);
 
             // filter results through security context
             accessible = checkAccessible(entityBodies);
 
-            if (finalEntities.size() + accessible.size() <= limit) {
-                finalEntities.addAll(accessible);
-            } else {
-                finalEntities.addAll(accessible.subList(0, limit - finalEntities.size()));
+            // if past offset, add accessible results to final list
+            newTotal = total + accessible.size();
+            if (newTotal > offset) {
+                for (int i=0; i<accessible.size(); i++) {
+                    if ((total+i >= offset) && (total+i < totalLimit)) {
+                        finalEntities.add(accessible.get(i));
+                    }
+                }
             }
+            total = newTotal;
 
             // if no more results to grab, then we're done
-            if (entityBodies.size() < maxPerQuery) {
+            if (entityBodies.size() < limitPerQuery) {
                 break;
             }
 
-            // adjust api query offset
-            apiQuery.setOffset(apiQuery.getOffset() + maxPerQuery);
+            apiQuery.setOffset(apiQuery.getOffset() + limitPerQuery);
         }
+
+        debug("finalEntities " + finalEntities.size() + " totalLimit " + totalLimit + " offset " + offset);
         return finalEntities;
     }
 

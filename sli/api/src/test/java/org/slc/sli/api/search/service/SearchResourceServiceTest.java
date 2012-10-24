@@ -204,8 +204,9 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.TEACHER);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
         SearchResourceService rs = Mockito.spy(resourceService);
-        //Resource resource = null;
-        EntityDefinition definition = Mockito.mock(EntityDefinition.class);
+        EntityDefinition mockDef = Mockito.mock(EntityDefinition.class);
+        //EntityService mockService = Mockito.mock(EntityService.class);
+        //Mockito.when(mockDef.getService()).thenReturn(mockService);
         ApiQuery apiQuery = rs.prepareQuery(null, queryUri);
 
         // offset 0, limit 10
@@ -216,17 +217,29 @@ public class SearchResourceServiceTest {
         //Mockito.when(rs.checkAccessible(Mockito.isA(List<String>.class)).thenReturn(getResults(4)).thenReturn(getResults(5));
         Mockito.doReturn(getResults(10)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
         Mockito.doReturn(getResults(4)).when(rs).checkAccessible(Mockito.isA(List.class));
-        List<EntityBody> results = rs.retrieveResults(definition, apiQuery);
+        List<EntityBody> results = rs.retrieveResults(mockDef, apiQuery);
         Assert.assertEquals(10, results.size());
 
 
         // offset 0, limit 10
         // return 8 results, filter down to 6
         // check total 6
+        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
+        apiQuery = rs.prepareQuery(null, queryUri);
         Mockito.doReturn(getResults(8)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
         Mockito.doReturn(getResults(6)).when(rs).checkAccessible(Mockito.isA(List.class));
-        results = rs.retrieveResults(definition, apiQuery);
+        results = rs.retrieveResults(mockDef, apiQuery);
         Assert.assertEquals(6, results.size());
+
+        // offset 5, limit 10
+        // return 8 results, filter down to 7
+        // check total 2
+        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=5&limit=10");
+        apiQuery = rs.prepareQuery(null, queryUri);
+        Mockito.doReturn(getResults(8)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
+        Mockito.doReturn(getResults(7)).when(rs).checkAccessible(Mockito.isA(List.class));
+        results = rs.retrieveResults(mockDef, apiQuery);
+        Assert.assertEquals(2, results.size());
 
 
         // offset 0, limit 10
