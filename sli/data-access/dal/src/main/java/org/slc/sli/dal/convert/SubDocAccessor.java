@@ -29,9 +29,9 @@ import com.mongodb.DBObject;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessor {
 
@@ -46,7 +46,7 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-            INaturalKeyExtractor naturalKeyExtractor) {
+                          INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
@@ -66,7 +66,7 @@ public class SubDocAccessor {
 
     /**
      * Start a location for a given sub doc type
-     * 
+     *
      * @param type
      * @return
      */
@@ -87,7 +87,7 @@ public class SubDocAccessor {
 
         /**
          * Store the subdoc within the given super doc collection
-         * 
+         *
          * @param collection
          *            the collection the subdoc gets stored in
          * @return
@@ -99,7 +99,7 @@ public class SubDocAccessor {
 
         /**
          * The field the subdocs show up in
-         * 
+         *
          * @param subField
          *            The field the subdocs show up in
          * @return
@@ -111,7 +111,7 @@ public class SubDocAccessor {
 
         /**
          * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
-         * 
+         *
          * @param subDocField
          * @param superDocField
          * @return
@@ -132,9 +132,9 @@ public class SubDocAccessor {
 
     /**
      * THe location of the subDoc
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     public class Location {
 
@@ -144,7 +144,7 @@ public class SubDocAccessor {
 
         /**
          * Create a new location to store subdocs
-         * 
+         *
          * @param collection
          *            the collection the superdoc is in
          * @param key
@@ -328,7 +328,7 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
-           // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
+            // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
             List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
             return entities;
@@ -449,9 +449,9 @@ public class SubDocAccessor {
             simplifyParentQuery(parentQuery);
             DBObject idQuery = null;
             if(parentQuery.containsField("_id")) {
-               idQuery = new Query().getQueryObject();
-               idQuery.put("_id",parentQuery.get("_id"));
-               parentQuery.removeField("_id");
+                idQuery = new Query().getQueryObject();
+                idQuery.put("_id",parentQuery.get("_id"));
+                parentQuery.removeField("_id");
             }
             //parentQuery.putAll(subDocQuery);
 //            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
@@ -494,7 +494,12 @@ public class SubDocAccessor {
                         Object childInQuery = childQuery.get(childLoc);
                         if (childInQuery instanceof DBObject && ((DBObject) childInQuery).containsField("$in")) {
                             Object inList = ((DBObject) childInQuery).get("$in");
-                            parentSet.addAll(getParentIds(inList));
+                            try {
+                                parentSet.addAll(getParentIds(inList));
+                            } catch (InvalidIdException e) {
+                                // IDs aren't valid, we can't simplify the query
+                                return;
+                            }
                             if (dbOrList.size() == 1) {
                                 query.removeField("$or");
                             } else {
@@ -512,14 +517,17 @@ public class SubDocAccessor {
         }
 
         @SuppressWarnings("unchecked")
-        private Set<String> getParentIds(final Object childIds) {
+        private Set<String> getParentIds(final Object childIds) throws InvalidIdException {
             final Set<String> parentSet = new HashSet<String>();
             if (childIds instanceof Iterable) {
                 for (String childId : (Iterable<String>) childIds) {
+                    if (childId.equals(getParentId(childId))) {
+                        throw new InvalidIdException("ChildId == ParentId");
+                    }
                     parentSet.add(getParentId(childId));
                 }
             } else if (childIds instanceof String) {
-                parentSet.add((String) childIds);
+                parentSet.add(getParentId((String) childIds));
             }
             return parentSet;
         }
@@ -552,9 +560,13 @@ public class SubDocAccessor {
                 delete(e.getEntityId());
             }
         }
+
+        private class InvalidIdException extends Exception {
+            public InvalidIdException(String s) {
+                super(s);
+            }
+        }
     }
-
-
 
     public boolean isSubDoc(String docType) {
         return locations.containsKey(docType);
