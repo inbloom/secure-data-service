@@ -110,6 +110,17 @@ $entityData = {
         "localCourseCode" => "LCCGR101",
         "localCourseTitle" => "German 101 - Intro"
     },
+    "courseTranscript" => {
+        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
+        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
+        "courseAttemptResult" => "Pass",
+        "creditsEarned" => {
+             "credit" => 4.0
+        },
+        "gradeType" => "Final",
+        "finalLetterGradeEarned" => "A"
+    },
     "staffCohortAssociation" => {
         "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
         "cohortId" => "b408635d-8fd5-11e1-86ec-0021701f543f",
@@ -173,17 +184,6 @@ $entityData = {
         "beginDate" => "2011-12-01",
         "endDate" => "2012-01-01",
         "homeroomIndicator" => true
-    },
-    "studentTranscriptAssociation" => {
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
-        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
-        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
-        "courseAttemptResult" => "Pass",
-        "creditsEarned" => {
-            "credit" => 4.0
-        },
-        "gradeType" => "Final",
-        "finalLetterGradeEarned" => "A"
     },
     "teacherSchoolAssociation" => {
         "teacherId" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",

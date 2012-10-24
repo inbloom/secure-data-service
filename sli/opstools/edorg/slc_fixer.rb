@@ -411,12 +411,12 @@ class SLCFixer
   end
 
   def fix_miscellany
-    set_stamps(@db['studentTranscriptAssociation'])
+    set_stamps(@db['courseTranscript'])
     set_stamps(@db['studentSectionGradebookEntry'])
     set_stamps(@db['studentCompetency'])
     set_stamps(@db['studentAcademicRecord'])
-    #StudentTranscriptAssociation
-    @log.info "Iterating studentTranscriptAssociation with query: #{@basic_query}"
+    #courseTranscript
+    @log.info "Iterating courseTranscript with query: #{@basic_query}"
 
     #Student Academic Record
     @log.info "Iterating studentAcademicRecord with query: #{@basic_query}"
@@ -426,15 +426,15 @@ class SLCFixer
         stamp_id(@db['studentAcademicRecord'], student['_id'], edorg)
       end
     end
-    @db['studentTranscriptAssociation'].find(@basic_query, @basic_options) do |cur|
+    @db['courseTranscript'].find(@basic_query, @basic_options) do |cur|
       cur.each do |trans|
         edorg = []
-        edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])
+        edorg << old_edorgs(@db['courseTranscript'], trans['_id'])
         edorg << old_edorgs(@db['studentAcademicRecord'], trans['body']['studentAcademicRecordId'])
         edorg = edorg.flatten.uniq
         @log.warn "No edorgs on student #{trans['body']['studentId']}?" if edorg.empty?
         @log.debug "Edorgs for sTA##{trans['_id']} is #{edorg.to_s}" unless edorg.empty?
-        stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg)
+        stamp_id(@db['courseTranscript'], trans['_id'], edorg)
       end
     end
 

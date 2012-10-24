@@ -220,9 +220,9 @@ public class LiveAPIClientTest {
     }
 
     @Test
-    public void testGetStudentTranscriptAssociations() {
+    public void testGetCourseTranscripts() {
         String url = client.getApiUrl()
-                + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
+                + "/v1/students/56789/courseTranscripts?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
         String token = "token";
 
         // build the params
@@ -233,7 +233,7 @@ public class LiveAPIClientTest {
         String json = "[{finalLetterGradeEarned: \"A\",studentId:\"56789\"},{finalLetterGradeEarned: \"C\",studentId:\"56789\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
-        List<GenericEntity> assocs = client.getStudentTranscriptAssociations(token, "56789", params);
+        List<GenericEntity> assocs = client.getCourseTranscripts(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
         assertEquals("student id should match", "56789", assocs.get(0).get("studentId"));
         assertEquals("finalLetterGradeEarned should match", "A", assocs.get(0).get("finalLetterGradeEarned"));

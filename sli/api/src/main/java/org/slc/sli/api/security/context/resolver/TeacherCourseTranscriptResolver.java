@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherStudentTranscriptAssociationResolver implements EntityContextResolver {
+public class TeacherCourseTranscriptResolver implements EntityContextResolver {
     @Autowired
     private TeacherStudentAcademicRecordResolver academicResolver;
     
@@ -50,14 +50,14 @@ public class TeacherStudentTranscriptAssociationResolver implements EntityContex
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType)
-                && EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION.equals(toEntityType);
+                && EntityNames.COURSE_TRANSCRIPT.equals(toEntityType);
     }
     
     @Override
     public List<String> findAccessible(Entity principal) {
         Set<String> ids = getAcademicRecordTranscripts(principal);
         ids.addAll(getStudentTranscripts(principal));
-        securityCache.warm(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, ids);
+        securityCache.warm(EntityNames.COURSE_TRANSCRIPT, ids);
         return new ArrayList<String>(ids);
     }
     
@@ -68,7 +68,7 @@ public class TeacherStudentTranscriptAssociationResolver implements EntityContex
         } else {
             studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT_ACADEMIC_RECORD));
         }
-        Iterable<String> staIds = repo.findAllIds(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, new NeutralQuery(
+        Iterable<String> staIds = repo.findAllIds(EntityNames.COURSE_TRANSCRIPT, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, NeutralCriteria.CRITERIA_IN,
                         studentIds)));
         Set<String> ids = new HashSet<String>();
@@ -86,7 +86,7 @@ public class TeacherStudentTranscriptAssociationResolver implements EntityContex
         } else {
             studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT));
         }
-        Iterable<String> staIds = repo.findAllIds(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, new NeutralQuery(
+        Iterable<String> staIds = repo.findAllIds(EntityNames.COURSE_TRANSCRIPT, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentIds)));
         Set<String> ids = new HashSet<String>();
         for (String id : staIds) {

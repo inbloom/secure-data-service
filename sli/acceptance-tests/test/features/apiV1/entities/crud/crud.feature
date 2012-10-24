@@ -368,4 +368,13 @@ Examples:
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
 | "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
-| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|                            
+| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
+
+	@DE1825 
+	Scenario: Invalid data parsing fails gracefully
+		When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
+    	Then I should receive a return code of 400 
+        When I create an association of type "studentSectionAssociation"    	
+    	And field "beginDate" is removed from the json document
+    	When I navigate to POST "/v1/studentSectionAssociations"
+    	Then I should receive a return code of 400                    

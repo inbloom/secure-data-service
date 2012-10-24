@@ -75,7 +75,6 @@ Given /^the following collections are clean and bootstrapped in datastore:$/ do 
       @result = "false"
     end
   end
-  createIndexesOnDb(@conn, convertTenantIdToDbName('Midgar'))
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 

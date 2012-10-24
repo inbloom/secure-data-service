@@ -731,6 +731,7 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
+  disable_NOTABLESCAN()
   @conn = Mongo::Connection.new(INGESTION_DB)
 
   @db   = @conn[@ingestion_db_name]
@@ -747,11 +748,12 @@ Given /^the following collections are empty in datastore:$/ do |table|
       @result = "false"
     end
   end
-  createIndexesOnDb(@conn,@ingestion_db_name)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
 Given /^the following collections are empty in batch job datastore:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -768,9 +770,11 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   end
   ensureBatchJobIndexes(@batchConn)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
 Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -787,9 +791,11 @@ Given /^the following collections are completely empty in batch job datastore:$/
   end
   ensureBatchJobIndexes(@batchConn)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
+  disable_NOTABLESCAN()
 
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
@@ -863,9 +869,13 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
+  disable_NOTABLESCAN()
+
   tenant = lz_key
   edOrg = lz_key
 
@@ -924,6 +934,8 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
@@ -1105,6 +1117,7 @@ When /^a batch job log has not been created$/ do
 end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
+  disable_NOTABLESCAN()
 
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
@@ -1152,6 +1165,8 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   end
 
   @db = old_db
+
+  enable_NOTABLESCAN()
 end
 
 When /^two batch job logs have been created$/ do
@@ -1345,28 +1360,6 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
-Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
-  @db   = @conn[@ingestion_db_name]
-
-  @result = "true"
-
-  table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-    @indexcollection = @db.collection("system.indexes")
-    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
-
-    #puts "Index Count = " + @indexCount.to_s
-
-    if @indexCount.to_s == "0"
-      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
-      @result = "false"
-    end
-  end
-
-  assert(@result == "true", "Some indexes were not created successfully.")
-
-end
 
 def subDocParent(collectionName)
   case collectionName
@@ -1414,6 +1407,7 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @conn[@ingestion_db_name]
   @result = "true"
   puts "db name #{@db.name}"
@@ -1437,9 +1431,11 @@ Then /^I should see following map of entry counts in the corresponding collectio
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1455,6 +1451,7 @@ Then /^I should see following map of entry counts in the corresponding batch job
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I should say that we started processing$/ do
@@ -1463,6 +1460,7 @@ Then /^I should say that we started processing$/ do
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @conn[@ingestion_db_name]
 
   @result = "true"
@@ -1505,9 +1503,11 @@ Then /^I check to find if record is in collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+  disable_NOTABLESCAN()
   @result = "true"
   
   @db = @conn[convertTenantIdToDbName(tenantId)]
@@ -1533,10 +1533,13 @@ Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is 
       puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
     end
   end
+
   assert(@result == "true", "Some records do not have the correct education organization context.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I check to find if complex record is in batch job collection:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1554,9 +1557,11 @@ Then /^I check to find if complex record is in batch job collection:$/ do |table
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I check to find if record is in batch job collection:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1578,10 +1583,13 @@ Then /^I check to find if record is in batch job collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
+  disable_NOTABLESCAN()
+
   @db = @conn[@ingestion_db_name]
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
@@ -1595,8 +1603,9 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
     @entity_collection = @db.collection(collection)
     @entity =  @entity_collection.find({field => value})
   end
-  
+
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
+  enable_NOTABLESCAN()
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -1618,6 +1627,7 @@ def getValueAtIndex(ent, index_string)
 end
 
 Then /^verify the following data in that document:$/ do |table|
+  disable_NOTABLESCAN()
   @entity.each do |ent|
     puts "entity #{ent}"
     table.hashes.map do |row|
@@ -1633,15 +1643,18 @@ Then /^verify the following data in that document:$/ do |table|
       end
     end
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
+  disable_NOTABLESCAN()
   @entity.each do |ent|
     @db = @conn[@ingestion_db_name]
     @entity_collection = @db.collection(collection)
     @refEntity = @entity_collection.find({key => value, refField => ent['_id']})
     assert(@refEntity.count == count.to_i, "Expected #{count} documents but found #{@refEntity.count}")
   end
+  enable_NOTABLESCAN()
 end
 
 def is_num?(str)
@@ -1936,11 +1949,13 @@ def checkForErrorLogFile(landing_zone)
 end
 
 Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
+  disable_NOTABLESCAN()
   db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
 
   @record = collection.find_one({searchTerm => value})
   @record.should_not == nil
+  enable_NOTABLESCAN()
 end
 
 Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
@@ -2032,13 +2047,17 @@ Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
 end
 
 Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
+  disable_NOTABLESCAN()
+
   db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
   referred = collection.find_one({searchTerm => value})
   referred.should_not == nil
   id = referred["_id"]
   references = findField(@record, referenceField)
+
   assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
+  enable_NOTABLESCAN()
 end
 
 When /^zip file "(.*?)" is scp to ingestion landing zone$/ do |fileName|
