@@ -1,4 +1,4 @@
-@integration
+@integrations
 Feature: Applications sharing SLI Sessions
 As a user of SLI, I want to have my session shared across SLI Apps
 
@@ -13,7 +13,7 @@ Scenario: Session sharring between Databrowser & Dashboard
 	And I have navigated to the databrowser page
 	And I was redirected to the realmchooser page
 	And I selected the realm "Illinois Daybreak School District 4529"
-	When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+	When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 	Then I am redirected to the databrowser home page
 	When I navigate to the dashboard page
 	Then I do not see any login pages
