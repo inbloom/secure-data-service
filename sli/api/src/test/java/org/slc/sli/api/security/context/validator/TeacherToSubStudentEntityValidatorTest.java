@@ -37,10 +37,10 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class TeacherToAttendanceValidatorTest {
+public class TeacherToSubStudentEntityValidatorTest {
 
     @Autowired
-    private TeacherToAttendanceValidator validator;
+    private TeacherToSubStudentEntityValidator validator;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -100,13 +100,13 @@ public class TeacherToAttendanceValidatorTest {
     @Test
     public void testCanGetAccessToAttendance() throws Exception {
         Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
-        assertTrue(validator.validate(attendances));
+        assertTrue(validator.validate(attendances, "attendance"));
     }
 
     @Test
     public void testCanNotGetAccessToAttendance() throws Exception {
         Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(false);
-        assertFalse(validator.validate(attendances));
+        assertFalse(validator.validate(attendances, "attendance"));
     }
 
     private Map<String, Object> buildAttendanceForStudent(String studentId, String schoolId) {

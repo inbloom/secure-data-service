@@ -32,12 +32,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * Validates a teacher accessing a set of attendance events.
+ * Validates a teacher accessing a set of entities that are directly associated to a student.
  *
  * @author shalka
  */
 @Component
-public class TeacherToAttendanceValidator extends AbstractContextValidator {
+public class TeacherToSubStudentEntityValidator implements SubStudentEntityValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -45,32 +45,24 @@ public class TeacherToAttendanceValidator extends AbstractContextValidator {
     @Autowired
     private TeacherToStudentValidator teacherToStudentValidator;
 
-    /**
-     * Returns true if the user making the API call is of type 'teacher' and the resource queried
-     * for is of type 'attendance'. Returns false otherwise.
-     */
     @Override
     public boolean canValidate(String entityType) {
         return EntityNames.ATTENDANCE.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
     }
 
-    /**
-     * Returns true if the teacher entity has access to ALL of the attendance events requested.
-     * Returns false otherwise.
-     */
     @Override
-    public boolean validate(Set<String> ids) {
-        // get set of students for set of attendances _id's
+    public boolean validate(Set<String> ids, String type) {
+        // get set of students for set of entity _id's
         // iterate through and add body.studentId to 'students'
         // pass set of students into teacher to student validator
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
                 new ArrayList<String>(ids)));
-        Iterable<Entity> attendances = repo.findAll(EntityNames.ATTENDANCE, query);
-        for (Entity attendance : attendances) {
-            students.add((String) attendance.getBody().get(ParameterConstants.STUDENT_ID));
+        Iterable<Entity> entities = repo.findAll(type, query);
+        for (Entity entity : entities) {
+            students.add((String) entity.getBody().get(ParameterConstants.STUDENT_ID));
         }
 
         return teacherToStudentValidator.validate(students);
