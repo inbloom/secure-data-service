@@ -447,13 +447,25 @@ public class SubDocAccessor {
                 }
             }
             simplifyParentQuery(parentQuery);
+            DBObject idQuery = null;
+            if(parentQuery.containsField("_id")) {
+               idQuery = new Query().getQueryObject();
+               idQuery.put("_id",parentQuery.get("_id"));
+               parentQuery.removeField("_id");
+            }
             //parentQuery.putAll(subDocQuery);
 //            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
 //                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
 //                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
-            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
-                    "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
 
+            String queryCommand;
+            if (idQuery != null) {
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : "+idQuery.toString()+"},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
+                        "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
+            } else {
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
+                        "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
+            }
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
