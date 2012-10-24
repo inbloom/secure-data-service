@@ -334,7 +334,7 @@ Met standard
 					<xs:documentation>The student enrolled in the section.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType">
+			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
 				<xs:annotation>
 					<xs:documentation>The section the student is enrolled in.</xs:documentation>
 				</xs:annotation>
@@ -908,7 +908,7 @@ Other</xs:documentation>
 					<xs:documentation>The teacher assigned to the section.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType">
+			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
 				<xs:annotation>
 					<xs:documentation>The section the teacher is assigned to.</xs:documentation>
 				</xs:annotation>
