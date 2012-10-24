@@ -6646,12 +6646,28 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <sli:ReferenceType>school</sli:ReferenceType>
-			 	  <sli:naturalKey>true</sli:naturalKey>
-			 	</xs:appinfo>
+                  <sli:naturalKey>true</sli:naturalKey>
+                </xs:appinfo>
               </xs:annotation>
             </xs:element>
-			<xs:element name="schoolYearAttendance" type="schoolYearAttendanceType"
-				minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="schoolYear" type="schoolYearType">
+              <xs:annotation>
+                <xs:documentation>
+                  The school year associated with this attendance.
+                </xs:documentation>
+                <xs:appinfo>
+                  <sli:naturalKey>true</sli:naturalKey>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="attendanceEvent" minOccurs="0"
+                maxOccurs="unbounded" type="attendanceEvent">
+                <xs:annotation>
+                <xs:documentation>
+                  Attendance events for the student.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
