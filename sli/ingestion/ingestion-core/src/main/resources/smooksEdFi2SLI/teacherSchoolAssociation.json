@@ -2,6 +2,7 @@
     "keyFields" : ["body.schoolId", "body.teacherId", "body.programAssignment"],
     "references" :
     [{
+        "deprecated" : true,
         "fieldPath" : "body.schoolId","ref" :
         {
             "entityType" : "school",

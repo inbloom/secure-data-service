@@ -262,13 +262,29 @@ Other</xs:documentation>
       <xs:restriction base="TeacherSchoolAssociation">
         <xs:sequence>
           <xs:element name="TeacherReference" type="StaffReferenceType" />
-          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <!--<xs:element name="SchoolReference" type="EducationalOrgReferenceType" />-->
           <xs:element name="ProgramAssignment" type="ProgramAssignmentType" />
           <xs:element name="InstructionalGradeLevels" type="GradeLevelsType" />
           <xs:element name="AcademicSubjects" type="AcademicSubjectsType" />
         </xs:sequence>
       </xs:restriction>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SLC-TeacherSchoolAssociationExtension">
+        <xs:annotation>
+            <xs:documentation>This entity represents a student attendance.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>teacherSchoolAssociation</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="SLC-TeacherSchoolAssociationRestriction">
+                <xs:sequence>
+                    <xs:element name="SchoolReference"  type="TEMPORARY-EducationalOrgReferenceType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
   </xs:complexType>
 
   <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType, Change SectionReference to SLC type -->
@@ -601,6 +617,10 @@ Other</xs:documentation>
 	<xs:complexType name="TEMPORARY-EducationalOrgReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for Educational Organization (ESC, LEA, school) reference during interchange. Use XML IDREF to reference an educational organization record that is included in the interchange</xs:documentation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>educationOrganization</sli:refType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -624,6 +644,9 @@ Other</xs:documentation>
 				<xs:annotation>
 					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.</xs:documentation>
 				</xs:annotation>
+                <xs:appinfo>
+                    <sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
+                </xs:appinfo>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>

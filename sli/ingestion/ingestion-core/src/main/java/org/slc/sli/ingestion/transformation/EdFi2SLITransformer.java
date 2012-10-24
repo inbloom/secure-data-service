@@ -151,6 +151,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         Entity entity = new NeutralRecordEntity(item);
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
+
+        if(entity.getType().equals("teacherSchoolAssociation")) {
+            System.out.println("teacherSchoolAssociation");
+        }
+
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
             String entityType = ref.getEntityType();

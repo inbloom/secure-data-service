@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="teacherSchoolAssociations" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="teacherSchoolAssociation" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherSchoolAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'teacherSchoolAssociation'</jb:expression>
+    <jb:wiring property="body" beanIdRef="teacherSchoolAssociationBody" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherSchoolAssociationBody"   class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="teacherId"                  data="attributes teacherId" />
+    <jb:value property="schoolId"                   data="attributes SchoolReference" />
+    <jb:value property="programAssignment"          data="attributes programAssignment" />
+    <jb:wiring property="instructionalGradeLevels"  beanIdRef="instructionalGradeLevelsArray" />
+    <jb:wiring property="academicSubjects"          beanIdRef="academicSubjectsArray" />
+  </jb:bean>
+
+   <jb:bean beanId="instructionalGradeLevelsArray" class="java.util.ArrayList" createOnElement="attributes instructionalGradeLevels">
+      <jb:value data="attributes instructionalGradeLevels element" />
+   </jb:bean>
+
+   <jb:bean beanId="academicSubjectsArray" class="java.util.ArrayList" createOnElement="attributes academicSubjects">
+      <jb:value data="attributes academicSubjects element" />
+   </jb:bean>
+</smooks-resource-list>

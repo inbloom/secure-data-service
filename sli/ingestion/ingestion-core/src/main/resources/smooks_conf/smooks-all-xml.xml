@@ -868,6 +868,8 @@
     <!-- SchoolReference -->
     <jb:value property="schoolId" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
 
+    <jb:wiring property="SchoolReference"   beanIdRef="SchoolReferenceMap" />
+
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="TeacherSchoolAssociation/ProgramAssignment" />
 
@@ -877,6 +879,16 @@
     <!-- AcademicSubjects -->
     <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
   </jb:bean>
+
+
+   <jb:bean beanId="SchoolReferenceMap" class="java.util.HashMap" createOnElement="TeacherSchoolAssociation/SchoolReference">
+    <jb:wiring property="EducationalOrgIdentity"  beanIdRef="SchoolIdentityMap" />
+   </jb:bean>
+
+   <jb:bean beanId="SchoolIdentityMap" class="java.util.HashMap" createOnElement="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity">
+    <jb:value property="StateOrganizationId" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+   </jb:bean>
+
 
   <!--Gravelevels -->
   <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
