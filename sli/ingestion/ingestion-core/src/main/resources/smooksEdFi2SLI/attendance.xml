@@ -24,20 +24,11 @@
         <jb:value property="schoolYear" data="attributes schoolYear"></jb:value>
         <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"></jb:wiring>
     </jb:bean>
-    
-    <jb:bean beanId="schoolYearAttendanceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:wiring beanIdRef="schoolYearAttendanceMap"/>
-    </jb:bean>
-    
-    <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance element">
-        <jb:value property="schoolYear" data="schoolYearAttendance element schoolYear"></jb:value>
-        <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"/>
-    </jb:bean>
-    
-    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="schoolYearAttendance element attendanceEvent">
+
+    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="attendanceEventMap"></jb:wiring>
     </jb:bean>
-    
+
     <jb:bean beanId="attendanceEventMap" class="java.util.HashMap" createOnElement="attendanceEvent element">
         <jb:value property="date" data="attendanceEvent element date"></jb:value>
         <jb:value property="event" data="attendanceEvent element event"></jb:value>
