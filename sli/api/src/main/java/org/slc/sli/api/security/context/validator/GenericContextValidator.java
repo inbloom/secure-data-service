@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,14 +40,14 @@ public class GenericContextValidator implements IContextValidator {
     private EntityContextResolver resolver;
 
     @Override
-    public boolean canValidate(String entityType) {
+    public boolean canValidate(String entityType, boolean through) {
         String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
         resolver = store.findResolver(userType, entityType);
         return resolver.canResolve(userType, entityType);
     }
     
     @Override
-    public boolean validate(Set<String> ids) {
+    public boolean validate(Collection<String> ids) {
         Set<String> contextIds = new HashSet<String>(
                 resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
         return contextIds.containsAll(ids);
