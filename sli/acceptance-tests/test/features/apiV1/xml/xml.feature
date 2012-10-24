@@ -105,7 +105,7 @@ Scenario: Applying optional fields
   # transcript
   Then I should find 1 "<courseTranscripts>" under "<transcript>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
-  And I should see "<entityType>" is "studentTranscriptAssociation" for it
+  And I should see "<entityType>" is "courseTranscript" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
   And I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
@@ -161,7 +161,7 @@ Scenario: Applying optional fields - single student view
   # transcript
   Then I should find 1 "<courseTranscripts>" under "<transcript>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
-  And I should see "<entityType>" is "studentTranscriptAssociation" for it
+  And I should see "<entityType>" is "courseTranscript" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
   And I should find 1 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them

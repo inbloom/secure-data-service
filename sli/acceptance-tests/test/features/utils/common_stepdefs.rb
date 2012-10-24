@@ -171,7 +171,9 @@ Then /^I navigate to that link$/ do
 end
 
 Given /^that dashboard has been authorized for all ed orgs$/ do
+  disable_NOTABLESCAN()
   allLeaAllowApp("SLC Dashboards")
+  enable_NOTABLESCAN()
 end
 
 Given /^that databrowser has been authorized for all ed orgs$/ do

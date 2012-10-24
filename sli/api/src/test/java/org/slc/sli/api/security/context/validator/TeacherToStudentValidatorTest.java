@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,7 +92,7 @@ public class TeacherToStudentValidatorTest {
         
         studentIds = new HashSet<String>();
         
-        badDate = Integer.parseInt(gracePeriod) * -1 - 5 + "";
+        badDate = "2001-01-01";
 
     }
     
@@ -248,7 +251,7 @@ public class TeacherToStudentValidatorTest {
         ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
         ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
         if (isExpired) {
-            ssaBody.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            ssaBody.put(ParameterConstants.END_DATE, badDate);
         }
         mockRepo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
@@ -266,7 +269,7 @@ public class TeacherToStudentValidatorTest {
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
         tsaBody.put(ParameterConstants.SECTION_ID, sectionId);
         if (isExpired) {
-            tsaBody.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            tsaBody.put(ParameterConstants.END_DATE, badDate);
         }
         mockRepo.create(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
     }
@@ -283,7 +286,7 @@ public class TeacherToStudentValidatorTest {
         staffCohort.put(ParameterConstants.STAFF_ID, teacherId);
         staffCohort.put(ParameterConstants.COHORT_ID, cohortId);
         if (isExpired) {
-            staffCohort.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            staffCohort.put(ParameterConstants.END_DATE, getBadDate());
         }
         staffCohort.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
         
@@ -296,11 +299,16 @@ public class TeacherToStudentValidatorTest {
         studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
         studentCohort.put(ParameterConstants.COHORT_ID, cohortId);
         if (isExpired) {
-            studentCohort.put(ParameterConstants.END_DATE, validator.getFilterDate(badDate));
+            studentCohort.put(ParameterConstants.END_DATE, getBadDate());
         }
         
         mockRepo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
         
     }
-
+    
+    private String getBadDate() {
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTime past = DateTime.now().minusYears(10);
+        return past.toString(fmt);
+    }
 }
