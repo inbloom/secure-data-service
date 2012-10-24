@@ -31,6 +31,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Validates a teacher accessing a set of attendance events.
+ *
+ * @author shalka
+ */
 @Component
 public class TeacherToAttendanceValidator extends AbstractContextValidator {
 
