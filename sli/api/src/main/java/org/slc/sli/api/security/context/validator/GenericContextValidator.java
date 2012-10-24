@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
  * fully transition to the new logic.
  * 
  */
+@Component
 public class GenericContextValidator implements IContextValidator {
     
     @Autowired

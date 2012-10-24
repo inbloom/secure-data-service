@@ -26,6 +26,7 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.GenericContextValidator;
 import org.slc.sli.api.security.context.validator.IContextValidator;
+import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -61,17 +62,22 @@ public class ContextValidator implements ApplicationContextAware {
         validators.addAll(applicationContext.getBeansOfType(IContextValidator.class).values());
         
         IContextValidator genVal = null;
+        IContextValidator studentVal = null;
         //Make GenericContextValidator last, since we want to use that as a last resort
         for (IContextValidator validator : validators) {
             if (validator instanceof GenericContextValidator) {
                 genVal = validator;
+            } else if (validator instanceof TeacherToStudentValidator) {
+                studentVal = validator;
             }
         }
         
-        if (genVal != null) {   //move to end
-            validators.remove(genVal);
-            validators.add(genVal);
-        }
+        //move generic validator to end
+        validators.remove(genVal);
+        //validators.add(genVal); //temporarily disable
+        
+        //temporarily disable teacher-student validator
+        validators.remove(studentVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
