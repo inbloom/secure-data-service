@@ -72,9 +72,8 @@ public class TeacherToSubStudentEntityValidatorTest {
         attendances.add(attendanceEntity1.getEntityId());
         studentIds.add("student123");
 
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(attendanceEntity1));
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
+                Arrays.asList(attendanceEntity1));
 
         validator.setRepo(mockRepo);
         validator.setTeacherToStudentValidator(teacherToStudentValidator);
@@ -88,8 +87,38 @@ public class TeacherToSubStudentEntityValidatorTest {
     }
 
     @Test
-    public void testCanValidateTeacherToStudent() throws Exception {
+    public void testCanValidateTeacherToSubEntities() throws Exception {
         assertTrue(validator.canValidate(EntityNames.ATTENDANCE));
+    }
+
+    @Test
+    public void testCanValidateTeacherToCourseTranscript() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT));
+    }
+
+    @Test
+    public void testCanValidateTeacherToDisciplineAction() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.DISCIPLINE_ACTION));
+    }
+
+    @Test
+    public void testCanValidateTeacherToStudentAcademicRecord() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD));
+    }
+
+    @Test
+    public void testCanValidateTeacherToStudentAssessment() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION));
+    }
+
+    @Test
+    public void testCanValidateTeacherToStudentDisciplineIncident() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION));
+    }
+
+    @Test
+    public void testCanValidateTeacherToStudentGradebookEntry() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY));
     }
 
     @Test

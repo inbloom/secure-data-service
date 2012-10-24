@@ -33,6 +33,9 @@ import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates a teacher accessing a set of entities that are directly associated to a student.
+ * Currently supported entities are: attendance, course transcript, discipline action, student
+ * academic record, student assessment association, student discipline incident association, and
+ * student grade book entry.
  *
  * @author shalka
  */
@@ -47,24 +50,37 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
 
     @Override
     public boolean canValidate(String entityType) {
-        return EntityNames.ATTENDANCE.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
+        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
+                && isSubEntityOfStudent(entityType);
+    }
+
+    /**
+     * Determines if the entity type is a sub-entity of student.
+     *
+     * @param type
+     *            Entity type.
+     * @return True if the entity is a sub-entity of student, false otherwise.
+     */
+    private boolean isSubEntityOfStudent(String type) {
+        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
+                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
+                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type);
     }
 
     @Override
     public boolean validate(Set<String> ids, String type) {
-        // get set of students for set of entity _id's
-        // iterate through and add body.studentId to 'students'
-        // pass set of students into teacher to student validator
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
                 new ArrayList<String>(ids)));
         Iterable<Entity> entities = repo.findAll(type, query);
-        for (Entity entity : entities) {
-            students.add((String) entity.getBody().get(ParameterConstants.STUDENT_ID));
+        if (entities != null) {
+            for (Entity entity : entities) {
+                students.add((String) entity.getBody().get(ParameterConstants.STUDENT_ID));
+            }
         }
-
         return teacherToStudentValidator.validate(students);
     }
 
