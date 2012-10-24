@@ -35,15 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -52,6 +43,14 @@ import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -206,46 +205,65 @@ public class TeacherToStudentValidatorTest {
         studentIds.add("-32");
         assertFalse(validator.validate(studentIds));
     }
+    
+    @Test
+    public void testCanGetAccessThroughValidCohort() throws Exception {
+        generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = generateCohort(ED_ORG_ID).getEntityId();
+        generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
+        }
+        assertTrue(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
-    // @Test
-    // public void testCanGetAccessThroughValidCohort() throws Exception {
-    // generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
-    // String cohortId = generateCohort(ED_ORG_ID).getEntityId();
-    // generateStaffCohort(TEACHER_ID, cohortId, false, true);
-    // for (int i = 0; i < 10; ++i) {
-    // generateStudentCohort(i + "", cohortId, false);
-    // studentIds.add(i + "");
-    // }
-    //
-    // assertTrue(validator.validate(studentIds));
-    // }
-    //
-    //
-    //
-    // @Test
-    // public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
-    // assertFalse(validator.validate(studentIds));
-    // }
-    //
-    // @Test
-    // public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
-    // assertFalse(validator.validate(studentIds));
-    // }
-    //
-    // @Test
-    // public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
-    // assertFalse(validator.validate(studentIds));
-    // }
-    //
-    // @Test
-    // public void testCanNotGetAccessThroughOutsideOfEdorg() throws Exception {
-    // assertFalse(validator.validate(studentIds));
-    // }
-    //
-    // @Test
-    // public void testCohortAccessIntersectionRules() throws Exception {
-    // assertFalse(validator.validate(studentIds));
-    // }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
+        generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = generateCohort(ED_ORG_ID).getEntityId();
+        generateStaffCohort(TEACHER_ID, cohortId, false, false);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
+        generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = generateCohort(ED_ORG_ID).getEntityId();
+        generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentCohort(i + "", "" + i * -1, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughOutsideOfEdorg() throws Exception {
+        generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = generateCohort("122").getEntityId();
+        generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCohortAccessIntersectionRules() throws Exception {
+        assertFalse(validator.validate(studentIds));
+    }
 
     private void generateSSA(String studentId, String sectionId, boolean isExpired) {
         Map<String, Object> ssaBody = new HashMap<String, Object>();
