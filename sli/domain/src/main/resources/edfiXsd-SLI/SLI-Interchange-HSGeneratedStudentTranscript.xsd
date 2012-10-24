@@ -29,7 +29,7 @@
 				<xs:element name="StudentSchoolAssociation" type="SLC-StudentSchoolAssociationExtension"/>
 				<xs:element name="StudentAcademicRecord" type="StudentAcademicRecordExtendedType"/>
 				<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
-				<xs:element name="ReportCard" type="ReportCard"/>
+				<xs:element name="ReportCard" type="SLC-ReportCard"/>
 				<xs:element name="Grade" type="SLC-Grade"/>
 				<xs:element name="StudentSectionAssociation" type="SLC-StudentSectionAssociation"/>
 				<xs:element name="Section" type="Section"/>

@@ -2,11 +2,12 @@
     "keyFields":["body.studentId", "body.gradingPeriodId"],
     "references":[
         {
-            "fieldPath":"body.grades",
+            "fieldPath":"body.GradeReference",
+            "deprecated" : true,
             "ref":{
                 "entityType":"grade",
                 "isRefList":true,
-                "refObjectPath":"body.gradeReference",
+                "refObjectPath":"body.GradeReference",
                 "choiceOfFields":[
                     [
                         {
@@ -16,7 +17,7 @@
                                     "ref":{
                                         "entityType":"studentSectionAssociation",
                                         "isRefList":true,
-                                        "refObjectPath":"body.gradeReference",
+                                        "refObjectPath":"body.GradeReference",
                                         "choiceOfFields":[
                                             [
                                                 {
@@ -31,7 +32,7 @@
                                                                             "path":"body.studentUniqueStateId",
                                                                             "values":[
                                                                                 {
-                                                                                    "valueSource":"body.gradeReference.studentUniqueStateId"
+                                                                                    "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentReference.StudentIdentity.StudentUniqueStateId"
                                                                                 }
                                                                             ]
                                                                         }
@@ -53,7 +54,7 @@
                                                                             "path":"body.uniqueSectionCode",
                                                                             "values":[
                                                                                 {
-                                                                                    "valueSource":"body.gradeReference.uniqueSectionCode"
+                                                                                    "valueSource":"body.GradeReference.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
                                                                                 }
                                                                             ]
                                                                         }
@@ -75,7 +76,8 @@
         },
 
         {
-            "fieldPath":"body.gradingPeriodId",
+            "fieldPath":"body.GradingPeriodReference",
+            "deprecated" : true,
             "ref":{
                 "entityType":"gradingPeriod",
                 "choiceOfFields":[
@@ -84,7 +86,7 @@
                             "path":"body.gradingPeriodIdentity.schoolYear",
                             "values":[
                                 {
-                                    "valueSource":"body.gradingPeriodReference.schoolYear"
+                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.SchoolYear"
                                 }
                             ]
                         },
@@ -92,7 +94,7 @@
                             "path":"body.gradingPeriodIdentity.gradingPeriod",
                             "values":[
                                 {
-                                    "valueSource":"body.gradingPeriodReference.gradingPeriod"
+                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
                                 }
                             ]
                         },
@@ -108,7 +110,7 @@
                                                     "path" : "body.stateOrganizationId",
                                                     "values": [
                                                         {
-                                                            "valueSource":"body.gradingPeriodReference.stateOrganizationId"
+                                                            "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                         }
                                                     ]
                                                 }
@@ -143,6 +145,7 @@
         },
         {
             "fieldPath":"body.StudentCompetencyReference",
+        	"deprecated" : false,
             "ref":{
                 "entityType":"studentCompetency",
                 "isRefList":true,
@@ -215,7 +218,7 @@
 							"path" : "body.competencyLevel.codeValue",
 							"values" :
 							[{
-								"valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.CompetencyLevel.CodeValue"
+								"valueSource" : "body.StudentCompetencyReference.StudentCompetencyIdentity.CodeValue"
 							}]
 						},
 						{
@@ -225,6 +228,8 @@
 					            "ref" :
 					            {
 					                "entityType" : "studentSectionAssociation",
+                					"isRefList":true,
+                					"refObjectPath":"body.StudentCompetencyReference",
 					                "choiceOfFields" :
 					                [
 					                    [
