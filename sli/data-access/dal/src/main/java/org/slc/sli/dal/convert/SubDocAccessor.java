@@ -463,6 +463,7 @@ public class SubDocAccessor {
             }
 
             simplifyParentQuery(parentQuery);
+<<<<<<< HEAD
             DBObject idQuery = null;
             if(parentQuery.containsField("_id")) {
                 idQuery = new Query().getQueryObject();
@@ -478,6 +479,12 @@ public class SubDocAccessor {
                 queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
                         "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
             }
+=======
+
+            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
+                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
+                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+>>>>>>> Simplify parent queries to remove huge $in
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
@@ -529,6 +536,7 @@ public class SubDocAccessor {
         }
 
         @SuppressWarnings("unchecked")
+<<<<<<< HEAD
         private Set<String> getParentIds(final Object childIds) throws InvalidIdException {
             final Set<String> parentSet = new HashSet<String>();
             if (childIds instanceof Iterable) {
@@ -540,6 +548,16 @@ public class SubDocAccessor {
                 }
             } else if (childIds instanceof String) {
                 parentSet.add(getParentId((String) childIds));
+=======
+        private Set<String> getParentIds(final Object childIds) {
+            final Set<String> parentSet = new HashSet<String>();
+            if (childIds instanceof Iterable) {
+                for (String childId : (Iterable<String>) childIds) {
+                    parentSet.add(getParentId(childId));
+                }
+            } else if (childIds instanceof String) {
+                parentSet.add((String) childIds);
+>>>>>>> Simplify parent queries to remove huge $in
             }
             return parentSet;
         }
