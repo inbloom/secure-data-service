@@ -69,7 +69,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private Map<Object, NeutralRecord> attendances;
 
     private MessageSource messageSource;
-    private List<NeutralRecord> transformedAttendances;
 
     @Autowired
     private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
@@ -79,7 +78,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     public AttendanceTransformer() {
         attendances = new HashMap<Object, NeutralRecord>();
-        transformedAttendances = new ArrayList<NeutralRecord>();
     }
 
     /**
@@ -90,7 +88,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     public void performTransformation() {
         loadData();
         transform();
-        insertRecords(transformedAttendances, ATTENDANCE_TRANSFORMED);
     }
 
     /**
@@ -245,18 +242,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
-                Iterable<NeutralRecord> attendances = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                                                         ATTENDANCE_TRANSFORMED, getBatchJobId(), query);
-
-                for (NeutralRecord neutralRecord : attendances) {
-                    Map<String, Object> attributes = neutralRecord.getAttributes();
-                    for (Map<String, Object> event : events){
-                        attributes.put ("attendanceEvent", event);
-                    }
-
-                    neutralRecord.setAttributes (attributes);
-                    transformedAttendances.add (neutralRecord);
-                }
+                Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
+                attendanceEventsToPush.put("body.attendanceEvent", events.toArray());
+                Map<String, Object> update = new HashMap<String, Object>();
+                update.put("pushAll", attendanceEventsToPush);
+                getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
+                        ATTENDANCE_TRANSFORMED, getBatchJobId());
 
                 LOG.debug("Added {} school year attendance events: {}", events.size(), schoolYear);
             }
