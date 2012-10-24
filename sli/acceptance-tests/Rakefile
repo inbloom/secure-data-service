@@ -1008,7 +1008,6 @@ end
 desc "Import Sandbox Test Data to Midgar"
 task :importSandboxMidgarData do
   testHash = Hash[
-<<<<<<< HEAD
     "session" => "Midgar_data/session_fixture.json",
     "program" => "Midgar_data/program_fixture.json",
     "section" => "Midgar_data/section_fixture.json",
