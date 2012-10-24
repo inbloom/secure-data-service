@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.api.security.context.ContextValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -31,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.pdp.PolicyEnforcer;
+import org.slc.sli.api.security.pdp.BaseEndpointMutator;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.dal.TenantContext;
@@ -56,10 +57,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private OauthSessionManager manager;
 
     @Autowired
+    private ContextValidator contextValidator;
+
+    @Autowired
     private MongoStat mongoStat;
 
     @Resource
-    private PolicyEnforcer enforcer;
+    private BaseEndpointMutator baseEndpointMutator;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
@@ -68,8 +72,10 @@ public class PreProcessFilter implements ContainerRequestFilter {
         populateSecurityContext(request);
         mongoStat.clear();
 
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
-        enforcer.enforce(SecurityContextHolder.getContext().getAuthentication(), request);
+        baseEndpointMutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        contextValidator.validateContextToUri(request, principal);
         return request;
     }
 

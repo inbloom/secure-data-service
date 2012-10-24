@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,6 +39,7 @@ import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
@@ -60,8 +59,6 @@ import org.slc.sli.validation.schema.NaturalKeyExtractor;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     @Autowired
     private EntityValidator validator;
@@ -86,10 +83,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private SubDocAccessor subDocs;
 
+    private Denormalizer denormalizer;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
+        denormalizer = new Denormalizer(getTemplate());
     }
 
     @Override
@@ -178,6 +178,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        boolean result = false;
         Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
@@ -193,10 +194,28 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             for (Entry<String, Object> patch : newValues.entrySet()) {
                 update.set("body." + patch.getKey(), patch.getValue());
             }
-            return subDocs.subDoc(collectionName).doUpdate(query, update);
+            result = subDocs.subDoc(collectionName).doUpdate(query, update);
+        } else {
+            result = super.patch(type, collectionName, id, newValues);
         }
 
-        return super.patch(type, collectionName, id, newValues);
+        if (result && denormalizer.isDenormalizedDoc(collectionName)) {
+            Entity updateEntity;
+            if (subDocs.isSubDoc(collectionName)) {
+                updateEntity = subDocs.subDoc(collectionName).findById(id);
+            } else {
+                updateEntity = super.findById(collectionName, id);
+            }
+
+            Update update = new Update();
+            for (Map.Entry<String, Object> patch : newValues.entrySet()) {
+                update.set(patch.getKey(), patch.getValue());
+            }
+
+            denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
+        }
+
+        return result;
     }
 
     @Override
@@ -240,18 +259,36 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
+
             return entity;
         } else {
-            return super.insert(entity, collectionName);
+            Entity result = super.insert(entity, collectionName);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
+
+            return result;
         }
     }
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -269,7 +306,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 keyEncoder.encodeEntityKey(entity);
                 persist.add(entity);
             }
-            return super.insert(persist, collectionName);
+
+            List<Entity> results = super.insert(persist, collectionName);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
+            return results;
         }
     }
 
@@ -287,9 +331,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
+
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).delete(id);
+            Entity entity = subDocs.subDoc(collectionName).findById(id);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(entity, id);
+            }
+
+            return subDocs.subDoc(collectionName).delete(entity);
         }
+
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).delete(null, id);
+        }
+
         return super.delete(collectionName, id);
     }
 
@@ -338,9 +394,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
+
+        if (denormalizer.isDenormalizedDoc(collection)) {
+            denormalizer.denormalization(collection).create(entity);
+        }
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+
         return update(collection, entity, null); // body);
     }
 

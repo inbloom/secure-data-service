@@ -17,18 +17,21 @@
 
 package org.slc.sli.validation.schema;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -41,6 +44,8 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class DateSchema extends NeutralSchema {
 
+	private static final Logger LOG = LoggerFactory.getLogger(DateSchema.class);
+	
     // Constructors
     public DateSchema() {
         this(NeutralSchemaType.DATE.getName());
@@ -58,11 +63,16 @@ public class DateSchema extends NeutralSchema {
     }
 
     @Override
-    public Object convert(Object value) {
-        DatatypeConverter.parseDate((String) value);
-        return value;
-    }
-    
+	public Object convert(Object value) {
+		try {
+			DatatypeConverter.parseDate((String) value);
+		} catch (IllegalArgumentException e) {
+			LOG.error("Failed to parse date", e);
+			throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
+		}
+
+		return value;
+	}    
     
     /**
      * Validates the given entity

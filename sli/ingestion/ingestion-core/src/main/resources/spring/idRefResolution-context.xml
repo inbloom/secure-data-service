@@ -142,7 +142,7 @@
 
     <!-- Interchange StudentGrade -->
     <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference"
-           value="idRefResolution/InterchangeStudentGrade/StudentTranscriptAssociation/StudentAcademicRecordReference.ftl" />
+           value="idRefResolution/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference.ftl" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference"
            value="idRefResolution/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference.ftl" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference"

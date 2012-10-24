@@ -40,6 +40,7 @@ public class NeutralCriteria {
     public static final String CRITERIA_LT = "<";
     public static final String CRITERIA_LTE = "<=";
     public static final String OPERATOR_EQUAL = "=";
+    public static final String CRITERIA_EXISTS = "exists";
 
     static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=", "<", ">" };
     

@@ -49,7 +49,7 @@ Scenario: Preload Small Sample Data Set
      | studentSchoolAssociation                  |
      | studentSectionAssociation                 |
      | studentGradebookEntry                     |
-     | studentTranscriptAssociation              |
+     | courseTranscript                          |
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
@@ -100,7 +100,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                 |                167|
      | studentSectionAssociation                |                297|
      | studentGradebookEntry                    |                315|
-     | studentTranscriptAssociation             |                196|
+     | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
     And I should not see an error log file created

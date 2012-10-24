@@ -11,29 +11,30 @@ else
   num_shards=$2
 fi
 
-
+echo killing shards.
 sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
-echo Shards killed.
+echo
 
-sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
-echo Shards started.
+echo starting shards.
+$SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
+echo
 
-ulimit -n 20000
-echo Set the maximum number of open file descriptors to 20000
+echo executing sharding and presplitting configuration for Midgar tenant.
+mongo admin --eval "var tenant='02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a'" $SLI_HOME/config/shards/sli-shard-presplit.js
+echo
 
-mongo admin $SLI_HOME/config/shards/sli_shards.js --eval "var database = '02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a'"
-#mongo admin $SLI_HOME/config/shards/is_shards.js
-echo shards configured.
-
+echo indexing sli.
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
-echo sli indexed.
+echo
 
+echo indexing Midgar tenant.
 mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a $SLI_HOME/config/indexes/tenantDB_indexes.js
-echo Midgar tenant indexed.
+echo
 
+echo ingexing is.
 mongo is $SLI_HOME/config/indexes/is_indexes.js
-echo is indexed.
+echo
 
+echo indexing ingestion_batch_job.
 mongo ingestion_batch_job $SLI_HOME/config/indexes/ingestion_batch_job_indexes.js
-echo ingestion_batch_job indexed.
-
+echo

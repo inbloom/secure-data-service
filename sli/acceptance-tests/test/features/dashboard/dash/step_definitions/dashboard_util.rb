@@ -18,11 +18,13 @@ limitations under the License.
 require_relative '../../../utils/sli_utils.rb'
 
 Given /^the district "([^\"]*)" has dissallowed use of the dashboard$/ do |district|
-dissallowDashboard(district, "Midgar") 
-dissallowDashboard(district, "Hyrule") 
+  disable_NOTABLESCAN()
+  dissallowDashboard(district, "Midgar")
+  dissallowDashboard(district, "Hyrule")
+  enable_NOTABLESCAN()
 end
 
-def dissallowDashboard(district, tenantName) 
+def dissallowDashboard(district, tenantName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")

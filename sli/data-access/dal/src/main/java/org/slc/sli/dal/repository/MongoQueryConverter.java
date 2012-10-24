@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,20 +150,20 @@ public class MongoQueryConverter {
                         return Criteria.where(MONGO_ID).in(convertedIds);
                     }
                 } else if (criteria != null) {
-                    List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                    Collection<Object> critList = (Collection<Object>) neutralCriteria.getValue();
                     if (critList.size() == 1) {
-                        criteria.is(critList.get(0));
+                        criteria.is(critList.iterator().next());
                     } else {
                         criteria.in(critList);
                     }
                     return criteria;
                 } else {
                      try {
-                         List<Object> critList = (List<Object>) neutralCriteria.getValue();
+                         Collection<Object> critList = (Collection<Object>) neutralCriteria.getValue();
                          if (critList.size() == 1) {
-                             return Criteria.where(prefixKey(neutralCriteria)).is(critList.get(0));
+                             return Criteria.where(prefixKey(neutralCriteria)).is(critList.iterator().next());
                          } else {
-                             return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                             return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
                          }
                      } catch (ClassCastException cce) {
                         throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
@@ -188,6 +189,20 @@ public class MongoQueryConverter {
                 }
             }
         });
+
+        this.operatorImplementations.put("exists", new MongoCriteriaGenerator() {
+            @Override
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.exists(Boolean.valueOf((Boolean) neutralCriteria.getValue()));
+
+                    return criteria;
+                } else {
+                    return Criteria.where(prefixKey(neutralCriteria)).exists((Boolean) neutralCriteria.getValue());
+                }
+            }
+        });
+
 
         // >=
         this.operatorImplementations.put(">=", new MongoCriteriaGenerator() {
@@ -365,7 +380,7 @@ public class MongoQueryConverter {
      */
     public List<Criteria> convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
         Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
-        
+
         // other criteria
         for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
             String key = neutralCriteria.getKey();
@@ -375,7 +390,9 @@ public class MongoQueryConverter {
             NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
 
             if (fieldSchema != null) {
-                value = fieldSchema.convert(neutralCriteria.getValue());
+                if (!operator.equals("exists")) {
+                    value = fieldSchema.convert(neutralCriteria.getValue());
+                }
                 if (fieldSchema.isPii()) {
                     if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
                         throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
