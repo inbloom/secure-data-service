@@ -220,6 +220,9 @@ Met standard
 	<xs:complexType name="SLC-StudentCompetency">
 		<xs:annotation>
 			<xs:documentation>This entity represents the competency assessed or evaluated for the student against a specific Learning Objective.</xs:documentation>
+        	<xs:appinfo>
+         		 <sli:recordType>studentCompetency</sli:recordType>
+       		</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
@@ -1234,8 +1237,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
                     <xs:element name="GradeReference" type="SLC-GradeReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="StudentCompetencyReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-                    <!-- TODO <xs:element name="StudentCompetencyReference" type="TEMPORARY-StudentCompetencyReferenceType" minOccurs="0" maxOccurs="unbounded"/> -->
+                    <xs:element name="StudentCompetencyReference" type="TEMPORARY-StudentCompetencyReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="GPAGivenGradingPeriod" type="xs:decimal"/>
                     <xs:element name="GPACumulative" type="xs:decimal"/>
                     <xs:element name="NumberOfDaysAbsent" minOccurs="0">
@@ -1799,12 +1801,12 @@ Withdrawn
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the student-section association - a composite of the student reference type and the section reference type.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentIdentity" type="TEMPORARY-StudentReferenceType">
+			<xs:element name="StudentReference" type="TEMPORARY-StudentReferenceType">
 				<xs:annotation>
 					<xs:documentation>The attributes that can be used to specify the student.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SectionIdentity" type="TEMPORARY-SectionReferenceType">
+			<xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType">
 				<xs:annotation>
 					<xs:documentation>The attributes used to specifiy a section</xs:documentation>
 				</xs:annotation>
@@ -1850,9 +1852,9 @@ Withdrawn
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:element name="CompetencyLevel" type="TEMPORARY-CompetencyLevelDescriptorType">
+			<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
+					<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
             <xs:element name="StudentSectionAssociationReference" type="TEMPORARY2-StudentSectionAssociationReferenceType">
@@ -1892,7 +1894,7 @@ Withdrawn
 					<xs:annotation>
 						<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
                     <xs:appinfo>
-                        <sli:keyFieldName>learningObjectiveId</sli:keyFieldName>
+                        <sli:keyFieldName>objectiveId.learningObjectiveId</sli:keyFieldName>
                     </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
@@ -1900,17 +1902,17 @@ Withdrawn
 					<xs:annotation>
 						<xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
                     <xs:appinfo>
-                        <sli:keyFieldName>studentCompetencyObjectiveId</sli:keyFieldName>
+                        <sli:keyFieldName>objectiveId.studentCompetencyObjectiveId</sli:keyFieldName>
                     </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:element name="CompetencyLevel" type="SLC-CompetencyLevelDescriptorType">
+			<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
-                    <xs:appinfo>
-                        <sli:keyFieldName>competencyLevel</sli:keyFieldName>
-                    </xs:appinfo>
+					<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>competencyLevel.codeValue</sli:keyFieldName>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
             <xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType">
@@ -2049,7 +2051,7 @@ Withdrawn
 			<xs:documentation>Provides alternative references for Learning Objective reference during interchange. Use XML IDREF to reference a learning standard record that is included in the interchange</xs:documentation>
 		    <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>studentCompetencyObjective</sli:refType>
+                <sli:refType>objectiveId.studentCompetencyObjective</sli:refType>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2325,7 +2327,7 @@ Second grade
 				</xs:choice>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
+	</xs:complexType> 
 	<xs:complexType name="SLC-CompetencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>

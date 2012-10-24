@@ -18575,33 +18575,870 @@
                 </GradingPeriodReference>
             </GradeIdentity>
         </GradeReference>
-        <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-2"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-3"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-4"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-5"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-6"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-7"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-8"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-9"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-10"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-11"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-12"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-13"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-14"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-15"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-16"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-17"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-18"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-19"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-20"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-21"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-22"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-23"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-24"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-25"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-26"/>
-        <StudentCompetencyReference ref="SC-GR3-800000025-27"/>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Fluency and Expression</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Story Grammar</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Informational Text</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Comprehension</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Expository Writing</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Narrative Writing</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Spelling</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Punctuation</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Grammar and Usage</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Fractions</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>2 x 2 Multiplication</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Weights and Measures</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Place Value</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Addition (Sums to 100)</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Subtraction (Differences to 50)</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>The Revolutionary Period</Objective>
+                        <AcademicSubject>Social Studies</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>U.S. Geography</Objective>
+                        <AcademicSubject>Social Studies</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Polls and Surveys</Objective>
+                        <AcademicSubject>Social Studies</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Elections and Legislation</Objective>
+                        <AcademicSubject>Social Studies</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Gravity</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Electro-Magnetism</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Data Collection</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Experimental Design</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Soccer</Objective>
+                        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Sportsmanship</Objective>
+                        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Track and Field</Objective>
+                        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Archery</Objective>
+                        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+                        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
         <GPAGivenGradingPeriod>2.8</GPAGivenGradingPeriod>
         <GPACumulative>2.7</GPACumulative>
         <StudentReference>
@@ -19614,38 +20451,1030 @@
                 </GradingPeriodReference>
             </GradeIdentity>
         </GradeReference>
-        <StudentCompetencyReference ref="SC-100000017-1"/>
-        <StudentCompetencyReference ref="SC-100000017-2"/>
-        <StudentCompetencyReference ref="SC-100000017-3"/>
-        <StudentCompetencyReference ref="SC-100000017-4"/>
-        <StudentCompetencyReference ref="SC-100000017-5"/>
-        <StudentCompetencyReference ref="SC-100000017-6"/>
-        <StudentCompetencyReference ref="SC-100000017-7"/>
-        <StudentCompetencyReference ref="SC-100000017-8"/>
-        <StudentCompetencyReference ref="SC-100000017-9"/>
-        <StudentCompetencyReference ref="SC-100000017-10"/>
-        <StudentCompetencyReference ref="SC-100000017-11"/>
-        <StudentCompetencyReference ref="SC-100000017-12"/>
-        <StudentCompetencyReference ref="SC-100000017-13"/>
-        <StudentCompetencyReference ref="SC-100000017-14"/>
-        <StudentCompetencyReference ref="SC-100000017-15"/>
-        <StudentCompetencyReference ref="SC-100000017-16"/>
-        <StudentCompetencyReference ref="SC-100000017-17"/>
-        <StudentCompetencyReference ref="SC-100000017-18"/>
-        <StudentCompetencyReference ref="SC-100000017-19"/>
-        <StudentCompetencyReference ref="SC-100000017-20"/>
-        <StudentCompetencyReference ref="SC-100000017-21"/>
-        <StudentCompetencyReference ref="SC-100000017-22"/>
-        <StudentCompetencyReference ref="SC-100000017-23"/>
-        <StudentCompetencyReference ref="SC-100000017-24"/>
-        <StudentCompetencyReference ref="SC-100000017-25"/>
-        <StudentCompetencyReference ref="SC-100000017-26"/>
-        <StudentCompetencyReference ref="SC-100000017-27"/>
-        <StudentCompetencyReference ref="SC-100000017-28"/>
-        <StudentCompetencyReference ref="SC-100000017-29"/>
-        <StudentCompetencyReference ref="SC-100000017-30"/>
-        <StudentCompetencyReference ref="SC-100000017-31"/>
-        <StudentCompetencyReference ref="SC-100000017-32"/>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Phonemic Awareness</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Phonics</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Comprehension</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Fluency</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Content</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Sentence Structure</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Conventions</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Handwriting</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Computation</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Calculus</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Measurement</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Statistics</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>States of Matter</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>The Water Cycle</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>The Universe</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Scientific Method</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Initial Sounds</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Final Sounds</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Digraphs</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Summary</Objective>
+                        <AcademicSubject>Reading</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Handwriting</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Spelling</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Initial and Terminal Punctuation</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Sentences in SVO Form</Objective>
+                        <AcademicSubject>Writing</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Counting: Up to 20 by 1s, 2s, and 5s</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Addition: Sums 0 to 20</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Subtraction: Differences 0 to 10</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Spelling of numerals</Objective>
+                        <AcademicSubject>Mathematics</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>4</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Dinosaurs</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>The Rainforest</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>The Solar System</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>3</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <StudentCompetencyReference>
+            <StudentCompetencyIdentity>
+                <LearningObjectiveReference>
+                    <LearningObjectiveIdentity>
+                        <Objective>Hypothesis</Objective>
+                        <AcademicSubject>Science</AcademicSubject>
+                        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                    </LearningObjectiveIdentity>
+                </LearningObjectiveReference>
+                <CodeValue>2</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
         <GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
         <GPACumulative>2.6</GPACumulative>
         <NumberOfDaysAbsent>2</NumberOfDaysAbsent>
