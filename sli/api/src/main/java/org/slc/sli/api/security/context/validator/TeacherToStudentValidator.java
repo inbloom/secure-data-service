@@ -57,7 +57,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
     
 
-    private boolean validatedWithCohorts(Set<String> ids) {
+    private boolean validatedWithCohorts(Collection<String> ids) {
         boolean match = false;
         // Get my edorg association
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
@@ -87,7 +87,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                         NeutralCriteria.OPERATOR_EQUAL, cohortId));
                 Iterable<Entity> cohorts = repo.findAll(EntityNames.COHORT, basicQuery);
                 for (Entity cohort : cohorts) {
-                    String edorgId = (String) cohort.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
+                    String edorgId = (String) cohort.getBody().get("educationOrgId");
                     if (teacherSchoolIds.contains(edorgId) && !staffCohortIds.contains(cohort.getEntityId())) {
                         // TODO End date filtering
                         staffCohortIds.add(cohort.getEntityId());
