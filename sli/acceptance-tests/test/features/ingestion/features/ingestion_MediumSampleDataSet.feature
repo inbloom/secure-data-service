@@ -52,7 +52,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | studentSchoolAssociation                  |
      | studentSectionAssociation                 |
      | studentGradebookEntry                     |
-     | studentTranscriptAssociation              |
+     | courseTranscript                          |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
@@ -103,7 +103,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                    | 500 |
      | studentSectionAssociation                   | 2500 |
      | studentGradebookEntry                       | 8 |
-     | studentTranscriptAssociation                | 7500 |
+     | courseTranscript                            | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |
 	And I should see "Processed 38437 records." in the resulting batch job file

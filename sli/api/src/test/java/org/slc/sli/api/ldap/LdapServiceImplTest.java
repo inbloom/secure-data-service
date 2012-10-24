@@ -27,14 +27,19 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
-import org.junit.After;
+import javax.naming.directory.SearchControls;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.ldap.core.DistinguishedName;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -50,19 +55,47 @@ public class LdapServiceImplTest {
     @Autowired
     LdapService ldapService;
 
+    private LdapTemplate ldapTemplate;
     private static String uid;
     private static User testUser;
+    private static User slcUser;
+    private static Group group;
 
     @Before
     public void init() throws UnknownHostException {
         testUser = buildTestUser();
+        slcUser = buildSlcUser();
         uid = testUser.getUid();
-        ldapService.removeUser("LocalNew", uid);
-    }
+        group = buildTestGroup();
 
-    @After
-    public void clear() {
-        ldapService.removeUser("LocalNew", uid);
+        ldapTemplate = Mockito.mock(LdapTemplate.class);
+
+        DistinguishedName dn = new DistinguishedName("ou=LocalNew");
+        String[] attributes = new String[] {"*", LdapService.CREATE_TIMESTAMP, LdapService.MODIFY_TIMESTAMP };
+
+        // mock: ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {"*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper())
+        Mockito.when(ldapTemplate.search(
+                Mockito.eq(dn),
+                Mockito.eq("(&(objectclass=person)(uid=slcoperator))"),
+                Mockito.eq(SearchControls.SUBTREE_SCOPE),
+                Mockito.eq(attributes),
+                Mockito.any(UserContextMapper.class))).thenReturn(Arrays.asList(slcUser));
+
+        // mock: ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
+        Mockito.when(ldapTemplate.searchForObject(
+                Mockito.eq(dn),
+                Mockito.eq("(&(objectclass=posixGroup)(cn=SLC Operator))"),
+                Mockito.any(GroupContextMapper.class)))
+            .thenReturn(group);
+
+        // mock: ldapTemplate.search(dn, filter.toString(), new GroupContextMapper()
+        Mockito.when(ldapTemplate.search(
+                Mockito.eq(dn),
+                Mockito.eq("(&(objectclass=posixGroup)(memberuid=slcoperator))"),
+                Mockito.any(GroupContextMapper.class)))
+            .thenReturn(Arrays.asList(group));
+
+        ldapService.setLdapTemplate(ldapTemplate);
     }
 
     @Test
@@ -173,6 +206,22 @@ public class LdapServiceImplTest {
         return testUser;
     }
 
+    private User buildSlcUser() {
+        User user = new User();
+        user.setFullName("SLC Operator");
+        user.setUid("slcoperator");
+        user.setEmail("slcoperator@slidev.org");
+        user.setHomeDir("/dev/null");
+        user.setCn("cn for slcoperator");
+        user.setSn("sn for slcoperator");
+        user.addGroup("SLC Operator");
+        user.addGroup("SEA Administrator");
+        user.addGroup("LEA Administrator");
+        user.setCreateTime(new Date());
+        user.setModifyTime(new Date());
+        return user;
+    }
+
     private void updateTestUser(User user) {
         user.setEdorg("testEdorgUpdate");
         user.setTenant("testTenantUpdate");
@@ -185,4 +234,10 @@ public class LdapServiceImplTest {
         user.setStatus(User.Status.APPROVED);
     }
 
+    private Group buildTestGroup() {
+        Group group = new Group();
+        group.setGroupName("SLC Operator");
+        group.setMemberUids(Arrays.asList("slcoperator"));
+        return group;
+    }
 }
