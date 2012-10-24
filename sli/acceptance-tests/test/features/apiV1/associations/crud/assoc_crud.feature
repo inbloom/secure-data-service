@@ -42,7 +42,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              |
       | studentSchoolAssociation               | studentSchoolAssociations                | entryGradeLevel          | First grade            | Third grade            |
       | studentSectionAssociation              | studentSectionAssociations               | homeroomIndicator        | true                   | false                  |
-      | studentTranscriptAssociation           | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      |
+      | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      |
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      |
 
     Scenario Outline: CRUD round trip for an association entity can't update natural key
@@ -101,7 +101,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | 10    |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
       | studentSchoolAssociation               | studentSchoolAssociations                | 0     |"/schools/@ids/studentSchoolAssociations"|
       | studentSectionAssociation              | studentSectionAssociations               | 0     |"/schools/@ids/sections/studentSectionAssociations"|
-      | studentTranscriptAssociation           | courseTranscripts                        | 0     |"/schools/@ids/studentSchoolAssociations/students/courseTranscripts"|
+      | courseTranscript                       | courseTranscripts                        | 0     |"/schools/@ids/studentSchoolAssociations/students/courseTranscripts"|
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     |"/schools/@ids/teacherSchoolAssociations"|
       | teacherSectionAssociation              | teacherSectionAssociations               | 0     |"/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations"|
 
@@ -136,7 +136,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | student                                | students                                 | 31    |"/sections/@ids/studentSectionAssociations/students"|
       | studentSchoolAssociation               | studentSchoolAssociations                | 67    |"/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations"|
       | studentSectionAssociation              | studentSectionAssociations               | 31    |"/sections/@ids/studentSectionAssociations"|
-      | studentTranscriptAssociation           | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
+      | courseTranscript                       | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
       | teacher                                | teachers                                 | 1     |"/schools/@ids/teacherSchoolAssociations/teachers"|
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     |"/teachers/@ids/teacherSchoolAssociations"|
       | teacherSectionAssociation              | teacherSectionAssociations               | 4     |"/teachers/@ids/teacherSectionAssociations"|
@@ -200,6 +200,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | <b3f68907-8fd5-11e1-86ec-0021701f543f> | reasonExited             | Expulsion              | studentId             | programId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b> |
       | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5> | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
       | studentSectionAssociation              | studentSectionAssociations               | <4ae72560-3518-4576-a35e-a9607668c9ad> | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8> |
-      | studentTranscriptAssociation           | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
+      | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | <26a4a0fc-fad4-45f4-a00d-285acd1f83eb> | programAssignment        | Special Education      | teacherId             | schoolId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
       | teacherSectionAssociation              | teacherSectionAssociations               | <32b86a2a-e55c-4689-aedf-4b676f3da3fc> | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8> |

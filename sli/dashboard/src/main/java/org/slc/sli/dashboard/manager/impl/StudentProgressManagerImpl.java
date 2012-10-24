@@ -82,17 +82,17 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             return new GenericEntity();
         }
 
-        List<Map<String, Object>> studentTranscriptAssociations = (List<Map<String, Object>>)
-                studentTranscript.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
+        List<Map<String, Object>> courseTranscripts = (List<Map<String, Object>>)
+                studentTranscript.get(Constants.ATTR_COURSE_TRANSCRIPTS);
         List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>)
                 studentTranscript.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
 
-        if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
+        if (studentSectionAssociations == null || courseTranscripts == null) {
             return new GenericEntity();
         }
         for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
             Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssociation,
-                    studentTranscriptAssociations);
+                    courseTranscripts);
 
             // skip this course if we can't find previous info
             if (courseTranscript == null) {
@@ -213,11 +213,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             List<GenericEntity> transcriptData = new ArrayList<GenericEntity>();
 
             Map<String, Object> transcript = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
-            List<Map<String, Object>> studentTranscriptAssociations = (List<Map<String, Object>>) transcript.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
+            List<Map<String, Object>> courseTranscripts = (List<Map<String, Object>>) transcript.get(Constants.ATTR_COURSE_TRANSCRIPTS);
             List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>) transcript.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
 
             // skip if we have no associations or we have no previous transcripts
-            if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
+            if (studentSectionAssociations == null || courseTranscripts == null) {
                 continue;
             }
 
@@ -225,7 +225,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
             for (Map<String, Object> studentSectionAssoc : studentSectionAssociations) {
                 // Get the course transcript for a particular section
-                Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssoc, studentTranscriptAssociations);
+                Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssoc, courseTranscripts);
                 // skip this course if we can't find previous info
                 if (courseTranscript == null) {
                     continue;
@@ -294,11 +294,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     /**
      * Return the course transcript for a given section
      * @param studentSectionAssoc The student section association we are looking at
-     * @param studentTranscriptAssociations a set of transcripts for a given student
+     * @param courseTranscripts a set of transcripts for a given student
      * @return The transcript that applies to a given section
      */
     private Map<String, Object> getCourseTranscriptForSection(Map<String, Object> studentSectionAssoc,
-                                                              List<Map<String, Object>> studentTranscriptAssociations) {
+                                                              List<Map<String, Object>> courseTranscripts) {
         String courseId = "";
         Map<String, Object> section = getGenericEntity(studentSectionAssoc, Constants.ATTR_SECTIONS);
         Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
@@ -306,9 +306,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             courseId = course.get(Constants.ATTR_ID).toString();
         }
 
-        for (Map<String, Object> studentTranscriptAssociation : studentTranscriptAssociations) {
-            if (courseId.equals(studentTranscriptAssociation.get(Constants.ATTR_COURSE_ID).toString())) {
-                return studentTranscriptAssociation;
+        for (Map<String, Object> courseTranscript : courseTranscripts) {
+            if (courseId.equals(courseTranscript.get(Constants.ATTR_COURSE_ID).toString())) {
+                return courseTranscript;
             }
         }
 
