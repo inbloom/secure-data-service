@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,13 +38,13 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     private PagingRepositoryDelegate<Entity> repo;   
 
     @Override
-    public boolean canValidate(String entityType) {
-        return EntityNames.STUDENT.equals(entityType)
+    public boolean canValidate(String entityType, boolean through) {
+        return !through && EntityNames.STUDENT.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
     }
     
     @Override
-    public boolean validate(Set<String> ids) {
+    public boolean validate(Collection<String> ids) {
         Set<String> teacherSections = new HashSet<String>();
         Set<String> studentSections = new HashSet<String>();
         
@@ -53,7 +54,8 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
                         .getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.addCriteria(endDateCriteria);
+        basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
+        basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
         Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
         for (Entity tsa : tsas) {
             teacherSections.add((String) tsa.getBody().get(ParameterConstants.SECTION_ID));

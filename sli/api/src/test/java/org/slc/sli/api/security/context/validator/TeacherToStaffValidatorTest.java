@@ -136,7 +136,7 @@ public class TeacherToStaffValidatorTest {
     
     @Test
     public void testCanValidateTeacherToStaff() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STAFF));
+        assertTrue(validator.canValidate(EntityNames.STAFF, false));
     }
     
     @Test
