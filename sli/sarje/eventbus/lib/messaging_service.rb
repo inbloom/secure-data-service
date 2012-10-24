@@ -59,11 +59,19 @@ module Eventbus
     end
 
     def get_publisher(q_name)
-      Publisher.new(q_name, @config[:stomp_config])
+      @queue_name_to_publisher = {} if @queue_name_to_publisher.nil?
+      if @queue_name_to_publisher[q_name].nil?
+        @queue_name_to_publisher[q_name] = Publisher.new(q_name, @config[:stomp_config])
+      end
+      @queue_name_to_publisher[q_name]
     end
 
     def get_subscriber(q_name)
-      Subscriber.new(q_name, @config[:stomp_config])
+      @queue_name_to_subscriber = {} if @queue_name_to_subscriber.nil?
+      if @queue_name_to_subscriber[q_name].nil?
+        @queue_name_to_subscriber[q_name] = Subscriber.new(q_name, @config[:stomp_config])
+      end
+      @queue_name_to_subscriber[q_name]
     end
   end
 
