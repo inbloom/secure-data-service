@@ -35,14 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,30 +44,39 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TeacherToStudentValidatorTest {
-    
+
     private static final String ED_ORG_ID = "111";
-    
+
     private static final String TEACHER_ID = "1";
 
     @Autowired
     private TeacherToStudentValidator validator;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
 
     @Autowired
     private PagingRepositoryDelegate<Entity> mockRepo;
-    
+
     private Set<String> studentIds;
-    
+
     private String badDate;
 
     @Before
@@ -84,18 +85,18 @@ public class TeacherToStudentValidatorTest {
         String user = "fake teacher";
         String fullName = "Fake Teacher";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
-        
+
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("teacher");
         Mockito.when(entity.getEntityId()).thenReturn(TEACHER_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
-        
+
         studentIds = new HashSet<String>();
-        
+
         badDate = "2001-01-01";
 
     }
-    
+
     @After
     public void tearDown() {
         mockRepo.deleteAll(EntityNames.TEACHER_SECTION_ASSOCIATION, new NeutralQuery());
@@ -118,12 +119,12 @@ public class TeacherToStudentValidatorTest {
     public void testCanValidateTeacherToStudent() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT, false));
     }
-    
+
     @Test
     public void testCanNotValidateOtherEntities() throws Exception {
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
+
     @Test
     public void testCanGetAccessThroughSingleValidStudent() throws Exception {
         generateTSA(TEACHER_ID, "3", false);
@@ -131,17 +132,17 @@ public class TeacherToStudentValidatorTest {
         studentIds.add("2");
         assertTrue(validator.validate(studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidStudent() throws Exception {
         generateTSA(TEACHER_ID, "-1", false);
-        
+
         generateSSA("2", "3", false);
-        
+
         studentIds.add("2");
         assertFalse(validator.validate(studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughManyStudents() throws Exception {
 
@@ -158,10 +159,10 @@ public class TeacherToStudentValidatorTest {
 
         assertTrue(validator.validate(studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughStudentsWithManySections() throws Exception {
-        
+
         generateTSA(TEACHER_ID, "0", false);
 
         List<Entity> ssas = new ArrayList<Entity>();
@@ -171,7 +172,7 @@ public class TeacherToStudentValidatorTest {
         }
         assertTrue(validator.validate(studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughManyStudents() throws Exception {
 
@@ -187,7 +188,7 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughManyStudentsWithOneFailure() throws Exception {
 
@@ -205,7 +206,7 @@ public class TeacherToStudentValidatorTest {
         studentIds.add("-32");
         assertFalse(validator.validate(studentIds));
     }
-    
+
     // @Test
     // public void testCanGetAccessThroughValidCohort() throws Exception {
     // generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
@@ -255,12 +256,12 @@ public class TeacherToStudentValidatorTest {
         }
         mockRepo.create(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
     }
-    
+
     private void generateTeacherSchool(String teacherId, String edorgId) {
         Map<String, Object> tsaBody = new HashMap<String, Object>();
         tsaBody.put(ParameterConstants.TEACHER_ID, teacherId);
         tsaBody.put(ParameterConstants.SCHOOL_ID, edorgId);
-        
+
         mockRepo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, tsaBody);
     }
 
@@ -273,14 +274,14 @@ public class TeacherToStudentValidatorTest {
         }
         mockRepo.create(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
     }
-    
+
     private Entity generateCohort(String edOrgId) {
         Map<String, Object> cohortBody = new HashMap<String, Object>();
         cohortBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edOrgId);
-        
+
         return mockRepo.create(EntityNames.COHORT, cohortBody);
     }
-    
+
     private void generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffCohort = new HashMap<String, Object>();
         staffCohort.put(ParameterConstants.STAFF_ID, teacherId);
@@ -289,11 +290,11 @@ public class TeacherToStudentValidatorTest {
             staffCohort.put(ParameterConstants.END_DATE, getBadDate());
         }
         staffCohort.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
-        
+
         mockRepo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
-        
+
     }
-    
+
     private void generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
         Map<String, Object> studentCohort = new HashMap<String, Object>();
         studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
@@ -301,11 +302,11 @@ public class TeacherToStudentValidatorTest {
         if (isExpired) {
             studentCohort.put(ParameterConstants.END_DATE, getBadDate());
         }
-        
+
         mockRepo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
-        
+
     }
-    
+
     private String getBadDate() {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTime past = DateTime.now().minusYears(10);
