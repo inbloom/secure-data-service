@@ -343,7 +343,11 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
+<<<<<<< HEAD
             // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
+=======
+           // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
+>>>>>>> [us4472] change subdoc to use parent key to query the parent doc
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
             List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
             return entities;
@@ -461,7 +465,6 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
-
             simplifyParentQuery(parentQuery);
 <<<<<<< HEAD
             DBObject idQuery = null;
@@ -481,10 +484,19 @@ public class SubDocAccessor {
             }
 =======
 
+<<<<<<< HEAD
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
 >>>>>>> Simplify parent queries to remove huge $in
+=======
+            //parentQuery.putAll(subDocQuery);
+//            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
+//                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
+//                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
+                    "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
+>>>>>>> [us4472] change subdoc to use parent key to query the parent doc
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
@@ -536,7 +548,6 @@ public class SubDocAccessor {
         }
 
         @SuppressWarnings("unchecked")
-<<<<<<< HEAD
         private Set<String> getParentIds(final Object childIds) throws InvalidIdException {
             final Set<String> parentSet = new HashSet<String>();
             if (childIds instanceof Iterable) {
@@ -548,16 +559,6 @@ public class SubDocAccessor {
                 }
             } else if (childIds instanceof String) {
                 parentSet.add(getParentId((String) childIds));
-=======
-        private Set<String> getParentIds(final Object childIds) {
-            final Set<String> parentSet = new HashSet<String>();
-            if (childIds instanceof Iterable) {
-                for (String childId : (Iterable<String>) childIds) {
-                    parentSet.add(getParentId(childId));
-                }
-            } else if (childIds instanceof String) {
-                parentSet.add((String) childIds);
->>>>>>> Simplify parent queries to remove huge $in
             }
             return parentSet;
         }
@@ -598,6 +599,8 @@ public class SubDocAccessor {
             }
         }
     }
+
+
 
     public boolean isSubDoc(String docType) {
         return locations.containsKey(docType);
