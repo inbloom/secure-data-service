@@ -61,34 +61,32 @@
                 "type": "string",
                 "index": "not_analyzed"
               }
-            },
-            "learningStandardId": {
-              "properties": {
-                "identificationCode": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                }
-              }
-            },
-            "contentStandard": {
-              "type": "string",
-              "analyzer": "lowercase_analyzer"
-            },
-            "courseTitle": {
-              "type": "string",
-              "boost": 2.0
-            },
-            "description": {
-              "type": "string",
-              "boost": 1.0
-            },
-            "gradeLevel": {
-              "type": "string",
-              "analyzer": "lowercase_analyzer"
-            },
-            "subjectArea": {
-              "type": "string"
             }
+          },
+          "learningStandardId": {
+            "properties": {
+              "identificationCode": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          },
+          "contentStandard": {
+            "type": "string"
+          },
+          "courseTitle": {
+            "type": "string",
+            "boost": 2.0
+          },
+          "description": {
+            "type": "string",
+            "boost": 1.0
+          },
+          "gradeLevel": {
+            "type": "string"
+          },
+          "subjectArea": {
+            "type": "string"
           }
         }
       }
