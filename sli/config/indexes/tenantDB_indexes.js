@@ -66,6 +66,10 @@ db["program"].ensureIndex({"studentProgramAssociation._id":1});
 db["student"].ensureIndex({"studentAssessmentAssociation._id":1});
 //studentSectionAssociation embedded into section
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
+//teacherSectionAssociation embedded into section
+db["section"].ensureIndex({"teacherSectionAssociation._id":1});
+//gradebookEntry embedded into section
+db["section"].ensureIndex({"gradebookEntry._id":1});
 
 
 //direct references - index on each direct reference
@@ -90,7 +94,8 @@ db["disciplineIncident"].ensureIndex({"body.staffId":1});
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1});
 db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
-db["gradebookEntry"].ensureIndex({"body.sectionId":1});
+//gradebookEntry embedded into section
+db["section"].ensureIndex({"gradebookEntry.body.sectionId":1});
 db["graduationPlan"].ensureIndex({"body.educationOrganizationId":1});
 db["learningObjective"].ensureIndex({"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"body.parentLearningObjective":1});
@@ -143,8 +148,9 @@ db["section"].ensureIndex({"studentSectionAssociation.body.sectionId":1});  // d
 db["section"].ensureIndex({"studentSectionAssociation.body.studentId":1});
 db["teacherSchoolAssociation"].ensureIndex({"body.schoolId":1});
 db["teacherSchoolAssociation"].ensureIndex({"body.teacherId":1});
-db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
-db["teacherSectionAssociation"].ensureIndex({"body.teacherId":1});
+//teacherSectionAssociation is embedded into section
+db["section"].ensureIndex({"teacherSectionAssociation.body.sectionId":1});
+db["section"].ensureIndex({"teacherSectionAssociation.body.teacherId":1});
 
 
 //staff context resolver access - stamped edOrgs
