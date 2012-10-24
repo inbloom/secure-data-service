@@ -60,6 +60,8 @@ db["custom_entities"].ensureIndex({"metaData.entityId":1,"metaData.clientId":1})
 
 
 //_id indexes for embedded entities
+//studentProgramAssociation is embedded into program
+db["program"].ensureIndex({"studentProgramAssociation._id":1});
 //studentAssessmentAssociation embedded into student
 db["student"].ensureIndex({"studentAssessmentAssociation._id":1});
 //studentSectionAssociation embedded into section
@@ -129,9 +131,10 @@ db["studentGradebookEntry"].ensureIndex({"body.studentId":1});
 db["studentGradebookEntry"].ensureIndex({"body.studentSectionAssociationId":1});
 db["studentParentAssociation"].ensureIndex({"body.parentId":1});
 db["studentParentAssociation"].ensureIndex({"body.studentId":1});
-db["studentProgramAssociation"].ensureIndex({"body.educationOrganizationId":1});
-db["studentProgramAssociation"].ensureIndex({"body.programId":1});
-db["studentProgramAssociation"].ensureIndex({"body.studentId":1});
+//studentProgramAssociation is embedded into program
+db["program"].ensureIndex({"studentProgramAssociation.body.educationOrganizationId":1});
+db["program"].ensureIndex({"studentProgramAssociation.body.programId":1});
+db["program"].ensureIndex({"studentProgramAssociation.body.studentId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.graduationPlanId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.schoolId":1});
 db["studentSchoolAssociation"].ensureIndex({"body.studentId":1});
@@ -183,7 +186,6 @@ db["studentCompetencyObjective"].ensureIndex({"metaData.edOrgs":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["studentGradebookEntry"].ensureIndex({"metaData.edOrgs":1});
 db["studentParentAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["studentProgramAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
@@ -258,7 +260,6 @@ db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1});
 db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1});
 db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentProgramAssociation"].ensureIndex({"metaData.tenantId":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1});
