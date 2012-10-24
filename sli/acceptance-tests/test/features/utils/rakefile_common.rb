@@ -90,3 +90,33 @@ class PropLoader
     @@modified=true
   end
 end
+
+##############################################################################
+# turn ON --notablescan MongoDB flag, if set in ENV
+##############################################################################
+def enable_NOTABLESCAN()
+  if ENV["TOGGLE_TABLESCANS"]
+    puts "Turning --notablescan flag ON!  (indexes must hit queries)"
+    @db = Mongo::Connection.new.db('admin')
+    cmd = Hash.new
+    cmd['setParameter'] = 1
+    cmd['notablescan'] = true
+    @db.command(cmd)
+    @db.get_last_error()
+  end
+end
+
+##############################################################################
+# turn OFF --notablescan MongoDB flag, if set in ENV
+##############################################################################
+def disable_NOTABLESCAN()
+  if ENV["TOGGLE_TABLESCANS"]
+    puts "Turning --notablescan flag OFF."
+    @db = Mongo::Connection.new.db('admin')
+    cmd = Hash.new
+    cmd['setParameter'] = 1
+    cmd['notablescan'] = false
+    @db.command(cmd)
+    @db.get_last_error()
+  end
+end
