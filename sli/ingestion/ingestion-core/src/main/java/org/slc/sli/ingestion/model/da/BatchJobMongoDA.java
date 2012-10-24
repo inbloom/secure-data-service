@@ -531,7 +531,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean upsertRecordHash(String tenantId, String recordId) {
+    public void upsertRecordHash(String tenantId, String recordId) {
 
         // record was not found
         RecordHash rh = new RecordHash();
@@ -539,7 +539,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh.tenantId = tenantId;
         rh.timestamp = "" + System.currentTimeMillis();
         this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-        return false;
    }
 
     @Override

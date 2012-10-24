@@ -33,7 +33,6 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -119,7 +118,6 @@ public class JobReportingProcessorTest {
     }
 
     @Test
-    @Ignore // TODO I rewrote some of this code, so this test probably needs some work
     public void testProcess() throws Exception {
 
         // create fake mocked method return objects

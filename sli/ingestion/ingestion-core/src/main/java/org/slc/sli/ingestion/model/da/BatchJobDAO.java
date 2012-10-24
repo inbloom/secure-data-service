@@ -119,7 +119,7 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    boolean upsertRecordHash(String tenantId, String recordId);
+    void upsertRecordHash(String tenantId, String recordId);
 
     void removeRecordHashByTenant(String tenantId);
 

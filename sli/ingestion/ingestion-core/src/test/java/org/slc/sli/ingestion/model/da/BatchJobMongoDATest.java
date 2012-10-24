@@ -18,7 +18,9 @@ package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +44,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -53,6 +57,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -372,4 +377,48 @@ public class BatchJobMongoDATest {
 
     }
 
+    @Test
+    public void testUpsertRecordHash() {
+        // Capture mongoTemplate.save()!
+        class DBAnswer implements Answer<Object> {
+            RecordHash savedRecordHash;
+
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String method = invocation.getMethod().getName();
+                if (method.equals("save")) {
+                    Object[] args = invocation.getArguments();
+                    savedRecordHash = (RecordHash) args[0];
+                    return null;
+                } else if (method.equals("findOne")) {
+                    return savedRecordHash;
+                } else {
+                    return null;
+                }
+            }
+        }
+        DBAnswer dbAnswer = new DBAnswer();
+        doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
+
+        // First call to upsertRecordHash.
+        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
+        String savedTimestamp = dbAnswer.savedRecordHash.timestamp;
+        String savedId = dbAnswer.savedRecordHash._id;
+
+        // Add delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
+        try {
+            Thread.sleep(5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Second call to upsertRecordHash.
+        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
+        String updatedTimestamp = dbAnswer.savedRecordHash.timestamp;
+        String updatedId = dbAnswer.savedRecordHash._id;
+        Assert.assertTrue(savedId.equals(updatedId));
+
+        // The timestamp on the recordHash should have changed after the second call.
+        Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
+    }
 }
