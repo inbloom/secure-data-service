@@ -88,7 +88,6 @@ end
 
 desc "Run Ingestion Index Tests"
 task :ingestionIndexTest do
- runTests("test/features/ingestion/features/index_testing.feature")
 end
 
 desc "Run Ingestion Parallel Job Tests"

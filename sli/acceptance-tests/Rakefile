@@ -353,6 +353,8 @@ task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
+  disable_NOTABLESCAN()
+
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
@@ -397,6 +399,7 @@ task :realmInit => [:appInit] do
   setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
   swap_realm_ids()
 
+  enable_NOTABLESCAN()
 end
 
 task :appDenialInit do
@@ -408,6 +411,7 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
+  disable_NOTABLESCAN()
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
@@ -424,6 +428,7 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_app_ids(convertTenantIdToDbName("Midgar"))
   swap_app_ids(convertTenantIdToDbName("Hyrule"))
+  enable_NOTABLESCAN()
 end
 
 desc "Approve SLC apps for ingested realms"
