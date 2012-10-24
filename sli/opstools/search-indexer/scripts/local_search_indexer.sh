@@ -31,6 +31,8 @@ function readOption {
       else
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
       fi
+   elif [ ${1:0:2} == "-X" ]; then
+         SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
    else
       FILEEXT=${1#*.}
       if [ "${FILEEXT}" == "tar.gz" -o "{$FILEEXT}" == "tgz" ]; then
