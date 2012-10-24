@@ -63,7 +63,7 @@ public class TeacherToAttendanceValidator extends AbstractContextValidator {
     public boolean validate(Set<String> ids) {
         // get set of students for set of attendances _id's
         // iterate through and add body.studentId to 'students'
-        // pass set of students into teacher to student resolver
+        // pass set of students into teacher to student validator
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
