@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 
-testdir = File.dirname(__FILE__)
-$LOAD_PATH << testdir + "/../lib"
+# testdir = File.dirname(__FILE__)
+# $LOAD_PATH << testdir + "/../lib"
 
 require 'mongo'
 require 'thread'
@@ -29,7 +29,6 @@ module Eventbus
       @logger = logger if logger
       @config = {
           :mongo_host => 'localhost',
-          :mongo_port => 27017,
           :mongo_db => 'local',
           :mongo_oplog_collection =>'oplog.rs',
           :mongo_connection_retry => 5,
@@ -39,30 +38,31 @@ module Eventbus
 
     # read_oplogs blocks on cursor tail read
     def handle_oplogs
+      cursor = get_oplog_mongo_cursor(@config[:mongo_ignore_initial_read])
       loop do
-        cursor = get_oplog_mongo_cursor
         while not cursor.closed?
           begin
-            if doc = cursor.next_document
+            doc = cursor.next 
+            if doc
               yield doc
             else
               sleep(1)
             end
           rescue Exception => e
-           # puts e
-           @logger.error e if @logger
-            cursor = get_oplog_mongo_cursor
+            @logger.error e if @logger
           end
         end
+        cursor = get_oplog_mongo_cursor(false)
       end
     end
 
-    def get_oplog_mongo_cursor
+    def get_oplog_mongo_cursor(initial_empty)
       begin
-        db = Mongo::Connection.new(@config[:mongo_host], @config[:mongo_port]).db(@config[:mongo_db])
+        connection = get_connection
+        db = connection.db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
         cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
-        if(@config[:mongo_ignore_initial_read])
+        if initial_empty
           @logger.info "ignoring initial readings" if @logger
           while cursor.has_next?
             cursor.next_document
@@ -76,11 +76,23 @@ module Eventbus
       end
       return cursor
     end
+
+    def get_connection
+      hosts = @config[:mongo_host].split(",").map { |x| x.strip }
+      if hosts.size == 1
+          host_port = hosts[0].split(":").map { |x| x.strip }
+          Mongo::Connection.new(host_port[0], host_port[1])
+      else
+          Mongo::ReplSetConnection.new(hosts)
+      end
+    end
   end
 
   class OpLogThrottler
-    def initialize(throttle_polling_period = 5)
-      @throttle_polling_period = throttle_polling_period
+    def initialize(config = {}, logger = nil)
+      @logger = logger
+      @throttle_polling_period = config[:collect_events_interval]
+
       @oplog_queue = Queue.new
       @subscription_events_lock = Mutex.new
       set_subscription_events([])
@@ -103,6 +115,7 @@ module Eventbus
           events_to_send = []
           events = Hash.new
           subscription_events = get_subscription_events
+          # TODO: this is terribly inefficient when large enough subscription events and messages. Consider optimization.
           subscription_events.each do |subscription_event|
             event_added = false
             messages_to_process.each do |message_to_process|
@@ -131,11 +144,12 @@ module Eventbus
             end
           end
           if (!events_to_send.empty?)
-            events_to_send.each do |evt|
-              evt.each_pair do |key, value|
-                @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
-              end
-            end
+            @logger.info "sending #{events_to_send.size} events" if @logger
+            #events_to_send.each do |evt|
+            #  evt.each_pair do |key, value|
+            #    @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
+            #  end
+            #end
             yield events_to_send
           end
         end
@@ -167,7 +181,7 @@ module Eventbus
       @event_subscriber = config[:event_subscriber]
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new(config[:collect_events_interval])
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config, logger)
       @oplog_reader = OpLogReader.new(config, logger)
 
       @threads << Thread.new do

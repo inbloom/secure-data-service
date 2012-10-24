@@ -98,8 +98,8 @@ module Eventbus
             event_id_with_timestamp_queue = Queue.new
             @threads << Thread.new do
               @event_subscriber.handle_event do |event_ids|
+                @logger.info "received #{event_ids.size} events" if @logger
                 event_ids.each do |event_id|
-                 @logger.info "received event #{event_id}" if @logger
                   event_id_with_timestamp_queue << {:event_id => event_id, :time_received => Time.now.to_i}
                 end
               end
