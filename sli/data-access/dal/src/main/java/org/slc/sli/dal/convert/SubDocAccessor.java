@@ -511,8 +511,10 @@ public class SubDocAccessor {
                     }
                 }
                 if (parentSet.size() == 1) {
-                    query.put(parentLoc, parentSet);
+                    LOG.info("Putting parent id {} in {}", parentSet.iterator().next(), parentLoc);
+                    query.put(parentLoc, parentSet.iterator().next());
                 } else if (parentSet.size() > 1) {
+                    LOG.info("Putting parent ids $in[{}] in {}", parentSet, parentLoc);
                     query.put(parentLoc, new BasicDBObject("$in", parentSet));
                 }
             }
