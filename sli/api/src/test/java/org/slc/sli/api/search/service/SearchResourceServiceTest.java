@@ -199,75 +199,38 @@ public class SearchResourceServiceTest {
     }
 
     @Test
-    public void testPagination()  throws URISyntaxException {
+    public void testPagination() throws URISyntaxException {
 
         setupAuth(EntityNames.TEACHER);
+
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
+        runPaginationTest(Arrays.asList(10, 10, 10), 4, queryUri, 10);
+        runPaginationTest(Arrays.asList(8), 6, queryUri, 6);
+        runPaginationTest(Arrays.asList(10, 8), 4, queryUri, 8);
+        runPaginationTest(Arrays.asList(20, 20), 8, queryUri, 10);
+        runPaginationTest(Arrays.asList(0, 0), 0, queryUri, 0);
+
+        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=5&limit=10");
+        runPaginationTest(Arrays.asList(8), 7, queryUri, 2);
+        runPaginationTest(Arrays.asList(20), 15, queryUri, 10);
+
+        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=20&limit=10");
+        runPaginationTest(Arrays.asList(30, 20), 7, queryUri, 0);
+        runPaginationTest(Arrays.asList(30, 20), 12, queryUri, 4);
+        runPaginationTest(Arrays.asList(30, 20), 18, queryUri, 10);
+    }
+
+    private void runPaginationTest(List<Integer> numSearchHits, int filterNum, URI queryUri, int numResults) {
+
         SearchResourceService rs = Mockito.spy(resourceService);
         EntityDefinition mockDef = Mockito.mock(EntityDefinition.class);
-        //EntityService mockService = Mockito.mock(EntityService.class);
-        //Mockito.when(mockDef.getService()).thenReturn(mockService);
+        MockBasicService mockService = new MockBasicService();
+        mockService.setNumToReturn(numSearchHits);
+        Mockito.when(mockDef.getService()).thenReturn(mockService);
+        Mockito.doReturn(getResults(filterNum)).when(rs).checkAccessible(Mockito.isA(List.class));
         ApiQuery apiQuery = rs.prepareQuery(null, queryUri);
-
-        // offset 0, limit 10
-        // return 10 results, filter down to 4
-        // repeat until limit
-        // check total 10
-        //Mockito.when(rs.retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class))).thenReturn(getResults(20)).thenReturn(getResults(15));
-        //Mockito.when(rs.checkAccessible(Mockito.isA(List<String>.class)).thenReturn(getResults(4)).thenReturn(getResults(5));
-        Mockito.doReturn(getResults(10)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
-        Mockito.doReturn(getResults(4)).when(rs).checkAccessible(Mockito.isA(List.class));
         List<EntityBody> results = rs.retrieveResults(mockDef, apiQuery);
-        Assert.assertEquals(10, results.size());
-
-
-        // offset 0, limit 10
-        // return 8 results, filter down to 6
-        // check total 6
-        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
-        apiQuery = rs.prepareQuery(null, queryUri);
-        Mockito.doReturn(getResults(8)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
-        Mockito.doReturn(getResults(6)).when(rs).checkAccessible(Mockito.isA(List.class));
-        results = rs.retrieveResults(mockDef, apiQuery);
-        Assert.assertEquals(6, results.size());
-
-        // offset 5, limit 10
-        // return 8 results, filter down to 7
-        // check total 2
-        queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=5&limit=10");
-        apiQuery = rs.prepareQuery(null, queryUri);
-        Mockito.doReturn(getResults(8)).when(rs).retrieve(Mockito.isA(ApiQuery.class), Mockito.isA(EntityDefinition.class));
-        Mockito.doReturn(getResults(7)).when(rs).checkAccessible(Mockito.isA(List.class));
-        results = rs.retrieveResults(mockDef, apiQuery);
-        Assert.assertEquals(2, results.size());
-
-
-        // offset 0, limit 10
-
-        // return 20, filter to 3
-
-        // return 20, filter to 12
-
-        // check total 10
-
-
-        // offset 0, limit 10
-
-        // return 9, filter to 5
-
-        // check total 5
-
-
-        // desired results is 10
-
-        // return 0
-
-        // check total 0
-
-
-        // offset 10, limit 10
-
-        // return
+        Assert.assertEquals(numResults, results.size());
     }
 
     private List<EntityBody> getResults(int num) {
