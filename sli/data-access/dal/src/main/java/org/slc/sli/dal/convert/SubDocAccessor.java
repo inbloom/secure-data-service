@@ -343,11 +343,6 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
-<<<<<<< HEAD
-            // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
-=======
-           // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
->>>>>>> [us4472] change subdoc to use parent key to query the parent doc
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
             List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
             return entities;
@@ -474,6 +469,16 @@ public class SubDocAccessor {
                 parentQuery.removeField("_id");
             }
 
+<<<<<<< HEAD
+=======
+            DBObject idQuery = null;
+            if(parentQuery.containsField("_id")) {
+               idQuery = new Query().getQueryObject();
+               idQuery.put("_id",parentQuery.get("_id"));
+               parentQuery.removeField("_id");
+            }
+
+>>>>>>> modified:   data-access/dal/src/main/java/org/slc/sli/dal/convert/SubDocAccessor.java
             String queryCommand;
             if (idQuery != null) {
                 queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : "+idQuery.toString()+"},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
@@ -482,6 +487,7 @@ public class SubDocAccessor {
                 queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
                         "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
             }
+<<<<<<< HEAD
 =======
 
 <<<<<<< HEAD
@@ -497,6 +503,8 @@ public class SubDocAccessor {
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
                     "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
 >>>>>>> [us4472] change subdoc to use parent key to query the parent doc
+=======
+>>>>>>> modified:   data-access/dal/src/main/java/org/slc/sli/dal/convert/SubDocAccessor.java
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
