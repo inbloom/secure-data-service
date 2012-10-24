@@ -502,10 +502,12 @@ public class SubDocAccessor {
                                 // IDs aren't valid, we can't simplify the query
                                 return;
                             }
-                            if (dbOrList.size() == 1) {
-                                query.removeField("$or");
-                            } else {
-                                dbOrList.remove(childQuery);
+                            if (parentSet.size() > 0) {
+                                if (dbOrList.size() == 1) {
+                                    query.removeField("$or");
+                                } else {
+                                    dbOrList.remove(childQuery);
+                                }
                             }
                         }
                     }
