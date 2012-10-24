@@ -77,6 +77,8 @@ public class TeacherToStudentValidatorTest {
     private Set<String> studentIds;
 
     private String badDate;
+    
+    private String programId;
 
     @Before
     public void setUp() {
@@ -91,6 +93,11 @@ public class TeacherToStudentValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
 
         studentIds = new HashSet<String>();
+<<<<<<< HEAD
+=======
+        
+        programId = generateProgram().getEntityId();
+>>>>>>> Working on teacher->student via programs
 
         badDate = "2001-01-01";
 
@@ -249,7 +256,7 @@ public class TeacherToStudentValidatorTest {
     }
     
     @Test
-    public void testCanNotGetAccessThroughOutsideOfEdorg() throws Exception {
+    public void testCanNotGetAccessThroughCohortOutsideOfEdorg() throws Exception {
         generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         String cohortId = generateCohort("122").getEntityId();
         generateStaffCohort(TEACHER_ID, cohortId, false, true);
@@ -262,6 +269,74 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCohortAccessIntersectionRules() throws Exception {
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanGetAccessThroughValidProgram() throws Exception {
+        String programId = generateProgram().getEntityId();
+        String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        generateTeacherSchool(TEACHER_ID, edOrgId);
+        
+        generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertTrue(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughExpiredProgram() throws Exception {
+        
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughDeniedProgram() throws Exception {
+        String programId = generateProgram().getEntityId();
+        String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        generateTeacherSchool(TEACHER_ID, edOrgId);
+        
+        generateStaffProgram(TEACHER_ID, programId, false, false);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughInvalidProgram() throws Exception {
+        String programId = generateProgram().getEntityId();
+        String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        generateTeacherSchool(TEACHER_ID, edOrgId);
+        
+        generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentProgram(i + "", "" + i * -1, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+
+
+    @Test
+    public void testCanNotGetAccessThroughProgramOutsideOfEdorg() throws Exception {
+        generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String programId = generateProgram().getEntityId();
+        generateEdorgWithProgram(Arrays.asList(programId));
+        
+        generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(studentIds));
+    }
+    
+    @Test
+    public void testProgramAccessIntersectionRules() throws Exception {
         assertFalse(validator.validate(studentIds));
     }
 
@@ -323,6 +398,41 @@ public class TeacherToStudentValidatorTest {
 
         mockRepo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
 
+    }
+    
+    private void generateStudentProgram(String studentId, String programId, boolean isExpired) {
+        Map<String, Object> studentProgram = new HashMap<String, Object>();
+        studentProgram.put(ParameterConstants.STUDENT_ID, studentId);
+        studentProgram.put(ParameterConstants.PROGRAM_ID, programId);
+        if (isExpired) {
+            studentProgram.put(ParameterConstants.END_DATE, getBadDate());
+        }
+        
+        mockRepo.create(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentProgram);
+        
+    }
+    
+    private Entity generateEdorgWithProgram(List<String> programIds) {
+        Map<String, Object> edorgBody = new HashMap<String, Object>();
+        edorgBody.put(ParameterConstants.PROGRAM_REFERENCE, programIds);
+        return mockRepo.create(EntityNames.EDUCATION_ORGANIZATION, edorgBody);
+    }
+
+    private Entity generateProgram() {
+        return mockRepo.create(EntityNames.PROGRAM, new HashMap<String, Object>());
+    }
+    
+    private void generateStaffProgram(String teacherId, String programId, boolean isExpired, boolean studentAccess) {
+        Map<String, Object> staffProgram = new HashMap<String, Object>();
+        staffProgram.put(ParameterConstants.STAFF_ID, teacherId);
+        staffProgram.put(ParameterConstants.PROGRAM_ID, programId);
+        if (isExpired) {
+            staffProgram.put(ParameterConstants.END_DATE, getBadDate());
+        }
+        staffProgram.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
+        
+        mockRepo.create(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffProgram);
+        
     }
 
     private String getBadDate() {
