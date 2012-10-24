@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.validator.GenericContextValidator;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
@@ -45,7 +47,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 @Component
 public class ContextValidator implements ApplicationContextAware {
     
-    private Collection<IContextValidator> validators;
+    private List<IContextValidator> validators;
     
     @Autowired
     private ResourceHelper resourceHelper;
@@ -55,7 +57,21 @@ public class ContextValidator implements ApplicationContextAware {
     
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        validators = applicationContext.getBeansOfType(IContextValidator.class).values();  
+        validators = new ArrayList<IContextValidator>();
+        validators.addAll(applicationContext.getBeansOfType(IContextValidator.class).values());
+        
+        IContextValidator genVal = null;
+        //Make GenericContextValidator last, since we want to use that as a last resort
+        for (IContextValidator validator : validators) {
+            if (validator instanceof GenericContextValidator) {
+                genVal = validator;
+            }
+        }
+        
+        if (genVal != null) {   //move to end
+            validators.remove(genVal);
+            validators.add(genVal);
+        }
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -97,7 +113,8 @@ public class ContextValidator implements ApplicationContextAware {
     private boolean exists(List<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        return repo.count(collectionName, query) == ids.size();
+        long count = repo.count(collectionName, query);
+        return count == ids.size();
     }
 
     private void validateUserHasAccessToEndpoint(ContainerRequest request, SLIPrincipal principal) {
@@ -126,7 +143,7 @@ public class ContextValidator implements ApplicationContextAware {
         }
         
         if (found == null) {
-            warn("No {} validator from to {}.", through ? "through": "non-through", toType);
+            warn("No {} validator to {}.", through ? "through": "to", toType);
         }
 
         return found;
