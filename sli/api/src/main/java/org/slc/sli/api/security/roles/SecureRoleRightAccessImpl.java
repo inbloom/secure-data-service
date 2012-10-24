@@ -24,14 +24,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -148,7 +147,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
 
             Entity doc = repo.findOne("customRole", neutralQuery);
 
-
             if (doc != null) {
                 Map<String, Object> roleDefs = doc.getBody();
 
@@ -158,7 +156,11 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                     for (Map<String, Object> role : roleData) {
                         List<String> names = (List<String>) role.get("names");
                         String groupTitle = (String) role.get("groupTitle");
-                        Boolean isAdmin = (Boolean) role.get("isAdminRole");
+                        Boolean isAdmin = Boolean.FALSE;
+                        
+                        if (role.containsKey("isAdminRole")) {
+                            isAdmin = (Boolean) role.get("isAdminRole");
+                        }
                         
                         for (String roleName : names) {
                             if (roleNames.contains(roleName)) {
