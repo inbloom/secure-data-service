@@ -145,7 +145,7 @@
         },
         {
             "fieldPath":"body.StudentCompetencyReference",
-        	"deprecated" : false,
+        	"deprecated" : true,
             "ref":{
                 "entityType":"studentCompetency",
                 "isRefList":true,

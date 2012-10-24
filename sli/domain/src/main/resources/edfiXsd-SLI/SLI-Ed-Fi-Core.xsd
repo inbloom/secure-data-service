@@ -1237,7 +1237,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
                     <xs:element name="GradeReference" type="SLC-GradeReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="StudentCompetencyReference" type="TEMPORARY-StudentCompetencyReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="StudentCompetencyReference" type="SLC-StudentCompetencyReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="GPAGivenGradingPeriod" type="xs:decimal"/>
                     <xs:element name="GPACumulative" type="xs:decimal"/>
                     <xs:element name="NumberOfDaysAbsent" minOccurs="0">
@@ -1780,90 +1780,6 @@ Withdrawn
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="TEMPORARY2-StudentSectionAssociationReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for the Student-section association. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="StudentSectionAssociationIdentity" type="TEMPORARY2-StudentSectionAssociationIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing student-section association record in the receiving system</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="TEMPORARY2-StudentSectionAssociationIdentityType">
-		<xs:annotation>
-			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the student-section association - a composite of the student reference type and the section reference type.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StudentReference" type="TEMPORARY-StudentReferenceType">
-				<xs:annotation>
-					<xs:documentation>The attributes that can be used to specify the student.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType">
-				<xs:annotation>
-					<xs:documentation>The attributes used to specifiy a section</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BeginDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
-</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-    <xs:complexType name="TEMPORARY-StudentCompetencyReferenceType">
-        <xs:annotation>
-            <xs:documentation/>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="StudentCompetencyIdentity" type="TEMPORARY-StudentCompetencyIdentityType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation/>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-      <xs:complexType name="TEMPORARY-StudentCompetencyIdentityType">
-        <xs:annotation>
-            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of class periods.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-			<xs:choice>
-				<xs:element name="LearningObjectiveReference" type="TEMPORARY-LearningObjectiveReferenceType">
-					<xs:annotation>
-						<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="StudentCompetencyObjectiveReference" type="TEMPORARY-StudentCompetencyObjectiveReferenceType">
-					<xs:annotation>
-						<xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:choice>
-			<xs:element name="CodeValue" type="CodeValue" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-            <xs:element name="StudentSectionAssociationReference" type="TEMPORARY2-StudentSectionAssociationReferenceType">
-                <xs:annotation>
-                    <xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="SLC-StudentCompetencyReferenceType">
         <xs:annotation>
             <xs:documentation/>
@@ -2051,7 +1967,7 @@ Withdrawn
 			<xs:documentation>Provides alternative references for Learning Objective reference during interchange. Use XML IDREF to reference a learning standard record that is included in the interchange</xs:documentation>
 		    <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>objectiveId.studentCompetencyObjective</sli:refType>
+                <sli:refType>studentCompetencyObjective</sli:refType>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
