@@ -112,12 +112,15 @@ module Eventbus
 
     def handle_message
       begin
-        @client = Stomp::Client.new(@config) if @client.nil?
+        if @client.nil? 
+          @client = Stomp::Client.new(@config) if @client.nil?
+        end 
         @client.subscribe(@queue_name) do |msg|
           yield JSON.parse msg.body
         end
       rescue Exception => e
-        @logger.warn("problem occurred with subscribing: #{e}")
+        puts "Exception: #{e}"
+        @logger.warn("problem occurred with subscribing: #{e}") unless @logger.nil?
         close()
       end
     end

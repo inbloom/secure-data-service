@@ -28,24 +28,7 @@ class TestOpLogAgent < Test::Unit::TestCase
   def setup
   end
 
-  def xxxtest_get_connection
-    config = {
-      :mongo_host => "localhost:10001, localhost:10002, localhost:10003"
-    }
-
-    oplog_reader = Eventbus::OpLogReader.new(config)
-    con = oplog_reader.get_connection
-
-    db = con['local']
-    col = db['oplog.rs']
-    tail = Mongo::Cursor.new(col, :tailable => true, :timeout => false)
-    while tail.has_next?
-      puts tail.next 
-    end 
-  end 
-
-  # TODO: fix this test
-  def xxxtest_oplog_reader
+  def test_oplog_reader
     threads = []
 
     # create one config for each sharded replica set 
@@ -93,7 +76,11 @@ class TestOpLogAgent < Test::Unit::TestCase
   def test_oplog_throttler
     threads = []
 
-    throttler = Eventbus::OpLogThrottler.new(1)
+    config = {
+      :collect_events_interval => 1
+    }
+
+    throttler = Eventbus::OpLogThrottler.new(config)
     oplog1 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
     oplog2 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"darth.vader", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
     oplog3 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"philip.j.fry", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
