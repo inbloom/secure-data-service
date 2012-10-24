@@ -485,6 +485,32 @@ Other</xs:documentation>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:complexType name="SLC-StudentCohortAssociation">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:recordType>studentCohortAssociation</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="StudentReference" type="SLC-StudentReferenceType">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <sli:keyFieldName>studentId</sli:keyFieldName>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CohortReference" type="CohortReferenceType" />
+                    <xs:element name="BeginDate" type="xs:date" />
+                    <xs:element name="EndDate" type="xs:date" minOccurs="0" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+  
   <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
        to GraduationPlanReference type -->
   <xs:complexType name="SLC-StudentSchoolAssociation">
