@@ -29,7 +29,7 @@ import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 
 /**
- * IndexEntityConverter handles conversion of IndexEntity to and from json
+ * IndexEntityConverter handles conversion of IndexEntity to and from entity
  * 
  */
 public class IndexEntityConverter {
@@ -46,11 +46,11 @@ public class IndexEntityConverter {
     
     public IndexEntity fromEntityJson(String index, Action action, String entity) {
         Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);
-        return fromEntityJson(index, action, entityMap);
+        return fromEntity(index, action, entityMap);
     }
     
     @SuppressWarnings("unchecked")
-    public IndexEntity fromEntityJson(String index, Action action, Map<String, Object> entityMap) {
+    public IndexEntity fromEntity(String index, Action action, Map<String, Object> entityMap) {
         try {
             Map<String, Object> body = (Map<String, Object>) entityMap.get("body");
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
@@ -72,10 +72,6 @@ public class IndexEntityConverter {
             String id = (String)entityMap.get("_id");
             String parent = (config.getParentField() != null) ? 
                     (String)NestedMapUtil.get(config.getParentField(), entityMap) : null;
-            entityMap.remove("type");
-            entityMap.remove("_id");
-            entityMap.remove("metaData");
-            //decryptedMap.put("metaData", entityMap.remove("metaData"));
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
             action = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
             return new IndexEntity(action, indexName, indexType, id, parent, (Map<String, Object>)entityMap.get("body"));

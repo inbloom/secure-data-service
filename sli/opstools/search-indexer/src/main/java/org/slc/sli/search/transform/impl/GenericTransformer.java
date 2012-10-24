@@ -23,6 +23,11 @@ import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.transform.CustomTransformer;
 import org.slc.sli.search.util.NestedMapUtil;
 
+/**
+ * Transforms entity to index record
+ * @author agrebneva
+ *
+ */
 public class GenericTransformer implements CustomTransformer {
     public void transform(IndexConfig config, Map<String, Object> entity) {
         filterExcept(config.getFlattendedFields(), entity);

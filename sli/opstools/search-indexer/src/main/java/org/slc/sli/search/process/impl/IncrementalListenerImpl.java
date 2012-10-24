@@ -162,7 +162,7 @@ public class IncrementalListenerImpl implements IncrementalListener {
         Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> entityMap = (Map<String, Object>) opLogMap.get("o");
         // convert to index entity object
-        return indexEntityConverter.fromEntityJson(getMeta(opLogMap).getIndex(), IndexEntity.Action.INDEX, entityMap);
+        return indexEntityConverter.fromEntity(getMeta(opLogMap).getIndex(), IndexEntity.Action.INDEX, entityMap);
     }
 
     @SuppressWarnings("unchecked")
@@ -199,7 +199,7 @@ public class IncrementalListenerImpl implements IncrementalListener {
         }
 
         // convert to index entity object
-        return indexEntityConverter.fromEntityJson(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
+        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
     }
 
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {

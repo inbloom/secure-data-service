@@ -40,7 +40,7 @@ public class IndexEntityConverterTest {
         Assert.assertEquals("a", indexEntity.getId());
         Assert.assertEquals("tenant", indexEntity.getIndex());
         Assert.assertEquals("student", indexEntity.getType());
-        Assert.assertEquals("{\"a\":\"1\",\"metaData\":{\"contextId\":\"x\"}}", IndexEntityUtil.getBody(Action.INDEX, indexEntity.getBody()));
+        Assert.assertEquals("{\"a\":\"1\",\"metaData\":{\"contextId\":\"x\"},\"append\":\"ALL\"}", IndexEntityUtil.getBody(Action.INDEX, indexEntity.getBody()));
     }
     
     @Test

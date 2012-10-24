@@ -9,7 +9,21 @@
       "body.name.lastSurname",
       "metaData",
       "type"
-    ]
+    ],
+    "mapping": {
+      "student": {
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "section": {
     "fields": [
@@ -27,7 +41,9 @@
       "body.name"
     ],
     "rename" : {"body.name" : "_id", "body.b": "body.metaData.contextId"},
-    "filterCondition":{"test.filter": null}
-
+    "filterCondition":{"test.filter": null},
+    "append": {
+      "body.append" : "ALL"
+    }
   }
 }

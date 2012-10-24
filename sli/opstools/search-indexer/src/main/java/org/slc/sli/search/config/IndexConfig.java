@@ -127,6 +127,10 @@ public final class IndexConfig {
         return indexType != null && !this.collectionName.equals(indexType);
     }
     
+    /**
+     * Modifies the original structures for performance reasons
+     * @param name
+     */
     public void prepare(String name) {
         this.collectionName = name;
         Set<String> fieldSet = new HashSet<String>(this.fields);
