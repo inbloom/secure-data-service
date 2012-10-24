@@ -34,9 +34,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -124,8 +122,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
-                
                 if (item.getMetaData().get("edOrgs") != null) {
                     entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
                 }

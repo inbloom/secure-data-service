@@ -261,6 +261,16 @@ public class MongoQueryConverterTest {
         assertNotNull("Should not be null", obj);
         obj1 = (DBObject) obj.get("body.populationServed");
         assertNotNull(obj1.get("$in"));
+
+        //test exists
+        neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_EXISTS, true));
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        obj1 = (DBObject) obj.get("body.populationServed");
+        assertNotNull(obj1.get("$exists"));
     }
 
     @Test(expected = QueryParseException.class)

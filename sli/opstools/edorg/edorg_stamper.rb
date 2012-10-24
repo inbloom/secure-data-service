@@ -52,7 +52,6 @@ def run_fixer(tenant = nil, systemDatabaseName)
     @log.error "This is not really an error - do not be alarmed."
   rescue Exception => e
     #KILL THE THREADS
-    puts e.backtrace
     @tenants.remove tenant
     Thread.kill(Thread.current)
     @log.error "#{e}"

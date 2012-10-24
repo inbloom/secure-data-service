@@ -49,9 +49,7 @@ class SLCFixer
       @log.info "We are stamping #{@tenant}"
       time = Time.now
       @threads = []
-      puts "BEFORE build ed org list"
       fix {build_edorg_list}
-      puts "AFTER build ed org list"
       fix {fix_students}
       fix {fix_sections}
       fix {fix_staff}
@@ -237,15 +235,24 @@ class SLCFixer
   end
 
   def fix_programs
-    set_stamps(@db['studentProgramAssociation'])
     set_stamps(@db['program'])
     set_stamps(@db['staffProgramAssociation'])
-    @log.info "Iterating studentProgramAssociation with query: #{@basic_query}"
-    @db['studentProgramAssociation'].find(@basic_query, @basic_options) do |cur|
+    @log.info "Iterating program with query: #{@basic_query}"
+    @db['program'].find(@basic_query, @basic_options) do |cur|
       cur.each do |program|
-        edorg = student_edorgs(program['body']['studentId'])
-        stamp_id(@db['studentProgramAssociation'], program['_id'], program['body']['educationOrganizationId'])
-        stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'])
+        stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'],
+                 program['metaData']['tenantId'])
+        studentProgramAssociations = program['studentProgramAssociation']
+        if !studentProgramAssociations.nil?
+          studentProgramAssociations.each do |studentProgram| 
+            edOrg = []
+            student_edorg = student_edorgs(studentProgram['body']['studentId'])
+            edOrg << student_edorg
+            edOrg = edOrg.flatten.uniq
+            stamp_id(@db['program'], studentProgram['_id'], edOrg,  
+                     "studentProgramAssociation", program["_id"])
+          end
+        end
       end
     end
     @log.info "Iterating staffProgramAssociation with query: #{@basic_query}"
@@ -384,7 +391,6 @@ class SLCFixer
       end
     end
     @log.info "Iterating courseOffering with query: #{@basic_query}"
-    puts @db.name
     @db['courseOffering'].find(@basic_query, @basic_options) do |cur|
       cur.each do |courseOffering|
         edorg = courseOffering['metaData']['edOrgs']
