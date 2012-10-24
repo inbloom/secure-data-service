@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
+    "keyFields" : ["body.sessionName", "body.term", "body.schoolId"],
     "references" :
     [
         {
@@ -23,12 +23,13 @@
             }
         },
         {
-           "fieldPath" : "body.gradingPeriodReference",
+           "fieldPath" : "body.GradingPeriodReference",
+           "deprecated" : "true",
             "ref" :
             {
                 "entityType" : "gradingPeriod",
                 "isRefList" : true,
-                "refObjectPath" : "body.gradingPeriodReference",
+                "refObjectPath" : "body.GradingPeriodReference",
                 "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
@@ -37,14 +38,7 @@
                             "path" : "body.gradingPeriodIdentity.gradingPeriod",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
-                            }]
-                        },
-                        {
-                            "path" : "body.gradingPeriodIdentity.schoolYear",
-                            "values" :
-                            [{
-                                "valueSource" : "body.gradingPeriodReference.schoolYear"
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
                             }]
                         },
                         {
@@ -61,7 +55,7 @@
                                                  "path" : "body.stateOrganizationId" ,
                                                  "values" :
                                                  [{
-                                                    "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                  }]
                                             }
                                        ]
