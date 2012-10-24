@@ -33,7 +33,7 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                 |   9     |
      | course                       |   6     |
      | educationOrganization        |   8     |
-     | gradebookEntry               |  20     |
+     | gradebookEntry               |  18     |
      | gradingPeriod                |  10     |
      | learningObjective            |   6     |
      | learningStandard             |   6     |
@@ -48,7 +48,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 16" in the resulting batch job file
   And I should see "InterchangeMasterSchedule.xml records ingested successfully: 15" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 3" in the resulting batch job file
-  And I should see "InterchangeStudentGrade.xml records ingested successfully: 27" in the resulting batch job file
+  And I should see "InterchangeStudentGrade.xml records ingested successfully: 25" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
 #  And I should see "Unable to resolve a reference with ref=[LS_101]: No matching element with id=[LS_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
 #  And I should see "Unable to resolve a reference with ref=[LO_101]: No matching element with id=[LO_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
