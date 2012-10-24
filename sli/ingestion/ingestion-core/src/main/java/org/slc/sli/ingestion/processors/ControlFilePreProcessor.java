@@ -179,13 +179,17 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     protected boolean ensureTenantDbIsReady(String tenantId) {
 
         if (batchJobDAO.tenantDbIsReady(tenantId)) {
-
+            LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
             return true;
         } else {
+            LOG.info("Tenant db for {} is not as 'ready'. Running spin up scripts now.", tenantId);
 
             runDbSpinUpScripts(tenantId);
 
-            return batchJobDAO.tenantDbIsReady(tenantId);
+            boolean isNowReady = batchJobDAO.tenantDbIsReady(tenantId);
+            LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+
+            return isNowReady;
         }
     }
 
@@ -193,7 +197,10 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
+        LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+
+        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + dbName + "\";");
 
         batchJobDAO.setTenantReadyFlag(tenantId);
