@@ -105,6 +105,7 @@ public class RealmHelperTest {
         body = new HashMap<String, Object>();
 
         TenantContext.setTenantId("foo");
+        body.put("tenantId", "foo");
         body.put("uniqueIdentifier", "BlahBlah");
         body.put("edOrg", edOrg.getBody().get("stateOrganizationId"));
         Entity realm = repo.create("realm", body, metaData, "realm");
