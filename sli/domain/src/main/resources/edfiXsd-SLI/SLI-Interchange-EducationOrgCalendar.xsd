@@ -11,7 +11,7 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="Session" type="SLC-Session"/>
-				<xs:element name="GradingPeriod" type="GradingPeriod"/>
+				<xs:element name="GradingPeriod" type="SLC-GradingPeriod"/>
 				<xs:element name="CalendarDate" type="CalendarDate"/>
 				<xs:element name="AcademicWeek" type="SLC-AcademicWeekReferenceType"/>
 			</xs:choice>

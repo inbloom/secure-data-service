@@ -58,7 +58,8 @@
             }
         },
         {
-           "fieldPath" : "body.gradingPeriodId",
+           "fieldPath" : "body.GradingPeriodReference",
+           "deprecated" : true,
             "ref" :
             {
                 "entityType" : "gradingPeriod",
@@ -70,14 +71,7 @@
                             "path" : "body.gradingPeriodIdentity.gradingPeriod",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
-                            }]
-                        },
-                        {
-                            "path" : "body.gradingPeriodIdentity.schoolYear",
-                            "values" :
-                            [{
-                                "valueSource" : "body.gradingPeriodReference.schoolYear"
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
                             }]
                         },
                         {
@@ -94,7 +88,7 @@
                                                  "path" : "body.stateOrganizationId" ,
                                                  "values" :
                                                  [{
-                                                    "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                                     "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                  }]
                                             }
                                        ]
