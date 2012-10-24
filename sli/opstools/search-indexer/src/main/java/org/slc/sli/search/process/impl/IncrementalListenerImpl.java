@@ -65,7 +65,7 @@ public class IncrementalListenerImpl implements IncrementalListener {
         listen();
     }
 
-    public void destroy() throws JMSException {
+    public void destroy() throws Exception {
         this.activeMQConsumer.destroy();
 
     }

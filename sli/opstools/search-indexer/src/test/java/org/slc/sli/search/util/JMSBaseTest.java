@@ -54,7 +54,7 @@ public class JMSBaseTest {
         queueProducer.send("hello4");
     }
     @After
-    public void destory() throws JMSException {
+    public void destory() throws Exception {
         this.queueProducer.destroy();
         this.queueConsumer.destroy();
     }

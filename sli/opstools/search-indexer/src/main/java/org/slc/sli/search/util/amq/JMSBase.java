@@ -100,9 +100,19 @@ public abstract class JMSBase {
         }
     }
 
-    public void destroy() throws JMSException {
-        session.close();
-        connection.close();
+    public void destroy() throws Exception {
+        if (this.session != null) {
+            this.session.close();
+            this.session = null;
+        }
+        if (this.connection != null) {
+            this.connection.close();
+            this.connection = null;
+        }
+        if (broker != null) {
+            broker.stop();
+            broker = null;
+        }
     }
 
     /**
