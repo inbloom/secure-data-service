@@ -2624,7 +2624,7 @@
 
   <jb:bean beanId="studentProgramAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:wiring property="StudentReference" beanIdRef="StudentProgramAssociation_StudentReference" />
+    <jb:wiring beanIdRef="SLC-StudentProgramAssociation_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
     <jb:wiring property="ProgramReference" beanIdRef="StudentProgramAssociation_ProgramReference" />
     <jb:wiring property="Services" beanIdRef="StudentProgramAssociation_ServicesArray" />
     <jb:value property="BeginDate" data="StudentProgramAssociation/BeginDate" />
@@ -2669,16 +2669,11 @@
 
   <!-- StudentProgramAssociation supporting objects: StudentReference -->
 
-  <jb:bean beanId="StudentProgramAssociation_StudentReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StudentProgramAssociation/StudentReference">
-    <jb:wiring property="StudentIdentity" beanIdRef="StudentProgramAssociation_StudentReference_StudentIdentity" />
+  <jb:bean beanId="SLC-StudentProgramAssociation_Attributes_SLC-StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation/StudentReference">
+    <jb:wiring beanIdRef="SLC-StudentProgramAssociation_Attributes_SLC-StudentReferenceType_SLC-StudentIdentityType" property="StudentIdentity"/>
   </jb:bean>
-
-  <jb:bean beanId="StudentProgramAssociation_StudentReference_StudentIdentity"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StudentProgramAssociation/StudentReference/StudentIdentity">
-    <jb:value property="StudentUniqueStateId" data="StudentProgramAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  <jb:bean beanId="SLC-StudentProgramAssociation_Attributes_SLC-StudentReferenceType_SLC-StudentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation/StudentReference/StudentIdentity">
+    <jb:value data="StudentProgramAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
   </jb:bean>
 
   <!-- StudentProgramAssociation supporting objects: ProgramReference -->

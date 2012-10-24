@@ -428,7 +428,38 @@ Other</xs:documentation>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
+  
+  
+  <xs:complexType name="SLC-StudentProgramAssociation">
+    <xs:annotation>
+        <xs:documentation />
+        <xs:appinfo>
+            <sli:recordType>studentProgramAssociation</sli:recordType>
+            <sli:applyKeyFields>true</sli:applyKeyFields>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent>
+        <xs:extension base="ComplexObjectType">
+            <xs:sequence>
+                <xs:element name="StudentReference" type="SLC-StudentReferenceType" >
+                  <xs:annotation>
+                    <xs:documentation>The student enrolled in the section.</xs:documentation>
+                    <xs:appinfo>
+                      <sli:keyFieldName>studentId</sli:keyFieldName>
+                    </xs:appinfo>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="ProgramReference" type="ProgramReferenceType" />
+                <xs:element name="Services" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="BeginDate" type="xs:date" />
+                <xs:element name="EndDate" type="xs:date" minOccurs="0" />
+                <xs:element name="ReasonExited" type="ReasonExitedType" minOccurs="0" />
+                <xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" />
+            </xs:sequence>
+        </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
        to GraduationPlanReference type -->
   <xs:complexType name="SLC-StudentSchoolAssociation">
