@@ -155,31 +155,25 @@ Scenario: Paging tests from the context of a teacher
         Given format "application/json"
         And all parameters are cleared
         When I navigate to GET "/v1/courses"
-        And the header "TotalCount" equals 39
+        And the header "TotalCount" equals 26
         Given parameter "offset" is "10"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
         Then I should receive a collection with 10 unique elements
-        And the header "TotalCount" equals 39
+        And the header "TotalCount" equals 26
         Given parameter "offset" is "20"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
-        Then I should receive a collection with 10 unique elements
-        And the header "TotalCount" equals 39
-        Given parameter "offset" is "30"
-        And parameter "limit" is "10"
-        When I navigate to GET "/v1/courses"
-        Then I should receive a collection with 9 unique elements
-        And the header "TotalCount" equals 39
-        Given parameter "offset" is "37"
+        Then I should receive a collection with 6 unique elements
+        Given parameter "offset" is "24"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
         Then I should receive a collection with 2 non-unique elements
-        And the header "TotalCount" equals 39
+        And the header "TotalCount" equals 26
         Given parameter "offset" is "40"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/courses"
-        Then I should receive a return code of 403 
+        Then I should receive a return code of 200 
 
 
 @DE1873 @DE1906 @DE1910
@@ -205,7 +199,7 @@ Scenario: Paging tests from the context of a teacher
         Given parameter "offset" is "30"
         And parameter "limit" is "10"
         When I navigate to GET "/v1/students"
-        Then I should receive a return code of 403 
+        Then I should receive a return code of 200 
         Given parameter "offset" is "1"
         And parameter "limit" is "9"
         When I navigate to GET "/v1/students"
