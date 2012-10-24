@@ -182,6 +182,11 @@ public class SamlHelper {
      * @throws Exception
      */
     public Document decodeSamlPost(String postData) {
+        
+        if (postData == null || postData.isEmpty()) {
+            throw new IllegalArgumentException("Empty SAML message");
+        }
+        
         String base64Decoded = decode(postData);
         
         try {
