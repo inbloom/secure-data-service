@@ -1,15 +1,12 @@
 {
   "student": {
     "fields": [
-      "_id",
       "body.name.firstName",
       "body.name.middleName",
       "body.name.lastSurname",
       "body.otherName.firstName",
       "body.otherName.middleName",
-      "body.otherName.lastSurname",
-      "metaData.tenantId",
-      "type"
+      "body.otherName.lastSurname"
     ],
     "mapping": {
       "student": {
@@ -29,12 +26,9 @@
   "studentSchoolAssociation": {
     "indexType": "student",
     "fields": [
-      "_id",
       "body.studentId",
       "body.schoolId",
-      "body.exitWithdrawDate",
-      "metaData.tenantId",
-      "type"
+      "body.exitWithdrawDate"
     ],
     "rename": {
       "body.studentId": "_id",
@@ -45,5 +39,59 @@
       "body.exitWithdrawDate": null
     },
     "mapping": {}
+  },
+  "learningStandard": {
+    "fields": [
+      "body.contentStandard",
+      "body.courseTitle",
+      "body.description",
+      "body.gradeLevel",
+      "body.learningStandardId.identificationCode",
+      "body.subjectArea"
+    ],
+    "append": {
+      "body.context.schoolId" : "ALL"
+    },
+    "mapping": {
+      "learningStandard": {
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "analyzer": "not_analyzed"
+              }
+            },
+            "learningStandardId": {
+              "properties": {
+                "identificationCode": {
+                  "type": "string",
+                  "index": "not_analyzed"
+                }
+              }
+            },
+            "contentStandard": {
+              "type": "string",
+              "analyzer": "lowercase_analyzer"
+            },
+            "courseTitle": {
+              "type": "string",
+              "boost": 2.0
+            },
+            "description": {
+              "type": "string",
+              "boost": 1.0
+            },
+            "gradeLevel": {
+              "type": "string",
+              "analyzer": "lowercase_analyzer"
+            },
+            "subjectArea": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
   }
 }

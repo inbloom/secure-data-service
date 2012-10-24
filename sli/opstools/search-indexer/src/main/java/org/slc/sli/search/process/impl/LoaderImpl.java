@@ -104,7 +104,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                     try {
                         indexer.index(indexEntityConverter.fromEntityJson(index, action, entity));
                     } catch (Throwable e) {
-                        logger.error("Error reading record:" + entity, e); 
+                        logger.error("Error reading record", e); 
                     }
                 }
                 success = true;

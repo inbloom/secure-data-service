@@ -17,6 +17,7 @@ package org.slc.sli.search.transform.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.transform.CustomTransformer;
@@ -26,6 +27,7 @@ public class GenericTransformer implements CustomTransformer {
     public void transform(IndexConfig config, Map<String, Object> entity) {
         filterExcept(config.getFlattendedFields(), entity);
         rename(config.getRename(), entity);
+        append(config.getAppend(), entity);
     }
     
     private void rename(Map<List<String>, List<String>> rename, Map<String, Object> entity) {
@@ -39,5 +41,14 @@ public class GenericTransformer implements CustomTransformer {
     
     private void filterExcept(List<String> fields, Map<String, Object> entity) {
         NestedMapUtil.filterExcept(fields, entity);
+    }
+    
+    private void append(Map<List<String>, Object> append, Map<String, Object> entity) {
+        if (append == null) {
+            return;
+        }
+        for (Entry<List<String>, Object> entry : append.entrySet()) {
+            NestedMapUtil.put(entry.getKey(), entry.getValue(), entity);
+        }
     }
 }

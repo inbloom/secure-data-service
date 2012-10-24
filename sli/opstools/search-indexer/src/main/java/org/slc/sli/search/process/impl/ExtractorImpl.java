@@ -66,7 +66,7 @@ public class ExtractorImpl implements Extractor {
     private final static int DEFAULT_EXTRACTOR_JOB_TIME = 600;
     
     private static final String TENANT_COLLECTION = "tenant";
-
+    
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
     private MongoTemplate mongoTemplate;

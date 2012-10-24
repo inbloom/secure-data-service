@@ -188,10 +188,10 @@ public class IndexerImpl implements Indexer {
                             if (NestedMapUtil.merge(orig, ie.getBody()))
                                 reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
                         } else {
-                            logger.error("Unable to match response from get " + entity);
+                            logger.error("Unable to match response from get " + entity.get("_id"));
                         }
                     } catch (Exception e) {
-                        logger.error("Unable to process entry from ES for re-index " + entity);
+                        logger.error("Unable to process entry from ES for re-index " + entity.get("_id"));
                     }
                 } else { // if doesn't exist, add
                     ie = indexUpdateMap.remove(entity.get("_id"));
