@@ -318,7 +318,7 @@ public class SubDocAccessor {
             if (!id.equals(getParentId(id))) {
                 parentQuery = new Query(Criteria.where("_id").is(getParentId(id)));
             }
-            List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), subDocQuery.getQueryObject(),
+            List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), null,
                     new Query().getQueryObject());
             if (entities != null && entities.size() == 1) {
                 return entities.get(0);
@@ -328,9 +328,9 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
-            DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
+           // DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
-            List<Entity> entities = findSubDocs(parentQueryDBObject, subDocQueryDBObject, getLimitQuery(originalQuery));
+            List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
             return entities;
         }
 
@@ -396,16 +396,14 @@ public class SubDocAccessor {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (isParentQuery && key.equals("metaData.tenantId")) {
-                        // assume the super doc has same tenantId as sub Doc
-                        newDBObject.put(newKey, newValue);
-                    } else if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
+                    if (lookup.containsKey(key.replace("body.", ""))) {
                         newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                     } else {
                         // for other query, append the subfield to original key
                         newKey = subField + "." + key;
                         newDBObject.put(newKey, newValue);
                     }
+
                 } else if (key.equals("$or") || key.equals("$and")) {
                     List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
@@ -448,14 +446,18 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
-            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
-                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
-                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            //parentQuery.putAll(subDocQuery);
+//            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
+//                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
+//                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
+                    "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
+            Object requestedId = parentQuery.get(subField+"_id");
             List<Entity> entities = new ArrayList<Entity>();
             if (subDocs != null && subDocs.size() > 0) {
                 for (DBObject dbObject : subDocs) {
@@ -494,6 +496,8 @@ public class SubDocAccessor {
             }
         }
     }
+
+
 
     public boolean isSubDoc(String docType) {
         return locations.containsKey(docType);
