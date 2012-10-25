@@ -203,7 +203,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false));
 
     }
 
@@ -239,7 +239,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false));
         // Test that both fry and gunther get enrolled in history of the 20th century
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -259,7 +259,7 @@ public class SubDocAccessorTest {
                         Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
                         return studentSectionsToPush.length == 2;
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false));
 
     }
 

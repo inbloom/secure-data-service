@@ -226,9 +226,9 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), true, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), true, false).getLastError().ok();
             return result;
         }
 
