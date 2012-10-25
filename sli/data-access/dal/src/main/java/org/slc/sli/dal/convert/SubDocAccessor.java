@@ -420,6 +420,11 @@ public class SubDocAccessor {
 
                         if(newDBObject.get(updatedKey) != null) {
                             Object idList = newDBObject.get(updatedKey);
+                            Set<String> combined = new HashSet<String>();
+                            combined.addAll(extractIdSet(idList));
+                            combined.addAll(extractIdSet(newValue));
+                            newDBObject.put(lookup.get(updatedKey), new BasicDBObject("$in", combined));
+
                         } else{
                         newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                         }
