@@ -128,13 +128,13 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testCanGetAccessToAttendance() throws Exception {
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate("attendance", studentIds)).thenReturn(true);
         assertTrue(validator.validate(attendances, "attendance"));
     }
 
     @Test
     public void testCanNotGetAccessToAttendance() throws Exception {
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(false);
+        Mockito.when(teacherToStudentValidator.validate("attendance", studentIds)).thenReturn(false);
         assertFalse(validator.validate(attendances, "attendance"));
     }
 

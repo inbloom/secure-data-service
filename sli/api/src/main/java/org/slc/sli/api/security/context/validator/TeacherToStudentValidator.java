@@ -21,9 +21,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -31,6 +28,8 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TeacherToStudentValidator extends AbstractContextValidator {
@@ -45,7 +44,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(Collection<String> ids) {
+    public boolean validate(String entityName, Set<String> ids) {
         boolean withSections = validatedWithSections(ids);
         boolean withCohorts = validatedWithCohorts(ids);
         boolean withPrograms = validatedWithPrograms(ids);

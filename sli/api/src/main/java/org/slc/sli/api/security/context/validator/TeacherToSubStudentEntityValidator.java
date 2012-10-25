@@ -81,7 +81,7 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
                 students.add((String) entity.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
-        return teacherToStudentValidator.validate(students);
+        return teacherToStudentValidator.validate(type, students);
     }
 
     /**

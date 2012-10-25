@@ -130,7 +130,7 @@ public class TeacherToStudentValidatorTest {
         generateTSA(TEACHER_ID, "3", false);
         generateSSA("2", "3", false);
         studentIds.add("2");
-        assertTrue(validator.validate(studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class TeacherToStudentValidatorTest {
         generateSSA("2", "3", false);
 
         studentIds.add("2");
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class TeacherToStudentValidatorTest {
             }
         }
 
-        assertTrue(validator.validate(studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class TeacherToStudentValidatorTest {
             generateSSA("2", "" + i, false);
             studentIds.add("2");
         }
-        assertTrue(validator.validate(studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -186,7 +186,7 @@ public class TeacherToStudentValidatorTest {
                 studentIds.add("" + j);
             }
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -204,7 +204,7 @@ public class TeacherToStudentValidatorTest {
         }
         generateSSA("-32", "101", false);
         studentIds.add("-32");
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     // @Test

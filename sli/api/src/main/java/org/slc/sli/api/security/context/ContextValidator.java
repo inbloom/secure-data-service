@@ -18,7 +18,7 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -74,7 +74,7 @@ public class ContextValidator implements ApplicationContextAware {
         
         //move generic validator to end
         validators.remove(genVal);
-        //validators.add(genVal); //temporarily disable
+        validators.add(genVal); //temporarily disable
         
         //temporarily disable teacher-student validator
         validators.remove(studentVal);
@@ -107,7 +107,7 @@ public class ContextValidator implements ApplicationContextAware {
         if (validator != null) {
             String idsString = request.getPathSegments().get(2).getPath();
             List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(ids)) {
+            if (!validator.validate(entityName, new HashSet<String>(ids))) {
                 if (!exists(ids, def.getStoredCollectionName())) {
                     throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
                 }
@@ -149,7 +149,7 @@ public class ContextValidator implements ApplicationContextAware {
         }
         
         if (found == null) {
-            warn("No {} validator to {}.", through ? "through": "to", toType);
+            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
         }
 
         return found;
