@@ -2114,15 +2114,22 @@ end
 
 Then /^the database is sharded for the following collections/ do |table|
   @configDb = @conn.db(CONFIG_DB_NAME)
-  @chunksCollection = @configDb.collection("chunks")
-  @result = "true"
+  
+  @shardsCollection = @configDb.collection("shards")
+   @result = "true"
+  
+  if @shardsCollection.count() > 0
+    @chunksCollection = @configDb.collection("chunks")
 
-  table.hashes.map do |row|
-    @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
-    if @chunksCount.to_s == "0"
-      puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
-      @result = "false"
+    table.hashes.map do |row|
+      @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
+      if @chunksCount.to_s == "0"
+        puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
+        @result = "false"
+      end
     end
+  else
+      puts "Mongo is not sharded"
   end
 
   assert(@result == "true", "Database was not sharder successfully.")
