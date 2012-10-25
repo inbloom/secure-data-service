@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -100,7 +99,7 @@ public class IncrementalListenerImpl implements IncrementalListener {
                 InputStream is = new ByteArrayInputStream(bs.getData());
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 String line = "";
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
