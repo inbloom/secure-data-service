@@ -23,7 +23,6 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
@@ -109,7 +108,6 @@ public class IncrementalListenerTest {
     /**
      * Test oplog delete -> index entity conversion
      */
-    @Ignore // TODO re-enable when delete functionality is in place
     @Test
     public void testDelete() throws Exception {
     
@@ -123,12 +121,6 @@ public class IncrementalListenerTest {
         Assert.assertEquals(entity.getIndex(), "midgar");
         
     }
-    
-    /**
-     * Test filtering of oplog info
-     */
-    public void testFilter() {
-        
-    }
+
     
 }
