@@ -16,8 +16,6 @@
 
 package org.slc.sli.dal.repository;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,10 +38,10 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -57,7 +55,6 @@ import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-
 /**
  * elasticsearch connector
  */
@@ -85,7 +82,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
     private Node node;
 
     private Client createEmbeddedNodeClient() {
-        node = nodeBuilder().local(true).node();
+        node = NodeBuilder.nodeBuilder().local(true).node();
         esClient = node.client();
         return esClient;
     }
@@ -310,13 +307,18 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
+    public boolean collectionExists(String collection) {
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Iterable<Entity> findByQuery(String collectionName, org.springframework.data.mongodb.core.query.Query query, int skip, int max) {
         throw new UnsupportedOperationException("ElasticSearchRepository.findByQuery not implemented");
     }
 
     @Override
-    public boolean collectionExists(String collection) {
-        return false;  // To change body of implemented methods use File | Settings | File Templates.
+    public long count(String collectionName, org.springframework.data.mongodb.core.query.Query query) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.count not implemented");
     }
 
     @Override
@@ -325,11 +327,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-    }
-
-    @Override
-    public long count(String collectionName, Query query) {
-        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -381,7 +378,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 node = mapper.readTree(response.getBody());
                 JsonNode hitsNode = node.get("hits").get("hits");
 
-                ElasticSearchRepository.LOG.info("Hits returned from elasticsearch: " + hitsNode);
                 SearchHitEntity hit;
 
                 // create a search hit entity object for each hit

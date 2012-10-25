@@ -94,6 +94,6 @@
 		<sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
-        <elasticsearch.version>0.19.11</elasticsearch.version>>
+        <elasticsearch.version>0.19.9</elasticsearch.version>
 	</properties>
 </project>
