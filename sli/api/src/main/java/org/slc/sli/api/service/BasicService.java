@@ -85,6 +85,8 @@ public class BasicService implements EntityService {
     private Right readRight;
     private Right writeRight; // this is possibly the worst named variable ever
 
+    private static final boolean ENABLE_CONTEXT_RESOLVING = true;
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -106,7 +108,7 @@ public class BasicService implements EntityService {
 
     @Autowired
     private SessionSecurityCache securityCachingStrategy;
-    
+
     @Value("${sli.security.in_clause_size}")
     private String securityInClauseSize;
 
@@ -126,15 +128,19 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        SecurityCriteria securityCriteria = findAccessible(defn.getType());
-        localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
-        return repo.count(collectionName, localNeutralQuery);
+        if (ENABLE_CONTEXT_RESOLVING) {
+            NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
+            SecurityCriteria securityCriteria = findAccessible(defn.getType());
+            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
+            return repo.count(collectionName, localNeutralQuery);
+        } else {
+            return repo.count(collectionName, neutralQuery);
+        }
     }
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     * 
+     *
      * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
@@ -144,8 +150,10 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        SecurityCriteria securityCriteria = findAccessible(defn.getType());
-        neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+        if (ENABLE_CONTEXT_RESOLVING) {
+            SecurityCriteria securityCriteria = findAccessible(defn.getType());
+            neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+        }
         Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
         List<String> results = new ArrayList<String>();
@@ -316,8 +324,6 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        SecurityCriteria securityCriteria = findAccessible(defn.getType());
-
         List<String> idList = new ArrayList<String>();
 
         for (String id : ids) {
@@ -331,7 +337,10 @@ public class BasicService implements EntityService {
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
             }
 
-            neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+            if (ENABLE_CONTEXT_RESOLVING) {
+                SecurityCriteria securityCriteria = findAccessible(defn.getType());
+                neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+            }
 
             // add the ids requested
             neutralQuery.addCriteria(new NeutralCriteria("_id", "in", idList));
@@ -354,25 +363,31 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        SecurityCriteria securityCriteria = findAccessible(defn.getType());
+        Collection<Entity> entities;
+        if (ENABLE_CONTEXT_RESOLVING) {
+            SecurityCriteria securityCriteria = findAccessible(defn.getType());
+            NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
+            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
+            entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
+        } else {
+            entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        }
 
-        NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
-       
+
+
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
         }
-        
+
         if (results.isEmpty()) {
             return noEntitiesFound(neutralQuery);
         }
 
         return results;
     }
-    
+
     @Override
     public boolean exists(String id) {
         checkRights(readRight);
@@ -502,12 +517,14 @@ public class BasicService implements EntityService {
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
-            SecurityCriteria securityCriteria = findAccessible(entityType);
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(MAX_RESULT_SIZE);
-            neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+            if (ENABLE_CONTEXT_RESOLVING) {
+                SecurityCriteria securityCriteria = findAccessible(entityType);
+                neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+            }
             neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
@@ -558,7 +575,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity, make the entity body to expose
-     * 
+     *
      * @param entity
      * @return
      */
@@ -594,7 +611,7 @@ public class BasicService implements EntityService {
 
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     * 
+     *
      * @param content
      * @return
      */
@@ -755,46 +772,49 @@ public class BasicService implements EntityService {
 
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
-        try {
-            securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
-        } catch (NumberFormatException e) {
-            // It defaulted to 100000
-        }
-        String securityField = "_id";
 
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        securityCriteria.setCollectionName(toType);
+        if (ENABLE_CONTEXT_RESOLVING) {
+            try {
+                securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
+            } catch (NumberFormatException e) {
+                // It defaulted to 100000
+            }
+            String securityField = "_id";
 
-        if (principal == null) {
-            throw new AccessDeniedException("Principal cannot be found");
-        }
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            securityCriteria.setCollectionName(toType);
 
-        Entity entity = principal.getEntity();
-        String type = entity.getType();
-        // null for super admins because they don't contain mongo entries
+            if (principal == null) {
+                throw new AccessDeniedException("Principal cannot be found");
+            }
 
-        if (isPublic()) {
-            securityCriteria.setSecurityCriteria(null);
-            return securityCriteria;
-        }
+            Entity entity = principal.getEntity();
+            String type = entity.getType();
+            // null for super admins because they don't contain mongo entries
 
-        List<String> allowed = null;
-        EntityContextResolver resolver = new DenyAllContextResolver();
-        if (!securityCachingStrategy.contains(toType)) {
-            resolver = contextResolverStore.findResolver(type, toType);
-            allowed = resolver.findAccessible(principal.getEntity());
-        } else {
-            allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
-        }
+            if (isPublic()) {
+                securityCriteria.setSecurityCriteria(null);
+                return securityCriteria;
+            }
 
-        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            securityField = "metaData.edOrgs";
-        }
-        if (resolver instanceof AllowAllEntityContextResolver) {
-            securityCriteria.setSecurityCriteria(null);
-        } else {
-            securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
-                    allowed, false));
+            List<String> allowed = null;
+            EntityContextResolver resolver = new DenyAllContextResolver();
+            if (!securityCachingStrategy.contains(toType)) {
+                resolver = contextResolverStore.findResolver(type, toType);
+                allowed = resolver.findAccessible(principal.getEntity());
+            } else {
+                allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
+            }
+
+            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+                securityField = "metaData.edOrgs";
+            }
+            if (resolver instanceof AllowAllEntityContextResolver) {
+                securityCriteria.setSecurityCriteria(null);
+            } else {
+                securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
+                        allowed, false));
+            }
         }
 
         return securityCriteria;
@@ -811,7 +831,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     private void filterFields(Map<String, Object> eb) {
@@ -858,7 +878,7 @@ public class BasicService implements EntityService {
 
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     @SuppressWarnings("unchecked")
@@ -979,7 +999,7 @@ public class BasicService implements EntityService {
 
     /**
      * Creates the metaData HashMap to be added to the entity created in mongo.
-     * 
+     *
      * @return Map containing important metadata for the created entity.
      */
     private Map<String, Object> createMetadata() {
@@ -1012,7 +1032,7 @@ public class BasicService implements EntityService {
     /**
      * Add the list of ed orgs a principal entity can see
      * Needed for staff security
-     * 
+     *
      * @param principal
      * @param metaData
      */
