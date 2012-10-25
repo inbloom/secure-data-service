@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +42,7 @@ import org.slc.sli.domain.NeutralQuery;
  * @author shalka
  */
 @Component
-public class TeacherToSubStudentEntityValidator implements SubStudentEntityValidator {
+public class TeacherToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -51,44 +50,33 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
     @Autowired
     private TeacherToStudentValidator teacherToStudentValidator;
 
+    /**
+     * Determines if the entity type is a sub-entity of student.
+     */
     @Override
-    public boolean canValidate(String entityType) {
+    public boolean canValidate(String entityType, boolean through) {
         return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
                 && isSubEntityOfStudent(entityType);
     }
 
     /**
-     * Determines if the entity type is a sub-entity of student.
-     *
-     * @param type
-     *            Entity type.
-     * @return True if the entity is a sub-entity of student, false otherwise.
+     * Determines if the teacher can see the set of entities specified by 'ids'.
      */
-    private boolean isSubEntityOfStudent(String type) {
-        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
-                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
-                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
-                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
-    }
-
     @Override
-    public boolean validate(Set<String> ids, String type) {
+    public boolean validate(String entityType, Set<String> ids) {
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
                 new ArrayList<String>(ids)));
-        Iterable<Entity> entities = repo.findAll(type, query);
+        Iterable<Entity> entities = repo.findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
-                if (type.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
+                if (entityType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
                     if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("exitWithdrawDate")))) {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
-                } else if (type.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
+                } else if (entityType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
                     if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("endDate")))) {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
@@ -105,55 +93,14 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
         return teacherToStudentValidator.validate(EntityNames.STUDENT, students);
     }
 
-    /**
-     * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
-     * comparing only the year, month, and day.
-     *
-     * @param lhs
-     *            First DateTime.
-     * @param rhs
-     *            Second DateTime.
-     * @return True if first DateTime is before (or equal to) to the second DateTime, false
-     *         otherwise.
-     */
-    protected boolean isLhsBeforeRhs(DateTime lhs, DateTime rhs) {
-        boolean before = false;
-        if (lhs.getYear() < rhs.getYear()) {
-            before = true;
-        } else if (lhs.getYear() == rhs.getYear()) {
-            if (lhs.getMonthOfYear() < rhs.getMonthOfYear()) {
-                before = true;
-            } else if (lhs.getMonthOfYear() == rhs.getMonthOfYear()) {
-                if (lhs.getDayOfMonth() <= rhs.getDayOfMonth()) {
-                    before = true;
-                }
-            }
-        }
-        return before;
-    }
-
-    /**
-     * Parse the String representing a DateTime and return the corresponding DateTime.
-     *
-     * @param convert
-     *            String to be converted (of format yyyy-MM-dd).
-     * @return DateTime object.
-     */
-    protected DateTime getDateTime(String convert) {
-        // TODO: add date time utility for converting dates into abstract context validator
-        return DateTime.parse(convert, DateTimeFormat.forPattern("yyyy-MM-dd"));
-    }
-
-    /**
-     * Convert the DateTime to a String representation.
-     *
-     * @param convert
-     *            DateTime to be converted.
-     * @return String representing DateTime (of format yyyy-MM-dd).
-     */
-    protected String getDateTimeString(DateTime convert) {
-        // TODO: add date time utility for converting dates into abstract context validator
-        return convert.toString(DateTimeFormat.forPattern("yyyy-MM-dd"));
+    private boolean isSubEntityOfStudent(String type) {
+        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
+                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
+                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
+                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
     }
 
     /**

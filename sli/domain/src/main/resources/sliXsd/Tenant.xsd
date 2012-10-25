@@ -26,6 +26,12 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                <xs:element name="tenantIsReady" minOccurs="0" maxOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:boolean">
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
                 <xs:element name="landingZone" type="landingZone" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
 

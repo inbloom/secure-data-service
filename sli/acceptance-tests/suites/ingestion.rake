@@ -224,6 +224,11 @@ task :ingestionSuperDocTests do
   runTests("test/features/superdoc/denormalization_ingestion.feature")
 end
 
+desc "Ingestion Db Spinup Test"
+task :ingestionDbSpinupTest do
+  runTests("test/features/ingestion/features/ingestion_db_spinup.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
