@@ -225,17 +225,8 @@ public class SubDocAccessor {
             boolean result = true;
             TenantContext.setIsSystemCall(false);
 
-            // TODO: this is added to get ATs to pass. Please remove this for-block when meta data is no longer needed.
-//            for(Entity subEntity : subEntities) {
-//                Object tenantId = subEntity.getMetaData().get("tenantId");
-//                if(tenantId != null) {
-//                    parentQuery.put("metaData.tenantId", tenantId);
-//                    break; // just use the first one, the rest should have the same tenantId
-//                }
-//            }
-
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), true, false).getLastError().ok();
             result &= template.getCollection(collection)
                     .update(parentQuery, buildPushObject(subEntities), false, false).getLastError().ok();
             return result;
