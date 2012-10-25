@@ -93,11 +93,7 @@ public class TeacherToStudentValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
 
         studentIds = new HashSet<String>();
-<<<<<<< HEAD
-=======
-        
         programId = generateProgram().getEntityId();
->>>>>>> Working on teacher->student via programs
 
         badDate = "2001-01-01";
 
