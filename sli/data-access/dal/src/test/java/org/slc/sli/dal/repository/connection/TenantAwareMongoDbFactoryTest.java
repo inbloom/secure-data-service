@@ -22,7 +22,7 @@ import com.mongodb.Mongo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.tenancy.CurrentTenantHolder;
 import org.slc.sli.dal.repository.tenancy.SystemCall;
 import org.slc.sli.dal.repository.tenancy.TenantCall;

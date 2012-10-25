@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -101,13 +102,13 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                         NaturalKeyDescriptor originalEntityNaturalKeyDescriptor = new NaturalKeyDescriptor();
                         originalEntityNaturalKeyDescriptor.setNaturalKeys(naturalKeyExtractor.getNaturalKeys(entity));
                         originalEntityNaturalKeyDescriptor.setEntityType(entity.getType());
-                        originalEntityNaturalKeyDescriptor.setTenantId((String) entity.getMetaData().get("tenantId"));
+                        originalEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
                         String originalUUID = deterministicUUIDGeneratorStrategy.generateId(originalEntityNaturalKeyDescriptor);
 
                         NaturalKeyDescriptor newEntityNaturalKeyDescriptor = new NaturalKeyDescriptor();
                         newEntityNaturalKeyDescriptor.setNaturalKeys(naturalKeyExtractor.getNaturalKeys(existingEntity));
                         newEntityNaturalKeyDescriptor.setEntityType(existingEntity.getType());
-                        newEntityNaturalKeyDescriptor.setTenantId((String) existingEntity.getMetaData().get("tenantId"));
+                        newEntityNaturalKeyDescriptor.setTenantId(TenantContext.getTenantId());
                         String newUUID = deterministicUUIDGeneratorStrategy.generateId(newEntityNaturalKeyDescriptor);
 
                         if (!originalUUID.equals(newUUID)) {
