@@ -159,6 +159,16 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
   end
+
+
+  #Big hack because nobody bothered splitting up fixture data into the correct tenants
+  #Remove all the Hyrule students from the Midgar database and vice versa
+  if db_used == convertTenantIdToDbName('Midgar') && collectionName == 'student'
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Hyrule'}); assert.eq(null, db.getLastError());\""
+  end
+  if db_used == convertTenantIdToDbName('Hyrule') && collectionName == 'student'
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Midgar'}); assert.eq(null, db.getLastError());\""
+  end
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -494,7 +504,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -534,7 +544,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
-                     :apiSuperDocTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1WhiteListValidationTests,
@@ -708,7 +717,8 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+                         :ingestionSuperDocTests] do
 
   displayFailureReport()
   if $SUCCESS

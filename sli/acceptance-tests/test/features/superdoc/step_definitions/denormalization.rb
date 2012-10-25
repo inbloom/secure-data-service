@@ -33,17 +33,20 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   # General
-  id = @newId                                 if human_readable_id == "NEW ID"
+  id = @newId                                        if human_readable_id == "NEW ID"
   # Student
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if human_readable_id == "MARVIN MILLER"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085"        if human_readable_id == "MARVIN MILLER"
+  id = "067198fd6da91e1aa8d67e28e850f224d6851713_id" if human_readable_id == "INGESTED MATT SOLLARS"
   # Section
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e" if human_readable_id == "8TH GRADE ENGLISH SEC 6"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"        if human_readable_id == "8TH GRADE ENGLISH SEC 6"
+  id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
   # Program
-  id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f" if human_readable_id == "ACC TEST PROG 2"
+  id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
+  id = "983dd657325009aefa88a234fa18bdb1e11c82a8_id" if human_readable_id == "INGESTED ACC TEST PROG 2"
   # Session
-  id = "1cb50f82-7200-441a-a1b6-02d6532402a0" if human_readable_id == "FALL 2011"
+  id = "1cb50f82-7200-441a-a1b6-02d6532402a0"        if human_readable_id == "FALL 2011"
   # StudentSchoolAssociation
-  id = "ec2e4218-6483-4e9c-8954-0aecccfd4731" if human_readable_id == "MARVIN MILLER EAST DB JR HI"
+  id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
 
   # Return the translated value
   id
