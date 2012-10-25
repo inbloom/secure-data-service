@@ -41,7 +41,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(Collection<String> studentIds) {
+    public boolean validate(String entityType, Set<String> studentIds) {
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
@@ -75,7 +75,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private Set<String> getStudentsEdOrgs(Entity studentEntity) {
-        return Collections.emptySet();  //TODO replace stub
+        return Collections.emptySet();  //`TODO replace stub
     }
 
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
