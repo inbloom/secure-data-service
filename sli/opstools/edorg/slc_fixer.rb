@@ -383,10 +383,6 @@ class SLCFixer
     @log.info "Iterating grade with query: #{@basic_query}"
     @db['grade'].find(@basic_query, @basic_options) do |cur|
       cur.each do |grade|
-<<<<<<< HEAD
-        edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
-        stamp_id(@db['grade'], grade['_id'], edorg)
-=======
         # lookup studentSectionAssociation from section and get edorgs
        section_docs = @db['section'].find({"studentSectionAssociation._id" => grade['body']['studentSectionAssociationId']})
        edorg =[]
@@ -400,8 +396,7 @@ class SLCFixer
          end
        end
        # edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
-        stamp_id(@db['grade'], grade['_id'], edorg, grade['metaData']['tenantId'])
->>>>>>> master
+        stamp_id(@db['grade'], grade['_id'], edorg)
         #      stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
       end
     end
@@ -478,10 +473,6 @@ class SLCFixer
     @log.info "Iterating studentCompetency with query: #{@basic_query}"
     @db['studentCompetency'].find(@basic_query, @basic_options) do |cur|
       cur.each do |student|
-<<<<<<< HEAD
-        edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
-        stamp_id(@db['studentCompetency'], student['_id'], edorg)
-=======
        # lookup studentSectionAssociation from section and get edorgs
          section_docs = @db['section'].find({"studentSectionAssociation._id" => student['body']['studentSectionAssociationId']})
        edorg =[]
@@ -495,8 +486,7 @@ class SLCFixer
          end
        end
        # edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
-        stamp_id(@db['studentCompetency'], student['_id'], edorg, student['metaData']['tenantId'])
->>>>>>> master
+        stamp_id(@db['studentCompetency'], student['_id'], edorg)
       end
     end
 
