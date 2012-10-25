@@ -17,13 +17,14 @@
 var express = require('express'),
     util = require('util'),
     SLC = require('../client/SLC');
+    config = require('./config');
 
 require('colors');
 
 var app = express();
 
 app.configure(function(){
-  app.set('port', 8080);
+  app.set('port', config.app.port);
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -34,13 +35,11 @@ app.configure(function(){
 });
 
 // Creating a instance of SLC
-SLC_app = new SLC("https://api.sandbox.slcedu.org", 
-                  "GLpqLbxCB9", 
-                  "UZzMDbFN3K6Br03CjS4h6UUJsM5139Hq6I777lpGUlvOwXzV", 
-                  "http://local.slidev.org:8080/oauth");
-
-// set the api version
-SLC_app.setVersion("v1");
+SLC_app = new SLC(config.api.base_url, 
+                  config.api.client_id, 
+                  config.api.client_secret, 
+                  config.api.oauth_uri,
+                  config.api.api_version);
 
 
 // If the token is active, it will allow next route handler in line to handle the request,
@@ -57,6 +56,8 @@ function requireToken() {
 }
 
 // ROUTES
+
+//Redirect to SLC login page
 app.get('/', function (req, res) {
   var loginURL = SLC_app.getLoginURL();
   res.redirect(loginURL);
@@ -77,6 +78,7 @@ app.get('/oauth', function (req, res) {
 
 });
 
+// Logout and redirect to user login page.
 app.get('/logout', function (req, res) {
   req.session.destroy();
   SLC_app.logout(function (response) {
@@ -94,36 +96,55 @@ app.get('/html', requireToken(), function (req, res) {
   res.redirect('html/index.html');
 });
 
+// Get student list
 app.get('/students', requireToken(), function(req, res) {
   SLC_app.api("/students", "GET", req.session.tokenId, {}, {}, function (data) {
     res.json(data);
   })
 });
 
+// Get School list
 app.get('/schools', requireToken(), function(req, res) {
   SLC_app.api("/schools", "GET", req.session.tokenId, {}, {}, function (data) {
     res.json(data);
   })
 });
 
-app.get('/attendances', requireToken(), function(req, res) {
-  SLC_app.api("/attendances", "POST", req.session.tokenId, {}, {"studentId":"2012lj-c5fcece1-c21e-11e1-9338-024775596ac8",
- "schoolId":"2012so-c8c0525c-c21e-11e1-9338-024775596ac8",
- "schoolYearAttendance":[{"schoolYear":"2011-2012",
- 
-   "attendanceEvent":[
- 
-    {"date":"2012-07-08",
-     "event":"In Attendance"}]}]}, function (data) {
-    res.json(data);
-  })
-});
+/*
+  POST Method
+  Following example shows how to post attendance event for student on SLC server. 
+  Replace student_id, school_id, school_year and event_date with actual student data.
+*/
 
-app.get('/deleteStudent', requireToken(), function(req, res) {
-  SLC_app.api("/students/2012cm-c5f7bcb7-c21e-11e1-9338-024775596ac8", "DELETE", req.session.tokenId, {}, {}, function (data) {
+/*app.get('/attendances', requireToken(), function(req, res) {
+  SLC_app.api("/attendances", "POST", req.session.tokenId, {}, 
+  {
+    "studentId": student_id,
+    "schoolId": school_id,
+    "schoolYearAttendance":[{
+        "schoolYear": school_year,
+        "attendanceEvent":[{
+          "date": event_date,
+          "event":"In Attendance"
+        }]
+    }]
+  }, function (data) {
+    res.json(data);
+  })
+});*/
+
+/*
+  Delete Method
+  Following example shows how to delete student from SLC server. 
+  Replace ":id" with actual student id
+*/
+
+/*app.get('/deleteStudent', requireToken(), function(req, res) {
+  SLC_app.api("/students/:id", "DELETE", req.session.tokenId, {}, {}, function (data) {
     res.json(data);
   })
 });
+*/
 
 app.listen(app.get('port'), function(){
   util.puts("The app has started".green);

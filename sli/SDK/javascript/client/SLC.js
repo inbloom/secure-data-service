@@ -37,8 +37,9 @@
 	     * @param clientID {String}   	the client ID
 	     * @param clientSecret {String} the client secret
 	     * @param oauthURI {String}     the authorization URL
+	     * @param apiVersioin {String}  the api version
 	     */
-		function SLC(baseURL, clientID, clientSecret, oauthURI) {
+		function SLC(baseURL, clientID, clientSecret, oauthURI, apiVersion) {
 
 			var API_url,
 				client_ID,
@@ -50,6 +51,7 @@
 			client_ID = clientID;
 			client_secret = clientSecret;
 			oauth_URI = oauthURI;
+			api_version = apiVersion || "v1";
 		
 
 			/**
@@ -75,7 +77,15 @@
 
 					if (error) {
 
-						errorMessage = "Logout error: " + response.statusCode + " - " + JSON.parse(body);
+						errorMessage = "Logout error: ";
+						if (response.statusCode) {
+							errorMessage += response.statusCode;
+						}
+						
+						if (body) {
+							errorMessage += " " + JSON.parse(body);
+						}
+						
 						if (callback !== null) {
 							callback(errorMessage);
 							return;
@@ -248,29 +258,11 @@
 				return true;
 			}
 
-			// This method set up api version. Default value will be 'v1'.
-			function setVersion(version) {
-
-				if (typeof version !== "string") {
-					return "Invalid api version";
-				}
-
-				if (version) {
-					api_version = version;
-				}
-				else {
-					api_version = "v1";
-				}
-
-				return true;
-			}
-
 			return {
 				getLoginURL: getLoginURL,
 				logout: logout,
 				oauth: oauth,
-				api: api,
-				setVersion: setVersion
+				api: api
 			};
 
 		}

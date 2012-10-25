@@ -20,11 +20,13 @@
 var assert = require("assert"),
 	sinon = require("sinon"),
 	SLC = require("../SLC");
+	config = require('../../sample/config');
 
-var SLC_app = new SLC("https://api.sandbox.slcedu.org",
-	"GLpqLbxCB9",
-	"UZzMDbFN3K6Br03CjS4h6UUJsM5139Hq6I777lpGUlvOwXzV",
-	"http://local.slidev.org:8080/oauth");
+var SLC_app = new SLC(config.api.base_url, 
+                  config.api.client_id, 
+                  config.api.client_secret, 
+                  config.api.oauthUri,
+                  config.api.api_version);
 
 describe('SLC', function(){
 	describe('getLoginURL', function(){
@@ -94,20 +96,6 @@ describe('SLC', function(){
 
 			sinon.assert.calledOnce(SLC_app.api);
 			sinon.assert.calledWithMatch(SLC_app.api, '/students');
-		});
-	});
-
-	describe('setVersion', function(){
-		it('should be a function', function(){
-			assert.ok(SLC_app.setVersion !== undefined);
-			assert.ok(typeof SLC_app.setVersion === "function");
-		});
-
-		it('should accept string parameter', function(){
-			assert.equal(typeof SLC_app.setVersion(), "string");
-			assert.equal(typeof SLC_app.setVersion(232323), "string");
-			assert.equal(typeof SLC_app.setVersion({}), "string");
-			assert.equal(SLC_app.setVersion("v1"), true);
 		});
 	});
 });
