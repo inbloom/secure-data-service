@@ -3319,7 +3319,7 @@
     <!-- DisciplineActionLengthDifferenceReason - simple type -->
     <jb:value property="disciplineActionLengthDifferenceReason" data="DisciplineAction/DisciplineActionLengthDifferenceReason" />
     <!-- StudentReference - array of reference type -->
-    <jb:wiring property="studentReference" beanIdRef="DA_studentReferenceArray" />
+    <jb:wiring beanIdRef="SLC-DisciplineAction_Attributes_SLC-StudentReferenceTypeArray" property="StudentReference"/>
     <jb:wiring property="studentId" beanIdRef="DA_studentIdArray" />
     <!-- DisciplineIncidentReference - array of reference type -->
     <jb:wiring property="disciplineIncidentReference" beanIdRef="DA_disciplineIncidentReferenceArray" />
@@ -3363,21 +3363,16 @@
   </jb:bean>
 
   <!-- DisciplineAction support object: DA_studentReferenceArray  -->
-  <jb:bean beanId="DA_studentReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentDiscipline/DisciplineAction">
-    <jb:wiring beanIdRef="DA_studentReference" />
+  <jb:bean beanId="SLC-DisciplineAction_Attributes_SLC-StudentReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineAction">
+    <jb:wiring beanIdRef="SLC-DisciplineAction_Attributes_SLC-StudentReferenceType"/>
   </jb:bean>
-
-  <jb:bean beanId="DA_studentReference" class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference">
-    <jb:wiring property="studentIdentity" beanIdRef="DA_studentReference_studentIdentity" />
+  <jb:bean beanId="SLC-DisciplineAction_Attributes_SLC-StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference">
+    <jb:wiring beanIdRef="SLC-DisciplineAction_Attributes_SLC-StudentReferenceType_SLC-StudentIdentityType" property="StudentIdentity"/>
   </jb:bean>
-
-  <jb:bean beanId="DA_studentReference_studentIdentity" class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference/StudentIdentity">
-    <jb:value property="studentUniqueStateId" data="DisciplineAction/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  <jb:bean beanId="SLC-DisciplineAction_Attributes_SLC-StudentReferenceType_SLC-StudentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineAction/StudentReference/StudentIdentity">
+    <jb:value data="DisciplineAction/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
   </jb:bean>
-
+  
   <jb:bean beanId="DA_studentIdArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentDiscipline/DisciplineAction">
     <jb:value data="DisciplineAction/StudentReference/StudentIdentity/StudentUniqueStateId" />
