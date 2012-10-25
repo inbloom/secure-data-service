@@ -328,9 +328,23 @@ public class MongoQueryConverter {
                 for (String includeField : neutralQuery.getIncludeFields()) {
                     mongoQuery.fields().include(MONGO_BODY + includeField);
                 }
+
                 mongoQuery.fields().include("type");
                 mongoQuery.fields().include("metaData");
-            } else if (neutralQuery.getExcludeFields() != null) {
+            }
+            else {
+                mongoQuery.fields().include("body");
+                mongoQuery.fields().include("type");
+                mongoQuery.fields().include("metaData");
+            }
+
+            if (neutralQuery.getEmbeddedFields() != null) {
+                for (String includeField : neutralQuery.getEmbeddedFields()) {
+                    mongoQuery.fields().include(includeField);
+                }
+            }
+
+            if (neutralQuery.getExcludeFields() != null) {
                 for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }
