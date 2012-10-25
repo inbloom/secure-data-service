@@ -496,12 +496,16 @@ public class SubDocAccessor {
             DBObject idQuery = null;
             if(parentQuery.containsField("_id")) {
                idQuery = new Query().getQueryObject();
+<<<<<<< HEAD
                 Object idFinalList = parentQuery.get("_id");
                 if(idFinalList instanceof List) {
                     idQuery.put("_id",new BasicDBObject("$in",idFinalList));
                 } else {
                 idQuery.put("_id",parentQuery.get("_id"));
                 }
+=======
+               idQuery.put("_id",parentQuery.get("_id"));
+>>>>>>> 645905c1c45346f73ceeb42875e02f1ecbeaa370
                parentQuery.removeField("_id");
             }
 
