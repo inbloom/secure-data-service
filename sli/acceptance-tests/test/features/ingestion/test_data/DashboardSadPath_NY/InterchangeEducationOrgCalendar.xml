@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
 	<!-- CalendarDates for the 2011-2012 school year -->
 	<CalendarDate id="CLND_20110822Instructionalday">
 		<Date>2011-08-22</Date>
@@ -1227,7 +1227,6 @@
 		<Date>2011-05-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	
 	<CalendarDate id="CLND_20110919Instructionalday">
 		<Date>2011-09-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
@@ -2228,7 +2227,6 @@
 		<Date>2012-05-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	
 	<!-- GradingPeriods for the 2011-2012 school year -->
 	<GradingPeriod id="GRDP_20110822">
 		<GradingPeriodIdentity>
@@ -2289,7 +2287,6 @@
 		<CalendarDateReference ref="CLND_20111008Holiday"/>
 		<CalendarDateReference ref="CLND_20111009Holiday"/>
 	</GradingPeriod>
-
 	<GradingPeriod id="GRDP_20111010">
 		<GradingPeriodIdentity>
 			<StateOrganizationId>10000000121</StateOrganizationId>
@@ -2349,7 +2346,6 @@
 		<CalendarDateReference ref="CLND_20111126Holiday"/>
 		<CalendarDateReference ref="CLND_20111127Holiday"/>
 	</GradingPeriod>
-
 	<GradingPeriod id="GRDP_20111128">
 		<GradingPeriodIdentity>
 			<StateOrganizationId>1000000112</StateOrganizationId>
@@ -2416,7 +2412,6 @@
 		<CalendarDateReference ref="CLND_20120121Holiday"/>
 		<CalendarDateReference ref="CLND_20120122Holiday"/>
 	</GradingPeriod>
-
 	<GradingPeriod id="GRDP_20120123">
 		<GradingPeriodIdentity>
 			<StateOrganizationId>1000000112</StateOrganizationId>
@@ -2469,7 +2464,6 @@
 		<CalendarDateReference ref="CLND_20120303Holiday"/>
 		<CalendarDateReference ref="CLND_20120304Holiday"/>
 	</GradingPeriod>
-
 	<GradingPeriod id="GRDP_20120124">
 		<GradingPeriodIdentity>
 			<StateOrganizationId>1000000111</StateOrganizationId>
@@ -2522,7 +2516,6 @@
 		<CalendarDateReference ref="CLND_20120414Holiday"/>
 		<CalendarDateReference ref="CLND_20120415Holiday"/>
 	</GradingPeriod>
-
 	<GradingPeriod id="GRDP_20120125">
 		<GradingPeriodIdentity>
 			<StateOrganizationId>1000000111</StateOrganizationId>
@@ -2586,9 +2579,39 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000112</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Fourth Six Weeks</GradingPeriod>
+				<BeginDate>2012-01-23</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000111</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Fifth Six Weeks</GradingPeriod>
+				<BeginDate>2012-03-05</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000111</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<BeginDate>2012-04-16</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Session>
 	<Session>
 		<SessionName>Parker-Elem-Spring2012</SessionName>
@@ -2602,8 +2625,38 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000112</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Fourth Six Weeks</GradingPeriod>
+				<BeginDate>2012-01-23</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000111</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Fifth Six Weeks</GradingPeriod>
+				<BeginDate>2012-03-05</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>1000000111</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+				<BeginDate>2012-04-16</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Session>
 </InterchangeEducationOrgCalendar>
