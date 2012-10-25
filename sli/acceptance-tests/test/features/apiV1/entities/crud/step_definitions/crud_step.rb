@@ -311,9 +311,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradeType" => "Final"
   },
   "studentCompetency" => {
-     "competencyLevel" => [{
+     "competencyLevel" => {
        "description" => "really hard competency"
-     }],
+     },
      "objectiveId" => {
        "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
      },

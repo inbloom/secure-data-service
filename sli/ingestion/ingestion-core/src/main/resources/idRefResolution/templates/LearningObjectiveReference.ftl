@@ -1,5 +1,7 @@
 
 <LearningObjectiveIdentity>
+    <#if (LearningObjective.LearningObjectiveId.IdentificationCode[0])??>
+
     <LearningObjectiveId 
     
     <#if (LearningObjective.LearningObjectiveId.@ContentStandardName[0])??>
@@ -12,8 +14,19 @@
     </#if>
     
     </LearningObjectiveId>
-    
+    </#if>
+
     <#if (LearningObjective.Objective[0])??>
     <Objective>${LearningObjective.Objective}</Objective>
+    </#if>
+    <#if (LearningObjective.AcademicSubject[0])??>
+    <AcademicSubject>
+        ${LearningObjective.AcademicSubject}
+    </AcademicSubject>
+    </#if>
+    <#if (LearningObjective.ObjectiveGradeLevel[0])??>
+    <ObjectiveGradeLevel>
+        ${LearningObjective.ObjectiveGradeLevel}
+    </ObjectiveGradeLevel>
     </#if>
 </LearningObjectiveIdentity>

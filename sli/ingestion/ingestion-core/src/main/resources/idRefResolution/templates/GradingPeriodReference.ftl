@@ -13,5 +13,9 @@
             <StateOrganizationId>${GradingPeriod.GradingPeriodIdentity.StateOrganizationId}</StateOrganizationId>
         </#if>
 
+        <#if (GradingPeriod.GradingPeriodIdentity.BeginDate[0])??>
+            <BeginDate>${GradingPeriod.GradingPeriodIdentity.BeginDate}</BeginDate>
+        </#if>
+
     </GradingPeriodIdentity>
 </GradingPeriodReference>

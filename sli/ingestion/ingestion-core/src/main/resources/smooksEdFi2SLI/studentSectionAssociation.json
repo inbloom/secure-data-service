@@ -2,8 +2,8 @@
     "keyFields" : ["body.sectionId", "body.studentId"],
     "references" :
     [{
-        "fieldPath" : "body.sectionId",
-        "deprecated" : false,
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "section",
