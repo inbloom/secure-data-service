@@ -781,7 +781,7 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+Given /^the following collections are completely empty in batch job datastore$/ do |table|
   disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
