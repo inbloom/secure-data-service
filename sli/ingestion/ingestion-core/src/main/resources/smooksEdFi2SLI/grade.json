@@ -63,7 +63,7 @@
             "ref" :
             {
                 "entityType" : "gradingPeriod",
-                "refObjectPath" : "body.gradingPeriodReference",
+                "refObjectPath" : "body.GradingPeriodReference",
                 "choiceOfFields" :
                 [
                     [
