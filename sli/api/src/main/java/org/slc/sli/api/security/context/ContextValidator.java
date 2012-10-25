@@ -73,7 +73,7 @@ public class ContextValidator implements ApplicationContextAware {
         
         //move generic validator to end
         validators.remove(genVal);
-        validators.add(genVal); //temporarily disable
+        //validators.add(genVal); //temporarily disable
         
         //temporarily disable teacher-student validator
         validators.remove(studentVal);

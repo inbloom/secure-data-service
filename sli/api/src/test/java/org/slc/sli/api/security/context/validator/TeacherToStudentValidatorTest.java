@@ -218,13 +218,13 @@ public class TeacherToStudentValidatorTest {
             generateStudentCohort(i + "", cohortId, false);
             studentIds.add(i + "");
         }
-        assertTrue(validator.validate(studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -236,7 +236,7 @@ public class TeacherToStudentValidatorTest {
             generateStudentCohort(i + "", cohortId, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -248,7 +248,7 @@ public class TeacherToStudentValidatorTest {
             generateStudentCohort(i + "", "" + i * -1, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -260,12 +260,12 @@ public class TeacherToStudentValidatorTest {
             generateStudentCohort(i + "", cohortId, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
     public void testCohortAccessIntersectionRules() throws Exception {
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -278,13 +278,13 @@ public class TeacherToStudentValidatorTest {
             generateStudentProgram(i + "", programId, false);
             studentIds.add(i + "");
         }
-        assertTrue(validator.validate(studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() throws Exception {
         
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -297,7 +297,7 @@ public class TeacherToStudentValidatorTest {
             generateStudentProgram(i + "", programId, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
@@ -310,7 +310,7 @@ public class TeacherToStudentValidatorTest {
             generateStudentProgram(i + "", "" + i * -1, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
 
@@ -324,12 +324,12 @@ public class TeacherToStudentValidatorTest {
             generateStudentProgram(i + "", programId, false);
             studentIds.add(i + "");
         }
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
     
     @Test
     public void testProgramAccessIntersectionRules() throws Exception {
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     private void generateSSA(String studentId, String sectionId, boolean isExpired) {
