@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -220,74 +219,36 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         LOG.debug("  Found {} associated sessions.", sessions.size());
         LOG.debug("  Found {} attendance events.", attendance.size());
 
-        try {
-            // create a placeholder for the student-school pair and write to staging mongo db
-            NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
-            placeholder.setCreationTime(getWorkNote().getRangeMinimum());
-            insertRecord(placeholder);
-        } catch (DuplicateKeyException dke) {
-            LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG2"));
-        }
-
+        //2010-2012 -> [{}, {}, {}]
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions, studentId, schoolId);
-
-        if (schoolYears.entrySet().size() > 0) {
-            for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
-                String schoolYear = attendanceEntry.getKey();
-                List<Map<String, Object>> events = attendanceEntry.getValue();
-
-                NeutralQuery query = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-                query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
-                query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
-
-                Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
-                attendanceEventsToPush.put("body.attendanceEvent", events.toArray());
-                Map<String, Object> update = new HashMap<String, Object>();
-                update.put("pushAll", attendanceEventsToPush);
-                getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
-                        ATTENDANCE_TRANSFORMED, getBatchJobId());
-
-                LOG.debug("Added {} school year attendance events: {}", events.size(), schoolYear);
-            }
-        } else {
+        
+        if (schoolYears.size() == 0) {
             LOG.warn(MessageSourceHelper.getMessage(messageSource, "ATTENDANCE_TRANSFORMER_WRNG_MSG3", studentId, schoolId));
         }
-    }
 
-    /**
-     * Creates a Neutral Record of type 'attendance'.
-     *
-     * @return newly created 'attendance' Neutral Record.
-     */
-    private NeutralRecord createAttendanceRecordPlaceholder(String studentId, String schoolId,
-            Map<Object, NeutralRecord> sessions) {
-        NeutralRecord record = new NeutralRecord();
-        record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
-        record.setRecordType(ATTENDANCE_TRANSFORMED);
-        record.setBatchJobId(getBatchJobId());
-
-        Map<String, List<Map<String, Object>>> placeholders = createAttendancePlaceholdersFromSessions(sessions);
-
-        Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-        attendanceAttributes.put("studentId", studentId);
-        attendanceAttributes.put("schoolId", schoolId);
-
-        List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
-        for (Map.Entry<String, List<Map<String, Object>>> year : placeholders.entrySet()) {
-            String schoolYear = year.getKey();
-            List<Map<String, Object>> events = year.getValue();
-            // Map<String, Object> schoolYearAttendanceEvents = new HashMap<String, Object>();
+        for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
+            String schoolYear = attendanceEntry.getKey();
+            List<Map<String, Object>> events = attendanceEntry.getValue();
+            
+            Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+            attendanceAttributes.put("studentId", studentId);
+            attendanceAttributes.put("schoolId", schoolId);
             attendanceAttributes.put("schoolYear", schoolYear);
             attendanceAttributes.put("attendanceEvent", events);
+            
+            NeutralRecord neutralRecord = new NeutralRecord();
+            neutralRecord.setAttributes(attendanceAttributes);
+            neutralRecord.setBatchJobId(getBatchJobId());
+            neutralRecord.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
+            neutralRecord.setRecordType(ATTENDANCE_TRANSFORMED);
+            neutralRecord.setSourceFile(attendances.values().iterator().next().getSourceFile());
+            neutralRecord.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
+            
+            super.insertRecord(neutralRecord);
+
+            LOG.debug("Added {} school year attendance events: {}", events.size(), schoolYear);
         }
-
-        record.setAttributes(attendanceAttributes);
-        record.setSourceFile(attendances.values().iterator().next().getSourceFile());
-        record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-
-        return record;
+        
     }
 
     /**
@@ -448,27 +409,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         }
 
         return parentEducationAgency;
-    }
-
-    /**
-     * Creates placeholders for attendance events based on provided sessions.
-     *
-     * @param sessions
-     *            Sessions enumerating school years to key off of for attendance events.
-     * @return Map containing { schoolYear --> empty list }
-     */
-    private Map<String, List<Map<String, Object>>> createAttendancePlaceholdersFromSessions(
-            Map<Object, NeutralRecord> sessions) {
-        Map<String, List<Map<String, Object>>> placeholders = new HashMap<String, List<Map<String, Object>>>();
-        for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
-            NeutralRecord sessionRecord = session.getValue();
-            Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) sessionAttributes.get("schoolYear");
-            if (schoolYear != null) {
-                placeholders.put(schoolYear, new ArrayList<Map<String, Object>>());
-            }
-        }
-        return placeholders;
     }
 
     /**
