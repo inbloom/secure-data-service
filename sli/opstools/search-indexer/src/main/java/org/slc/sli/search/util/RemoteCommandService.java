@@ -22,6 +22,10 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -109,52 +113,25 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
             socket = this.serverSocket.accept();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            RemoteCommand command = null;
-            // read Input String
             String inputCommand = in.readLine();
+            RemoteCommand command = null;
             if (inputCommand != null) {
-                String[] commandLine = inputCommand.split("\\s+");
-
-                if (commandLine == null || commandLine.length == 0) {
-                    command = new RemoteCommand(Commands.HELP);
-                } else {
-                    for (int index = 0; index < commandLine.length; index++) {
-                        // this is the first read token.
-                        // it means command
-                        if (index == 0) {
-                            if (commandLine[0].toLowerCase().equals("extract")) {
-                                command = new RemoteCommand(Commands.EXTRACT);
-                            } else if (commandLine[0].toLowerCase().equals("stop")) {
-                                command = new RemoteCommand(Commands.STOP);
-                            } else if (commandLine[0].toLowerCase().equals("reconcile")) {
-                                command = new RemoteCommand(Commands.RECONCILE);                   
-                            } else if (commandLine[0].toLowerCase().equals("reload")) {
-                                command = new RemoteCommand(Commands.RELOAD);                   
-                            } else {
-                                command = new RemoteCommand(Commands.HELP);
-                            }
-                        } else {
-                            // token is an option for a command
-                            command.setOption(commandLine[index]);
-                        }
-                    }
-                }
+                command = new RemoteCommand(inputCommand);
             }
 
             // if command is null, it is invalid socket request. just ignore it
             if (command != null) {
-                String option = null;
+                List<String> options = null;
                 // execute command
                 switch (command.getCommands()) {
                     case RELOAD:
                     case EXTRACT:
-                        logger.info("Remote Service received Extract command");
-                        option = command.getOption();
-                        if ("sync".equals(option)) {
+                        logger.info("Remote Service received RELOAD/EXTRACT command");
+                        options = command.getOptions();
+                        if (options.contains("sync")) {
                             this.admin.reloadAll();
-                        } else if (option != null) {
-                            this.admin.reconcile(option);
+                        } else if (!options.isEmpty()) {
+                            this.admin.reconcile(options.get(0));
                         } else {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
@@ -166,12 +143,12 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                         command.setReply("sent extract command");
                         break;
                     case RECONCILE:
-                        logger.info("Remote Service received Extract command");
-                        option = command.getOption();
-                        if ("sync".equals(option)) {
+                        logger.info("Remote Service received RECONCILE command");
+                        options = command.getOptions();
+                        if (options.contains("sync")) {
                             this.admin.reconcileAll();
-                        } else if (option != null) {
-                            this.admin.reconcile(option);
+                        } else if (!options.isEmpty()) {
+                            this.admin.reconcile(options.get(0));
                         } else {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
@@ -186,9 +163,9 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
 
                         int delay = 5;
                         try {
-                            option = command.getOption();
-                            if (option != null && !option.isEmpty()) {
-                                delay = Integer.parseInt(option);
+                            options = command.getOptions();
+                            if (!options.isEmpty()) {
+                                delay = Integer.parseInt(options.get(0));
                             }
                         } finally {
                             logger.info("Remote Service received Stop command, shutting down in " + delay
@@ -248,12 +225,28 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     private class RemoteCommand {
-        private final Commands command;
+        private Command command;
         private String reply;
-        private String option;
+        private List<String> options;
 
-        public RemoteCommand(Commands command) {
-            this.command = command;
+        public RemoteCommand(String line) {
+            String[] commandLine = line.split("\\s+");
+            if (commandLine == null || commandLine.length == 0) {
+                this.command = Command.HELP;
+            } else {
+                this.command = Command.valueOf(commandLine[0].toUpperCase());
+            }
+
+            if (commandLine == null) {
+                options = Collections.emptyList();
+            } else {
+                // Removes the element at the specified position in this list (optional operation)
+                // This prevents throwing exception when List is created from array.
+                options = new ArrayList<String>(Arrays.asList(commandLine));
+                if (!options.isEmpty())
+                    options.remove(0);
+            }
+
         }
 
         public String getReply() {
@@ -264,20 +257,16 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
             this.reply = reply;
         }
 
-        public void setOption(String option) {
-            this.option = option;
+        public List<String> getOptions() {
+            return this.options;
         }
 
-        public String getOption() {
-            return this.option;
-        }
-
-        public Commands getCommands() {
+        public Command getCommands() {
             return this.command;
         }
     }
 
-    private enum Commands {
+    private enum Command {
         RELOAD, EXTRACT, RECONCILE, STOP, HELP, HEALTH;
     }
 
