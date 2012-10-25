@@ -16,6 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -23,12 +30,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.*;
-
-@Component
 public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
