@@ -195,7 +195,8 @@ public class IndexerImpl implements Indexer {
                     }
                 } else { // if doesn't exist, add
                     ie = indexUpdateMap.remove(entity.get("_id"));
-                    reindex.add(ie);
+                    if (ie != null)
+                        reindex.add(ie);
                 }
             }
             executeBulkIndex(reindex);

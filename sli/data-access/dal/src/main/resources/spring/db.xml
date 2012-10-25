@@ -124,7 +124,6 @@
     <property name="searchUrl" value="${sli.search.url}" />
     <property name="searchUsername" value="${sli.search.username}" />
     <property name="searchPassword" value="${sli.search.password}" />
-    <property name="embeddedEnabled" value="${sli.search.embedded:true}" />
   </bean>
 
   <util:set id="tenantAgnosticCollections" value-type="java.lang.String">
