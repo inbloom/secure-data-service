@@ -42,7 +42,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -352,8 +351,7 @@ public class IdNormalizer {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
 
                 for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                    Criteria choice = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                            tenantId);
+                    Criteria choice = new Criteria();
                     List<Criteria> andList = new ArrayList<Criteria>();
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
@@ -542,8 +540,6 @@ public class IdNormalizer {
                 String valueSourcePath = valueSource + ".[" + Integer.toString(refIndex) + "]";
 
                 // Create the fieldValueCriteria for matching this complex object
-                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                        tenantId);
                 Criteria fieldValueCriteria = null;
                 for (String fieldName : complexFieldNames) {
                     Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
@@ -555,11 +551,11 @@ public class IdNormalizer {
                     } else {
                         fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
                     }
-                    criteria = criteria.and(path + "." + fieldName).is(fieldValue);
                 }
                 if (fieldValueCriteria == null) {
                     continue;
                 }
+                Criteria criteria = new Criteria();
                 criteria = criteria.and(path).elemMatch(fieldValueCriteria);
                 // add the subquery to overall query
                 queryOrList.add(criteria);
