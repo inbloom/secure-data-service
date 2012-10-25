@@ -11,5 +11,5 @@
     "3333333333333333333D00AA001A1652" : [ { "field" : "staffUniqueStateId", "value" : "C2345681", "type" : "staff" } ],
     "20120822098345701280398059809328" : [ { "field" : "staffUniqueStateId", "value" : "C1234567", "type" : "teacher" } ]
   },
-  "metaData" : {"tenantId" : "Midgar", "clientId" : "bZEkFldWJT", "entityId" : "2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f"}
+  "metaData" : {"clientId" : "bZEkFldWJT", "entityId" : "2012at-6dc60eb7-dcc5-11e1-95f6-0021701f543f"}
 }
