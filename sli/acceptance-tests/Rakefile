@@ -137,7 +137,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   else
     db_used = DB_NAME
   end
-  
+
   if TODROP
     dropOption = (dropExistingCollection) ? "--drop":""
   else
@@ -251,7 +251,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
     db_used = DB_NAME
   end
-  
+
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(db_used)
@@ -271,7 +271,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   else
     db_used = DB_NAME
   end
-  
+
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
@@ -719,8 +719,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest, :ingestionSuperDocTests, :ingestionDbSpinupTest] do
 
   displayFailureReport()
   if $SUCCESS
@@ -990,7 +989,7 @@ task :importSecuredData do
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
- 
+
   testHash = Hash[
     "educationOrganization" => "secured/Other/educationOrganization.json",
     "student" => "secured/Other/student.json",
