@@ -26,8 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slc.sli.search.entity.IndexEntity.Action;
-import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.process.Admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -49,7 +48,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     private ClassPathXmlApplicationContext context;
 
     // Extractor object to run as batch program
-    private Extractor extractor;
+    private Admin admin;
 
     // thread executor
     private static final ScheduledExecutorService scheduledService = Executors.newSingleThreadScheduledExecutor();
@@ -118,22 +117,26 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 String[] commandLine = inputCommand.split("\\s+");
 
                 if (commandLine == null || commandLine.length == 0) {
-                    command = new RemoteCommand(Commands.Help);
+                    command = new RemoteCommand(Commands.HELP);
                 } else {
                     for (int index = 0; index < commandLine.length; index++) {
                         // this is the first read token.
                         // it means command
                         if (index == 0) {
                             if (commandLine[0].toLowerCase().equals("extract")) {
-                                command = new RemoteCommand(Commands.Extract);
+                                command = new RemoteCommand(Commands.EXTRACT);
                             } else if (commandLine[0].toLowerCase().equals("stop")) {
-                                command = new RemoteCommand(Commands.Stop);
+                                command = new RemoteCommand(Commands.STOP);
+                            } else if (commandLine[0].toLowerCase().equals("reconcile")) {
+                                command = new RemoteCommand(Commands.RECONCILE);                   
+                            } else if (commandLine[0].toLowerCase().equals("reload")) {
+                                command = new RemoteCommand(Commands.RELOAD);                   
                             } else {
-                                command = new RemoteCommand(Commands.Help);
+                                command = new RemoteCommand(Commands.HELP);
                             }
                         } else {
                             // token is an option for a command
-                            command.setOption(commandLine[index].toLowerCase());
+                            command.setOption(commandLine[index]);
                         }
                     }
                 }
@@ -144,23 +147,42 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 String option = null;
                 // execute command
                 switch (command.getCommands()) {
-                    case Extract:
+                    case RELOAD:
+                    case EXTRACT:
                         logger.info("Remote Service received Extract command");
                         option = command.getOption();
                         if ("sync".equals(option)) {
-                            this.extractor.execute(Action.INDEX);
-                        } else if ("update".equals(option)) {
-                            this.extractor.execute(Action.UPDATE);
+                            this.admin.reloadAll();
+                        } else if (option != null) {
+                            this.admin.reconcile(option);
                         } else {
+                            final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
                                 public void run() {
-                                    extractor.execute(Action.INDEX);
+                                    admin.reloadAll();
                                 }
                             }, 0, TimeUnit.SECONDS);
                         }
                         command.setReply("sent extract command");
                         break;
-                    case Stop:
+                    case RECONCILE:
+                        logger.info("Remote Service received Extract command");
+                        option = command.getOption();
+                        if ("sync".equals(option)) {
+                            this.admin.reconcileAll();
+                        } else if (option != null) {
+                            this.admin.reconcile(option);
+                        } else {
+                            final Admin admin = this.admin;
+                            scheduledService.schedule(new Runnable() {
+                                public void run() {
+                                    admin.reconcileAll();
+                                }
+                            }, 0, TimeUnit.SECONDS);
+                        }
+                        command.setReply("sent extract command");
+                        break;
+                    case STOP:
 
                         int delay = 5;
                         try {
@@ -221,12 +243,12 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         this.port = port;
     }
 
-    public void setExtractor(Extractor extractor) {
-        this.extractor = extractor;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     private class RemoteCommand {
-        private Commands command;
+        private final Commands command;
         private String reply;
         private String option;
 
@@ -256,7 +278,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     }
 
     private enum Commands {
-        Extract, Stop, Help;
+        RELOAD, EXTRACT, RECONCILE, STOP, HELP, HEALTH;
     }
 
 }

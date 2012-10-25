@@ -53,7 +53,6 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.dal.repository.ElasticSearchRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 
@@ -297,7 +296,7 @@ public class SearchResourceService {
 
     @Component
     static final class Embedded {
-        final Logger logger = LoggerFactory.getLogger(ElasticSearchRepository.class);
+        final Logger logger = LoggerFactory.getLogger(Embedded.class);
 
         private static final String EMBEDDED_DATA = "data";
         private Node node;

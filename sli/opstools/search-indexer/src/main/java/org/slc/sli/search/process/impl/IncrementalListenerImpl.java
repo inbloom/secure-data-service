@@ -32,7 +32,7 @@ import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.search.entity.IndexEntity;
-import org.slc.sli.search.process.IncrementalListener;
+import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.NestedMapUtil;
@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * @author dwu
  * 
  */
-public class IncrementalListenerImpl implements IncrementalListener {
+public class IncrementalListenerImpl implements IncrementalLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -295,6 +295,10 @@ public class IncrementalListenerImpl implements IncrementalListener {
         public String getType() {
             return type;
         }
+    }
+
+    public String getHealth() {
+        return getClass() + "{}";
     }
 
 }

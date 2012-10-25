@@ -21,13 +21,22 @@ import org.slc.sli.search.entity.IndexEntity.Action;
 
 /**
  * Loads records from a file for indexing
- * @author agrebneva
  *
  */
-public interface Loader {
+public interface Loader extends Process {
     
+    /**
+     * Process a given extract and trigger indexing. The filename must contain index name.
+     * @param inFile - {index}.{collection}.{ord}.json
+     */
     public abstract void processFile(File inFile);
     
+    /**
+     * Process a given extract and trigger indexing 
+     * @param index - index name
+     * @param action - action to execute for the extract. Defaults to index
+     * @param inFile - file to process. No naming convention for this method needed.
+     */
     public abstract void processFile(String index, Action action, File inFile);
     
 }
