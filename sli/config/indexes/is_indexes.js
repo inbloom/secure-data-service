@@ -82,7 +82,7 @@ db["assessmentItem"].ensureIndex({"batchJobId":1,"_id":1});
 db["assessmentPeriodDescriptor"].ensureIndex({"batchJobId":1,"_id":1});
 db["assessment_transformed"].ensureIndex({"batchJobId":1,"_id":1});
 db["attendance"].ensureIndex({"batchJobId":1,"_id":1});
-db["attendance_transformed"].ensureIndex({"batchJobId" : 1, "body.studentId" : 1, "body.schoolId" : 1}, {unique : true});
+db["attendance_transformed"].ensureIndex({"batchJobId" : 1, "body.studentId" : 1, "body.schoolId" : 1, "body.schoolYear" : 1}, {unique : true});
 db["calendarDate"].ensureIndex({"batchJobId":1,"_id":1});
 db["cohort"].ensureIndex({"batchJobId":1,"_id":1});
 db["competencyLevelDescriptor"].ensureIndex({"batchJobId":1,"_id":1});

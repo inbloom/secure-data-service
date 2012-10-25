@@ -75,6 +75,7 @@ db["section"].ensureIndex({"gradebookEntry._id":1});
 //direct references - index on each direct reference
 db["attendance"].ensureIndex({"body.schoolId":1});
 db["attendance"].ensureIndex({"body.studentId":1});
+db["attendance"].ensureIndex({"body.schoolYear":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1});
 db["cohort"].ensureIndex({"body.programId":1});
 db["course"].ensureIndex({"body.schoolId":1});
