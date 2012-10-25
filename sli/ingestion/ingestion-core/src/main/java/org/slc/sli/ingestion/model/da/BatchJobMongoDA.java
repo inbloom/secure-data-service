@@ -41,8 +41,8 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
@@ -65,8 +65,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
-    private static final String BATCHJOB_NEW_BATCH_JOB_COLLECTION = "newBatchJob";
-    private static final String TENANT_READY_FIELD = "body.tenantIsReady";
 
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
@@ -659,49 +657,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         Query searchTenantId = new Query();
         searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
         batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
-    }
-
-    @Override
-    public boolean tenantDbIsReady(String tenantId) {
-        boolean isPartitioned = false;
-
-        // checking for indexes ensures that the scripts were capable of running
-        TenantContext.setTenantId(tenantId);
-        boolean isIndexed = sliMongo.count(new Query(), "system.indexes") > 20;
-
-        if (isIndexed != false) {
-
-            // checking for flag that will only be set after scripts run
-            Query query = new Query();
-            query.addCriteria(Criteria.where("body.tenantId").is(tenantId));
-            query.addCriteria(Criteria.where(TENANT_READY_FIELD).is(true));
-
-            try {
-                TenantContext.setIsSystemCall(true);
-                isPartitioned = sliMongo.count(query, "tenant") > 0;
-            } finally {
-                TenantContext.setIsSystemCall(false);
-            }
-        }
-
-        return isPartitioned;
-    }
-
-    @Override
-    public void setTenantReadyFlag(String tenantId) {
-
-        final BasicDBObject query = new BasicDBObject();
-        query.put("body.tenantId", tenantId);
-
-        final BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(TENANT_READY_FIELD, true));
-
-        try {
-            TenantContext.setIsSystemCall(true);
-            // (query, fields, sort, remove, update, returnNew, upsert)
-            sliMongo.getCollection("tenant").findAndModify(query, null, null, false, update, true, true);
-        } finally {
-            TenantContext.setIsSystemCall(false);
-        }
     }
 
 }

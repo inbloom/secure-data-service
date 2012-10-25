@@ -124,7 +124,4 @@ public interface BatchJobDAO {
 
     public RecordHash findRecordHash(String tenantId, String recordId);
 
-    boolean tenantDbIsReady(String tenantId);
-
-    void setTenantReadyFlag(String tenantId);
 }
