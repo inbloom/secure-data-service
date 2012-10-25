@@ -207,7 +207,7 @@ Met standard
           <xs:element name="SessionCreditsAttempted" type="Credits" minOccurs="0" />
           <xs:element name="SessionGradePointsEarned" type="xs:decimal" minOccurs="0" />
           <xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0" />
-          <xs:element name="StudentReference" type="StudentReferenceType" />
+          <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" />
           <xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0" />
