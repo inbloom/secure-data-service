@@ -1,8 +1,21 @@
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -11,6 +24,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
+
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
 
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -88,5 +104,36 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected String getDateTimeString(DateTime convert) {
         return convert.toString(fmt);
+    }
+    protected boolean isStaff() {
+        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+    }
+    
+    protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
+        DateTime expirationDate = DateTime.now();
+        int numDays = Integer.parseInt(gracePeriod);
+        expirationDate = expirationDate.minusDays(numDays);
+        if (body.containsKey(fieldName)) {
+            String dateStringToCheck = (String) body.get(fieldName);
+            DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
+            
+            return dateToCheck.isBefore(expirationDate);
+        }
+        return false;
+    }
+
+    protected Set<String> getChildEdOrgs(Set<String> edorg) {
+        if (edorg.size() == 0) {
+            return edorg;
+        }
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(edorg)));
+        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for(Entity child : childrenIds) {
+            children.add(child.getEntityId());
+        }
+        edorg.addAll(getChildEdOrgs(children));
+        return edorg;
     }
 }
