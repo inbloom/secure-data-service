@@ -270,7 +270,6 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCanGetAccessThroughValidProgram() throws Exception {
-        String programId = generateProgram().getEntityId();
         String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         generateTeacherSchool(TEACHER_ID, edOrgId);
         
@@ -290,7 +289,6 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCanNotGetAccessThroughDeniedProgram() throws Exception {
-        String programId = generateProgram().getEntityId();
         String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         generateTeacherSchool(TEACHER_ID, edOrgId);
         
@@ -304,7 +302,6 @@ public class TeacherToStudentValidatorTest {
     
     @Test
     public void testCanNotGetAccessThroughInvalidProgram() throws Exception {
-        String programId = generateProgram().getEntityId();
         String edOrgId = generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         generateTeacherSchool(TEACHER_ID, edOrgId);
         
@@ -320,7 +317,6 @@ public class TeacherToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughProgramOutsideOfEdorg() throws Exception {
         generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
-        String programId = generateProgram().getEntityId();
         generateEdorgWithProgram(Arrays.asList(programId));
         
         generateStaffProgram(TEACHER_ID, programId, false, true);
@@ -366,7 +362,7 @@ public class TeacherToStudentValidatorTest {
 
     private Entity generateCohort(String edOrgId) {
         Map<String, Object> cohortBody = new HashMap<String, Object>();
-        cohortBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edOrgId);
+        cohortBody.put("educationOrgId", edOrgId);
 
         return mockRepo.create(EntityNames.COHORT, cohortBody);
     }
