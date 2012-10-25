@@ -201,7 +201,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + dbName + "\";");
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
