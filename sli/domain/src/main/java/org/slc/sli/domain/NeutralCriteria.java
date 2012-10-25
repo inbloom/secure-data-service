@@ -109,7 +109,7 @@ public class NeutralCriteria {
 
     @Override
     public String toString() {
-        return this.key + " " + this.operator + " " + this.value.toString()
+        return this.key + " " + this.operator + " " + this.value
                 + "(can" + (this.canBePrefixed ? " " : " not ") + "be prefixed)";
     }
 

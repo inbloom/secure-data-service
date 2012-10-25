@@ -16,12 +16,12 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface IContextValidator {
 
-    public abstract boolean canValidate(String entityType);
+    public abstract boolean canValidate(String entityType, boolean through);
     
-    public abstract boolean validate(Set<String> ids);
+    public abstract boolean validate(Collection<String> ids);
     
 }
