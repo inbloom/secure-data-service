@@ -130,6 +130,8 @@ def isSystemCollection(collectionName)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
+  disable_NOTABLESCAN()
+
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else

@@ -95,6 +95,8 @@ public class SubDocAccessorTest {
         when(failCR.get("result")).thenReturn(null);
         when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false))).thenReturn(
                 success);
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
+                success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
         Map<String, Object> studentSectionAssociations = new HashMap<String, Object>();
