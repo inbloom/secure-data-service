@@ -1,0 +1,14 @@
+{
+  "name": "SLC",
+  "version": "0.0.1",
+  "description": "SLC JavaScript SDK",
+  "main": "SLC.js",
+  "dependencies": {
+    "util": "~0.4.9",
+    "request": "~2.11.4"
+  },
+  "devDependencies": {
+    "mocha": "~1.6.0",
+    "sinon": "~1.5.0"
+  }
+}
