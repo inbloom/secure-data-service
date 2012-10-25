@@ -11,11 +11,39 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 When zip file is scp to ingestion landing zone
   	And a batch job log has been created
 Then I should see following map of indexes in the corresponding collections:
-     | collectionName                             | index                                                                |
-     | section                                    | body.schoolId_1                                                      |
-     | student                                    | body.studentUniqueStateId_1                                          |
-     | teacherSchoolAssociation                   | body.schoolId_1                                                      |
+     | collectionName                             | index                       |
+     | section                                    | body.schoolId_1             |
+     | student                                    | body.studentUniqueStateId_1 |
+     | teacherSchoolAssociation                   | body.schoolId_1             |
     And the database is sharded for the following collections
-     | collectionName	|
-     | student 			|
-     | assessment		|
+     | collectionName	                      |
+     | attendance                             |
+     | cohort                                 |
+     | courseSectionAssociation               |
+     | disciplineAction                       |
+     | disciplineIncident                     |
+     | educationOrganizationAssociation       |
+     | educationOrganizationSchoolAssociation |
+     | grade                                  |
+     | gradebookEntry                         |
+     | graduationPlan                         |
+     | parent                                 |
+     | reportCard                             |
+     | section                                |
+     | staff                                  |
+     | staffCohortAssociation                 |
+     | staffEducationOrganizationAssociation  |
+     | staffProgramAssociation                |
+     | student                                |
+     | studentAcademicRecord                  |
+     | studentCohortAssociation               |
+     | studentCompetency                      |
+     | studentCompetencyObjective             |
+     | studentDisciplineIncidentAssociation   |
+     | studentGradebookEntry                  |
+     | studentParentAssociation               |
+     | studentProgramAssociation              |
+     | studentSchoolAssociation               |
+     | courseTranscript                       |
+     | teacherSchoolAssociation               |
+     | teacherSectionAssociation              |
