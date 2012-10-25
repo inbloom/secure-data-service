@@ -140,7 +140,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
         assertTrue(validator.validate(attendances, EntityNames.ATTENDANCE));
     }
 
@@ -155,7 +155,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(false);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
         assertFalse(validator.validate(attendances, EntityNames.ATTENDANCE));
     }
 
@@ -169,7 +169,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(associations, EntityNames.STUDENT_SCHOOL_ASSOCIATION));
     }
@@ -184,7 +184,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(associations, EntityNames.STUDENT_SCHOOL_ASSOCIATION));
     }
@@ -210,7 +210,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(associations, EntityNames.STUDENT_SECTION_ASSOCIATION));
     }
@@ -225,7 +225,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(associations, EntityNames.STUDENT_SECTION_ASSOCIATION));
     }
