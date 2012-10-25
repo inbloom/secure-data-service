@@ -224,6 +224,8 @@ public class SubDocAccessor {
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
             boolean result = true;
             TenantContext.setIsSystemCall(false);
+
+            // TODO: this is added to get ATs to pass. Please remove this for-block when meta data is no longer needed.
             for(Entity subEntity : subEntities) {
                 Object tenantId = subEntity.getMetaData().get("tenantId");
                 if(tenantId != null) {
