@@ -41,4 +41,18 @@ public interface TenantDA {
      */
     Map<String, List<String>> getPreloadFiles(String ingestionServer);
 
+    /**
+     * Checks if the database for the given tenantId is ready for data.
+     *
+     * @param tenantId
+     * @return <code>true</code> if tenant is marked as ready for data.
+     */
+    boolean tenantDbIsReady(String tenantId);
+
+    /**
+     * Flag that the database for the given tenantId is ready for data.
+     *
+     * @param tenantId
+     */
+    void setTenantReadyFlag(String tenantId);
 }
