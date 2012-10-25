@@ -35,7 +35,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -122,8 +121,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
-
-                entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
 
                 if (item.getMetaData().get("edOrgs") != null) {
                     entity.getMetaData().put("edOrgs", item.getMetaData().get("edOrgs"));
@@ -532,9 +529,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
             } else {
                 query = new Query();
-                String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-                query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                        tenantId));
                 String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
                 query.addCriteria(Criteria.where(ID).is(entityId));
             }
@@ -548,9 +542,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             ErrorReport errorReport) {
         Query query = new Query();
-
-        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-        query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
 
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {

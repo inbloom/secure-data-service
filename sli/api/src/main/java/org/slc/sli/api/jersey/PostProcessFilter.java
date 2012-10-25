@@ -19,24 +19,25 @@ package org.slc.sli.api.jersey;
 
 import java.util.HashMap;
 
+import com.sun.jersey.api.uri.UriTemplate;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerResponseFilter;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
-import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
-import org.slc.sli.dal.MongoStat;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.sun.jersey.api.uri.UriTemplate;
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.MongoStat;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 
 /**
@@ -83,7 +84,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         }
         TenantContext.setTenantId(null);
         printElapsed(request);
-        expireCache();        
+        expireCache();
 
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
         response.getHttpHeaders().add("X-ExecutedPath", request.getPath());
@@ -92,7 +93,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
 //        body.put("requestedPath", request.getProperties().get("requestedPath"));
 //        body.put("executedPath", request.getPath());
 
-        
+
         return response;
     }
 

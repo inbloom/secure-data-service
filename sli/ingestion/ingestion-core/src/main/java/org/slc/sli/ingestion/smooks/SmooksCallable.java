@@ -35,9 +35,9 @@ import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.xml.sax.SAXException;
 
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;

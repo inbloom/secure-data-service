@@ -31,6 +31,7 @@ import org.milyn.SmooksException;
 import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
