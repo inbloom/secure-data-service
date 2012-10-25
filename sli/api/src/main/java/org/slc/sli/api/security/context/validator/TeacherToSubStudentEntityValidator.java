@@ -102,7 +102,7 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
             return false;
         }
 
-        return teacherToStudentValidator.validate(students);
+        return teacherToStudentValidator.validate(EntityNames.STUDENT, students);
     }
 
     /**
