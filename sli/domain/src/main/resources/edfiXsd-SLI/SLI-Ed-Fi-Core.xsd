@@ -510,6 +510,44 @@ Other</xs:documentation>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+
+    <xs:complexType name="SLC-StudentAssessment">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:recordType>studentAssessmentAssociation</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="AdministrationDate" type="xs:date" />
+                    <xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0" />
+                    <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0" />
+                    <xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0" />
+                    <xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0" />
+                    <xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="RetestIndicator" type="RetestIndicatorType" minOccurs="0" />
+                    <xs:element name="ReasonNotTested" type="ReasonNotTestedType" minOccurs="0" />
+                    <xs:element name="ScoreResults" type="ScoreResult" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0" />
+                    <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="StudentReference" type="SLC-StudentReferenceType">
+                        <xs:annotation>
+                            <xs:documentation />
+                            <xs:appinfo>
+                                <sli:keyFieldName>studentId</sli:keyFieldName>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="AssessmentReference" type="AssessmentReferenceType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
   
   <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
        to GraduationPlanReference type -->

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -24,6 +23,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-
 /**
  * Transformer for StudentAssessmentAssociation entities.
- *
+ * 
  * @author nbrown
  * @author shalka
  */
@@ -126,13 +125,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             Integer version = null;
 
             try {
-                studentId = (String) attributes.get ("studentId");
+                studentId = (String) PropertyUtils.getNestedProperty(attributes,
+                        "StudentReference.StudentIdentity.StudentUniqueStateId");
             } catch (Exception e) {
                 LOG.debug("Unable to get StudentID for StudentAssessment transform");
             }
 
             try {
-                administrationDate = (String) attributes.get ("administrationDate");
+                administrationDate = (String) attributes.get("administrationDate");
             } catch (Exception e) {
                 LOG.debug("Unable to get AdministrationDate for StudentAssessment transform");
             }
@@ -158,11 +158,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
                 queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
 
-                // TODO: Once ID/Ref support is turned off, remove studentObjectiveAssessmentsIdRef and supporting function to clean up unused code
+                // TODO: Once ID/Ref support is turned off, remove studentObjectiveAssessmentsIdRef
+                // and supporting function to clean up unused code
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessmentsNaturalKeys(queryCriteria);
                 List<Map<String, Object>> studentObjectiveAssessmentsIdRef = getStudentObjectiveAssessments(studentAssessmentAssociationId);
 
-                // objectiveAssessments here will either be from IDRef or Natural Keys, so just add together
+                // objectiveAssessments here will either be from IDRef or Natural Keys, so just add
+                // together
                 studentObjectiveAssessments.addAll(studentObjectiveAssessmentsIdRef);
 
                 if (studentObjectiveAssessments.size() > 0) {
@@ -171,11 +173,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
                 }
 
-                // TODO: Once ID/Ref support is turned off, remove studentAssessmentItemsIdRef and supporting function to clean up unused code
+                // TODO: Once ID/Ref support is turned off, remove studentAssessmentItemsIdRef and
+                // supporting function to clean up unused code
                 List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItemsNaturalKeys(queryCriteria);
                 List<Map<String, Object>> studentAssessmentItemsIdRef = getStudentAssessmentItems(studentAssessmentAssociationId);
 
-                // studentAssessmentItems here will either be from IDRef or Natural Keys, so just add together
+                // studentAssessmentItems here will either be from IDRef or Natural Keys, so just
+                // add together
                 studentAssessmentItems.addAll(studentAssessmentItemsIdRef);
 
                 if (studentAssessmentItems.size() > 0) {
@@ -199,7 +203,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     *
+     * 
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -225,7 +229,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
 
-                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}", studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
+                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}",
+                        studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
 
                 Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
                         getJob(), objectiveAssessmentRef);
@@ -251,11 +256,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         return assessments;
     }
 
-
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     *
+     * 
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -277,7 +281,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
 
-                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}", studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
+                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}",
+                        studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
 
                 Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
                         getJob(), objectiveAssessmentRef);
@@ -306,7 +311,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     studentAssessmentAssociationId);
         }
 
-        LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
+        LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(),
+                studentAssessmentAssociationId);
         return assessments;
     }
 
@@ -320,8 +326,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + key).is(queryCriteria.get(key)));
         }
 
-        Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository()
-                .findAllByQuery(STUDENT_ASSESSMENT_ITEM, query);
+        Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                STUDENT_ASSESSMENT_ITEM, query);
 
         if (sassItems != null) {
             for (NeutralRecord sai : sassItems) {
@@ -355,7 +361,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
         return studentAssessmentItems;
     }
-
 
     private List<Map<String, Object>> getStudentAssessmentItems(String studentAssessmentId) {
         List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
