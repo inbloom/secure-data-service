@@ -418,15 +418,14 @@ public class SubDocAccessor {
                     }
                     if (lookup.containsKey(updatedKey)) {
 
-                        if(newDBObject.get(updatedKey) != null) {
+                        if (newDBObject.get(updatedKey) != null) {
                             Object idList = newDBObject.get(updatedKey);
                             Set<String> combined = new HashSet<String>();
                             combined.addAll(extractIdSet(idList));
                             combined.addAll(extractIdSet(newValue));
                             newDBObject.put(lookup.get(updatedKey), new BasicDBObject("$in", combined));
-
                         } else{
-                        newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
+                            newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                         }
                     } else {
                         // for other query, append the subfield to original key
