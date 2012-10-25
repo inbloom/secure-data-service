@@ -34,7 +34,7 @@ import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
