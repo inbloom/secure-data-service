@@ -65,7 +65,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         return isValid;
     }
 
-    private boolean isIntersection(Set setA, Set setB) {
+    private boolean isIntersection(Set<String> setA, Set<String> setB) {
         boolean isIntersection = false;
         for (Object a : setA) {
             if (setB.contains(a)) {
