@@ -1,14 +1,16 @@
 #!/bin/bash
 
+DEFAULT_CHECK_SLI_CONF="../../config/properties/sli.properties"
+DEFAULT_CHECK_KEYSTORE="../../data-access/dal/keyStore/ciKeyStore.jks"
+DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
+
 SEARCH_INDEXER_OPT=""
 SEARCH_INDEXER_COMMAND_OPTIONS=""
+SYSTEM_PROPERTIES_LOCK_DIR=""
 
 CHECK_SLI_CONF=0
 CHECK_KEYSTORE=0
 CHECK_SEARCH_INDEXER_TAR=0
-DEFAULT_CHECK_SLI_CONF="../../config/properties/sli.properties"
-DEFAULT_CHECK_KEYSTORE="../../data-access/dal/keyStore/ciKeyStore.jks"
-DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
 
 RUN_EXTRACT=0
 RUN_HELP=0
@@ -105,6 +107,10 @@ function isJavaReady {
          fi
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF} -D${SLI_ENCRYPTION_KEYSTORE}=${CHECK_KEYSTORE}"
+      if [ -z ${SYSTEM_PROPERTIES_LOCK_DIR} ]; then
+         SYSTEM_PROPERTIES_LOCK_DIR=`grep sli.search.indexer.dir.data ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
+         SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Dlock.dir=${SYSTEM_PROPERTIES_LOCK_DIR}"
+      fi
       return 1
    fi
    return 1
