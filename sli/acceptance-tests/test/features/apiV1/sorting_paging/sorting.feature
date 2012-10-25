@@ -122,6 +122,89 @@ Scenario: Request the last and middle page of results from a API request
 			And the a previous link exists with offset equal to 0 and limit equal to 2
 			And the a next link exists with offset equal to 3 and limit equal to 2
 
+@DE1873 @DE1906 @DE1910
+Scenario: Paging tests from the context of a teacher
+	Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    Given format "application/json"
+    And parameter "sortBy" is "studentUniqueStateId"
+    And parameter "sortOrder" is "ascending"
+    And parameter "offset" is "20"
+    And parameter "limit" is "5"
+    When I navigate to GET "/v1/sections/<'Sec 145' ID>/studentSectionAssociations/students"
+    Then I should receive a collection with 5 elements
+    And the link at index 0 should point to an entity with id "154bc9b5-4214-4ff5-bda5-94cc99b2b724"
+    And the link at index 1 should point to an entity with id "b8e346c8-025e-44ba-9ae1-f2fa4e832b08"
+    And the link at index 2 should point to an entity with id "9f4019ca-dd53-4027-b11c-fc151268fafd"
+    And the link at index 3 should point to an entity with id "6a859e2d-5664-47ea-bab0-78aee1edb6d9"
+    And the link at index 4 should point to an entity with id "dd4068df-0bea-4280-bbac-fbc736eea54d"
+    And the header "TotalCount" equals 25
+    And the a previous link exists with offset equal to 15 and limit equal to 5
+    Given parameter "offset" is "22"
+    And parameter "limit" is "5"
+    When I navigate to GET "/v1/sections/<'Sec 145' ID>/studentSectionAssociations/students"
+    Then I should receive a collection with 3 elements
+    And the link at index 0 should point to an entity with id "9f4019ca-dd53-4027-b11c-fc151268fafd"
+    And the link at index 1 should point to an entity with id "6a859e2d-5664-47ea-bab0-78aee1edb6d9"
+    And the link at index 2 should point to an entity with id "dd4068df-0bea-4280-bbac-fbc736eea54d"
+    And the header "TotalCount" equals 25
+    And the a previous link exists with offset equal to 17 and limit equal to 5
+
+@DE1873 @DE1906 @DE1910
+    Scenario: Paging's offset and limit don't do weird things
+        Given I am logged in using "cgray" "cgray1234" to realm "IL"
+        Given format "application/json"
+        And all parameters are cleared
+        When I navigate to GET "/v1/courses"
+        And the header "TotalCount" equals 26
+        Given parameter "offset" is "10"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/courses"
+        Then I should receive a collection with 10 unique elements
+        And the header "TotalCount" equals 26
+        Given parameter "offset" is "20"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/courses"
+        Then I should receive a collection with 6 unique elements
+        Given parameter "offset" is "24"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/courses"
+        Then I should receive a collection with 2 non-unique elements
+        And the header "TotalCount" equals 26
+        Given parameter "offset" is "40"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/courses"
+        Then I should receive a return code of 200 
+
+
+@DE1873 @DE1906 @DE1910
+    Scenario: Paging's offset and limit don't do weird things
+        Given I am logged in using "cgray" "cgray1234" to realm "IL"
+        Given format "application/json"
+        And all parameters are cleared
+        When I navigate to GET "/v1/students"
+        Given parameter "offset" is "0"
+        And parameter "limit" is "0"
+        Then I should receive a collection with 25 elements
+        And the header "TotalCount" equals 25
+        Given parameter "offset" is "10"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/students"
+        Then I should receive a collection with 10 unique elements
+        And the header "TotalCount" equals 25
+        Given parameter "offset" is "20"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/students"
+        Then I should receive a collection with 5 unique elements
+        And the header "TotalCount" equals 25
+        Given parameter "offset" is "30"
+        And parameter "limit" is "10"
+        When I navigate to GET "/v1/students"
+        Then I should receive a return code of 200 
+        Given parameter "offset" is "1"
+        And parameter "limit" is "9"
+        When I navigate to GET "/v1/students"
+        Then I should receive a collection with 9 unique elements
+        And the header "TotalCount" equals 25
 
 @DE1580
 Scenario: Confirm default limit of 50 entities and ability to override

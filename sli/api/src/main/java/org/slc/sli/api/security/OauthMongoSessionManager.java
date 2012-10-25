@@ -47,7 +47,7 @@ import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -181,13 +181,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
 
         if (session == null) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("Session with code %s does not exist.", code));
         }
-        
+
         //Find the nested app session data with the given code
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
-        Map<String, Object> curAppSession = null; 
+        Map<String, Object> curAppSession = null;
         for (Map<String, Object> appSession : appSessions) {
             Map<String, Object> codeBlock = (Map<String, Object>) appSession.get("code");
 
@@ -196,26 +196,26 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 break;
             }
         }
-        
+
         //verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
-            throw new OAuthAccessException(OAuthError.INVALID_CLIENT, 
+            throw new OAuthAccessException(OAuthError.INVALID_CLIENT,
                     String.format("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
         }
-        
+
         String verified = (String) curAppSession.get("verified");
         if (Boolean.valueOf(verified)) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("App session %s has already been verified.", code));
         }
-        
+
         Long expiration = (Long) ((Map<String, Object>) curAppSession.get("code")).get("expiration");
         if (expiration < System.currentTimeMillis()) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("App session %s has expired.", code));
         }
-        
+
 
         // Locate the application and compare the client secret
         nq = new NeutralQuery();
@@ -243,7 +243,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     + " is not authorized to use " + app.getBody().get("name"), (String) session.getBody().get("state"));
         }
 
-        
+
         String token = "";
         token = (String) curAppSession.get("token");
         curAppSession.put("verified", "true");
