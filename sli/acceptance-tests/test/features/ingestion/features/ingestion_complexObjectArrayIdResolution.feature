@@ -1,4 +1,5 @@
-Feature: StudentTranscriptAssociation and CourseOffering Ingestion Test
+@wip
+Feature: StudentTranscriptAssociation and CourseOffering Ingestion Test - CHANGES TO REFERENCE RESOLUTION MAKE THIS TEST UNNECESSARY
 
 Background: I have a landing zone route configured
 Given I am using local data store
