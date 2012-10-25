@@ -16,7 +16,6 @@
 
 package org.slc.sli.dal.repository;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +26,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -37,8 +35,6 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +58,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     static final Logger LOG = LoggerFactory.getLogger(ElasticSearchRepository.class);
 
-    private static final String EMBEDDED_DATA = "data";
 
     @Autowired
     private ElasticSearchQueryConverter converter;
@@ -75,17 +70,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     private String esPassword;
 
-    private boolean embeddedEnabled = false;
-
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
-    private Node node;
-
-    private Client createEmbeddedNodeClient() {
-        node = NodeBuilder.nodeBuilder().local(true).node();
-        esClient = node.client();
-        return esClient;
-    }
 
     private Client getClient() {
         return esClient;
@@ -97,14 +83,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
      * @throws Exception
      */
     public void init() throws Exception {
-        if (embeddedEnabled) {
-            try {
-                FileUtils.deleteDirectory(new File(EMBEDDED_DATA));
-            } catch (IOException ioe) {
-                LOG.error("Unable to delete embedded directory for elasticsearch. Please delete manually");
-            }
-        }
-        esClient = embeddedEnabled ? createEmbeddedNodeClient() : new TransportClient();
+        esClient = new TransportClient();
     }
 
     /**
@@ -114,9 +93,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
      */
     public void destroy() throws Exception {
         esClient.close();
-        if (embeddedEnabled && node != null) {
-            node.close();
-        }
     }
 
     @Override
@@ -174,10 +150,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     public void setSearchPassword(String esPassword) {
         this.esPassword = esPassword;
-    }
-
-    public void setEmbeddedEnabled(boolean embeddedEnabled) {
-        this.embeddedEnabled = embeddedEnabled;
     }
 
     /**

@@ -15,6 +15,8 @@
  */
 package org.slc.sli.api.search.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +26,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import org.apache.commons.io.FileUtils;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -42,6 +53,7 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.dal.repository.ElasticSearchRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 
@@ -281,5 +293,38 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
         apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
+    }
+
+    @Component
+    static final class Embedded {
+        final Logger logger = LoggerFactory.getLogger(ElasticSearchRepository.class);
+
+        private static final String EMBEDDED_DATA = "data";
+        private Node node;
+
+        @Value(value="${sli.search.embedded:false}")
+        private boolean embeddedEnabled;
+
+        @PostConstruct
+        public void init() {
+            if (embeddedEnabled) {
+                logger.info("Starting embedded ElasticSearch node");
+                try {
+                    FileUtils.deleteDirectory(new File(EMBEDDED_DATA));
+                    node = NodeBuilder.nodeBuilder().local(true).node();
+                } catch (IOException ioe) {
+                    logger.info("Unable to delete data directory for embedded elasticsearch");
+                }
+                node = NodeBuilder.nodeBuilder().local(true).node();
+            }
+        }
+
+        @PreDestroy
+        public void destroy(){
+            if (embeddedEnabled && node != null) {
+                logger.info("Destroying embedded ElasticSearch node");
+                node.close();
+            }
+        }
     }
 }
