@@ -20730,8 +20730,7 @@
             <StudentCompetencyIdentity>
                 <LearningObjectiveReference>
                     <LearningObjectiveIdentity>
-                        <Objective>
-                            Fluency and Expression</Objective>
+                        <Objective>Fluency and Expression</Objective>
                         <AcademicSubject>Reading</AcademicSubject>
                         <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
                     </LearningObjectiveIdentity>
