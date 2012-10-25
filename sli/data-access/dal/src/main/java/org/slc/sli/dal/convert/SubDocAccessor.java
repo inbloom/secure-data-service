@@ -16,13 +16,8 @@
 
 package org.slc.sli.dal.convert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -42,6 +37,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
+import sun.tools.tree.InstanceOfExpression;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -363,6 +359,10 @@ public class SubDocAccessor {
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject originalOrQueryDBObject : originalOrQueryDBObjects) {
                         DBObject orQueryDBObject = appendSubField(originalOrQueryDBObject, isParentQuery);
+                        if(orQueryDBObject.get("_id") != null) {
+                            addId(queryDBObject, orQueryDBObject.get("_id"));
+                            orQueryDBObject.removeField("_id");
+                        }
                         orQueryDBObjects.add(orQueryDBObject);
                     }
                     queryDBObject.put(key, orQueryDBObjects);
@@ -404,14 +404,19 @@ public class SubDocAccessor {
                 if (!key.startsWith("$")) {
                     String newKey = key;
                     Object newValue = originalDBObject.get(key);
-
-                    if (isParentQuery && key.equals("_id") && getId(newValue) != null
+                    String updatedKey = key.replace("body.", "");
+                    if (key.equals("_id") && getId(newValue) != null
                             && !getId(newValue).equals(getParentId(getId(newValue)))) {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (lookup.containsKey(key.replace("body.", ""))) {
-                        newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
+                    if (lookup.containsKey(updatedKey)) {
+
+                        if(newDBObject.get(updatedKey) != null) {
+                            Object idList = newDBObject.get(updatedKey);
+                        } else{
+                            newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
+                        }
                     } else {
                         // for other query, append the subfield to original key
                         newKey = subField + "." + key;
@@ -422,12 +427,38 @@ public class SubDocAccessor {
                     List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject dbObject : dbObjects) {
-                        orQueryDBObjects.add(toSubDocQuery(dbObject, isParentQuery));
+                        DBObject subQuery = toSubDocQuery(dbObject, isParentQuery);
+                        if(subQuery.get("_id") != null) {
+                          addId(newDBObject, subQuery.get("_id"));
+                            subQuery.removeField("_id");
+                        }
+                            orQueryDBObjects.add(subQuery);
+
                     }
                     newDBObject.put(key, orQueryDBObjects);
                 }
             }
             return newDBObject;
+        }
+
+        private void addId(final DBObject newDBObject, Object id) {
+           Object idList = newDBObject.get("_id");
+            List<String> newidList = new ArrayList<String>();
+            if(id instanceof DBObject) {
+               newidList.addAll((Collection<? extends String>) ((DBObject)id).get("$in"));
+            } else {
+                newidList.add((String)id);
+            }
+            if(idList != null) {
+                if (idList instanceof DBObject) {
+                    newDBObject.put("_id",((DBObject)idList).put("$in",Arrays.asList(((DBObject)idList).get("$in"),newidList)));
+                } else {
+                  newDBObject.put("_id",new BasicDBObject("$in", Arrays.asList(newidList,idList)));
+                }
+
+            } else{
+                newDBObject.put("_id",new BasicDBObject("$in", newidList));
+            }
         }
 
         // retrieve the a single id from DBObject value for "_id" field
@@ -461,24 +492,19 @@ public class SubDocAccessor {
                 }
             }
             simplifyParentQuery(parentQuery);
-<<<<<<< HEAD
-            DBObject idQuery = null;
-            if(parentQuery.containsField("_id")) {
-                idQuery = new Query().getQueryObject();
-                idQuery.put("_id",parentQuery.get("_id"));
-                parentQuery.removeField("_id");
-            }
 
-<<<<<<< HEAD
-=======
             DBObject idQuery = null;
             if(parentQuery.containsField("_id")) {
                idQuery = new Query().getQueryObject();
-               idQuery.put("_id",parentQuery.get("_id"));
+                Object idFinalList = parentQuery.get("_id");
+                if(idFinalList instanceof List) {
+                    idQuery.put("_id",new BasicDBObject("$in",idFinalList));
+                } else {
+                idQuery.put("_id",parentQuery.get("_id"));
+                }
                parentQuery.removeField("_id");
             }
 
->>>>>>> modified:   data-access/dal/src/main/java/org/slc/sli/dal/convert/SubDocAccessor.java
             String queryCommand;
             if (idQuery != null) {
                 queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : "+idQuery.toString()+"},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
@@ -487,24 +513,6 @@ public class SubDocAccessor {
                 queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
                         "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
             }
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
-            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
-                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
-                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
->>>>>>> Simplify parent queries to remove huge $in
-=======
-            //parentQuery.putAll(subDocQuery);
-//            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
-//                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
-//                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
-            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
-                    "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
->>>>>>> [us4472] change subdoc to use parent key to query the parent doc
-=======
->>>>>>> modified:   data-access/dal/src/main/java/org/slc/sli/dal/convert/SubDocAccessor.java
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
