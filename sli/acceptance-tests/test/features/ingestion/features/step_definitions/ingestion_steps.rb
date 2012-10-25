@@ -1512,7 +1512,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
     if parent 
-      @entity_count = subDocCount(parent, row["collectionName"], {"metaData.tenantId" => TENANT_COLLECTION})
+      @entity_count = subDocCount(parent, row["collectionName"])
     else 
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.count().to_i
@@ -1565,7 +1565,7 @@ Then /^I check to find if record is in collection:$/ do |table|
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
     if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"], {"metaData.tenantId" => TENANT_COLLECTION})
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
     else  
       @entity_collection = @db.collection(row["collectionName"])
 
