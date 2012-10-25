@@ -19,8 +19,7 @@
   </jb:bean>
 
   <jb:bean beanId="staffEducationOrganizationAssocoiationBody" class="java.util.HashMap" createOnElement="attributes">
-
-    <jb:value property="staffId" data="attributes staffId" />
+    <jb:value property="staffReference" data="attributes StaffReference" />
 
     <jb:value property="schoolId" data="attributes schoolId" />
 
@@ -31,8 +30,6 @@
     <jb:value property="staffClassification" data="attributes staffClassification"/>
 
     <jb:value property="positionTitle" data="attributes positionTitle"/>
-
-
   </jb:bean>
 
 </smooks-resource-list>

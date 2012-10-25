@@ -46,7 +46,7 @@
 	</xs:annotation>
 	<xs:complexType name="StudentAcademicRecordExtendedType">
 		<xs:complexContent>
-			<xs:extension base="SLC-StudentAcademicRecordRestriction">
+			<xs:extension base="SLC-StudentAcademicRecord">
 				<xs:sequence>
 					<xs:element name="SubmissionCertification"/>
 				</xs:sequence>

@@ -281,7 +281,7 @@ Met standard
   </xs:complexType>
 
   <!-- Limit StaffReference and CohortReference to 1 -->
-  <xs:complexType name="SLC-StaffCohortAssociationRestriction">
+  <xs:complexType name="SLC-StaffCohortAssociation">
     <xs:annotation>
       <xs:documentation/>
         <xs:appinfo>
@@ -289,7 +289,7 @@ Met standard
         </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
-      <xs:restriction base="StaffCohortAssociation">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="StaffReference" type="SLC-StaffReferenceType" />
           <xs:element name="CohortReference" type="CohortReferenceType" />
@@ -297,12 +297,12 @@ Met standard
           <xs:element name="EndDate" type="xs:date" minOccurs="0" />
           <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0" />
         </xs:sequence>
-      </xs:restriction>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
   <!-- Limit StaffReference and ProgramReference to 1 -->
-  <xs:complexType name="SLC-StaffProgramRestriction">
+  <xs:complexType name="SLC-StaffProgramAssociation">
     <xs:annotation>
       <xs:documentation/>
         <xs:appinfo>
@@ -310,7 +310,7 @@ Met standard
         </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
-      <xs:restriction base="StaffProgramAssociation">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="StaffReference" type="SLC-StaffReferenceType" />
           <xs:element name="ProgramReference" type="ProgramReferenceType" />
@@ -318,7 +318,7 @@ Met standard
           <xs:element name="EndDate" type="xs:date" minOccurs="0" />
           <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0" />
         </xs:sequence>
-      </xs:restriction>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
@@ -372,7 +372,7 @@ Other</xs:documentation>
 	</xs:complexType>
 
   <!-- Limit SchoolReference to 1 on TeacherSchoolAssociation -->
-  <xs:complexType name="SLC-TeacherSchoolAssociationRestriction">
+  <xs:complexType name="SLC-TeacherSchoolAssociation">
     <xs:annotation>
       <xs:documentation/>
         <xs:appinfo>
@@ -380,7 +380,7 @@ Other</xs:documentation>
         </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
-      <xs:restriction base="TeacherSchoolAssociation">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="TeacherReference" type="SLC-StaffReferenceType" />
           <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
@@ -388,7 +388,7 @@ Other</xs:documentation>
           <xs:element name="InstructionalGradeLevels" type="GradeLevelsType" />
           <xs:element name="AcademicSubjects" type="AcademicSubjectsType" />
         </xs:sequence>
-      </xs:restriction>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 

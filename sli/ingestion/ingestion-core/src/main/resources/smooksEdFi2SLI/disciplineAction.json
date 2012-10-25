@@ -3,12 +3,13 @@
     "references" :
     [
     {
-        "fieldPath" : "body.staffId",
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "staff",
             "isRefList" : true,
-            "refObjectPath" : "body.staffReference",
+            "refObjectPath" : "body.StaffReference",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
@@ -17,7 +18,7 @@
                         "path" : "body.staffUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
                         }]
                     }
                 ]
