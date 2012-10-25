@@ -239,7 +239,7 @@ Met standard
 							</xs:annotation>
 						</xs:element>
 					</xs:choice>
-					<xs:element name="CompetencyLevel" type="TEMPORARY-CompetencyLevelDescriptorType">
+					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType">
 						<xs:annotation>
 							<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
 						</xs:annotation>
@@ -1791,7 +1791,7 @@ Withdrawn
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
-                    <xs:element name="StudentCompetencyIdentity" type="SLC-StudentCompetencyIdentityType" minOccurs="0">
+                    <xs:element name="StudentCompetencyIdentity" type="SLC-StudentCompetencyIdentityType">
                         <xs:annotation>
                             <xs:documentation/>
                         </xs:annotation>
@@ -2223,50 +2223,94 @@ Second grade
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="TEMPORARY-CompetencyLevelDescriptorType">
+	<xs:complexType name="SLC-ParentReferenceType">
 		<xs:annotation>
-			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+			<xs:documentation>Provides alternative references for Parent reference during interchange (including teachers). Use XML IDREF to reference a staff record that is included in the interchange</xs:documentation>
+		    <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>parent</sli:refType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0">
-					<xs:element name="CodeValue" type="CodeValue">
+				<xs:sequence>
+					<xs:element name="ParentIdentity" type="SLC-ParentIdentityType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+							<xs:documentation>Provide user information to lookup and link to an existing parent record in the receiving system.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Description" type="Description">
-						<xs:annotation>
-							<xs:documentation>The description of the competency level.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
+				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType> 
-	<xs:complexType name="SLC-CompetencyLevelDescriptorType">
+	</xs:complexType>
+	<xs:complexType name="SLC-ParentIdentityType">
 		<xs:annotation>
-			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of parents and guardians.  The various fields should be populated to uniquely identify a parent.</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0">
-					<xs:element name="CodeValue" type="CodeValue">
-						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
-							<xs:appinfo>
-								<sli:keyFieldName>codeValue</sli:keyFieldName>
-							</xs:appinfo>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Description" type="Description">
-						<xs:annotation>
-							<xs:documentation>The description of the competency level.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
-			</xs:extension>
-		</xs:complexContent>
+		<xs:sequence>
+			<xs:element name="ParentUniqueStateId" type="UniqueStateIdentifier">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to a person.</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>parentUniqueStateId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Remap ParentReference to new type -->
+	<xs:complexType name="SLC-StudentParentAssociation">
+		<xs:annotation>
+			<xs:documentation>This association relates students to their parents, guardians, or caretakers.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>studentParentAssociation</sli:recordType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudentReference" type="StudentReferenceType">
+				<xs:annotation>
+					<xs:documentation>The student associated with parent.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentReference" type="SLC-ParentReferenceType">
+				<xs:annotation>
+					<xs:documentation>The parent associated with the student.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Relation" type="RelationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The nature of an individual's relationship to a student; for example:
+Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian, etc..
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrimaryContactStatus" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether the person is a primary parental contact for the student.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LivesWith" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether the student lives with the associated parent.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmergencyContactStatus" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether the person is a designated emergency contact for the student.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContactPriority" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The numeric order of the preferred sequence or priority of contact.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContactRestrictions" type="ContactRestrictions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Restrictions for student and/or teacher contact with the individual (e.g., the student may not be picked up by the individual)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 </xs:schema>
