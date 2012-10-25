@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.security.context.validator;
+package org.slc.sli.api.security.context;
 
-import java.util.Collection;
-
-public interface IContextValidator {
-
-    public abstract boolean canValidate(String entityType, boolean through);
+public class ResponseTooLargeException extends RuntimeException {
     
-    public abstract boolean validate(Collection<String> ids);
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     
 }
