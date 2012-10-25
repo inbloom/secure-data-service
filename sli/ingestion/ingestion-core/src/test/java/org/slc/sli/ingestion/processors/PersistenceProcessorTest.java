@@ -55,7 +55,7 @@ public class PersistenceProcessorTest {
             Collections.shuffle(unsortedRecords);
 
             List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortLearningObjectivesByDependency(unsortedRecords);
+                    .sortNrListByDependency(unsortedRecords, PersistenceProcessor.SELF_REF_ENTITY_CONFIG.get("learningObjective"));
 
             for (int i = 0; i < sortedRecords.size(); i++) {
                 NeutralRecord sortedRecord = sortedRecords.get(i);
@@ -80,7 +80,7 @@ public class PersistenceProcessorTest {
             Collections.shuffle(unsortedRecords);
 
             List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortLearningObjectivesByDependency(unsortedRecords);
+                    .sortNrListByDependency(unsortedRecords, PersistenceProcessor.SELF_REF_ENTITY_CONFIG.get("learningObjective"));
 
             assertNotNull(sortedRecords);
         }
