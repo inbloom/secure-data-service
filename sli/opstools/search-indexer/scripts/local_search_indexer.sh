@@ -3,6 +3,8 @@
 DEFAULT_CHECK_SLI_CONF="../../config/properties/sli.properties"
 DEFAULT_CHECK_KEYSTORE="../../data-access/dal/keyStore/ciKeyStore.jks"
 DEFAULT_SEARCH_INDEXER_JAR="target/search-indexer-1.0-SNAPSHOT.jar"
+DEFAULT_MAX_MEMORY="1024M"
+DEFAULT_MIN_MEMORY="1024M"
 
 SEARCH_INDEXER_OPT=""
 SEARCH_INDEXER_COMMAND_OPTIONS=""
@@ -34,7 +36,14 @@ function readOption {
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
       fi
    elif [ ${1:0:2} == "-X" ]; then
+      PROPERTY=${1:2:2}
+      if [ ${PROPERTY} == "mx" ]; then
+         DEFAULT_MAX_MEMORY=${1:4}
+      elif [ ${PROPERTY} == "ms" ]; then
+         DEFAULT_MIN_MEMORY=${1:4}
+      else
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} ${1}"
+      fi
    else
       FILEEXT=${1#*.}
       if [ "${FILEEXT}" == "tar.gz" -o "{$FILEEXT}" == "tgz" ]; then
@@ -107,9 +116,15 @@ function isJavaReady {
          fi
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF} -D${SLI_ENCRYPTION_KEYSTORE}=${CHECK_KEYSTORE}"
-      if [ -z ${SYSTEM_PROPERTIES_LOCK_DIR} ]; then
+      if [ -z ${SYSTEM_PROPERTIES_LOCK_DIR:=""} ]; then
          SYSTEM_PROPERTIES_LOCK_DIR=`grep sli.search.indexer.dir.data ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Dlock.dir=${SYSTEM_PROPERTIES_LOCK_DIR}"
+      fi
+      if [ -n ${DEFAULT_MAX_MEMORY:=""} ]; then
+         SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xmx${DEFAULT_MAX_MEMORY}"
+      fi
+      if [ -n ${DEFAULT_MIN_MEMORY:=""} ]; then
+         SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xms${DEFAULT_MIN_MEMORY}"
       fi
       return 1
    fi
