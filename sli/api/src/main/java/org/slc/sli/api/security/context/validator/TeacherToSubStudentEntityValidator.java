@@ -106,11 +106,15 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
     }
 
     /**
-     * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter, comparing only the year, month, and day.
+     * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
+     * comparing only the year, month, and day.
      *
-     * @param lhs First DateTime.
-     * @param rhs Second DateTime.
-     * @return True if first DateTime is before (or equal to) to the second DateTime, false otherwise.
+     * @param lhs
+     *            First DateTime.
+     * @param rhs
+     *            Second DateTime.
+     * @return True if first DateTime is before (or equal to) to the second DateTime, false
+     *         otherwise.
      */
     protected boolean isLhsBeforeRhs(DateTime lhs, DateTime rhs) {
         boolean before = false;
@@ -131,7 +135,8 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
     /**
      * Parse the String representing a DateTime and return the corresponding DateTime.
      *
-     * @param convert String to be converted (of format yyyy-MM-dd).
+     * @param convert
+     *            String to be converted (of format yyyy-MM-dd).
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
@@ -142,7 +147,8 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
     /**
      * Convert the DateTime to a String representation.
      *
-     * @param convert DateTime to be converted.
+     * @param convert
+     *            DateTime to be converted.
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
