@@ -17,7 +17,6 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,14 +44,14 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(Collection<String> ids) {
+    public boolean validate(String entityName, Set<String> ids) {
         boolean withSections = validatedWithSections(ids);
         boolean withCohorts = validatedWithCohorts(ids);
         boolean withPrograms = validatedWithPrograms(ids);
         return withSections || withCohorts || withPrograms;
     }
     
-    private boolean validatedWithPrograms(Collection<String> ids) {
+    private boolean validatedWithPrograms(Set<String> ids) {
         boolean match = false;
         // Get my edorg association
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
@@ -115,7 +114,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
     
 
-    private boolean validatedWithCohorts(Collection<String> ids) {
+    private boolean validatedWithCohorts(Set<String> ids) {
         boolean match = false;
         // Get my edorg association
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
@@ -178,7 +177,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         return match;
     }
     
-    private boolean validatedWithSections(Collection<String> ids) {
+    private boolean validatedWithSections(Set<String> ids) {
         Set<String> teacherSections = new HashSet<String>();
         boolean match = false;
         
