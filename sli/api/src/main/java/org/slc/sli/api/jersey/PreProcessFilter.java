@@ -34,8 +34,8 @@ import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.pdp.BaseEndpointMutator;
 import org.slc.sli.api.validation.URLValidator;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
