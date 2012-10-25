@@ -126,8 +126,8 @@ class SLCFixer
           scur.each {|assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
         end
       #  @log.info "Iterating studentSectionAssociation with query: #{sectionQuery}"
-        studentSectionAssociations = section["studentSectionAssociation"]
-        if !studentSectionAssociations.nil?
+       if section.include? "studentSectionAssociation"
+       	studentSectionAssociations = section["studentSectionAssociation"]
            studentSectionAssociations.each do |studentSection|
              edOrg = []
              student_edorg = student_edorgs(studentSection['body']['studentId'])
@@ -135,7 +135,7 @@ class SLCFixer
              edOrg = edOrg.flatten.uniq
              stamp_id(@db['section'],studentSection['_id'],edOrg,"studentSectionAssociation",section['_id'])
            end
-        end
+       end   
      #   @db['studentSectionAssociation'].find(sectionQuery, @basic_options) do |scur|
       #    scur.each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq, assoc['metaData']['tenantId']) }
       #  end
