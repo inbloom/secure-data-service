@@ -51,7 +51,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         //lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffsDirectlyAssociatedEdOrgs();
         //lookup students
-        Iterable<Entity> students = getStudents(ids);
+        Iterable<Entity> students = getStudentEntitiesFromIds(ids);
 
         for (Entity entity : students) {
             Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
@@ -78,7 +78,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         return Collections.emptySet();  //TODO replace stub
     }
 
-    private Iterable<Entity> getStudents(Collection<String> studentIds) {
+    private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, studentIds));
         Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, studentQuery);
         return students;
