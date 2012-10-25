@@ -41,7 +41,7 @@ public class StaffToSectionValidator extends AbstractContextValidator {
     }
     
     @Override
-    public boolean validate(String type, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
         // Get my staffEdorg to get my edorg hierarchy
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
