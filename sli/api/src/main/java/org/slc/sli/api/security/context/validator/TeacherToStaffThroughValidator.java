@@ -15,7 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collection;
+import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
@@ -30,7 +30,7 @@ public class TeacherToStaffThroughValidator extends AbstractContextValidator {
     }
     
     @Override
-    public boolean validate(Collection<String> staffIds) {
+    public boolean validate(String entityName, Set<String> staffIds) {
         String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
         for (String staffId : staffIds) {
             if (!staffId.equals(myself)) {

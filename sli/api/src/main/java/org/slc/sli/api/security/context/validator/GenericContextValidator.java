@@ -16,11 +16,11 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +36,22 @@ public class GenericContextValidator implements IContextValidator {
     
     @Autowired
     private ContextResolverStore store;
-    
-    private EntityContextResolver resolver;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
         String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
-        resolver = store.findResolver(userType, entityType);
-        return resolver.canResolve(userType, entityType);
+        if (userType.equals("staff"))
+            return false;
+        
+        return store.findResolver(userType, entityType) != null;
     }
     
     @Override
-    public boolean validate(Collection<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) {
+        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+        EntityContextResolver resolver = store.findResolver(userType, entityType);
+        if (resolver instanceof AllowAllEntityContextResolver) 
+            return true;
         Set<String> contextIds = new HashSet<String>(
                 resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
         return contextIds.containsAll(ids);

@@ -1,8 +1,7 @@
 package org.slc.sli.api.security.context.validator;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -52,6 +50,7 @@ public class TeacherToStaffValidatorTest {
     Entity staff2 = null;   //associated to school (no enddate)
     Entity staff3 = null;   //associated to school (with enddate)
     Entity staff4 = null;   //associated to school (expired enddate)
+    Entity staff5 = null;   //not associated to anything
     Entity lea1 = null;
     Entity school1 = null;
     
@@ -81,6 +80,10 @@ public class TeacherToStaffValidatorTest {
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff4");
         staff4 = repo.create("staff", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("staffUniqueStateId", "staff5");
+        staff5 = repo.create("staff", body);
 
         body = new HashMap<String, Object>();
         teacher1Myself = repo.create("teacher", body);
@@ -141,37 +144,42 @@ public class TeacherToStaffValidatorTest {
     
     @Test
     public void testInvalidTeacherStaffAssociation() {
-        assertFalse(validator.validate(new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
     }
     
     @Test
     public void testValidTeacherStaffAssociationNoEndDate() {
-        assertTrue(validator.validate(new HashSet<String>(Arrays.asList(staff2.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId()))));
     }
     
     @Test
     public void testValidTeacherStaffAssociationWithEndDate() {
-        assertTrue(validator.validate(new HashSet<String>(Arrays.asList(staff3.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff3.getEntityId()))));
     }
 
     @Test
     public void testExpiredTeacherStaffAssociation() {
-        assertFalse(validator.validate(new HashSet<String>(Arrays.asList(staff4.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff4.getEntityId()))));
+    }
+    
+    @Test
+    public void testStaffWithNoEdorgAssociation() {
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff5.getEntityId()))));
     }
     
     @Test
     public void testMulti1() {
-        assertFalse(validator.validate(new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff2.getEntityId(), staff3.getEntityId(), staff4.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff2.getEntityId(), staff3.getEntityId(), staff4.getEntityId()))));
     }
     
     @Test
     public void testMulti2() {
-        assertFalse(validator.validate(new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff4.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff4.getEntityId()))));
     }
     
     @Test
     public void testMulti3() {
-        assertTrue(validator.validate(new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff3.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff3.getEntityId()))));
     }
 
 }

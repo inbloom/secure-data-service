@@ -26,12 +26,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,15 +37,18 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBObject;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessor {
 
@@ -82,7 +83,7 @@ public class SubDocAccessor {
 
     /**
      * Start a location for a given sub doc type
-     * 
+     *
      * @param type
      * @return
      */
@@ -103,7 +104,7 @@ public class SubDocAccessor {
 
         /**
          * Store the subdoc within the given super doc collection
-         * 
+         *
          * @param collection
          *            the collection the subdoc gets stored in
          * @return
@@ -115,7 +116,7 @@ public class SubDocAccessor {
 
         /**
          * The field the subdocs show up in
-         * 
+         *
          * @param subField
          *            The field the subdocs show up in
          * @return
@@ -127,7 +128,7 @@ public class SubDocAccessor {
 
         /**
          * Map a field in the sub doc to the super doc. This will be used when resolving parenthood
-         * 
+         *
          * @param subDocField
          * @param superDocField
          * @return
@@ -148,9 +149,9 @@ public class SubDocAccessor {
 
     /**
      * THe location of the subDoc
-     * 
+     *
      * @author nbrown
-     * 
+     *
      */
     public class Location {
 
@@ -160,7 +161,7 @@ public class SubDocAccessor {
 
         /**
          * Create a new location to store subdocs
-         * 
+         *
          * @param collection
          *            the collection the superdoc is in
          * @param key
@@ -223,8 +224,9 @@ public class SubDocAccessor {
         private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
             boolean result = true;
             TenantContext.setIsSystemCall(false);
+
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), true, false).getLastError().ok();
             result &= template.getCollection(collection)
                     .update(parentQuery, buildPushObject(subEntities), false, false).getLastError().ok();
             return result;
@@ -411,10 +413,7 @@ public class SubDocAccessor {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (isParentQuery && key.equals("metaData.tenantId")) {
-                        // assume the super doc has same tenantId as sub Doc
-                        newDBObject.put(newKey, newValue);
-                    } else if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
+                    if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
                         newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                     } else {
                         // for other query, append the subfield to original key
