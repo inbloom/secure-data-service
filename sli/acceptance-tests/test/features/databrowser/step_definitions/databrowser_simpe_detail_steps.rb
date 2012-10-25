@@ -229,3 +229,7 @@ end
 Then /^I should be on the detailed page for an LEA$/ do
   assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
 end
+
+Then /^I should be on the detailed page for an LEA$/ do
+  assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
+end
