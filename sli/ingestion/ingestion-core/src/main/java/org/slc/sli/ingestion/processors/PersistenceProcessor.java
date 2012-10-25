@@ -100,6 +100,25 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private MessageSource messageSource;
 
+    // Paths for id field and ref field for self-referencing entities
+    // TODO: make it work for entities with multiple field keys. 
+    // TODO: make it configurable. From schema, maybe.  
+    // represents the configuration of a self-referencing entity schema
+    static class SelfRefEntityConfig {
+        String idPath;
+        String refPath;
+        SelfRefEntityConfig(String i, String r) {
+            idPath = i;
+            refPath = r;
+        }
+    }
+    public static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
+    static {
+        SELF_REF_ENTITY_CONFIG = new HashMap<String, SelfRefEntityConfig> ();
+        SELF_REF_ENTITY_CONFIG.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", "parentObjectiveId"));
+    }
+    // End Self-referencing entity
+    
     /**
      * Camel Exchange process callback method
      *
@@ -199,9 +218,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             }
 
             // TODO: make this generic for all self-referencing entities
-            if ("learningObjective".equals(collectionNameAsStaged)) {
+            if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
-                errorReportForCollection = persistLearningObjective(workNote, job, perFileMetrics,
+                errorReportForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
                         errorReportForCollection, errorReportForNrEntity, records);
 
             } else {
@@ -270,19 +289,20 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /*
-     * persist learningObjective immediately, rather than bulk (and sort in dependency-honoring
+     * persist self-referencing entities immediately, rather than bulk (and sort in dependency-honoring
      * order) because this
      * entity can have references to entities of the same type.
      * otherwise, id normalization could be attempted while the dependent entity is waiting for
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ErrorReport persistLearningObjective(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
+    private ErrorReport persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
             ErrorReport errorReportForCollection, ErrorReport errorReportForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         try {
-            sortedNrList = sortLearningObjectivesByDependency(sortedNrList);
+            sortedNrList = sortNrListByDependency(sortedNrList, 
+                SELF_REF_ENTITY_CONFIG.get(workNote.getIngestionStagedEntity().getCollectionNameAsStaged()));
         } catch (IllegalStateException e) {
             LOG.error("Illegal state encountered during dependency-sort of learningObjectives", e);
         }
@@ -318,18 +338,20 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Sort LearningObjective records in dependency-honoring order since they are self-referencing.
-     *
+     * Sort records in dependency-honoring order since they are self-referencing.
+     * 
      * @param records
+     * @param collectionName
      * @return
      */
     // TODO: make this generic for all self-referencing entities
-    protected static List<NeutralRecord> sortLearningObjectivesByDependency(List<NeutralRecord> unsortedRecords)
+    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords, SelfRefEntityConfig selfRefConfig)
             throws IllegalStateException {
 
         List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
+        
         for (NeutralRecord me : unsortedRecords) {
-            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>());
+            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), selfRefConfig);
         }
         return sortedRecords;
     }
@@ -344,14 +366,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     // FIXME: make this algo iterative rather than recursive
     private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> objectiveIdsInStack) throws IllegalStateException {
+            List<NeutralRecord> sortedRecords, Set<String> objectiveIdsInStack, 
+            SelfRefEntityConfig selfRefConfig) throws IllegalStateException {
         if (me != null && !sortedRecords.contains(me)) {
 
-            String myObjectiveId = getByPath("learningObjectiveId.identificationCode", me.getAttributes());
+            String myObjectiveId = getByPath(selfRefConfig.idPath, me.getAttributes());
             objectiveIdsInStack.add(myObjectiveId);
 
             // detect cycles
-            String parentObjectiveId = (String) me.getLocalParentIds().get("parentObjectiveId");
+            String parentObjectiveId = (String) me.getLocalParentIds().get(selfRefConfig.refPath);
             if (objectiveIdsInStack.contains(parentObjectiveId)) {
                 LOG.error(
                         "cycle detected in learningObjective reference hierarchy. {} references a learningObjective already a part of this dependency hierarchy {}",
@@ -361,7 +384,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 // insert my parent
                 NeutralRecord parent = findNeutralRecordByObjectiveId(parentObjectiveId, unsortedRecords);
-                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, objectiveIdsInStack);
+                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, objectiveIdsInStack, selfRefConfig);
             }
 
             // insert me
