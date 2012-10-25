@@ -1,6 +1,16 @@
 [
-	{'userId': 'linda.kim', 'name':'Linda Kim', 'role':'Educator'},
-	{'userId': 'cgray', 'name':'Charles Gray', 'role':'Educator'},
-	{'userId': 'rrogers', 'name':'Rick Rogers', 'role':'IT Administrator'},
-	{'userId': 'jstevenson', 'name':'John Stevenson', 'role':'IT Administrator'}
+	{'userId': 'linda.kim',  'name':'Linda Kim', 'role':'Educator', 'association':'East Daybreak Junior High'},
+	{'userId': 'cgray',      'name':'Charles Gray', 'role':'Educator', 'association':'Daybreak Central High'},
+	{'userId': 'rbraverman', 'name':'Rebecca Braverman', 'role':'Educator', 'association':'South Daybreak Elementary School'},
+	{'userId': 'demo',       'name':'Johnny Admin', 'role':'IT Administrator', 'association':'Daybreak School District'},
+	{'userId': 'sampleUser', 'name':'Billy Admin', 'role':'IT Administrator', 'association':'None'},
+	{'userId': 'mgonzales',  'name':'Maria Gonzales', 'role':'Leader', 'association':'South Daybreak Elementary School'},
+	{'userId': 'akopel',     'name':'Amy Kopel', 'role':'IT Administrator', 'association':'South Daybreak Elementary School'},
+	{'userId': 'msmith',     'name':'Mary Smith', 'role':'Aggregate Viewer', 'associaation':'South Daybreak Elementary School'},
+	{'userId': 'ckoch', 'name':'Dr. Christopher Koch', 'role':'Leader', 'association':'SEA'},
+	{'userId': 'rrogers', 'name':'Rick Rogers', 'role':'IT Administrator', 'association':'SEA'},
+	{'userId': 'mjohnson', 'name':'Michael Johnson', 'role':'Aggregate Viewer', 'association':'SEA'},
+	{'userId': 'sbantu', 'name':'Susan Bantu', 'role':'Leader', 'association':'Daybreak School District'},
+	{'userId': 'jstevenson', 'name':'John Stevenson', 'role':'IT Administrator', 'association':'Daybreak School District'},
+	{'userId': 'jjackson', 'name':'Jack Jackson', 'role':'Aggregate Viewer', 'association':'Daybreak School District'}	
 ]
