@@ -60,7 +60,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     @Override
-    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint, final Map<String,List<EntityBody>> contextEntityCache) {
 
         Counter embeddedDocumentCounter = new Counter() {
 
@@ -78,7 +78,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         };
 
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, embeddedDocumentCounter);
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, embeddedDocumentCounter, contextEntityCache);
 
     }
 
@@ -89,9 +89,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types, boolean first,
-                                          Counter counter) {
+                                          Counter counter, Map<String,List<EntityBody>> contextEntityCache) {
         List<EntityBody> results = new ArrayList<EntityBody>();
-        Map<Type,List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
@@ -119,9 +118,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
                             //construct a new constraint using the new connecting key and ids
                             constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
 
-                            connectingEntities = getConnectingEntities(connectingType, previousType, constraint,entityCache);
+                            connectingEntities = getConnectingEntities(connectingType, previousType, constraint,contextEntityCache);
                         }
-                        entityCache.put(connectingType,connectingEntities);
+                        contextEntityCache.put(connectingType.getName(),connectingEntities);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
 
@@ -132,15 +131,15 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
             if(entities == null) {
-                entities = (List<EntityBody>) executeQuery(currentType, constraint, first, entityCache);
+                entities = (List<EntityBody>) executeQuery(currentType, constraint, first, contextEntityCache);
             }
-            entityCache.put(currentType, entities);
+            contextEntityCache.put(currentType.getName(), entities);
             results.addAll(entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter, contextEntityCache);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType, counter);
@@ -205,7 +204,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
+    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint, Map<String,List<EntityBody>> entityCache) {
         String key = getKey(currentType, previousType);
 
         for (NeutralCriteria criteria : constraint.getCriteria()) {
@@ -362,30 +361,33 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
     }
 
-    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first, Map<String,List<EntityBody>> entityCache) {
 
-        if (first) {
-            Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
+        //TODO: apply constraint before returning cached entities
+        //TODO : Apply security constraint if not present in cache.
+        try {
+            if (entityCache.containsKey(type.getName())) {
+                return entityCache.get(type.getName());
+            }
+            if (first) {
+                Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
 
-            constraint.setLimit(0);
-            constraint.setOffset(0);
+                constraint.setLimit(0);
+                constraint.setOffset(0);
 
-            return results;
-        } else {
-            try {
-                if (entityCache.containsKey(type)) {
-                    return entityCache.get(type);
-                }
+                return results;
+            } else {
                 EntityDefinition entityDefinition = getEntityDefinition(type);
                 if (entityDefinition == null) {
                     return new ArrayList<EntityBody>();
                 }
                 return entityDefinition.getService().list(constraint);
-            } catch (AccessDeniedException ade) {
-                return new ArrayList<EntityBody>();
             }
 
+        } catch (AccessDeniedException ade) {
+            return new ArrayList<EntityBody>();
         }
+
 
     }
 

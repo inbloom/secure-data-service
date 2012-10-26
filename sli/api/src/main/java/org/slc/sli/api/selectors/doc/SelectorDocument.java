@@ -17,6 +17,7 @@
 package org.slc.sli.api.selectors.doc;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.NeutralQuery;
@@ -29,6 +30,6 @@ import org.slc.sli.domain.NeutralQuery;
  */
 public interface SelectorDocument {
 
-    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint);
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint, Map<String,List<EntityBody>> contextEntityCache);
 
 }

@@ -41,7 +41,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -69,6 +71,8 @@ public class DefaultSelectorDocumentTest {
 
     @Autowired
     private MockRepo repo;
+
+    private Map<String,List<EntityBody>> contextMap = new HashMap<String, List<EntityBody>>();
 
     static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
@@ -122,7 +126,7 @@ public class DefaultSelectorDocumentTest {
         constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
-                getSelectorQueryPlan()), constraint);
+                getSelectorQueryPlan()), constraint, contextMap);
         assertNotNull("Should not be null", results);
         assertEquals("Should match", 2, results.size());
 
@@ -163,7 +167,7 @@ public class DefaultSelectorDocumentTest {
         constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Section",
-                getDirectRefQueryPlan()), constraint);
+                getDirectRefQueryPlan()), constraint, contextMap);
 
         assertNotNull("Should not be null", results);
         assertEquals("Should match", 2, results.size());
@@ -191,7 +195,7 @@ public class DefaultSelectorDocumentTest {
         constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
-                getAssociationSkipPlan()), constraint);
+                getAssociationSkipPlan()), constraint, contextMap);
 
         assertNotNull("Should not be null", results);
         assertEquals("Should match", 2, results.size());
@@ -276,7 +280,7 @@ public class DefaultSelectorDocumentTest {
         constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
-                getIncludeXSDPlan()), constraint);
+                getIncludeXSDPlan()), constraint, contextMap);
 
         assertNotNull("Should not be null", results);
         assertEquals("Should match", 1, results.size());
@@ -295,7 +299,7 @@ public class DefaultSelectorDocumentTest {
         constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
-                getEmptyPlan()), constraint);
+                getEmptyPlan()), constraint, contextMap);
 
         assertNotNull("Should not be null", results);
         assertNotNull("Should not be null", results);

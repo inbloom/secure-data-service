@@ -18,6 +18,7 @@ package org.slc.sli.api.selectors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
     }
 
     @Override
-    public List<EntityBody> getEntities(final ApiQuery apiQuery, final String resourceName) {
+    public List<EntityBody> getEntities(final ApiQuery apiQuery, final String resourceName, final Map<String,List<EntityBody>> contextEntityCache) {
 
         if (apiQuery == null) {
             throw new NullPointerException("apiQuery");
@@ -82,7 +83,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(apiQuery.getSelector(), entityType);
         final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
-        return selectorDocument.aggregate(selectorQuery, apiQuery);
+        return selectorDocument.aggregate(selectorQuery, apiQuery, contextEntityCache);
     }
 }
 

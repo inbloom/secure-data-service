@@ -37,6 +37,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -76,6 +77,8 @@ public class DefaultLogicalEntityTest {
     @InjectMocks
     private LogicalEntity logicalEntity = new DefaultLogicalEntity();
 
+    private Map<String,List<EntityBody>> contextMap = new HashMap<String, List<EntityBody>>();
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -96,9 +99,9 @@ public class DefaultLogicalEntityTest {
 
         @SuppressWarnings("unchecked")
         final List<EntityBody> mockEntityList = mock(List.class);
-        when(selectorDocument.aggregate(mockPlan, apiQuery)).thenReturn(mockEntityList);
+        when(selectorDocument.aggregate(mockPlan, apiQuery,contextMap)).thenReturn(mockEntityList);
 
-        final List<EntityBody> entityList = logicalEntity.getEntities(apiQuery, "TEST");
+        final List<EntityBody> entityList = logicalEntity.getEntities(apiQuery, "TEST",contextMap);
 
         assertEquals(mockEntityList, entityList);
     }
