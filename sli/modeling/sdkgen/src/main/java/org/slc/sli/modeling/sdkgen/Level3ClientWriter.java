@@ -124,8 +124,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                         }
                     }
                 }
-            } finally {
-            }
+            } 
         }
         return JavaType.JT_OBJECT;
     }
@@ -164,8 +163,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                         }
                     }
                 }
-            } finally {
-            }
+            } 
         }
         return new JavaParam("obj", JavaType.JT_OBJECT, true);
     }
@@ -192,8 +190,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                         }
                     }
                 }
-            } finally {
-            }
+            } 
         }
         return new JavaParam("obj", JavaType.JT_OBJECT, true);
     }

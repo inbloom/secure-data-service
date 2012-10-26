@@ -115,8 +115,7 @@ public final class LevelNClientJavaHelper {
                         }
                     }
                 }
-            } finally {
-            }
+            } 
         }
         return JavaType.JT_OBJECT;
     }

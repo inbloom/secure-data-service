@@ -100,8 +100,6 @@ public final class WadlViewerHandler implements WadlHandler {
                     @SuppressWarnings("unused")
                     final QName elementName = representation.getElementName();
                 }
-            } finally {
-            }
-        }
+            } 
     }
 }
