@@ -7503,7 +7503,7 @@
 				loaded specify either CodeValue OR Description.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:choice minOccurs="0">
 			<xs:element name="codeValue" type="codeValue">
 				<xs:annotation>
 					<xs:documentation>A code or abbreviation that is used to refer to
@@ -7519,7 +7519,6 @@
 					<xs:documentation>The description of the competency level.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 					</xs:appinfo>
 				</xs:annotation>

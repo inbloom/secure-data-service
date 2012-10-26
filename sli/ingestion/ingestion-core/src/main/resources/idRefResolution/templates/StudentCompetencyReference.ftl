@@ -1,13 +1,58 @@
 <StudentCompetencyReference>
     <StudentCompetencyIdentity>
-        <Id>
-        ${StudentCompetency.@id}
-        </Id>
-        <Section>
-        ${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}
-        </Section>
-        <Student>
-        ${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}
-        </Student>
+    	<#if (StudentCompetency.LearningObjectiveReference.LearningObjectiveIdentity.Objective[0])??>
+    	<LearningObjectiveReference>
+    		<LearningObjectiveIdentity>
+    			<Objective>
+    				${StudentCompetency.LearningObjectiveReference.LearningObjectiveIdentity.Objective}
+    			</Objective>
+    			<AcademicSubject>
+    				${StudentCompetency.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject}
+    			</AcademicSubject>
+    			<ObjectiveGradeLevel>
+    				${StudentCompetency.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel}
+    			</ObjectiveGradeLevel>
+    		</LearningObjectiveIdentity>
+    	</LearningObjectiveReference>
+    	</#if>
+    	<#if (StudentCompetency.StudentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId[0])??>
+    	<StudentCompetencyObjectiveReference>
+    		<StudentCompetencyObjectiveIdentity>
+    			${StudentCompetency.StudentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId}
+    		</StudentCompetencyObjectiveIdentity>
+    	</StudentCompetencyObjectiveReference>
+    	</#if>
+    	<#if (StudentCompetency.CompetencyLevel.CodeValue[0])??>
+    	<CompetencyLevel>
+    		<CodeValue>
+    			${StudentCompetency.CompetencyLevel.CodeValue}
+    		</CodeValue>
+    	</CompetencyLevel>
+    	</#if>
+    	<StudentSectionAssociationReference>
+    		<StudentSectionAssociationIdentity>
+    			<StudentReference>
+    				<StudentIdentity>
+    					<StudentUniqueStateId>
+    						${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}
+    					</StudentUniqueStateId>
+    				</StudentIdentity>
+    			</StudentReference>
+    			<SectionReference>
+    				<SectionIdentity>
+    					<EducationalOrgReference>
+    						<EducationalOrgIdentity>
+    							<StateOrganizationId>
+    								${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}
+    							</StateOrganizationId>
+    						</EducationalOrgIdentity>
+    					</EducationalOrgReference>
+    					<UniqueSectionCode>
+    						${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}
+    					</UniqueSectionCode>
+    				</SectionIdentity>
+    			</SectionReference>
+    		</StudentSectionAssociationIdentity>
+    	</StudentSectionAssociationReference>
     </StudentCompetencyIdentity>
 </StudentCompetencyReference>

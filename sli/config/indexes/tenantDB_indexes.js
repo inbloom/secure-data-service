@@ -92,6 +92,7 @@ db["disciplineAction"].ensureIndex({"body.studentId":1});
 db["disciplineIncident"].ensureIndex({"body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"body.staffId":1});
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1});
+db["educationOrganization"].ensureIndex({"body.programReference":1});
 db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
 //gradebookEntry embedded into section

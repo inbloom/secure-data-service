@@ -55,10 +55,9 @@ public class GraduationPlanGenerator {
     }
 
     public static GraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
-    	//TODO: this is a hack that needs to come out upon completion of US4349.TA6826
-        if (GraduationPlanType.NUM_TYPES <= typeIndex)
+        if (typeIndex >= GraduationPlanType.NUM_TYPES) {
         	return null;
-        //End hack
+        }
 
    	    GraduationPlan gp = new GraduationPlan();
 

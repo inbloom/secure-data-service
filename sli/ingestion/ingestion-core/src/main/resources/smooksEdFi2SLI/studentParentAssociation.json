@@ -23,7 +23,8 @@
         }
     },
     {
-        "fieldPath" : "body.parentId",
+        "fieldPath" : "body.ParentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "parent",
@@ -35,7 +36,7 @@
                         "path" : "body.parentUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.parentReference.parentIdentity.parentUniqueStateId"
+                            "valueSource" : "body.ParentReference.ParentIdentity.ParentUniqueStateId"
                         }]
                     }
                 ]
