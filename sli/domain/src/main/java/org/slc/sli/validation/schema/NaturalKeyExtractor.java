@@ -92,9 +92,8 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                     // if the required key field is not found, there's a problem
                     missingKeys.add(keyField.getKey());
                 }
-            }
-            if (value instanceof String) {
-                String strValue = (String) value;
+            } else {
+                String strValue = value.toString();
                 map.put(keyField.getKey(), strValue);
             }
         }

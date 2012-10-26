@@ -63,7 +63,7 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-            INaturalKeyExtractor naturalKeyExtractor) {
+                          INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
@@ -226,9 +226,9 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), true, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), true, false).getLastError().ok();
             return result;
         }
 
@@ -462,6 +462,9 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
+
+            simplifyParentQuery(parentQuery);
+
             String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
                     + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
                     + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
@@ -477,6 +480,64 @@ public class SubDocAccessor {
                 }
             }
             return entities;
+        }
+
+        @SuppressWarnings("unchecked")
+        private void simplifyParentQuery(final DBObject query) {
+            final Set<String> parentSet = new HashSet<String>();
+            if (isSubDoc(this.subField) && subDoc(this.subField).collection.equals(this.collection)) {
+                final String childLoc = this.subField.concat("._id");
+                final String parentLoc = "_id";
+                final Object dbOrObj = query.get("$or");
+                if (dbOrObj != null && dbOrObj instanceof List) {
+                    final List<DBObject> dbOrList = (List<DBObject>) dbOrObj;
+                    for (DBObject childQuery : dbOrList) {
+                        Object childInQuery = childQuery.get(childLoc);
+                        if (childInQuery instanceof DBObject && ((DBObject) childInQuery).containsField("$in")) {
+                            Object inList = ((DBObject) childInQuery).get("$in");
+                            try {
+                                parentSet.addAll(getParentIds(inList));
+                            } catch (InvalidIdException e) {
+                                // IDs aren't valid, we can't simplify the query
+                                return;
+                            }
+                            if (parentSet.size() > 0) {
+                                if (dbOrList.size() == 1) {
+                                    query.removeField("$or");
+                                } else {
+                                    dbOrList.remove(childQuery);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (parentSet.size() == 1) {
+                    LOG.info("Putting parent id {} in {}", parentSet.iterator().next(), parentLoc);
+                    query.put(parentLoc, parentSet.iterator().next());
+                } else if (parentSet.size() > 1) {
+                    LOG.info("Putting parent ids $in[{}] in {}", parentSet, parentLoc);
+                    query.put(parentLoc, new BasicDBObject("$in", parentSet));
+                }
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        private Set<String> getParentIds(final Object childIds) throws InvalidIdException {
+            final Set<String> parentSet = new HashSet<String>();
+            if (childIds instanceof Iterable) {
+                for (String childId : (Iterable<String>) childIds) {
+                    addParentId(parentSet, childId);
+                }
+            } else if (childIds instanceof String) {
+                addParentId(parentSet, (String) childIds);
+            }
+            return parentSet;
+        }
+
+        private void addParentId(final Set<String> parentIds, final String childId) throws InvalidIdException {
+            final String parentId = getParentId(childId);
+            if (childId.equals(parentId)) throw new InvalidIdException("ChildId == ParentId");
+            parentIds.add(parentId);
         }
 
         public boolean exists(String id) {
@@ -506,6 +567,12 @@ public class SubDocAccessor {
             for (Entity e : findAll(query)) {
                 Entity entity = findById(e.getEntityId());
                 delete(entity);
+            }
+        }
+
+        private class InvalidIdException extends Exception {
+            public InvalidIdException(String s) {
+                super(s);
             }
         }
     }
