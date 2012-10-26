@@ -740,11 +740,11 @@ Given /^the following collections are empty in datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    @entity_collection.remove()
 
-    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+    puts "There are #{@entity_collection.find().count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+    if @entity_collection.find().count.to_s != "0"
       @result = "false"
     end
   end

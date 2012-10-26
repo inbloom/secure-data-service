@@ -7,6 +7,7 @@
             "ref" :
             {
                 "entityType" : "educationOrganization",
+                "optional" : true,
                 "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
@@ -30,6 +31,7 @@
                 "isRefList" : true,
                 "refObjectPath" : "body.programReference",
                 "givesContext" : ["edOrgs"],
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [
