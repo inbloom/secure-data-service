@@ -102,22 +102,28 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private MessageSource messageSource;
 
-    // Paths for id field and ref field for self-referencing entities
+    // Paths for id field and ref fields for self-referencing entities (for DE1950)
     // TODO: make it work for entities with multiple field keys. 
     // TODO: make it configurable. From schema, maybe.  
     // represents the configuration of a self-referencing entity schema
     static class SelfRefEntityConfig {
-        String idPath;
-        String refPath;
-        SelfRefEntityConfig(String i, String r) {
+        String idPath;              // path to the id field
+        // Exactly one of the following fields can be non-null: 
+        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
+        SelfRefEntityConfig(String i, String p, String k) {
             idPath = i;
-            refPath = r;
+            parentAttributePath = p;
+            localParentIdKey = k;
         }
     }
     public static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
         SELF_REF_ENTITY_CONFIG = new HashMap<String, SelfRefEntityConfig> ();
-        SELF_REF_ENTITY_CONFIG.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", "parentObjectiveId"));
+        // learning objective's parent reference is stored in localParentId map. 
+        SELF_REF_ENTITY_CONFIG.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
+        // localEducationAgency's parent reference is stored in a field an attribute
+        SELF_REF_ENTITY_CONFIG.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
     }
     // End Self-referencing entity
     
@@ -301,16 +307,17 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForCollection, ErrorReport errorReportForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
+        String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
         try {
-            sortedNrList = sortNrListByDependency(sortedNrList, 
-                SELF_REF_ENTITY_CONFIG.get(workNote.getIngestionStagedEntity().getCollectionNameAsStaged()));
+            sortedNrList = sortNrListByDependency(sortedNrList, collectionNameAsStaged);
         } catch (IllegalStateException e) {
-            LOG.error("Illegal state encountered during dependency-sort of learningObjectives", e);
+            LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
         for (NeutralRecord neutralRecord : sortedNrList) {
-            LOG.info("transforming and persisting learningObjective: {}",
-                    getByPath("learningObjectiveId.identificationCode", neutralRecord.getAttributes()));
+            LOG.info("transforming and persisting {}: {}",
+                    collectionNameAsStaged, 
+                    getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
@@ -346,13 +353,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @return
      */
     // TODO: make this generic for all self-referencing entities
-    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords, SelfRefEntityConfig selfRefConfig)
+    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords, String collectionNameAsStaged)
             throws IllegalStateException {
 
         List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
         
         for (NeutralRecord me : unsortedRecords) {
-            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), selfRefConfig);
+            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), collectionNameAsStaged);
         }
         return sortedRecords;
     }
@@ -367,38 +374,46 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     // FIXME: make this algo iterative rather than recursive
     private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> objectiveIdsInStack, 
-            SelfRefEntityConfig selfRefConfig) throws IllegalStateException {
+            List<NeutralRecord> sortedRecords, Set<String> idsInStack, 
+            String collectionNameAsStaged) throws IllegalStateException {
+        SelfRefEntityConfig selfRefConfig = SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged);
         if (me != null && !sortedRecords.contains(me)) {
 
-            String myObjectiveId = getByPath(selfRefConfig.idPath, me.getAttributes());
-            objectiveIdsInStack.add(myObjectiveId);
+            String myId = getByPath(selfRefConfig.idPath, me.getAttributes());
+            idsInStack.add(myId);
+
+            // look up parent reference
+            String parentId = null;
+            if (selfRefConfig.parentAttributePath != null) {
+                parentId = getByPath(selfRefConfig.parentAttributePath, me.getAttributes());
+            } else if (selfRefConfig.localParentIdKey != null) {
+                parentId = (String) me.getLocalParentIds().get(selfRefConfig.localParentIdKey);
+            }
 
             // detect cycles
-            String parentObjectiveId = (String) me.getLocalParentIds().get(selfRefConfig.refPath);
-            if (objectiveIdsInStack.contains(parentObjectiveId)) {
+            if (idsInStack.contains(parentId)) {
                 LOG.error(
-                        "cycle detected in learningObjective reference hierarchy. {} references a learningObjective already a part of this dependency hierarchy {}",
-                        myObjectiveId, objectiveIdsInStack);
-                throw new IllegalStateException("cycle detected in learningObjective reference hierarchy.");
+                        "cycle detected in " + collectionNameAsStaged + " reference hierarchy. {} references an entity already a part of this dependency hierarchy {}",
+                        myId, idsInStack);
+                throw new IllegalStateException("cycle detected in " + collectionNameAsStaged + " reference hierarchy.");
             } else {
 
                 // insert my parent
-                NeutralRecord parent = findNeutralRecordByObjectiveId(parentObjectiveId, unsortedRecords);
-                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, objectiveIdsInStack, selfRefConfig);
+                NeutralRecord parent = findNeutralRecordByIdAttr(parentId, unsortedRecords, selfRefConfig.idPath);
+                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, idsInStack, collectionNameAsStaged);
             }
 
             // insert me
             sortedRecords.add(me);
 
-            objectiveIdsInStack.remove(myObjectiveId);
+            idsInStack.remove(myId);
         }
     }
 
-    private static NeutralRecord findNeutralRecordByObjectiveId(String objectiveId, List<NeutralRecord> records) {
+    private static NeutralRecord findNeutralRecordByIdAttr(String objectiveId, List<NeutralRecord> records, String idPath) {
         if (objectiveId != null) {
             for (NeutralRecord sortedNr : records) {
-                if (objectiveId.equals(getByPath("learningObjectiveId.identificationCode", sortedNr.getAttributes()))) {
+                if (objectiveId.equals(getByPath(idPath, sortedNr.getAttributes()))) {
                     return sortedNr;
                 }
             }
