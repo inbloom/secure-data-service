@@ -117,10 +117,16 @@ class SLCFixer
         edorgs = section['body']['schoolId']
         stamp_id(@db['section'], section['_id'], edorgs)
         sectionQuery = {"body.sectionId" => section['_id']}
-        @log.info "Iterating teacherSectionAssociation with query: #{sectionQuery}"
-        @db['teacherSectionAssociation'].find(sectionQuery, @basic_options) do |scur|
-          scur.each {|assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs)}
+        if section.include? "teacherSectionAssociation"
+          teacherSectionAssociations = section["teacherSectionAssociation"]
+            teacherSectionAssociations.each do |teacherSection|
+            stamp_id(@db['section'],teacherSection['_id'],edorgs,"teacherSectionAssociation",section['_id'])
+            end
         end
+     #   @log.info "Iterating teacherSectionAssociation with query: #{sectionQuery}"
+     #   @db['teacherSectionAssociation'].find(sectionQuery, @basic_options) do |scur|
+      #    scur.each {|assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs)}
+      #  end
         @log.info "Iterating sectionAssessmentAssociation with query: #{sectionQuery}"
         @db['sectionAssessmentAssociation'].find(sectionQuery, @basic_options) do |scur|
           scur.each {|assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
@@ -372,13 +378,19 @@ class SLCFixer
   def fix_grades
     set_stamps(@db['gradebookEntry'])
     set_stamps(@db['grade'])
-    @log.info "Iterating gradebookEntry with query: #{@basic_query}"
-    @db['gradebookEntry'].find(@basic_query, @basic_options) do |cur|
-      cur.each do |grade|
-        edorg = old_edorgs(@db['section'], grade['body']['sectionId'])
-        stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
+    
+    embedded_query = @basic_query.clone
+    embedded_query["gradebookEntry"] = {"$exists" => true}
+    @log.info "Iterating section with query: #{embedded_query}"
+    @db['section'].find(embedded_query, @basic_options) do |cur|
+      cur.each do |section|
+        section["gradebookEntry"].each do |gradebookEntry| 
+          edorg = old_edorgs(@db['section'], gradebookEntry['body']['sectionId'])
+          stamp_id(@db['section'], gradebookEntry['_id'], edorg, "gradebookEntry", section['_id'])
+        end
       end
-    end
+    end  
+
     #Grades and grade period
     @log.info "Iterating grade with query: #{@basic_query}"
     @db['grade'].find(@basic_query, @basic_options) do |cur|

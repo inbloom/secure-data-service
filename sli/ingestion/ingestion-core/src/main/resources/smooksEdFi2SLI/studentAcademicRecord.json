@@ -44,6 +44,7 @@
         },
         {
             "fieldPath" : "body.reportCards",
+            "deprecated" : true,
             "ref" : {
                 "entityType" : "reportCard",
                 "isRefList" : true,

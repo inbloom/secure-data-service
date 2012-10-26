@@ -98,11 +98,10 @@ public class InterchangeStudentEnrollmentGenerator {
 			}
 
 
-	         iWriter.marshal(graduationPlan);
-			
-//			interchangeObjects.add(graduationPlan);
-
-			objGenCounter++;
+	        if (graduationPlan != null) {
+	            iWriter.marshal(graduationPlan);
+	            objGenCounter++;
+	        }
 		}
 
 		System.out.println("generated " + objGenCounter
