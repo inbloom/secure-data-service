@@ -618,4 +618,9 @@ public class MockRepo implements Repository<Entity> {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
 }

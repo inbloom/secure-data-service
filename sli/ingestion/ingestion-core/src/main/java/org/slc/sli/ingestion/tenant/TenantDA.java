@@ -41,4 +41,9 @@ public interface TenantDA {
      */
     Map<String, List<String>> getPreloadFiles(String ingestionServer);
 
+    /**
+     *
+     * @return a map of landing zone paths to the list of files to preload on them
+     */
+    Map<String, List<String>> getPreloadFiles();
 }
