@@ -20,8 +20,8 @@ import java.util.Set;
 
 public interface IContextValidator {
 
-    public abstract boolean canValidate(String entityType);
+    public abstract boolean canValidate(String entityType, boolean through);
     
-    public abstract boolean validate(Set<String> ids);
+    public abstract boolean validate(String entityType, Set<String> ids);
     
 }

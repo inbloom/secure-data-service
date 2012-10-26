@@ -331,6 +331,42 @@ public class DeterministicIdResolverTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
         naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
+        String tenantId = TENANT;
+        NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);
+        Mockito.when(didGenerator.generateId(Mockito.eq(sessionNKD))).thenReturn("sessionDID");
+
+        naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("sessionId", "sessionDID");
+        NaturalKeyDescriptor studentAcademicRecordNKD = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                "studentAcademicRecord", null);
+        Mockito.when(didGenerator.generateId(Mockito.eq(studentAcademicRecordNKD))).thenReturn(
+                "studentAcademicRecordDID");
+
+        mockRefConfig(refConfig, "studentAcademicRecord");
+        mockEntityConfig(entityConfig, "studentTranscriptAssociation");
+        Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
+
+        System.out.println(entity.getBody());
+        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+        System.out.println(entity.getBody());
+
+        Object resolvedId = entity.getBody().get(REF_FIELD);
+        Assert.assertEquals(DID_VALUE, resolvedId);
+        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+
+    }
+
+    @Test
+    public void shouldResolveNestedDidWithOptionalNestedReference() throws IOException {
+
+        Entity entity = createEntity("NeutralRecord_StudentTranscriptAssoc_missingOptionalEdOrg.json");
+        DidRefConfig refConfig = createRefConfig("StudentAcademicRecord_optional_ref_config.json");
+        DidEntityConfig entityConfig = createEntityConfig("StudentTranscriptAssoc_entity_config.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("schoolId", "");
+        naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
         naturalKeys.put("schoolId", "");
         String tenantId = TENANT;
         NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);
