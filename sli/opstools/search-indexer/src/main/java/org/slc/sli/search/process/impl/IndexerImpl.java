@@ -198,6 +198,9 @@ public class IndexerImpl implements Indexer {
         if (docMap.containsKey(Action.QUICK_UPDATE)) {
             executeUpdate(docMap.get(Action.QUICK_UPDATE));
         }
+        if (docMap.containsKey(Action.DELETE)) {
+            executeBulkDelete(docMap.get(Action.DELETE));
+        }
     }
     
     /**
@@ -223,6 +226,23 @@ public class IndexerImpl implements Indexer {
          // send the message
         connector.executePost(connector.getBulkUri(), message);
         logger.info("Bulk index response: OK");
+    }
+    
+    /**
+     * Takes a collection of delete requests, send a bulk delete to elastic search
+     * @param docs
+     */
+    public void executeBulkDelete(List<IndexEntity> docs) {
+        if (docs.isEmpty()) {
+            return;
+        }
+        logger.info("Preparing _bulk delete request with " + docs.size() + " records");
+
+        String message = IndexEntityUtil.getBulkDeleteJson(docs);
+        logger.info("Sending _bulk delete request with " + docs.size() + " records");
+        // send the message
+        connector.executePost(connector.getBulkUri(), message);
+        logger.info("Bulk delete response: OK");
     }
     
     /**

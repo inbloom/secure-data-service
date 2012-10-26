@@ -55,12 +55,16 @@ public class IndexEntityConverter {
             Map<String, Object> metaData = (Map<String, Object>) entityMap.get("metaData");
             String type = (String)entityMap.get("type");
             // decrypt body if needed
-            Map<String, Object> decryptedMap = decrypt ? entityEncryption.decrypt(type, body): body;
+            Map<String, Object> decryptedMap = null;
+            if (body != null) {
+                decryptedMap = decrypt ? entityEncryption.decrypt(type, body): body;
+            }
+            //re-assemble entity map
+            entityMap.put("body", decryptedMap);
             // get tenantId
             String indexName = (index == null) ? ((String)metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
             IndexConfig config = indexConfigStore.getConfig(type);
-            //re-assemble entity map
-            entityMap.put("body", decryptedMap);
+            
             // filter out
             if (!filter.matchesCondition(config, entityMap))
                 return null;
