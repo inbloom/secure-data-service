@@ -15,7 +15,7 @@ end
 desc "Run API SuperDoc Tests"
 task :apiSuperDocTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/superdoc")
+  runTests("test/features/superdoc/denormalization_api.feature")
 end
 
 desc "Run API PATCH Tests"
@@ -58,14 +58,6 @@ task :v1StaffSecurityTests => [:realmInit] do
   runTests("test/features/security/staff_security.feature")
 end
 
-desc "Run V1 Student Discipline Incident Association Tests"
-task :v1StudentDisciplineIncidentAssociationTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  setFixture("studentDisciplineIncidentAssociation", "studentDisciplineIncidentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/studentDisciplineIncidentAssociation")
-end
-
 desc "Run V1 Cascade Deletion Tests"
 task :v1CascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -82,134 +74,6 @@ desc "Run V1 Direct Reference Collections Tests"
 task :v1DirectReferenceCollectionsTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferenceCollections")
-end
-
-desc "Run V1 Student Parent Association Tests"
-task :v1StudentParentAssociationTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("parent", "parent_fixture.json")
-  setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/studentParentAssociation")
-end
-
-desc "Run V1 Student Transcript Association Tests"
-task :v1CourseTranscriptTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("courseTranscript", "courseTranscript_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/courseTranscript")
-end
-
-desc "Run V1 Teacher School Association Tests"
-task :v1TeacherSchoolAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/teacherSchoolAssociation")
-end
-
-desc "Run V1 Teacher Section Association Tests"
-task :v1TeacherSectionAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/teacherSectionAssociation")
-end
-
-desc "Run V1 Student Assessment Association Tests"
-task :v1StudentAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("student", "student_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/studentAssessmentAssociation")
-end
-
-desc "Run V1 Student Section Association Tests"
-task :v1StudentSectionAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/studentSectionAssociation")
-end
-
-desc "Run V1 Staff Education Organization Association Tests"
-task :v1StaffEdOrgAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/staffEducationOrganizationAssociation")
-end
-
-desc "Run V1 Staff Program Association Tests"
-task :v1StaffProgramAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("program", "program_fixture.json")
-  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/staffProgramAssociation")
-end
-
-desc "Run V1 Student Program Association Tests"
-task :v1StudentProgramAssociationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("program", "program_fixture.json")
-  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
-  setFixture("studentProgramAssociation", "studentProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/legacy_tests/studentProgramAssociation")
-end
-
-desc "Run V1 School Session Association Tests"
-task :v1SchoolSessionAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("schoolSessionAssociation", "schoolSessionAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/schoolSessionAssociation")
-end
-
-desc "Run V1 Student School Association Tests"
-task :v1StudentSchoolAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/studentSchoolAssociation")
-end
-
-desc "Run V1 Course Offering Tests"
-task :v1CourseOfferingTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/courseOffering")
-end
-
-desc "Run V1 Staff Cohort Association Tests"
-task :v1StaffCohortAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("staff", "staff_fixture.json")
-  setFixture("cohort", "cohort_fixture.json")
-  setFixture("staffCohortAssociation", "staffCohortAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/staffCohortAssociation")
-end
-
-desc "Run V1 Student Cohort Association Tests"
-task :v1StudentCohortAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  Rake::Task["importSandboxData"].execute
-  #run test
-  runTests("test/features/apiV1/associations/legacy_tests/studentCohortAssociation")
 end
 
 desc "Run V1 Common Core Standards reference traversal Tests"
@@ -238,21 +102,21 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
 end
 
 desc "Run V1 White List Validation Tests"
 task :v1WhiteListValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("student", "student_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
@@ -325,7 +189,7 @@ end
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("student", "student_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
 
@@ -354,10 +218,6 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  Rake::Task["importSandboxData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
   runTests("test/features/security")
 end
 
@@ -388,7 +248,10 @@ task :importCompletedAggData => [:importSandboxData] do
     "student" => "completedAggregation/students.json",
     "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
     "studentSectionAssociation" => "completedAggregation/studentSections.json",
-    "educationOrganization" => "completedAggregation/educationOrganization.json"
+    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json",
+    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json",
+    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json",
+    "educationOrganization_fakedev@zork.net" => "completedAggregation/fakedev@zork.net/educationOrganization.json"
   ]
   setMultipleFixtureFiles(data)
 end

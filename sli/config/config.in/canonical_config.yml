@@ -29,6 +29,12 @@ default:
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
 
+        # Set the maximum size of an in clause for security (CHANGE AT OWN
+        # RISK)
+        sli.security.in_clause_size: 100000
+        
+        sli.api.cookieDomain: .slidev.org
+
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false

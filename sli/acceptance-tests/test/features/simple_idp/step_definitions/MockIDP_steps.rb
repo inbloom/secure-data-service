@@ -74,6 +74,10 @@ Then /^I am denied from accessing the databrowser$/ do
   assertWithWait("Was directed to the databrowser when it shouldn't have")  {!@driver.page_source.include?("Listing Home")}
 end
 
+Then /^I get message that I am not authorized to use the Databrowser$/ do
+  assertWithWait("Should have received message that databrowser could not be accessed") { @driver.page_source.index("You are not authorized to use this app." ) != nil}
+end
+
 When /^I click Login$/ do
   @driver.find_element(:id, "login_button").click
 end

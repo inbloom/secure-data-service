@@ -40,10 +40,12 @@ end
 
 When /^I successfully access resource "([^"]*)" and record expiration$/ do |resourceUri|
   restHttpGet(resourceUri)
+  disable_NOTABLESCAN()
   assert(@res.code == 200)
   @previous=@expiration
   mongo_session=coll().find_one({"body.appSession.token"=>@sessionId})
   @expiration=mongo_session["body"]["expiration"]
+  enable_NOTABLESCAN()
 end
 
 Then /^current session's expiration is in the future$/ do

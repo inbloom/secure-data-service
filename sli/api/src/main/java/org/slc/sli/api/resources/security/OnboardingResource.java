@@ -36,7 +36,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
@@ -119,8 +118,7 @@ public class OnboardingResource {
         String tenantId = SecurityUtil.getTenantId();
 
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
-                false));
+
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
 
         String uuid = null;
@@ -147,7 +145,6 @@ public class OnboardingResource {
             body.put(ADDRESSES, addresses);
 
             Map<String, Object> meta = new HashMap<String, Object>();
-            meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
             meta.put("externalId", orgId);
             Entity edOrgEntity = repo.create("stateEducationAgency", body, meta, EntityNames.EDUCATION_ORGANIZATION);
 
