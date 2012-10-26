@@ -130,12 +130,14 @@ def isSystemCollection(collectionName)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
+  disable_NOTABLESCAN()
+
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else
     db_used = DB_NAME
   end
-  
+
   if TODROP
     dropOption = (dropExistingCollection) ? "--drop":""
   else
@@ -249,7 +251,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
     db_used = DB_NAME
   end
-  
+
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(db_used)
@@ -269,7 +271,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   else
     db_used = DB_NAME
   end
-  
+
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
@@ -718,7 +720,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests] do
+                         :ingestionSuperDocTests, :ingestionDbSpinupTest, :ingestionSubdocTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -988,7 +990,7 @@ task :importSecuredData do
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
- 
+
   testHash = Hash[
     "educationOrganization" => "secured/Other/educationOrganization.json",
     "student" => "secured/Other/student.json",

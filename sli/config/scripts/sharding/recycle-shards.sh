@@ -19,16 +19,8 @@ echo starting shards.
 $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo
 
-echo executing sharding and presplitting configuration for Midgar tenant.
-mongo admin --eval "var tenant='02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a'" $SLI_HOME/config/shards/sli-shard-presplit.js
-echo
-
 echo indexing sli.
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
-echo
-
-echo indexing Midgar tenant.
-mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a $SLI_HOME/config/indexes/tenantDB_indexes.js
 echo
 
 echo ingexing is.

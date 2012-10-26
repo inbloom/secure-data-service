@@ -80,52 +80,52 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testCanValidateTeacherToAttendance() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.ATTENDANCE));
+        assertTrue(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
 
     @Test
     public void testCanValidateTeacherToCourseTranscript() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT));
+        assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT, false));
     }
 
     @Test
     public void testCanValidateTeacherToDisciplineAction() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.DISCIPLINE_ACTION));
+        assertTrue(validator.canValidate(EntityNames.DISCIPLINE_ACTION, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentAcademicRecord() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentAssessment() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentDisciplineIncident() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentGradebookEntry() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentSchoolAssociation() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, false));
     }
 
     @Test
     public void testCanValidateTeacherToStudentSectionAssociation() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, false));
     }
 
     @Test
     public void testCanNotValidateOtherEntities() throws Exception {
-        assertFalse(validator.canValidate(EntityNames.STUDENT));
+        assertFalse(validator.canValidate(EntityNames.STUDENT, false));
     }
 
     @Test
@@ -141,7 +141,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 Arrays.asList(attendanceEntity1));
 
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
-        assertTrue(validator.validate(attendances, EntityNames.ATTENDANCE));
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, attendances));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 Arrays.asList(attendanceEntity1));
 
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
-        assertFalse(validator.validate(attendances, EntityNames.ATTENDANCE));
+        assertFalse(validator.validate(EntityNames.ATTENDANCE, attendances));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
-        assertTrue(validator.validate(associations, EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
 
     @Test
@@ -186,7 +186,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
-        assertTrue(validator.validate(associations, EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+        assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
 
     @Test
@@ -197,7 +197,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
-        assertFalse(validator.validate(associations, EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+        assertFalse(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
-        assertTrue(validator.validate(associations, EntityNames.STUDENT_SECTION_ASSOCIATION));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
-        assertTrue(validator.validate(associations, EntityNames.STUDENT_SECTION_ASSOCIATION));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
 
     @Test
@@ -238,7 +238,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
-        assertFalse(validator.validate(associations, EntityNames.STUDENT_SECTION_ASSOCIATION));
+        assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
 
     @Test
