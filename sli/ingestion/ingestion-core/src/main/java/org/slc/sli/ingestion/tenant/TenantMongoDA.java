@@ -230,4 +230,28 @@ public class TenantMongoDA implements TenantDA {
         BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
         entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
     }
+
+    public Map<String, List<String>> getPreloadFiles() {
+        NeutralQuery preloadReadyTenantQuery = new NeutralQuery().
+                addCriteria(new NeutralCriteria("landingZone.preload.status", "=", "ready")).
+                setIncludeFields(Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH));
+        Update update = Update.update("body.landingZone.$.preload.status", "started");
+
+        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
+        Entity tenant;
+        while((tenant = entityRepository.findAndUpdate(TENANT_COLLECTION, preloadReadyTenantQuery, update)) != null ) {
+            //LOG.info("Found new tenant to preload! [" + tenant.getBody().get("tenantId") + "]");
+            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
+            for (Map<String, Object> landingZone : landingZones) {
+                List<String> files = new ArrayList<String>();
+                Map<String, Object> preloadData = (Map<String, Object>) landingZone.get(PRELOAD_DATA);
+                if (preloadData != null) {
+                    files.addAll((Collection<? extends String>) preloadData.get(PRELOAD_FILES));
+                    fileMap.put((String) landingZone.get(PATH), files);
+                }
+            }
+        }
+        return fileMap;
+    }
+
 }
