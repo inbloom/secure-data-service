@@ -220,11 +220,6 @@ task :ingestionJeffCoOnboardingTest do
   runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
 end
 
-desc "Run RC Test"
-task :ingestionRcTest do
-  runTests("test/features/ingestion/features/ingestion_rc.feature")
-end
-
 ############################################################
 # Ingestion tests end
 ############################################################

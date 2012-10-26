@@ -67,6 +67,11 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
+  if (INGESTION_RC_TENANT == "" && INGESTION_RC_EDORG == "")
+    @ingestion_lz_key_override = nil
+  else
+    @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
+  end
 
   if (INGESTION_MODE != 'remote')
     #remove all tenants other than Midgar and Hyrule
@@ -413,6 +418,11 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
+  # if the lz_key is overridden from the command line, use the override value
+  unless (@ingestion_lz_key_override == nil)
+    lz_key = @ingestion_lz_key_override
+  end
+
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
   initializeTenantDatabase(lz_key)
