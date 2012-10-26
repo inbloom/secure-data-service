@@ -6614,7 +6614,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="attendance">
+	<xs:complexType name="studentAttendance">
 		<xs:annotation>
 			<xs:documentation>
 				Daily attendance for the student at the school.
@@ -6622,7 +6622,7 @@
 				unique per school year attendance.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>attendance</sli:CollectionType>
+				<sli:CollectionType>studentAttendance</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
