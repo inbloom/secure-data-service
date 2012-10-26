@@ -92,6 +92,7 @@ db["disciplineAction"].ensureIndex({"body.studentId":1});
 db["disciplineIncident"].ensureIndex({"body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"body.staffId":1});
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1});
+db["educationOrganization"].ensureIndex({"body.programReference":1});
 db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
 //gradebookEntry embedded into section
@@ -204,7 +205,6 @@ db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
 db["course"].ensureIndex({"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
 db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
-db["educationOrganization"].ensureIndex({"body.programReference":1});
 db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode":1}); // needs to be combined with next
 db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode.ID":1});
 db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
