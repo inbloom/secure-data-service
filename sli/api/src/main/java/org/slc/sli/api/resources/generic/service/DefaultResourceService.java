@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -61,6 +62,7 @@ import org.slc.sli.modeling.uml.ClassType;
  */
 
 @Component
+@Scope("request")
 public class DefaultResourceService implements ResourceService {
 
     @Autowired
