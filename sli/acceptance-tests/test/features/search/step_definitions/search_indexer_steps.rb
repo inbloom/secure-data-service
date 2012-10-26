@@ -40,6 +40,7 @@ After do |scenario|
   end
   assert(result == "true", "Some collections were not cleared successfully.")
 end
+###################################################################################
 
 Given /^I send a command to start the extractor to extract now$/ do
   hostname = PropLoader.getProps['elastic_search_host']
@@ -170,7 +171,7 @@ end
 Given /^I search in Elastic Search for "(.*?)"$/ do |query|
   url = PropLoader.getProps['elastic_search_address'] + "/midgar/_search?q=" + query
   restHttpGetAbs(url)
-  assert(@res != nil, "Response from rest-client POST is nil")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Given /^"(.*?)" hit is returned$/ do |expectedHits|
@@ -200,10 +201,6 @@ Given /^I see the following fields:$/ do |table|
   end
 end
 
-Given /^I wait for "(.*?)" seconds$/ do |time|
-  sleep(Integer(time))
-end
-
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   assert(destPath != nil, "Destination path is nil")
   assert(sourcePath != nil, "Source path is nil")
@@ -213,3 +210,35 @@ def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   end
   FileUtils.cp sourcePath, destPath  
 end
+
+Given /^I search in API for "(.*?)"$/ do |query|
+  url = PropLoader.getProps["dashboard_api_server_uri"] + PropLoader.getProps["student_search_api_query"] + query
+  restHttpGetAbs(url)
+  assert(@res != nil, "Response from rest-client GET is nil")  
+end
+
+Then /^I see the following search results:$/ do |table|
+  response = JSON.parse(@res.body)
+    table.hashes.each do |row|
+      field = row["Field"]
+      currentRes = response
+      value = nil
+      while (field.include? ".")
+        delimiter = field.index('.') + 1
+        length = field.length - delimiter      
+        current = field[0..delimiter-2]        
+        field = field[delimiter,length]  
+        if currentRes == response
+          currentRes = currentRes[current]
+        end      
+      end          
+      value = currentRes[field]
+      assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
+    end
+end
+
+Then /^no search results are returned$/ do
+  response = JSON.parse(@res.body)
+  assert(response == [], "Error: Unauthorized student data is accessible")  
+end
+
