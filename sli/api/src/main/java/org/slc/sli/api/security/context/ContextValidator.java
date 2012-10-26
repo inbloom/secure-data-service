@@ -21,23 +21,26 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.validator.GenericContextValidator;
-import org.slc.sli.api.security.context.validator.IContextValidator;
-import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-import com.sun.jersey.spi.container.ContainerRequest;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.validator.GenericContextValidator;
+import org.slc.sli.api.security.context.validator.IContextValidator;
+import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
+import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * ContextValidator
@@ -46,37 +49,40 @@ import com.sun.jersey.spi.container.ContainerRequest;
  */
 @Component
 public class ContextValidator implements ApplicationContextAware {
-    
+
     private List<IContextValidator> validators;
-    
+
     @Autowired
     private ResourceHelper resourceHelper;
-    
+
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         validators = new ArrayList<IContextValidator>();
         validators.addAll(applicationContext.getBeansOfType(IContextValidator.class).values());
-        
+
         IContextValidator genVal = null;
         IContextValidator studentVal = null;
+        IContextValidator subEntityVal = null;
         //Make GenericContextValidator last, since we want to use that as a last resort
         for (IContextValidator validator : validators) {
             if (validator instanceof GenericContextValidator) {
                 genVal = validator;
             } else if (validator instanceof TeacherToStudentValidator) {
                 studentVal = validator;
+            } else if (validator instanceof TeacherToSubStudentEntityValidator) {
+                subEntityVal = validator;
             }
         }
-        
+
         //move generic validator to end
-        validators.remove(genVal);
-        //validators.add(genVal); //temporarily disable
-        
         //temporarily disable teacher-student validator
+        // temporarily disable teacher-sub-student entity validator
+        validators.remove(genVal);
         validators.remove(studentVal);
+        validators.remove(subEntityVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -85,19 +91,20 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
-   
+
         if (request.getPathSegments().size() < 3) {
             return;
         }
 
         String rootEntity = request.getPathSegments().get(1).getPath();
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (def == null) //e.g. home resource
+        if (def == null) {
             return;
+        }
         String entityName = def.getType();
-        
+
         /*
-         * e.g. 
+         * e.g.
          * through - /v1/staff/<ID>/disciplineActions
          * !through - /v1/staff/<ID>
          */
@@ -131,14 +138,14 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     * 
+     *
      * @param toType
      * @param through
      * @return
      * @throws IllegalStateException
      */
     private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
-        
+
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, through)) {
@@ -146,7 +153,7 @@ public class ContextValidator implements ApplicationContextAware {
                 break;
             }
         }
-        
+
         if (found == null) {
             warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
         }

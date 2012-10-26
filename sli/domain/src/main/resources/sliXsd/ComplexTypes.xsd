@@ -7503,7 +7503,7 @@
 				loaded specify either CodeValue OR Description.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:choice minOccurs="0">
 			<xs:element name="codeValue" type="codeValue">
 				<xs:annotation>
 					<xs:documentation>A code or abbreviation that is used to refer to
