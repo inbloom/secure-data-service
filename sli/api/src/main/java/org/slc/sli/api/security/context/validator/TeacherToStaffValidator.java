@@ -17,11 +17,11 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -46,7 +46,7 @@ public class TeacherToStaffValidator extends AbstractContextValidator {
     }
     
     @Override
-    public boolean validate(Collection<String> staffIds) {
+    public boolean validate(String entityName, Set<String> staffIds) {
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
@@ -77,7 +77,7 @@ public class TeacherToStaffValidator extends AbstractContextValidator {
                 return false;
             }
         }
-        if (staffEdorgMap.size() == 0) {
+        if (staffEdorgMap.size() == 0 || staffEdorgMap.size() != staffIds.size()) {
             return false;
         }
         return true;
