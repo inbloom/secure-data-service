@@ -58,4 +58,14 @@ public class DidRefConfig {
     public static DidRefConfig parse(InputStream inputStream) throws IOException {
         return MAPPER.readValue(inputStream, DidRefConfig.class);
     }
+
+    @Override
+    public String toString() {
+        try {
+            return MAPPER.writeValueAsString(this);
+        } catch (Exception e) {
+            return super.toString();
+        }
+    }
+
 }
