@@ -37,15 +37,19 @@ INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
+LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
+INGESTION_PASSWORD = PropLoader.getProps['ingestion_password']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
+INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
+INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
@@ -64,17 +68,21 @@ Before do
   @tenantColl = @mdb.collection('tenant')
 
 
-  #remove all tenants other than Midgar and Hyrule
-  @tenantColl.find.each do |row|
-    if row['body'] == nil
-      puts "removing record"
-      @tenantColl.remove(row)
-    else
-      if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
+  if (INGESTION_MODE != 'remote')
+    #remove all tenants other than Midgar and Hyrule
+    @tenantColl.find.each do |row|
+      if row['body'] == nil
         puts "removing record"
         @tenantColl.remove(row)
+      else
+        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
+          puts "removing record"
+          @tenantColl.remove(row)
+        end
       end
     end
+  else
+      puts "Refusing to remove tenants from remote (possibly RC) db"
   end
 
   @ingestion_lz_identifer_map = {}
@@ -99,16 +107,23 @@ Before do
         path = path+ '/'
       end
 
+      identifier = @tenantId + '-' + educationOrganization
+
       #in remote trim the path to a relative user path rather than absolute path
       if INGESTION_MODE == 'remote'
-        path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+        # if running against RC tenant and edorg, path will be root directory on sftp login
+        if identifier == INGESTION_RC_TENANT + '-' + INGESTION_RC_EDORG
+          path = "./"
+        else
+          path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+        end
       end
 
-      identifier = @tenantId + '-' + educationOrganization
+
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
-      if !File.directory?(path)
+      if !File.directory?(path) && INGESTION_MODE != 'remote'
         FileUtils.mkdir_p(path)
       end
 
@@ -162,9 +177,9 @@ def cloneAllIndexes(db_connection, source_db_name, target_db_name)
 
   source_indexes = source_db["system.indexes"].find()
   source_indexes.each do |index|
-    
+
     collection_name = index['ns'][source_db_name.length+1, index['ns'].length]
-    
+
     index_spec_array  = Array.new
     index['key'].each do |index_spec|
       index_component_array = Array.new
@@ -259,7 +274,7 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         puts "attempting to remote copy " + srcPath + " to " + destPath
         sftp.upload(srcPath, destPath)
     end
@@ -269,7 +284,7 @@ def clearRemoteLz(landingZone)
 
     puts "clear landing zone " + landingZone
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.foreach(landingZone) do |entry|
             next if entry.name == '.' or entry.name == '..'
 
@@ -282,10 +297,14 @@ def clearRemoteLz(landingZone)
     end
 end
 
+def remoteDirContainsFile(pattern, dir)
+    return remoteLzContainsFile(pattern, dir)
+end
+
 def remoteLzContainsFile(pattern, landingZone)
     puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, pattern) do |entry|
             return true
         end
@@ -294,10 +313,10 @@ def remoteLzContainsFile(pattern, landingZone)
 end
 
 def remoteLzContainsFiles(pattern, targetNum , landingZone)
-    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
+    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum.to_s + " , " + landingZone + ")"
 
     count = 0
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, pattern) do |entry|
             count += 1
             if count >= targetNum
@@ -308,10 +327,24 @@ def remoteLzContainsFiles(pattern, targetNum , landingZone)
     return false
 end
 
-def remoteFileContainsMessage(prefix, message, landingZone)
+def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
+  puts "searchRemoteFileForEitherContentAfterTag(#{content1}, #{content2}, #{logTag}, #{completeFileName}"
+  results = ""
 
+  Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+    ssh.exec!("grep -P \"#{logTag}.*#{content1}|#{logTag}.*#{content2}\" #{completeFileName}") do |channel, stream, data|
+      results << data
+    end
+    puts results
+  end
+
+  return (results != nil && results != "")
+end
+
+def remoteFileContainsMessage(prefix, message, landingZone)
+    found = false;
     puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, prefix + "*") do |entry|
             entryPath = File.join(landingZone, entry.name)
             puts "found file " + entryPath
@@ -322,24 +355,23 @@ def remoteFileContainsMessage(prefix, message, landingZone)
             #check file contents for message
             if (file_contents.rindex(message) != nil)
                 puts "Found message " + message
-                return true
+                found = true
             end
         end
     end
-    return false
+    return found
 end
 
 def createRemoteDirectory(dirPath)
     puts "attempting to create dir: " + dirPath
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         begin
             sftp.mkdir!(dirPath)
         rescue
             puts "directory exists"
         end
     end
-
 end
 
 ############################################################
@@ -398,11 +430,11 @@ def initializeTenantDatabase(lz_key)
   end
 
   @ingestion_db_name = convertTenantIdToDbName(lz_key)
-end 
+end
 
 def initializeLandingZone(lz)
   unless lz.nil?
-    
+
   if lz.rindex('/') == (lz.length - 1)
     @landing_zone_path = lz
   else
@@ -733,7 +765,9 @@ end
 Given /^the following collections are empty in datastore:$/ do |table|
   @conn = Mongo::Connection.new(INGESTION_DB)
 
-  @db   = @conn[@ingestion_db_name]
+  @db = @conn[@ingestion_db_name]
+
+  puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB
 
   @result = "true"
 
@@ -988,9 +1022,14 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+  if (INGESTION_MODE == 'remote')
+    fileExist = remoteDirContainsFile(logfile, INGESTION_LOGS_DIRECTORY)
+  else
     completeFileName = INGESTION_LOGS_DIRECTORY + '/' + logfile
     fileExist = File.exist? completeFileName
-    assert(fileExist == true, logfile + 'missing')
+  end
+
+  assert(fileExist == true, logfile + 'missing')
 end
 
 ############################################################
@@ -1032,11 +1071,12 @@ When /^a batch job log has been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
+
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
+    sleep(5)
     iters.times do |i|
-
       if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
@@ -1377,17 +1417,17 @@ def subDocParent(collectionName)
     when "studentProgramAssociation"
       "program"
     else
-      nil 
+      nil
   end
 end
 
-def verifySubDoc(parent, subdoc, count) 
+def verifySubDoc(parent, subdoc, count)
     total = 0
     coll = @db.collection(parent)
-    coll.find().each do |doc| 
+    coll.find().each do |doc|
         unless doc[subdoc] == nil
             total += doc[subdoc].size
-        end 
+        end
     end
     total == count
 end
@@ -1395,7 +1435,7 @@ end
 def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue)
    @entity_collection = @db.collection(subdoc_parent)
    param = subdoc + "." + searchParameter
-   
+
    if searchType == "integer"
         @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
    elsif searchType == "double"
@@ -1404,25 +1444,25 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
      if searchValue == "false"
        @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
      else
-	   @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+       @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
      end
    elsif searchType == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
-   else     
+        @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+   else
      @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   end  
+   end
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[@ingestion_db_name]
   @result = "true"
-  puts "db name #{@db.name}"
+  puts "db name #{@db.name} on server #{INGESTION_DB}"
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
+    if parent
         verifySubDoc(parent, row["collectionName"], row["count"])
-    else 
+    else
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
 
@@ -1470,8 +1510,8 @@ Then /^I check to find if record is in collection:$/ do |table|
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
     if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
-	else  
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    else
       @entity_collection = @db.collection(row["collectionName"])
 
       if row["searchType"] == "integer"
@@ -1490,12 +1530,12 @@ Then /^I check to find if record is in collection:$/ do |table|
         @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
       end
     end
-    
+
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
-      puts "Failed #{row["collectionName"]}" 
+      puts "Failed #{row["collectionName"]}"
       @result = "false"
       red = "\e[31m"
       reset = "\e[0m"
@@ -1509,18 +1549,18 @@ end
 
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   @result = "true"
-  
+
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"
   @stateOrganizationId = @edOrgEntity['_id']
-  
+
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
+    if parent
         verifySubDoc(parent, row["collectionName"], row["count"])
-    else 
+    else
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
 
@@ -1587,15 +1627,15 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity =  @entity_collection.find({field => value})
 
   parent = subDocParent collection
-  if parent 
+  if parent
     @entity_collection = @db.collection(parent)
     sub_field = collection + "." + field
     @entity =  @entity_collection.find({sub_field => value})
-  else 
+  else
     @entity_collection = @db.collection(collection)
     @entity =  @entity_collection.find({field => value})
   end
-  
+
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
 end
 
@@ -1728,9 +1768,12 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 
   if (INGESTION_MODE == 'remote')
 
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    #puts "Showing : <" + @resultOfIngestion + ">"
+    @resultOfIngestion = ""
+    Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+      ssh.exec!("ls -l #{@landing_zone_path} | grep #{prefix}#{xml_name} | tail -1 | awk '{print $NF}' | xargs -I x cat #{@landing_zone_path}/x") do |channel, stream, data|
+        @resultOfIngestion << data
+      end
+    end
 
     @messageString = message.to_s
 
@@ -1887,7 +1930,7 @@ And /^I should not see a warning log file created$/ do
     else
       assert(true, "No warn files created.")
     end
-  
+
   else
     @warn_filename_component = "warn."
 
@@ -1899,13 +1942,13 @@ And /^I should not see a warning log file created$/ do
         @warn_status_filename = entry
       end
     end
-  
+
     puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
     assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
   end
 end
 
-    
+
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorLogFile(lz)
@@ -2113,8 +2156,12 @@ Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
 end
 
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|
-    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
-    found = false
+  found = false
+  completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
+
+  if (INGESTION_MODE == 'remote')
+    found = searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
+  else
     File.open(completeFileName, "r") do |infile|
         while (line = infile.gets)
             if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
@@ -2123,17 +2170,18 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
             end
         end
     end
-    assert(found == true, "content not found")
+  end
+  assert(found == true, "content not found")
 end
 
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
-	@entity_collection = @db.collection(subdoc_parent)
-	
-	id_param = subdoc + "._id"
-	field = subdoc + "." + field
-	
+    @entity_collection = @db.collection(subdoc_parent)
+
+    id_param = subdoc + "._id"
+    field = subdoc + "." + field
+
     puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
-	
+
     @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
 end
 
@@ -2146,14 +2194,14 @@ Then /^I check that ids were generated properly:$/ do |table|
     field = row['field']
     value = row['value']
     collection = row['collectionName']
-    
+
     if subdoc_parent
-      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])	
-	else  
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])
+    else
       @entity_collection = @db.collection(collection)
       @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
-    
+
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
 end
