@@ -110,12 +110,10 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                 opLog = textMessage.getText();
             }
 
-            logger.debug("Processing message");
             IndexEntity entity = convertToEntity(opLog);
             if (entity != null) {
                 sendToIndexer(entity);
             }
-            logger.debug("Done processing message");
         } catch (Exception e) {
             logger.error("Error processing message", e);
         }
@@ -150,8 +148,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     @SuppressWarnings("unchecked")
     private IndexEntity convertInsertToEntity(String opLog) throws Exception {
 
-        logger.debug("Action type: insert");
-
         // parse out entity
         List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
         });
@@ -166,8 +162,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     @SuppressWarnings("unchecked")
     private IndexEntity convertUpdateToEntity(String opLog) throws Exception {
-
-        logger.debug("Action type: update");
 
         // parse out entity data
         List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
@@ -203,8 +197,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     @SuppressWarnings("unchecked")
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
 
-        logger.debug("Action type: delete");
-        
         // parse out entity data
         List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
         });
