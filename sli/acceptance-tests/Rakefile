@@ -162,15 +162,6 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     end
   end
 
-
-  #Big hack because nobody bothered splitting up fixture data into the correct tenants
-  #Remove all the Hyrule students from the Midgar database and vice versa
-  if db_used == convertTenantIdToDbName('Midgar') && collectionName == 'student'
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Hyrule'}); assert.eq(null, db.getLastError());\""
-  end
-  if db_used == convertTenantIdToDbName('Hyrule') && collectionName == 'student'
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Midgar'}); assert.eq(null, db.getLastError());\""
-  end
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
