@@ -21,7 +21,7 @@
 // 
 
 var sharded_collections = [
-    "attendance",
+    "studentAttendance",
     "cohort",
     "courseSectionAssociation",
     "disciplineAction",

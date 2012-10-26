@@ -9,11 +9,11 @@
 
     <json:reader rootName="json" />
 
-    <jb:bean beanId="attendances" class="java.util.ArrayList" createOnElement="#document">
-        <jb:wiring beanIdRef="attendance" />
+    <jb:bean beanId="studentAttendances" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentAttendance" />
     </jb:bean>
 
-    <jb:bean beanId="attendance" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:bean beanId="studentAttendance" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'studentAttendance'</jb:expression>
         <jb:wiring property="body" beanIdRef="attendanceBody" />        
     </jb:bean>
