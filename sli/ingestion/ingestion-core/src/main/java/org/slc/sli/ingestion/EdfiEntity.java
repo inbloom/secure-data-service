@@ -207,7 +207,7 @@ public enum EdfiEntity {
     static {
         ALIAS.put("studentAssessmentAssociation", STUDENT_ASSESSMENT);
         ALIAS.put("studentGradebookEntry", STUDENT_GRADEBOOK_ENTRY);
-        ALIAS.put("attendance", ATTENDANCE_EVENT);
+        ALIAS.put("studentAttendance", ATTENDANCE_EVENT);
         ALIAS.put("staffEducationOrganizationAssociation", STAFF_EDUCATION_ORG_ASSIGNMENT_ASSOCIATION);
         ALIAS.put("courseTranscript", COURSE_TRANSCRIPT);
     }
