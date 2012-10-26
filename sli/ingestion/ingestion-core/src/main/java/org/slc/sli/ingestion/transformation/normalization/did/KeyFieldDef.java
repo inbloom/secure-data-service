@@ -33,6 +33,8 @@ public class KeyFieldDef {
     //optional nested deterministic Id reference configuration
     private DidRefConfig refConfig;
 
+    private boolean isOptional = false;
+
     public String getKeyFieldName() {
         return keyFieldName;
     }
@@ -50,5 +52,11 @@ public class KeyFieldDef {
     }
     public void setRefConfig(DidRefConfig refConfig) {
         this.refConfig = refConfig;
+    }
+    public boolean isOptional() {
+        return isOptional;
+    }
+    public void setOptional(boolean isOptional) {
+        this.isOptional = isOptional;
     }
 }

@@ -27,25 +27,21 @@
   </jb:bean>
 
   <jb:bean beanId="studentCompetencyBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevelsArray" />
+    <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevel" />
     <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
     <jb:wiring property="objectiveId" beanIdRef="studentCompetencyObjectiveId" />
     <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
   </jb:bean>
 
-  <jb:bean beanId="CompetencyLevelsArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:wiring beanIdRef="CompetencyLevel" />
-  </jb:bean>
-
-  <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="competencyLevel element">
-    <jb:value property="codeValue" data="competencyLevel element codeValue" />
-    <jb:value property="description" data="competencyLevel element description" />
+  <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="attributes competencyLevel">
+    <jb:value property="codeValue" data="competencyLevel codeValue" />
+    <jb:value property="description" data="competencyLevel description" />
   </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveId" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="learningObjectiveId" data="attributes objectiveId learningObjectiveId"/>
-        <jb:value property="objective" data="attributes objectiveId objective"/>
-        <jb:value property="studentCompetencyObjectiveId" data="attributes objectiveId studentCompetencyObjectiveId"/>
+        <jb:value property="learningObjectiveId" data="attributes LearningObjectiveReference"/>
+        <!-- <jb:value property="objective" data="attributes objectiveId objective"/> -->
+        <jb:value property="studentCompetencyObjectiveId" data="attributes StudentCompetencyObjectiveReference"/>
     </jb:bean>
 
 </smooks-resource-list>

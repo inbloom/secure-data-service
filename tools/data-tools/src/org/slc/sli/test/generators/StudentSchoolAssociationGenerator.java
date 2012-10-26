@@ -40,7 +40,7 @@ public class StudentSchoolAssociationGenerator {
 		ReferenceType refType = new ReferenceType();
 		refType.setRef(gPlan);
 		//TODO this is an optional reference but is not currently resolving in ingestion
-		//ssa.setGraduationPlanReference(refType);
+		ssa.setGraduationPlanReference(refType);
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
         StudentReferenceType srt = new StudentReferenceType();
