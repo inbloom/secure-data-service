@@ -83,7 +83,7 @@ public final class LevelNClientJavaHelper {
             final boolean quietMode) {
         final List<Response> responses = method.getResponses();
         for (final Response response : responses) {
-            try {
+           
                 final List<Representation> representations = response.getRepresentations();
                 for (final Representation representation : representations) {
                     representation.getMediaType();
@@ -114,7 +114,7 @@ public final class LevelNClientJavaHelper {
                             throw new RuntimeException("Representation is missing element name specification.");
                         }
                     }
-                }
+                
             } 
         }
         return JavaType.JT_OBJECT;
