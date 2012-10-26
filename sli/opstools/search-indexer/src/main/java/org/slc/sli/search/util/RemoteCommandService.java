@@ -230,23 +230,28 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         private List<String> options;
 
         public RemoteCommand(String line) {
-            String[] commandLine = line.split("\\s+");
-            if (commandLine == null || commandLine.length == 0) {
+            String[] commandLine = null;
+            try {
+                commandLine = line.split("\\s+");
+                if (commandLine != null && commandLine.length != 0) {
+                    this.command = Command.valueOf(commandLine[0].toUpperCase());
+                }
+            } catch (Exception e) {
+            }
+
+            if (this.command == null) {
                 this.command = Command.HELP;
-            } else {
-                this.command = Command.valueOf(commandLine[0].toUpperCase());
             }
 
             if (commandLine == null) {
                 options = Collections.emptyList();
             } else {
                 // Removes the element at the specified position in this list (optional operation)
-                // This prevents throwing exception when List is created from array.
+                // This prevents throwing exception by removing an element when a List is created from an array.
                 options = new ArrayList<String>(Arrays.asList(commandLine));
                 if (!options.isEmpty())
                     options.remove(0);
             }
-
         }
 
         public String getReply() {
