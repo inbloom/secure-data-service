@@ -58,7 +58,7 @@
     </entry>
     <entry key="attendance">
       <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAttendance.xml" />
       </bean>
     </entry>
     <entry key="cohort">

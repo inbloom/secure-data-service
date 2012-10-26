@@ -14,7 +14,7 @@
     </jb:bean>
 
     <jb:bean beanId="attendance" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'attendance'</jb:expression>
+        <jb:expression property="type">'studentAttendance'</jb:expression>
         <jb:wiring property="body" beanIdRef="attendanceBody" />        
     </jb:bean>
 
