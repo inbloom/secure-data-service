@@ -32,7 +32,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | session                     |
         | assessment                  |
         | studentAssessmentAssociation|
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentAcademicRecord       |
         | studentGradebookEntry       |
         | parent                      |
@@ -61,7 +61,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentGradebookEntry       | 135   |
         | graduationPlan              | 3     |
         | studentAcademicRecord       | 86    |
-        | studentTranscriptAssociation| 87    |
+        | courseTranscript            | 87    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
@@ -123,7 +123,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 8     |
         | assessment                  | 17    |
         | studentAssessmentAssociation| 104   |
-        | studentTranscriptAssociation| 87    |
+        | courseTranscript            | 87    |
         | studentAcademicRecord       | 86    |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |

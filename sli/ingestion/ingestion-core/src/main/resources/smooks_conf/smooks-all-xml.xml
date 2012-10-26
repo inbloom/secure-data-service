@@ -1180,7 +1180,7 @@
 
   <jb:bean beanId="studentAssItemParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
     <jb:wiring property="studentAssessmentReference" beanIdRef="studentAssessmentItem_studentAssessmentReference" />
-    <!--<jb:value property="studentResultRef" data="StudentAssessmentItem/StudentAssessmentReference/@ref" />-->
+    <jb:value property="studentResultRef" data="StudentAssessmentItem/StudentAssessmentReference/@ref" />
     <jb:value property="studentObjectiveAssessmentRef" data="StudentAssessmentItem/StudentObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
     <jb:value property="assessmentItemIdentificatonCode" data="StudentAssessmentItem/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
   </jb:bean>
@@ -2175,13 +2175,13 @@
     <jb:value data="StudentAcademicRecord/ReportCardReference/ReportCardIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
   </jb:bean>
 
-  <!-- Start StudentTranscriptAssociation mapping -->
+  <!-- Start CourseTranscript mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:expression property="recordType">'studentTranscriptAssociation'</jb:expression>
-    <jb:wiring property="attributes" beanIdRef="studentTranscriptAttributes" />
+    <jb:expression property="recordType">'courseTranscript'</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="courseTranscriptAttributes" />
   </jb:bean>
-  <jb:bean beanId="studentTranscriptAttributes" class="java.util.HashMap"
+  <jb:bean beanId="courseTranscriptAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="courseAttemptResult" data="CourseAttemptResult" />
     <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />

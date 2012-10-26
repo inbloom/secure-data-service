@@ -12012,10 +12012,10 @@
             </UML:Attribute>
           </UML:Classifier.feature>
         </UML:Class>
-        <UML:Class xmi.id="e6c8184e-cb12-45e0-95c7-b6919174d028" name="StudentTranscriptAssociation">
+        <UML:Class xmi.id="e6c8184e-cb12-45e0-95c7-b6919174d028" name="CourseTranscript">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="405e1fda-3232-4449-aaf9-e041f9c16846">
-              <UML:TaggedValue.dataValue>StudentTranscriptAssociation</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue> CourseTranscript </UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref="1fc61da8-be7c-4b93-af3b-77415e37e477"></UML:TagDefinition>
               </UML:TaggedValue.type>
@@ -21163,7 +21163,7 @@
         <UML:Association xmi.id="50610260-bb29-4500-9ffc-c6c19b0b30c1" name="">
           <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id="be7b6426-7560-47ae-83e0-80cc7c60bb9b" name="studentTranscriptAssociations" isNavigable="true" associatedAttributeName="courseId">
+            <UML:AssociationEnd xmi.id="be7b6426-7560-47ae-83e0-80cc7c60bb9b" name="courseTranscripts" isNavigable="true" associatedAttributeName="courseId">
               <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id="e9004f6f-487b-402b-996f-9f665b1979cf">
@@ -21226,7 +21226,7 @@
         <UML:Association xmi.id="142e6452-e0dd-41b5-872d-d9f48acdf273" name="">
           <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id="045a514b-f4d4-4e60-ac60-1763093659c1" name="studentTranscriptAssociations" isNavigable="true" associatedAttributeName="studentAcademicRecordId">
+            <UML:AssociationEnd xmi.id="045a514b-f4d4-4e60-ac60-1763093659c1" name="courseTranscripts" isNavigable="true" associatedAttributeName="studentAcademicRecordId">
               <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id="59ad38f8-79aa-4dd5-a82a-6b097cc1e1c6">
@@ -21283,7 +21283,7 @@
         <UML:Association xmi.id="b828a930-c8b8-4624-ad6c-2fb5370c6474" name="">
           <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id="33007c14-6919-4e94-b1f9-80449b1b72b1" name="studentTranscriptAssociations" isNavigable="true" associatedAttributeName="studentId">
+            <UML:AssociationEnd xmi.id="33007c14-6919-4e94-b1f9-80449b1b72b1" name="courseTranscripts" isNavigable="true" associatedAttributeName="studentId">
               <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id="740ef71a-f9e3-47e0-9d77-c05731b8283d">

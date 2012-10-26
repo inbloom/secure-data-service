@@ -36,9 +36,9 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCompetencyObjective.xml" />
       </bean>
     </entry>
-    <entry key="studentTranscriptAssociation">
+    <entry key="courseTranscript">
       <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/courseTranscript.xml" />
       </bean>
     </entry>
     <entry key="program">

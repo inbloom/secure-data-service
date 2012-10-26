@@ -37,11 +37,6 @@ And a request for a Landing zone is made with "<Tenant_ID>" and "<ED-ORG_SAMPLE_
 And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
 And the landing zone "<Landing_zone_directory>" is saved in Ldap
 And the tenantId "<Tenant_ID>" is saved in Ldap
-And the sandbox db should have the following map of indexes in the corresponding collections:
-     | collectionName                             | index                                                                |
-     | section                                    | body.schoolId_1                                                      |
-     | student                                    | body.studentUniqueStateId_1                                          |
-     | teacherSchoolAssociation                   | body.schoolId_1                                                      |
 
 @sandbox
 Scenario: Developer logs in after on-boarding on sandbox

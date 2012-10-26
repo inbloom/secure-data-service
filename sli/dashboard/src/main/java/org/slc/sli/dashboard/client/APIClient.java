@@ -327,7 +327,7 @@ public interface APIClient {
      *            Query params
      * @return
      */
-    //public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
+    //public List<GenericEntity> getCourseTranscripts(final String token, final String studentId,
     //        Map<String, String> params);
 
 

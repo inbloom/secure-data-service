@@ -71,7 +71,7 @@
     <value>attendance</value>
     <value>learningObjective</value>
     <value>studentAssessmentAssociation</value>
-    <value>studentTranscriptAssociation</value>
+    <value>courseTranscript</value>
   </util:set>
 
   <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another

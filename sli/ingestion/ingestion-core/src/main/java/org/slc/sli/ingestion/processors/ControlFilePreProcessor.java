@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -60,6 +62,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.Validator;
@@ -78,6 +81,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     private static final String BATCH_JOB_STAGE_DESC = "Parses the control file";
+
+    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
+    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -126,6 +132,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             if (jobValidator.isValid(newBatchJob, errorReport)) {
 
+                /* tenant job lock has been acquired */
+
+                // FIXME: Move to appropriate processor (maybe its own)
+                boolean dbIsReady = ensureTenantDbIsReady(newBatchJob.getTenantId());
+
                 controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
                 auditSecurityEvent(controlFile);
@@ -163,6 +174,36 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                         errorReport, batchJobDAO);
             }
         }
+    }
+
+    protected boolean ensureTenantDbIsReady(String tenantId) {
+
+        if (tenantDA.tenantDbIsReady(tenantId)) {
+            LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
+            return true;
+        } else {
+            LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
+
+            runDbSpinUpScripts(tenantId);
+
+            boolean isNowReady = tenantDA.tenantDbIsReady(tenantId);
+            LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+
+            return isNowReady;
+        }
+    }
+
+    private void runDbSpinUpScripts(String tenantId) {
+        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+        String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
+
+        LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+
+        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+
+        tenantDA.setTenantReadyFlag(tenantId);
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
