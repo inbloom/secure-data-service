@@ -48,8 +48,6 @@ class TestEventPubSub < Test::Unit::TestCase
 
         @event_subs_2 = event_subs.clone.map { |e| e.clone }
         @event_subs_2.each { |e| e["queue"] = EVENT_QUEUE_2 }
-        puts "1: #{@event_subs_1}"
-        puts "2: #{@event_subs_2}"
         # @event_ids = @event_subscriptions.map { |e| e["eventId"] } 
     end 
 
@@ -57,14 +55,11 @@ class TestEventPubSub < Test::Unit::TestCase
         # set up two agents and a subscriber 
         test_publisher_1 = TestAgent.new(FIRE_N_EVENTS, "agent_1", EVENT_TYPE, @logger)
         test_publisher_2 = TestAgent.new(FIRE_N_EVENTS, "agent_2", EVENT_TYPE, @logger)
+
         event_subscriber_1 = TestSubscriber.new(EVENT_TYPE, EVENT_QUEUE_1, @logger, @event_subs_1 + @event_subs_2)
         event_subscriber_2 = TestSubscriber.new(EVENT_TYPE, EVENT_QUEUE_2, @logger, nil)
 
         sleep 10 
-        event_subscriber_1.print_subscriptions
-        puts "----------------------------------------------------------"
-        event_subscriber_2.print_subscriptions
-        puts "----------------------------------------------------------"
 
         # # wait until I have publishers for all events 
         # agents_up = false 
@@ -79,6 +74,9 @@ class TestEventPubSub < Test::Unit::TestCase
         # end
 
         # fire the events for both agents and wait until they are done 
+        event_subscriber_1.handle_events
+        event_subscriber_2.handle_events 
+
         threads = []
         threads << test_publisher_1.send_events
         threads << test_publisher_2.send_events
@@ -87,8 +85,17 @@ class TestEventPubSub < Test::Unit::TestCase
         # waiting for all events to arrive 
         sleep(10)
 
-        assert event_subscriber_1.fire_count == (FIRE_N_EVENTS * 2), "Expected #{FIRE_N_EVENTS * 2} but got #{event_subscriber_1.fire_count}."
-        assert event_subscriber_2.fire_count == (FIRE_N_EVENTS * 2), "Expected #{FIRE_N_EVENTS * 2} but got #{event_subscriber_2.fire_count}."
+
+        sent = test_publisher_1.get_sent_messages + test_publisher_2.get_sent_messages
+        sent.sort!
+
+        received = event_subscriber_1.get_handled_messages + event_subscriber_2.get_handled_messages
+        received.sort!
+
+        assert received == sent, "Received does not equal sent messages !"
+
+        # assert event_subscriber_1.fire_count == (FIRE_N_EVENTS * 2), "Expected #{FIRE_N_EVENTS * 2} but got #{event_subscriber_1.fire_count}."
+        # assert event_subscriber_2.fire_count == (FIRE_N_EVENTS * 2), "Expected #{FIRE_N_EVENTS * 2} but got #{event_subscriber_2.fire_count}."
 
         # # make sure that all the agents are online and they publish all events 
         # all_publishers = event_subscriber.get_publishers
@@ -109,11 +116,11 @@ class TestSubscriber
         @event_subscriber = Eventbus::EventSubscriber.new({}, event_type, event_queue, logger)
 
         # set up the event handler 
-        @fired_events = {} 
-        @fired_events.default=(0)
+        @fired_events = [] 
+
         @event_subscriber.handle_event do |event|
             eid = event['eventId']
-            @fired_events[eid] = @fired_events[eid] + 1
+            @fired_events << [eid, event_queue, event['data']]
         end
 
         # subscribe to the given list of events 
@@ -126,14 +133,18 @@ class TestSubscriber
         end 
     end 
 
-    def fire_count
-        @fired_events.size
+    def handle_events
+    end 
+
+    def get_handled_messages 
+        @fired_events
     end 
 end 
 
 class TestAgent 
     def initialize(fire_n_events, id, event_type, logger) 
-        @fire_n_events = fire_n_events 
+        @fire_n_events = fire_n_events
+        @sent_messages = []  
         @e_publisher = Eventbus::EventPublisher.new(id, event_type,{},logger)
 
         # setup the subscription handler on the publisher side 
@@ -164,10 +175,15 @@ class TestAgent
                         }
                         msg = { queue => payload }
                         @e_publisher.fire_events(msg)
+                        @sent_messages << [event_id, queue, data]
                     end
                 }
                 sleep(0.5)
             end
         end 
+    end 
+
+    def get_sent_messages
+        @sent_messages 
     end 
 end 

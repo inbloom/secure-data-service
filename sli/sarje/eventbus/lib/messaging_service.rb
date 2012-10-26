@@ -117,7 +117,6 @@ module Eventbus
           yield JSON.parse msg.body
         end
       rescue Exception => e
-        puts "Exception: #{e}"
         @logger.warn("problem occurred with subscribing: #{e}") unless @logger.nil?
         close()
       end

@@ -17,7 +17,10 @@ limitations under the License.
 =end
 
 require 'eventbus/version'
+require 'jobscheduler'
 require 'messaging_service'
+require 'mongo_helper'
+require 'oplogagent'
 require 'set'
 
 module Eventbus
@@ -55,7 +58,7 @@ module Eventbus
       @logger = logger if logger
       @messaging = MessagingService.new(config, logger)
       @subscription_channel = @messaging.get_publisher(subscription_address(event_type))
-      @events_channel       = @messaging.get_subscriber(events_address(event_type))
+      @events_channel       = @messaging.get_subscriber(events_address(queue_name))
       @heartbeat_channel    = @messaging.get_subscriber(HEART_BEAT_ADDRESS)
 
       # set up the heartbeat listener
@@ -145,7 +148,6 @@ module Eventbus
             if not @event_channels.has_key?(q)
               @event_channels[q] = @messaging.get_publisher(events_address(q))
             end
-            puts "Sending to #{q}: #{value}"
             @event_channels[q].publish(value) 
           rescue Exception => e
             @logger.error("Problem occurred publishing event to queue '#{q}': #{e}")
