@@ -2193,8 +2193,7 @@
     <jb:value property="finalNumericGradeEarned" data="FinalNumericGradeEarned" decoder="Integer" />
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
-    <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:wiring property="courseCode" beanIdRef="CourseTranscript_CourseCodeTypeArray" />
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType" property="CourseReference"/>
     <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-StudentAcademicRecordReferenceType" property="StudentAcademicRecordReference"/>
   </jb:bean>
 
@@ -2225,15 +2224,18 @@
     <jb:value data="CourseTranscript/StudentAcademicRecordReference/StudentAcademicRecordIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
   </jb:bean>
 
-  <jb:bean beanId="CourseTranscript_CourseCodeTypeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity">
-    <jb:wiring beanIdRef="CourseTranscript_CourseCodeType" />
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType" property="CourseIdentity"/>
   </jb:bean>
-  <jb:bean beanId="CourseTranscript_CourseCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity/CourseCode">
-    <jb:value property="ID" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:value property="identificationSystem" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@IdentificationSystem" />
-    <jb:value property="assigningOrganizationCode" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@AssigningOrganizationCode" />
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
+    <jb:value data="CourseTranscript/CourseReference/CourseIdentity/UniqueCourseId" property="UniqueCourseId"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseTranscript_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="CourseTranscript/CourseReference/CourseIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
@@ -4044,20 +4046,21 @@
     <jb:value property="LocalCourseTitle" data="CourseOffering/LocalCourseTitle" />
     <jb:wiring property="SchoolReference" beanIdRef="CourseOffering_SchoolReference" />
     <jb:wiring property="SessionReference" beanIdRef="CourseOffering_SessionReference" />
-    <jb:wiring property="CourseReference" beanIdRef="CourseOffering_CourseReference" />
-    <jb:value property="courseId" data="CourseOffering/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:wiring property="courseCode" beanIdRef="CourseOffering_CourseCodeTypeArray" />
+    <jb:wiring beanIdRef="SLC-CourseOffering_Attributes_SLC-CourseReferenceType" property="CourseReference"/>
   </jb:bean>
 
-  <jb:bean beanId="CourseOffering_CourseCodeTypeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference/CourseIdentity">
-    <jb:wiring beanIdRef="CourseOffering_CourseCodeType" />
+  <jb:bean beanId="SLC-CourseOffering_Attributes_SLC-CourseReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference">
+    <jb:wiring beanIdRef="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType" property="CourseIdentity"/>
   </jb:bean>
-  <jb:bean beanId="CourseOffering_CourseCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference/CourseIdentity/CourseCode">
-    <jb:value property="ID" data="CourseOffering/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:value property="identificationSystem" data="CourseOffering/CourseReference/CourseIdentity/CourseCode/@IdentificationSystem" />
-    <jb:value property="assigningOrganizationCode" data="CourseOffering/CourseReference/CourseIdentity/CourseCode/@AssigningOrganizationCode" />
+  <jb:bean beanId="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference/CourseIdentity">
+    <jb:wiring beanIdRef="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
+    <jb:value data="CourseOffering/CourseReference/CourseIdentity/UniqueCourseId" property="UniqueCourseId"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference/CourseIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-CourseOffering_Attributes_SLC-CourseReferenceType_SLC-CourseIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/CourseOffering/CourseReference/CourseIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="CourseOffering/CourseReference/CourseIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
   </jb:bean>
 
   <!-- CourseOffering supporting objects: SchoolReference -->

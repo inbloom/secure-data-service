@@ -1759,7 +1759,7 @@ Withdrawn
 							<xs:documentation>Indicates that an academic course has been repeated by a student and how that repeat is to be computed in the student's academic grade average.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="CourseReference" type="CourseReferenceType">
+					<xs:element name="CourseReference" type="SLC-CourseReferenceType">
 						<xs:annotation>
 							<xs:documentation>The course recorded in the Course transcript entry,</xs:documentation>
 						</xs:annotation>
@@ -2311,6 +2311,93 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SLC-CourseReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for courses during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+			<!-- xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>course</sli:refType>
+			</xs:appinfo -->
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="CourseIdentity" type="SLC-CourseIdentityType">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing course record in the receiving system.  Two cases are supported:
+1. StateCourseCode or other standard course code
+2. SchoolOrganizationID + LocalCourseCode</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-CourseIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of courses. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EducationalOrgReference" type="TEMPORARY-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
+					<!-- xs:appinfo>
+						<sli:keyFieldName>schoolId</sli:keyFieldName>
+					</xs:appinfo -->
+				</xs:annotation>
+			</xs:element>
+	        <xs:sequence>
+				<xs:element name="UniqueCourseId" type="SLC-UniqueCourseId">
+					<xs:annotation>
+						<!-- xs:appinfo>
+							<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
+						</xs:appinfo -->
+					</xs:annotation>
+				</xs:element>
+	        </xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SLC-CourseOffering">
+		<xs:annotation>
+			<xs:documentation>This entity represents an offering of a course by school during a session, representing the course catalog of available courses.</xs:documentation>
+		    <xs:appinfo>
+                <sli:recordType>courseOffering</sli:recordType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="LocalCourseCode" type="LocalCourseCode">
+						<xs:annotation>
+							<xs:documentation>The local code assigned by the School that identifies the course offering provided for the instruction of students.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LocalCourseTitle" type="CourseTitle" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The descriptive name given to a course of study offered in the school, if different from the CourseTitle. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+						<xs:annotation>
+							<xs:documentation>The school that offers the course.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SessionReference" type="SessionReferenceType">
+						<xs:annotation>
+							<xs:documentation>The session the course is offered at the school.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CourseReference" type="SLC-CourseReferenceType">
+						<xs:annotation>
+							<xs:documentation>The course being offered by the school.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 </xs:schema>
