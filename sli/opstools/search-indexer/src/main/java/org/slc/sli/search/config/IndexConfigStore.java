@@ -38,7 +38,7 @@ public class IndexConfigStore {
     public IndexConfigStore(String configFile) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         if (configFile == null) {
-            throw new IllegalArgumentException("sli.search.index.config must be provided");
+            throw new IllegalArgumentException("sli.search.indexer.config must be provided");
         }
         File config = new File(configFile);
         InputStream is = null; 
