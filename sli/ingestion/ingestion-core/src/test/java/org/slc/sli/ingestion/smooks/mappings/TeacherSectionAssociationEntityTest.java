@@ -270,12 +270,17 @@ public class TeacherSectionAssociationEntityTest {
         checkValidTeacherSectionAssociationNeutralRecord(neutralRecord);
     }
 
+    @SuppressWarnings("unchecked")
     private void checkValidTeacherSectionAssociationNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
 
         Assert.assertEquals("333333332", entity.get("teacherId"));
 
-        Assert.assertEquals("123456111", entity.get("SectionReference"));
+        Assert.assertNotNull(entity.get("SectionReference"));
+        Assert.assertNotNull(((Map<String, Object>) entity.get("SectionReference")).get("SectionIdentity"));
+
+        Assert.assertEquals("123456111", ((Map<String, Object>) ((Map<String, Object>) entity.get("SectionReference"))
+                .get("SectionIdentity")).get("UniqueSectionCode"));
 
         Assert.assertEquals("Teacher of Record", entity.get("classroomPosition"));
         Assert.assertEquals("1998-01-01", entity.get("beginDate"));

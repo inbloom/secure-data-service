@@ -2539,7 +2539,7 @@
   <jb:bean beanId="parentStudentAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentParent/StudentParentAssociation">
     <jb:wiring property="StudentReference" beanIdRef="StudentParentAssociation_StudentReference" />
-    <jb:wiring property="parentReference" beanIdRef="studentParentAssociation_ParentReference" />
+    <jb:wiring property="ParentReference" beanIdRef="studentParentAssociation_ParentReference" />
     <jb:value property="relation" data="InterchangeStudentParent/StudentParentAssociation/Relation" />
     <jb:value property="livesWith" data="InterchangeStudentParent/StudentParentAssociation/LivesWith" decoder="Boolean" />
     <jb:value property="primaryContactStatus" data="InterchangeStudentParent/StudentParentAssociation/PrimaryContactStatus" decoder="Boolean" />
@@ -2562,10 +2562,10 @@
 
 
   <jb:bean beanId="studentParentAssociation_ParentReference" class="java.util.HashMap" createOnElement="InterchangeStudentParent/StudentParentAssociation/ParentReference">
-    <jb:wiring property="parentIdentity" beanIdRef="studentParentAssociation_ParentReference_ParentIdentity" />
+    <jb:wiring property="ParentIdentity" beanIdRef="studentParentAssociation_ParentReference_ParentIdentity" />
   </jb:bean>
   <jb:bean beanId="studentParentAssociation_ParentReference_ParentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentParent/StudentParentAssociation/ParentReference/ParentIdentity">
-    <jb:value property="parentUniqueStateId" data="InterchangeStudentParent/StudentParentAssociation/ParentReference/ParentIdentity/ParentUniqueStateId" />
+    <jb:value property="ParentUniqueStateId" data="InterchangeStudentParent/StudentParentAssociation/ParentReference/ParentIdentity/ParentUniqueStateId" />
   </jb:bean>
 
   <!-- Start GradebookEntry mapping -->
