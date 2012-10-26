@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,7 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class TenantMongoDA implements TenantDA {
+    protected static final Logger LOG = LoggerFactory.getLogger(TenantDA.class);
 
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
@@ -54,6 +57,8 @@ public class TenantMongoDA implements TenantDA {
     public static final String TENANT_TYPE = "tenant";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String DESC = "desc";
+    public static final String ALL_STATUS_FIELDS = "body.landingZone.$.preload.status";
+    public static final String STATUS_FIELD      = "landingZone.preload.status";
 
     private Repository<Entity> entityRepository;
     private static final NeutralCriteria PRELOAD_READY_CRITERIA = new NeutralCriteria(LANDING_ZONE + "." + PRELOAD_DATA
@@ -174,4 +179,29 @@ public class TenantMongoDA implements TenantDA {
                         + TenantMongoDA.PRELOAD_STATUS, "started"));
 
     }
+
+
+    public Map<String, List<String>> getPreloadFiles() {
+        NeutralQuery preloadReadyTenantQuery = new NeutralQuery().
+                addCriteria(new NeutralCriteria(STATUS_FIELD, "=", "ready")).
+                setIncludeFields(Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH, TENANT_ID));
+        Update update = Update.update(ALL_STATUS_FIELDS, "started");
+
+        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
+        Entity tenant;
+        while((tenant = entityRepository.findAndUpdate(TENANT_COLLECTION, preloadReadyTenantQuery, update)) != null ) {
+            LOG.info("Found new tenant to preload! [" + tenant.getBody().get(TENANT_ID) + "]");
+            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
+            for (Map<String, Object> landingZone : landingZones) {
+                List<String> files = new ArrayList<String>();
+                Map<String, Object> preloadData = (Map<String, Object>) landingZone.get(PRELOAD_DATA);
+                if (preloadData != null) {
+                    files.addAll((Collection<? extends String>) preloadData.get(PRELOAD_FILES));
+                    fileMap.put((String) landingZone.get(PATH), files);
+                }
+            }
+        }
+        return fileMap;
+    }
+
 }
