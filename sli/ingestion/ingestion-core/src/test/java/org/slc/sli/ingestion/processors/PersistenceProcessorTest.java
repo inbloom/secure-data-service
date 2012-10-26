@@ -29,6 +29,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
 /**
  * Tests for PersistenceProcessor
@@ -55,13 +56,13 @@ public class PersistenceProcessorTest {
             Collections.shuffle(unsortedRecords);
 
             List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortNrListByDependency(unsortedRecords, PersistenceProcessor.SELF_REF_ENTITY_CONFIG.get("learningObjective"));
+                    .sortNrListByDependency(unsortedRecords, "learningObjective");
 
             for (int i = 0; i < sortedRecords.size(); i++) {
                 NeutralRecord sortedRecord = sortedRecords.get(i);
                 String parentObjectiveId = (String) sortedRecord.getLocalParentIds().get("parentObjectiveId");
 
-                assertParentNotLaterInList(sortedRecords, i + 1, parentObjectiveId);
+                assertParentNotLaterInList(sortedRecords, i + 1, parentObjectiveId, "learningObjectiveId.identificationCode");
             }
         }
     }
@@ -80,19 +81,17 @@ public class PersistenceProcessorTest {
             Collections.shuffle(unsortedRecords);
 
             List<NeutralRecord> sortedRecords = PersistenceProcessor
-                    .sortNrListByDependency(unsortedRecords, PersistenceProcessor.SELF_REF_ENTITY_CONFIG.get("learningObjective"));
+                    .sortNrListByDependency(unsortedRecords, "learningObjective");
 
             assertNotNull(sortedRecords);
         }
     }
 
-    private void assertParentNotLaterInList(List<NeutralRecord> sortedRecords, int startIndex, String parentObjectiveId) {
-        if (parentObjectiveId != null) {
+    private void assertParentNotLaterInList(List<NeutralRecord> sortedRecords, int startIndex, String parentId, String idPath) {
+        if (parentId != null) {
             for (int i = startIndex; i < sortedRecords.size(); i++) {
-                String sortedId = getByPath("learningObjectiveId.identificationCode", sortedRecords.get(i)
-                        .getAttributes());
-
-                assertFalse("parent should not be after child in insertion order.", parentObjectiveId.equals(sortedId));
+                String sortedId = getByPath(idPath, sortedRecords.get(i).getAttributes());
+                assertFalse("parent should not be after child in insertion order.", idPath.equals(sortedId));
             }
         }
     }
@@ -113,6 +112,42 @@ public class PersistenceProcessorTest {
         return record;
     }
 
+    @Test
+    public void testSortLocalEducationAgencyByDependency() {
+        List<NeutralRecord> unsortedRecords = new ArrayList<NeutralRecord>();
+        unsortedRecords.add(createLEANeutralRecord("lea1", null));
+        unsortedRecords.add(createLEANeutralRecord("lea1.1", "lea1"));
+        unsortedRecords.add(createLEANeutralRecord("lea1.2", "lea1"));
+        unsortedRecords.add(createLEANeutralRecord("lea1.2.1", "lea1.2"));
+        unsortedRecords.add(createLEANeutralRecord("lea2", null));
+        unsortedRecords.add(createLEANeutralRecord("lea2.1", "lea2"));
+
+        // do n! runs with random shuffle. shuffle won't cover every combination but does enough
+        for (int count = 0; count < factorial(unsortedRecords.size()); count++) {
+
+            Collections.shuffle(unsortedRecords);
+
+            List<NeutralRecord> sortedRecords = PersistenceProcessor
+                    .sortNrListByDependency(unsortedRecords, "localEducationAgency");
+
+            for (int i = 0; i < sortedRecords.size(); i++) {
+                NeutralRecord sortedRecord = sortedRecords.get(i);
+                String parentLEAId = NeutralRecordUtils.getByPath("localEducationAgencyReference", sortedRecord.getAttributes());
+
+                assertParentNotLaterInList(sortedRecords, i + 1, parentLEAId, "stateOrganizationId");
+            }
+        }
+    }
+
+    private static NeutralRecord createLEANeutralRecord(String leaId, String parentLEAId) {
+        NeutralRecord record = new NeutralRecord();
+        record.getAttributes().put("localEducationAgencyReference", parentLEAId);
+        record.getAttributes().put("stateOrganizationId", leaId);
+        return record;
+    }
+
+    
+    
     private static int factorial(int n) {
         if (n == 0) {
             return 1;
