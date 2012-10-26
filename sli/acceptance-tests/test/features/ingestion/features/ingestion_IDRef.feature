@@ -8,6 +8,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+@wip
 Scenario: Post a zip file containing studentGradebookEntry with ID References job: Clean Database
 Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
