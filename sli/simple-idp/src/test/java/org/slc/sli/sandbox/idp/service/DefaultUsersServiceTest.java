@@ -59,11 +59,14 @@ public class DefaultUsersServiceTest {
         DefaultUser lindaKim = users.get(0);
         DefaultUser rrogers = users.get(1);
         assertEquals("linda.kim", lindaKim.getUserId());
-        assertEquals("rrogers", rrogers.getUserId());
         assertEquals("Linda Kim", lindaKim.getName());
-        assertEquals("Rick Rogers", rrogers.getName());
         assertEquals("Educator", lindaKim.getRole());
+        assertEquals("school", lindaKim.getAssociation());
+        
+        assertEquals("rrogers", rrogers.getUserId());
+        assertEquals("Rick Rogers", rrogers.getName());
         assertEquals("IT Administrator", rrogers.getRole());
+        assertEquals("sea", rrogers.getAssociation());
     }
     
     @Test

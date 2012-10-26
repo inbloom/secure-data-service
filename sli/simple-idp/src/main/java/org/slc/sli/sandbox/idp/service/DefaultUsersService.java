@@ -50,12 +50,13 @@ public class DefaultUsersService {
      * 
      */
     public static class DefaultUser {
-        String userId, name, role;
+        String userId, name, role, association;
         
-        public DefaultUser(String userId, String name, String role) {
+        public DefaultUser(String userId, String name, String role, String association) {
             this.userId = userId;
             this.name = name;
             this.role = role;
+            this.association = association;
         }
         
         public String getName() {
@@ -70,6 +71,9 @@ public class DefaultUsersService {
             return role;
         }
         
+        public String getAssociation() {
+            return association;
+        }
     }
     
     public List<Dataset> getAvailableDatasets() {
@@ -99,7 +103,8 @@ public class DefaultUsersService {
                 String userId = jsonUser.getString("userId");
                 String name = jsonUser.getString("name");
                 String role = jsonUser.getString("role");
-                DefaultUser user = new DefaultUser(userId, name, role);
+                String association = jsonUser.getString("association");
+                DefaultUser user = new DefaultUser(userId, name, role, association);
                 users.add(user);
             }
         } catch (IOException e) {
