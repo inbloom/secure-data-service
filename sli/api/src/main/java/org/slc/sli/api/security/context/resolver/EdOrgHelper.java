@@ -128,10 +128,12 @@ public class EdOrgHelper {
 	 */
 	public List<String> getParentEdOrgs(Entity edOrg) {
 		List<String> toReturn = new ArrayList<String>();
-		while (edOrg.getBody().get("parentEducationAgencyReference") != null) {
-			String parentId = (String) edOrg.getBody().get("parentEducationAgencyReference");
-			toReturn.add(parentId);
-			edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+		if (edOrg != null && edOrg.getBody() != null) {
+		    while (edOrg.getBody().get("parentEducationAgencyReference") != null) {
+	            String parentId = (String) edOrg.getBody().get("parentEducationAgencyReference");
+	            toReturn.add(parentId);
+	            edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+	        }
 		}
 		return toReturn;
 	}
