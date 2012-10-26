@@ -8,7 +8,7 @@ Given I have an open web browser
 Scenario: Use Mock IDP to log in as IT Administrator
   Given I navigate to databrowser home page
   Then I will be redirected to realm selector web page
-  When I select the "Sandbox Environment" realm
+  When I click on the "Sandbox" realm in "Sandbox"
   Then I was redirected to the "Simple" IDP Login page
   When I enter the credentials "testdeveloper" "testdeveloper1234" for the Simple IDP
     And I want to imitate the user "cgray" who is a "IT Administrator"
