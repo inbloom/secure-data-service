@@ -64,6 +64,10 @@ import org.slc.sli.domain.NeutralCriteria;
 @Component
 public class SearchResourceService {
 
+    private static final int DEFAULT_ES_LIMIT_PER_QUERY = 10;
+
+    private static final int SEARCH_RESULT_LIMIT = 500;
+
     @Autowired
     DefaultResourceService defaultResourceService;
 
@@ -95,14 +99,16 @@ public class SearchResourceService {
 
         int limit = apiQuery.getLimit();
         if (limit == 0) {
-            limit = 1000;
+            limit = SEARCH_RESULT_LIMIT;
         }
         int offset = apiQuery.getOffset();
         int totalLimit = limit + offset;
         int total = 0, newTotal = 0;
 
-        // TODO : make configurable
-        int limitPerQuery = limit + offset;
+        int limitPerQuery = totalLimit * 2;
+        if (limitPerQuery < DEFAULT_ES_LIMIT_PER_QUERY) {
+            limitPerQuery = DEFAULT_ES_LIMIT_PER_QUERY;
+        }
         apiQuery.setLimit(limitPerQuery);
         apiQuery.setOffset(0);
 

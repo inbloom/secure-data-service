@@ -204,20 +204,20 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.TEACHER);
 
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=0&limit=10");
-        runPaginationTest(Arrays.asList(10, 10, 10), 4, queryUri, 10);
+        runPaginationTest(Arrays.asList(20, 20, 20), 4, queryUri, 10);
         runPaginationTest(Arrays.asList(8), 6, queryUri, 6);
-        runPaginationTest(Arrays.asList(10, 8), 4, queryUri, 8);
+        runPaginationTest(Arrays.asList(20, 8), 4, queryUri, 8);
         runPaginationTest(Arrays.asList(20, 20), 8, queryUri, 10);
-        runPaginationTest(Arrays.asList(0, 0), 0, queryUri, 0);
+        runPaginationTest(Arrays.asList(0), 0, queryUri, 0);
 
         queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=5&limit=10");
         runPaginationTest(Arrays.asList(8), 7, queryUri, 2);
-        runPaginationTest(Arrays.asList(20), 15, queryUri, 10);
+        runPaginationTest(Arrays.asList(30), 15, queryUri, 10);
 
         queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=Anna&offset=20&limit=10");
-        runPaginationTest(Arrays.asList(30, 20), 7, queryUri, 0);
-        runPaginationTest(Arrays.asList(30, 20), 12, queryUri, 4);
-        runPaginationTest(Arrays.asList(30, 20), 18, queryUri, 10);
+        runPaginationTest(Arrays.asList(60, 50), 7, queryUri, 0);
+        runPaginationTest(Arrays.asList(60, 20), 12, queryUri, 4);
+        runPaginationTest(Arrays.asList(60, 40), 18, queryUri, 10);
     }
 
     private void runPaginationTest(List<Integer> numSearchHits, int filterNum, URI queryUri, int numResults) {
