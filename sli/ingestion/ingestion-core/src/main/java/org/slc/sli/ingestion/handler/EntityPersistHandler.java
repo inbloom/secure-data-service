@@ -165,6 +165,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
+            LOG.error("Failed to updated with retries", e);
             reportWarnings(e.getCause().getMessage(), collectionName, errorReport);
         }
 
@@ -207,7 +208,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // Assuming there would NOT be DuplicateKeyException at this point.
             // Because "queued" only contains new records(with no Id), and we don't have unique
             // indexes
-            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
+            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.", e);
 
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
@@ -241,6 +242,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
                 List<Object> keyValues = new ArrayList<Object>();
                 keyValues.add(id);
+                entity.setEntityId(id);
                 memory.put(keyValues, entity);
             }
         } else {
