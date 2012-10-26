@@ -108,7 +108,7 @@ public class DeterministicIdResolver {
                 handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId);
 
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
             }
         }
     }
@@ -121,8 +121,8 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName, String tenantId)
-            throws IdResolutionException {
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
+            String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -228,13 +228,13 @@ public class DeterministicIdResolver {
         }
     }
 
-    private void handleException(String sourceRefPath, String entityType, String collectionName, Exception e,
+    private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             ErrorReport errorReport) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        String errorMessage = "ERROR: Failed to resolve a reference" + "\n       Entity " + entityType
-                + ": Reference to " + collectionName
+        String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
+                + ": Reference to " + referenceType
                 + " is incomplete because the following reference field is not resolved: "
-                + sourceRefPath.substring(sourceRefPath.lastIndexOf('.') + 1);
+                + sourceRefPath;
 
         errorReport.error(errorMessage, this);
     }
@@ -256,14 +256,35 @@ public class DeterministicIdResolver {
             // populate naturalKeys
             String value = null;
             if (keyFieldDef.getRefConfig() != null) {
-                value = getId(reference, tenantId, keyFieldDef.getRefConfig());
+                Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
+
+                if (nestedRef == null) {
+                    if (keyFieldDef.isOptional() == false) {
+                        throw new IdResolutionException("No value found for required reference",
+                                keyFieldDef.getValueSource(), "");
+                    } else {
+                        // since it's an optional field, replace it with "" in the natural key list
+                        value = "";
+                    }
+                    // otherwise, continue to end of loop with null 'value'
+                } else {
+                    if (nestedRef instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
+                        value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                    } else {
+                        throw new IdResolutionException("Non-map value found from entity",
+                                keyFieldDef.getValueSource(), "");
+                    }
+                }
+
             } else {
                 value = (String) getProperty(reference, keyFieldDef.getValueSource());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
             // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null || value.isEmpty()) {
+            if (fieldName == null || fieldName.isEmpty() || value == null) {
                 continue;
             }
             naturalKeys.put(fieldName, value);
@@ -274,7 +295,7 @@ public class DeterministicIdResolver {
             return null;
         }
 
-        //TODO: need to verify this
+        // TODO: need to verify this
         String parentId = null;
         String entityType = didRefConfig.getEntityType();
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
@@ -282,7 +303,8 @@ public class DeterministicIdResolver {
             parentId = naturalKeys.get(parentKey);
         }
 
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId, didRefConfig.getEntityType(), parentId);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                didRefConfig.getEntityType(), parentId);
         return uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
     }
 }

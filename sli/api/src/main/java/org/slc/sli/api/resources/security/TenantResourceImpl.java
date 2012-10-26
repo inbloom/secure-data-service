@@ -46,7 +46,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -60,7 +59,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.MongoCommander;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -142,8 +140,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
     public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
-    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
-    public static final String PRE_SPLITTING_SCRIPT = "sli-shard-presplit.js";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -246,9 +242,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
 
-            // Spin up the new database
-            runDbSpinUpScripts(tenantId);
-
             return tenantService.create(newTenant);
         } else {
             String existingTenantId = existingIds.get(0);
@@ -291,12 +284,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             tenantService.update(existingTenantId, existingBody);
             return existingTenantId;
         }
-    }
-
-    private void runDbSpinUpScripts(String tenantId) {
-        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
-        MongoCommander.exec(getDatabaseName(jsEscapedTenantId), INDEX_SCRIPT, " ");
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\"" + getDatabaseName(jsEscapedTenantId) + "\";");
     }
 
     private String getDatabaseName(String tenantId) {
