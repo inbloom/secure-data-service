@@ -26,9 +26,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 4 2008 State Reading</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 4 2008 State Reading</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>
@@ -58,9 +59,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 4 2008 State Math</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 4 2008 State Math</AssessmentTitle>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>

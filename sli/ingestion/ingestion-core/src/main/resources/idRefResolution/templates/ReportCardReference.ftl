@@ -9,6 +9,7 @@
             <GradingPeriod>${ReportCard.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod}</GradingPeriod>
             <SchoolYear>${ReportCard.GradingPeriodReference.GradingPeriodIdentity.SchoolYear}</SchoolYear>
             <StateOrganizationId>${ReportCard.GradingPeriodReference.GradingPeriodIdentity.StateOrganizationId}</StateOrganizationId>
+            <BeginDate>${ReportCard.GradingPeriodReference.GradingPeriodIdentity.BeginDate}</BeginDate>
         </GradingPeriodIdentity>
     </GradingPeriodReference>
 </ReportCardIdentity>

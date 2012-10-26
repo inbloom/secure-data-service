@@ -85,6 +85,13 @@ Then /^I should see a list of valid realm objects$/ do
   end
 end
 
+Then /^I should only see the (realm ".*?")$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == 1, "Admin users should only ever see one realm, got #{result.size}")
+  assert(result[0]["id"] == arg1, "Realm returned was not expected: got #{result[0]["id"]}, expected #{arg1}")
+end
+
 When /^I GET a specific (realm "[^"]*")$/ do |arg1|
   restHttpGet("/realm/" + arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -193,6 +200,13 @@ end
 When /^I GET my custom role doc$/ do
   restHttpGet("/customRoles/")
   assert(@res != nil, "Response from custom role request is nil")
+end
+
+Then /^I should see one custom roles document for the (realm ".*?")$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == 1, "Admin users should only ever see one custom roles doc, got #{result.size}")
+  assert(result[0]["realmId"] == arg1, "Custom role doc returned was not expected: got #{result[0]["realmId"]}, expected #{arg1}")
 end
 
 Then /^I should see that my custom role document is the default with (realm "[^"]*")$/ do |realm|
