@@ -37,7 +37,7 @@
 	     * @param clientID {String}   	the client ID
 	     * @param clientSecret {String} the client secret
 	     * @param oauthURI {String}     the authorization URL
-	     * @param apiVersioin {String}  the api version
+	     * @param apiVersion {String}  the api version
 	     */
 		function SLC(baseURL, clientID, clientSecret, oauthURI, apiVersion) {
 
