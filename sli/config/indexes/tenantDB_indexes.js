@@ -46,7 +46,7 @@
 //
 
 
-db["adminDelegation"].ensureIndex({"metaData.tenantId":1,"body.localEdOrgId":1,"body.appApprovalEnabled":1});  // admin rights to users
+db["adminDelegation"].ensureIndex({"body.localEdOrgId":1,"body.appApprovalEnabled":1});  // admin rights to users
 
 db["applicationAuthorization"].ensureIndex({"body.appIds":1});  //app auth
 db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});  //app auth
@@ -92,6 +92,7 @@ db["disciplineAction"].ensureIndex({"body.studentId":1});
 db["disciplineIncident"].ensureIndex({"body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"body.staffId":1});
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1});
+db["educationOrganization"].ensureIndex({"body.programReference":1});
 db["grade"].ensureIndex({"body.gradingPeriodId":1});
 db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
 //gradebookEntry embedded into section
@@ -204,15 +205,20 @@ db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
 db["course"].ensureIndex({"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
 db["educationOrganization"].ensureIndex({"body.stateOrganizationId":1});
+db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode":1}); // needs to be combined with next
+db["educationOrganization"].ensureIndex({"body.educationOrgIdentificationCode.ID":1});
 db["gradingPeriod"].ensureIndex({"body.gradingPeriodIdentity.schoolYear":1});
+db["graduationPlan"].ensureIndex({"body.graduationPlanType":1});
 db["learningObjective"].ensureIndex({"body.learningObjectiveId":1});  // needs to combined with next
 db["learningObjective"].ensureIndex({"body.learningObjectiveId.identificationCode":1});
+db["learningObjective"].ensureIndex({"body.objective":1});
 db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
 db["parent"].ensureIndex({"body.parentUniqueStateId":1});
 db["program"].ensureIndex({"body.programId":1});
 db["section"].ensureIndex({"body.uniqueSectionCode":1});
 db["session"].ensureIndex({"body.sessionName":1});
 db["student"].ensureIndex({"body.studentUniqueStateId":1});
+db["studentCompetency"].ensureIndex({"metaData.externalId":1,"metaData.studentUniqueStateId":1,"metaData.uniqueSectionCode":1},{"name":"studentCompetencyId_externalId_stateId_sectionCode"});
 db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId":1});
 
 
@@ -224,53 +230,13 @@ db["staff"].ensureIndex({"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"type":1});
 
 
-//index on tenantId - TODO these should be removed ASAP
-// commented are redundant on indexes above
-db["applicationAuthorization"].ensureIndex({"metaData.tenantId":1});  //app auth
-db["custom_entities"].ensureIndex({"metaData.tenantId":1});  //app auth
-
-db["assessment"].ensureIndex({"metaData.tenantId":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1});
-db["calendarDate"].ensureIndex({"metaData.tenantId":1});
-db["cohort"].ensureIndex({"metaData.tenantId":1});
-db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1});
-db["course"].ensureIndex({"metaData.tenantId":1});
-db["courseOffering"].ensureIndex({"metaData.tenantId":1});
-db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1});
-db["courseTranscript"].ensureIndex({"metaData.tenantId":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1});
-db["disciplineIncident"].ensureIndex({"metaData.tenantId":1});
-db["educationOrganization"].ensureIndex({"metaData.tenantId":1});
-db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1});
-db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["grade"].ensureIndex({"metaData.tenantId":1});
-db["gradebookEntry"].ensureIndex({"metaData.tenantId":1});
-db["gradingPeriod"].ensureIndex({"metaData.tenantId":1});
-db["graduationPlan"].ensureIndex({"metaData.tenantId":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1});
-db["learningStandard"].ensureIndex({"metaData.tenantId":1});
-db["parent"].ensureIndex({"metaData.tenantId":1});
-db["program"].ensureIndex({"metaData.tenantId":1});
-db["reportCard"].ensureIndex({"metaData.tenantId":1});
-db["section"].ensureIndex({"metaData.tenantId":1});
-db["session"].ensureIndex({"metaData.tenantId":1});
-db["staff"].ensureIndex({"metaData.tenantId":1});
-db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1});
-db["student"].ensureIndex({"metaData.tenantId":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1});
-db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentCompetency"].ensureIndex({"metaData.tenantId":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentGradebookEntry"].ensureIndex({"metaData.tenantId":1});
-db["studentParentAssociation"].ensureIndex({"metaData.tenantId":1});
-db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1});
-db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1});
-
-//BAD INDEX to make stamper run with --notablescan (stamper wasn't updated for embedded entity)
+//TODO BAD INDEX to make stamper run with --notablescan (stamper wasn't updated for embedded entity)
 db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1});
-//BAD INDEX to make stamper run with --notablescan (collection removed?)
+//TODO BAD INDEX to make stamper run with --notablescan (stamper wasn't updated for embedded entity)
+db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
+//TODO BAD INDEX to make stamper run with --notablescan (collection removed?)
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1});
+db["schoolSessionAssociation"].ensureIndex({"body.sessionId":1});
+
+// TODO: Index to make querying acceptance tests pass - this is really bad!!
+db["reportCard"].ensureIndex({"body.gpaCumulative":1});

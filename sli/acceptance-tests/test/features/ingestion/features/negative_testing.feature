@@ -171,7 +171,7 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
 
-Scenario: Post a zip file and then post it against and make sure the updated date changes but created stays the same
+Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName              |
@@ -183,7 +183,7 @@ Scenario: Post a zip file and then post it against and make sure the updated dat
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
-  And the following collections are completely empty in the batch job datastore
+  And the following collections are completely empty in batch job datastore
         | collectionName              |
         | recordHash                  |
   When zip file is scp to ingestion landing zone

@@ -32,9 +32,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 6 2010 State Reading</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 6 2010 State Reading</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>
@@ -64,9 +65,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 6 2010 State Math</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 6 2010 State Math</AssessmentTitle>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>

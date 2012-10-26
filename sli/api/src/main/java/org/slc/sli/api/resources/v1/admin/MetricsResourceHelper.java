@@ -42,7 +42,13 @@ public class MetricsResourceHelper {
         CollectionMetric metrics = new CollectionMetric(0, 0.0);
         CommandResult stats = coll.getStats();
 
-        long count = coll.count(QueryBuilder.start(qualifier).is(id).get());
+
+        long count = 0;
+        if(qualifier == null || id == null) {
+            count = coll.count();
+        } else {
+            coll.count(QueryBuilder.start(qualifier).is(id).get());
+        }
         if (count > 0) {
             double size = (stats.getDouble("avgObjSize") + (stats.getDouble("totalIndexSize") / count)) * count;
             metrics.entityCount = count;

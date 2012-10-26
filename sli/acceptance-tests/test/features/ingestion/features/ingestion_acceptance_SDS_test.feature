@@ -407,7 +407,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | collectionName                       | deterministicId                             | field                             | value                                |
     | competencyLevelDescriptor            | fb623d47656476ad67d8b698ee19d3a1932fd2ea_id | body.codeValue                    | Barely Competent 4                   |
     | educationOrganization                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id | body.stateOrganizationId  | IL                                   |
-    | assessment                           | 0af135b55da9d8c1cfeb5226836bf40b19f58e8d_id | body.assessmentIdentificationCode.ID  | ACT                              |
+    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.assessmentIdentificationCode.ID  | ACT                              |
     | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id | body.stateOrganizationId  | Daybreak Central High                |
     | student                              | 067198fd6da91e1aa8d67e28e850f224d6851713_id | body.studentUniqueStateId         | 800000025                            |
@@ -418,12 +418,12 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
-    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.assessmentId         | be81697a6ad942136762996172b7030b933521da_id |
-    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id37d2f0cd437b6939afd2ae0c6295d8f4085fb830_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
-    | studentCompetency                    | e520332b16b0b99b3f026365e89f469a14a9b091_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
+    | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.administrationDate   | 2011-10-01                           |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
@@ -2769,7 +2769,6 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
         | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
         | studentGradebookEntry       | 1                   | body.letterGradeEarned         | Q                       | string               |
-        | studentCompetency           | 1                   | body.competencyLevel.codeValue | 99                      | string               |
         | grade                       | 1                   | body.letterGradeEarned         | U                       | string               |
         | reportCard                  | 1                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
         | staffCohortAssociation      | 1                   | body.beginDate                 | 2011-01-01              | string               |
