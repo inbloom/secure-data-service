@@ -20,6 +20,7 @@ package org.slc.sli.common.domain;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class EmbeddedDocumentRelations {
 
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
     private static final Map<String, Denormalization> DENORMALIZATIONS;
+    private static Set<String> denormalizationByEntityAndKey;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
@@ -63,7 +65,16 @@ public class EmbeddedDocumentRelations {
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
+
+        denormalizationByEntityAndKey = new HashSet<String>();
+        for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {
+            denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
+        }
     };
+
+    private static String stringifyEntityAndField(String entity, String field) {
+        return new StringBuilder().append(entity).append("|").append(field).toString();
+    }
 
     public static Set<String> getSubDocuments() {
         return SUBDOC_TO_PARENT.keySet();
@@ -119,6 +130,10 @@ public class EmbeddedDocumentRelations {
     public static String getDenormalizedToField(String entityType) {
         Denormalization denormalization = getDenormalization(entityType);
         return (denormalization != null ? denormalization.getDenormalizedToField() : null);
+    }
+
+    public static boolean isDenormalization(String entity, String field) {
+        return denormalizationByEntityAndKey.contains(stringifyEntityAndField(entity, field));
     }
 
     private static Denormalization getDenormalization(String entityType) {

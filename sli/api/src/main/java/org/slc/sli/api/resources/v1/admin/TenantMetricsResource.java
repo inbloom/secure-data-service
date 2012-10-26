@@ -31,7 +31,6 @@ import javax.ws.rs.core.UriInfo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -110,8 +109,7 @@ public class TenantMetricsResource {
         }
 
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
-        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, "metaData.tenantId",
-                tenantId);
+        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, null, null);
         collMetrics.put("== Totals ==", collMetrics.getTotals());
 
         metrics.put(tenantId, collMetrics);

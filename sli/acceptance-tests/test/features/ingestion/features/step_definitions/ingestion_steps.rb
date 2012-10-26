@@ -33,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 ############################################################
 
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
@@ -162,9 +163,9 @@ def cloneAllIndexes(db_connection, source_db_name, target_db_name)
 
   source_indexes = source_db["system.indexes"].find()
   source_indexes.each do |index|
-    
+
     collection_name = index['ns'][source_db_name.length+1, index['ns'].length]
-    
+
     index_spec_array  = Array.new
     index['key'].each do |index_spec|
       index_component_array = Array.new
@@ -398,11 +399,11 @@ def initializeTenantDatabase(lz_key)
   end
 
   @ingestion_db_name = convertTenantIdToDbName(lz_key)
-end 
+end
 
 def initializeLandingZone(lz)
   unless lz.nil?
-    
+
   if lz.rindex('/') == (lz.length - 1)
     @landing_zone_path = lz
   else
@@ -740,17 +741,17 @@ Given /^the following collections are empty in datastore:$/ do |table|
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
+    if parent
         @entity_collection = @db[parent]
-        superDocs = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+        superDocs = @entity_collection.find()
         cleanupSubDoc(superDocs, row["collectionName"])
     else
       @entity_collection = @db[row["collectionName"]]
-      @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+      @entity_collection.remove()
 
-      puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+      puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-      if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+      if @entity_collection.count.to_s != "0"
         @result = "false"
       end
     end
@@ -767,11 +768,11 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    @entity_collection.remove()
 
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+    if @entity_collection.count.to_s != "0"
       @result = "false"
     end
   end
@@ -780,7 +781,7 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+Given /^the following collections are completely empty in batch job datastore$/ do |table|
   disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
@@ -1004,6 +1005,12 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+end
+
+Given /^the tenant database does not exist/ do
+  puts "Dropping database:" + @ingestion_db_name
+  @conn.drop_database(@ingestion_db_name)
+  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1368,6 +1375,29 @@ end
 # STEPS: THEN
 ############################################################
 
+Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[@ingestion_db_name]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @indexcollection = @db.collection("system.indexes")
+    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
+
 def cleanupSubDoc(superdocs, subdoc)
   superdocs.each do |superdoc|
       superdoc[subdoc] = nil
@@ -1376,7 +1406,7 @@ def cleanupSubDoc(superdocs, subdoc)
 end
 
 def subDocParent(collectionName)
-  case collectionName 
+  case collectionName
     when "studentSectionAssociation"
      "section"
     when "gradebookEntry"
@@ -1387,47 +1417,47 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
-    else 
-      nil 
+    else
+      nil
   end
 end
 
-def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil) 
+def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
     total = 0
     coll = @db.collection(parent)
-    coll.find().each do |doc| 
+    coll.find().each do |doc|
         unless doc[subdoc] == nil
             if key == nil and match_value == nil and opts==nil
                 total += doc[subdoc].size
             else
-                array = doc[subdoc] 
-                array.each do |sub| 
+                array = doc[subdoc]
+                array.each do |sub|
                     @contains = true
                     if (key != nil && match_value != nil)
                         @contains = false
                         subdocMatch(sub, key, match_value)
                     end
                     @failed = false
-                    if (@contains and opts != nil) 
-                        opts.each_pair do |opt_key, opt_value| 
+                    if (@contains and opts != nil)
+                        opts.each_pair do |opt_key, opt_value|
                            #and only now
                            @contains = false
-                           subdocMatch(sub, opt_key, opt_value)  
+                           subdocMatch(sub, opt_key, opt_value)
                            if not @contains
                                @failed = true
                            end
-                        end 
+                        end
                         if not @failed
                             total += 1
                         end
-                    elsif (@contains) 
+                    elsif (@contains)
                         total += 1
-                    end 
-                end 
+                    end
+                end
             end
-        end 
+        end
     end
-    total 
+    total
 end
 
 def subdocMatch(subdoc, key, match_value)
@@ -1439,15 +1469,15 @@ def subdocMatch(subdoc, key, match_value)
     tmp = subdoc
     for i in 0...keys.length
         path = keys[i]
-        if tmp.is_a? Hash 
-            tmp = tmp[path] 
-            if i == keys.length - 1 
+        if tmp.is_a? Hash
+            tmp = tmp[path]
+            if i == keys.length - 1
                 if match_value.is_a? Array and tmp.is_a? Array
                     @contains = true if (match_value & tmp).size > 0
                 elsif match_value.is_a? Array
                     @contains = true if match_value.include? tmp
                 elsif tmp == match_value
-                    @contains = true 
+                    @contains = true
                 end
             end
         elsif tmp.is_a? Array
@@ -1470,14 +1500,14 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
   #                 {"$match" => {"#{subdoc}.#{searchParameter}" => "#{searchValue}"}},
   #              ]).size
 
-  # 
-  # This does not work as it counts the number of the parents, not number of 
+  #
+  # This does not work as it counts the number of the parents, not number of
   # subdocs
   #
-  #------------------------------------------- 
+  #-------------------------------------------
   # @entity_collection = @db.collection(subdoc_parent)
   # param = subdoc + "." + searchParameter
-  # 
+  #
   # if searchType == "integer"
   #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
   # elsif searchType == "double"
@@ -1489,10 +1519,10 @@ def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchVal
   #     @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
   #   end
   # elsif searchType == "nil"
-  #      @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
-  # else     
+  #      @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # else
   #   @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-  # end  
+  # end
   # ----------------------------------------
 end
 
@@ -1504,11 +1534,11 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
-      @entity_count = subDocCount(parent, row["collectionName"], {"metaData.tenantId" => TENANT_COLLECTION})
-    else 
+    if parent
+      @entity_count = subDocCount(parent, row["collectionName"])
+    else
       @entity_collection = @db.collection(row["collectionName"])
-      @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+      @entity_count = @entity_collection.count().to_i
     end
 
     if @entity_count.to_s != row["count"].to_s
@@ -1558,32 +1588,32 @@ Then /^I check to find if record is in collection:$/ do |table|
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
     if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"], {"metaData.tenantId" => TENANT_COLLECTION})
-    else  
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    else
       @entity_collection = @db.collection(row["collectionName"])
 
       if row["searchType"] == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
       elsif row["searchType"] == "double"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
       elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
         else
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
         end
       elsif row["searchType"] == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
       else
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
       end
     end
-    
+
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
-      puts "Failed #{row["collectionName"]}" 
+      puts "Failed #{row["collectionName"]}"
       @result = "false"
       red = "\e[31m"
       reset = "\e[0m"
@@ -1599,22 +1629,22 @@ end
 Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
   disable_NOTABLESCAN()
   @result = "true"
-  
+
   @db = @conn[convertTenantIdToDbName(tenantId)]
   @edOrgCollection = @db.collection("educationOrganization")
   @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
   puts "#{@edOrgEntity}"
   @stateOrganizationId = @edOrgEntity['_id']
-  
+
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
+    if parent
        @entity_count = subDocCount(parent, row["collectionName"], {"metaData.edOrgs" => [@stateOrganizationId]})
-    else 
+    else
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
     end
-    
+
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
       red = "\e[31m"
@@ -1685,11 +1715,11 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity =  @entity_collection.find({field => value})
 
   parent = subDocParent collection
-  if parent 
+  if parent
     @entity_collection = @db.collection(parent)
     sub_field = collection + "." + field
     @entity =  @entity_collection.find({sub_field => value})
-  else 
+  else
     @entity_collection = @db.collection(collection)
     @entity =  @entity_collection.find({field => value})
   end
@@ -1990,7 +2020,7 @@ And /^I should not see a warning log file created$/ do
     else
       assert(true, "No warn files created.")
     end
-  
+
   else
     @warn_filename_component = "warn."
 
@@ -2002,13 +2032,13 @@ And /^I should not see a warning log file created$/ do
         @warn_status_filename = entry
       end
     end
-  
+
     puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
     assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
   end
 end
 
-    
+
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorLogFile(lz)
@@ -2104,6 +2134,30 @@ Then /^the jobs ran concurrently$/ do
 
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
 end
+
+Then /^the database is sharded for the following collections/ do |table|
+  @configDb = @conn.db(CONFIG_DB_NAME)
+
+  @shardsCollection = @configDb.collection("shards")
+   @result = "true"
+
+  if @shardsCollection.count() > 0
+    @chunksCollection = @configDb.collection("chunks")
+
+    table.hashes.map do |row|
+      @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
+      if @chunksCount.to_s == "0"
+        puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
+        @result = "false"
+      end
+    end
+  else
+      puts "Mongo is not sharded"
+  end
+
+  assert(@result == "true", "Database was not sharder successfully.")
+end
+
 
 When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collection, searchTerm, value|
   step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
@@ -2236,14 +2290,14 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
 end
 
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
-	@entity_collection = @db.collection(subdoc_parent)
-	
-	id_param = subdoc + "._id"
-	field = subdoc + "." + field
-	
+  @entity_collection = @db.collection(subdoc_parent)
+
+  id_param = subdoc + "._id"
+  field = subdoc + "." + field
+
     puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
-	
-    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+
+    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value}]}).count().to_s
 end
 
 Then /^I check that ids were generated properly:$/ do |table|
@@ -2255,14 +2309,14 @@ Then /^I check that ids were generated properly:$/ do |table|
     field = row['field']
     value = row['value']
     collection = row['collectionName']
-    
+
     if subdoc_parent
-      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])	
-	else  
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])
+  else
       @entity_collection = @db.collection(collection)
-      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end
-    
+
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
 end

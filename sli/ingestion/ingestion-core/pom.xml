@@ -120,7 +120,7 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-      
+
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
@@ -271,8 +271,8 @@
       <version>2.1.2</version>
     </dependency>
 
-  <dependency>
-    <groupId>com.yammer.metrics</groupId>
+    <dependency>
+      <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-servlet</artifactId>
       <version>2.1.2</version>
     </dependency>
@@ -351,7 +351,7 @@
       </plugin>
     </plugins>
     <resources combine.children="append">
-      <resource> 
+      <resource>
         <directory>../../acceptance-tests/test/features/ingestion/test_data/</directory>
         <includes>
           <include>MediumSampleDataSet.zip</include>
@@ -361,8 +361,24 @@
       <resource>
         <directory>${basedir}/src/main/resources</directory>
       </resource>
-    </resources>
 
+      <resource>
+        <directory>../../config/indexes/</directory>
+        <targetPath>../classes</targetPath>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/tenantDB_indexes.js</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>../../config/shards/</directory>
+        <targetPath>../classes</targetPath>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/sli-shard-presplit.js</include>
+        </includes>
+      </resource>
+    </resources>
   </build>
 
   <profiles>

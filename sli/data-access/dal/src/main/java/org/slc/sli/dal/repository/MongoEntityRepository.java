@@ -35,10 +35,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -235,11 +235,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !isTenantAgnostic(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
