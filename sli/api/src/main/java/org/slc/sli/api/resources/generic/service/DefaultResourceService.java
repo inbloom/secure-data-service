@@ -75,6 +75,8 @@ public class DefaultResourceService implements ResourceService {
     @Autowired
     private ModelProvider provider;
 
+    private Map<String, List<EntityBody>> contextEntityCache = new HashMap<String, List<EntityBody>>();
+
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     /**
@@ -117,7 +119,7 @@ public class DefaultResourceService implements ResourceService {
                 // final/resulting information
                 List<EntityBody> finalResults = null;
                 try {
-                    finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                    finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType(), contextEntityCache);
                 } catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
                 }
@@ -149,17 +151,18 @@ public class DefaultResourceService implements ResourceService {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                            return logicalEntity.getEntities(apiQuery, resource.getResourceType(), contextEntityCache);
                         }
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                        entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType(), contextEntityCache);
                     } catch (UnsupportedSelectorException e) {
                         entityBodies = definition.getService().list(apiQuery);
                     }
                 }
                 long count = getEntityCount(definition, apiQuery);
+                contextEntityCache.put(resource.getResourceType(),(List<EntityBody>)entityBodies);
 
                 return new ServiceResponse((List<EntityBody>) entityBodies, count);
             }
@@ -267,6 +270,7 @@ public class DefaultResourceService implements ResourceService {
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
+        addBaseToContextCache(base,id);
         if (isAssociation(base)) {
             final String key = "_id";
             return getAssociatedEntities(base, base, id, resource, key, requestURI);
@@ -280,17 +284,27 @@ public class DefaultResourceService implements ResourceService {
         apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
 
         try {
-            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName(), contextEntityCache);
         } catch (final UnsupportedSelectorException e) {
             entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
         }
+        contextEntityCache.put(resource.getResourceType(),entityBodyList);
 
         long count = getEntityCount(definition, apiQuery);
         return new ServiceResponse(entityBodyList, count);
     }
 
+    private void addBaseToContextCache(Resource base, String id) {
+        final EntityDefinition baseEntity = resourceHelper.getEntityDefinition(base);
+        final ApiQuery apiQuery = getApiQuery(baseEntity);
+        apiQuery.setLimit(0);
+        apiQuery.addCriteria(new NeutralCriteria("_id", "in", Arrays.asList(id.split(","))));
+        contextEntityCache.put(base.getResourceType(),(List<EntityBody>)baseEntity.getService().list(apiQuery));
+    }
+
     @Override
     public ServiceResponse getEntities(Resource base, String id, Resource association, Resource resource, URI requestUri) {
+        addBaseToContextCache(base,id);
         final String associationKey = getConnectionKey(base, association);
         return getAssociatedEntities(base, association, id, resource, associationKey, requestUri);
     }
@@ -320,6 +334,7 @@ public class DefaultResourceService implements ResourceService {
 
         final String resourceKey = getConnectionKey(association, resource);
         String key = "_id";
+        final List<EntityBody> associatedEntitiyList = new ArrayList<EntityBody>();
 
         String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
         if ((parentType != null) && baseEntity.getType().equals(parentType)) {
@@ -333,6 +348,7 @@ public class DefaultResourceService implements ResourceService {
 
                 if (associations != null) {
                     for (EntityBody associationEntity : associations) {
+                        associatedEntitiyList.add(associationEntity);
                         filteredIdList.add((String) associationEntity.get(resourceKey));
                     }
                 }
@@ -349,22 +365,25 @@ public class DefaultResourceService implements ResourceService {
                    filteredIdList.addAll(valueList);
                    break;
                 } else {
+                    associatedEntitiyList.add(entityBody);
                     for (String filteredId : filteredIds) {
                         filteredIdList.add(filteredId);
                     }
                 }
             }
         }
+        contextEntityCache.put(association.getResourceType(),associatedEntitiyList);
 
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = getApiQuery(finalEntity, requestUri);
         finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
 
         try {
-            entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
+            entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName(), contextEntityCache);
         } catch (final UnsupportedSelectorException e) {
             entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
         }
+        contextEntityCache.put(finalEntity.getResourceName(),entityBodyList);
 
         long count = getEntityCount(finalEntity, finalApiQuery);
 

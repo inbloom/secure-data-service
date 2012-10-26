@@ -198,7 +198,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 List<EntityBody> entityBodyList = null;
                 try {
-                    entityBodyList = logicalEntity.getEntities(apiQuery, entityDef.getResourceName());
+                    entityBodyList = logicalEntity.getEntities(apiQuery, entityDef.getResourceName(), new HashMap<String, List<EntityBody>>());
                 } catch (UnsupportedSelectorException e) {
                     entityBodyList = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -298,7 +298,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     List<EntityBody> entityBodyList = null;
                     try {
-                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery,  resolutionResourceName);
+                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery,  resolutionResourceName,  new HashMap<String, List<EntityBody>>());
                     } catch (UnsupportedSelectorException e) {
                         entityBodyList = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
                     }
@@ -385,7 +385,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> finalResults = null;
                 try {
-                    finalResults = logicalEntity.getEntities(apiQuery, resourceName);
+                    finalResults = logicalEntity.getEntities(apiQuery, resourceName,  new HashMap<String, List<EntityBody>>());
                 } catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>) entityDef.getService().list(apiQuery);
                 }
@@ -611,12 +611,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, resourceName);
+                            return logicalEntity.getEntities(apiQuery, resourceName,  new HashMap<String, List<EntityBody>>());
                         }
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, resourceName);
+                        entityBodies = logicalEntity.getEntities(apiQuery, resourceName,  new HashMap<String, List<EntityBody>>());
                     } catch (UnsupportedSelectorException e) {
                         entityBodies = entityDef.getService().list(apiQuery);
                     }
