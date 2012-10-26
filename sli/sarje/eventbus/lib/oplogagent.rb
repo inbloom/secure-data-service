@@ -178,7 +178,7 @@ module Eventbus
 
     def initialize(config = {}, logger = nil)
       @logger = logger if logger
-      @event_subscriber = config[:event_subscriber]
+      @event_publisher = config[:event_publisher]
       @threads = []
 
       @oplog_throttler = Eventbus::OpLogThrottler.new(config, logger)
@@ -190,16 +190,16 @@ module Eventbus
         end
       end
 
-      @event_subscriber.handle_subscriptions do |subscriptions|
+      @event_publisher.handle_subscriptions do | subscriptions |
         @logger.info "received subscription #{subscriptions}" if @logger
-        if(subscriptions != nil)
+        if subscriptions
           @oplog_throttler.set_subscription_events(subscriptions)
         end
       end
 
       @threads << Thread.new do
-        @oplog_throttler.handle_events do |event|
-          @event_subscriber.fire_event(event)
+        @oplog_throttler.handle_events do |events|
+          @event_publisher.fire_events(events)
         end
       end
     end
@@ -208,7 +208,7 @@ module Eventbus
       @threads.each do |thread|
         thread.kill
       end
-      @event_subscriber.shutdown
+      @event_publisher.shutdown
     end
   end
 end

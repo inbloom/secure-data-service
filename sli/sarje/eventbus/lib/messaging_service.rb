@@ -80,7 +80,13 @@ module Eventbus
         @client.publish(@queue_name, message.to_json)
       rescue Exception => e
         @client = nil
-        @logger.warn("problem publishing to queue #{@queue_name}: #{e}") unless @logger.nil?
+        @logger.error("Problem publishing to queue #{@queue_name}: #{e}") unless @logger.nil?
+      end
+    end
+
+    def close
+      unless @client.nil?
+        @client.close
       end
     end
   end
