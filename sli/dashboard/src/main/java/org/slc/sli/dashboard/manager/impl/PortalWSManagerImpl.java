@@ -16,9 +16,8 @@
 
 package org.slc.sli.dashboard.manager.impl;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.client.RESTClient;
 import org.slc.sli.dashboard.manager.PortalWSManager;

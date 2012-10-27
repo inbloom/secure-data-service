@@ -30,11 +30,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.client.APIClient;
 import org.slc.sli.dashboard.entity.Config;
