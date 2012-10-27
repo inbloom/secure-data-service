@@ -48,7 +48,7 @@ public class SearchResource extends GenericResource {
     @GET
     public Response get(@Context final UriInfo uriInfo) {
 
-        return getResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.ONE_PART, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 
@@ -62,7 +62,7 @@ public class SearchResource extends GenericResource {
     @Path("{entity}")
     public Response get(@PathParam("entity") final String entity, @Context final UriInfo uriInfo) {
 
-        return getResponseBuilder.build(uriInfo, ResourceTemplate.SEARCH, ResourceMethod.GET, new GetResourceLogic() {
+        return getAllResponseBuilder.build(uriInfo, ResourceTemplate.SEARCH, ResourceMethod.GET, new GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
 
