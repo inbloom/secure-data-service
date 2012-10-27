@@ -276,6 +276,8 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         principal.setEntity(principalEntity);
         principal.setRealm(realmId);
+        // Putting a default tenant
+        principal.setTenantId(TENANT_ID);
         // Create the user session for security caching
         Entity session = repo.create("userSession", new HashMap<String, Object>());
         principal.setSessionId(session.getEntityId());
