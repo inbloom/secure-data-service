@@ -26,6 +26,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 
 /**
  * Utility for accessing subdocuments that have been collapsed into a super-doc
@@ -208,9 +209,9 @@ public class SubDocAccessor {
             boolean result = true;
             TenantContext.setIsSystemCall(false);
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError().ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), false, false, WriteConcern.SAFE).getLastError().ok();
             return result;
         }
 
@@ -288,7 +289,7 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false)
+            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE)
                     .getLastError().ok();
         }
 
