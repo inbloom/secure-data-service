@@ -118,7 +118,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             localParentIdKey = k;
         }
     }
-    public static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
+    public final static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
         SELF_REF_ENTITY_CONFIG = new HashMap<String, SelfRefEntityConfig> ();
         // learning objective's parent reference is stored in localParentId map. 
