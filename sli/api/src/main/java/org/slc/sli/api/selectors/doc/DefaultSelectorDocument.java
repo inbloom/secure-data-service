@@ -365,27 +365,28 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         //TODO: apply constraint before returning cached entities
         //TODO : Apply security constraint if not present in cache.
-        try {
-            if (entityCache.containsKey(type.getName())) {
-                return entityCache.get(type.getName());
-            }
-            if (first) {
-                Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
+        if (entityCache.containsKey(type.getName())) {
+            return entityCache.get(type.getName());
+        }
+        if (first) {
+            Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
 
-                constraint.setLimit(0);
-                constraint.setOffset(0);
+            constraint.setLimit(0);
+            constraint.setOffset(0);
 
-                return results;
-            } else {
+            return results;
+        } else {
+            try {
                 EntityDefinition entityDefinition = getEntityDefinition(type);
                 if (entityDefinition == null) {
                     return new ArrayList<EntityBody>();
                 }
                 return entityDefinition.getService().list(constraint);
+
+            } catch (AccessDeniedException ade) {
+                return new ArrayList<EntityBody>();
             }
 
-        } catch (AccessDeniedException ade) {
-            return new ArrayList<EntityBody>();
         }
 
 
