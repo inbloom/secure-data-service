@@ -386,10 +386,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             } catch (AccessDeniedException ade) {
                 return new ArrayList<EntityBody>();
             }
-
         }
-
-
     }
 
 
