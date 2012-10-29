@@ -21,7 +21,7 @@ require 'approval'
 
 APP_CONFIG = YAML::load_file("#{Rails.root}/config/config.yml")[Rails.env]
 APP_LDAP_CLIENT = LDAPStorage.new(APP_CONFIG["ldap_host"], APP_CONFIG["ldap_port"],
-      APP_CONFIG["ldap_base"],APP_CONFIG["ldap_user"],PropertyDecryptorHelper.decrypt(APP_CONFIG["ldap_pass"]))
+      APP_CONFIG["ldap_base"],APP_CONFIG["ldap_user"],APP_CONFIG["ldap_pass"])
 APP_EMAILER = Emailer.new({
       :sender_name => APP_CONFIG["email_sender_name"],
       :sender_email_addr => APP_CONFIG["email_sender_address"],
