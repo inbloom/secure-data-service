@@ -212,7 +212,7 @@ public class StudentAttendanceTransformerTest {
 
         Assert.assertEquals(res.get("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff").getAttributes().get("body.schoolId"), "schoolId2");
     }
-
+/*
     @SuppressWarnings("unchecked")
     @Test
     public void testMapAttendanceIntoSchoolYears() throws IOException {
@@ -263,7 +263,7 @@ public class StudentAttendanceTransformerTest {
             }
         }
     }
-
+*/
 
     @SuppressWarnings("unchecked")
     @Test
