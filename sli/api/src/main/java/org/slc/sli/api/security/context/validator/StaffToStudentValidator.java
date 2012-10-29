@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -62,16 +63,22 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
         // lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffsDirectlyAssociatedEdOrgs();
+
         // lookup students
         Iterable<Entity> students = getStudentEntitiesFromIds(ids);
 
-        for (Entity entity : students) {
-            Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-            if (!isIntersection(staffsEdOrgIds, studentsEdOrgs) && !isCreatedBy(entity)) {
-                isValid = false;
-                break;
+        if (students != null && students.iterator().hasNext()) {
+            for (Entity entity : students) {
+                Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
+                if (!isIntersection(staffsEdOrgIds, studentsEdOrgs) && !isCreatedBy(entity)) {
+                    isValid = false;
+                    break;
+                }
             }
+        } else {
+            isValid = false;
         }
+
         return isValid;
     }
 
@@ -106,6 +113,13 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         List<Map<String, Object>> schools = denormalized.get("schools");
         if (schools != null) {
             for (Map<String, Object> school : schools) {
+                if (school.containsKey("exitWithdrawDate")) {
+                    DateTime exitWithdrawDate = getDateTime((String) school.get("exitWithdrawDate"));
+                    if (!isLhsBeforeRhs(getNowMinusGracePeriod(), exitWithdrawDate)) {
+                        continue;
+                    }
+                }
+
                 if (school.containsKey("edOrgs")) {
                     @SuppressWarnings("unchecked")
                     List<String> schoolIds = (List<String>) school.get("edOrgs");
@@ -121,7 +135,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(studentIds)));
+                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
         Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, studentQuery);
         return students;
