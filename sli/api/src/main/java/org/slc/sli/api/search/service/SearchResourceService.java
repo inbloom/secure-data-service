@@ -187,6 +187,7 @@ public class SearchResourceService {
 
         List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
+        validators.clear();
 
         // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
