@@ -34,10 +34,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class TeacherToStaffValidatorTest {
+public class TransitiveTeacherToStaffValidatorTest {
     
     @Autowired
-    private TeacherToStaffValidator validator;
+    private TransitiveTeacherToStaffValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
