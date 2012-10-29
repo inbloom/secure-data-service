@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -77,9 +78,11 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         //move generic validator to end
+        validators.remove(genVal);
+        validators.add(genVal); //temporarily disable
+        
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
-        validators.remove(genVal);
         validators.remove(studentVal);
         validators.remove(subEntityVal);
     }
@@ -111,17 +114,18 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator validator = findValidator(entityName, isTransitive);
         if (validator != null) {
             String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
+            Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
+            if (!validator.validate(entityName, ids)) {
                 if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+                    throw new EntityNotFoundException("Could not locate " + entityName + " with ids " + idsString);
                 }
                 throw new AccessDeniedException("Cannot access entities " + idsString);
             }
         }
     }
 
-    private boolean exists(List<String> ids, String collectionName) {
+    
+    private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         long count = repo.count(collectionName, query);
