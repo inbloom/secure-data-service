@@ -2,8 +2,8 @@
     "keyFields" : ["body.studentId","body.parentId"],
     "references" :
     [{
-        "fieldPath" : "body.studentId",
-        "deprecated" : false,
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "student",

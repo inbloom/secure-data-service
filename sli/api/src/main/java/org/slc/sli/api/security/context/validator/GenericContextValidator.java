@@ -42,7 +42,9 @@ public class GenericContextValidator implements IContextValidator {
         String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
         if (userType.equals("staff"))
             return false;
-        
+        if (entityType.equals("school") || entityType.equals("educationOrganization") || entityType.equals("graduationPlan")) {
+            return false;
+        }
         return store.findResolver(userType, entityType) != null;
     }
     
