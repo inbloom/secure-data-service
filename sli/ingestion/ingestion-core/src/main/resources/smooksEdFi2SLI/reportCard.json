@@ -83,10 +83,26 @@
                 "choiceOfFields":[
                     [
                         {
+                            "path":"body.gradingPeriodIdentity.schoolYear",
+                            "values":[
+                                {
+                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.SchoolYear"
+                                }
+                            ]
+                        },
+                        {
                             "path":"body.gradingPeriodIdentity.gradingPeriod",
                             "values":[
                                 {
                                     "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
+                                }
+                            ]
+                        },
+                        {
+                            "path":"body.beginDate",
+                            "values":[
+                                {
+                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.BeginDate"
                                 }
                             ]
                         },

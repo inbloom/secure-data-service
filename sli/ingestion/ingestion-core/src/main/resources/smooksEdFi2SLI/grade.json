@@ -75,6 +75,13 @@
                             }]
                         },
                         {
+                            "path" : "body.beginDate",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.BeginDate"
+                            }]
+                        },
+                        {
                             "path" : "body.gradingPeriodIdentity.schoolId",
                             "values" :
                             [{

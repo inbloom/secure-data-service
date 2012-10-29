@@ -13,7 +13,7 @@
 				<xs:element name="Session" type="SLC-Session"/>
 				<xs:element name="GradingPeriod" type="SLC-GradingPeriod"/>
 				<xs:element name="CalendarDate" type="CalendarDate"/>
-				<xs:element name="AcademicWeek" type="SLC-AcademicWeekReferenceType"/>
+				<xs:element name="AcademicWeek" type="SLC-AcademicWeek"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

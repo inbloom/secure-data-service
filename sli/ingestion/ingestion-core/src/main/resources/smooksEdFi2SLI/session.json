@@ -1,9 +1,10 @@
 {
-    "keyFields" : ["body.sessionName", "body.term", "body.schoolId"],
+    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
     "references" :
     [
         {
             "fieldPath" : "body.schoolId",
+            "deprecated" : false,
             "ref" :
             {
                 "entityType" : "school",
@@ -24,7 +25,7 @@
         },
         {
            "fieldPath" : "body.GradingPeriodReference",
-           "deprecated" : "true",
+           "deprecated" : true,
             "ref" :
             {
                 "entityType" : "gradingPeriod",
@@ -39,6 +40,20 @@
                             "values" :
                             [{
                                 "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.SchoolYear"
+                            }]
+                        },
+                        {
+                            "path" : "body.beginDate",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.BeginDate"
                             }]
                         },
                         {
