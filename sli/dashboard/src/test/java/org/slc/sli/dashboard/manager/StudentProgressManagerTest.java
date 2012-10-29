@@ -111,7 +111,7 @@ public class StudentProgressManagerTest {
 
     private Map<String, Object> buildTranscript() {
         Map<String, Object> transcript = new HashMap<String, Object>();
-        transcript.put(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC, buildStudentTranscripts());
+        transcript.put(Constants.ATTR_COURSE_TRANSCRIPTS, buildStudentTranscripts());
         transcript.put(Constants.ATTR_STUDENT_SECTION_ASSOC, buildStudentSectionAssocs());
         return transcript;
     }

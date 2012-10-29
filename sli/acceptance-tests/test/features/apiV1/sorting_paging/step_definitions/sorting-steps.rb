@@ -28,6 +28,7 @@ Transform /^<(.+)>$/ do |template|
   id = template
   id = "9d970849-0116-499d-b8f3-2255aeb69552" if template == "'Dawn Elementary School' ID"
   id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if template == "'Illinois State Ed-org' ID"
+  id = "15ab6363-5509-470c-8b59-4f289c224107" if template == "'Sec 145' ID"
   id = @resource_name                         if template == "QUERY URI"
   id
 end
@@ -46,6 +47,22 @@ Then /^I should receive a collection$/ do
   assert(@result.is_a?(Array), "Expected array of links")
 end
 
+Then /^I should receive a collection with (\d+) unique elements$/ do |arg1|
+  @uniqueIds ||= Set.new
+  step "I should receive a collection with #{arg1} elements"
+  @result.each do |result|
+    assert(!@uniqueIds.include?(result['id']))
+    @uniqueIds.add result['id']
+  end
+end
+
+Then /^I should receive a collection with (\d+) non\-unique elements$/ do |arg1|
+  step "I should receive a collection with #{arg1} elements"
+  @result.each do |result|
+    assert(@uniqueIds.include?(result['id']))
+  end
+end
+
 Then /^the link at index (\d+) should point to an entity with id "([^\"]*)"$/ do |index, id|
   index = convert(index)
   @result[index].should_not == nil
@@ -61,6 +78,7 @@ Then /^the link at index (\d+) should have "([^\"]*)" equal to "([^\"]*)"$/ do |
   end
   fieldValue.should == id
 end
+
 
 Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
   value = convert(value)

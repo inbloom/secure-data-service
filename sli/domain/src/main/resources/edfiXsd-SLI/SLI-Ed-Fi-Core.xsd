@@ -1657,7 +1657,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
 			<xs:appinfo>
-				<sli:recordType>studentTranscriptAssociation</sli:recordType>
+				<sli:recordType>courseTranscript</sli:recordType>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

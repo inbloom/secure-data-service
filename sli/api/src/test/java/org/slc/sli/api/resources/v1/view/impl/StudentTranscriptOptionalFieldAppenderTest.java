@@ -91,8 +91,8 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId2));
 
         String sarID = repo.create("studentAcademicRecord", createAcademicRecord(studentId)).getEntityId();
-        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId1, sarID));
-        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId2, sarID));
+        repo.create("courseTranscript", createCourseTranscript(studentId, courseId1, sarID));
+        repo.create("courseTranscript", createCourseTranscript(studentId, courseId2, sarID));
 
     }
 
@@ -129,10 +129,10 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         assertEquals("Should match", "Math", ((EntityBody) section.get("courses")).get("courseTitle"));
         assertEquals("Should match", "Math A", section.get("sectionname"));
 
-        List<EntityBody> studentTranscriptAssociations = (List<EntityBody>) transcripts.get("courseTranscripts");
-        assertNotNull("Should not be null", studentTranscriptAssociations);
-        assertEquals("Should match", 2, studentTranscriptAssociations.size());
-        assertEquals("Should match", "A", studentTranscriptAssociations.get(0).get("letterGradeEarned"));
+        List<EntityBody> courseTranscripts = (List<EntityBody>) transcripts.get("courseTranscripts");
+        assertNotNull("Should not be null", courseTranscripts);
+        assertEquals("Should match", 2, courseTranscripts.size());
+        assertEquals("Should match", "A", courseTranscripts.get(0).get("letterGradeEarned"));
     }
 
     private Map<String, Object> createTestStudentEntity() {
@@ -159,7 +159,7 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createStudentTranscript(String studentId, String courseId, String sarID) {
+    private Map<String, Object> createCourseTranscript(String studentId, String courseId, String sarID) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("courseId", courseId);
