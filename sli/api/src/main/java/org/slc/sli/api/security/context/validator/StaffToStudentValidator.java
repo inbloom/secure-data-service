@@ -34,6 +34,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Validates the context of a staff member to see the requested set of students. Returns true if the
+ * staff member can see ALL of the students, and false otherwise.
+ *
+ * @author mlane
+ */
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
 
