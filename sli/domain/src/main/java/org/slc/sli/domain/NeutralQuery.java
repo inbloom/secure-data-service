@@ -291,7 +291,7 @@ public class NeutralQuery {
     }
 
     public NeutralQuery setEmbeddedFieldString(String newEmbeddedFields) {
-        this.excludeFields = Arrays.asList(newEmbeddedFields.split(","));
+        this.embeddedFields = Arrays.asList(newEmbeddedFields.split(","));
         return this;
     }
 
