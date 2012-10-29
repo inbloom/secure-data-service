@@ -20,7 +20,20 @@ import java.util.Set;
 
 public interface IContextValidator {
 
-    public abstract boolean canValidate(String entityType, boolean through);
+    /**
+     * Simple method that can return true if it knows how to validate who you are to the
+     * type of entity asked for. Also is split up into transitive vs non-transitive access
+     * 
+     * Transitive means that your ability to see these things goes beyond direct association
+     * and includes extra context through other means. (i.e. Transitive access to section is
+     * through both your direct section associations and the sections of the students that a
+     * teacher teaches)
+     * 
+     * @param entityType
+     * @param isTransitive
+     * @return
+     */
+    public abstract boolean canValidate(String entityType, boolean isTransitive);
     
     public abstract boolean validate(String entityType, Set<String> ids);
     

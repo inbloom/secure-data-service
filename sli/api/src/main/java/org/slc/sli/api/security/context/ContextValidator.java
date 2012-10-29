@@ -21,15 +21,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -41,6 +32,14 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -105,11 +104,11 @@ public class ContextValidator implements ApplicationContextAware {
 
         /*
          * e.g.
-         * through - /v1/staff/<ID>/disciplineActions
-         * !through - /v1/staff/<ID>
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
          */
-        boolean through = request.getPathSegments().size() > 3;
-        IContextValidator validator = findValidator(entityName, through);
+        boolean isTransitive = request.getPathSegments().size() < 4;
+        IContextValidator validator = findValidator(entityName, isTransitive);
         if (validator != null) {
             String idsString = request.getPathSegments().get(2).getPath();
             List<String> ids = Arrays.asList(idsString.split(","));
@@ -138,24 +137,24 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     *
+     * 
      * @param toType
-     * @param through
+     * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
+    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
-            if (validator.canValidate(toType, through)) {
+            if (validator.canValidate(toType, isTransitive)) {
                 found = validator;
                 break;
             }
         }
 
         if (found == null) {
-            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;

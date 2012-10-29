@@ -1,22 +1,60 @@
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.slc.sli.api.constants.EntityNames;
 
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
 
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
+
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     protected String getFilterDate() {
+        return getNowMinusGracePeriod().toString(fmt);
+    }
+
+    protected DateTime getNowMinusGracePeriod() {
         DateTime now = DateTime.now();
         int numDays = Integer.parseInt(gracePeriod);
-        now = now.minusDays(numDays);
-        return now.toString(fmt);
+        return now.minusDays(numDays);
+    }
+
+    /**
+     * Determines if the specified type is a sub-entity of student.
+     *
+     * @param type
+     *            Type to check is 'below' student.
+     * @return True if the entity hangs off of student, false otherwise.
+     */
+    protected boolean isSubEntityOfStudent(String type) {
+        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
+                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
+                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
+                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
     }
 
     /**
@@ -66,5 +104,36 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected String getDateTimeString(DateTime convert) {
         return convert.toString(fmt);
+    }
+    protected boolean isStaff() {
+        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+    }
+    
+    protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
+        DateTime expirationDate = DateTime.now();
+        int numDays = Integer.parseInt(gracePeriod);
+        expirationDate = expirationDate.minusDays(numDays);
+        if (body.containsKey(fieldName)) {
+            String dateStringToCheck = (String) body.get(fieldName);
+            DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
+            
+            return dateToCheck.isBefore(expirationDate);
+        }
+        return false;
+    }
+
+    protected Set<String> getChildEdOrgs(Set<String> edorg) {
+        if (edorg.size() == 0) {
+            return edorg;
+        }
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(edorg)));
+        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for(Entity child : childrenIds) {
+            children.add(child.getEntityId());
+        }
+        edorg.addAll(getChildEdOrgs(children));
+        return edorg;
     }
 }
