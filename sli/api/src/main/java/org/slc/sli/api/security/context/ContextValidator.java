@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class ContextValidator implements ApplicationContextAware {
 
         //move generic validator to end
         validators.remove(genVal);
-        validators.add(genVal); //temporarily disable
+        validators.add(genVal);
         
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
@@ -103,7 +104,6 @@ public class ContextValidator implements ApplicationContextAware {
         if (def == null) {
             return;
         }
-        String entityName = def.getType();
 
         /*
          * e.g.
@@ -111,15 +111,25 @@ public class ContextValidator implements ApplicationContextAware {
          * isTransitive - /v1/staff/<ID>
          */
         boolean isTransitive = request.getPathSegments().size() < 4;
-        IContextValidator validator = findValidator(entityName, isTransitive);
+        String idsString = request.getPathSegments().get(2).getPath();
+        Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
+        validateContextToEntities(def, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
+        Set<String> idSet = null;
+        if (entityIds instanceof Set) {
+            idSet = (Set<String>) entityIds;
+        } else {
+            idSet = new HashSet<String>(entityIds);
+        }
+        IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
-            if (!validator.validate(entityName, ids)) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + " with ids " + idsString);
+            if (!validator.validate(def.getType(), idSet)) {
+                if (!exists(idSet, def.getStoredCollectionName())) {
+                    throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entityIds);
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+                throw new AccessDeniedException("Cannot access entities " + entityIds);
             }
         }
     }
