@@ -386,9 +386,12 @@
         <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>1st Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Dog School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SessionReference>
@@ -410,9 +413,12 @@
         <LocalCourseTitle>8th Grade English</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Echo School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SessionReference>
@@ -434,9 +440,12 @@
         <LocalCourseTitle>Club/Team</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Club/Team</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Echo School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Club/Team-6</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SessionReference>
