@@ -5,6 +5,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.slc.sli.api.constants.EntityNames;
+
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
@@ -13,10 +15,30 @@ public abstract class AbstractContextValidator implements IContextValidator {
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     protected String getFilterDate() {
+        return getNowMinusGracePeriod().toString(fmt);
+    }
+
+    protected DateTime getNowMinusGracePeriod() {
         DateTime now = DateTime.now();
         int numDays = Integer.parseInt(gracePeriod);
-        now = now.minusDays(numDays);
-        return now.toString(fmt);
+        return now.minusDays(numDays);
+    }
+
+    /**
+     * Determines if the specified type is a sub-entity of student.
+     *
+     * @param type
+     *            Type to check is 'below' student.
+     * @return True if the entity hangs off of student, false otherwise.
+     */
+    protected boolean isSubEntityOfStudent(String type) {
+        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
+                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
+                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
+                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
     }
 
     /**

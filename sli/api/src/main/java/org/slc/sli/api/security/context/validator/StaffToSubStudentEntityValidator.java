@@ -21,7 +21,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.DateTime;
+import com.mongodb.BasicDBList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * Validates a teacher accessing a set of entities that are directly associated to a student.
+ * Validates a staff accessing a set of entities that are directly associated to a student.
  * Currently supported entities are:
  * attendance,
  * course transcript,
@@ -49,25 +50,25 @@ import org.slc.sli.domain.NeutralQuery;
  * @author shalka
  */
 @Component
-public class TeacherToSubStudentEntityValidator extends AbstractContextValidator {
+public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
-    private TeacherToStudentValidator validator;
+    private StaffToStudentValidator validator;
 
     /**
      * Determines if the entity type is a sub-entity of student.
      */
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
+        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF)
                 && isSubEntityOfStudent(entityType);
     }
 
     /**
-     * Determines if the teacher can see the set of entities specified by 'ids'.
+     * Determines if the staff can see the set of entities specified by 'ids'.
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
@@ -79,15 +80,23 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
                 if (entityType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
-                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("exitWithdrawDate")))) {
+                    if (isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime((String) body.get("exitWithdrawDate")))) {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
                 } else if (entityType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
-                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("endDate")))) {
+                    if (isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime((String) body.get("endDate")))) {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
                 } else {
-                    students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                    Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
+                    if (studentInfo instanceof BasicDBList) {
+                        BasicDBList studentList = (BasicDBList) studentInfo;
+                        for (int i = 0; i < studentList.size(); i++) {
+                            students.add((String) studentList.get(i));
+                        }
+                    } else if (studentInfo instanceof String) {
+                        students.add((String) studentInfo);
+                    }
                 }
             }
         }
@@ -110,12 +119,12 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     }
 
     /**
-     * Sets the teacher to student validator (for unit testing).
+     * Sets the staff to student validator (for unit testing).
      *
-     * @param teacherToStudentValidator
-     *            Teacher To Student Validator.
+     * @param staffToStudentValidator
+     *            Staff To Student Validator.
      */
-    public void setTeacherToStudentValidator(TeacherToStudentValidator teacherToStudentValidator) {
-        this.validator = teacherToStudentValidator;
+    public void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
+        this.validator = staffToStudentValidator;
     }
 }
