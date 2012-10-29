@@ -325,12 +325,15 @@ public class MongoQueryConverter {
         if (neutralQuery != null) {
             // Include fields
             if (neutralQuery.getIncludeFields() != null) {
-                for (String includeField : neutralQuery.getIncludeFields()) {
-                    mongoQuery.fields().include(MONGO_BODY + includeField);
-                }
 
-                mongoQuery.fields().include("type");
-                mongoQuery.fields().include("metaData");
+                if (!neutralQuery.getIncludeFields().contains("*")) {
+                    for (String includeField : neutralQuery.getIncludeFields()) {
+                        mongoQuery.fields().include(MONGO_BODY + includeField);
+                    }
+
+                    mongoQuery.fields().include("type");
+                    mongoQuery.fields().include("metaData");
+                }
             }
             else {
                 mongoQuery.fields().include("body");
