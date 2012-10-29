@@ -61,6 +61,7 @@ public class MongoEntity implements Entity, Serializable {
     private final CalculatedData<String> calculatedData;
     private final CalculatedData<Map<String, Integer>> aggregates;
     private final Map<String, List<Entity>> embeddedData;
+    private final Map<String, List<Map<String, Object>>> denormalizedData;
 
     /**
      * Default constructor for the MongoEntity class.
@@ -104,11 +105,12 @@ public class MongoEntity implements Entity, Serializable {
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
         this.embeddedData = new HashMap<String, List<Entity>>();
+        this.denormalizedData = new HashMap<String, List<Map<String, Object>>>();
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
-            Map<String, List<Entity>> embeddedData) {
+            Map<String, List<Entity>> embeddedData, Map<String, List<Map<String, Object>>> denormalizedData) {
         this.type = type;
         this.entityId = id;
         this.body = body == null ? new BasicBSONObject() : body;
@@ -116,6 +118,8 @@ public class MongoEntity implements Entity, Serializable {
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
         this.embeddedData = embeddedData == null ? new HashMap<String, List<Entity>>() : embeddedData;
+        this.denormalizedData = denormalizedData == null ? new HashMap<String, List<Map<String, Object>>>()
+                : denormalizedData;
     }
 
     @Override
@@ -235,28 +239,43 @@ public class MongoEntity implements Entity, Serializable {
                 .get("aggregations");
 
         Map<String, List<Entity>> embeddedData = extractEmbeddedData(dbObj);
+        Map<String, List<Map<String, Object>>> denormalizedData = extractDenormalizedData(dbObj);
 
         return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
-                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData);
+                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData, denormalizedData);
     }
 
     @SuppressWarnings("unchecked")
     private static Map<String, List<Entity>> extractEmbeddedData(DBObject dbObj) {
-        String type = (String) dbObj.get("type");
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
         for (String key : dbObj.keySet()) {
-            if (EmbeddedDocumentRelations.getSubDocuments().contains(key) || EmbeddedDocumentRelations.isDenormalization(type, key)) {
-                List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
+            if (EmbeddedDocumentRelations.getSubDocuments().contains(key)) {
+                List<DBObject> values = (List<DBObject>) dbObj.get(key);
                 List<Entity> subEntityList = new ArrayList<Entity>();
-                for(Map<String, Object> subEntity : values) {
-                   subEntityList.add(fromDBObject((DBObject)subEntity));
+                for (DBObject subEntity : values) {
+                    subEntityList.add(fromDBObject(subEntity));
                 }
                 embeddedData.put(key, subEntityList);
             }
         }
 
         return embeddedData;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, List<Map<String, Object>>> extractDenormalizedData(DBObject dbObj) {
+        String type = (String) dbObj.get("type");
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+
+        for (String key : dbObj.keySet()) {
+            if (EmbeddedDocumentRelations.isDenormalization(type, key)) {
+                List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
+                denormalized.put(key, values);
+            }
+        }
+
+        return denormalized;
     }
 
     /**
@@ -290,5 +309,10 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, List<Entity>> getEmbeddedData() {
         return embeddedData;
+    }
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+        return denormalizedData;
     }
 }

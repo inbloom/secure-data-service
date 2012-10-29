@@ -209,6 +209,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
         public Map<String, List<Entity>> getEmbeddedData() {
             return null;
         }
+
+        @Override
+        public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
     // Unimplemented methods

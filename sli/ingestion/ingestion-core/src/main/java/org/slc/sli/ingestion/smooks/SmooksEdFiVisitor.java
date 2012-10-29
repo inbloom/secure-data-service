@@ -37,8 +37,6 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -69,13 +67,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private final String batchJobId;
     private final ErrorReport errorReport;
     private final IngestionFileEntry fe;
-    private final String tenantId;
-
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
-
-    private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     private BatchJobDAO batchJobDAO;
     private Set<String> recordLevelDeltaEnabledEntities;
@@ -93,8 +87,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe,
-            String tenantId, DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = errorReport;
@@ -102,14 +95,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
-        this.deterministicUUIDGeneratorStrategy = deterministicUUIDGeneratorStrategy;
-        this.tenantId = tenantId;
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
-            IngestionFileEntry fe, String tenantId,
-            DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe, tenantId, deterministicUUIDGeneratorStrategy);
+            IngestionFileEntry fe) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
     }
 
     @Override
@@ -206,31 +196,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
         if (String.class.isInstance(neutralRecord.getLocalId())) {
             neutralRecord.setLocalId(((String) neutralRecord.getLocalId()).trim());
-        }
-
-        String entityType = neutralRecord.getRecordType();
-
-        // Calculate deterministic id for educationOrganization and school
-        // This is important because the edOrg id is currently used for stamping metaData
-        // during ingestion. Therefore, the id needs to be known now, rather than
-        // waiting till the entity is persisted in the DAL.
-
-        if ("stateEducationAgency".equals(entityType) || "school".equals(entityType)
-                || "localEducationAgency".equals(entityType)) {
-
-            // Normally, NaturalKeyDescriptors are generated based on the sli.xsd, but in this
-            // case, we need to generate one ahead of time (for context stamping), so it will
-            // be built by hand in this case
-            Map<String, String> naturalKeys = new HashMap<String, String>();
-            String stateOrganizationId = (String) neutralRecord.getAttributes().get("stateOrganizationId");
-            naturalKeys.put("stateOrganizationId", stateOrganizationId);
-
-            NaturalKeyDescriptor descriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
-                    neutralRecord.getRecordType(), null);
-            descriptor.setEntityType("educationOrganization");
-
-            String deterministicId = deterministicUUIDGeneratorStrategy.generateId(descriptor);
-            neutralRecord.setRecordId(deterministicId);
         }
 
         return neutralRecord;

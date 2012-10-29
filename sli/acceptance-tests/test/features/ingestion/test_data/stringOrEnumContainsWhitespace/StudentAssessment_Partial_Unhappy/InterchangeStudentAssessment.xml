@@ -30,23 +30,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>18</Result> 
        </ScoreResults> 
-       <StudentAssessmentReference> 
-          <StudentAssessmentIdentity>
-            <AdministrationDate>2011-05-01</AdministrationDate>
-            <StudentReference> 
-                 <StudentIdentity> 
-                      <StudentUniqueStateId>500000000</StudentUniqueStateId> 
-                 </StudentIdentity> 
-            </StudentReference> 
-            <AssessmentReference> 
-                 <AssessmentIdentity> 
-                      <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                           <ID>SAT</ID> 
-                      </AssessmentIdentificationCode> 
-                 </AssessmentIdentity> 
-            </AssessmentReference> 
-          </StudentAssessmentIdentity>
-       </StudentAssessmentReference> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math</ObjectiveAssessmentIdentificationCode> 
