@@ -14,7 +14,7 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   Then I click on "Add User" button
   And I am redirected to the "Add a User" page
   And I can directly update the "Full Name" field to "RCTestLeaAdminFN RCTestLeaAdminLN"
-  And I can directly update the "Email" field to "testuser1.wgen@gmail.com"
+  And I can directly update the "Email" field to "<SECONDARY_EMAIL>"
 
   And I can select "LEA Administrator" from a choice of "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
   And I can also check "Realm Administrator" Role

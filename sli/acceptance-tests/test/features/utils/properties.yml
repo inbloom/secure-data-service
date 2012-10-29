@@ -59,11 +59,27 @@ user_registration_pass: test1234
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
-email_imap_host: mon.slidev.org
+
 email_imap_port: 993
+
+# for CI and local environments
+email_imap_host: mon.slidev.org
 email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
+# TODO: set up secondary user
+secondary_email_imap_registration_user: devldapuser
+secondary_email_imap_registration_user_email: devldapuser@slidev.org
+secondary_email_imap_registration_pass: Y;Gtf@w{
+
+# for RC environments (amazon)
+#email_imap_host: imap.gmail.com
+#email_imap_registration_user: testuser0.wgen@gmail.com
+#email_imap_registration_user_email: testuser0.wgen@gmail.com
+#email_imap_registration_pass: liferaywgen
+#secondary_email_imap_registration_user: testuser1.wgen@gmail.com
+#secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
+#secondary_email_imap_registration_pass: liferaywgen
 
 portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"
