@@ -19,10 +19,6 @@ package org.slc.sli.api.security.context.resolver;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
@@ -31,6 +27,9 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -211,6 +210,8 @@ public class RealmHelper {
             String edOrg = SecurityUtil.getEdOrg();
             debug("Looking up realm for edorg {}.", edOrg);
             realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            realmQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
+                    .getTenantId()));
             Entity realm = repo.findOne("realm", realmQuery);
             if (realm != null) {
                 return realm.getEntityId();
