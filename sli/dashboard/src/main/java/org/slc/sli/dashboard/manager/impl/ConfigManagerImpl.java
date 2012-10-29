@@ -49,34 +49,34 @@ import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.JsonConverter;
 
 /**
- * 
+ *
  * ConfigManager allows other classes, such as controllers, to access and
  * persist view configurations.
  * Given a user, it will obtain view configuration at each level of the user's
  * hierarchy, and merge them into one set for the user.
- * 
+ *
  * @author dwu
  */
 public class ConfigManagerImpl extends ApiClientManager implements ConfigManager {
-    
+
     private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private String driverConfigLocation;
     private String userConfigLocation;
-    
+
     private static final String LAYOUT_NAME = "layoutName";
     private static final String LAYOUT = "layout";
     private static final String DEFAULT = "default";
     private static final String TYPE = "type";
-    
+
     public ConfigManagerImpl() {
     }
-    
+
     /**
      * this method should be called by Spring Framework
      * set location of config file to be read. If the directory does not exist,
      * create it.
-     * 
+     *
      * @param configLocation
      *            reading from properties file panel.config.driver.dir
      */
@@ -90,12 +90,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             this.driverConfigLocation = url.getPath();
         }
     }
-    
+
     /**
      * this method should be called by Spring Framework
      * set location of config file to be read. If the directory does not exist,
      * create it.
-     * 
+     *
      * @param configLocation
      *            reading from properties file panel.config.custom.dir
      */
@@ -112,10 +112,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         this.userConfigLocation = configLocation;
     }
-    
+
     /**
      * return the absolute file path of domain specific config file
-     * 
+     *
      * @param path
      *            can be district ID name or state ID name
      * @param componentId
@@ -123,13 +123,13 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      * @return the absolute file path of domain specific config file
      */
     public String getComponentConfigLocation(String path, String componentId) {
-        
+
         return userConfigLocation + "/" + path + "/" + componentId + ".json";
     }
-    
+
     /**
      * return the absolute file path of default config file
-     * 
+     *
      * @param path
      *            can be district ID name or state ID name
      * @param componentId
@@ -139,7 +139,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     public String getDriverConfigLocation(String componentId) {
         return this.driverConfigLocation + "/" + componentId + ".json";
     }
-    
+
     /**
      * Find the lowest organization hierarchy config file. If the lowest
      * organization hierarchy
@@ -147,7 +147,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      * If the Driver config file does not exist, it is in a critical situation.
      * It will throw an
      * exception.
-     * 
+     *
      * @param apiCustomConfig
      *            custom configuration uploaded by admininistrator.
      * @param customPath
@@ -171,12 +171,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
-        } catch (Throwable t) {
-            logger.error("Unable to read config for " + componentId, t);
+        } catch (Exception ex) {
+            logger.error("Unable to read config for " + componentId, ex);
             throw new DashboardException("Unable to read config for " + componentId);
         }
     }
-    
+
     private Config loadConfig(File f) throws Exception {
         if (f.exists()) {
             FileReader fr = new FileReader(f);
@@ -188,7 +188,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         return null;
     }
-    
+
     @Override
     @CacheableConfig
     public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
@@ -199,7 +199,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         String id = edOrgKey.getSliId();
         List<EdOrgKey> edOrgKeys = new ArrayList<EdOrgKey>();
         edOrgKeys.add(edOrgKey);
-        
+
         // keep reading EdOrg until it hits the top.
         APIClient apiClient = getApiClient();
         do {
@@ -217,7 +217,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 }
             }
         } while (parentEdOrg != null);
-        
+
         for (EdOrgKey key : edOrgKeys) {
             ConfigMap configMap = getCustomConfig(token, key);
             // if api has config
@@ -235,29 +235,29 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         return getConfigByPath(customComponentConfig, componentId);
     }
-    
+
     @Override
     @Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
-        
+
         Map<String, String> attrs = new HashMap<String, String>();
         attrs.put("type", Config.Type.WIDGET.toString());
         return getConfigsByAttribute(token, edOrgKey, attrs);
     }
-    
+
     @Override
     public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs) {
         return getConfigsByAttribute(token, edOrgKey, attrs, true);
     }
-    
+
     @Override
     public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs,
             boolean overwriteCustomConfig) {
-        
+
         // id to config map
         Map<String, Config> configs = new HashMap<String, Config>();
         Config config;
-        
+
         // list files in driver dir
         File driverConfigDir = new File(this.driverConfigLocation);
         File[] driverConfigFiles = driverConfigDir.listFiles();
@@ -265,7 +265,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             logger.error("Unable to read config directory");
             throw new DashboardException("Unable to read config directory!!!!");
         }
-        
+
         for (File f : driverConfigFiles) {
             try {
                 config = loadConfig(f);
@@ -273,18 +273,18 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 logger.error("Unable to read config " + f.getName() + ". Skipping file", e);
                 continue;
             }
-            
+
             // check the config params. if they all match, add to the config map.
             boolean matchAll = true;
             for (String attrName : attrs.keySet()) {
                 String methodName = "";
                 try {
-                    
+
                     // use reflection to call the right config object method
                     methodName = "get" + Character.toUpperCase(attrName.charAt(0)) + attrName.substring(1);
                     Method method = config.getClass().getDeclaredMethod(methodName, new Class[] {});
                     Object ret = method.invoke(config, new Object[] {});
-                    
+
                     // compare the result to the desired result
                     if (!(ret.toString().equals(attrs.get(attrName)))) {
                         matchAll = false;
@@ -295,13 +295,13 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     logger.error("Error calling config method: " + methodName);
                 }
             }
-            
+
             // add to config map
             if (matchAll) {
                 configs.put(config.getId(), config);
             }
         }
-        
+
         // get custom configs
         if (overwriteCustomConfig) {
             for (String id : configs.keySet()) {
@@ -310,29 +310,30 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         return configs.values();
     }
-    
+
     /**
      * Get the user's educational organization's custom configuration.
-     * 
+     *
      * @param token
      *            The user's authentication token.
      * @return The education organization's custom configuration
      */
     @Override
     public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
-        
+
         try {
             return getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
-        } catch (Throwable t) {
+        } catch (Exception e) {
             // it's a valid scenario when there is no district specific config. Default will be used
             // in this case.
+            logger.debug( "No district specific config is available, the default config will be used" );
             return null;
         }
     }
-    
+
     /**
      * Put or save the user's educational organization's custom configuration.
-     * 
+     *
      * @param token
      *            The user's authentication token.
      * @param customConfigJson
@@ -343,32 +344,32 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), configMap);
     }
-    
+
     /**
      * Save one custom configuration for an ed-org
-     * 
+     *
      */
     @Override
     @CacheEvict(value = Constants.CACHE_USER_PANEL_CONFIG, allEntries = true)
     public void putCustomConfig(String token, EdOrgKey edOrgKey, Config config) {
-        
+
         // get current custom config map from api
         ConfigMap configMap = getCustomConfig(token, edOrgKey);
         if (configMap == null) {
             configMap = new ConfigMap();
             configMap.setConfig(new HashMap<String, Config>());
         }
-        
+
         // update with new config
         ConfigMap newConfigMap = configMap.cloneWithNewConfig(config);
-        
+
         // write new config map
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), newConfigMap);
     }
-    
+
     /**
      * To find Config is PANEL types and belong to the layout.
-     * 
+     *
      * @param config
      * @param layoutName
      * @return
@@ -377,7 +378,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         boolean belongConfig = true;
         // first filter by type.
         // Target TYPEs are PANEL, GRID, TREE, and REPEAT_HEADER_GRID
-        
+
         Config.Type type = config.getType();
         if (type != null
                 && (type.equals(Config.Type.PANEL) || type.equals(Config.Type.GRID) || type.equals(Config.Type.TREE) || type
@@ -385,7 +386,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             // if a client requests specific layout,
             // then filter layout.
             if (layoutName != null) {
-                
+
                 belongConfig = false;
                 Map<String, Object> configParams = config.getParams();
                 if (configParams != null) {
@@ -402,25 +403,25 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         }
         return belongConfig;
     }
-    
+
     @Override
     public Map<String, Collection<Config>> getAllConfigByType(String token, EdOrgKey edOrgKey,
             Map<String, String> params) {
         Map<String, Collection<Config>> allConfigs = new HashMap<String, Collection<Config>>();
-        
+
         // configIdLookup is used to check parentId from Custom Config exists in Driver Config
         Set<String> configIdLookup = new HashSet<String>();
-        
+
         Map<String, String> attribute = new HashMap<String, String>();
         String layoutName = params.get(LAYOUT_NAME);
-        
+
         if (params.containsKey(TYPE)) {
             attribute.put(TYPE, params.get(TYPE));
         }
-        
+
         // get Driver Config by specified attribute
         Collection<Config> driverConfigs = getConfigsByAttribute(token, edOrgKey, attribute, false);
-        
+
         // filter config by layout name
         // and
         // build lookup index
@@ -433,16 +434,16 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 configIterator.remove();
             }
         }
-        
+
         // add DriverConfig to a returning object
         allConfigs.put(DEFAULT, driverConfigs);
-        
+
         // read edOrg custom config recursively
         APIClient apiClient = getApiClient();
         while (edOrgKey != null) {
             // customConfigByType will be added to a returning object
             Collection<Config> customConfigByType = new LinkedList<Config>();
-            
+
             // get current edOrg custom config
             ConfigMap customConfigMap = getCustomConfig(token, edOrgKey);
             if (customConfigMap != null) {
@@ -451,7 +452,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     Collection<Config> customConfigs = configByMap.values();
                     if (customConfigs != null) {
                         for (Config customConfig : customConfigs) {
-                            
+
                             // if parentId from customConfig does not exist in DriverConfig,
                             // then ignore.
                             String parentId = customConfig.getParentId();
@@ -464,7 +465,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     }
                 }
             }
-            
+
             // find current EdOrg entity
             GenericEntity edOrg = apiClient.getEducationalOrganization(token, edOrgKey.getSliId());
             List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
@@ -476,7 +477,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     }
                 }
             }
-            
+
             // find parent EdOrg
             edOrgKey = null;
             edOrg = apiClient.getParentEducationalOrganization(token, edOrg);
@@ -487,7 +488,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                 }
             }
         }
-        
+
         return allConfigs;
     }
 }
