@@ -138,7 +138,6 @@ And I click the X
 Then the error is dismissed
 
 @DE1948
-@wip
 Scenario: Traverse Edorg Hiearchy from SEA down to LEA
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
