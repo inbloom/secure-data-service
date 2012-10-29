@@ -116,7 +116,8 @@ $(document).ready(function() {
       		<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>      
       		<div class="alert alert-success">You are currently logged into your developer account as: 
       			<strong id="">${sessionScope.user_session_key.userId}</strong>
-				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/><a class="pull-right" href="#" onclick="javascript:document.forms['logout_form'].submit();">Logout</a>
+				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<a  id="logoutLink" class="pull-right" href="#" onclick="javascript:document.forms['logout_form'].submit();">Logout</a>
       		</div>
 		</form>
 		
@@ -164,7 +165,7 @@ $(document).ready(function() {
 			</c:forEach>
 			<div class="control-group">
 				<div class="controls">
-					<input id="login_button" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+					<input id="sampleUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
 				</div>
 			</div>
 		</form>
@@ -198,7 +199,7 @@ $(document).ready(function() {
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<input id="login_button" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+					<input id="manualUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
 				</div>
 			</div>
 		</form>
