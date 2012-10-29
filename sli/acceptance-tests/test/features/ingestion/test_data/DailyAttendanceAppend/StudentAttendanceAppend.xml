@@ -1,7 +1,8 @@
 <InterchangeStudentAttendance xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd">
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -12,7 +13,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -23,7 +25,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -34,7 +37,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -45,7 +49,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -56,7 +61,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -67,7 +73,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -78,7 +85,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -89,7 +97,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -100,7 +109,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -111,7 +121,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -122,7 +133,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -133,7 +145,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Excused Absence</AttendanceEventCategory> 
       <AttendanceEventReason>Absent excused</AttendanceEventReason> 
@@ -145,7 +158,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -156,7 +170,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -167,7 +182,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -178,7 +194,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -189,7 +206,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -200,7 +218,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -211,7 +230,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Excused Absence</AttendanceEventCategory> 
       <AttendanceEventReason>Absent excused</AttendanceEventReason> 
@@ -223,7 +243,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -234,7 +255,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -245,7 +267,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -256,7 +279,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -267,7 +291,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -278,7 +303,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -289,7 +315,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -300,7 +327,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -311,7 +339,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -322,7 +351,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -333,7 +363,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -344,7 +375,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -355,7 +387,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -366,7 +399,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -377,7 +411,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -388,7 +423,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -399,7 +435,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -410,7 +447,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -421,7 +459,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Excused Absence</AttendanceEventCategory> 
       <AttendanceEventReason>Absent excused</AttendanceEventReason> 
@@ -433,7 +472,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -444,7 +484,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -455,7 +496,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -466,7 +508,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -477,7 +520,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -488,7 +532,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Tardy</AttendanceEventCategory> 
       <AttendanceEventReason>Missed school bus</AttendanceEventReason> 
@@ -500,7 +545,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -511,7 +557,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -522,7 +569,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -533,7 +581,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -544,7 +593,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -555,7 +605,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -566,7 +617,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -577,7 +629,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -588,7 +641,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -599,7 +653,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Tardy</AttendanceEventCategory> 
       <AttendanceEventReason>Missed school bus</AttendanceEventReason> 
@@ -611,7 +666,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -622,7 +678,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -633,7 +690,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -644,7 +702,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -655,7 +714,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -666,7 +726,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -677,7 +738,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Tardy</AttendanceEventCategory> 
       <AttendanceEventReason>Missed school bus</AttendanceEventReason> 
@@ -689,7 +751,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -700,7 +763,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -711,7 +775,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -722,7 +787,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Excused Absence</AttendanceEventCategory> 
       <AttendanceEventReason>Absent excused</AttendanceEventReason> 
@@ -734,7 +800,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -745,7 +812,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>Tardy</AttendanceEventCategory> 
       <AttendanceEventReason>Missed school bus</AttendanceEventReason> 
@@ -757,7 +825,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -768,7 +837,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -779,7 +849,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -790,7 +861,8 @@
       </StudentReference> 
    </AttendanceEvent> 
    <AttendanceEvent> 
-      <EventDate>2012-07-09</EventDate> 
+      <EventDate>2012-07-09</EventDate>
+    <SchoolYear>2012-2013</SchoolYear>
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 

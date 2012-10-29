@@ -4,6 +4,7 @@
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd">
   <AttendanceEvent>
     <EventDate>2011-09-06</EventDate>
+    <SchoolYear>2011-2012</SchoolYear> 
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
     <EducationalEnvironment>Classroom</EducationalEnvironment>

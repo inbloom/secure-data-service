@@ -2,6 +2,7 @@
 xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd">
 	<AttendanceEvent>
 		<EventDate>2011-09-01</EventDate>
+		<SchoolYear>2011-2012</SchoolYear> 
 		<AttendanceEventType>Daily Attendance</AttendanceEventType>
 		<AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
 		<AttendanceEventReason>Absent excused</AttendanceEventReason>

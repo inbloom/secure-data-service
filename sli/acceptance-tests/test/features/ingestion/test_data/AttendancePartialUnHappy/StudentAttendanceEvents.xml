@@ -3,6 +3,7 @@
 
    <AttendanceEvent> 
       <EventDate>2010-09-07</EventDate> 
+      <SchoolYear>2010-2011</SchoolYear> 
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
@@ -15,6 +16,7 @@
    
    <AttendanceEvent> 
       <EventDate>2010-09-08</EventDate> 
+      <SchoolYear>2010-2011</SchoolYear> 
       <AttendanceEventType>Daily Attendance</AttendanceEventType> 
       <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
       <EducationalEnvironment>Classroom</EducationalEnvironment> 
