@@ -4,6 +4,7 @@ Feature:  Context security implementation for staff and teachers in ES
 Scenario:  IT admins can search for students at their Ed Org Level only
 # IT admin can search for student data within their Ed Org : Illinois Daybreak School District 4529
 Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+#Search by Last Name
 Given I search in API for "tran"
 Then I should receive a return code of 200
 And I see the following search results:
@@ -22,7 +23,8 @@ And no search results are returned
 @RALLY_US4156
 Scenario:  State IT admin can search for students from all Ed Orgs within the state
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-Given I search in API for "tran"
+# Search by First Name
+Given I search in API for "mi-ha"
 Then I should receive a return code of 200
 And I see the following search results:
  |Field              |Value                                           |
@@ -31,7 +33,8 @@ And I see the following search results:
  |name.lastSurname   |Tran                                            |
  |name.firstName     |Mi-Ha                                           |
  
-Given I search in API for "Jeremy"
+ #Search by partial string
+Given I search in API for "Jere"
 #TO_DO: Update return code to 404 when the development is completed.
 Then I should receive a return code of 200
 And I see the following search results:
@@ -61,7 +64,8 @@ And no search results are returned
 
 # Test with another teacher
 Given I am logged in using "cgray" "cgray1234" to realm "IL"
-Given I search in API for "Carmen"
+#Search by middle name
+Given I search in API for "Daniella"
 Then I should receive a return code of 200
 And I see the following search results:
  |Field              |Value                                           |
