@@ -62,6 +62,10 @@ public class LoaderTester {
         public List<IndexEntity> getEntities() {
             return entities;
         }
+        public String getHealth() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     };
     
     private final File inbox = new File(Constants.DEFAULT_INBOX_DIR);

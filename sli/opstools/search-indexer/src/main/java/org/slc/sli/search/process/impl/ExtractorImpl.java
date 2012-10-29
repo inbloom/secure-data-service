@@ -23,28 +23,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Extractor;
 import org.slc.sli.search.process.Loader;
 import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
@@ -64,12 +62,8 @@ public class ExtractorImpl implements Extractor {
     private final static int DEFAULT_EXECUTOR_THREADS = 3;
     private final static int DEFAULT_JOB_WAIT_TIMEOUT_MINS = 180;
     private final static int DEFAULT_EXTRACTOR_JOB_TIME = 600;
-    
-    private static final String TENANT_COLLECTION = "tenant";
-    
-    private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
-    private MongoTemplate mongoTemplate;
+    private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
     private IndexConfigStore indexConfigStore;
     
@@ -84,6 +78,8 @@ public class ExtractorImpl implements Extractor {
     private int jobWaitTimeoutInMins = DEFAULT_JOB_WAIT_TIMEOUT_MINS;
 
     private boolean runOnStartup = false;
+    
+    private SourceDatastoreConnector sourceDatastoreConnector;
 
 
     public void destroy() {
@@ -108,7 +104,7 @@ public class ExtractorImpl implements Extractor {
     }
 
     public void execute(Action action) {
-        for (Tenant tenant : getTenants()) {
+        for (Tenant tenant : sourceDatastoreConnector.getTenants()) {
             execute(tenant, action);
         }
     }
@@ -118,7 +114,7 @@ public class ExtractorImpl implements Extractor {
      * 
      * @see org.slc.sli.search.process.Extractor#execute()
      */
-    private void execute(Tenant tenant, Action action) {
+    public void execute(Tenant tenant, Action action) {
         // TODO: implement isRunning flag to make sure only one extract is running at a time
         IndexConfig config;
         Collection<String> collections = indexConfigStore.getCollections();
@@ -151,25 +147,6 @@ public class ExtractorImpl implements Extractor {
             logger.error("Error while waiting extractor job to be finished", e);
         }
     }
-
-    /**
-     * Create DBCUrsor
-     * Also, make this method available to Mock for UT
-     * 
-     * @param collectionName
-     * @param fields
-     * @return
-     */
-    protected DBCursor getDBCursor(String collectionName, List<String> fields) {
-        // execute query, get cursor of results
-        BasicDBObject keys = new BasicDBObject();
-        for (String field : fields) {
-            keys.put(field, 1);
-        }
-
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
-        return collection.find(new BasicDBObject(), keys);
-    }
     
     public List<File> extractCollection(IndexConfig config, Action action, Tenant tenant) {
         return extractCollection(config, action, tenant, 0);
@@ -188,7 +165,7 @@ public class ExtractorImpl implements Extractor {
         int fileCount = 0;
         try {
             TenantContext.setTenantId(tenant.getTenantId());
-            cursor = getDBCursor(collectionName, config.getFields());
+            cursor = sourceDatastoreConnector.getDBCursor(collectionName, config.getFields());
             // write each record to file
             while (cursor.hasNext()) {
                 if (numberOfLineWritten % maxLinePerFile == 0) {
@@ -238,37 +215,7 @@ public class ExtractorImpl implements Extractor {
             producedFiles.add(outFile);
         }
     }
-
-    protected DBCursor getCursor(String collectionName, List<String> fields) {
-        // execute query, get cursor of results
-        BasicDBObject keys = new BasicDBObject();
-        for (String field : fields) {
-            keys.put(field, 1);
-        }
-
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
-        return collection.find(new BasicDBObject(), keys);
-    }
     
-    @SuppressWarnings("unchecked")
-    protected List<Tenant> getTenants() {
-        BasicDBObject keys = new BasicDBObject();
-        keys.put("body.tenantId", 1);
-        keys.put("body.dbName", 1);
-        DBCollection collection = mongoTemplate.getCollection(TENANT_COLLECTION);
-        List<DBObject> objects = collection.find(new BasicDBObject(), keys).toArray();
-        List<Tenant> tenants = new ArrayList<ExtractorImpl.Tenant>();
-        Map<String, Object> body;
-        String tenantId, dbName;
-        for (DBObject o: objects) {
-            body = (Map<String, Object>)o.get("body");
-            dbName = (String)body.get("dbName");
-            tenantId = (String)body.get("tenantId");
-            tenants.add(new Tenant(tenantId, dbName == null ? TenantIdToDbName.convertTenantIdToDbName(tenantId) : dbName));   
-        }
-        return tenants;
-    }
-
     private File createTempFile(String collectionName, Tenant tenant, int increment) {
         return new File(extractDir, tenant.getDbName() + "_" + collectionName + "_" + increment + ".json");
     }
@@ -293,16 +240,16 @@ public class ExtractorImpl implements Extractor {
         this.runOnStartup = runOnStartup;
     }
 
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
-
     public void setJobWaitTimeoutInMins(int jobWaitTimeoutInMins) {
         this.jobWaitTimeoutInMins = jobWaitTimeoutInMins;
     }
     
     public void setLoader(Loader loader) {
         this.loader = loader;
+    }
+
+    public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
+        this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
 
     /**
@@ -366,22 +313,13 @@ public class ExtractorImpl implements Extractor {
         }
     }
     
-    public static class Tenant {
-        private final String tenantId;
-        private final String dbName;
-        
-        public Tenant(String tenantId, String dbName) {
-            this.tenantId = tenantId;
-            this.dbName = dbName;
-        }
-        
-        public String getTenantId() {
-            return tenantId;
-        }
+    
 
-        public String getDbName() {
-            return dbName;
-        }
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)executor;
+        return getClass() + ": {" + extractDir +  " size:" + 
+            new File(extractDir).list().length + ", active count:" + tpe.getActiveCount() +
+            ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 
 }

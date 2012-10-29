@@ -54,13 +54,28 @@ public class RemoteCommandServiceTest {
         Assert.assertNull(clientSocket);
     }
 
-    @Test
+    @Test(timeout = 60000)
     public void testCommands() throws Throwable {
         testHELP();
+        testIncorrectCommand();
         testEXTRACT();
         testSTOP();
     }
-    
+
+    private void testIncorrectCommand() throws Throwable {
+        Socket clientSocket = connect();
+        Assert.assertNotNull(clientSocket);
+        PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        pw.println("whatever");
+
+        String line = readLine(br);
+        Assert.assertTrue(line.startsWith("Available Commands"));
+        close(clientSocket);
+    }
+
     private void testHELP() throws Throwable {
         Socket clientSocket = connect();
         Assert.assertNotNull(clientSocket);
@@ -75,7 +90,7 @@ public class RemoteCommandServiceTest {
         Assert.assertTrue(line.startsWith("Available Commands"));
         close(clientSocket);
     }
-    
+
     private void testEXTRACT() throws Throwable {
         Socket clientSocket = connect();
         Assert.assertNotNull(clientSocket);
@@ -112,10 +127,8 @@ public class RemoteCommandServiceTest {
         Assert.assertNull(clientSocket);
         close(clientSocket);
     }
-    
 
-    
-    private String readLine(BufferedReader br) throws Exception{
+    private String readLine(BufferedReader br) throws Exception {
         String line;
         StringBuffer sb = new StringBuffer();
         while ((line = br.readLine()) != null) {

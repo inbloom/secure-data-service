@@ -28,9 +28,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.ExtractorImpl;
-import org.slc.sli.search.process.impl.ExtractorImpl.Tenant;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.MockDBCursorFactory;
 
@@ -50,17 +51,7 @@ public class ExtractorImplTest {
     private class MockExtractor extends ExtractorImpl {
         final HashSet<Action> actions = new HashSet<Action>();
         int numOfLines = 0;
-        @Override
-        protected DBCursor getDBCursor(String collectionName, List<String> fields) {
-            // get cursor from static file
-            return MockDBCursorFactory.create(collectionName);
-        } 
-        
-        @Override
-        public List<Tenant> getTenants() {
-            return Arrays.asList(new Tenant[]{new Tenant("test", "test")});
-        }
-        
+
         @Override
         protected void finishProcessing(String index, File outFile, Action action, List<File> producedFiles) {
             if (outFile != null) {
@@ -85,6 +76,19 @@ public class ExtractorImplTest {
         }
     };
     
+    private final SourceDatastoreConnector connector = new SourceDatastoreConnector() {
+
+        public DBCursor getDBCursor(String collectionName, List<String> fields) {
+            // get cursor from static file
+            return MockDBCursorFactory.create(collectionName);
+        } 
+        
+        public List<Tenant> getTenants() {
+            return Arrays.asList(new Tenant[]{new Tenant("test", "test")});
+        }
+        
+    };
+    
     private final MockExtractor extractor = new MockExtractor();
 
     @Before
@@ -97,6 +101,7 @@ public class ExtractorImplTest {
         
         extractor.setIndexConfigStore(indexConfigStore);
         extractor.reset();
+        extractor.setSourceDatastoreConnector(connector);
     }
     
     @After

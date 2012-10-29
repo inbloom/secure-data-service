@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -33,7 +32,7 @@ import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.search.entity.IndexEntity;
-import org.slc.sli.search.process.IncrementalListener;
+import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.NestedMapUtil;
@@ -48,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * @author dwu
  * 
  */
-public class IncrementalListenerImpl implements IncrementalListener {
+public class IncrementalListenerImpl implements IncrementalLoader {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -100,7 +99,7 @@ public class IncrementalListenerImpl implements IncrementalListener {
                 InputStream is = new ByteArrayInputStream(bs.getData());
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 String line = "";
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
@@ -111,12 +110,10 @@ public class IncrementalListenerImpl implements IncrementalListener {
                 opLog = textMessage.getText();
             }
 
-            logger.info("Processing message");
             IndexEntity entity = convertToEntity(opLog);
             if (entity != null) {
                 sendToIndexer(entity);
             }
-            logger.info("Done processing message");
         } catch (Exception e) {
             logger.error("Error processing message", e);
         }
@@ -151,8 +148,6 @@ public class IncrementalListenerImpl implements IncrementalListener {
     @SuppressWarnings("unchecked")
     private IndexEntity convertInsertToEntity(String opLog) throws Exception {
 
-        logger.info("Action type: insert");
-
         // parse out entity
         List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
         });
@@ -167,8 +162,6 @@ public class IncrementalListenerImpl implements IncrementalListener {
 
     @SuppressWarnings("unchecked")
     private IndexEntity convertUpdateToEntity(String opLog) throws Exception {
-
-        logger.info("Action type: update");
 
         // parse out entity data
         List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
@@ -193,7 +186,6 @@ public class IncrementalListenerImpl implements IncrementalListener {
         entityMap.put("metaData", metadata);
 
         for (String updateField : updates.keySet()) {
-            logger.info(updateField);
             List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
             NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
         }
@@ -202,35 +194,30 @@ public class IncrementalListenerImpl implements IncrementalListener {
         return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
     }
 
+    @SuppressWarnings("unchecked")
     private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
 
-        logger.info("Action type: delete");
-        logger.info("Deletes currently not supported");
-        /*
-         * // parse out entity data
-         * Map<String, Object> opLogMap = mapper.readValue(opLog, new TypeReference<Map<String,
-         * Object>>() {});
-         * Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-         * String id = (String) o.get("_id");;
-         * 
-         * // TODO - get the tenant for real
-         * String tenant = "midgar";
-         * String type = (String) opLogMap.get("ns");
-         * type = type.substring(type.lastIndexOf('.')+1);
-         * 
-         * Map<String, Object> metadata = new HashMap<String, Object>();
-         * metadata.put("tenantId", tenant);
-         * 
-         * // merge data into entity json (id, type, metadata.tenantId)
-         * Map<String, Object> entityMap = new HashMap<String, Object>();
-         * entityMap.put("_id", id);
-         * entityMap.put("type", type);
-         * entityMap.put("metaData", metadata);
-         * 
-         * // convert to index entity object
-         * return indexEntityConverter.fromEntityJson(IndexEntity.Action.DELETE, entityMap);
-         */
-        return null;
+        // parse out entity data
+        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
+        });
+        if (opLogs.size() == 0) {
+            return null;
+        }
+        Map<String, Object> opLogMap = opLogs.get(0);
+        Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
+        String id = (String) o.get("_id");;
+          
+        Meta meta = getMeta(opLogMap);
+        String type = meta.getType();
+          
+        // merge data into entity json (id, type, metadata.tenantId)
+        Map<String, Object> entityMap = new HashMap<String, Object>();
+        entityMap.put("_id", id);
+        entityMap.put("type", type);
+        //entityMap.put("metaData", metadata);
+          
+        // convert to index entity object
+        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE, entityMap);
     }
     
     private Meta getMeta(Map<String, Object> opLogMap) {
@@ -296,6 +283,10 @@ public class IncrementalListenerImpl implements IncrementalListener {
         public String getType() {
             return type;
         }
+    }
+
+    public String getHealth() {
+        return getClass() + "{}";
     }
 
 }

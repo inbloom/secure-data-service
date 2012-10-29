@@ -18,8 +18,10 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +36,13 @@ import org.slc.sli.domain.NeutralQuery;
 /**
  * Validates a teacher accessing a set of entities that are directly associated to a student.
  * Currently supported entities are: attendance, course transcript, discipline action, student
- * academic record, student assessment association, student discipline incident association, and
- * student grade book entry.
+ * academic record, student assessment association, student discipline incident association,
+ * student grade book entry, student section association, and student school association.
  *
  * @author shalka
  */
 @Component
-public class TeacherToSubStudentEntityValidator implements SubStudentEntityValidator {
+public class TeacherToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -48,40 +50,57 @@ public class TeacherToSubStudentEntityValidator implements SubStudentEntityValid
     @Autowired
     private TeacherToStudentValidator teacherToStudentValidator;
 
+    /**
+     * Determines if the entity type is a sub-entity of student.
+     */
     @Override
-    public boolean canValidate(String entityType) {
+    public boolean canValidate(String entityType, boolean through) {
         return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
                 && isSubEntityOfStudent(entityType);
     }
 
     /**
-     * Determines if the entity type is a sub-entity of student.
-     *
-     * @param type
-     *            Entity type.
-     * @return True if the entity is a sub-entity of student, false otherwise.
+     * Determines if the teacher can see the set of entities specified by 'ids'.
      */
+    @Override
+    public boolean validate(String entityType, Set<String> ids) {
+        Set<String> students = new HashSet<String>();
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
+                new ArrayList<String>(ids)));
+        Iterable<Entity> entities = repo.findAll(entityType, query);
+        if (entities != null) {
+            for (Entity entity : entities) {
+                Map<String, Object> body = entity.getBody();
+                if (entityType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
+                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("exitWithdrawDate")))) {
+                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                    }
+                } else if (entityType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
+                    if (isLhsBeforeRhs(DateTime.now(), getDateTime((String) body.get("endDate")))) {
+                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                    }
+                } else {
+                    students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                }
+            }
+        }
+
+        if (students.isEmpty()) {
+            return false;
+        }
+
+        return teacherToStudentValidator.validate(EntityNames.STUDENT, students);
+    }
+
     private boolean isSubEntityOfStudent(String type) {
         return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
                 || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
                 || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type);
-    }
-
-    @Override
-    public boolean validate(Set<String> ids, String type) {
-        Set<String> students = new HashSet<String>();
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
-                new ArrayList<String>(ids)));
-        Iterable<Entity> entities = repo.findAll(type, query);
-        if (entities != null) {
-            for (Entity entity : entities) {
-                students.add((String) entity.getBody().get(ParameterConstants.STUDENT_ID));
-            }
-        }
-        return teacherToStudentValidator.validate(students);
+                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
+                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
     }
 
     /**

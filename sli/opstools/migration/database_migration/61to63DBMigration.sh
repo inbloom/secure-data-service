@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#This script is to migrate the database from 6.1 to 6.3.
+#This script is to migrate the application and system collections from a 6.1 to 6.3 state.
+#All ingestable data that exists in the "sli" database will be dropped.
 #It should be executed before ingestion service is on.
 #
 #Before execution, have mongod or mongos running.
@@ -19,9 +20,6 @@
        #add dbName field to tenant collection
        mongo sli --eval "db['tenant'].find({'body.tenantId' : '${tenant}'}).forEach(function(coll) { coll.dbName='$sha1DBName';db['tenant'].save(coll)})"
 
-       mongo ${sha1DBName} ../../../config/indexes/tenantDB_indexes.js
-
-       mongo admin --eval "var tenant='${tenant}'" ../../../config/shards/sli-shard-presplit.js
        #move customRole into tenant db
        mongo sli --eval "db.customRole.find({'metaData.tenantId': '${tenant}'}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.customRole.insert(d);})"
        #move custom_entities into tenant db
@@ -30,8 +28,6 @@
        mongo sli --eval "db.applicationAuthorization.find({'metaData.tenantId': '${tenant}'}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.applicationAuthorization.insert(d);})"
        #move adminDelegation into tenant db
        mongo sli --eval "db.adminDelegation.find({'metaData.tenantId': '${tenant}'}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.adminDelegation.insert(d);})"
-       #move educationOrganization into tenant db
-       mongo sli --eval "db.educationOrganization.find({'metaData.tenantId': '${tenant}', \"body.organizationCategories\":\"State Education Agency\"}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.educationOrganization.insert(d);})"
 
        #remove all the tenant-specified collections from sli
        mongo sli --eval "db.getCollectionNames().forEach(function(coll) {if (coll!='system.indexes' && coll != 'system.js' && coll != 'system.profile' && coll != 'system.users' && coll != 'system.namespaces' && coll != 'tenant' && coll != 'securityEvent' && coll != 'realm' && coll != 'application' && coll != 'roles' && coll != 'tenantJobLock' && coll != 'userSession' && coll != 'userAccount') db[coll].drop(); })"

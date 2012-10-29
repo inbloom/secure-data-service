@@ -24,6 +24,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.search.connector.impl.SearchEngineConnectorImpl;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.IndexerImpl;
@@ -36,9 +37,11 @@ public class IndexerTest {
     
     @Before
     public void setup() {
-        indexer.setSearchTemplate(searchTemplate);
+        SearchEngineConnectorImpl searchEngineConnector = new SearchEngineConnectorImpl();
+        searchEngineConnector.setSearchTemplate(searchTemplate);
         indexer.setBulkSize(1);
-        indexer.setSearchUrl("");
+        indexer.setSearchEngineConnector(searchEngineConnector);
+        searchEngineConnector.setSearchUrl("");
         indexer.init();
         indexer.setAggregatePeriod(10);
         searchTemplate.reset();

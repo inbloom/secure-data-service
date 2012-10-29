@@ -137,6 +137,7 @@ public class ParameterConstants {
     public static final String GRADING_PERIOD_ID = "gradingPeriodId";
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
+    public static final String PROGRAM_REFERENCE = "programReference";
     public static final String SCHOOL_ID = "schoolId";
     public static final String SECTION_ID = "sectionId";
     public static final String SESSION_ID = "sessionId";
@@ -176,4 +177,6 @@ public class ParameterConstants {
     public static final String ID = "_id";
     public static final String END_DATE = "endDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
+    public static final String STAFF_REFERENCE = "staffReference";
+    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
 }

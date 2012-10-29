@@ -27,6 +27,7 @@ import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -110,7 +111,7 @@ public class RealmHelper {
     public Entity getRealm(Entity edOrg) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("edOrg", "=", edOrg.getBody().get("stateOrganizationId")));
-        query.addCriteria(new NeutralCriteria("body.tenantId", "=", edOrg.getMetaData().get("tenantId"), false));
+        query.addCriteria(new NeutralCriteria("body.tenantId", "=", TenantContext.getTenantId(), false));
         return repo.findOne("realm", query);
 
     }

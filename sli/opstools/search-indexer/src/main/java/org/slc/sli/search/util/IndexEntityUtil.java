@@ -45,6 +45,14 @@ public class IndexEntityUtil {
         return sb.toString();
     }
     
+    public static String getBulkDeleteJson(List<IndexEntity> docs) {
+        StringBuilder sb = new StringBuilder();
+        for (IndexEntity ie: docs) {
+            toBulkDeleteJson(sb, ie);
+        }
+        return sb.toString();
+    }
+    
     public static String getBulkGetJson(List<IndexEntity> docs) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"docs\": [");
@@ -78,6 +86,12 @@ public class IndexEntityUtil {
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert to body", e);
         }
+    }
+    
+    public static void toBulkDeleteJson(StringBuilder sb, IndexEntity ie) {
+        sb.append("{\"").append(ie.getActionValue()).append("\":");
+        addHeader(sb, ie);
+        sb.append("}").append(NEW_LINE);
     }
     
     public static String toUpdateJson(IndexEntity ie) {

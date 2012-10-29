@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -209,5 +210,10 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     
     public void setExecutorThreads(int executorThreads) {
         this.executorThreads = executorThreads;
+    }
+    
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)executor;
+        return getClass() + ": {active count:" + tpe.getActiveCount() + ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 }

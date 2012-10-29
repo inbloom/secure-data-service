@@ -16,7 +16,6 @@
 package org.slc.sli.search.process.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +23,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SearchEngineConnector;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
@@ -37,13 +37,7 @@ import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestOperations;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -64,32 +58,19 @@ public class IndexerImpl implements Indexer {
     
     private static final int INDEX_WORKER_POOL_SIZE = 4;
     
-    private String esUri;
-    
-    private String bulkUri;
-
-    private String mGetUri;
-    
-    private String mUpdateUri;
-    
-    private RestOperations searchTemplate;
-    
-    private String esUsername;
-    
-    private String esPassword;
-    
     private int bulkSize = DEFAULT_BULK_SIZE;
     // queue of indexrequests limited to bulkSize
     private LinkedBlockingQueue<IndexEntity> indexRequests;
     
     private IndexConfigStore indexConfigStore;
 
-
     private int indexerWorkerPoolSize = INDEX_WORKER_POOL_SIZE;
     
     private ScheduledExecutorService queueWatcherExecutor;
 
     private long aggregatePeriodInMillis = MAX_AGGREGATE_PERIOD;
+    
+    private SearchEngineConnector connector;
     
     // this is helpful to avoid adding index mappings for each index operation. The map does not have to be accurate
     // and no harm will be done if re-mapping is issued
@@ -161,7 +142,6 @@ public class IndexerImpl implements Indexer {
     @SuppressWarnings("unchecked")
     public void executeBulkGetUpdate(List<IndexEntity> updates) {
         logger.info("Preparing _mget request with " + updates.size() + " records");
-        ResponseEntity<String> response = null;
         if (updates.isEmpty())
             return;
         Map<String, IndexEntity> indexUpdateMap = new HashMap<String, IndexEntity>();
@@ -171,10 +151,9 @@ public class IndexerImpl implements Indexer {
         try {
             String request = IndexEntityUtil.getBulkGetJson(updates);
             logger.info("Sending _mget request with " + updates.size() + " records");
-            response = sendRESTCall(HttpMethod.POST, mGetUri, request);
-            logger.info("Bulk _mget response: " + response.getStatusCode());
+            String body = connector.executePost(connector.getMGetUri(), request);
             Map<String, Object> orig;
-            List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(response.getBody()).get("docs");
+            List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(body).get("docs");
             IndexEntity ie;
             final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
             for (Map<String, Object> entity : docs) {
@@ -219,6 +198,9 @@ public class IndexerImpl implements Indexer {
         if (docMap.containsKey(Action.QUICK_UPDATE)) {
             executeUpdate(docMap.get(Action.QUICK_UPDATE));
         }
+        if (docMap.containsKey(Action.DELETE)) {
+            executeBulkDelete(docMap.get(Action.DELETE));
+        }
     }
     
     /**
@@ -242,12 +224,25 @@ public class IndexerImpl implements Indexer {
         String message = IndexEntityUtil.getBulkIndexJson(docs);
         logger.info("Sending _bulk request with " + docs.size() + " records");
          // send the message
-        ResponseEntity<String> response = sendRESTCall(bulkUri, message);
-        logger.info("Bulk index response: " + response.getStatusCode());
-        logger.debug("Bulk index response: " + response.getBody());
-        
-        // TODO: do we need to check the response status of each part of the bulk request?
-        
+        connector.executePost(connector.getBulkUri(), message);
+        logger.info("Bulk index response: OK");
+    }
+    
+    /**
+     * Takes a collection of delete requests, send a bulk delete to elastic search
+     * @param docs
+     */
+    public void executeBulkDelete(List<IndexEntity> docs) {
+        if (docs.isEmpty()) {
+            return;
+        }
+        logger.info("Preparing _bulk delete request with " + docs.size() + " records");
+
+        String message = IndexEntityUtil.getBulkDeleteJson(docs);
+        logger.info("Sending _bulk delete request with " + docs.size() + " records");
+        // send the message
+        connector.executePost(connector.getBulkUri(), message);
+        logger.info("Bulk delete response: OK");
     }
     
     /**
@@ -261,8 +256,8 @@ public class IndexerImpl implements Indexer {
         logger.info(IndexEntityUtil.toUpdateJson(docs.get(0)));
         for (IndexEntity ie : docs) {
             try {
-            sb.append(sendRESTCall(
-                    mUpdateUri, IndexEntityUtil.toUpdateJson(ie), new Object[]{ie.getIndex(), ie.getType(), ie.getId()}).toString());
+            sb.append(connector.executePost(
+                    connector.getUpdateUri(), IndexEntityUtil.toUpdateJson(ie), ie.getIndex(), ie.getType(), ie.getId()).toString());
             }
             catch (Exception e) {
                 logger.error("Unable to update entry for " + ie, e);
@@ -282,17 +277,18 @@ public class IndexerImpl implements Indexer {
             if (!knownIndexesMap.containsKey(index)) {
                 logger.info("Updating mappings for " + index);
                 try {
-                    if (sendRESTCall(HttpMethod.HEAD, esUri + "/" + index, null).getStatusCode() != HttpStatus.OK) {
+                    if (connector.executeHead(connector.getIndexUri(), index) != HttpStatus.OK) {
                         logger.info("Creating new index " + index);
-                        sendRESTCall(HttpMethod.POST, esUri + "/" + index, null);
+                        connector.executePost(connector.getIndexUri(), null, index);
                     }
-                    ResponseEntity<String> response;
+                    HttpStatus response;
                     for (IndexConfig config : indexConfigStore.getConfigs()) {
                         if (!config.isChildDoc()) {
-                            response = sendRESTCall(HttpMethod.PUT, 
-                                    esUri + "/" + index + "/" + config.getCollectionName() + "/_mapping?ignore_conflicts=true", 
-                                    IndexEntityUtil.getBodyForIndex(config.getMapping()));
-                            logger.info(String.format("Mapping response: %S ", response.getStatusCode().name()));
+                            response = connector.executePut(
+                                    connector.getIndexUri() + "/_mapping?ignore_conflicts=true", 
+                                    IndexEntityUtil.getBodyForIndex(config.getMapping()),
+                                    index, config.getCollectionName());
+                            logger.info(String.format("Mapping response: %s ", response));
                         }
                     }
                     
@@ -304,57 +300,8 @@ public class IndexerImpl implements Indexer {
         }
     }
     
-    private ResponseEntity<String> sendRESTCall(String url, String query, Object... uriParams) {
-        return sendRESTCall(HttpMethod.POST, url, query, uriParams);
-    }
-    
-    /**
-     * Send REST query to elasticsearch server
-     * 
-     * @param query
-     * @return
-     */
-    private ResponseEntity<String> sendRESTCall(HttpMethod method, String url, String query, Object... uriParams) {
-        HttpHeaders headers = new HttpHeaders();
-        
-        // Basic Authentication when username and password are provided
-        if (esUsername != null && esPassword != null) {
-            headers.set("Authorization",
-                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
-        }
-        HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-        if (logger.isDebugEnabled())
-            logger.debug(String.format("%s Request: %s, [%s]", method.name(), url, Arrays.asList(uriParams)));
-        
-        // make the REST call
-        try {
-            return searchTemplate.exchange(url, method, entity, String.class, uriParams);
-        } catch (HttpClientErrorException rce) {
-            return new ResponseEntity<String>(rce.getStatusCode());
-        }
-    }
-    
-    public void setSearchUrl(String esUrl) {
-        this.esUri = esUrl;
-        this.bulkUri = esUrl + "/_bulk";
-        this.mGetUri = esUrl + "/_mget";
-        this.mUpdateUri = esUrl + "/{index}/{type}/{id}/_update";
-    }
-    
-    public void setSearchUsername(String esUsername) {
-        this.esUsername = esUsername;
-    }
-    
-    public void setSearchPassword(String esPassword) {
-        this.esPassword = esPassword;
-    }
-    
     public void setBulkSize(int bulkSize) {
         this.bulkSize = bulkSize;
-    }
-    
-    public void setSearchTemplate(RestOperations searchTemplate) {
-        this.searchTemplate = searchTemplate;
     }
     
     public void setAggregatePeriod(long aggregatePeriodInMillis) {
@@ -367,5 +314,15 @@ public class IndexerImpl implements Indexer {
     
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
+    }
+    
+    public void setSearchEngineConnector(SearchEngineConnector searchEngineConnector) {
+        this.connector = searchEngineConnector;
+    }
+    
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)queueWatcherExecutor;
+        return getClass() + ": {indexRequests size:" + indexRequests.size() + ", active count:" + tpe.getActiveCount() +
+            ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 }

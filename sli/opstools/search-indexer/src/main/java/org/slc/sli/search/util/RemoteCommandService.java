@@ -22,12 +22,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slc.sli.search.entity.IndexEntity.Action;
-import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.process.Admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -49,7 +52,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     private ClassPathXmlApplicationContext context;
 
     // Extractor object to run as batch program
-    private Extractor extractor;
+    private Admin admin;
 
     // thread executor
     private static final ScheduledExecutorService scheduledService = Executors.newSingleThreadScheduledExecutor();
@@ -110,63 +113,59 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
             socket = this.serverSocket.accept();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            RemoteCommand command = null;
-            // read Input String
             String inputCommand = in.readLine();
+            RemoteCommand command = null;
             if (inputCommand != null) {
-                String[] commandLine = inputCommand.split("\\s+");
-
-                if (commandLine == null || commandLine.length == 0) {
-                    command = new RemoteCommand(Commands.Help);
-                } else {
-                    for (int index = 0; index < commandLine.length; index++) {
-                        // this is the first read token.
-                        // it means command
-                        if (index == 0) {
-                            if (commandLine[0].toLowerCase().equals("extract")) {
-                                command = new RemoteCommand(Commands.Extract);
-                            } else if (commandLine[0].toLowerCase().equals("stop")) {
-                                command = new RemoteCommand(Commands.Stop);
-                            } else {
-                                command = new RemoteCommand(Commands.Help);
-                            }
-                        } else {
-                            // token is an option for a command
-                            command.setOption(commandLine[index].toLowerCase());
-                        }
-                    }
-                }
+                command = new RemoteCommand(inputCommand);
             }
 
             // if command is null, it is invalid socket request. just ignore it
             if (command != null) {
-                String option = null;
+                List<String> options = null;
                 // execute command
                 switch (command.getCommands()) {
-                    case Extract:
-                        logger.info("Remote Service received Extract command");
-                        option = command.getOption();
-                        if ("sync".equals(option)) {
-                            this.extractor.execute(Action.INDEX);
-                        } else if ("update".equals(option)) {
-                            this.extractor.execute(Action.UPDATE);
+                    case RELOAD:
+                    case EXTRACT:
+                        logger.info("Remote Service received RELOAD/EXTRACT command");
+                        options = command.getOptions();
+                        if (options.contains("sync")) {
+                            this.admin.reloadAll();
+                        } else if (!options.isEmpty()) {
+                            this.admin.reconcile(options.get(0));
                         } else {
+                            final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
                                 public void run() {
-                                    extractor.execute(Action.INDEX);
+                                    admin.reloadAll();
                                 }
                             }, 0, TimeUnit.SECONDS);
                         }
                         command.setReply("sent extract command");
                         break;
-                    case Stop:
+                    case RECONCILE:
+                        logger.info("Remote Service received RECONCILE command");
+                        options = command.getOptions();
+                        if (options.contains("sync")) {
+                            this.admin.reconcileAll();
+                        } else if (!options.isEmpty()) {
+                            this.admin.reconcile(options.get(0));
+                        } else {
+                            final Admin admin = this.admin;
+                            scheduledService.schedule(new Runnable() {
+                                public void run() {
+                                    admin.reconcileAll();
+                                }
+                            }, 0, TimeUnit.SECONDS);
+                        }
+                        command.setReply("sent extract command");
+                        break;
+                    case STOP:
 
                         int delay = 5;
                         try {
-                            option = command.getOption();
-                            if (option != null && !option.isEmpty()) {
-                                delay = Integer.parseInt(option);
+                            options = command.getOptions();
+                            if (!options.isEmpty()) {
+                                delay = Integer.parseInt(options.get(0));
                             }
                         } finally {
                             logger.info("Remote Service received Stop command, shutting down in " + delay
@@ -221,17 +220,38 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
         this.port = port;
     }
 
-    public void setExtractor(Extractor extractor) {
-        this.extractor = extractor;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     private class RemoteCommand {
-        private Commands command;
+        private Command command;
         private String reply;
-        private String option;
+        private List<String> options;
 
-        public RemoteCommand(Commands command) {
-            this.command = command;
+        public RemoteCommand(String line) {
+            String[] commandLine = null;
+            try {
+                commandLine = line.split("\\s+");
+                if (commandLine != null && commandLine.length != 0) {
+                    this.command = Command.valueOf(commandLine[0].toUpperCase());
+                }
+            } catch (Exception e) {
+            }
+
+            if (this.command == null) {
+                this.command = Command.HELP;
+            }
+
+            if (commandLine == null) {
+                options = Collections.emptyList();
+            } else {
+                // Removes the element at the specified position in this list (optional operation)
+                // This prevents throwing exception by removing an element when a List is created from an array.
+                options = new ArrayList<String>(Arrays.asList(commandLine));
+                if (!options.isEmpty())
+                    options.remove(0);
+            }
         }
 
         public String getReply() {
@@ -242,21 +262,17 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
             this.reply = reply;
         }
 
-        public void setOption(String option) {
-            this.option = option;
+        public List<String> getOptions() {
+            return this.options;
         }
 
-        public String getOption() {
-            return this.option;
-        }
-
-        public Commands getCommands() {
+        public Command getCommands() {
             return this.command;
         }
     }
 
-    private enum Commands {
-        Extract, Stop, Help;
+    private enum Command {
+        RELOAD, EXTRACT, RECONCILE, STOP, HELP, HEALTH;
     }
 
 }
