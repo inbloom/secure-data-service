@@ -1,1 +1,1 @@
-{"eventId": "oplog:integration_test", "triggers": [{"ns": "sli.sarjeTestIntegration"}], "test": "mongo localhost/sli --quiet --eval \'db.student.insert({\"_id\":\"sarje-test-id\",\"body\":{}});\'"}
+{"eventId": "oplog:integration_test", "queue":"hadoop_job", "triggers": [{"ns": "sli.sarjeTestIntegration"}], "test": "mongo localhost/sli --quiet --eval \'db.student.insert({\"_id\":\"sarje-test-id\",\"body\":{}});\'"}
