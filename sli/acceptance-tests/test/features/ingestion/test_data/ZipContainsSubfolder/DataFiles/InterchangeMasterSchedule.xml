@@ -17,9 +17,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>A.P. Calculus</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>A.P.-Calculus-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>

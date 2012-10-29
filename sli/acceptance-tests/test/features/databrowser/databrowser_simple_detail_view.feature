@@ -137,6 +137,21 @@ Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
 
+@DE1948
+Scenario: Traverse Edorg Hiearchy from SEA down to LEA
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+Then I should be redirected to the Data Browser home page
+When I click on the "GetEducationOrganizations" link
+Then I should be on the detailed page for an SEA
+When I click on the "GetFeederEducationOrganizations" link
+Then I should be on the detailed page for an LEA
+
  @wip
 Scenario: Click on an entity ID in Simple View (same for Detail View)
 

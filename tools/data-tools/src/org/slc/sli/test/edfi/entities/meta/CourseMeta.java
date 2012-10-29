@@ -31,6 +31,8 @@ public class CourseMeta {
 
     public final List<CourseCode> courseCodes = new ArrayList<CourseCode>();
 
+    public String uniqueCourseId;
+
     public CourseMeta(String id, SchoolMeta schoolMeta) {
         this.id = schoolMeta.id + MetaRelations.ID_DELIMITER + id;
         this.schoolId = schoolMeta.id;

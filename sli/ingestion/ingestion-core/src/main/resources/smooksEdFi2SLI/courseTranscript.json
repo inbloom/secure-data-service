@@ -1,13 +1,5 @@
 {
     "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
-    "complexReference" :
-    {
-        "fieldPath" : "body.courseId",
-        "entityType" : "course",
-        "path" : "body.courseCode",
-        "valueSource" : "body.courseCode",
-        "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
-    },
 	"references" :
     [
         {
@@ -65,7 +57,51 @@
                     ]
                 ]
             }
-        }
+      },
+      {
+         "fieldPath":"body.CourseReference",
+         "deprecated" : true,
+         "ref":
+         {
+            "entityType":"course",
+            "choiceOfFields":
+            [
+               [
+                  {
+                     "path":"body.uniqueCourseId",
+                     "values":
+                     [{
+                         "valueSource":"body.CourseReference.CourseIdentity.UniqueCourseId"
+                     }]
+                  },
+                  {
+                     "path":"body.schoolId",
+                     "values":
+                     [
+                        {
+                           "ref":
+                           {
+                              "entityType":"educationOrganization",
+                              "choiceOfFields":
+                              [
+                                 [
+                                    {
+                                       "path":"body.stateOrganizationId",
+                                       "values":
+                                       [{
+                                           "valueSource":"body.CourseReference.CourseIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                       }]
+                                    }
+                                 ]
+                              ]
+                           }
+                        }
+                     ]
+                  }
+               ]
+            ]
+         }
+       }
     ]
 }
 
