@@ -311,9 +311,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradeType" => "Final"
   },
   "studentCompetency" => {
-     "competencyLevel" => [{
+     "competencyLevel" => {
        "description" => "really hard competency"
-     }],
+     },
      "objectiveId" => {
        "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
      },
@@ -477,13 +477,13 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
-  expectedPath = expected.gsub("@ids", "[^/]*")
+  expectedPath = expected.gsub("@ids", "[^/]+")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     

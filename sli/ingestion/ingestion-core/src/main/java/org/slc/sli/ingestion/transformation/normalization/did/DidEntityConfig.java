@@ -49,4 +49,13 @@ public class DidEntityConfig {
     public static DidEntityConfig parse(InputStream inputStream) throws IOException {
         return MAPPER.readValue(inputStream, DidEntityConfig.class);
     }
+
+    @Override
+    public String toString() {
+        try {
+            return MAPPER.writeValueAsString(this);
+        } catch (Exception e) {
+            return super.toString();
+        }
+    }
 }
