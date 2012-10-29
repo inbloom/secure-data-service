@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.config;
 
 import java.io.IOException;
@@ -30,42 +29,43 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.Resource;
+import org.springframework.stereotype.Component;
 
 /**
- * Custom JAXB Context Resolver that will generate XML
- *
+ * Custom JAXB Context Resolver that will generate JSON.
+ * 
  * */
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
-
+    
+    protected final ObjectMapper om = new ObjectMapper();
+    
     @Override
     public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return true;
     }
-
+    
     @Override
     public long getSize(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
-
+    
     @Override
     public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-
+        
         Object jsonBody = t;
-
+        
         // check on the class type to see if we need
         // to strip off any extraneous wrapper classes
         if (type != null) {
-
+            
             if (type.getName().equals("org.slc.sli.api.representation.Home")) {
                 Home home = (Home) t;
                 jsonBody = home.getLinksMap();
@@ -73,9 +73,9 @@ public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
                 EntityResponse entityReponse = (EntityResponse) t;
                 jsonBody = entityReponse.getEntity();
             }
-
+            
         }
-
-        new ObjectMapper().writeValue(entityStream, jsonBody);
+        
+        om.writeValue(entityStream, jsonBody);
     }
 }

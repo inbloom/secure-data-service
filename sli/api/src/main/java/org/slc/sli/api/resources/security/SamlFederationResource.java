@@ -70,7 +70,7 @@ import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -299,10 +299,16 @@ public class SamlFederationResource {
 
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles);
         List<String> sliRoleList = new ArrayList<String>();
+        boolean isAdmin = true;
         for (Role role : sliRoleSet) {
             sliRoleList.add(role.getName());
+            if (!role.isAdmin()) {
+                isAdmin = false;
+                break;
+            }
         }
         principal.setRoles(sliRoleList);
+        principal.setAdminUser(isAdmin);
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");

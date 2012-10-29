@@ -23,9 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -54,6 +57,8 @@ public class TenantMongoDA implements TenantDA {
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String DESC = "desc";
 
+    private static final String TENANT_READY_FIELD = "body.tenantIsReady";
+
     private Repository<Entity> entityRepository;
     private static final NeutralCriteria PRELOAD_READY_CRITERIA = new NeutralCriteria(LANDING_ZONE + "." + PRELOAD_DATA
             + "." + PRELOAD_STATUS, "=", "ready");
@@ -80,7 +85,7 @@ public class TenantMongoDA implements TenantDA {
     private Map<String, Object> getTenantBody(TenantRecord tenant) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenant.getTenantId());
-        body.put(DB_NAME, tenant.getDbName());
+        body.put(DB_NAME, TenantIdToDbName.convertTenantIdToDbName(tenant.getDbName()));
         List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
         if (tenant.getLandingZone() != null) {
             for (LandingZoneRecord landingZoneRecord : tenant.getLandingZone()) {
@@ -106,9 +111,9 @@ public class TenantMongoDA implements TenantDA {
             List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
             if (landingZones != null) {
                 for (Map<String, String> landingZone : landingZones) {
-                        String path = landingZone.get(PATH);
-                        if (path != null) {
-                            tenantPaths.add(path);
+                    String path = landingZone.get(PATH);
+                    if (path != null) {
+                        tenantPaths.add(path);
                     }
                 }
             }
@@ -144,8 +149,9 @@ public class TenantMongoDA implements TenantDA {
                                 LANDING_ZONE_INGESTION_SERVER)));
         Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
         for (Entity tenant : tenants) {
-            if (readyTenant(tenant)) { // only return this if the tenant is not already in the
-                                       // started state
+            if (markPreloadStarted(tenant)) { // only return this if the tenant is not already in
+                                              // the
+                // started state
                 List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
                 for (Map<String, Object> landingZone : landingZones) {
                     if (landingZone.get(INGESTION_SERVER).equals(ingestionServer)) {
@@ -164,7 +170,7 @@ public class TenantMongoDA implements TenantDA {
         return fileMap;
     }
 
-    private boolean readyTenant(Entity tenant) {
+    private boolean markPreloadStarted(Entity tenant) {
         return entityRepository.doUpdate(
                 TENANT_COLLECTION,
                 new NeutralQuery().addCriteria(new NeutralCriteria("_id", "=", tenant.getEntityId())).addCriteria(
@@ -172,5 +178,47 @@ public class TenantMongoDA implements TenantDA {
                 Update.update("body." + TenantMongoDA.LANDING_ZONE + ".$." + TenantMongoDA.PRELOAD_DATA + "."
                         + TenantMongoDA.PRELOAD_STATUS, "started"));
 
+    }
+
+    @Override
+    public boolean tenantDbIsReady(String tenantId) {
+        boolean isPartitioned = false;
+
+        // checking for indexes ensures that the scripts were capable of running
+        TenantContext.setTenantId(tenantId);
+        boolean isIndexed = entityRepository.count("system.indexes", new Query()) > 0;
+
+        if (isIndexed) {
+
+            // checking for flag that will only be set after scripts run
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", true, false));
+
+            try {
+                TenantContext.setIsSystemCall(true);
+                isPartitioned = entityRepository.count("tenant", query) > 0;
+            } finally {
+                TenantContext.setIsSystemCall(false);
+            }
+        }
+
+        return isPartitioned;
+    }
+
+    @Override
+    public void setTenantReadyFlag(String tenantId) {
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+
+        Update update = new Update();
+        update.set(TENANT_READY_FIELD, true);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            entityRepository.doUpdate("tenant", query, update);
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
     }
 }

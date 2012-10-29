@@ -51,7 +51,7 @@ $collectionSet = ["student",
                   "assessment",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
-                  "studentTranscriptAssociation",
+                  "courseTranscript",
                   "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
@@ -130,12 +130,14 @@ def isSystemCollection(collectionName)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
+  disable_NOTABLESCAN()
+
   if isSystemCollection(collectionName)
     db_used = SYSTEM_DB_NAME
   else
     db_used = DB_NAME
   end
-  
+
   if TODROP
     dropOption = (dropExistingCollection) ? "--drop":""
   else
@@ -159,6 +161,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
   end
+
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -239,7 +242,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
     db_used = DB_NAME
   end
-  
+
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(db_used)
@@ -249,7 +252,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   if collectionName == "tenant"
     cleanseTenantCollection
   else
-    coll.remove({"metaData.tenantId" => {"$in" => specificTenants}}, :safe => true)
+    coll.remove({}, :safe => true)
   end
 end
 
@@ -259,7 +262,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   else
     db_used = DB_NAME
   end
-  
+
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
@@ -353,6 +356,8 @@ task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
+  disable_NOTABLESCAN()
+
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
@@ -397,6 +402,7 @@ task :realmInit => [:appInit] do
   setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
   swap_realm_ids()
 
+  enable_NOTABLESCAN()
 end
 
 task :appDenialInit do
@@ -408,6 +414,7 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
+  disable_NOTABLESCAN()
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
@@ -424,6 +431,7 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_app_ids(convertTenantIdToDbName("Midgar"))
   swap_app_ids(convertTenantIdToDbName("Hyrule"))
+  enable_NOTABLESCAN()
 end
 
 desc "Approve SLC apps for ingested realms"
@@ -489,7 +497,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -605,7 +613,6 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  runTests("test/features/databrowser/databrowser_selective_deny.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -692,7 +699,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 #task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionCourseTranscriptTests, :ingestionProgramTest, :ingestionCohortTest,
 #                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
 #                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
 #                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
@@ -703,7 +710,8 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+                         :ingestionSuperDocTests, :ingestionDbSpinupTest, :ingestionSubdocTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -882,7 +890,12 @@ task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   if $SUCCESS
     $collectionSet.each do |collection|
+      sh "rm -f test/data/storied_data/Hyrule/sds_#{collection}.json"
+      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/Hyrule/sds_#{collection}.json"
+
       sh "rm -f test/data/storied_data/sds_#{collection}.json"
+      DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
       sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
     end
   else
@@ -897,6 +910,14 @@ end
 
 desc "Import Storied Data Set"
 task :importStoriedData do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  hyruleHash = Hash[]
+  $collectionSet.each do |collection|
+    hyruleHash["#{collection}"] = "storied_data/Hyrule/sds_#{collection}.json"
+  end
+  setMultipleFixtureFiles(hyruleHash)
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   testHash = Hash[]
   $collectionSet.each do |collection|
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
@@ -917,6 +938,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
@@ -933,9 +955,7 @@ task :importSecuredData do
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
     "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",
-    "studentTranscriptAssociation" => "secured/studentTranscriptAssociation.json",
-    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
@@ -945,66 +965,125 @@ task :importSecuredData do
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
-  tenant = {
+
+   tenant = {
     "type" => "tenant",
     "body" => {
-      "tenantId" => "Security"
+      "tenantId" => "Security",
+      "dbName" => convertTenantIdToDbName("Security")
       },
     "metaData" => {
         "tenantId" => "Security"
       }
   }
+
   db = Mongo::Connection.new(DB_HOST)['sli']
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
+
+  testHash = Hash[
+    "educationOrganization" => "secured/Other/educationOrganization.json",
+    "student" => "secured/Other/student.json",
+    "studentSchoolAssociation" => "secured/Other/studentSchoolAssociation.json"
+  ]
+
+     tenant = {
+    "type" => "tenant",
+    "body" => {
+      "tenantId" => "Other",
+      "dbName" => convertTenantIdToDbName("Other")
+      },
+    "metaData" => {
+        "tenantId" => "Other"
+      }
+  }
+
+  db = Mongo::Connection.new(DB_HOST)['sli']
+  db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Other"}).nil?
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Other")
+  setMultipleFixtureFiles(testHash)
+
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   addSecurityData()
+end
+
+desc "Import Sandbox Test Data to Midgar"
+task :importSandboxMidgarData do
+  testHash = Hash[
+    "session" => "Midgar_data/session_fixture.json",
+    "program" => "Midgar_data/program_fixture.json",
+    "section" => "Midgar_data/section_fixture.json",
+    "course" => "Midgar_data/course_fixture.json",
+    "student" => "Midgar_data/student_fixture.json",
+    "parent" => "Midgar_data/parent_fixture.json",
+    "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
+    "staff" => "Midgar_data/staff_fixture.json",
+    "assessment" => "Midgar_data/assessment_fixture.json",
+    "attendance" => "Midgar_data/attendance_fixture.json",
+    "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
+    "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
+    "studentAssessmentAssociation" => "Midgar_data/studentAssessmentAssociation_fixture.json",
+    "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
+    "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
+    "staffEducationOrganizationAssociation" => "Midgar_data/staffEducationOrganizationAssociation_fixture.json",
+    "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
+    "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
+    "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
+    "gradebookEntry" => "Midgar_data/gradebookEntry_fixture.json",
+    "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
+    "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
+    "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
+    "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
+    "cohort" => "Midgar_data/cohort_fixture.json",
+    "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "Midgar_data/studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "Midgar_data/studentProgramAssociation_fixture.json",
+    "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
+    "learningStandard" => "Midgar_data/learningStandard_fixture.json",
+    "learningObjective" => "Midgar_data/learningObjective_fixture.json",
+    "grade" => "Midgar_data/grade_fixture.json",
+    "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
+    "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "reportCard" => "Midgar_data/reportCard_fixture.json",
+    "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
+
+desc "Import Sandbox Test Data to Hyrule"
+task :importSandboxHyruleData do
+  testHash = Hash[
+    "session" => "Hyrule_data/session_fixture.json",
+    "section" => "Hyrule_data/section_fixture.json",
+    "course" => "Hyrule_data/course_fixture.json",
+    "student" => "Hyrule_data/student_fixture.json",
+    "staff" => "Hyrule_data/staff_fixture.json",
+    "assessment" => "Hyrule_data/assessment_fixture.json",
+    "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
+    "teacherSectionAssociation" => "Hyrule_data/teacherSectionAssociation_fixture.json",
+    "studentSectionAssociation" => "Hyrule_data/studentSectionAssociation_fixture.json",
+    "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
+    "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
+    "gradingPeriod" => "Hyrule_data/gradingPeriod_fixture.json",
+    "reportCard" => "Hyrule_data/reportCard_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
 end
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
-  testHash = Hash[
-    "session" => "session_fixture.json",
-    "program" => "program_fixture.json",
-    "section" => "section_fixture.json",
-    "course" => "course_fixture.json",
-    "student" => "student_fixture.json",
-    "parent" => "parent_fixture.json",
-    "studentParentAssociation" => "studentParentAssociation_fixture.json",
-    "staff" => "staff_fixture.json",
-    "assessment" => "assessment_fixture.json",
-    "attendance" => "attendance_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
-    "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
-    "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
-    "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
-    "educationOrganization" => "educationOrganization_fixture.json",
-    "aggregationDefinition" => "aggregationdefinition_fixture.json",
-    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
-    "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
-    "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
-    "disciplineIncident" => "disciplineIncident_fixture.json",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
-    "disciplineAction" => "disciplineAction_fixture.json",
-    "cohort" => "cohort_fixture.json",
-    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
-    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
-    "learningStandard" => "learningStandard_fixture.json",
-    "learningObjective" => "learningObjective_fixture.json",
-    "grade" => "grade_fixture.json",
-    "studentCompetency" => "studentCompetency_fixture.json",
-    "adminDelegation" => "adminDelegation_fixture.json",
-    "gradingPeriod" => "gradingPeriod_fixture.json",
-    "reportCard" => "reportCard_fixture.json",
-    "graduationPlan" => "graduationPlan_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  Rake::Task["importSandboxMidgarData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
+  Rake::Task["importSandboxHyruleData"].execute
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
 
 desc "Import Sandbox Test Data"
@@ -1038,17 +1117,48 @@ end
 desc "Import Tenant Metrics Data"
 task :importTenantMetricsData do
   testHash = Hash[
-    "assessment" => "metrics/assessment_fixture.json",
-    "educationOrganization" => "metrics/educationOrganization_fixture.json",
-    "grade" => "metrics/grade_fixture.json",
-    "parent" => "metrics/parent_fixture.json",
-    "program" => "metrics/program_fixture.json",
-    "section" => "metrics/section_fixture.json",
-    "session" => "metrics/session_fixture.json",
-    "staff" => "metrics/staff_fixture.json",
-    "student" => "metrics/student_fixture.json",
+    "assessment" => "metrics/T1/assessment_fixture.json",
+    "educationOrganization" => "metrics/T1/educationOrganization_fixture.json",
+    "grade" => "metrics/T1/grade_fixture.json",
+    "parent" => "metrics/T1/parent_fixture.json",
+    "program" => "metrics/T1/program_fixture.json",
+    "section" => "metrics/T1/section_fixture.json",
+    "session" => "metrics/T1/session_fixture.json",
+    "staff" => "metrics/T1/staff_fixture.json",
+    "student" => "metrics/T1/student_fixture.json",
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
+    "assessment" => "metrics/T2/assessment_fixture.json",
+    "educationOrganization" => "metrics/T2/educationOrganization_fixture.json",
+    "grade" => "metrics/T2/grade_fixture.json",
+    "parent" => "metrics/T2/parent_fixture.json",
+    "program" => "metrics/T2/program_fixture.json",
+    "section" => "metrics/T2/section_fixture.json",
+    "session" => "metrics/T2/session_fixture.json",
+    "staff" => "metrics/T2/staff_fixture.json",
+    "student" => "metrics/T2/student_fixture.json",
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T2@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
+    "assessment" => "metrics/T3/assessment_fixture.json",
+    "educationOrganization" => "metrics/T1/educationOrganization_fixture.json",
+    "grade" => "metrics/T3/grade_fixture.json",
+    "parent" => "metrics/T3/parent_fixture.json",
+    "program" => "metrics/T3/program_fixture.json",
+    "section" => "metrics/T3/section_fixture.json",
+    "session" => "metrics/T3/session_fixture.json",
+    "staff" => "metrics/T3/staff_fixture.json",
+    "student" => "metrics/T3/student_fixture.json"
+  ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "T1@slidev.org")
+  setMultipleFixtureFiles(testHash)
+    testHash = Hash[
     "tenant" => "metrics/tenant_fixture.json"
   ]
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setMultipleFixtureFiles(testHash)
 end
 
@@ -1070,7 +1180,7 @@ task :importUnifiedData => [:realmInit] do
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
-    "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
+    "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"

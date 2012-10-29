@@ -46,8 +46,6 @@ Given /^I drop the "([^\"]*)" collection$/ do |collection|
   puts "There are #{entity_collection.count} records in collection #{collection}."
   entity_collection.remove()
 
-  createIndexesOnDb(@conn, DB_NAME)
-
   assert(entity_collection.count.to_i == 0, "#{collection} is not empty")
 end
 

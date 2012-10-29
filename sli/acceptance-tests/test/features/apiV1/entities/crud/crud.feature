@@ -158,10 +158,11 @@ Examples:
 | "learningStandard"      | "learningStandards"       |  200 | 14    |/learningStandards|
 | "parent"                | "parents"                 |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations/parents|
 | "program"               | "programs"                |  200 | 2     |/staff/@ids/staffProgramAssociations/programs|
-| "school"                | "schools"                 |  200 | 0    |/schools|
+# Schools will not get rewritten for rrogers because he has no direct reference to a school
+| "school"                | "schools"                 |  200 | 0     |/schools|
 | "section"               | "sections"                |  200 | 0     |/schools/@ids/sections|
 | "session"               | "sessions"                |  200 | 0     |/educationOrganizations/@ids/sessions|
-| "staff"                 | "staff"                   |  200 | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+| "staff"                 | "staff"                   |  200 | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
 | "student"               | "students"                |  200 | 0     |/schools/@ids/studentSchoolAssociations/students|
 | "studentAcademicRecord" | "studentAcademicRecords"  |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
 | "studentGradebookEntry" | "studentGradebookEntries" |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|
@@ -357,7 +358,7 @@ Examples:
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
 | "parent"                | "parents"                 | 1     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
-| "school"                | "schools"                 | 2    |/schools|                                                                                
+| "school"                | "schools"                 | 2     |/schools/@ids|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
 | "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
@@ -368,4 +369,13 @@ Examples:
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
 | "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
-| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|                            
+| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
+
+	@DE1825 
+	Scenario: Invalid data parsing fails gracefully
+		When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations?endDate=blah"
+    	Then I should receive a return code of 400 
+        When I create an association of type "studentSectionAssociation"    	
+    	And field "beginDate" is removed from the json document
+    	When I navigate to POST "/v1/studentSectionAssociations"
+    	Then I should receive a return code of 400                    

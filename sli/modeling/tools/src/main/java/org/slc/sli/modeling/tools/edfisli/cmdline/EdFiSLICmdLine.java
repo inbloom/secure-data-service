@@ -76,7 +76,6 @@ public final class EdFiSLICmdLine {
     private static final Map<String, String> classRenames() {
         final Map<String, String> renames = new HashMap<String, String>();
         renames.put("CourseOffering", "CourseOffering");
-        renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(renames);

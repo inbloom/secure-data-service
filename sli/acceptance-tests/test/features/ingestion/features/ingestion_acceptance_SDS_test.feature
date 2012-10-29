@@ -69,7 +69,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentProgramAssociation             |
         | studentSchoolAssociation              |
         | studentSectionAssociation             |
-        | studentTranscriptAssociation          |
+        | courseTranscript                      |
         | teacherSchoolAssociation              |
         | teacherSectionAssociation             |
   When zip file is scp to ingestion landing zone
@@ -114,7 +114,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 6     |
         | studentSchoolAssociation    | 167   |
         | studentSectionAssociation   | 297   |
-        | studentTranscriptAssociation| 196   |
+        | courseTranscript            | 196   |
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 11    |
     And I check to find if record is in collection:
@@ -337,12 +337,12 @@ And I check to find if record is in collection:
      | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Victim               | string               |
  And I check to find if record is in collection:
        | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
-       | studentTranscriptAssociation  | 196                 | body.courseAttemptResult              | Pass                    | string               |
-       | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-       | studentTranscriptAssociation  | 4                   | body.finalNumericGradeEarned          | 87                      | integer              |
-       | studentTranscriptAssociation  | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
-       | studentTranscriptAssociation  | 33                  | body.finalLetterGradeEarned           | B                       | string               |
-       | studentTranscriptAssociation  | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+       | courseTranscript              | 196                 | body.courseAttemptResult              | Pass                    | string               |
+       | courseTranscript              | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+       | courseTranscript              | 4                   | body.finalNumericGradeEarned          | 87                      | integer              |
+       | courseTranscript              | 2                   | body.finalNumericGradeEarned          | 82                      | integer              |
+       | courseTranscript              | 33                  | body.finalLetterGradeEarned           | B                       | string               |
+       | courseTranscript              | 60                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
        | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
@@ -439,9 +439,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.studentSectionAssociationId     | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id |
     | grade                                | 0e7ebb7c78f4447b9ece45cdde992153b9ecbb4b_id | body.gradingPeriodId                 | c29dd49f05474ddc05a21a9bce9cb452ea783a98_id |
 # gradebookEntry
-    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
-    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
-    | gradebookEntry                       | bbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.dateAssigned                    | 2011-10-13                           |
+    | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
+    | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
+    | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.dateAssigned                    | 2011-10-13                           |
 # studentAcademicRecord
     | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.studentId                       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id |
     | studentAcademicRecord                | a1e159796736acfe35a3dda1ece214dc380a2714_id | body.sessionId                       | a2f899c4b31e2dc11a5a5ab202d4590bb0a33c8b_id |
@@ -468,9 +468,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.schoolId                       | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.sessionId                      | f1f768e7ec6f9936b2414372dcb046a3bca7ad93_id |
     | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode                | Pre-Algebra I                          |
-   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.studentAcademicRecordId            | 1272719cf8247946b9ef689bf1860b27e7df7828_id                                 |
-   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.courseId                | 28ef7ffd6361d977db1c8f66c461d4597913a16e_id                                 |
-   | studentTranscriptAssociation         | 3d58703d058468643963e1a5529564d92c30f1d4_id | body.courseAttemptResult            | Pass                                 |
+   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.studentAcademicRecordId            | 1272719cf8247946b9ef689bf1860b27e7df7828_id                                 |
+   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseId                | 28ef7ffd6361d977db1c8f66c461d4597913a16e_id                                 |
+   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseAttemptResult            | Pass                                 |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
    | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
@@ -480,15 +480,14 @@ Scenario: Verify deterministic ids generated: Clean Database
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
    | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
-   | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
-   | teacherSectionAssociation            | 107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
+   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
+   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
     | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
     | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | studentProgramAssociation            | 98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.beginDate            | 2011-03-01                           |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idfbdb2bd12da6fa64d2e74242c20c2235cd3f04d4_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
     | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.uniqueSectionCode    | Drama I - Sec 5f09 |
     | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.schoolId             | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
@@ -550,7 +549,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
@@ -594,7 +593,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -638,7 +637,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 148   |
+     | courseTranscript                      | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
@@ -682,7 +681,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
+     | courseTranscript                      | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -726,7 +725,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 51    |
      | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 84    |
+     | courseTranscript                      | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
 
@@ -766,7 +765,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 6     |
         | studentSchoolAssociation    | 272   |
         | studentSectionAssociation   | 402   |
-        | studentTranscriptAssociation| 196   |
+        | courseTranscript            | 196   |
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 14    |
     And I check to find if record is in collection:
@@ -840,7 +839,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 272   |
      | studentSectionAssociation             | 402   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 14    |
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
@@ -884,7 +883,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -928,7 +927,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 148   |
+     | courseTranscript                      | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
@@ -972,7 +971,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
+     | courseTranscript                      | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1016,7 +1015,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 51    |
      | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 84    |
+     | courseTranscript                      | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
    And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1060,7 +1059,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 105   |
      | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
    And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1104,7 +1103,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 105   |
      | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
 
@@ -1128,7 +1127,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | assessment                          |
         | studentAssessmentAssociation        |
         | gradebookEntry                      |
-        | studentTranscriptAssociation        |
+        | courseTranscript                    |
         | studentGradebookEntry               |
         | parent                              |
         | studentParentAssociation            |
@@ -1185,7 +1184,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 0     |
         | studentSchoolAssociation    | 8     |
         | studentSectionAssociation   | 8     |
-        | studentTranscriptAssociation| 0     |
+        | courseTranscript            | 0     |
         | teacherSchoolAssociation    | 16    |
         | teacherSectionAssociation   | 16    |
     And I check to find if record is in collection:
@@ -1262,7 +1261,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 272   |
      | studentSectionAssociation             | 402   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 14    |
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1306,7 +1305,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1350,7 +1349,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 148   |
+     | courseTranscript                      | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1394,7 +1393,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
+     | courseTranscript                      | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1438,7 +1437,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 51    |
      | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 84    |
+     | courseTranscript                      | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
    And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1482,7 +1481,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 105   |
      | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
    And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
@@ -1526,7 +1525,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 105   |
      | studentSectionAssociation             | 105   |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 3     |
    And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1570,7 +1569,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 8     |
      | studentSectionAssociation             | 8     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 16    |
    And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1614,7 +1613,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
    And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1658,7 +1657,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
    And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1702,7 +1701,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1746,7 +1745,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 0     |
      | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1790,7 +1789,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 0     |
      | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -1834,7 +1833,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
 
@@ -1862,7 +1861,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentDisciplineIncidentAssociation | 5     |
      | studentParentAssociation             | 11    |
      | studentProgramAssociation            | 9     |
-     | studentTranscriptAssociation         | 200   |
+     | courseTranscript                     | 200   |
   And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
@@ -1953,15 +1952,15 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
      | studentAssessmentAssociation | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
-     | studentAssessmentAssociation | 24                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
+     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
      | studentAssessmentAssociation | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
-     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-     | studentAssessmentAssociation | 25                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
+     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+     | studentAssessmentAssociation | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
      | studentAssessmentAssociation| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
@@ -1975,12 +1974,12 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation   | 3                   | body.beginDate              | 2011-01-01              | string               |
      | studentProgramAssociation   | 4                   | body.beginDate              | 2011-03-01              | string               |
      | studentProgramAssociation   | 6                   | body.endDate                | 2012-04-12              | string               |
-     | studentTranscriptAssociation  | 200                 | body.courseAttemptResult              | Pass                    | string               |
-     | studentTranscriptAssociation  | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
-     | studentTranscriptAssociation  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
-     | studentTranscriptAssociation  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
-     | studentTranscriptAssociation  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
-     | studentTranscriptAssociation  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+     | courseTranscript            | 200                 | body.courseAttemptResult              | Pass                    | string               |
+     | courseTranscript            | 10                  | body.finalNumericGradeEarned          | 90                      | integer              |
+     | courseTranscript  | 3                   | body.finalNumericGradeEarned          | 82                      | integer              |
+     | courseTranscript  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
+     | courseTranscript  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
+     | courseTranscript  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-1"
   Then the field "learningStandards" is an array of size 2
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
@@ -2025,9 +2024,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Discipline2.xml records considered: 2" in the resulting batch job file
   And I should see "Discipline2.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "Discipline2.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records considered: 8" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records ingested successfully: 8" in the resulting batch job file
-  And I should see "StudentTranscriptAssociation2.xml records failed: 0" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records considered: 8" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records ingested successfully: 8" in the resulting batch job file
+  And I should see "CourseTranscript2.xml records failed: 0" in the resulting batch job file
   And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file
@@ -2080,7 +2079,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
@@ -2141,7 +2140,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentProgramAssociation   |
         | studentSchoolAssociation    |
         | studentSectionAssociation   |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         |staffEducationOrganizationAssociation|
@@ -2190,7 +2189,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 0     |
         | studentSchoolAssociation    | 8     |
         | studentSectionAssociation   | 8     |
-        | studentTranscriptAssociation| 0     |
+        | courseTranscript            | 0     |
         | teacherSchoolAssociation    | 16    |
         | teacherSectionAssociation   | 16    |
 
@@ -2236,7 +2235,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
@@ -2280,7 +2279,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 6     |
      | studentSchoolAssociation              | 167   |
      | studentSectionAssociation             | 297   |
-     | studentTranscriptAssociation          | 196   |
+     | courseTranscript                      | 196   |
      | teacherSchoolAssociation              | 3     |
      | teacherSectionAssociation             | 11    |
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -2324,7 +2323,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 3     |
      | studentSchoolAssociation              | 61    |
      | studentSectionAssociation             | 175   |
-     | studentTranscriptAssociation          | 148   |
+     | courseTranscript                      | 148   |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
@@ -2368,7 +2367,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 4     |
      | studentSchoolAssociation              | 55    |
      | studentSectionAssociation             | 107   |
-     | studentTranscriptAssociation          | 48    |
+     | courseTranscript                      | 48    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 5     |
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
@@ -2412,7 +2411,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 51    |
      | studentSectionAssociation             | 110   |
-     | studentTranscriptAssociation          | 84    |
+     | courseTranscript                      | 84    |
      | teacherSchoolAssociation              | 1     |
      | teacherSectionAssociation             | 1     |
    And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2456,7 +2455,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 8     |
      | studentSectionAssociation             | 8     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 16    |
      | teacherSectionAssociation             | 16    |
    And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2500,7 +2499,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
    And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2544,7 +2543,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 8     |
      | teacherSectionAssociation             | 8     |
    And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2588,7 +2587,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 4     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2632,7 +2631,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 0     |
      | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2676,7 +2675,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 0     |
      | studentSectionAssociation             | 0     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
    And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
@@ -2720,7 +2719,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
      | studentProgramAssociation             | 0     |
      | studentSchoolAssociation              | 4     |
      | studentSectionAssociation             | 5     |
-     | studentTranscriptAssociation          | 0     |
+     | courseTranscript                      | 0     |
      | teacherSchoolAssociation              | 4     |
      | teacherSectionAssociation             | 4     |
 
