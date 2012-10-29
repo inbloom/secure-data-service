@@ -1987,6 +1987,7 @@
   <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
     <jb:value property="eventDate" data="InterchangeStudentAttendance/AttendanceEvent/EventDate" />
     <jb:value property="attendanceEventType" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventType" />
+    <jb:value property="schoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
     <jb:value property="attendanceEventCategory" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventCategory" />
     <jb:value property="attendanceEventReason" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventReason" />
     <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
