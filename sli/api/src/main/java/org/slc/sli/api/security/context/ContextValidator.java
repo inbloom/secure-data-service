@@ -83,6 +83,7 @@ public class ContextValidator implements ApplicationContextAware {
         validators.remove(genVal);
         validators.remove(studentVal);
         validators.remove(subEntityVal);
+        validators.add(genVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -105,19 +106,23 @@ public class ContextValidator implements ApplicationContextAware {
 
         /*
          * e.g.
-         * through - /v1/staff/<ID>/disciplineActions
-         * !through - /v1/staff/<ID>
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
          */
-        boolean through = request.getPathSegments().size() > 3;
-        IContextValidator validator = findValidator(entityName, through);
+        boolean isTransitive = request.getPathSegments().size() < 4;
+        String idsString = request.getPathSegments().get(2).getPath();
+        List<String> ids = Arrays.asList(idsString.split(","));
+        validateContextToEntities(entityName, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(String entityType, List<String> entityIds, boolean isTransitive) {
+        IContextValidator validator = findValidator(entityType, isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+            if (!validator.validate(entityType, new HashSet<String>(entityIds))) {
+                if (!exists(entityIds, entityType)) {
+                    throw new EntityNotFoundException("Could not locate " + entityType + "with ids " + entityIds);
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+                throw new AccessDeniedException("Cannot access entities " + entityIds);
             }
         }
     }
@@ -140,22 +145,22 @@ public class ContextValidator implements ApplicationContextAware {
     /**
      *
      * @param toType
-     * @param through
+     * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
+    public IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
-            if (validator.canValidate(toType, through)) {
+            if (validator.canValidate(toType, isTransitive)) {
                 found = validator;
                 break;
             }
         }
 
         if (found == null) {
-            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;

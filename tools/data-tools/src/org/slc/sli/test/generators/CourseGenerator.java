@@ -335,7 +335,8 @@ public class CourseGenerator {
         CourseReferenceType crt = new CourseReferenceType();
         CourseIdentityType ci = new CourseIdentityType();
         crt.setCourseIdentity(ci);
-        ci.getCourseCode().addAll(course.getCourseCode());
+        ci.setEducationalOrgReference(course.getEducationOrganizationReference());
+        ci.setUniqueCourseId(course.getUniqueCourseId());
         return crt;
     }
 

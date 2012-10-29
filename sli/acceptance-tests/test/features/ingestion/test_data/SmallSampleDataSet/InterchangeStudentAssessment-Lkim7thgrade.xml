@@ -32,9 +32,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 7 2011 State Reading</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 7 2011 State Reading</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>
@@ -64,9 +65,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 7 2011 State Writing</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 7 2011 State Writing</AssessmentTitle>
+				<AcademicSubject>Writing</AcademicSubject>
+				<GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>
@@ -96,9 +98,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 7 2011 State Math</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 7 2011 State Math</AssessmentTitle>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>

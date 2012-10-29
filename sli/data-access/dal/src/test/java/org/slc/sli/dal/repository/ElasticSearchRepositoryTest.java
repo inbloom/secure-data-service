@@ -63,7 +63,7 @@ public class ElasticSearchRepositoryTest {
         //System.out.println(hitNode);
 
         // call method
-        Entity hit = EntityConverter.convertJsonToSearchHitEntity(hitNode);
+        Entity hit = EntityConverter.fromSingleSearchJson(hitNode);
 
         // check result
         assertNotNull(hit);

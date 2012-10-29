@@ -180,10 +180,10 @@ public class MockRepo implements Repository<Entity> {
         for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
             results = processCriteria(results, criteria);
         }
-        
+
         if (neutralQuery.getOrQueries().size() > 0) {
             Map<String, Entity> oredResults = new LinkedHashMap<String, Entity>();
-            
+
             for (NeutralQuery orQueries : neutralQuery.getOrQueries()) {
                 Map<String, Entity> tmpResults = results;
                 for (NeutralCriteria criteria : orQueries.getCriteria()) {
@@ -193,7 +193,7 @@ public class MockRepo implements Repository<Entity> {
             }
             results = oredResults;
         }
-        
+
         List<Entity> entitiesFound = new ArrayList<Entity>();
         for (Entity entity : results.values()) {
             entitiesFound.add(entity);
@@ -280,17 +280,16 @@ public class MockRepo implements Repository<Entity> {
 
         return value;
     }
-    
+
     private Map<String, Entity> processCriteria(Map<String, Entity> results, NeutralCriteria criteria) {
         Map<String, Entity> toReturn = new LinkedHashMap<String, Entity>();
         if (criteria.getOperator().equals("=")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                        criteria.canBePrefixed());
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
                 if (entityValue != null) {
                     if (entityValue.equals(criteria.getValue())) {
                         toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
-                    } else if (entityValue instanceof List) { //also need to handle = for array
+                    } else if (entityValue instanceof List) { // also need to handle = for array
                         for (Object arrayElement : (List) entityValue) {
                             if (arrayElement.equals(criteria.getValue())) {
                                 toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -310,11 +309,10 @@ public class MockRepo implements Repository<Entity> {
                 }
             }
 
-        }  else if (criteria.getOperator().equals("exists")) {
+        } else if (criteria.getOperator().equals("exists")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
 
-                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                        criteria.canBePrefixed());
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
                 if (entityValue != null == (Boolean) criteria.getValue()) {
 
                     toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -323,8 +321,7 @@ public class MockRepo implements Repository<Entity> {
 
         } else if (criteria.getOperator().equals("!=")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                        criteria.canBePrefixed());
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
                 if (entityValue != null) {
                     if (!entityValue.equals(criteria.getValue())) {
                         toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -343,8 +340,8 @@ public class MockRepo implements Repository<Entity> {
             }
         } else if (criteria.getOperator().equals("<")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                        criteria.canBePrefixed()).toString();
+                String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed())
+                        .toString();
                 if (entityValue != null) {
                     if (entityValue.compareTo(criteria.getValue().toString()) < 0) {
                         toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -373,8 +370,7 @@ public class MockRepo implements Repository<Entity> {
             }
         } else if (criteria.getOperator().equals("=~")) {
             for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                        criteria.canBePrefixed());
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
                 if (entityValue != null) {
                     if (entityValue instanceof String && criteria.getValue() instanceof String) {
                         String entityValueString = (String) entityValue;
@@ -451,6 +447,11 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
                 return null;
             }
 
@@ -537,8 +538,12 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+                return null;
+            }
+
+            @Override
             public String getStagedEntityId() {
-                // TODO Auto-generated method stub
                 return null;
             }
         };

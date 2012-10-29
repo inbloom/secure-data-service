@@ -28,12 +28,12 @@
 				<xs:element name="Student" type="Student"/>
 				<xs:element name="StudentSchoolAssociation" type="SLC-StudentSchoolAssociationExtension"/>
 				<xs:element name="StudentAcademicRecord" type="StudentAcademicRecordExtendedType"/>
-				<xs:element name="CourseTranscript" type="CourseTranscript"/>
-				<xs:element name="ReportCard" type="ReportCard"/>
+				<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
+				<xs:element name="ReportCard" type="SLC-ReportCard"/>
 				<xs:element name="Grade" type="SLC-Grade"/>
 				<xs:element name="StudentSectionAssociation" type="SLC-StudentSectionAssociation"/>
 				<xs:element name="Section" type="Section"/>
-				<xs:element name="CourseOffering" type="CourseOffering"/>
+				<xs:element name="CourseOffering" type="SLC-CourseOffering"/>
 				<xs:element name="Course" type="SLC-CourseExtension"/>
 				<xs:element name="Diploma" type="Diploma"/>
 				<xs:element name="StudentAssessment" type="StudentAssessment"/>
@@ -46,7 +46,7 @@
 	</xs:annotation>
 	<xs:complexType name="StudentAcademicRecordExtendedType">
 		<xs:complexContent>
-			<xs:extension base="StudentAcademicRecord">
+			<xs:extension base="SLC-StudentAcademicRecordRestriction">
 				<xs:sequence>
 					<xs:element name="SubmissionCertification"/>
 				</xs:sequence>

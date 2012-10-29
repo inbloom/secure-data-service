@@ -66,6 +66,7 @@ public class SearchResourceServiceTest {
     private ResourceHelper resourceHelper;
 
     @Test(expected = HttpClientErrorException.class)
+    @Ignore
     public void testNotEnoughToken() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=t");
@@ -74,6 +75,7 @@ public class SearchResourceServiceTest {
     }
 
     @Test(expected = HttpClientErrorException.class)
+    @Ignore
     public void testNotEnoughTotalCharacters() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=a%20b");
@@ -89,14 +91,6 @@ public class SearchResourceServiceTest {
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu");
         ServiceResponse serviceResponse = resourceService.list(resource, null, queryUri);
         Assert.assertNotNull(serviceResponse);
-    }
-
-    @Test(expected = HttpClientErrorException.class)
-    public void testNotEnoughCharactersInToken() throws URISyntaxException {
-        setupAuth(EntityNames.STAFF);
-        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=a%20b%20c");
-        resourceService.doFilter(new ApiQuery(queryUri));
-        Assert.fail("should be trown HttpClientErrorException");
     }
 
     @Test
@@ -146,9 +140,11 @@ public class SearchResourceServiceTest {
     public void testCheckAccessibleAsStaff() {
 
         setupAuth(EntityNames.STAFF);
+        SearchResourceService rs = Mockito.spy(resourceService);
 
         // for staff, list of entities should not change
-        List<EntityBody> result = resourceService.checkAccessible(getEntities());
+        Mockito.doReturn(true).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
+        List<EntityBody> result = rs.checkAccessible(getEntities());
         Assert.assertEquals(3, result.size());
     }
 
@@ -157,27 +153,24 @@ public class SearchResourceServiceTest {
 
         setupAuth(EntityNames.TEACHER);
 
-        // mock the list of accessible entities returned by security context
+        // test varied accessibility
         SearchResourceService rs = Mockito.spy(resourceService);
-        Mockito.doReturn(Arrays.asList("1")).when(rs).findAccessible("student");
-        Mockito.doReturn(Arrays.asList("3")).when(rs).findAccessible("section");
-        Mockito.doReturn(Arrays.asList("2")).when(rs).findAccessible("someRandomType");
+        Mockito.doReturn(true).when(rs).isAccessible("student", "1");
+        Mockito.doReturn(false).when(rs).isAccessible("student", "2");
+        Mockito.doReturn(true).when(rs).isAccessible("student", "5");
+        Mockito.doReturn(false).when(rs).isAccessible("section", "1");
+        Mockito.doReturn(true).when(rs).isAccessible("section", "3");
+        Mockito.doReturn(true).when(rs).isAccessible("someRandomType", "1");
         List<EntityBody> result = rs.checkAccessible(getEntities());
         Assert.assertEquals(2, result.size());
         Assert.assertEquals("1", result.get(0).get("id"));
         Assert.assertEquals("3", result.get(1).get("id"));
 
-        Mockito.doReturn(Arrays.asList("1", "2", "5")).when(rs).findAccessible("student");
-        Mockito.doReturn(Arrays.asList()).when(rs).findAccessible("section");
-        result = rs.checkAccessible(getEntities());
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals("1", result.get(0).get("id"));
-        Assert.assertEquals("2", result.get(1).get("id"));
-
-        Mockito.doReturn(null).when(rs).findAccessible("student");
-        Mockito.doReturn(Arrays.asList()).when(rs).findAccessible("section");
+        // test when all entities are inaccessible
+        Mockito.doReturn(false).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
         result = rs.checkAccessible(getEntities());
         Assert.assertEquals(0, result.size());
+
     }
 
     private List<EntityBody> getEntities() {

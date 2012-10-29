@@ -34,6 +34,7 @@ import javax.annotation.Resource;
 import com.mongodb.MongoException;
 
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -55,6 +56,11 @@ import org.slc.sli.domain.Repository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
+
+    @Before
+    public void setUp() {
+        TenantContext.setTenantId("SLIUnitTest");
+    }
 
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
@@ -231,7 +237,6 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCount() {
-        TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());

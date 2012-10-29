@@ -58,7 +58,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     static final Logger LOG = LoggerFactory.getLogger(ElasticSearchRepository.class);
 
-
+    private static ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private ElasticSearchQueryConverter converter;
 
@@ -97,11 +97,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        SearchRequestBuilder srb = getClient().prepareSearch(
-                TenantContext.getTenantId().toLowerCase()).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
-        srb.setQuery(converter.getQuery(neutralQuery));
-        // convert the response to search hits
-        return EntityConverter.toEntityCol(sendRESTQuery(srb.toString()));
+        return EntityConverter.fromSearchJson(queryForSearch(getQuery(neutralQuery, false)));
     }
 
     /**
@@ -110,9 +106,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
      * @param query
      * @return
      */
-    private HttpEntity<String> sendRESTQuery(String query) {
-
-        HttpMethod method = HttpMethod.POST;
+    private HttpEntity<String> query(String url, HttpMethod method, String query, Object[] params) {
         HttpHeaders headers = new HttpHeaders();
 
         // Basic Authentication when username and password are provided
@@ -124,7 +118,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         // make the REST call
         try {
-            return searchTemplate.exchange(esUri, method, entity, String.class, getIndex());
+            return searchTemplate.exchange(url, method, entity, String.class, getIndex());
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
             throw rce;
@@ -136,8 +130,27 @@ public class ElasticSearchRepository implements Repository<Entity> {
         return TenantIdToDbName.convertTenantIdToDbName(TenantContext.getTenantId()).toLowerCase();
     }
 
+    /**
+     * Get ES Query
+     * @param neutralQuery
+     * @return query topost as a body
+     */
+    private String getQuery(NeutralQuery neutralQuery, boolean noFields) {
+        SearchRequestBuilder srb = getClient().prepareSearch(
+                TenantContext.getTenantId().toLowerCase()).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+        srb.setQuery(converter.getQuery(neutralQuery));
+        if (noFields) {
+            srb.setNoFields();
+        }
+        return srb.toString();
+    }
+
+    private HttpEntity<String> queryForSearch(String query) {
+        return query(esUri + "/{tenantId}/_search", HttpMethod.POST, query, new Object[] {getIndex()});
+    }
+
     public void setSearchUrl(String esUrl) {
-        this.esUri = esUrl + "/{tenantId}/_search";
+        this.esUri = esUrl;
     }
 
     public void setSearchTemplate(RestTemplate searchTemplate) {
@@ -209,6 +222,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
         public Map<String, List<Entity>> getEmbeddedData() {
             return null;
         }
+
+        @Override
+        public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
     // Unimplemented methods
@@ -250,7 +269,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        return 0;  // To change body of implemented methods use File | Settings | File Templates.
+        return EntityConverter.fromCountJson(queryForSearch(getQuery(neutralQuery, true)));
     }
 
     @Override
@@ -280,7 +299,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public boolean collectionExists(String collection) {
-        return false;  // To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("ElasticSearchRepository.collectionExists not implemented");
     }
 
     @Override
@@ -333,28 +352,25 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     public static class EntityConverter {
+
+        private static JsonNode getHitsNode(HttpEntity<String> response) throws JsonProcessingException, IOException {
+            return objectMapper.readTree(response.getBody()).get("hits");
+        }
         /**
          * Converts elasticsearch http response to collection of entities
          *
          * @param response
          * @return
          */
-        static Collection<Entity> toEntityCol(HttpEntity<String> response) {
-
-            ObjectMapper mapper = new ObjectMapper();
+        static Collection<Entity> fromSearchJson(HttpEntity<String> response) {
             Collection<Entity> hits = new ArrayList<Entity>();
-            JsonNode node = null;
             try {
-
-                // get the hits from the response
-                node = mapper.readTree(response.getBody());
-                JsonNode hitsNode = node.get("hits").get("hits");
-
+                JsonNode hitsNode = getHitsNode(response).get("hits");
                 SearchHitEntity hit;
 
                 // create a search hit entity object for each hit
                 for (int i = 0; i < hitsNode.size(); i++) {
-                    hit = convertJsonToSearchHitEntity(hitsNode.get(i));
+                    hit = fromSingleSearchJson(hitsNode.get(i));
                     if (hit != null) {
                         hits.add(hit);
                     }
@@ -370,16 +386,15 @@ public class ElasticSearchRepository implements Repository<Entity> {
         /**
          * Converts a json response to a search hit entity
          */
-        static SearchHitEntity convertJsonToSearchHitEntity(JsonNode hitNode) {
+        static SearchHitEntity fromSingleSearchJson(JsonNode hitNode) {
             try {
                 TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
                 };
                 // read the values from the json
-                ObjectMapper mapper = new ObjectMapper();
                 String id = hitNode.get("_id").getTextValue();
                 String type = hitNode.get("_type").getTextValue();
                 JsonNode bodyNode = hitNode.get("_source");
-                Map<String, Object> body = mapper.readValue(bodyNode, tr);
+                Map<String, Object> body = objectMapper.readValue(bodyNode, tr);
                 body.remove("context");
 
                 // create a return the search hit entity
@@ -392,6 +407,16 @@ public class ElasticSearchRepository implements Repository<Entity> {
             }
             return null;
         }
+
+        static long fromCountJson(HttpEntity<String> response) {
+            try {
+                return getHitsNode(response).get("total").asLong();
+            } catch (Throwable t) {
+                LOG.error("Unable to get count from search engine", t);
+            }
+            return 0;
+        }
+
 
     }
 }
