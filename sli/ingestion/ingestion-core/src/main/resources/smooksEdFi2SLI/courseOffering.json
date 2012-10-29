@@ -81,6 +81,7 @@
       },
       {
          "fieldPath":"body.CourseReference",
+         "deprecated" : true,
          "ref":
          {
             "entityType":"course",

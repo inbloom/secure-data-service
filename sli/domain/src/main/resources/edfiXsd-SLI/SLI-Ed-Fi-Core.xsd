@@ -2316,10 +2316,10 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 	<xs:complexType name="SLC-CourseReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for courses during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
-			<!-- xs:appinfo>
+			<xs:appinfo>
 				<sli:applyKeyFields>true</sli:applyKeyFields>
 				<sli:refType>course</sli:refType>
-			</xs:appinfo -->
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -2340,20 +2340,20 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of courses. </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EducationalOrgReference" type="TEMPORARY-EducationalOrgReferenceType">
+			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
-					<!-- xs:appinfo>
+					<xs:appinfo>
 						<sli:keyFieldName>schoolId</sli:keyFieldName>
-					</xs:appinfo -->
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 	        <xs:sequence>
 				<xs:element name="UniqueCourseId" type="SLC-UniqueCourseId">
 					<xs:annotation>
-						<!-- xs:appinfo>
-							<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
-						</xs:appinfo -->
+						<xs:appinfo>
+							<sli:keyFieldName>uniqueCourseId</sli:keyFieldName>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 	        </xs:sequence>
