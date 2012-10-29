@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,9 +227,9 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError().ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), true, false).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError().ok();
             return result;
         }
 
@@ -305,7 +306,7 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false)
+            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE)
                     .getLastError().ok();
         }
 
@@ -536,7 +537,9 @@ public class SubDocAccessor {
 
         private void addParentId(final Set<String> parentIds, final String childId) throws InvalidIdException {
             final String parentId = getParentId(childId);
-            if (childId.equals(parentId)) throw new InvalidIdException("ChildId == ParentId");
+            if (childId.equals(parentId)) {
+                throw new InvalidIdException("ChildId == ParentId");
+            }
             parentIds.add(parentId);
         }
 
