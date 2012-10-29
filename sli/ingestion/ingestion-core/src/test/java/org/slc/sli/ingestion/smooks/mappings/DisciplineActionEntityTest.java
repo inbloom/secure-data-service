@@ -28,13 +28,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for StaffCohortAssociation entity.
@@ -84,25 +83,27 @@ public class DisciplineActionEntityTest {
         assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
+        System.out.println(attributes);
         assertEquals("Expected different number of attributes", 14, attributes.size());
-
         assertEquals("Expected different disciplineActionIdentifier", "cap0-lea0-sch1-da0", attributes.get("disciplineActionIdentifier"));
         assertEquals("Expected different disciplineDate", "2011-03-04", attributes.get("disciplineDate"));
         assertEquals("Expected different disciplineActionLength", 74, attributes.get("disciplineActionLength"));
         assertEquals("Expected different actualDisciplineActionLength", 64, attributes.get("actualDisciplineActionLength"));
         assertEquals("Expected different disciplineActionLengthDifferenceReason", "Term Modified By Mutual Agreement", attributes.get("disciplineActionLengthDifferenceReason"));
 
-        List<Map<String, Object>> studentReferences = (List<Map<String, Object>>) attributes.get("studentReference");
+        List<Map<String, Object>> studentReferences = (List<Map<String, Object>>) attributes.get("StudentReference");
         assertNotNull("Expected non-null list of studentReferences", studentReferences);
         assertEquals("Expected 2 student references", 2, studentReferences.size());
 
         Map<String, Object> studentOuterMap1 = studentReferences.get(0);
-        Map<String, Object> studentInnerMap1 = (Map<String, Object>) studentOuterMap1.get("studentIdentity");
-        assertEquals("Expected different studentUniqueStateId", "900000016", studentInnerMap1.get("studentUniqueStateId"));
+        Map<String, Object> studentInnerMap1 = (Map<String, Object>) studentOuterMap1.get("StudentIdentity");
+        assertEquals("Expected different studentUniqueStateId", "900000016",
+                studentInnerMap1.get("StudentUniqueStateId"));
 
         Map<String, Object> studentOuterMap2 = studentReferences.get(1);
-        Map<String, Object> studentInnerMap2 = (Map<String, Object>) studentOuterMap2.get("studentIdentity");
-        assertEquals("Expected different studentUniqueStateId", "100000017", studentInnerMap2.get("studentUniqueStateId"));
+        Map<String, Object> studentInnerMap2 = (Map<String, Object>) studentOuterMap2.get("StudentIdentity");
+        assertEquals("Expected different studentUniqueStateId", "100000017",
+                studentInnerMap2.get("StudentUniqueStateId"));
 
         List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
         assertNotNull("Expected non-null list of staffReferences", staffReferences);

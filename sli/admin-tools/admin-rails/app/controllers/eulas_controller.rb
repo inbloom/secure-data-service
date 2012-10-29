@@ -31,7 +31,8 @@ class EulasController < ApplicationController
   end
   
   def create
-    if Eula.accepted?(params)
+    begin	  
+     if Eula.accepted?(params)
       protocol=request.env['SERVER_PROTOCOL']
       protocol=protocol[0..-1+protocol.rindex('/')].downcase+"://"
       if (ApplicationHelper.send_user_verification_email(protocol+request.env['HTTP_HOST'], session[:guuid]))
@@ -39,10 +40,14 @@ class EulasController < ApplicationController
       else
         render :account_error
       end
-    else 
+     else 
       ApplicationHelper.remove_user_account session[:guuid]
       redirect_to APP_CONFIG['redirect_slc_url']
     end
+   rescue Exception => e
+   render :noframe_500, :status => 500 
+   end
+
   end
 
   def not_found
