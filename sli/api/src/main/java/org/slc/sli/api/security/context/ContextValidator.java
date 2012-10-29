@@ -110,15 +110,19 @@ public class ContextValidator implements ApplicationContextAware {
          * isTransitive - /v1/staff/<ID>
          */
         boolean isTransitive = request.getPathSegments().size() < 4;
-        IContextValidator validator = findValidator(entityName, isTransitive);
+        String idsString = request.getPathSegments().get(2).getPath();
+        List<String> ids = Arrays.asList(idsString.split(","));
+        validateContextToEntities(entityName, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(String entityType, List<String> entityIds, boolean isTransitive) {
+        IContextValidator validator = findValidator(entityType, isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+            if (!validator.validate(entityType, new HashSet<String>(entityIds))) {
+                if (!exists(entityIds, entityType)) {
+                    throw new EntityNotFoundException("Could not locate " + entityType + "with ids " + entityIds);
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+                throw new AccessDeniedException("Cannot access entities " + entityIds);
             }
         }
     }
