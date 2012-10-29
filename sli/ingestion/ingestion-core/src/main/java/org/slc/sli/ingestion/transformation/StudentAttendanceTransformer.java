@@ -126,7 +126,6 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 event.put("reason", eventReason);
             }
 
-                System.out.println ("JWC, trying update");
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
@@ -149,7 +148,6 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
 
                 Map<String, Object> update = new HashMap<String, Object>();
                 update.put("addToSet", attendanceEventToPush);
-                System.out.println ("JWC, before update");
 
                 WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
                 
