@@ -325,12 +325,29 @@ public class MongoQueryConverter {
         if (neutralQuery != null) {
             // Include fields
             if (neutralQuery.getIncludeFields() != null) {
-                for (String includeField : neutralQuery.getIncludeFields()) {
-                    mongoQuery.fields().include(MONGO_BODY + includeField);
+
+                if (!neutralQuery.getIncludeFields().contains("*")) {
+                    for (String includeField : neutralQuery.getIncludeFields()) {
+                        mongoQuery.fields().include(MONGO_BODY + includeField);
+                    }
+
+                    mongoQuery.fields().include("type");
+                    mongoQuery.fields().include("metaData");
                 }
+            }
+            else {
+                mongoQuery.fields().include("body");
                 mongoQuery.fields().include("type");
                 mongoQuery.fields().include("metaData");
-            } else if (neutralQuery.getExcludeFields() != null) {
+            }
+
+            if (neutralQuery.getEmbeddedFields() != null) {
+                for (String includeField : neutralQuery.getEmbeddedFields()) {
+                    mongoQuery.fields().include(includeField);
+                }
+            }
+
+            if (neutralQuery.getExcludeFields() != null) {
                 for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }

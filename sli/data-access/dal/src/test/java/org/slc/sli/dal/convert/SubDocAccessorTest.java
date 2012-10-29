@@ -40,6 +40,7 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.junit.Before;
@@ -93,9 +94,9 @@ public class SubDocAccessorTest {
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
         when(failCR.get("result")).thenReturn(null);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false))).thenReturn(
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false), eq(WriteConcern.SAFE))).thenReturn(
                 success);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false))).thenReturn(
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false), eq(WriteConcern.SAFE))).thenReturn(
                 success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
@@ -203,7 +204,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
 
     }
 
@@ -239,7 +240,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
         // Test that both fry and gunther get enrolled in history of the 20th century
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -259,7 +260,7 @@ public class SubDocAccessorTest {
                         Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
                         return studentSectionsToPush.length == 2;
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
 
     }
 

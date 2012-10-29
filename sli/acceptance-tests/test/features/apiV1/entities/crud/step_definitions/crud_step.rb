@@ -477,13 +477,13 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
-  expectedPath = expected.gsub("@ids", "[^/]*")
+  expectedPath = expected.gsub("@ids", "[^/]+")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     

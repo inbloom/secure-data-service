@@ -107,7 +107,7 @@ public class DeterministicIdResolver {
                 handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId);
 
             } catch (IdResolutionException e) {
-                handleException(sourceRefPath, referenceEntityType, collectionName, e, errorReport);
+                handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
             }
         }
     }
@@ -227,13 +227,13 @@ public class DeterministicIdResolver {
         }
     }
 
-    private void handleException(String sourceRefPath, String entityType, String collectionName, Exception e,
+    private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             ErrorReport errorReport) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        String errorMessage = "ERROR: Failed to resolve a reference" + "\n       Entity " + entityType
-                + ": Reference to " + collectionName
+        String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
+                + ": Reference to " + referenceType
                 + " is incomplete because the following reference field is not resolved: "
-                + sourceRefPath.substring(sourceRefPath.lastIndexOf('.') + 1);
+                + sourceRefPath;
 
         errorReport.error(errorMessage, this);
     }

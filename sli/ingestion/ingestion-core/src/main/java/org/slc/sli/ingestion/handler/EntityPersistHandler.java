@@ -241,6 +241,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
                 List<Object> keyValues = new ArrayList<Object>();
                 keyValues.add(id);
+                entity.setEntityId(id);
                 memory.put(keyValues, entity);
             }
         } else {

@@ -161,7 +161,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
         // propagate context according to configuration
-        giveContext(entity, entityConfig);
+        giveContext(entity, entityConfig, item.getSourceId());
     }
 
     /**
@@ -189,22 +189,44 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         return expired;
     }
 
-    public void giveContext(Entity entity, EntityConfig entityConfig) {
-        ComplexRefDef complexRefDef = entityConfig.getComplexReference();
-//        if (complexRefDef != null) {
-            // what is this?
-            // -> thinking we'll need this for course lookups
-//        }
+    public void giveContext(Entity entity, EntityConfig entityConfig, String tenantId) {
 
+        String deterministicId = null;
         if (isEducationOrganization(entity.getType())) {
+            // Calculate deterministic id for educationOrganization and school
+            // This is important because the edOrg id is currently used for stamping metaData
+            // during ingestion. Therefore, the id needs to be known now, rather than
+            // waiting till the entity is persisted in the DAL.
+
+            // Normally, NaturalKeyDescriptors are generated based on the sli.xsd, but in this
+            // case, we need to generate one ahead of time (for context stamping), so it will
+            // be built by hand in this case
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            String stateOrganizationId = (String) entity.getBody().get("stateOrganizationId");
+
+            if (tenantId == null ) {
+                LOG.error("Failed to extract tenantId for EducationOrganization");
+            }
+            if (stateOrganizationId == null) {
+                LOG.error("Failed to extract natural key for EducationOrganization");
+            }
+
+            naturalKeys.put("stateOrganizationId", stateOrganizationId);
+
+            NaturalKeyDescriptor descriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
+                    entity.getType(), null);
+            descriptor.setEntityType("educationOrganization");
+
+            deterministicId = deterministicUUIDGeneratorStrategy.generateId(descriptor);
+
             @SuppressWarnings("unchecked")
             List<String> edOrgs = (List<String>) entity.getMetaData().get("edOrgs");
             if (edOrgs != null) {
-                edOrgs.add(entity.getEntityId());
+                edOrgs.add(deterministicId);
                 entity.getMetaData().put("edOrgs", edOrgs);
             } else {
                 List<String> edOrg = new ArrayList<String>();
-                edOrg.add(entity.getEntityId());
+                edOrg.add(deterministicId);
                 entity.getMetaData().put("edOrgs", edOrg);
             }
         }
@@ -239,8 +261,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         // de1550: update program and cohort context
         if (isChildEducationOrganization(entity.getType())) {
-            updateProgramContext(entity);
-            updateCohortContextUsingEdOrg(entity);
+            updateProgramContext(entity, deterministicId);
+            updateCohortContextUsingEdOrg(entity, deterministicId);
         } else if (isCohort(entity.getType())) {
             updateCohortContextUsingCohort(entity);
         }
@@ -303,8 +325,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
     }
 
-    private void updateCohortContextUsingEdOrg(Entity entity) {
+    private void updateCohortContextUsingEdOrg(Entity entity, String deterministicId) {
         LOG.info("updating cohort context for {}: {}", entity.getType(), entity.getBody().get("stateOrganizationId"));
+
+        if (deterministicId == null) {
+            LOG.error("null edOrg deterministicId being used to update cohort context");
+        }
 
         @SuppressWarnings("unchecked")
         List<String> edOrgIds = (List<String>) entity.getMetaData().get("edOrgs");
@@ -324,17 +350,21 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 if (cohortsToUpdate.size() > 0) {
-                    LOG.info("adding id: {} to context for cohorts with ids: {}", entity.getEntityId(), cohortsToUpdate);
-                    updateContext("cohort", "edOrgs", entity.getEntityId(), cohortsToUpdate);
+                    LOG.info("adding id: {} to context for cohorts with ids: {}", deterministicId, cohortsToUpdate);
+                    updateContext("cohort", "edOrgs", deterministicId, cohortsToUpdate);
                 } else {
-                    LOG.info("found no cohorts to update for ed org: {}", entity.getEntityId());
+                    LOG.info("found no cohorts to update for ed org: {}", deterministicId);
                 }
             }
         }
     }
 
-    private void updateProgramContext(Entity entity) {
+    private void updateProgramContext(Entity entity, String deterministicId) {
         LOG.info("updating program context for {}: {}", entity.getType(), entity.getBody().get("stateOrganizationId"));
+
+        if (deterministicId == null) {
+            LOG.error("null edOrg deterministicId being used to update program context");
+        }
 
         @SuppressWarnings("unchecked")
         List<String> edOrgIds = (List<String>) entity.getMetaData().get("edOrgs");
@@ -357,11 +387,11 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
 
                 if (programsToUpdate.size() > 0) {
-                    LOG.info("adding id: {} to context for programs with ids: {}", entity.getEntityId(),
+                    LOG.info("adding id: {} to context for programs with ids: {}", deterministicId,
                             programsToUpdate);
-                    updateContext("program", "edOrgs", entity.getEntityId(), programsToUpdate);
+                    updateContext("program", "edOrgs", deterministicId, programsToUpdate);
                 } else {
-                    LOG.info("found no programs to update for ed org: {}", entity.getEntityId());
+                    LOG.info("found no programs to update for ed org: {}", deterministicId);
                 }
             }
         }
