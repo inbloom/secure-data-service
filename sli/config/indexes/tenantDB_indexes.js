@@ -201,6 +201,7 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
 //profiled - ingestion
 db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
 db["assessment"].ensureIndex({"body.assessmentPeriodDescriptor.codeValue":1});
+db["assessment"].ensureIndex({"body.assessmentTitle":1,"body.academicSubject":1,"body.gradeLevelAssessed":1});
 db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
 db["course"].ensureIndex({"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.manager.impl;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,9 +22,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.slc.sli.dashboard.client.RESTClient;
 import org.slc.sli.dashboard.manager.PortalWSManager;
 import org.slc.sli.dashboard.util.Constants;
-
-
-
 
 /**
  * Retrieves header and footer from Portal WS
@@ -55,7 +51,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     public String getHeader(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
-        } catch (Throwable t) {
+        } catch (Exception ex) {
             return StringUtils.EMPTY;
         }
     }
@@ -65,7 +61,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     public String getFooter(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);
-        } catch (Throwable t) {
+        } catch (Exception ex) {
             return StringUtils.EMPTY;
         }
     }
