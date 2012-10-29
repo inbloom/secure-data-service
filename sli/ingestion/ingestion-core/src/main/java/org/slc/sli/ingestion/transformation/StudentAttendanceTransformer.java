@@ -54,11 +54,11 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  * @author shalka
  */
 @Scope("prototype")
-@Component("attendanceTransformationStrategy")
-public class AttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware{
-    private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
+@Component("studentAttendanceTransformationStrategy")
+public class StudentAttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware{
+    private static final Logger LOG = LoggerFactory.getLogger(StudentAttendanceTransformer.class);
 
-    private static final String ATTENDANCE = "attendance";
+    private static final String ATTENDANCE = "studentAttendance";
     private static final String SCHOOL = "school";
     private static final String SESSION = "session";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
@@ -76,7 +76,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     /**
      * Default constructor.
      */
-    public AttendanceTransformer() {
+    public StudentAttendanceTransformer() {
         attendances = new HashMap<Object, NeutralRecord>();
     }
 
@@ -98,6 +98,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
         attendances = getCollectionFromDb(ATTENDANCE);
+        System.out.println ("attendanceTransformer loadData");
         LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE, attendances.size());
     }
 
@@ -106,6 +107,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     public void transform() {
         LOG.info("Transforming attendance data");
+
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
+            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+            System.out.println ("neutralRecord = " + neutralRecord);
+            Map<String, Object> attributes = neutralRecord.getAttributes();
+            String studentId = (String) attributes.get("studentId");
+        }
+
 
 /*
         Map<String, List<Map<String, Object>>> studentAttendanceEvents = new HashMap<String, List<Map<String, Object>>>();

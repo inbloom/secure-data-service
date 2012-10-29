@@ -53,7 +53,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 
 /**
- * Unit Test for AttendanceTransformer
+ * Unit Test for StudentAttendanceTransformer
  *
  * @author slee
  *
@@ -61,9 +61,9 @@ import org.slc.sli.ingestion.handler.EntityPersistHandler;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 
-public class AttendanceTransformerTest {
+public class StudentAttendanceTransformerTest {
     @Autowired
-    private AttendanceTransformer transformer;
+    private StudentAttendanceTransformer transformer;
 
     @Autowired
     private EntityPersistHandler entityPersistHandler;
