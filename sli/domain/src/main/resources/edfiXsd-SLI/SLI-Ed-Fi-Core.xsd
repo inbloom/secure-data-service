@@ -332,9 +332,12 @@ Met standard
         	</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StudentReference" type="StudentReferenceType">
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:documentation>The student enrolled in the section.</xs:documentation>
+                    <xs:appinfo>
+                      <sli:keyFieldName>studentId</sli:keyFieldName>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SectionReference" type="SLC-SectionReferenceType">
