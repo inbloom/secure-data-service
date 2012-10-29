@@ -30,6 +30,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
@@ -50,6 +51,7 @@ import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -80,6 +82,9 @@ public class SearchResourceService {
     @Autowired
     private ContextResolverStore contextResolverStore;
 
+    @Value("${sli.search.maxUnfilteredResults:1000}")
+    private long maxUnfilteredSearchResultCount;
+
     // keep parameters for ElasticSearch
     // q,
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
@@ -90,8 +95,10 @@ public class SearchResourceService {
 
         // set up query criteria, make query
         ApiQuery apiQuery = prepareQuery(entity, queryUri);
+        if (definition.getService().count(apiQuery) >= maxUnfilteredSearchResultCount) {
+            throw new ResponseTooLargeException();
+        }
         List<EntityBody> finalEntities = retrieveResults(definition, apiQuery);
-
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -148,9 +155,7 @@ public class SearchResourceService {
     }
 
     public List<EntityBody> retrieve(ApiQuery apiQuery, final EntityDefinition definition) {
-        List<EntityBody> entityBodies;
-        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
-        return entityBodies;
+        return (List<EntityBody>) definition.getService().list(apiQuery);
     }
 
     public ApiQuery prepareQuery(String entity, URI queryUri) {
@@ -261,7 +266,7 @@ public class SearchResourceService {
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
-        String queryString = ((String) criteria.getValue()).trim();
+        String queryString = ((String) criteria.getValue()).trim().toLowerCase();
 
         // filter rule:
         // first, token must be at least 1 tokens
@@ -269,24 +274,7 @@ public class SearchResourceService {
         if (tokens == null || tokens.length < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
-
-        // second, one of tokens must have at least 2 characters
-        // third, total number of characters must be at least 3 characters
-        StringBuilder sb = new StringBuilder();
-        int totalCharacters = 0;
-        boolean tokenLengthCriteriaMet = false;
-        int length = 0;
-        for (String token : tokens) {
-            sb.append(" ").append(token.toLowerCase()).append("*");
-            length = token.length();
-            totalCharacters += length;
-            tokenLengthCriteriaMet = tokenLengthCriteriaMet || length >= 2;
-        }
-        if (!tokenLengthCriteriaMet || totalCharacters < 3) {
-            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
-        }
-        // first char will be space
-        criteria.setValue(sb.substring(1).toString());
+        criteria.setValue(StringUtils.join(tokens, "* ") + "*");
     }
 
     private void addContext(ApiQuery apiQuery) {
@@ -298,6 +286,10 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
         apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
+    }
+
+    public void setMaxUnfilteredSearchResultCount(long maxUnfilteredSearchResultCount) {
+        this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
     }
 
     @Component

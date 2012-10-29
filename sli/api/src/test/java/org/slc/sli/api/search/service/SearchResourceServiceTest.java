@@ -66,6 +66,7 @@ public class SearchResourceServiceTest {
     private ResourceHelper resourceHelper;
 
     @Test(expected = HttpClientErrorException.class)
+    @Ignore
     public void testNotEnoughToken() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=t");
@@ -74,6 +75,7 @@ public class SearchResourceServiceTest {
     }
 
     @Test(expected = HttpClientErrorException.class)
+    @Ignore
     public void testNotEnoughTotalCharacters() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=a%20b");
@@ -89,14 +91,6 @@ public class SearchResourceServiceTest {
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu");
         ServiceResponse serviceResponse = resourceService.list(resource, null, queryUri);
         Assert.assertNotNull(serviceResponse);
-    }
-
-    @Test(expected = HttpClientErrorException.class)
-    public void testNotEnoughCharactersInToken() throws URISyntaxException {
-        setupAuth(EntityNames.STAFF);
-        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=a%20b%20c");
-        resourceService.doFilter(new ApiQuery(queryUri));
-        Assert.fail("should be trown HttpClientErrorException");
     }
 
     @Test
