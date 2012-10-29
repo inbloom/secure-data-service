@@ -109,7 +109,6 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
 
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-            System.out.println ("neutralRecord = " + neutralRecord);
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentId = (String) attributes.get("studentId");
             String schoolId = (String) attributes.get("schoolId");
@@ -127,6 +126,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
 
             // try addToSet first and then if fails, insert the record
             try {
+                System.out.println ("JWC, trying update");
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
@@ -136,13 +136,23 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
                 attendanceEvent.add (event);
 
+                // need to use $each operator to add an array with $addToSet
+                Object updateValue = attendanceEvent;
+                if (attendanceEvent instanceof List) {
+                    Map<String, Object> eachList = new HashMap<String, Object>();
+                    eachList.put("$each", attendanceEvent);
+                    updateValue = eachList;
+                }
+
                 Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
-                attendanceEventToPush.put("body.attendanceEvent", attendanceEvent);
+                attendanceEventToPush.put("body.attendanceEvent", updateValue);
 
                 Map<String, Object> update = new HashMap<String, Object>();
                 update.put("addToSet", attendanceEventToPush);
-                getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
-                    ATTENDANCE_TRANSFORMED, getBatchJobId());
+                System.out.println ("JWC, before update");
+
+                getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
+                System.out.println ("JWC, after update");
 
             } catch (Exception e) {
 
@@ -162,6 +172,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 record.setSourceFile(attendances.values().iterator().next().getSourceFile());
                 record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
                 record.setCreationTime(getWorkNote().getRangeMinimum());
+
                 insertRecord(record);
             }
         }
