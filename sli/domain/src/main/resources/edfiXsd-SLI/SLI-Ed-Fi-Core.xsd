@@ -428,42 +428,42 @@ Other</xs:documentation>
 
   <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
        to GraduationPlanReference type -->
-  <xs:complexType name="SLC-StudentSchoolAssociationRestriction">
-    <xs:complexContent>
-      <xs:restriction base="StudentSchoolAssociation">
-        <xs:sequence>
-          <xs:element name="StudentReference" type="StudentReferenceType" />
-          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
-          <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0" />
-          <xs:element name="EntryDate" type="xs:date" />
-          <xs:element name="EntryGradeLevel" type="GradeLevelType" />
-          <xs:element name="EntryType" type="EntryType" minOccurs="0" />
-          <xs:element name="RepeatGradeIndicator" type="xs:boolean" minOccurs="0" />
-          <xs:element name="ClassOf" type="SchoolYearType" minOccurs="0" />
-          <xs:element name="SchoolChoiceTransfer" type="xs:boolean" minOccurs="0" />
-          <xs:element name="ExitWithdrawDate" type="xs:date" minOccurs="0" />
-          <xs:element name="ExitWithdrawType" type="ExitWithdrawType" minOccurs="0" />
-          <xs:element name="EducationalPlans" type="EducationalPlansType" minOccurs="0" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  
-  <xs:complexType name="SLC-StudentSchoolAssociationExtension">
+  <xs:complexType name="SLC-StudentSchoolAssociation">
     <xs:annotation>
+      <xs:documentation/>
         <xs:appinfo>
+          <sli:applyKeyFields>true</sli:applyKeyFields>
           <sli:recordType>studentSchoolAssociation</sli:recordType>
         </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="SLC-StudentSchoolAssociationRestriction">
+      <xs:extension base="ComplexObjectType">
         <xs:sequence>
-          <xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType" minOccurs="0" />
+            <xs:element name="StudentReference" type="SLC-StudentReferenceType" >
+                <xs:annotation>
+                  <xs:documentation/>
+                    <xs:appinfo>
+                      <sli:keyFieldName>studentId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+            <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0" />
+            <xs:element name="EntryDate" type="xs:date" />
+            <xs:element name="EntryGradeLevel" type="GradeLevelType" />
+            <xs:element name="EntryType" type="EntryType" minOccurs="0" />
+            <xs:element name="RepeatGradeIndicator" type="xs:boolean" minOccurs="0" />
+            <xs:element name="ClassOf" type="SchoolYearType" minOccurs="0" />
+            <xs:element name="SchoolChoiceTransfer" type="xs:boolean" minOccurs="0" />
+            <xs:element name="ExitWithdrawDate" type="xs:date" minOccurs="0" /> 
+            <xs:element name="ExitWithdrawType" type="ExitWithdrawType" minOccurs="0" />
+            <xs:element name="EducationalPlans" type="EducationalPlansType" minOccurs="0" />
+            <xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
+  
   <!-- Change type of StudentGradebookEntry.GradebookEntryReference to type GradebookEntryReference -->
   <xs:complexType name="SLC-StudentGradebookEntry">
     <xs:annotation>
