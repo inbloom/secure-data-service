@@ -90,8 +90,6 @@ public class SearchResourceService {
     @Autowired
     private ContextValidator contextValidator;
 
-    Map<String, IContextValidator> validators = new HashMap<String, IContextValidator>();
-
     // keep parameters for ElasticSearch
     // q,
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
@@ -187,7 +185,6 @@ public class SearchResourceService {
 
         List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
-        validators.clear();
 
         // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
@@ -211,15 +208,7 @@ public class SearchResourceService {
     public boolean isAccessible(String toType, String id) {
 
         // get and save validator
-        IContextValidator validator;
-
-        if (validators.containsKey(toType)) {
-            validator = validators.get(toType);
-        } else {
-            validator = contextValidator.findValidator(toType, false);
-            validators.put(toType, validator);
-        }
-
+        IContextValidator validator = contextValidator.findValidator(toType, false);
         // validate. if accessible, add to list
         if (validator != null) {
             Set<String> entityIds = new HashSet<String>();
