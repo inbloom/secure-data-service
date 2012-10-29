@@ -48,10 +48,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StaffToSectionValidatorTest {
+public class StaffToSchoolValidatorTest {
     
     @Autowired
-    private AbstractContextValidator validator;
+    private StaffToSchoolValidator validator;
     
     @Autowired
     private ValidatorTestHelper helper;
@@ -61,8 +61,9 @@ public class StaffToSectionValidatorTest {
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    
+    Set<String> schoolIds;
 
-    private Set<String> sectionIds;
 
     @Before
     public void setUp() throws Exception {
@@ -75,69 +76,76 @@ public class StaffToSectionValidatorTest {
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
-        sectionIds = new HashSet<String>();
+        
+        schoolIds = new HashSet<String>();
     }
     
     @After
     public void tearDown() throws Exception {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
-        repo.deleteAll(EntityNames.SECTION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+
     }
     
     @Test
-    public void testCanValidateValidationType() {
-        assertTrue(validator.canValidate(EntityNames.SECTION, false));
+    public void testCanValidate() {
+        assertTrue(validator.canValidate(EntityNames.SCHOOL, false));
+        assertTrue(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, false));
+        assertFalse(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, true));
+        assertFalse(validator.canValidate(EntityNames.SCHOOL, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
-        assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
-        assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
+        assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }
     
     @Test
-    public void testCanValidateSectionAtSchoolLevel() {
-        String seaId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(helper.STAFF_ID, seaId, false);
-        for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(seaId).getEntityId());
-        }
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+    public void testCanValidateStaffAtSchool() {
+        Entity school = helper.generateEdorgWithParent(null);
+        schoolIds.add(school.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
     
     @Test
-    public void testCanValidateSectionAtStateLevel() {
-        String seaId = helper.generateEdorgWithParent(null).getEntityId();
-        String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
-        String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-        helper.generateStaffEdorg(helper.STAFF_ID, seaId, false);
-        for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(schoolId).getEntityId());
-        }
-        for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(leaId).getEntityId());
-        }
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+    public void testCanValidateStateStaffAtSchool() {
+        Entity sea = helper.generateEdorgWithParent(null);
+        Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        schoolIds.add(school.getEntityId());
+        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
+        
     }
     
     @Test
-    public void testCanNotValidateSectionAcrossEdOrgs() {
-        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(helper.STAFF_ID, edorgId, false);
-        for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(helper.ED_ORG_ID).getEntityId());
+    public void testCanValidateStaffAtSchoolIntersection() {
+        Entity sea = helper.generateEdorgWithParent(null);
+        Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        for (int i = 0; i < 10; ++i) {
+            Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+            helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+            schoolIds.add(school.getEntityId());
         }
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        schoolIds.add(school.getEntityId());
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
     
     @Test
-    public void testCanNotValidateExpiredSection() {
-        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(helper.STAFF_ID, edorgId, true);
-        for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(edorgId).getEntityId());
-        }
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+    public void testCanNotValidateStaffNotAtSchool() {
+        Entity school = helper.generateEdorgWithParent(null);
+        schoolIds.add(school.getEntityId());
+        school = helper.generateEdorgWithParent(null);
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
     
-    
+    @Test
+    public void testCanNotValidateExpiredStaff() {
+        Entity school = helper.generateEdorgWithParent(null);
+        schoolIds.add(school.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), true);
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
+    }
 
 }
