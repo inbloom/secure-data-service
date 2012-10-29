@@ -117,60 +117,55 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
             String schoolYear = (String) attributes.get("schoolYear");
 
             Map<String, Object> event = new HashMap<String, Object>();
-            String eventDate = (String) attributes.get("eventDate");
-            String eventCategory = (String) attributes.get("attendanceEventCategory");
-            event.put("date", eventDate);
-            event.put("event", eventCategory);
+            event.put("date", (String) attributes.get("eventDate"));
+            event.put("event", (String) attributes.get("attendanceEventCategory"));
             if (attributes.containsKey("attendanceEventReason")) {
-                String eventReason = (String) attributes.get("attendanceEventReason");
-                event.put("reason", eventReason);
+                event.put("reason", (String) attributes.get("attendanceEventReason"));
             }
 
-                NeutralQuery query = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-                query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
-                query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
+            NeutralQuery query = new NeutralQuery(1);
+            query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
+            query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+            query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+            query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
-                List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
-                attendanceEvent.add (event);
+            List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
+            attendanceEvent.add (event);
 
-                // need to use $each operator to add an array with $addToSet
-                Object updateValue = attendanceEvent;
-                if (attendanceEvent instanceof List) {
-                    Map<String, Object> eachList = new HashMap<String, Object>();
-                    eachList.put("$each", attendanceEvent);
-                    updateValue = eachList;
-                }
+            // need to use $each operator to add an array with $addToSet
+            Object updateValue = attendanceEvent;
+            if (attendanceEvent instanceof List) {
+                Map<String, Object> eachList = new HashMap<String, Object>();
+                eachList.put("$each", attendanceEvent);
+                updateValue = eachList;
+            }
 
-                Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
-                attendanceEventToPush.put("body.attendanceEvent", updateValue);
+            Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
+            attendanceEventToPush.put("body.attendanceEvent", updateValue);
 
-                Map<String, Object> update = new HashMap<String, Object>();
-                update.put("addToSet", attendanceEventToPush);
+            Map<String, Object> update = new HashMap<String, Object>();
+            update.put("addToSet", attendanceEventToPush);
 
-                WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
-                
-                if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
-                    NeutralRecord record = new NeutralRecord();
-                    record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
-                    record.setRecordType(ATTENDANCE_TRANSFORMED);
-                    record.setBatchJobId(getBatchJobId());
-                    List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
-                    attendanceEvents.add (event);
+            WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
+            
+            if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
+                NeutralRecord record = new NeutralRecord();
+                record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
+                record.setRecordType(ATTENDANCE_TRANSFORMED);
+                record.setBatchJobId(getBatchJobId());
 
-                    Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-                    attendanceAttributes.put("studentId", studentId);
-                    attendanceAttributes.put("schoolId", schoolId);
-                    attendanceAttributes.put("schoolYear", schoolYear);
-                    attendanceAttributes.put("attendanceEvent", attendanceEvents);
-                    record.setAttributes(attendanceAttributes);
-                    record.setSourceFile(attendances.values().iterator().next().getSourceFile());
-                    record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-                    record.setCreationTime(getWorkNote().getRangeMinimum());
+                Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+                attendanceAttributes.put("studentId", studentId);
+                attendanceAttributes.put("schoolId", schoolId);
+                attendanceAttributes.put("schoolYear", schoolYear);
+                attendanceAttributes.put("attendanceEvent", attendanceEvent);
 
-                    insertRecord(record);
-                }
+                record.setAttributes(attendanceAttributes);
+                record.setSourceFile(attendances.values().iterator().next().getSourceFile());
+                record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
+                record.setCreationTime(getWorkNote().getRangeMinimum());
+                insertRecord(record);
+            }
         }
 
         LOG.info("Finished transforming attendance data");
