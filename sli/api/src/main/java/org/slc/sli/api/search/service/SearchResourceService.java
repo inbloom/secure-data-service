@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -43,7 +44,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -51,9 +51,11 @@ import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -84,6 +86,11 @@ public class SearchResourceService {
 
     @Value("${sli.search.maxUnfilteredResults:1000}")
     private long maxUnfilteredSearchResultCount;
+
+    @Autowired
+    private ContextValidator contextValidator;
+
+    Map<String, IContextValidator> validators = new HashMap<String, IContextValidator>();
 
     // keep parameters for ElasticSearch
     // q,
@@ -178,42 +185,48 @@ public class SearchResourceService {
      */
     public List<EntityBody> checkAccessible(List<EntityBody> entities) {
 
-        Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
-
-        // find entity types
-        if (EntityNames.STAFF.equals(user.getType())) {
-            return entities;
-        }
-
-        Map<String, HashSet<String>> accessibleIds = new HashMap<String, HashSet<String>>();
-        for (EntityBody entity : entities) {
-            if (!accessibleIds.containsKey(entity.get("type"))) {
-                accessibleIds.put((String) entity.get("type"), null);
-            }
-        }
-
-        // get all accessible ids for all entity types
-        List<String> allowed = null;
-        for (String toType : accessibleIds.keySet()) {
-            allowed = findAccessible(toType);
-            if (allowed == null) {
-                accessibleIds.put(toType, new HashSet<String>());
-            } else {
-                accessibleIds.put(toType, new HashSet<String>(allowed));
-            }
-        }
-
-        // filter out entities that are not accessible
         List<EntityBody> accessible = new ArrayList<EntityBody>();
+        String toType, entityId;
+
+        // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
-            if (accessibleIds.get(entity.get("type")).contains(entity.get("id"))) {
+
+            toType = (String) entity.get("type");
+            entityId = (String) entity.get("id");
+            if (isAccessible(toType, entityId)) {
                 accessible.add(entity);
             }
         }
-
         return accessible;
     }
 
+
+    /**
+     * Checks if an entity is accessible
+     * @param toType
+     * @param id
+     * @return
+     */
+    public boolean isAccessible(String toType, String id) {
+
+        // get and save validator
+        IContextValidator validator;
+
+        if (validators.containsKey(toType)) {
+            validator = validators.get(toType);
+        } else {
+            validator = contextValidator.findValidator(toType, false);
+            validators.put(toType, validator);
+        }
+
+        // validate. if accessible, add to list
+        if (validator != null) {
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            return validator.validate(toType, entityIds);
+        }
+        return false;
+    }
 
     /**
      * Returns list of accessible ids for one entity type

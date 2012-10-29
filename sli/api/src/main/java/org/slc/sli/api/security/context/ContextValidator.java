@@ -21,6 +21,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -32,14 +41,6 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -82,6 +83,7 @@ public class ContextValidator implements ApplicationContextAware {
         validators.remove(genVal);
         validators.remove(studentVal);
         validators.remove(subEntityVal);
+        validators.add(genVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -137,13 +139,13 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     * 
+     *
      * @param toType
      * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
+    public IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
