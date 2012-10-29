@@ -17,25 +17,20 @@
 
 package org.slc.sli.test.edfi.entities.meta.relations;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.slc.sli.test.DataFidelityType;
-import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
@@ -59,16 +54,13 @@ import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entitiesR1.GraduationPlanType;
 import org.slc.sli.test.edfi.entitiesR1.meta.SuperSectionMeta;
-import org.slc.sli.test.generators.StudentAssessmentGenerator;
-import org.slc.sli.test.generators.GradingPeriodGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
-import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
-import org.slc.sli.test.utils.ValidateSchema;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
     private static Calendar calendar = new GregorianCalendar(2012, 10, 10);
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    private static int uniqueCourseIdCounter = 0;
     
     // toggles for interchanges
     public static boolean INTERCHANGE_ED_ORG = true;
@@ -637,6 +629,7 @@ public final class MetaRelations {
         for (int idNum = 0; idNum < COURSES_PER_SCHOOL; idNum++) {
             
             CourseMeta courseMeta = new CourseMeta("cse" + idNum, schoolMeta);
+            courseMeta.uniqueCourseId = String.valueOf(uniqueCourseIdCounter++);
             
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
