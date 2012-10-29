@@ -25,9 +25,12 @@
         <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -65,9 +68,12 @@
         <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -105,9 +111,12 @@
         <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -145,9 +154,12 @@
         <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -185,9 +197,12 @@
         <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -225,9 +240,12 @@
         <FinalNumericGradeEarned>69</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -265,9 +283,12 @@
         <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -305,9 +326,12 @@
         <FinalNumericGradeEarned>55</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -345,9 +369,12 @@
         <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -385,9 +412,12 @@
         <FinalNumericGradeEarned>96</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -425,9 +455,12 @@
         <FinalNumericGradeEarned>93</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -465,9 +498,12 @@
         <FinalNumericGradeEarned>99</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -505,9 +541,12 @@
         <FinalNumericGradeEarned>71</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -545,9 +584,12 @@
         <FinalNumericGradeEarned>68</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -585,9 +627,12 @@
         <FinalNumericGradeEarned>70</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -625,9 +670,12 @@
         <FinalNumericGradeEarned>67</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -665,9 +713,12 @@
         <FinalNumericGradeEarned>63</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -705,9 +756,12 @@
         <FinalNumericGradeEarned>61</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -745,9 +799,12 @@
         <FinalNumericGradeEarned>59</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -785,9 +842,12 @@
         <FinalNumericGradeEarned>61</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -825,9 +885,12 @@
         <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -865,9 +928,12 @@
         <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -905,9 +971,12 @@
         <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -945,9 +1014,12 @@
         <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -985,9 +1057,12 @@
         <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1025,9 +1100,12 @@
         <FinalNumericGradeEarned>69</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1065,9 +1143,12 @@
         <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1090,9 +1171,12 @@
         <FinalNumericGradeEarned>55</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1130,9 +1214,12 @@
         <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1155,9 +1242,12 @@
         <FinalNumericGradeEarned>96</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1195,9 +1285,12 @@
         <FinalNumericGradeEarned>93</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1235,9 +1328,12 @@
         <FinalNumericGradeEarned>99</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1275,9 +1371,12 @@
         <FinalNumericGradeEarned>71</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1315,9 +1414,12 @@
         <FinalNumericGradeEarned>68</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1355,9 +1457,12 @@
         <FinalNumericGradeEarned>70</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1395,9 +1500,12 @@
         <FinalNumericGradeEarned>67</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1435,9 +1543,12 @@
         <FinalNumericGradeEarned>63</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1475,9 +1586,12 @@
         <FinalNumericGradeEarned>61</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1515,9 +1629,12 @@
         <FinalNumericGradeEarned>59</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-10-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -1555,9 +1672,12 @@
         <FinalNumericGradeEarned>61</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geometry-10</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geometry-10-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>

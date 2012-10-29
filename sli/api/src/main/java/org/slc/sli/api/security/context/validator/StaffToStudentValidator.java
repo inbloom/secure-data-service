@@ -122,6 +122,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(studentIds)));
+        studentQuery.setEmbeddedFieldString("schools");
         Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, studentQuery);
         return students;
     }
