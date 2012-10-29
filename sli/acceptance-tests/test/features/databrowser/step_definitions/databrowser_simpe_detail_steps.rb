@@ -218,9 +218,14 @@ Then /^the error is dismissed$/ do
 
 end
 
-
 Then /^I should click on the Home link and be redirected back$/ do
   #Ignored, should be verified in previous steps
 end
 
+Then /^I should be on the detailed page for an SEA$/ do
+  assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("State Education Agency")}
+end
 
+Then /^I should be on the detailed page for an LEA$/ do
+  assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
+end
