@@ -43,6 +43,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
@@ -95,6 +96,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private ContextResolverStore contextResolverStore;
+
+    @Autowired
+    private ContextValidator contextValidator;
 
     @Autowired
     private SchemaDataProvider provider;
@@ -529,40 +533,51 @@ public class BasicService implements EntityService {
             if (ENABLE_CONTEXT_RESOLVING) {
                 SecurityCriteria securityCriteria = findAccessible(entityType);
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
-            }
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-            int found = 0;
-            if (entities != null) {
-                for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
-                    found++;
-                }
-            }
-
-            if (found != ids.size()) {
-
-                // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
-                // So found won't include any orphaned entities that the user created.
-                // We do an additional query of the referenced fields without any additional
-                // security criteria
-                // and check the isOrphaned and createdBy on each of those
-                neutralQuery = new NeutralQuery();
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(MAX_RESULT_SIZE);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-                String userId = user.getEntity().getEntityId();
-                for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
-                    if (userId.equals(ent.getMetaData().get("createdBy"))
-                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+                int found = 0;
+                if (entities != null) {
+                    for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
                         found++;
                     }
                 }
+
                 if (found != ids.size()) {
-                    debug("{} in {} is not accessible", value, collectionName);
+
+                    // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                    // So found won't include any orphaned entities that the user created.
+                    // We do an additional query of the referenced fields without any additional
+                    // security criteria
+                    // and check the isOrphaned and createdBy on each of those
+                    neutralQuery = new NeutralQuery();
+                    neutralQuery.setOffset(0);
+                    neutralQuery.setLimit(MAX_RESULT_SIZE);
+                    neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+                    String userId = user.getEntity().getEntityId();
+                    for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+
+                        if (userId.equals(ent.getMetaData().get("createdBy"))
+                                && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                            found++;
+                        }
+                    }
+                    if (found != ids.size()) {
+                        debug("{} in {} is not accessible", value, collectionName);
+                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    }
+                }
+            } else {
+                try {
+                    contextValidator.validateContextToEntities(entityType, ids, false);
+                } catch (AccessDeniedException e) {
+                    debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                } catch (EntityNotFoundException e) {
+                    debug("Invalid Reference: {} in {} does not exist", value, collectionName);
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                 }
             }

@@ -26,9 +26,12 @@
         <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Government-4</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Government-4-93</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -65,9 +68,12 @@
         <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 6B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-6B-62</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -104,9 +110,12 @@
         <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Spanish I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Spanish-I-57</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
@@ -143,9 +152,12 @@
         <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-4A-95</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <EducationOrganizationReference>
