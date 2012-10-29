@@ -54,16 +54,16 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class TeacherToSubStudentEntityValidatorTest {
+public class StaffToSubStudentEntityValidatorTest {
 
     @Autowired
-    private TeacherToSubStudentEntityValidator validator;
+    private StaffToSubStudentEntityValidator validator;
 
     @Autowired
     private SecurityContextInjector injector;
 
     private PagingRepositoryDelegate<Entity> mockRepo;
-    private TeacherToStudentValidator teacherToStudentValidator;
+    private StaffToStudentValidator staffToStudentValidator;
     private Set<String> studentIds;
 
     @SuppressWarnings("unchecked")
@@ -71,25 +71,25 @@ public class TeacherToSubStudentEntityValidatorTest {
     public void setUp() {
         studentIds = new HashSet<String>();
         mockRepo = Mockito.mock(PagingRepositoryDelegate.class);
-        teacherToStudentValidator = Mockito.mock(TeacherToStudentValidator.class);
+        staffToStudentValidator = Mockito.mock(StaffToStudentValidator.class);
 
-        String user = "fake teacher";
-        String fullName = "Fake Teacher";
-        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
+        String user = "fake staff";
+        String fullName = "Fake Staff";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
 
         Entity entity = Mockito.mock(Entity.class);
-        Mockito.when(entity.getType()).thenReturn("teacher");
+        Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn("1");
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, "111");
+        injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, "123");
 
         validator.setRepo(mockRepo);
-        validator.setTeacherToStudentValidator(teacherToStudentValidator);
+        validator.setStaffToStudentValidator(staffToStudentValidator);
     }
 
     @After
     public void tearDown() {
         mockRepo = null;
-        teacherToStudentValidator = null;
+        staffToStudentValidator = null;
         studentIds.clear();
         SecurityContextHolder.clearContext();
     }
@@ -156,7 +156,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
         assertTrue(validator.validate(EntityNames.ATTENDANCE, attendances));
     }
 
@@ -171,7 +171,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
         assertFalse(validator.validate(EntityNames.ATTENDANCE, attendances));
     }
 
@@ -187,7 +187,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
@@ -203,7 +203,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
@@ -233,7 +233,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
@@ -249,7 +249,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
 
         assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
@@ -265,22 +265,6 @@ public class TeacherToSubStudentEntityValidatorTest {
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
         assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
-    }
-
-    @Test
-    public void testStringToDateTimeConversion() throws Exception {
-        String convert = "2012-07-22";
-        DateTime converted = validator.getDateTime(convert);
-        assertTrue(converted.getYear() == 2012);
-        assertTrue(converted.getMonthOfYear() == 7);
-        assertTrue(converted.getDayOfMonth() == 22);
-    }
-
-    @Test
-    public void testDateTimeToStringConversion() throws Exception {
-        DateTime convert = new DateTime().withYear(2012).withMonthOfYear(7).withDayOfMonth(22);
-        String converted = validator.getDateTimeString(convert);
-        assertTrue(converted.equals("2012-07-22"));
     }
 
     private Map<String, Object> buildAttendanceForStudent(String studentId, String schoolId) {

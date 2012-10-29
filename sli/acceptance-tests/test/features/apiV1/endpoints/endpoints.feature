@@ -18,5 +18,5 @@ Background: Nothing yet
         | "/staff/#{id}/disciplineIncidents/studentDisciplineIncidentAssociations"| "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineIncidents"                                      | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineActions"                                        | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
-        | "/sections/#{id}/gradebookEntries"                                      | "d17be230-640c-4d41-a10e-b54ec7a90168" |
+        | "/sections/#{id}/gradebookEntries"                                      | "47b5adbf-6fd0-4f07-ba5e-39612da2e234" |
 
