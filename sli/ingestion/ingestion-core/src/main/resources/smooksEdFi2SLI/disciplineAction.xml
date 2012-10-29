@@ -64,7 +64,7 @@
   <!-- DisciplineAction wiring for studentId -->
   <jb:bean beanId="disciplineAction_studentIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
-    <jb:value data="attributes studentId element" />
+    <jb:value data="attributes StudentReference element" />
   </jb:bean>
 
   <!-- DisciplineAction wiring for disciplineIncidentReferenceSchoolId, EdFi model, unused yet -->
