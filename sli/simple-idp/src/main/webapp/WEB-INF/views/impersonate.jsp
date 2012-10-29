@@ -44,6 +44,9 @@
     margin-top: 10px;
 }
 
+.whitespacesm {
+	min-height: 30px;
+}
 
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
@@ -51,11 +54,6 @@
 $(document).ready(function() {
 	$("#manualUserDiv").hide();
 	datasetChanged();
-	
-	$("[rel=tooltip]").tooltip();
-	$('body').popover({
-    	selector: '[rel=popover]'
-	});
 });
 
   function disableTextbox() {
@@ -90,14 +88,15 @@ $(document).ready(function() {
   }  
   function showManualConfig(){
 	  $("#manualUserDiv").show();
-	  $("#manualUserBtn").removeClass("active");
+	  $("#manualUserBtn").toggleClass("active");
 	  $("#sampleUserDiv").hide();
-	  $("#sampleUserBtn").addClass("active");
+	  $("#sampleUserBtn").toggleClass("active");
+	  return false;
   }
 </script>
 </head>
 
-<body onload="document.impersonate_form.datasets.focus();">
+<body>
     <div class="container">
       <div class="hero-unit">
       	<div class="row">
@@ -133,7 +132,7 @@ $(document).ready(function() {
       		</div>
       	</div><!-- end span8 offset4 -->
       </div> <!-- end row -->
-      
+      <div class="whitespacesm"></div>      
 
 	<div id="sampleUserDiv">
 		<form id="impersonate_form" name="impersonate_form" action="impersonate" method="post" class="form-horizontal">
@@ -141,7 +140,7 @@ $(document).ready(function() {
 			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 			<input type="hidden" name="manualConfig" value="false"/>
 			<div class="control-group">
-				<label for="datasets" class="control-label">Select your sample dataset  <i class="icon-question-sign" rel="tooltip" data-placement="bottom" data-original-title="Select the sample dataset you ingested into the Sandbox"></i></label>
+				<label for="datasets" class="control-label">Select your sample dataset</label>
 				<div class="controls">
 				<select id="datasets" name="datasets" class="input-xlarge " onchange="datasetChanged()">
                              <option> </option>
