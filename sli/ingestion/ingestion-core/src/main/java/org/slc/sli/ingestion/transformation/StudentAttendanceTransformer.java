@@ -46,6 +46,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+
+import com.mongodb.WriteResult;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -124,8 +126,6 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 event.put("reason", eventReason);
             }
 
-            // try addToSet first and then if fails, insert the record
-            try {
                 System.out.println ("JWC, trying update");
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
@@ -151,30 +151,28 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 update.put("addToSet", attendanceEventToPush);
                 System.out.println ("JWC, before update");
 
-                getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
-                System.out.println ("JWC, after update");
+                WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
+                
+                if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
+                    NeutralRecord record = new NeutralRecord();
+                    record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
+                    record.setRecordType(ATTENDANCE_TRANSFORMED);
+                    record.setBatchJobId(getBatchJobId());
+                    List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
+                    attendanceEvents.add (event);
 
-            } catch (Exception e) {
+                    Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+                    attendanceAttributes.put("studentId", studentId);
+                    attendanceAttributes.put("schoolId", schoolId);
+                    attendanceAttributes.put("schoolYear", schoolYear);
+                    attendanceAttributes.put("attendanceEvent", attendanceEvents);
+                    record.setAttributes(attendanceAttributes);
+                    record.setSourceFile(attendances.values().iterator().next().getSourceFile());
+                    record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
+                    record.setCreationTime(getWorkNote().getRangeMinimum());
 
-                NeutralRecord record = new NeutralRecord();
-                record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
-                record.setRecordType(ATTENDANCE_TRANSFORMED);
-                record.setBatchJobId(getBatchJobId());
-                List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
-                attendanceEvents.add (event);
-
-                Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-                attendanceAttributes.put("studentId", studentId);
-                attendanceAttributes.put("schoolId", schoolId);
-                attendanceAttributes.put("schoolYear", schoolYear);
-                attendanceAttributes.put("attendanceEvent", attendanceEvents);
-                record.setAttributes(attendanceAttributes);
-                record.setSourceFile(attendances.values().iterator().next().getSourceFile());
-                record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-                record.setCreationTime(getWorkNote().getRangeMinimum());
-
-                insertRecord(record);
-            }
+                    insertRecord(record);
+                }
         }
 
         LOG.info("Finished transforming attendance data");

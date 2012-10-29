@@ -186,10 +186,6 @@ System.out.println ("collectionNameAsStaged = " + collectionNameAsStaged);
 System.out.println ("collectionToPersistFrom = " + collectionToPersistFrom);
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
-if (collectionToPersistFrom.equals ("studentAttendance_transformed")) {
-    collectionToPersistFrom = "studentAttendance";
-}
-
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
