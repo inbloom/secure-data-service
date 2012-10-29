@@ -31,6 +31,7 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +45,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -102,6 +104,11 @@ public class ApplicationAuthorizationResourceTest {
         
     }
 
+    @After
+    public void cleanup() {
+        TenantContext.setTenantId(null);
+    }
+    
     @Test
     public void testGoodCreate() {
         setupAuth("MY-DISTRICT");
@@ -268,6 +275,7 @@ public class ApplicationAuthorizationResourceTest {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEdOrgId(edorg);
         principal.setTenantId("IL");
+        TenantContext.setTenantId("IL");
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
         
