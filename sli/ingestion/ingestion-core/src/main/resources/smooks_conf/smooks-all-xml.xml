@@ -3500,7 +3500,7 @@
 
   <jb:bean beanId="studentDisciplineIncidentAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
-    <jb:wiring property="StudentReference" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference" />
+    <jb:wiring beanIdRef="SLC-StudentDisciplineIncidentAssociation_Attributes_StudentReferenceType" property="StudentReference"/>
     <jb:value property="disciplineIncidentIdentifier" data="StudentDisciplineIncidentAssociation/DisciplineIncidentReference/DisciplineIncident/IncidentIdentifier" />
     <jb:value property="StudentParticipationCode" data="StudentDisciplineIncidentAssociation/StudentParticipationCode" />
     <jb:wiring property="Behaviors" beanIdRef="StudentDisciplineIncidentAssociation_BehaviorsArray" />
@@ -3526,6 +3526,9 @@
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors" />
   </jb:bean>
+  <jb:bean beanId="SLC-StudentDisciplineIncidentAssociation_Attributes_StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference">
+    <jb:wiring beanIdRef="SLC-StudentDisciplineIncidentAssociation_Attributes_StudentReferenceType_StudentIdentityType" property="StudentIdentity"/>
+  </jb:bean>
 
   <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors"
     class="java.util.ArrayList"
@@ -3539,6 +3542,9 @@
     class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/Behaviors/CodeValue">
     <jb:value property="CodeValue" data="StudentDisciplineIncidentAssociation/Behaviors/CodeValue" />
+  </jb:bean>
+  <jb:bean beanId="SLC-StudentDisciplineIncidentAssociation_Attributes_StudentReferenceType_StudentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity">
+    <jb:value data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" property="StudentUniqueStateId"/>
   </jb:bean>
 
   <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription"

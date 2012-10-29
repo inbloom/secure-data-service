@@ -460,6 +460,31 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
   
+    <xs:complexType name="SLC-StudentDisciplineIncidentAssociation">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:recordType>studentDisciplineIncidentAssociation</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="StudentReference" type="SLC-StudentReferenceType">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <sli:keyFieldName>studentId</sli:keyFieldName>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DisciplineIncidentReference" type="ReferenceType" />
+                    <xs:element name="StudentParticipationCode" type="StudentParticipationCodeType" />
+                    <xs:element name="Behaviors" type="BehaviorDescriptorType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
   <!-- Change type of StudentSchoolAssociation.GraduationPlanReference
        to GraduationPlanReference type -->
   <xs:complexType name="SLC-StudentSchoolAssociation">
