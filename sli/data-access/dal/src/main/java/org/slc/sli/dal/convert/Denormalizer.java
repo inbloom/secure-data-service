@@ -44,6 +44,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Denormalizer {
 
     private final Map<String, Denormalization> denormalizations = new HashMap<String, Denormalization>();
+    private final Map<String, Map<String,Entity>> denormalizationHelperCache = new HashMap<String, Map<String, Entity>>();
 
     private final MongoTemplate template;
 
@@ -57,13 +58,14 @@ public class Denormalizer {
             String toEntity = EmbeddedDocumentRelations.getDenormalizeToEntity(entityType);
             String field = EmbeddedDocumentRelations.getDenormalizedToField(entityType);
             Map<String, String> referenceKeys = EmbeddedDocumentRelations.getReferenceKeys(entityType);
+            Map<String,String> cachedReferenceKey = EmbeddedDocumentRelations.getCachedRefKeys(entityType);
             String idKey = EmbeddedDocumentRelations.getDenormalizedIdKey(entityType);
             List<String> denormalizedBodyFields = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
             List<String> denormalizedMetaFields = EmbeddedDocumentRelations.getDenormalizedMetaFields(entityType);
 
             if (toEntity != null && referenceKeys != null) {
                 denormalize(entityType).data(denormalizedBodyFields, denormalizedMetaFields).to(toEntity).as(field)
-                        .using(referenceKeys).idKey(idKey).register();
+                        .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).register();
             }
         }
     }
@@ -86,6 +88,7 @@ public class Denormalizer {
         private String idKey;
         private List<String> bodyFields;
         private List<String> metaFields;
+        private Map<String,String> cachedEntityRefKey;
 
         public DenormalizationBuilder(String type) {
             super();
@@ -118,10 +121,16 @@ public class Denormalizer {
             return this;
         }
 
+        public DenormalizationBuilder withCache(Map<String,String> cachedReferenceKey) {
+            this.cachedEntityRefKey = cachedReferenceKey;
+            return this;
+        }
+
         public void register() {
             denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, bodyFields,
-                    metaFields));
+                    metaFields, cachedEntityRefKey));
         }
+
 
     }
 
@@ -138,21 +147,24 @@ public class Denormalizer {
         private List<String> denormalizedBodyFields;
         private List<String> denormalizedMetaDataFields;
         private String denormalizedToField;
+        private Map<String,String> cachedEntityRefKey;
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
-                List<String> denormalizedFields) {
+                List<String> denormalizedFields, Map<String,String> cachedEntityRefKey) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.denormalizationReferenceKeys = denormalizationReferenceKeys;
             this.denormalizedIdKey = denormalizedIdKey;
             this.denormalizedBodyFields = denormalizedFields;
+            this.cachedEntityRefKey = cachedEntityRefKey;
         }
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
-                List<String> denormalizedBodyFields, List<String> denormalizedMetaDataFields) {
+                List<String> denormalizedBodyFields, List<String> denormalizedMetaDataFields
+                , Map<String,String> cachedEntityRefKey) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
@@ -160,6 +172,7 @@ public class Denormalizer {
             this.denormalizedIdKey = denormalizedIdKey;
             this.denormalizedBodyFields = denormalizedBodyFields;
             this.denormalizedMetaDataFields = denormalizedMetaDataFields;
+            this.cachedEntityRefKey = cachedEntityRefKey;
         }
 
         public boolean create(Entity entity) {
@@ -176,15 +189,37 @@ public class Denormalizer {
 
             for (Map.Entry<String, String> entry : denormalizationReferenceKeys.entrySet()) {
                 String value = (String) body.get(entry.getKey());
+                String queryKey = entry.getValue();
 
-                if (entry.getValue().equals("_id")) {
-                    parentQuery.addCriteria(new Criteria(entry.getValue()).is(value));
+                if((value == null ) || value.isEmpty() ) {
+                    Entity entity = denormalizationHelperCache.get(entry.getKey()).get(body.get(entry.getValue()));
+                    if(entity == null) {
+                        continue;
+                    }
+                    for (Map.Entry<String,String> refEntry : cachedEntityRefKey.entrySet()) {
+                        String refKey = refEntry.getKey();
+                        if (refKey.equals("_id")) {
+                            value = entity.getEntityId();
+                        }   else {
+                            value = (String)entity.getBody().get(refKey);
+                        }
+                        queryKey = refEntry.getValue();
+                        addToParentQuery(parentQuery,queryKey,value);
+                    }
                 } else {
-                    parentQuery.addCriteria(new Criteria("body." + entry.getValue()).is(value));
+                    addToParentQuery(parentQuery,queryKey, value);
                 }
             }
 
             return parentQuery.getQueryObject();
+        }
+
+        private void addToParentQuery(final Query parentQuery, String queryKey, String value) {
+            if (queryKey.equals("_id")) {
+                parentQuery.addCriteria(new Criteria(queryKey).is(value));
+            } else {
+                parentQuery.addCriteria(new Criteria("body." + queryKey).is(value));
+            }
         }
 
         private BasicDBObject getDbObject(Entity entity) {
@@ -383,5 +418,15 @@ public class Denormalizer {
 
     public Denormalization denormalization(String docType) {
         return denormalizations.get(docType);
+    }
+    public boolean isCached(String docType) {
+        return EmbeddedDocumentRelations.isCached(docType);
+    }
+    public void addToCache(List<Entity> entityList, String collectionName) {
+        Map<String,Entity> entityCache = new HashMap<String, Entity>();
+        for (Entity entity: entityList) {
+            entityCache.put(entity.getEntityId(),entity);
+        }
+        denormalizationHelperCache.put(collectionName,entityCache);
     }
 }
