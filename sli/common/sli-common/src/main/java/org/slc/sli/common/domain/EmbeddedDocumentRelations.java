@@ -17,6 +17,7 @@
 package org.slc.sli.common.domain;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,7 +57,10 @@ public class EmbeddedDocumentRelations {
         // -> required for staff context resolvers
         denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
                 "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
-
+        
+        denormalizationMap.put("studentAttendance", new Denormalization("student", "attendances", studentReferenceMap,
+                "_id", null));
+        
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
