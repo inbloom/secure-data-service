@@ -47,11 +47,11 @@ import org.slc.sli.ingestion.dal.NeutralRecordRepository;
  * @author shalka
  */
 @Scope("prototype")
-@Component("studentAttendanceTransformationStrategy")
-public class StudentAttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware {
-    private static final Logger LOG = LoggerFactory.getLogger(StudentAttendanceTransformer.class);
+@Component("attendanceTransformationStrategy")
+public class AttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware {
+    private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
-    private static final String ATTENDANCE = "studentAttendance";
+    private static final String ATTENDANCE = "attendance";
     //private static final String SCHOOL = "school";
     //private static final String SESSION = "session";
     //private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
@@ -71,7 +71,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
     /**
      * Default constructor.
      */
-    public StudentAttendanceTransformer() {
+    public AttendanceTransformer() {
         this.attendances = new HashMap<Object, NeutralRecord>();
     }
     
@@ -105,7 +105,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
         NeutralRecordRepository neutralRecordRepository = super.getNeutralRecordMongoAccess().getRecordRepository();
         
         Map<String, String> naturalKeys = new HashMap<String, String>();
-        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "studentAttendance", null);
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "attendance", null);
         
         
 
