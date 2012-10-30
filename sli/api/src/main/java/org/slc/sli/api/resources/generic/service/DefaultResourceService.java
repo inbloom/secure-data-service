@@ -326,6 +326,7 @@ public class DefaultResourceService implements ResourceService {
             final ApiQuery apiQuery = getApiQuery(baseEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+            apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
 
             for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
                 @SuppressWarnings("unchecked")

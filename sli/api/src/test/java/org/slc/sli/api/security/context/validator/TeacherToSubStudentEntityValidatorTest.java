@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
@@ -161,10 +177,12 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testCanGetAccessToCurrentStudentSchoolAssociation() throws Exception {
-        Map<String, Object> goodStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123", new DateTime().plusHours(1));
+        Map<String, Object> goodStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123",
+                new DateTime().plusHours(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, goodStudentSchoolAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
 
@@ -178,8 +196,9 @@ public class TeacherToSubStudentEntityValidatorTest {
     public void testCanGetAccessToStudentSchoolAssociationWithoutExitWithdrawDate() throws Exception {
         Map<String, Object> goodStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123");
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, goodStudentSchoolAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
 
@@ -191,10 +210,12 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testDeniedAccessToExpiredStudentSchoolAssociation() throws Exception {
-        Map<String, Object> badStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123", new DateTime().minusDays(1));
+        Map<String, Object> badStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123",
+                new DateTime().minusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, badStudentSchoolAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
         assertFalse(validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
@@ -202,10 +223,12 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testCanGetAccessToCurrentStudentSectionAssociation() throws Exception {
-        Map<String, Object> goodStudentSectionAssociation = buildStudentSectionAssociation("student123", "section123", new DateTime().plusDays(1));
+        Map<String, Object> goodStudentSectionAssociation = buildStudentSectionAssociation("student123", "section123",
+                new DateTime().plusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, goodStudentSectionAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
 
@@ -219,8 +242,9 @@ public class TeacherToSubStudentEntityValidatorTest {
     public void testCanGetAccessToStudentSectionAssociationWithoutEndDate() throws Exception {
         Map<String, Object> goodStudentSectionAssociation = buildStudentSectionAssociation("student123", "section123");
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, goodStudentSectionAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
 
@@ -232,10 +256,12 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testDeniedAccessToExpiredStudentSectionAssociation() throws Exception {
-        Map<String, Object> badStudentSectionAssociation = buildStudentSchoolAssociation("student123", "section123", new DateTime().minusDays(1));
+        Map<String, Object> badStudentSectionAssociation = buildStudentSchoolAssociation("student123", "section123",
+                new DateTime().minusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, badStudentSectionAssociation);
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class))).thenReturn(
-                Arrays.asList(association));
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
         assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
@@ -277,7 +303,8 @@ public class TeacherToSubStudentEntityValidatorTest {
         return association;
     }
 
-    private Map<String, Object> buildStudentSchoolAssociation(String studentId, String schoolId, DateTime exitWithdrawDate) {
+    private Map<String, Object> buildStudentSchoolAssociation(String studentId, String schoolId,
+            DateTime exitWithdrawDate) {
         Map<String, Object> association = new HashMap<String, Object>();
         association.put("studentId", studentId);
         association.put("schoolId", schoolId);

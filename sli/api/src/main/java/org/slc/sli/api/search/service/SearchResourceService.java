@@ -25,11 +25,13 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.slf4j.Logger;
@@ -42,7 +44,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -50,8 +51,11 @@ import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -80,6 +84,12 @@ public class SearchResourceService {
     @Autowired
     private ContextResolverStore contextResolverStore;
 
+    @Value("${sli.search.maxUnfilteredResults:1000}")
+    private long maxUnfilteredSearchResultCount;
+
+    @Autowired
+    private ContextValidator contextValidator;
+
     // keep parameters for ElasticSearch
     // q,
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
@@ -90,8 +100,10 @@ public class SearchResourceService {
 
         // set up query criteria, make query
         ApiQuery apiQuery = prepareQuery(entity, queryUri);
+        if (definition.getService().count(apiQuery) >= maxUnfilteredSearchResultCount) {
+            throw new ResponseTooLargeException();
+        }
         List<EntityBody> finalEntities = retrieveResults(definition, apiQuery);
-
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -148,9 +160,7 @@ public class SearchResourceService {
     }
 
     public List<EntityBody> retrieve(ApiQuery apiQuery, final EntityDefinition definition) {
-        List<EntityBody> entityBodies;
-        entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
-        return entityBodies;
+        return (List<EntityBody>) definition.getService().list(apiQuery);
     }
 
     public ApiQuery prepareQuery(String entity, URI queryUri) {
@@ -173,42 +183,40 @@ public class SearchResourceService {
      */
     public List<EntityBody> checkAccessible(List<EntityBody> entities) {
 
-        Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
-
-        // find entity types
-        if (EntityNames.STAFF.equals(user.getType())) {
-            return entities;
-        }
-
-        Map<String, HashSet<String>> accessibleIds = new HashMap<String, HashSet<String>>();
-        for (EntityBody entity : entities) {
-            if (!accessibleIds.containsKey(entity.get("type"))) {
-                accessibleIds.put((String) entity.get("type"), null);
-            }
-        }
-
-        // get all accessible ids for all entity types
-        List<String> allowed = null;
-        for (String toType : accessibleIds.keySet()) {
-            allowed = findAccessible(toType);
-            if (allowed == null) {
-                accessibleIds.put(toType, new HashSet<String>());
-            } else {
-                accessibleIds.put(toType, new HashSet<String>(allowed));
-            }
-        }
-
-        // filter out entities that are not accessible
         List<EntityBody> accessible = new ArrayList<EntityBody>();
+        String toType, entityId;
+
+        // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
-            if (accessibleIds.get(entity.get("type")).contains(entity.get("id"))) {
+
+            toType = (String) entity.get("type");
+            entityId = (String) entity.get("id");
+            if (isAccessible(toType, entityId)) {
                 accessible.add(entity);
             }
         }
-
         return accessible;
     }
 
+
+    /**
+     * Checks if an entity is accessible
+     * @param toType
+     * @param id
+     * @return
+     */
+    public boolean isAccessible(String toType, String id) {
+
+        // get and save validator
+        IContextValidator validator = contextValidator.findValidator(toType, false);
+        // validate. if accessible, add to list
+        if (validator != null) {
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            return validator.validate(toType, entityIds);
+        }
+        return false;
+    }
 
     /**
      * Returns list of accessible ids for one entity type
@@ -261,7 +269,7 @@ public class SearchResourceService {
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
-        String queryString = ((String) criteria.getValue()).trim();
+        String queryString = ((String) criteria.getValue()).trim().toLowerCase();
 
         // filter rule:
         // first, token must be at least 1 tokens
@@ -269,24 +277,7 @@ public class SearchResourceService {
         if (tokens == null || tokens.length < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
-
-        // second, one of tokens must have at least 2 characters
-        // third, total number of characters must be at least 3 characters
-        StringBuilder sb = new StringBuilder();
-        int totalCharacters = 0;
-        boolean tokenLengthCriteriaMet = false;
-        int length = 0;
-        for (String token : tokens) {
-            sb.append(" ").append(token.toLowerCase()).append("*");
-            length = token.length();
-            totalCharacters += length;
-            tokenLengthCriteriaMet = tokenLengthCriteriaMet || length >= 2;
-        }
-        if (!tokenLengthCriteriaMet || totalCharacters < 3) {
-            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
-        }
-        // first char will be space
-        criteria.setValue(sb.substring(1).toString());
+        criteria.setValue(StringUtils.join(tokens, "* ") + "*");
     }
 
     private void addContext(ApiQuery apiQuery) {
@@ -298,6 +289,10 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
         apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
+    }
+
+    public void setMaxUnfilteredSearchResultCount(long maxUnfilteredSearchResultCount) {
+        this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
     }
 
     @Component

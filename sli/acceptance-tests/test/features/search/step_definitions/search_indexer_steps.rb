@@ -33,8 +33,8 @@ After do |scenario|
   collections = ["student","section"]
   collections.each do |collection|
     entity_collection = db[collection]
-    entity_collection.remove("metaData.tenantId" => {"$in" => ["Midgar"]})
-    if entity_collection.find("metaData.tenantId" => {"$in" => ["Midgar"]}).count.to_s != "0"
+    entity_collection.remove("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]})
+    if entity_collection.find("metaData.tenantId" => {"$in" => ["02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"]}).count.to_s != "0"
       result = "false"
     end
   end
@@ -52,7 +52,7 @@ end
 
 Given /^I DELETE to clear the Indexer$/ do
   @format = "application/json;charset=utf-8"
-  url = PropLoader.getProps['elastic_search_address'] + "/midgar"
+  url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
   restHttpDeleteAbs(url)
   assert(@res != nil, "Response from rest-client POST is nil")
   puts @res
@@ -149,7 +149,7 @@ Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
   indexCount = 0
   sleep 2
   while (numTries < max && !done)
-    url = PropLoader.getProps['elastic_search_address'] + "/midgar/_count"
+    url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_count"
     restHttpGetAbs(url)
     assert(@res != nil, "Response from rest-client POST is nil")
     puts @res
@@ -169,7 +169,7 @@ Then /^Indexer should have "(.*?)" entities$/ do |numEntities|
 end
 
 Given /^I search in Elastic Search for "(.*?)"$/ do |query|
-  url = PropLoader.getProps['elastic_search_address'] + "/midgar/_search?q=" + query
+  url = PropLoader.getProps['elastic_search_address'] + "/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/_search?q=" + query
   restHttpGetAbs(url)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -180,25 +180,28 @@ Given /^"(.*?)" hit is returned$/ do |expectedHits|
   assert(expectedHits.to_i == hits.to_i, "Expected: #{expectedHits} Actual: #{hits}")
 end
 
+Given /^I search in API for "(.*?)"$/ do |query|
+  url = PropLoader.getProps["dashboard_api_server_uri"] + "/api/rest/v1/search/student?q=" + query
+  restHttpGetAbs(url)
+  assert(@res != nil, "Response from rest-client GET is nil")  
+end
+
 Given /^I see the following fields:$/ do |table|
+  @table = table
   json = JSON.parse(@res.body)
   arrayOfHits = json["hits"]["hits"]
-  arrayOfHits.each do |hit|
-    table.hashes.each do |row|
-      field = row["Field"]
-      currentHit = hit
-      value = nil
-      while (field.include? ".")
-        delimiter = field.index('.') + 1
-        length = field.length - delimiter
-        current = field[0..delimiter-2]
-        field = field[delimiter,length]
-        currentHit = currentHit[current]   
-      end
-      value = currentHit[field]
-      assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
-    end
-  end
+  verifyElementsOnResponse(arrayOfHits, @table)   
+end
+
+Then /^I see the following search results:$/ do |table|
+  json = JSON.parse(@res.body)
+  @table = table
+  verifyElementsOnResponse(json, @table)
+end
+
+Then /^no search results are returned$/ do
+  response = JSON.parse(@res.body)
+  assert(response == [], "Error: Unauthorized student data is accessible")  
 end
 
 def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
@@ -211,14 +214,8 @@ def fileCopy(sourcePath, destPath = PropLoader.getProps['elastic_search_inbox'])
   FileUtils.cp sourcePath, destPath  
 end
 
-Given /^I search in API for "(.*?)"$/ do |query|
-  url = PropLoader.getProps["dashboard_api_server_uri"] + PropLoader.getProps["student_search_api_query"] + query
-  restHttpGetAbs(url)
-  assert(@res != nil, "Response from rest-client GET is nil")  
-end
-
-Then /^I see the following search results:$/ do |table|
-  response = JSON.parse(@res.body)
+def verifyElementsOnResponse(arrayOfElements, table)
+  arrayOfElements.each do |response|
     table.hashes.each do |row|
       field = row["Field"]
       currentRes = response
@@ -228,17 +225,10 @@ Then /^I see the following search results:$/ do |table|
         length = field.length - delimiter      
         current = field[0..delimiter-2]        
         field = field[delimiter,length]  
-        if currentRes == response
-          currentRes = currentRes[current]
-        end      
+        currentRes = currentRes[current]   
       end          
       value = currentRes[field]
       assert(value == row["Value"], "Expected #{row["Value"]} Actual #{value}" )
     end
+  end
 end
-
-Then /^no search results are returned$/ do
-  response = JSON.parse(@res.body)
-  assert(response == [], "Error: Unauthorized student data is accessible")  
-end
-
