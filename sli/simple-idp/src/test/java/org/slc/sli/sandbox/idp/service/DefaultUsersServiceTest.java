@@ -40,6 +40,7 @@ public class DefaultUsersServiceTest {
     @Test
     public void testGetAvailableDatasets() {
         service.setDatasetList("one,List One,two,List Two");
+        service.initDatasets();
         
         List<Dataset> result = service.getAvailableDatasets();
         assertEquals(2, result.size());
@@ -52,6 +53,9 @@ public class DefaultUsersServiceTest {
     
     @Test
     public void testGetSmallDatasetUsers() throws IOException, JSONException {
+        service.setDatasetList("TestDataset,The Test Dataset");
+        service.initDatasets();
+        service.initUserLists();
         List<DefaultUser> users = service.getUsers("TestDataset");
         assertNotNull(users);
         assertEquals(2, users.size());
@@ -71,6 +75,9 @@ public class DefaultUsersServiceTest {
     
     @Test
     public void testGetUser() {
+        service.setDatasetList("TestDataset,The Test Dataset");
+        service.initDatasets();
+        service.initUserLists();
         DefaultUser user = service.getUser("TestDataset", "linda.kim");
         
         assertEquals("linda.kim", user.getUserId());

@@ -20,7 +20,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -40,60 +44,69 @@ public class DefaultUsersService {
     @Value("${sli.simple-idp.sandbox.users}")
     private String datasetList;
     
+    private List<Dataset> datasets;
+    private Map<String, List<DefaultUser>> userLists;
     
+    /**
+     * For unit tests
+     * @param datasetList
+     */
     void setDatasetList(String datasetList) {
         this.datasetList = datasetList;
     }
 
-    /**
-     * Holds role information.
-     * 
-     */
-    public static class DefaultUser {
-        String userId, name, role, association;
-        
-        public DefaultUser(String userId, String name, String role, String association) {
-            this.userId = userId;
-            this.name = name;
-            this.role = role;
-            this.association = association;
-        }
-        
-        public String getName() {
-            return name;
-        }
-        
-        public String getUserId() {
-            return userId;
-        }
-        
-        public String getRole() {
-            return role;
-        }
-        
-        public String getAssociation() {
-            return association;
-        }
-    }
-    
-    public List<Dataset> getAvailableDatasets() {
-        List<Dataset> result = new ArrayList<Dataset>();
+    @PostConstruct
+    public void initDatasets(){
+        datasets = new ArrayList<Dataset>();
         if (datasetList != null) {
             String[] values = datasetList.split(",");
             for (int i = 0; i < values.length; i += 2) {
-                result.add(new Dataset(values[i], values[i + 1]));
+                String key = values[i];
+                datasets.add(new Dataset(key, values[i + 1]));
             }
         }
-        return result;
+    }
+    
+    @PostConstruct
+    public void initUserLists(){
+        userLists = new HashMap<String, List<DefaultUser>>();
+        for (Dataset dataset : datasets) {
+            String key = dataset.getKey();
+            userLists.put(key, buildUserList(key));
+        }
+    }
+    
+    /**
+     * Get the list of datasets that are configured
+     * @return
+     */
+    public List<Dataset> getAvailableDatasets() {
+        return datasets;
     }
     
     /**
      * Returns available default users for provided dataset
-     * 
-     * @throws IOException
-     * @throws JSONException
      */
     public List<DefaultUser> getUsers(String dataset) {
+        return userLists.get(dataset);
+    }
+    
+    /**
+     * Get the user info for the given userId in the given dataset
+     * @param dataset
+     * @param userId
+     * @return
+     */
+    public DefaultUser getUser(String dataset, String userId) {
+        for(DefaultUser user : getUsers(dataset)){
+            if(user.getUserId().equals(userId)){
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    private List<DefaultUser> buildUserList(String dataset){
         List<DefaultUser> users = new ArrayList<DefaultUser>();
         try {
             String jsonData = readFile(dataset + ".json");
@@ -114,7 +127,6 @@ public class DefaultUsersService {
         }
         return users;
     }
-    
     private String readFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader()
                 .getResourceAsStream(file)));
@@ -147,12 +159,34 @@ public class DefaultUsersService {
         
     }
 
-    public DefaultUser getUser(String dataset, String userId) {
-        for(DefaultUser user : getUsers(dataset)){
-            if(user.getUserId().equals(userId)){
-                return user;
-            }
+    /**
+     * DefaultUser information.
+     * 
+     */
+    public static class DefaultUser {
+        String userId, name, role, association;
+        
+        public DefaultUser(String userId, String name, String role, String association) {
+            this.userId = userId;
+            this.name = name;
+            this.role = role;
+            this.association = association;
         }
-        return null;
+        
+        public String getName() {
+            return name;
+        }
+        
+        public String getUserId() {
+            return userId;
+        }
+        
+        public String getRole() {
+            return role;
+        }
+        
+        public String getAssociation() {
+            return association;
+        }
     }
 }
