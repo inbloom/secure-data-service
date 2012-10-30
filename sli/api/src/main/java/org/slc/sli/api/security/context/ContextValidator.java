@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javax.ws.rs.core.PathSegment;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -95,11 +98,18 @@ public class ContextValidator implements ApplicationContextAware {
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
 
-        if (request.getPathSegments().size() < 3) {
+        List<PathSegment> segs = request.getPathSegments();
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
+            if (i.next().getPath().isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        if (segs.size() < 3) {
             return;
         }
 
-        String rootEntity = request.getPathSegments().get(1).getPath();
+        String rootEntity = segs.get(1).getPath();
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
         if (def == null) {
             return;
@@ -110,13 +120,15 @@ public class ContextValidator implements ApplicationContextAware {
          * !isTransitive - /v1/staff/<ID>/disciplineActions
          * isTransitive - /v1/staff/<ID>
          */
-        boolean isTransitive = request.getPathSegments().size() < 4;
-        String idsString = request.getPathSegments().get(2).getPath();
+        boolean isTransitive = segs.size() < 4;
+        String idsString = segs.get(2).getPath();
         Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
         validateContextToEntities(def, ids, isTransitive);
     }
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
+        
+        //exists call requires a Set to function correctly, so convert to Set if necessary
         Set<String> idSet = null;
         if (entityIds instanceof Set) {
             idSet = (Set<String>) entityIds;

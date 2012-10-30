@@ -32,7 +32,7 @@ public class StaffToCourseOfferingValidator extends AbstractContextValidator {
 		
 		info("Validating {}'s access to courseOfferings: [{}]",SecurityUtil.getSLIPrincipal().getName(),ids);
 		
-		Set<String> lineage = this.getLineage();
+		Set<String> lineage = this.getStaffEdorgLineage();
 		
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id","in",ids));
 		nq.addCriteria(new NeutralCriteria("body.schoolId", "in", lineage));
