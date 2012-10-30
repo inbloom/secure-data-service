@@ -22,10 +22,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
-public class StaffToCourseOfferingValidatorTest {
+public class StaffToEducationOrganizationValidatorTest {
 
 	@Resource
-	private StaffToCourseOfferingValidator val;
+	private StaffToEducationOrganizationAssociationValidator val;
 
 	@Resource
 	private SecurityContextInjector injector;
@@ -37,12 +37,12 @@ public class StaffToCourseOfferingValidatorTest {
 
 	@Test
 	public void testCanValidate() {
-		Assert.assertTrue("Must be able to validate",val.canValidate(EntityNames.COURSE_OFFERING, false));
+		Assert.assertTrue("Must be able to validate",val.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, false));
 		Assert.assertFalse("Must not be able to validate",val.canValidate(EntityNames.ADMIN_DELEGATION, false));
 	}
 	
 	@Test
 	public void testValidation() {
-		Assert.assertFalse(val.validate(EntityNames.COURSE_OFFERING, new HashSet<String>(Arrays.asList("lamb"))));
+		Assert.assertFalse(val.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, new HashSet<String>(Arrays.asList("lamb"))));
 	}
 }
