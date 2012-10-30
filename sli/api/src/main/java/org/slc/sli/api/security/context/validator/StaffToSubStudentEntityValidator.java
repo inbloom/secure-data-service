@@ -28,8 +28,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -53,29 +51,19 @@ import org.slc.sli.domain.NeutralQuery;
 public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
     private StaffToStudentValidator validator;
 
-    /**
-     * Determines if the entity type is a sub-entity of student.
-     */
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF)
-                && isSubEntityOfStudent(entityType);
+        return isStaff() && isSubEntityOfStudent(entityType);
     }
 
-    /**
-     * Determines if the staff can see the set of entities specified by 'ids'.
-     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));
-        Iterable<Entity> entities = repo.findAll(entityType, query);
+        Iterable<Entity> entities = getRepo().findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
@@ -109,22 +97,12 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
     }
 
     /**
-     * Sets the paging repository delegate (for unit testing).
-     *
-     * @param repo
-     *            Paging Delete Repository to use.
-     */
-    public void setRepo(PagingRepositoryDelegate<Entity> repo) {
-        this.repo = repo;
-    }
-
-    /**
      * Sets the staff to student validator (for unit testing).
      *
      * @param staffToStudentValidator
      *            Staff To Student Validator.
      */
-    public void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
+    protected void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
         this.validator = staffToStudentValidator;
     }
 }

@@ -20,7 +20,7 @@
 
   <jb:bean beanId="staffProgramAssocoiationBody" class="java.util.HashMap" createOnElement="attributes">
 
-    <jb:value property="staffId" data="attributes staffId" />
+    <jb:value property="staffId" data="attributes StaffReference" />
 
     <jb:value property="programId" data="attributes programId" />
 

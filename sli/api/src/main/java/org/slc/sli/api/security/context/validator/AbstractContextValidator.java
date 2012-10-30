@@ -8,6 +8,9 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -16,9 +19,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * Abstract class that all context validators must extend.
+ */
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
@@ -104,10 +108,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected String getDateTimeString(DateTime convert) {
         return convert.toString(fmt);
     }
+
+    /**
+     * Determines if the user is of type 'staff'.
+     *
+     * @return True if user is of type 'staff', false otherwise.
+     */
     protected boolean isStaff() {
         return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-    
+
     protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
         DateTime expirationDate = DateTime.now();
         int numDays = Integer.parseInt(gracePeriod);
@@ -115,7 +125,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         if (body.containsKey(fieldName)) {
             String dateStringToCheck = (String) body.get(fieldName);
             DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
-            
+
             return dateToCheck.isBefore(expirationDate);
         }
         return false;
@@ -129,22 +139,17 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(edorg)));
         Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
         Set<String> children = new HashSet<String>();
-        for(Entity child : childrenIds) {
+        for (Entity child : childrenIds) {
             children.add(child.getEntityId());
         }
         edorg.addAll(getChildEdOrgs(children));
         return edorg;
     }
-    
-    protected Repository<Entity> getRepo() {
-    	return this.repo;
-    }
-
 
     /**
      * Will go through staffEdorgAssociations that are current and get the descendant
      * edorgs that you have.
-     * 
+     *
      * @return a set of the edorgs you are associated to and their children.
      */
     protected Set<String> getStaffEdorgLineage() {
@@ -161,5 +166,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorgLineage.addAll(getChildEdOrgs(edorgLineage));
         return edorgLineage;
+    }
+
+    protected Repository<Entity> getRepo() {
+        return this.repo;
+    }
+
+    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
+        this.repo = repo;
     }
 }

@@ -91,7 +91,8 @@
         }
     },
     {
-        "fieldPath" : "body.teacherId",
+        "fieldPath" : "body.TeacherReference",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "staff",
@@ -101,10 +102,10 @@
 	            [
 		            {
 		           	    "path" : "body.staffUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.teacherId"
-		                }]
+                        "values" :
+                        [{
+                            "valueSource" : "body.TeacherReference.StaffIdentity.StaffUniqueStateId"
+                        }]
 		            }
 	            ]
 	        ]
