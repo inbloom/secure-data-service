@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require 'OpenSSL'
+require 'openssl'
 
 def generateKey  
 	aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
