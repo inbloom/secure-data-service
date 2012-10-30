@@ -18,12 +18,10 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -35,9 +33,6 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class StaffToSectionValidator extends AbstractContextValidator {
 
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return through == false && entityType.equals(EntityNames.SECTION) && isStaff();
@@ -46,13 +41,12 @@ public class StaffToSectionValidator extends AbstractContextValidator {
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        NeutralQuery basicQuery;
         Set<String> edorgLineage = getStaffEdorgLineage();
 
         for (String id : ids) {
-            basicQuery = new NeutralQuery(
+        	NeutralQuery basicQuery = new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id));
-            Entity section = repo.findOne(EntityNames.SECTION, basicQuery);
+            Entity section = getRepo().findOne(EntityNames.SECTION, basicQuery);
             String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
             if (!edorgLineage.contains(schoolId)) {
                 return false;

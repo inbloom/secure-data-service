@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -52,9 +51,6 @@ import org.slc.sli.domain.NeutralQuery;
 public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
     private StaffToStudentValidator validator;
 
     @Override
@@ -67,7 +63,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));
-        Iterable<Entity> entities = repo.findAll(entityType, query);
+        Iterable<Entity> entities = getRepo().findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
@@ -98,16 +94,6 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
         }
 
         return validator.validate(EntityNames.STUDENT, students);
-    }
-
-    /**
-     * Sets the paging repository delegate (for unit testing).
-     *
-     * @param repo
-     *            Paging Delete Repository to use.
-     */
-    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
-        this.repo = repo;
     }
 
     /**

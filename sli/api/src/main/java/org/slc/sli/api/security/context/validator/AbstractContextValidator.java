@@ -18,7 +18,11 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
+/**
+ * Abstract class that all context validators must extend.
+ */
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
@@ -162,5 +166,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorgLineage.addAll(getChildEdOrgs(edorgLineage));
         return edorgLineage;
+    }
+
+    protected Repository<Entity> getRepo() {
+        return this.repo;
+    }
+
+    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
+        this.repo = repo;
     }
 }
