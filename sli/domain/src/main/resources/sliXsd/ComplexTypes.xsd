@@ -6622,7 +6622,7 @@
 				unique per school year attendance.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentAttendance</sli:CollectionType>
+				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
