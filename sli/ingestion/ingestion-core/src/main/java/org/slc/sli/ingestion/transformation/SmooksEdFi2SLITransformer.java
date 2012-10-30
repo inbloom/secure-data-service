@@ -29,20 +29,27 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * EdFi to SLI transformer based on Smooks
- *
+ * 
  * @author okrook
- *
+ * 
  */
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
+
+    private final String EDFI_STUDENT_REFERENCE = "StudentReference";
+    private final String SLI_STUDENT_REFERENCE = "studentId";
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -73,6 +80,21 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             String externalId = (String) item.getLocalId();
             if (externalId != null) {
                 entity.getMetaData().put("externalId", externalId);
+            }
+
+            if (EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(entity.getType())) {
+                // Because the studentAssessmentAssociation goes through a Combiner
+                // during the first Smooks translation. It would be quite complicated
+                // to use Smooks mapping for the second Smooks translation.
+                // All that needs doing is renaming the references from Ed-Fi names
+                // to SLI names.
+                Object ref = entity.getBody().remove(EDFI_STUDENT_REFERENCE);
+                if (ref instanceof String) {
+                    String studentId = (String) ref;
+                    entity.getBody().put(SLI_STUDENT_REFERENCE, studentId);
+                } else {
+                    LOG.error("Unable to map 'studentId' in studentAssessmentAssociation. Expected a String.");
+                }
             }
 
             return Arrays.asList(entity);

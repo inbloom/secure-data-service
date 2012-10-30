@@ -125,6 +125,11 @@ public class SectionValidationTest {
             }
 
             @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+                return null;
+            }
+
+            @Override
             public String getStagedEntityId() {
                 return null;
             }

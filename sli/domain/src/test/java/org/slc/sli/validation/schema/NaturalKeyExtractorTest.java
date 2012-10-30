@@ -29,6 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
@@ -75,6 +76,7 @@ public class NaturalKeyExtractorTest {
 
         Entity e = setup();
 
+        TenantContext.setTenantId("someTenant");
         NaturalKeyDescriptor desc = naturalKeyExtractor.getNaturalKeyDescriptor(e);
         Map<String, String> naturalKeys = desc.getNaturalKeys();
 
@@ -233,7 +235,6 @@ public class NaturalKeyExtractorTest {
         String entityType = "entityType";
         Entity e = createEntity(entityType);
         e.getBody().put("someField", "someValue");
-        e.getMetaData().put("tenantId", "someTenant");
 
         mockSchema = new StringSchema(entityType);
         Mockito.when(entitySchemaRegistry.getSchema(entityType)).thenReturn(mockSchema);
@@ -293,6 +294,11 @@ public class NaturalKeyExtractorTest {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
                 return null;
             }
 

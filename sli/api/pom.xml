@@ -40,7 +40,7 @@
           <type>test-jar</type>
           <version>${project.version}</version>
           <scope>test</scope>
-        </dependency>        
+        </dependency>
 
         <dependency>
             <groupId>org.slc.sli.modeling</groupId>
@@ -272,24 +272,6 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <classesClassifier>classes</classesClassifier>
-                    <webResources>
-                       <resource>
-                               <directory>../config/indexes/</directory>
-                               <targetPath>../classes</targetPath>
-                               <filtering>true</filtering>
-                               <includes>
-                                   <include>**/tenantDB_indexes.js</include>
-                               </includes>
-                           </resource>
-                           <resource>
-                               <directory>../config/shards/</directory>
-                               <targetPath>../classes</targetPath>
-                               <filtering>true</filtering>
-                               <includes>
-                                   <include>**/sli-shard-presplit.js</include>
-                               </includes>
-                           </resource>
-                    </webResources>
                 </configuration>
             </plugin>
 

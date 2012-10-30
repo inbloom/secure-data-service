@@ -18,14 +18,10 @@ package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
@@ -33,17 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -51,26 +37,41 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+
+/**
+ * Unit tests for teacher --> student context validator.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TeacherToStudentValidatorTest {
-    
+
+    private static final String ED_ORG_ID = "111";
+
+    private static final String TEACHER_ID = "1";
+
     @Autowired
     private TeacherToStudentValidator validator;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
-    @Value("${sli.security.gracePeriod}")
-    private String gracePeriod;
 
+    @Autowired
     private PagingRepositoryDelegate<Entity> mockRepo;
-    
+
+    @Autowired
+    private ValidatorTestHelper helper;
+
     private Set<String> studentIds;
-    
-    private String badDate;
+    private String programId;
 
     @Before
     public void setUp() {
@@ -78,163 +79,245 @@ public class TeacherToStudentValidatorTest {
         String user = "fake teacher";
         String fullName = "Fake Teacher";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
-        
+
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("teacher");
-        Mockito.when(entity.getEntityId()).thenReturn("1");
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, "111");
-        mockRepo = mock(PagingRepositoryDelegate.class);
-        validator.setRepo(mockRepo);
-        
-        studentIds = new HashSet<String>();
-        
-        badDate = "2001-01-01";
+        Mockito.when(entity.getEntityId()).thenReturn(TEACHER_ID);
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
 
+        studentIds = new HashSet<String>();
+        programId = helper.generateProgram().getEntityId();
     }
-    
+
     @After
     public void tearDown() {
-        mockRepo = null;
+        mockRepo.deleteAll(EntityNames.TEACHER_SECTION_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery());
+        cleanProgramCohorts();
         SecurityContextHolder.clearContext();
+    }
+
+    private void cleanProgramCohorts() {
+        mockRepo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.COHORT, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.PROGRAM, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
     }
 
     @Test
     public void testCanValidateTeacherToStudent() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT));
+        assertTrue(validator.canValidate(EntityNames.STUDENT, false));
     }
-    
+
     @Test
     public void testCanNotValidateOtherEntities() throws Exception {
-        assertFalse(validator.canValidate(EntityNames.ATTENDANCE));
+        assertFalse(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
-    
+
     @Test
     public void testCanGetAccessThroughSingleValidStudent() throws Exception {
-        Map<String, Object> tsaBody = generateTSA("1", "3", false);
-        Entity tsa = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
-        Map<String, Object> ssaBody = generateSSA("2", "3", false);
-        Entity ssa = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
-
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(ssa));
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(tsa));
-        studentIds.add("3");
-        assertTrue(validator.validate(studentIds));
+        helper.generateTSA(TEACHER_ID, "3", false);
+        helper.generateSSA("2", "3", false);
+        studentIds.add("2");
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidStudent() throws Exception {
-        Map<String, Object> tsaBody = generateTSA("1", "-1", false);
-        Entity tsa = new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, tsaBody);
-        Map<String, Object> ssaBody = generateSSA("2", "3", false);
-        Entity ssa = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, ssaBody);
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(ssa));
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(Arrays.asList(tsa));
-        studentIds.add("3");
-        assertFalse(validator.validate(studentIds));
+        helper.generateTSA(TEACHER_ID, "-1", false);
+
+        helper.generateSSA("2", "3", false);
+
+        studentIds.add("2");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughManyStudents() throws Exception {
-        List<Entity> tsas = new ArrayList<Entity>();
+
         for (int i = 0; i < 100; ++i) {
-            tsas.add(new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, generateTSA("1", "" + i, false)));
+            helper.generateTSA(TEACHER_ID, "" + i, false);
         }
-        List<Entity> ssas = new ArrayList<Entity>();
+
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("" + j, "" + i, false)));
+                helper.generateSSA("" + j, "" + i, false);
                 studentIds.add("" + j);
             }
         }
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(ssas);
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(tsas);
-        assertTrue(validator.validate(studentIds));
+
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
+    @Test
+    public void testCanGetAccessThroughStudentsWithManySections() throws Exception {
+
+        helper.generateTSA(TEACHER_ID, "0", false);
+
+        for (int i = 0; i < 10; ++i) {
+            helper.generateSSA("2", String.valueOf(i), false);
+            studentIds.add("2");
+        }
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
     @Test
     public void testCanNotGetAccessThroughManyStudents() throws Exception {
-        List<Entity> tsas = new ArrayList<Entity>();
+
         for (int i = 100; i < 200; ++i) {
-            tsas.add(new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, generateTSA("1", "" + i, false)));
+            helper.generateTSA(TEACHER_ID, "" + i, false);
         }
-        List<Entity> ssas = new ArrayList<Entity>();
+
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("" + j, "" + i, false)));
+                helper.generateSSA("" + j, "" + i, false);
                 studentIds.add("" + j);
             }
         }
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(ssas);
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(tsas);
-        assertFalse(validator.validate(studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughManyStudentsWithOneFailure() throws Exception {
-        List<Entity> tsas = new ArrayList<Entity>();
+
         for (int i = 0; i < 100; ++i) {
-            tsas.add(new MongoEntity(EntityNames.TEACHER_SECTION_ASSOCIATION, generateTSA("1", "" + i, false)));
+            helper.generateTSA(TEACHER_ID, "" + i, false);
         }
-        List<Entity> ssas = new ArrayList<Entity>();
+
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("" + j, "" + i, false)));
+                helper.generateSSA("" + j, "" + i, false);
                 studentIds.add("" + j);
             }
         }
-        ssas.add(new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, generateSSA("" + -32, "" + 101, false)));
-        studentIds.add("" + -32);
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(ssas);
-        
-        Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
-                .thenReturn(tsas);
-        assertFalse(validator.validate(studentIds));
+        helper.generateSSA("-32", "101", false);
+        studentIds.add("-32");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
-    private Map<String, Object> generateSSA(String studentId, String sectionId, boolean isExpired) {
-        Map<String, Object> ssaBody = new HashMap<String, Object>();
-        ssaBody.put(ParameterConstants.SECTION_ID, sectionId);
-        ssaBody.put(ParameterConstants.STUDENT_ID, studentId);
-        if (isExpired) {
-            ssaBody.put(ParameterConstants.END_DATE, badDate);
+    @Test
+    public void testCanGetAccessThroughValidCohort() throws Exception {
+        helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
+        helper.generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
         }
-        return ssaBody;
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
-    private Map<String, Object> generateTSA(String teacherId, String sectionId, boolean isExpired) {
-        Map<String, Object> tsaBody = new HashMap<String, Object>();
-        tsaBody.put("teacherId", teacherId);
-        tsaBody.put("sectionId", sectionId);
-        if (isExpired) {
-            tsaBody.put(ParameterConstants.END_DATE, badDate);
-        }
 
-        return tsaBody;
+    @Test
+    public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
+
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
+        helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
+        helper.generateStaffCohort(TEACHER_ID, cohortId, false, false);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
+        helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = helper.generateCohort(ED_ORG_ID).getEntityId();
+        helper.generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentCohort(i + "", "" + i * -1, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughCohortOutsideOfEdorg() throws Exception {
+        helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        String cohortId = helper.generateCohort("122").getEntityId();
+        helper.generateStaffCohort(TEACHER_ID, cohortId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentCohort(i + "", cohortId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCohortAccessIntersectionRules() throws Exception {
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanGetAccessThroughValidProgram() throws Exception {
+        String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        helper.generateTeacherSchool(TEACHER_ID, edOrgId);
+
+        helper.generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughExpiredProgram() throws Exception {
+
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughDeniedProgram() throws Exception {
+        String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        helper.generateTeacherSchool(TEACHER_ID, edOrgId);
+
+        helper.generateStaffProgram(TEACHER_ID, programId, false, false);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughInvalidProgram() throws Exception {
+        String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
+        helper.generateTeacherSchool(TEACHER_ID, edOrgId);
+
+        helper.generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentProgram(i + "", "" + i * -1, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testCanNotGetAccessThroughProgramOutsideOfEdorg() throws Exception {
+        helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
+        helper.generateEdorgWithProgram(Arrays.asList(programId));
+
+        helper.generateStaffProgram(TEACHER_ID, programId, false, true);
+        for (int i = 0; i < 10; ++i) {
+            helper.generateStudentProgram(i + "", programId, false);
+            studentIds.add(i + "");
+        }
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testProgramAccessIntersectionRules() throws Exception {
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
 }

@@ -17,9 +17,19 @@
 package org.slc.sli.domain;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import org.bson.BasicBSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -27,18 +37,13 @@ import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
  * for convert from and to DBObject
- * 
+ *
  * @author Dong Liu dliu@wgen.net
- * 
+ *
  */
 public class MongoEntity implements Entity, Serializable {
 
@@ -56,13 +61,11 @@ public class MongoEntity implements Entity, Serializable {
     private final CalculatedData<String> calculatedData;
     private final CalculatedData<Map<String, Integer>> aggregates;
     private final Map<String, List<Entity>> embeddedData;
-
-    private static final List<String> BASE_ATTRIBUTES = Arrays.asList("_id", "body", "type", "metaData",
-            "calculatedValues", "aggregations");
+    private final Map<String, List<Map<String, Object>>> denormalizedData;
 
     /**
      * Default constructor for the MongoEntity class.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -74,7 +77,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Specify the type, id, body, and metadata for the Mongo Entity using this constructor.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param id
@@ -102,11 +105,12 @@ public class MongoEntity implements Entity, Serializable {
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
         this.embeddedData = new HashMap<String, List<Entity>>();
+        this.denormalizedData = new HashMap<String, List<Map<String, Object>>>();
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             CalculatedData<String> calculatedData, CalculatedData<Map<String, Integer>> aggregates,
-            Map<String, List<Entity>> embeddedData) {
+            Map<String, List<Entity>> embeddedData, Map<String, List<Map<String, Object>>> denormalizedData) {
         this.type = type;
         this.entityId = id;
         this.body = body == null ? new BasicBSONObject() : body;
@@ -114,6 +118,8 @@ public class MongoEntity implements Entity, Serializable {
         this.calculatedData = calculatedData == null ? new CalculatedData<String>() : calculatedData;
         this.aggregates = aggregates == null ? new CalculatedData<Map<String, Integer>>() : aggregates;
         this.embeddedData = embeddedData == null ? new HashMap<String, List<Entity>>() : embeddedData;
+        this.denormalizedData = denormalizedData == null ? new HashMap<String, List<Map<String, Object>>>()
+                : denormalizedData;
     }
 
     @Override
@@ -139,7 +145,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables encryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -150,7 +156,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables decryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -207,7 +213,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Convert the specified db object to a Mongo Entity.
-     * 
+     *
      * @param dbObj
      *            DBObject that need to be converted to MongoEntity
      * @return converted MongoEntity from DBObject
@@ -233,21 +239,22 @@ public class MongoEntity implements Entity, Serializable {
                 .get("aggregations");
 
         Map<String, List<Entity>> embeddedData = extractEmbeddedData(dbObj);
+        Map<String, List<Map<String, Object>>> denormalizedData = extractDenormalizedData(dbObj);
 
         return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals),
-                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData);
+                new CalculatedData<Map<String, Integer>>(aggs, "aggregate"), embeddedData, denormalizedData);
     }
 
     @SuppressWarnings("unchecked")
     private static Map<String, List<Entity>> extractEmbeddedData(DBObject dbObj) {
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
+
         for (String key : dbObj.keySet()) {
-            // if (!BASE_ATTRIBUTES.contains(key)) {
             if (EmbeddedDocumentRelations.getSubDocuments().contains(key)) {
-                List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
+                List<DBObject> values = (List<DBObject>) dbObj.get(key);
                 List<Entity> subEntityList = new ArrayList<Entity>();
-                for(Map<String, Object> subEntity : values) {
-                   subEntityList.add(fromDBObject((DBObject)subEntity));
+                for (DBObject subEntity : values) {
+                    subEntityList.add(fromDBObject(subEntity));
                 }
                 embeddedData.put(key, subEntityList);
             }
@@ -256,9 +263,24 @@ public class MongoEntity implements Entity, Serializable {
         return embeddedData;
     }
 
+    @SuppressWarnings("unchecked")
+    private static Map<String, List<Map<String, Object>>> extractDenormalizedData(DBObject dbObj) {
+        String type = (String) dbObj.get("type");
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+
+        for (String key : dbObj.keySet()) {
+            if (EmbeddedDocumentRelations.isDenormalization(type, key)) {
+                List<Map<String, Object>> values = (List<Map<String, Object>>) dbObj.get(key);
+                denormalized.put(key, values);
+            }
+        }
+
+        return denormalized;
+    }
+
     /**
      * Create and return a Mongo Entity.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -287,5 +309,10 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, List<Entity>> getEmbeddedData() {
         return embeddedData;
+    }
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+        return denormalizedData;
     }
 }

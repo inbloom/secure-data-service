@@ -36,9 +36,9 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCompetencyObjective.xml" />
       </bean>
     </entry>
-    <entry key="studentTranscriptAssociation">
+    <entry key="courseTranscript">
       <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/courseTranscript.xml" />
       </bean>
     </entry>
     <entry key="program">
@@ -134,6 +134,16 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSectionAssociation.xml" />
       </bean>
     </entry>
+    <entry key="teacherSchoolAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="staffEducationOrganizationAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
+      </bean>
+    </entry>
     <entry key="studentAcademicRecord">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAcademicRecord.xml" />
@@ -149,7 +159,23 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradebookEntry.xml" />
       </bean>
     </entry>
+    <entry key="studentSchoolAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSchoolAssociation.xml" />
+      </bean>
+    </entry>
   </util:map>
+
+  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
+    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
+    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="xsdParentLocation" value="classpath:edfiXsd" />
+    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
+  </bean>
+  
+  <bean id="deterministicIdResolver" class="org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver">
+  	<property name="didSchemaParser" ref="didSchemaParser" />
+  </bean>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true" depends-on="stageTrackingAspect">
     <property name="entityConfigurations" ref="entityConfigurationsFactory" />
@@ -170,13 +196,6 @@
 
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
-  </bean>
-
-  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
-    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
-    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
-    <property name="xsdParentLocation" value="classpath:edfiXsd" />
-    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
   </bean>
 
 </beans>

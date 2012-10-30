@@ -19,10 +19,8 @@ package org.slc.sli.dal.convert;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -37,6 +35,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+
 /**
  * Utility for denormalizing entities
  *
@@ -44,11 +43,12 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class Denormalizer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Denormalizer.class);
-
     private final Map<String, Denormalization> denormalizations = new HashMap<String, Denormalization>();
 
     private final MongoTemplate template;
+
+    private static final String PARENT_REFERENCE = "parentEducationAgencyReference";
+    private static final String EDUCATION_ORGANIZATION = "educationOrganization";
 
     public Denormalizer(MongoTemplate template) {
         this.template = template;
@@ -58,10 +58,12 @@ public class Denormalizer {
             String field = EmbeddedDocumentRelations.getDenormalizedToField(entityType);
             Map<String, String> referenceKeys = EmbeddedDocumentRelations.getReferenceKeys(entityType);
             String idKey = EmbeddedDocumentRelations.getDenormalizedIdKey(entityType);
-            List<String> denormalizedFields = EmbeddedDocumentRelations.getDenormalizedFields(entityType);
+            List<String> denormalizedBodyFields = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
+            List<String> denormalizedMetaFields = EmbeddedDocumentRelations.getDenormalizedMetaFields(entityType);
 
             if (toEntity != null && referenceKeys != null) {
-                denormalize(entityType).data(denormalizedFields).to(toEntity).as(field).using(referenceKeys).idKey(idKey).register();
+                denormalize(entityType).data(denormalizedBodyFields, denormalizedMetaFields).to(toEntity).as(field)
+                        .using(referenceKeys).idKey(idKey).register();
             }
         }
     }
@@ -82,7 +84,8 @@ public class Denormalizer {
         private final String type;
         private Map<String, String> referenceKeys;
         private String idKey;
-        private List<String> fields;
+        private List<String> bodyFields;
+        private List<String> metaFields;
 
         public DenormalizationBuilder(String type) {
             super();
@@ -104,8 +107,9 @@ public class Denormalizer {
             return this;
         }
 
-        public DenormalizationBuilder data(List<String> fields) {
-            this.fields = fields;
+        public DenormalizationBuilder data(List<String> bodyFields, List<String> metaFields) {
+            this.bodyFields = bodyFields;
+            this.metaFields = metaFields;
             return this;
         }
 
@@ -115,7 +119,8 @@ public class Denormalizer {
         }
 
         public void register() {
-            denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, fields));
+            denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, bodyFields,
+                    metaFields));
         }
 
     }
@@ -130,17 +135,31 @@ public class Denormalizer {
         private String denormalizeToEntity;
         private Map<String, String> denormalizationReferenceKeys;
         private String denormalizedIdKey;
-        private List<String> denormalizedFields;
+        private List<String> denormalizedBodyFields;
+        private List<String> denormalizedMetaDataFields;
         private String denormalizedToField;
 
-        public Denormalization(String type, String denormalizeToEntity, String denormalizedToField, Map<String, String> denormalizationReferenceKeys,
-                               String denormalizedIdKey, List<String> denormalizedFields) {
+        public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
+                Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
+                List<String> denormalizedFields) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.denormalizationReferenceKeys = denormalizationReferenceKeys;
             this.denormalizedIdKey = denormalizedIdKey;
-            this.denormalizedFields = denormalizedFields;
+            this.denormalizedBodyFields = denormalizedFields;
+        }
+
+        public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
+                Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
+                List<String> denormalizedBodyFields, List<String> denormalizedMetaDataFields) {
+            this.type = type;
+            this.denormalizeToEntity = denormalizeToEntity;
+            this.denormalizedToField = denormalizedToField;
+            this.denormalizationReferenceKeys = denormalizationReferenceKeys;
+            this.denormalizedIdKey = denormalizedIdKey;
+            this.denormalizedBodyFields = denormalizedBodyFields;
+            this.denormalizedMetaDataFields = denormalizedMetaDataFields;
         }
 
         public boolean create(Entity entity) {
@@ -170,6 +189,7 @@ public class Denormalizer {
 
         private BasicDBObject getDbObject(Entity entity) {
             Map<String, Object> body = entity.getBody();
+            Map<String, Object> meta = entity.getMetaData();
             BasicDBObject dbObj = new BasicDBObject();
             String internalId = null;
 
@@ -179,16 +199,54 @@ public class Denormalizer {
                 internalId = (String) body.get(denormalizedIdKey);
             }
 
-            //add the id field
+            // add the id field
             dbObj.put("_id", internalId);
 
-            for (String field : denormalizedFields) {
-                if (body.containsKey(field)) {
-                    dbObj.put(field, body.get(field));
+            if (denormalizedBodyFields != null) {
+                for (String field : denormalizedBodyFields) {
+                    if (body.containsKey(field)) {
+                        dbObj.put(field, body.get(field));
+                    }
                 }
             }
 
+            if (denormalizedMetaDataFields != null) {
+                for (String field : denormalizedMetaDataFields) {
+                    if (meta.containsKey(field)) {
+                        dbObj.put(field, meta.get(field));
+                    }
+                }
+            }
+
+            if (denormalizedIdKey.equals("schoolId")) {
+                dbObj.put("edOrgs", new ArrayList<String>(fetchLineage(internalId)));
+            }
+
             return dbObj;
+        }
+
+        /**
+         * Fetches the education organization lineage for the specified education organization id.
+         * Use
+         * sparingly, as this will recurse up the education organization hierarchy.
+         *
+         * @param id
+         *            Education Organization for which the lineage must be assembled.
+         * @return Set of parent education organization ids.
+         */
+        private Set<String> fetchLineage(String id) {
+            Set<String> parents = new HashSet<String>();
+            Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
+                    EDUCATION_ORGANIZATION);
+            if (edOrg != null) {
+                parents.add(id);
+                Map<String, Object> body = edOrg.getBody();
+                if (body.containsKey(PARENT_REFERENCE)) {
+                    String myParent = (String) body.get(PARENT_REFERENCE);
+                    parents.addAll(fetchLineage(myParent));
+                }
+            }
+            return parents;
         }
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> entities) {
@@ -265,13 +323,17 @@ public class Denormalizer {
                 entity = findTypeEntity(id);
             }
 
+            if (entity == null) {
+                return false;
+            }
+
             DBObject parentQuery = getParentQuery(entity.getBody());
             List<Entity> subEntities = new ArrayList<Entity>();
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(denormalizeToEntity).update(parentQuery, buildPullObject(subEntities), false, true)
-                    .getLastError().ok();
+            return template.getCollection(denormalizeToEntity)
+                    .update(parentQuery, buildPullObject(subEntities), false, true).getLastError().ok();
         }
 
         private Entity findTypeEntity(String id) {
@@ -281,6 +343,37 @@ public class Denormalizer {
             return template.findOne(query, Entity.class, type);
         }
 
+        public boolean doUpdate(Entity parentEntity, Update update) {
+            if (parentEntity == null) return false;
+
+            DBObject parentQuery = getParentQuery(parentEntity.getBody());
+            parentQuery.put(denormalizedToField + "._id", parentEntity.getBody().get(denormalizedIdKey));
+
+            DBObject patchUpdate = toDenormalizedObjectUpdate(update);
+
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true)
+                        .getLastError().ok();
+
+            return result;
+        }
+
+        private DBObject toDenormalizedObjectUpdate(Update originalUpdate) {
+            DBObject updateDBObject = new BasicDBObject();
+
+            for (String key : originalUpdate.getUpdateObject().keySet()) {
+                if (key.startsWith("$")) {
+                    Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
+                    Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
+                    for (String field : fieldAndValue.keySet()) {
+                        if (!field.startsWith("$")) {
+                            newFieldAndValue.put(denormalizedToField + ".$." + field, fieldAndValue.get(field));
+                        }
+                    }
+                    updateDBObject.put(key, newFieldAndValue);
+                }
+            }
+            return updateDBObject;
+        }
 
     }
 

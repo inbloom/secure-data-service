@@ -35,12 +35,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -51,6 +45,11 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit Test for AttendanceTransformer
@@ -405,7 +404,7 @@ public class AttendanceTransformerTest {
         r.setType("attendance");
         r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc8dff");
         r.setBody(b);
-        b.put("studentId", studentEntityId);
+        b.put("StudentReference", buildStudentReference(studentEntityId));
         b.put("schoolId", schoolEntityId);
         b.put("schoolYearAttendance", schoolYearAttendance);
         Map<String, Object> year1 = new HashMap<String, Object>();
@@ -510,6 +509,14 @@ public class AttendanceTransformerTest {
         return Arrays.asList(e);
     }
 
+    private Object buildStudentReference(String studentId) {
+        Map<String, Object> studentReference = new HashMap<String, Object>();
+        Map<String, Object> studentIdentity = new HashMap<String, Object>();
+        studentIdentity.put("StudentUniqueStateId", studentId);
+        studentReference.put("StudentIdentity", studentIdentity);
+        return studentReference;
+    }
+
     private List<NeutralRecord> buildStudentSchoolAssocRecords() {
         NeutralRecord r2 = new NeutralRecord();
         r2.setRecordType("studentSchoolAssociation");
@@ -533,7 +540,7 @@ public class AttendanceTransformerTest {
         NeutralRecord r1 = new NeutralRecord();
         r1.setRecordType("attendance");
         r1.setRecordId("recordId1");
-        r1.setAttributeField("studentId", "studentId1");
+        r1.setAttributeField("StudentReference", buildStudentReference("studentId1"));
         r1.setAttributeField("schoolId", "schoolId1");
         r1.setAttributeField("eventDate", "2012-09-09");
         r1.setAttributeField("attendanceEventCategory", "attendanceEventCategory1");
@@ -541,7 +548,7 @@ public class AttendanceTransformerTest {
         NeutralRecord r2 = new NeutralRecord();
         r2.setRecordType("attendance");
         r2.setRecordId("recordId2");
-        r2.setAttributeField("studentId", "studentId2");
+        r2.setAttributeField("StudentReference", buildStudentReference("studentId2"));
         r2.setAttributeField("eventDate", "2012-09-09");
         r2.setAttributeField("attendanceEventCategory", "attendanceEventCategory2");
         r2.setAttributeField("attendanceEventReason", "attendanceEventReason2");
