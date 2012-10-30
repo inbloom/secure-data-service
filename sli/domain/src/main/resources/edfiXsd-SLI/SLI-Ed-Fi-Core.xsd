@@ -699,7 +699,7 @@ Other</xs:documentation>
       <xs:documentation/>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
+      <xs:element name="StudentReference" type="SLC-StudentReferenceType" >
       	<xs:annotation>
           <xs:documentation/>
           <xs:appinfo>
