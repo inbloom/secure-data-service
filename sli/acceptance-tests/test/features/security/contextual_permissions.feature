@@ -118,10 +118,10 @@ When I make an API call to get the list of sections taught by the teacher <Teach
 Then I should receive a return code of <Code> 
 Examples: 
 | Realm | Username   | Password      | Teacher          | Code | 
-| "IL"  | "tbear"    | "tbear1234"   | "John Doe 3"     | 200  |
-| "NY"  | "johndoe"  | "johndoe1234" | "Ted Bear"       | 200  |
-| "IL"  | "ejane"    | "ejane1234"   | "Emily Jane"     | 200  |
-| "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" | 200  |
+| "IL"  | "tbear"    | "tbear1234"   | "John Doe 3"     | 404  |
+| "NY"  | "johndoe"  | "johndoe1234" | "Ted Bear"       | 404  |
+| "IL"  | "ejane"    | "ejane1234"   | "Emily Jane"     | 404  |
+| "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" | 404  |
  
 Scenario Outline: Authenticated Educator makes API call to get own Section 
 Given I am logged in using <Username> <Password> to realm <Realm> 
@@ -171,8 +171,8 @@ When I make an API call to get a list of students in the section <Section>
 Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | Section          | Code | 
-| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 200  |
-| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 200  |
+| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 404  |
+| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 404  |
 | "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" | 403  |
  
