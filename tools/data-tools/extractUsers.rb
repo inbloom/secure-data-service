@@ -1,3 +1,5 @@
+# Simple (aka not much error handling) script to extract users from edfi xml files
+
 require 'net/http'
 require 'rexml/document'
 require 'json'
@@ -15,12 +17,19 @@ def extractStaff(ele, role)
    @staff[staffUniqueStateIds]["association"] = ""
 end
 
+if ARGV.count < 1
+  puts "Usage: extractUsers <input_file> (<output_file>)"
+  puts "\t input_file - input Ed-Fi InterchangeStaffAssociation.xml file to process"
+  puts "\t output_file - optional output JSON file to write, if not provided writes to console"
+  exit
+end
 
-intputFileName = (ARGV[0].nil? ? "/Users/scole/git/SLI/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet/InterchangeStaffAssociation.xml" : ARGV[0])
+inputFileName = ARGV[0]
 outputFileName = ARGV[1]
 
+
 # get the XML data as a string
-xml_data = File.open(intputFileName, 'r')
+xml_data = File.open(inputFileName, 'r')
 
 # extract event information
 doc = REXML::Document.new(xml_data)
@@ -79,8 +88,10 @@ doc.elements.each('*/StaffEducationOrgAssignmentAssociation') do |ele|
 end
 
 if outputFileName == nil
+  print "Reading input file from #{inputFileName} and writing to console"
   print JSON.pretty_generate(@staff.values)
 else
+  print "Reading input file from #{inputFileName} and writing to outputFileName"
   out = File.open(outputFileName, 'w')
   out.write(JSON.pretty_generate(@staff.values))
 end
