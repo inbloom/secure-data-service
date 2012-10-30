@@ -152,4 +152,17 @@ public class ValidatorTestHelper {
         repo.create(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffProgram);
         
     }
+
+    public Entity generateAssessment() {
+    	return repo.create(EntityNames.ASSESSMENT, new HashMap<String, Object>());
+    }
+
+    public Entity generateLearningObjective() {
+    	return repo.create(EntityNames.LEARNING_OBJECTIVE, new HashMap<String, Object>());
+    }
+
+    public Entity generateLearningStandard() {
+    	return repo.create(EntityNames.LEARNING_STANDARD, new HashMap<String, Object>());
+    }
+
 }
