@@ -1281,6 +1281,8 @@ team:
 
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
 
+        sli.search.indexer.broker.embedded: false
+
 perf:
     data-access:
         <<: *DATA-ACCESS-DEFAULT

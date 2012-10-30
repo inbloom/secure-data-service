@@ -24,19 +24,26 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slc.sli.search.util.amq.JMSQueueConsumer;
 import org.slc.sli.search.util.amq.JMSQueueProducer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/application-context-test.xml" })
 public class JMSBaseTest {
+    
+    @Autowired
     JMSQueueConsumer queueConsumer;
+    
+    @Autowired
     JMSQueueProducer queueProducer;
     
     @Before
     public void init() throws Exception {
-        queueConsumer=new JMSQueueConsumer();
-        queueConsumer.setEmbeddedBroker(true);
         queueConsumer.setQueue("test");
-        queueConsumer.init();
         MessageConsumer consumer=queueConsumer.getConsumer();
         //make sure queue is empty
         while(consumer.receive(1000)!=null) {
@@ -44,10 +51,7 @@ public class JMSBaseTest {
         }
         
         
-        queueProducer = new JMSQueueProducer();
-        queueProducer.setEmbeddedBroker(true);
         queueProducer.setQueue("test");
-        queueProducer.init();
         queueProducer.send("hello1");
         queueProducer.send("hello2");
         queueProducer.send("hello3");
@@ -75,5 +79,9 @@ public class JMSBaseTest {
         Assert.assertEquals("hello3", message.getText());
         message=(TextMessage) consumer.receive(100);
         Assert.assertEquals("hello4", message.getText());
+    }
+    
+    public void setQueueConsumer(JMSQueueConsumer queueConsumer) {
+        this.queueConsumer = queueConsumer;
     }
 }
