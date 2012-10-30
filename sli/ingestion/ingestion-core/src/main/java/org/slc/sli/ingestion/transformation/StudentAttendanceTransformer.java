@@ -25,11 +25,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Scope;
@@ -39,6 +42,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -73,13 +77,19 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
     private MessageSource messageSource;
 
     @Autowired
-    private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    private UUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     /**
      * Default constructor.
      */
     public StudentAttendanceTransformer() {
         attendances = new HashMap<Object, NeutralRecord>();
+    }
+    
+    @PostConstruct
+    public void setNaturalKeyDescriptor() {
+        
     }
 
     /**
@@ -99,7 +109,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-        attendances = getCollectionFromDb(ATTENDANCE);
+        this.attendances = super.getCollectionFromDb(ATTENDANCE);
         LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE, attendances.size());
     }
 
@@ -108,6 +118,9 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
      */
     public void transformAndPersist() {
         LOG.info("Transforming attendance data");
+        
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "studentAttendance", null);
 
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
@@ -126,53 +139,55 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
                 event.put("reason", eventReason);
             }
 
-                System.out.println ("JWC, trying update");
-                NeutralQuery query = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-                query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
-                query.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.OPERATOR_EQUAL, schoolYear));
+            naturalKeys.put("studentId", studentId);
+            naturalKeys.put("schoolId", schoolId);
+            naturalKeys.put("schoolYear", schoolYear);
+            
+            String deterministicId = this.deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
 
-                List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
-                attendanceEvent.add (event);
+            NeutralQuery query = new NeutralQuery(1);
+            query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
+            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, deterministicId, false));
 
-                // need to use $each operator to add an array with $addToSet
-                Object updateValue = attendanceEvent;
-                if (attendanceEvent instanceof List) {
-                    Map<String, Object> eachList = new HashMap<String, Object>();
-                    eachList.put("$each", attendanceEvent);
-                    updateValue = eachList;
-                }
+            List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
+            attendanceEvent.add (event);
 
-                Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
-                attendanceEventToPush.put("body.attendanceEvent", updateValue);
+            // need to use $each operator to add an array with $addToSet
+            Object updateValue = attendanceEvent;
+            if (attendanceEvent instanceof List) {
+                Map<String, Object> eachList = new HashMap<String, Object>();
+                eachList.put("$each", attendanceEvent);
+                updateValue = eachList;
+            }
 
-                Map<String, Object> update = new HashMap<String, Object>();
-                update.put("addToSet", attendanceEventToPush);
-                System.out.println ("JWC, before update");
+            Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
+            attendanceEventToPush.put("body.attendanceEvent", updateValue);
 
-                WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
-                
-                if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
-                    NeutralRecord record = new NeutralRecord();
-                    record.setRecordId(type1UUIDGeneratorStrategy.generateId().toString());
-                    record.setRecordType(ATTENDANCE_TRANSFORMED);
-                    record.setBatchJobId(getBatchJobId());
-                    List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
-                    attendanceEvents.add (event);
+            Map<String, Object> update = new HashMap<String, Object>();
+            update.put("addToSet", attendanceEventToPush);
 
-                    Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-                    attendanceAttributes.put("studentId", studentId);
-                    attendanceAttributes.put("schoolId", schoolId);
-                    attendanceAttributes.put("schoolYear", schoolYear);
-                    attendanceAttributes.put("attendanceEvent", attendanceEvents);
-                    record.setAttributes(attendanceAttributes);
-                    record.setSourceFile(attendances.values().iterator().next().getSourceFile());
-                    record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-                    record.setCreationTime(getWorkNote().getRangeMinimum());
+            WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
+            
+            if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
+                List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
+                attendanceEvents.add (event);
 
-                    insertRecord(record);
-                }
+                Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+                attendanceAttributes.put("studentId", studentId);
+                attendanceAttributes.put("schoolId", schoolId);
+                attendanceAttributes.put("schoolYear", schoolYear);
+                attendanceAttributes.put("attendanceEvent", attendanceEvents);
+                NeutralRecord record = new NeutralRecord();
+                record.setRecordType(ATTENDANCE_TRANSFORMED);
+                record.setBatchJobId(getBatchJobId());
+                record.setAttributes(attendanceAttributes);
+                record.setSourceFile(this.attendances.values().iterator().next().getSourceFile());
+                record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
+                record.setCreationTime(getWorkNote().getRangeMinimum());
+                record.setRecordId(deterministicId);
+
+                insertRecord(record);
+            }
         }
 
         LOG.info("Finished transforming attendance data");
