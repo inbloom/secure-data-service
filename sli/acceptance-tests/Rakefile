@@ -55,7 +55,7 @@ $collectionSet = ["student",
                   "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "studentAttendance",
+                  "attendance",
                   "program",
                   "studentAcademicRecord",
                   "grade",
@@ -935,7 +935,7 @@ task :importSecuredData do
   end
   testHash = Hash[
     "assessment" => "secured/assessment.json",
-    "studentAttendance" => "secured/attendance.json",
+    "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
     "courseTranscript" => "secured/courseTranscript.json",
@@ -1020,7 +1020,7 @@ task :importSandboxMidgarData do
     "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
-    "studentAttendance" => "Midgar_data/studentAttendance_fixture.json",
+    "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
     "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
     "studentAssessmentAssociation" => "Midgar_data/studentAssessmentAssociation_fixture.json",
@@ -1166,7 +1166,7 @@ desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
-    "studentAttendance" => "unified_data/uds_attendance.json",
+    "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
