@@ -103,6 +103,9 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should not find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
     And I should not find "<INGESTED ACC TEST PROG 2>" in "program"
+
+    #When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
+    #Then I should not find "<INGESTED FALL 2009 EAST BREAK JUNIOR HIGH>" in "sessions"
     # Ingest new data
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "SuperDocDenormalization.zip" file as the payload of the ingestion job
@@ -119,4 +122,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
     And I should find "<INGESTED ACC TEST PROG 2>" in "program"
+
+    When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
+    Then I should find "<INGESTED FALL 2009 EAST BREAK JUNIOR HIGH>" in "sessions"
 

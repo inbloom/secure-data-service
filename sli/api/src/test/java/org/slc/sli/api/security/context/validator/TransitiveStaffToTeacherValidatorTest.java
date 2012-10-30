@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,54 +28,62 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+/**
+ * Unit tests for teacher --> staff context validator.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class TransitiveStaffToStaffValidatorTest {
-    
+public class TransitiveStaffToTeacherValidatorTest {
+
     @Autowired
-    private TransitiveStaffToStaffValidator validator;
-    
+    private TransitiveStaffToTeacherValidator validator;
+
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private SecurityContextInjector injector;
+
+    Entity staff1 = null; //associated with lea1
+    Entity staff2 = null; //associated with school1
+    Entity teacher1 = null; //associated with school1
     
-    Entity staff1 = null;   //associated to LEA
-    Entity staff2 = null;   //associated to school (no enddate)
-    Entity staff3 = null;   //associated to school (with enddate)
-    Entity staff4 = null;   //associated to school (expired enddate)
-    Entity staff5 = null;   //not associated to anything
+    Entity teacher2 = null; //not associated
+    Entity teacher3 = null; //associated with school1
     Entity lea1 = null;
     Entity school1 = null;
     
+    private void setupCurrentUser(Entity staff) {
+        // Set up the principal
+        String user = "fake staff";
+        String fullName = "Fake Staff";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, staff, "111");
+    }
+
     @Before
     public void setUp() {
-
         repo.deleteAll("educationOrganization", null);
         repo.deleteAll("staff", null);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");
         staff1 = repo.create("staff", body);
-
+        
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff2");
         staff2 = repo.create("staff", body);
+
+        body = new HashMap<String, Object>();
+        teacher1 = repo.create("teacher", body);
         
         body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff3");
-        staff3 = repo.create("staff", body);
+        teacher2 = repo.create("teacher", body);
         
         body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff4");
-        staff4 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff5");
-        staff5 = repo.create("staff", body);
+        teacher3 = repo.create("teacher", body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
@@ -92,96 +98,68 @@ public class TransitiveStaffToStaffValidatorTest {
         body.put("educationOrganizationReference", lea1.getEntityId());
         body.put("staffReference", staff1.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
-        
+
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", school1.getEntityId());
         body.put("staffReference", staff2.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
+
+
+        body = new HashMap<String, Object>();
+        body.put("schoolId", school1.getEntityId());
+        body.put("teacherId", teacher1.getEntityId());
+        repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, body);
         
         body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff3.getEntityId());
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
-        DateTime future = DateTime.now().plusDays(5);
-        body.put("endDate", future.toString(fmt));
-        repo.create("staffEducationOrganizationAssociation", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff4.getEntityId());
-        DateTime past = DateTime.now().minusYears(10);
-        body.put("endDate", past.toString(fmt));
-        repo.create("staffEducationOrganizationAssociation", body);
+        body.put("schoolId", school1.getEntityId());
+        body.put("teacherId", teacher3.getEntityId());
+        repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, body);
 
     }
-    
-    private void setupCurrentUser(Entity staff) {
-        // Set up the principal
-        String user = "fake staff";
-        String fullName = "Fake Staff";
-        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, staff, "111");
-    }
-    
+
     @After
     public void tearDown() {
         repo = null;
         SecurityContextHolder.clearContext();
     }
-    
+
+
     @Test
-    public void testCanValidateTeacherToStaff() throws Exception {
+    public void testCanValidateStaffToTeacher() throws Exception {
         setupCurrentUser(staff1);
-        assertTrue(validator.canValidate(EntityNames.STAFF, true));
-        assertFalse(validator.canValidate(EntityNames.STAFF, false));
-    }    
-    
-    @Test
-    public void testValidStaffStaffAssociationNoEndDate() {
-        setupCurrentUser(staff1);
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId()))));
-    }
-    
-    @Test
-    public void testValidStaffStaffAssociationWithEndDate() {
-        setupCurrentUser(staff1);
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff3.getEntityId()))));
+        assertTrue(validator.canValidate(EntityNames.TEACHER, true));
+        assertFalse(validator.canValidate(EntityNames.TEACHER, false));
     }
 
     @Test
-    public void testExpiredStaffStaffAssociation() {
+    public void testInvalidTeacherAssociation() {
         setupCurrentUser(staff1);
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff4.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(teacher2.getEntityId()))));
     }
-    
+
     @Test
-    public void testStaffWithNoEdorgAssociation() {
-        setupCurrentUser(staff1);
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff5.getEntityId()))));
-    }
-    
-    @Test
-    public void testSchoolStaffToLEAStaffAssociation() {
+    public void testValidAssociationThroughSchool() {
         setupCurrentUser(staff2);
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
-    }  
-    
-    @Test
-    public void testMulti1() {
-        setupCurrentUser(staff1);
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff2.getEntityId(), staff3.getEntityId(), staff4.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()))));
     }
     
     @Test
-    public void testMulti2() {
+    public void testValidAssociationThroughLEA() {
         setupCurrentUser(staff1);
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff4.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()))));
     }
     
     @Test
-    public void testMulti3() {
+    public void testInvalidTeacher() {
         setupCurrentUser(staff1);
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff3.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
     }
+    
+    @Test
+    public void testNoTeacher() {
+        setupCurrentUser(staff1);
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>()));
+    }
+
 
 }
