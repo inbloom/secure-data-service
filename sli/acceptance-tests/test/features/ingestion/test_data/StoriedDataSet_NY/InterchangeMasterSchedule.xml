@@ -17,9 +17,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Art001</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Art001-5</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -39,9 +42,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>PE001</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>PE001-7</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -61,9 +67,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Chem305</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Chem305-3</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -83,9 +92,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Mason201</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Mason201-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -105,9 +117,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math001</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math001-4</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -127,9 +142,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>PhySci001</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>PhySci001-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -149,9 +167,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>ARCH221</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>ARCH221-6</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -171,9 +192,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Sci127</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Sci127-8</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>

@@ -46,7 +46,13 @@ public class CourseOfferingGenerator {
         courseOffering.setSessionReference(srt);
 
         CourseIdentityType cit = new CourseIdentityType();
-        cit.getCourseCode().addAll(courseOfferingMeta.courseMeta.courseCodes);
+        EducationalOrgIdentityType eoit2 = new EducationalOrgIdentityType();
+        eoit2.setStateOrganizationId(courseOfferingMeta.courseMeta.schoolId);
+        EducationalOrgReferenceType eort2 = new EducationalOrgReferenceType();
+        eort2.setEducationalOrgIdentity(eoit2);
+        courseOffering.setSchoolReference(eort2);
+        cit.setEducationalOrgReference(eort2);
+        cit.setUniqueCourseId(courseOfferingMeta.courseMeta.uniqueCourseId);
         CourseReferenceType crt = new CourseReferenceType();
         crt.setCourseIdentity(cit);
         courseOffering.setCourseReference(crt);

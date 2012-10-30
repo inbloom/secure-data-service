@@ -133,7 +133,8 @@
             }
         },
         {
-            "fieldPath":"body.studentId",
+            "fieldPath":"body.StudentReference",
+            "deprecated" : true,
             "ref":{
                 "entityType":"student",
                 "takesContext":["edOrgs"],
@@ -143,7 +144,7 @@
                             "path":"body.studentUniqueStateId",
                             "values":[
                                 {
-                                    "valueSource":"body.studentId"
+                                    "valueSource":"body.StudentReference.StudentIdentity.StudentUniqueStateId"
                                 }
                             ]
                         }

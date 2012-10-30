@@ -18,17 +18,10 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
-import com.sun.jersey.spi.container.ContainerRequest;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
+import java.util.Set;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -41,6 +34,14 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -78,9 +79,11 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         //move generic validator to end
+        validators.remove(genVal);
+        validators.add(genVal);
+        
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
-        validators.remove(genVal);
         validators.remove(studentVal);
         validators.remove(subEntityVal);
     }
@@ -101,28 +104,38 @@ public class ContextValidator implements ApplicationContextAware {
         if (def == null) {
             return;
         }
-        String entityName = def.getType();
 
         /*
          * e.g.
-         * through - /v1/staff/<ID>/disciplineActions
-         * !through - /v1/staff/<ID>
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
          */
-        boolean through = request.getPathSegments().size() > 3;
-        IContextValidator validator = findValidator(entityName, through);
+        boolean isTransitive = request.getPathSegments().size() < 4;
+        String idsString = request.getPathSegments().get(2).getPath();
+        Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
+        validateContextToEntities(def, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
+        Set<String> idSet = null;
+        if (entityIds instanceof Set) {
+            idSet = (Set<String>) entityIds;
+        } else {
+            idSet = new HashSet<String>(entityIds);
+        }
+        IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+            if (!validator.validate(def.getType(), idSet)) {
+                if (!exists(idSet, def.getStoredCollectionName())) {
+                    throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entityIds);
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+                throw new AccessDeniedException("Cannot access entities " + entityIds);
             }
         }
     }
 
-    private boolean exists(List<String> ids, String collectionName) {
+    
+    private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         long count = repo.count(collectionName, query);
@@ -138,24 +151,24 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     *
+     * 
      * @param toType
-     * @param through
+     * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
+    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
-            if (validator.canValidate(toType, through)) {
+            if (validator.canValidate(toType, isTransitive)) {
                 found = validator;
                 break;
             }
         }
 
         if (found == null) {
-            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;

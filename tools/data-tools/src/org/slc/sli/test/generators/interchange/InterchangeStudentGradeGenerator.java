@@ -31,8 +31,6 @@ import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptor;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
-import org.slc.sli.test.edfi.entities.CourseCode;
-import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.CourseIdentityType;
 import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CourseTranscript;
@@ -281,10 +279,12 @@ public final class InterchangeStudentGradeGenerator {
 
                 CourseReferenceType courseRef = new CourseReferenceType();// References to Course
                 CourseIdentityType courseIdentity = new CourseIdentityType();
-                CourseCode courseCode = new CourseCode();
-                courseCode.setID(courseId);
-                courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
-                courseIdentity.getCourseCode().add(courseCode);
+                EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+                eoit.setStateOrganizationId(courseMeta.schoolId);
+                EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+                eort.setEducationalOrgIdentity(eoit);
+                courseIdentity.setEducationalOrgReference(eort);
+                courseIdentity.setUniqueCourseId(courseMeta.uniqueCourseId);
                 courseRef.setCourseIdentity(courseIdentity);
 
                 StudentAcademicRecordReferenceType sarRef = new StudentAcademicRecordReferenceType();
