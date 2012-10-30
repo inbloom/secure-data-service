@@ -73,9 +73,9 @@ db["section"].ensureIndex({"gradebookEntry._id":1});
 
 
 //direct references - index on each direct reference
-db["studentAttendance"].ensureIndex({"body.schoolId":1});
-db["studentAttendance"].ensureIndex({"body.studentId":1});
-db["studentAttendance"].ensureIndex({"body.schoolYear":1});
+db["attendance"].ensureIndex({"body.schoolId":1});
+db["attendance"].ensureIndex({"body.studentId":1});
+db["attendance"].ensureIndex({"body.schoolYear":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1});
 db["cohort"].ensureIndex({"body.programId":1});
 db["course"].ensureIndex({"body.schoolId":1});
@@ -158,7 +158,7 @@ db["section"].ensureIndex({"teacherSectionAssociation.body.teacherId":1});
 //staff context resolver access - stamped edOrgs
 //TODO this section can be removed when staff stamper goes away
 db["assessment"].ensureIndex({"metaData.edOrgs":1});
-db["studentAttendance"].ensureIndex({"metaData.edOrgs":1});
+db["attendance"].ensureIndex({"metaData.edOrgs":1});
 db["calendarDate"].ensureIndex({"metaData.edOrgs":1});
 db["cohort"].ensureIndex({"metaData.edOrgs":1});
 db["competencyLevelDescriptor"].ensureIndex({"metaData.edOrgs":1});

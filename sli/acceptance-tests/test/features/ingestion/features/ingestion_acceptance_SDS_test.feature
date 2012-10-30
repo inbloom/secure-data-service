@@ -33,7 +33,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
         | collectionName                        |
         | assessment                            |
-        | studentAttendance                     |
+        | attendance                            |
         | calendarDate                          |
         | cohort                                |
         | competencyLevelDescriptor             |
@@ -78,7 +78,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
-        | studentAttendance           | 75    |
+        | attendance                  | 75    |
         | calendarDate                | 556   |
         | cohort                      | 3     |
         | competencyLevelDescriptor   | 6     |
@@ -135,9 +135,9 @@ Then I should see following map of entry counts in the corresponding collections
        | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
        | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
        | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
-       | studentAttendance                  | 11           | body.attendanceEvent.event | Tardy         | string     |
-       | studentAttendance                  | 75           | body.attendanceEvent.event | In Attendance | string     |
-       | studentAttendance                  | 75           | body.schoolYear            | 2011-2012     | string     |
+       | attendance                  | 11                  | body.attendanceEvent.event | Tardy         | string     |
+       | attendance                  | 75                  | body.attendanceEvent.event | In Attendance | string     |
+       | attendance                  | 75                  | body.schoolYear            | 2011-2012     | string     |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-3             | string               |
@@ -356,8 +356,8 @@ And I check to find if record is in collection:
      | courseOffering              | 1                   | body.localCourseCode        | Government-4             | string               |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   | searchType           |
-     | studentAttendance                  | 0            | body.attendanceEvent.date  | 2011-09-01    | string               |
-     | studentAttendance                  | 75           | body.attendanceEvent.date  | 2011-11-10    | string               |
+     | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
+     | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
@@ -497,8 +497,8 @@ Scenario: Verify deterministic ids generated: Clean Database
 # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
-    | studentAttendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
-    | studentAttendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
+    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
@@ -511,7 +511,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -555,7 +555,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -599,7 +599,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 29    |
+     | attendance                            | 29    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -643,7 +643,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 24    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -687,7 +687,7 @@ Scenario: Verify ingestion context stamping for Midgar: Populated Database
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 25    |
+     | attendance                            | 25    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -738,7 +738,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
-        | studentAttendance           | 75    |
+        | attendance                  | 75    |
         | cohort                      | 3     |
         | course                      | 96    |
         | courseOffering              | 96    |
@@ -801,7 +801,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -845,7 +845,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -889,7 +889,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 29    |
+     | attendance                            | 29    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -933,7 +933,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 24    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -977,7 +977,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 25    |
+     | attendance                            | 25    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1021,7 +1021,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
@@ -1065,7 +1065,7 @@ Scenario: Verify ingestion inline context stamping for Midgar: Populated Databas
    And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
@@ -1131,7 +1131,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | studentGradebookEntry               |
         | parent                              |
         | studentParentAssociation            |
-        | studentAttendance                   |
+        | attendance                          |
         | program                             |
         | staffProgramAssociation             |
         | studentProgramAssociation           |
@@ -1157,7 +1157,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
-        | studentAttendance           | 0     |
+        | attendance                  | 0     |
         | cohort                      | 0     |
         | course                      | 8     |
         | courseOffering              | 8     |
@@ -1223,7 +1223,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1267,7 +1267,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1311,7 +1311,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 29    |
+     | attendance                            | 29    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1355,7 +1355,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 24    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1399,7 +1399,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 25    |
+     | attendance                            | 25    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -1443,7 +1443,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "IL-SUNSET" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
@@ -1487,7 +1487,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "Sunset Central High School" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 2     |
      | compentencyLevelDescriptor            | 0     |
@@ -1531,7 +1531,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1575,7 +1575,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1619,7 +1619,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1663,7 +1663,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1707,7 +1707,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1751,7 +1751,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1795,7 +1795,7 @@ Scenario: Verify ingestion inline context stamping for Midgar and Hyrule: Popula
    And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -1845,7 +1845,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                       | count |
      | assessment                           | 23    |
-     | studentAttendance                    | 75    |
+     | attendance                           | 75    |
      | cohort                               | 4     |
      | courseOffering                       | 97    |
      | disciplineAction                     | 3     |
@@ -1900,7 +1900,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
-     | studentAttendance           | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
+     | attendance                  | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
      | cohort                      | 1                   | body.cohortIdentifier       | ACC-TEST-COH-1          | string               |
@@ -2083,7 +2083,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
-        | studentAttendance           |
+        | attendance                  |
         | program                     |
         | staffProgramAssociation     |
         | studentProgramAssociation   |
@@ -2107,7 +2107,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
         | collectionName              |
         | assessment                  |
-        | studentAttendance           |
+        | attendance           |
         | calendarDate                |
         | cohort                      |
         | course                      |
@@ -2155,7 +2155,7 @@ When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
-        | studentAttendance           | 0     |
+        | attendance                  | 0     |
         | calendarDate                | 556   |
         | cohort                      | 0     |
         | course                      | 8     |
@@ -2197,7 +2197,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "IL" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -2241,7 +2241,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "IL-DAYBREAK" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 75    |
+     | attendance                            | 75    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -2285,7 +2285,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "East Daybreak Junior High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 29    |
+     | attendance                            | 29    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -2329,7 +2329,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "South Daybreak Elementary" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 24    |
+     | attendance                            | 24    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -2373,7 +2373,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "Daybreak Central High" for the tenant "Midgar" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 25    |
+     | attendance                            | 25    |
      | calendarDate                          | 0     |
      | cohort                                | 3     |
      | compentencyLevelDescriptor            | 0     |
@@ -2417,7 +2417,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "NY" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2461,7 +2461,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "NY-Dusk" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2505,7 +2505,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "NY-Parker" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2549,7 +2549,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "1000000112" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2593,7 +2593,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "10000000121" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2637,7 +2637,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "1000000111" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
@@ -2681,7 +2681,7 @@ Scenario: Verify concurrent ingestion inline context stamping for Midgar and Hyr
    And I check _id of stateOrganizationId "1000000122" for the tenant "Hyrule" is in metaData.edOrgs:
      | collectionName                        | count |
      | assessment                            | 0     |
-     | studentAttendance                     | 0     |
+     | attendance                            | 0     |
      | calendarDate                          | 0     |
      | cohort                                | 0     |
      | compentencyLevelDescriptor            | 0     |
