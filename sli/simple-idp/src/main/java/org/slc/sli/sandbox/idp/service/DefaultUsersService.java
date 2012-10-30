@@ -70,9 +70,11 @@ public class DefaultUsersService {
     @PostConstruct
     public void initUserLists(){
         userLists = new HashMap<String, List<DefaultUser>>();
-        for (Dataset dataset : datasets) {
-            String key = dataset.getKey();
-            userLists.put(key, buildUserList(key));
+        if (datasetList != null) {
+            for (Dataset dataset : datasets) {
+                String key = dataset.getKey();
+                userLists.put(key, buildUserList(key));
+            }
         }
     }
     
