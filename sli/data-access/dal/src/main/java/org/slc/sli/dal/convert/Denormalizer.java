@@ -148,6 +148,7 @@ public class Denormalizer {
         private List<String> denormalizedMetaDataFields;
         private String denormalizedToField;
         private Map<String,String> cachedEntityRefKey;
+        private Map<String,Entity> referencedEntityMap;
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
@@ -159,6 +160,7 @@ public class Denormalizer {
             this.denormalizedIdKey = denormalizedIdKey;
             this.denormalizedBodyFields = denormalizedFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
+            this.referencedEntityMap = null;
         }
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
@@ -173,6 +175,7 @@ public class Denormalizer {
             this.denormalizedBodyFields = denormalizedBodyFields;
             this.denormalizedMetaDataFields = denormalizedMetaDataFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
+            this.referencedEntityMap = null;
         }
 
         public boolean create(Entity entity) {
@@ -192,10 +195,27 @@ public class Denormalizer {
                 String queryKey = entry.getValue();
 
                 if((value == null ) || value.isEmpty() ) {
-                    Entity entity = denormalizationHelperCache.get(entry.getKey()).get(body.get(entry.getValue()));
+                    Entity entity = null;
+                    String refEntityId = (String) body.get(entry.getValue());
+
+                    if (cachedEntityRefKey != null) {
+                        if ((denormalizationHelperCache != null)
+                                && (!denormalizationHelperCache.isEmpty())) {
+                            entity = denormalizationHelperCache.get(entry.getKey()).get(refEntityId);
+                        } else {
+                            Query refEntityQuery = new Query();
+                            refEntityQuery.addCriteria(new Criteria("_id").is(refEntityId));
+                            entity = template.findOne(refEntityQuery,Entity.class,entry.getKey());
+                        }
+                    }
+
                     if(entity == null) {
                         continue;
                     }
+                    if (referencedEntityMap == null) {
+                        referencedEntityMap = new HashMap<String, Entity>();
+                    }
+                    referencedEntityMap.put(refEntityId,entity);
                     for (Map.Entry<String,String> refEntry : cachedEntityRefKey.entrySet()) {
                         String refKey = refEntry.getKey();
                         if (refKey.equals("_id")) {
@@ -237,10 +257,21 @@ public class Denormalizer {
             // add the id field
             dbObj.put("_id", internalId);
 
+            Map<String, Object> refEntityBody = null;
+            Map<String, Object> refEntityMeta = null;
+
+            if ((referencedEntityMap != null) && (referencedEntityMap.containsKey(internalId))) {
+                Entity refEntity = referencedEntityMap.get(internalId);
+                refEntityBody = refEntity.getBody();
+                refEntityMeta = refEntity.getMetaData();
+            }
+
             if (denormalizedBodyFields != null) {
                 for (String field : denormalizedBodyFields) {
                     if (body.containsKey(field)) {
                         dbObj.put(field, body.get(field));
+                    } else if ((refEntityBody != null) && (refEntityBody.containsKey(field))) {
+                        dbObj.put(field,refEntityBody.get(field));
                     }
                 }
             }
@@ -249,6 +280,8 @@ public class Denormalizer {
                 for (String field : denormalizedMetaDataFields) {
                     if (meta.containsKey(field)) {
                         dbObj.put(field, meta.get(field));
+                    } else if ((refEntityMeta != null) && (refEntityMeta.containsKey(field))) {
+                        dbObj.put(field,refEntityMeta.get(field));
                     }
                 }
             }
@@ -292,6 +325,7 @@ public class Denormalizer {
                     .update(parentQuery, buildPullObject(entities), false, true).getLastError().ok();
             result &= template.getCollection(denormalizeToEntity)
                     .update(parentQuery, buildPushObject(entities), false, true).getLastError().ok();
+            referencedEntityMap = null;
 
             return result;
         }
