@@ -38,15 +38,19 @@ INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
 LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
+LZ_SFTP_PORT = PropLoader.getProps['lz_sftp_port']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
+INGESTION_PASSWORD = PropLoader.getProps['ingestion_password']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 INGESTION_PROPERTIES_FILE = PropLoader.getProps['ingestion_properties_file']
+INGESTION_RC_TENANT = PropLoader.getProps['ingestion_rc_tenant']
+INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 
@@ -64,18 +68,27 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
+  if (INGESTION_RC_TENANT == "" && INGESTION_RC_EDORG == "")
+    @ingestion_lz_key_override = nil
+  else
+    @ingestion_lz_key_override = INGESTION_RC_TENANT + "-" + INGESTION_RC_EDORG
+  end
 
-  #remove all tenants other than Midgar and Hyrule
-  @tenantColl.find.each do |row|
-    if row['body'] == nil
-      puts "removing record"
-      @tenantColl.remove(row)
-    else
-      if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
+  if (INGESTION_MODE != 'remote')
+    #remove all tenants other than Midgar and Hyrule
+    @tenantColl.find.each do |row|
+      if row['body'] == nil
         puts "removing record"
         @tenantColl.remove(row)
+      else
+        if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
+          puts "removing record"
+          @tenantColl.remove(row)
+        end
       end
     end
+  else
+      puts "Refusing to remove tenants from remote (possibly RC) db"
   end
 
   @ingestion_lz_identifer_map = {}
@@ -100,16 +113,23 @@ Before do
         path = path+ '/'
       end
 
+      identifier = @tenantId + '-' + educationOrganization
+
       #in remote trim the path to a relative user path rather than absolute path
       if INGESTION_MODE == 'remote'
-        path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+        # if running against RC tenant and edorg, path will be root directory on sftp login
+        if identifier == INGESTION_RC_TENANT + '-' + INGESTION_RC_EDORG
+          path = "./"
+        else
+          path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+        end
       end
 
-      identifier = @tenantId + '-' + educationOrganization
+
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
-      if !File.directory?(path)
+      if !File.directory?(path) && INGESTION_MODE != 'remote'
         FileUtils.mkdir_p(path)
       end
 
@@ -260,7 +280,7 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         puts "attempting to remote copy " + srcPath + " to " + destPath
         sftp.upload(srcPath, destPath)
     end
@@ -270,7 +290,7 @@ def clearRemoteLz(landingZone)
 
     puts "clear landing zone " + landingZone
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.foreach(landingZone) do |entry|
             next if entry.name == '.' or entry.name == '..'
 
@@ -283,10 +303,14 @@ def clearRemoteLz(landingZone)
     end
 end
 
+def remoteDirContainsFile(pattern, dir)
+    return remoteLzContainsFile(pattern, dir)
+end
+
 def remoteLzContainsFile(pattern, landingZone)
     puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, pattern) do |entry|
             return true
         end
@@ -295,10 +319,10 @@ def remoteLzContainsFile(pattern, landingZone)
 end
 
 def remoteLzContainsFiles(pattern, targetNum , landingZone)
-    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
+    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum.to_s + " , " + landingZone + ")"
 
     count = 0
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, pattern) do |entry|
             count += 1
             if count >= targetNum
@@ -309,10 +333,24 @@ def remoteLzContainsFiles(pattern, targetNum , landingZone)
     return false
 end
 
-def remoteFileContainsMessage(prefix, message, landingZone)
+def searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
+  puts "searchRemoteFileForEitherContentAfterTag(#{content1}, #{content2}, #{logTag}, #{completeFileName}"
+  results = ""
 
+  Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+    ssh.exec!("grep -P \"#{logTag}.*#{content1}|#{logTag}.*#{content2}\" #{completeFileName}") do |channel, stream, data|
+      results << data
+    end
+    puts results
+  end
+
+  return (results != nil && results != "")
+end
+
+def remoteFileContainsMessage(prefix, message, landingZone)
+    found = false;
     puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         sftp.dir.glob(landingZone, prefix + "*") do |entry|
             entryPath = File.join(landingZone, entry.name)
             puts "found file " + entryPath
@@ -323,24 +361,23 @@ def remoteFileContainsMessage(prefix, message, landingZone)
             #check file contents for message
             if (file_contents.rindex(message) != nil)
                 puts "Found message " + message
-                return true
+                found = true
             end
         end
     end
-    return false
+    return found
 end
 
 def createRemoteDirectory(dirPath)
     puts "attempting to create dir: " + dirPath
 
-    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :port => LZ_SFTP_PORT, :password => INGESTION_PASSWORD) do |sftp|
         begin
             sftp.mkdir!(dirPath)
         rescue
             puts "directory exists"
         end
     end
-
 end
 
 ############################################################
@@ -382,6 +419,11 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
+  # if the lz_key is overridden from the command line, use the override value
+  unless (@ingestion_lz_key_override == nil)
+    lz_key = @ingestion_lz_key_override
+  end
+
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
   initializeTenantDatabase(lz_key)
@@ -735,7 +777,9 @@ Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
   @conn = Mongo::Connection.new(INGESTION_DB)
 
-  @db   = @conn[@ingestion_db_name]
+  @db = @conn[@ingestion_db_name]
+
+  puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB
 
   @result = "true"
 
@@ -1014,9 +1058,14 @@ Given /^the tenant database does not exist/ do
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
+  if (INGESTION_MODE == 'remote')
+    fileExist = remoteDirContainsFile(logfile, INGESTION_LOGS_DIRECTORY)
+  else
     completeFileName = INGESTION_LOGS_DIRECTORY + '/' + logfile
     fileExist = File.exist? completeFileName
-    assert(fileExist == true, logfile + 'missing')
+  end
+
+  assert(fileExist == true, logfile + 'missing')
 end
 
 ############################################################
@@ -1058,11 +1107,12 @@ When /^a batch job log has been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
+
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
+    sleep(5)
     iters.times do |i|
-
       if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
@@ -1530,7 +1580,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
   disable_NOTABLESCAN()
   @db   = @conn[@ingestion_db_name]
   @result = "true"
-  puts "db name #{@db.name}"
+  puts "db name #{@db.name} on server #{INGESTION_DB}"
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
@@ -1861,9 +1911,12 @@ def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 
   if (INGESTION_MODE == 'remote')
 
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    #puts "Showing : <" + @resultOfIngestion + ">"
+    @resultOfIngestion = ""
+    Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+      ssh.exec!("ls -l #{@landing_zone_path} | grep #{prefix}#{xml_name} | tail -1 | awk '{print $NF}' | xargs -I x cat #{@landing_zone_path}/x") do |channel, stream, data|
+        @resultOfIngestion << data
+      end
+    end
 
     @messageString = message.to_s
 
@@ -2276,8 +2329,12 @@ Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
 end
 
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|
-    completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
-    found = false
+  found = false
+  completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
+
+  if (INGESTION_MODE == 'remote')
+    found = searchRemoteFileForEitherContentAfterTag(content1, content2, logTag, completeFileName)
+  else
     File.open(completeFileName, "r") do |infile|
         while (line = infile.gets)
             if ((line =~ /#{logTag}.*#{content1}/) or (line =~ /#{logTag}.*#{content2}/)) then
@@ -2286,7 +2343,8 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
             end
         end
     end
-    assert(found == true, "content not found")
+  end
+  assert(found == true, "content not found")
 end
 
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
@@ -2312,7 +2370,7 @@ Then /^I check that ids were generated properly:$/ do |table|
 
     if subdoc_parent
       @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])
-  else
+    else
       @entity_collection = @db.collection(collection)
       @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end

@@ -112,6 +112,18 @@ task :v1ValidationTests => [:realmInit] do
   runTests("test/features/apiV1/validation/validation.feature")
 end
 
+desc "Run V1 Teacher Validation Tests"
+task :v1TeacherValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  runTests("test/features/apiV1/validation/teacher_validation.feature")
+end
+
 desc "Run V1 White List Validation Tests"
 task :v1WhiteListValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
