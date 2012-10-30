@@ -167,7 +167,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     Then I should receive a return code of 200
     And a collection of size 1
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
   @wip
   @DE1876

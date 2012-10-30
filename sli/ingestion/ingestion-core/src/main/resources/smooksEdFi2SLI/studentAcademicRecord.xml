@@ -29,7 +29,7 @@
         <jb:value property="cumulativeGradePointsEarned" data="attributes cumulativeGradePointsEarned" decoder="Double" />
         <jb:value property="cumulativeGradePointAverage" data="attributes cumulativeGradePointAverage" decoder="Double" />
         <jb:wiring property="classRanking" beanIdRef="classRanking" />
-        <jb:value property="studentId" data="attributes studentId" />
+        <jb:value property="studentId" data="attributes StudentReference" />
         <jb:value property="sessionId" data="attributes sessionId"  />
         <jb:wiring property="reportCards" beanIdRef="studentAcademicRecord_reportCardArray"/>
     </jb:bean>

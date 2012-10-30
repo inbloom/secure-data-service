@@ -16,24 +16,17 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StaffToSectionValidator extends AbstractContextValidator {
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -44,22 +37,12 @@ public class StaffToSectionValidator extends AbstractContextValidator {
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
         // Get my staffEdorg to get my edorg hierarchy
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> staffEdorgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        Set<String> edorgLineage = new HashSet<String>();
-        for (Entity staffEdOrg : staffEdorgs) {
-            if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
-                edorgLineage
-                        .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-            }
-        }
-        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
+		Set<String> edorgLineage = getStaffEdorgLineage();
         
         for (String id : ids) {
-            basicQuery = new NeutralQuery(
+        	NeutralQuery basicQuery = new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id));
-            Entity section = repo.findOne(EntityNames.SECTION, basicQuery);
+            Entity section = getRepo().findOne(EntityNames.SECTION, basicQuery);
             String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
             if (!edorgLineage.contains(schoolId)) {
                 return false;

@@ -11,7 +11,7 @@
     3001 => "Admin Tools",
     1337 => "SIF Agent"
 }.each do |key, value|
-  processId = `lsof -P -i:#{key} -t`
+  processId = `lsof -P -i:#{key} -sTCP:LISTEN -t`
   unless processId.empty?
     puts "killing #{value}"
     Process.kill(9, processId.to_i)

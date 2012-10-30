@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +52,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
         DirtiesContextTestExecutionListener.class })
 public class StaffToSectionValidatorTest {
     
-    @Autowired
-    private StaffToSectionValidator validator;
+    @Resource(name="staffToSectionValidator")
+    private AbstractContextValidator validator;
     
     @Autowired
     private ValidatorTestHelper helper;
@@ -62,9 +64,6 @@ public class StaffToSectionValidatorTest {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
-    private static final String ED_ORG_ID = "111";
-    
-    private static final String STAFF_ID = "1";
     private Set<String> sectionIds;
 
     @Before
@@ -76,8 +75,8 @@ public class StaffToSectionValidatorTest {
         
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
-        Mockito.when(entity.getEntityId()).thenReturn(STAFF_ID);
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, ED_ORG_ID);
+        Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
         sectionIds = new HashSet<String>();
     }
     
@@ -99,7 +98,7 @@ public class StaffToSectionValidatorTest {
     @Test
     public void testCanValidateSectionAtSchoolLevel() {
         String seaId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(STAFF_ID, seaId, false);
+        helper.generateStaffEdorg(helper.STAFF_ID, seaId, false);
         for (int i = 0; i < 3; ++i) {
             sectionIds.add(helper.generateSection(seaId).getEntityId());
         }
@@ -111,7 +110,7 @@ public class StaffToSectionValidatorTest {
         String seaId = helper.generateEdorgWithParent(null).getEntityId();
         String leaId = helper.generateEdorgWithParent(seaId).getEntityId();
         String schoolId = helper.generateEdorgWithParent(leaId).getEntityId();
-        helper.generateStaffEdorg(STAFF_ID, seaId, false);
+        helper.generateStaffEdorg(helper.STAFF_ID, seaId, false);
         for (int i = 0; i < 3; ++i) {
             sectionIds.add(helper.generateSection(schoolId).getEntityId());
         }
@@ -124,9 +123,9 @@ public class StaffToSectionValidatorTest {
     @Test
     public void testCanNotValidateSectionAcrossEdOrgs() {
         String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(STAFF_ID, edorgId, false);
+        helper.generateStaffEdorg(helper.STAFF_ID, edorgId, false);
         for (int i = 0; i < 3; ++i) {
-            sectionIds.add(helper.generateSection(ED_ORG_ID).getEntityId());
+            sectionIds.add(helper.generateSection(helper.ED_ORG_ID).getEntityId());
         }
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
     }
@@ -134,7 +133,7 @@ public class StaffToSectionValidatorTest {
     @Test
     public void testCanNotValidateExpiredSection() {
         String edorgId = helper.generateEdorgWithParent(null).getEntityId();
-        helper.generateStaffEdorg(STAFF_ID, edorgId, true);
+        helper.generateStaffEdorg(helper.STAFF_ID, edorgId, true);
         for (int i = 0; i < 3; ++i) {
             sectionIds.add(helper.generateSection(edorgId).getEntityId());
         }
