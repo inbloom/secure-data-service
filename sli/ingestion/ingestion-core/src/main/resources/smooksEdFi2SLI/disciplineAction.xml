@@ -82,7 +82,7 @@
   <!-- DisciplineAction wiring for staffId -->
   <jb:bean beanId="disciplineAction_staffIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
-    <jb:value data="attributes staffId element" />
+    <jb:value data="attributes StaffReference element" />
   </jb:bean>
 
 </smooks-resource-list>
