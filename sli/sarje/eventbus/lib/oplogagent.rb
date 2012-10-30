@@ -42,7 +42,7 @@ module Eventbus
       loop do
         while not cursor.closed?
           begin
-            doc = cursor.next 
+            doc = cursor.next
             if doc
               yield doc
             else
@@ -80,10 +80,10 @@ module Eventbus
     def get_connection
       hosts = @config[:mongo_host].split(",").map { |x| x.strip }
       if hosts.size == 1
-          host_port = hosts[0].split(":").map { |x| x.strip }
-          Mongo::Connection.new(host_port[0], host_port[1])
+        host_port = hosts[0].split(":").map { |x| x.strip }
+        Mongo::Connection.new(host_port[0], host_port[1])
       else
-          Mongo::ReplSetConnection.new(hosts)
+        Mongo::ReplSetConnection.new(hosts)
       end
     end
   end
@@ -98,60 +98,57 @@ module Eventbus
       set_subscription_events([])
     end
 
-    def handle_events
+    def handle_events(&block)
       loop do
         sleep @throttle_polling_period
-        messages_to_process = []
-        begin
-          loop do
-            messages_to_process << @oplog_queue.pop(true)
-          end
-        rescue
-          # no more oplog in oplog queue
-        end
+        process_messages &block
+      end
+    end
 
-        if !messages_to_process.empty?
-          # returns an array of hash
-          events_to_send = []
-          events = Hash.new
-          subscription_events = get_subscription_events
-          # TODO: this is terribly inefficient when large enough subscription events and messages. Consider optimization.
-          subscription_events.each do |subscription_event|
-            event_added = false
-            messages_to_process.each do |message_to_process|
-              break if event_added
-              subscription_event['triggers'].each do |trigger|
-                if message_to_process == message_to_process.merge(trigger)
-                  queue_name = "oplog"
-                  queue_name = subscription_event['queue'] if subscription_event['queue'] != nil
-                  publish_oplog = subscription_event['publishOplog'] ? true : false
-                  # if subscription has publishOplog set, we want to send the oplog to the queue and each message has one oplog entry
-                  if (publish_oplog)
-                    new_event = Hash[queue_name, [message_to_process]]
-                    events_to_send << new_event
-                  else
-                    # if queue_name is unknown, create it and add it to events_to_send
-                    if (!events.has_key?(queue_name))
-                      events[queue_name] = [] 
-                      events_to_send << {queue_name => events[queue_name]}
-                    end
-                    events[queue_name] << subscription_event['eventId']
-                    event_added = true
+    def process_messages
+      messages_to_process = []
+      begin
+        loop do
+          messages_to_process << @oplog_queue.pop(true)
+        end
+      rescue
+        # no more oplog in oplog queue
+      end
+
+      unless messages_to_process.empty?
+        # returns an array of hash
+        events_to_send = []
+        events = {}
+        subscription_events = get_subscription_events
+        # TODO: this is terribly inefficient when large enough subscription events and messages. Consider optimization.
+        subscription_events.each do |subscription_event|
+          messages_to_process.each do |message_to_process|
+            subscription_event['triggers'].each do |trigger|
+              ns = trigger["ns"]
+              trigger = trigger.reject{|k,v| k == "ns"}
+              if ns && message_to_process["ns"] && !message_to_process["ns"].match(ns)
+                next
+              end
+              if message_to_process == message_to_process.merge(trigger)
+                queue_name = subscription_event['queue'] || "oplog"
+                # if subscription has publishOplog set, we want to send the oplog to the queue and each message has one oplog entry
+                if subscription_event['publishOplog']
+                  events_to_send << {queue_name => [message_to_process]}
+                else
+                  unless events[queue_name]
+                    events[queue_name] = []
+                    events_to_send << {queue_name => events[queue_name]}
                   end
+                  events[queue_name] << subscription_event['eventId']
                   break
                 end
               end
             end
           end
-          if (!events_to_send.empty?)
-            @logger.info "sending #{events_to_send.size} events" if @logger
-            #events_to_send.each do |evt|
-            #  evt.each_pair do |key, value|
-            #    @logger.info "events to send to listener #{key}: #{value}" unless @logger.nil?
-            #  end
-            #end
-            yield events_to_send
-          end
+        end
+        unless events_to_send.empty?
+          @logger.info "sending #{events_to_send.size} events" if @logger
+          yield events_to_send
         end
       end
     end
@@ -161,9 +158,11 @@ module Eventbus
     end
 
     def set_subscription_events(subscription_events)
-      @subscription_events_lock.synchronize {
-        @subscription_events = subscription_events if subscription_events != nil
-      }
+      if subscription_events
+        @subscription_events_lock.synchronize {
+          @subscription_events = subscription_events
+        }
+      end
     end
 
     def get_subscription_events()
