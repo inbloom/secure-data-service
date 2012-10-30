@@ -71,7 +71,9 @@ end
 
 Given /^I create a valid base level school object$/ do
   if defined? @result
-    oldParentId = @result["parentEducationAgencyReference"]
+    oldParentId = @result["parentEducationAgencyReference"] 
+  else
+    oldParentId = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   end
   @result = CreateEntityHash.createBaseSchoolRandomId()
 

@@ -18,8 +18,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.slc.sli.api.constants.EntityNames;
-
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
@@ -135,5 +133,27 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorg.addAll(getChildEdOrgs(children));
         return edorg;
+    }
+
+    /**
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
+     * 
+     * @return a set of the edorgs you are associated to and their children.
+     */
+    protected Set<String> getStaffEdorgLineage() {
+        // Get my staffEdorg to get my edorg hierarchy
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> staffEdorgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Set<String> edorgLineage = new HashSet<String>();
+        for (Entity staffEdOrg : staffEdorgs) {
+            if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
+                edorgLineage
+                        .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+            }
+        }
+        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
+        return edorgLineage;
     }
 }
