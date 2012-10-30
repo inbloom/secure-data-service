@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -58,18 +57,11 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
     @Autowired
     private StaffToStudentValidator validator;
 
-    /**
-     * Determines if the entity type is a sub-entity of student.
-     */
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF)
-                && isSubEntityOfStudent(entityType);
+        return isStaff() && isSubEntityOfStudent(entityType);
     }
 
-    /**
-     * Determines if the staff can see the set of entities specified by 'ids'.
-     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         Set<String> students = new HashSet<String>();

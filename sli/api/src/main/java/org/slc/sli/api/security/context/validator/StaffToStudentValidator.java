@@ -49,8 +49,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STUDENT.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+        return !through && EntityNames.STUDENT.equals(entityType) && isStaff();
     }
 
     @Override
