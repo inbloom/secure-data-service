@@ -42,6 +42,7 @@ import org.slc.sli.domain.NeutralQuery;
  * student assessment association,
  * student discipline incident association,
  * student grade book entry,
+ * student parent association,
  * student section association,
  * student school association.
  *

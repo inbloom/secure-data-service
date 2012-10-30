@@ -19125,9 +19125,13 @@
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
             <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <GradingPeriod>First Six Weeks</GradingPeriod>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <BeginDate>2010-08-23</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
@@ -19151,9 +19155,13 @@
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
             <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <BeginDate>2011-04-11</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
@@ -20084,9 +20092,13 @@
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
             <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <GradingPeriod>First Six Weeks</GradingPeriod>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <BeginDate>2010-08-23</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
@@ -20110,9 +20122,13 @@
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
             <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <BeginDate>2011-04-11</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </Grade>
@@ -20148,7 +20164,6 @@
                         </EducationalOrgReference>
                         <GradingPeriod>First Six Weeks</GradingPeriod>
                         <BeginDate>2010-08-23</BeginDate>
-                        <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
             </GradeIdentity>
@@ -20184,7 +20199,6 @@
                         </EducationalOrgReference>
                         <GradingPeriod>Sixth Six Weeks</GradingPeriod>
                         <BeginDate>2011-04-11</BeginDate>
-                        <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
             </GradeIdentity>
@@ -21234,7 +21248,6 @@
                 </EducationalOrgReference>
                 <GradingPeriod>End of Year</GradingPeriod>
                 <BeginDate>2011-05-27</BeginDate>
-                <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </ReportCard>
@@ -21270,7 +21283,6 @@
                         </EducationalOrgReference>
                         <GradingPeriod>First Six Weeks</GradingPeriod>
                         <BeginDate>2010-08-23</BeginDate>
-                        <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
             </GradeIdentity>
@@ -21306,7 +21318,6 @@
                         </EducationalOrgReference>
                         <GradingPeriod>Sixth Six Weeks</GradingPeriod>
                         <BeginDate>2011-04-11</BeginDate>
-                        <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
             </GradeIdentity>
@@ -22196,7 +22207,6 @@
                 </EducationalOrgReference>
                 <GradingPeriod>End of Year</GradingPeriod>
                 <BeginDate>2011-05-27</BeginDate>
-                <SchoolYear>2010-2011</SchoolYear>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
     </ReportCard>
@@ -22231,7 +22241,6 @@
                         </EducationalOrgReference>
                         <GradingPeriod>End of Year</GradingPeriod>
                         <BeginDate>2011-05-27</BeginDate>
-                        <SchoolYear>2010-2011</SchoolYear>
                     </GradingPeriodIdentity>
                 </GradingPeriodReference>
             </ReportCardIdentity>
