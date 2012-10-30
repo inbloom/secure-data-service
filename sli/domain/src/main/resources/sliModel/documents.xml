@@ -51,10 +51,10 @@
 		<graph>assessmentPeriodDescriptors</graph>
 		<singular>assessmentPeriodDescriptor</singular>
 	</document>
-	<document name="StudentAttendance">
-		<class name="StudentAttendance"></class>
-		<graph>studentAttendances</graph>
-		<singular>studentAttendance</singular>
+	<document name="Attendance">
+		<class name="Attendance"></class>
+		<graph>attendances</graph>
+		<singular>attendance</singular>
 	</document>
 	<document name="AttendanceEvent">
 		<class name="AttendanceEvent"></class>

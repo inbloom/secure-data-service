@@ -6614,7 +6614,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentAttendance">
+	<xs:complexType name="attendance">
 		<xs:annotation>
 			<xs:documentation>
 				Daily attendance for the student at the school.
