@@ -58,7 +58,7 @@ public class EmbeddedDocumentRelations {
         denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
                 "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
         
-        denormalizationMap.put("studentAttendance", new Denormalization("student", "attendances", studentReferenceMap,
+        denormalizationMap.put("attendance", new Denormalization("student", "attendances", studentReferenceMap,
                 "_id", null));
         
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
