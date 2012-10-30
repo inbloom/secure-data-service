@@ -426,6 +426,16 @@ class LDAPStorage
     end
   end
   
+  # retrieve one group from ldap
+  def get_group(group_id)
+    group_found = nil
+    filter = Net::LDAP::Filter.eq( "cn", group_id)
+    Net::LDAP.open(@ldap_conf) do |ldap|
+      group_found = ldap.search(:base => @group_base, :filter => filter).to_a()[0]
+    end
+    group_found
+  end 
+  
   #############################################################################
   # PRIVATE methods
   #############################################################################
