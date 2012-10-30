@@ -180,10 +180,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-System.out.println ("collectionNameAsStaged = " + collectionNameAsStaged);
         EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
         String collectionToPersistFrom = getCollectionToPersistFrom(collectionNameAsStaged, entityPipelineType);
-System.out.println ("collectionToPersistFrom = " + collectionToPersistFrom);
         LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
@@ -211,7 +209,6 @@ System.out.println ("collectionToPersistFrom = " + collectionToPersistFrom);
                 List<NeutralRecord> recordStore = new ArrayList<NeutralRecord>();
                 List<SimpleEntity> persist = new ArrayList<SimpleEntity>();
                 for (NeutralRecord neutralRecord : records) {
-                    //System.out.println ("neutralRecord = " + neutralRecord);
                     errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
                     Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
@@ -220,7 +217,6 @@ System.out.println ("collectionToPersistFrom = " + collectionToPersistFrom);
 
                         SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, getTenantId(job),
                                 errorReportForCollection);
-                    //System.out.println ("xformedEntity = " + xformedEntity);
 
                         if (xformedEntity != null) {
 

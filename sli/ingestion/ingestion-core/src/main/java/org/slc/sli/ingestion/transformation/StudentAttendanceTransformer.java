@@ -19,16 +19,9 @@ package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +29,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
-import com.mongodb.WriteResult;
+
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -61,19 +48,20 @@ import com.mongodb.WriteResult;
  */
 @Scope("prototype")
 @Component("studentAttendanceTransformationStrategy")
-public class StudentAttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware{
+public class StudentAttendanceTransformer extends AbstractTransformationStrategy implements MessageSourceAware {
     private static final Logger LOG = LoggerFactory.getLogger(StudentAttendanceTransformer.class);
 
     private static final String ATTENDANCE = "studentAttendance";
-    private static final String SCHOOL = "school";
-    private static final String SESSION = "session";
-    private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
+    //private static final String SCHOOL = "school";
+    //private static final String SESSION = "session";
+    //private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
 
-    private int numAttendancesIngested = 0;
+    //private int numAttendancesIngested = 0;
 
     private Map<Object, NeutralRecord> attendances;
 
+    @SuppressWarnings("unused")
     private MessageSource messageSource;
 
     @Autowired
@@ -84,22 +72,17 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
      * Default constructor.
      */
     public StudentAttendanceTransformer() {
-        attendances = new HashMap<Object, NeutralRecord>();
+        this.attendances = new HashMap<Object, NeutralRecord>();
     }
     
-    @PostConstruct
-    public void setNaturalKeyDescriptor() {
-        
-    }
-
     /**
      * The chaining of transformation steps. This implementation assumes that all data will be
      * processed in "one-go."
      */
     @Override
     public void performTransformation() {
-        loadData();
-        transformAndPersist();
+        this.loadData();
+        this.transformAndPersist();
     }
 
     /**
@@ -107,7 +90,7 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
      * student, education organization, education organization calendar, master schedule,
      * student enrollment
      */
-    public void loadData() {
+    private void loadData() {
         LOG.info("Loading data for attendance transformation.");
         this.attendances = super.getCollectionFromDb(ATTENDANCE);
         LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE, attendances.size());
@@ -116,11 +99,15 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
     /**
      * Transforms attendance events from Ed-Fi model into SLI model.
      */
-    public void transformAndPersist() {
+    private void transformAndPersist() {
         LOG.info("Transforming attendance data");
+        
+        NeutralRecordRepository neutralRecordRepository = super.getNeutralRecordMongoAccess().getRecordRepository();
         
         Map<String, String> naturalKeys = new HashMap<String, String>();
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "studentAttendance", null);
+        
+        
 
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
@@ -130,13 +117,10 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
             String schoolYear = (String) attributes.get("schoolYear");
 
             Map<String, Object> event = new HashMap<String, Object>();
-            String eventDate = (String) attributes.get("eventDate");
-            String eventCategory = (String) attributes.get("attendanceEventCategory");
-            event.put("date", eventDate);
-            event.put("event", eventCategory);
+            event.put("date", (String) attributes.get("eventDate"));
+            event.put("event", (String) attributes.get("attendanceEventCategory"));
             if (attributes.containsKey("attendanceEventReason")) {
-                String eventReason = (String) attributes.get("attendanceEventReason");
-                event.put("reason", eventReason);
+                event.put("reason", (String) attributes.get("attendanceEventReason"));
             }
 
             naturalKeys.put("studentId", studentId);
@@ -166,27 +150,27 @@ public class StudentAttendanceTransformer extends AbstractTransformationStrategy
             Map<String, Object> update = new HashMap<String, Object>();
             update.put("addToSet", attendanceEventToPush);
 
-            WriteResult writeResult = getNeutralRecordMongoAccess().getRecordRepository().updateMulti(query, update, ATTENDANCE_TRANSFORMED);
+            Object updatedExisting = neutralRecordRepository.updateMulti(query, update, ATTENDANCE_TRANSFORMED).getField("updatedExisting");
             
-            if (writeResult.getField("updatedExisting").equals(Boolean.FALSE)) {
-                List<Map<String, Object>> attendanceEvents = new ArrayList<Map<String, Object>>();
-                attendanceEvents.add (event);
-
+            // if did not update an existing document, an insert is required
+            if (updatedExisting.equals(Boolean.FALSE)) {
+                
                 Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
                 attendanceAttributes.put("studentId", studentId);
                 attendanceAttributes.put("schoolId", schoolId);
                 attendanceAttributes.put("schoolYear", schoolYear);
-                attendanceAttributes.put("attendanceEvent", attendanceEvents);
+                attendanceAttributes.put("attendanceEvent", attendanceEvent);
+                
                 NeutralRecord record = new NeutralRecord();
-                record.setRecordType(ATTENDANCE_TRANSFORMED);
-                record.setBatchJobId(getBatchJobId());
                 record.setAttributes(attendanceAttributes);
+                record.setBatchJobId(super.getBatchJobId());
+                record.setRecordType(ATTENDANCE_TRANSFORMED);
                 record.setSourceFile(this.attendances.values().iterator().next().getSourceFile());
                 record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-                record.setCreationTime(getWorkNote().getRangeMinimum());
+                record.setCreationTime(super.getWorkNote().getRangeMinimum());
                 record.setRecordId(deterministicId);
 
-                insertRecord(record);
+                super.insertRecord(record);
             }
         }
 
