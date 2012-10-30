@@ -15,6 +15,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -134,6 +135,11 @@ public abstract class AbstractContextValidator implements IContextValidator {
         edorg.addAll(getChildEdOrgs(children));
         return edorg;
     }
+    
+    protected Repository<Entity> getRepo() {
+    	return this.repo;
+    }
+
 
     /**
      * Will go through staffEdorgAssociations that are current and get the descendant
