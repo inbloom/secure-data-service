@@ -95,47 +95,47 @@ public class StaffToSubStudentEntityValidatorTest {
     }
 
     @Test
-    public void testCanValidateTeacherToAttendance() throws Exception {
+    public void testCanValidateStaffToAttendance() throws Exception {
         assertTrue(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
 
     @Test
-    public void testCanValidateTeacherToCourseTranscript() throws Exception {
+    public void testCanValidateStaffToCourseTranscript() throws Exception {
         assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT, false));
     }
 
     @Test
-    public void testCanValidateTeacherToDisciplineAction() throws Exception {
+    public void testCanValidateStaffToDisciplineAction() throws Exception {
         assertTrue(validator.canValidate(EntityNames.DISCIPLINE_ACTION, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentAcademicRecord() throws Exception {
+    public void testCanValidateStaffToStudentAcademicRecord() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentAssessment() throws Exception {
+    public void testCanValidateStaffToStudentAssessment() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentDisciplineIncident() throws Exception {
+    public void testCanValidateStaffToStudentDisciplineIncident() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentGradebookEntry() throws Exception {
+    public void testCanValidateStaffToStudentGradebookEntry() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentSchoolAssociation() throws Exception {
+    public void testCanValidateStaffToStudentSchoolAssociation() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, false));
     }
 
     @Test
-    public void testCanValidateTeacherToStudentSectionAssociation() throws Exception {
+    public void testCanValidateStaffToStudentSectionAssociation() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, false));
     }
 

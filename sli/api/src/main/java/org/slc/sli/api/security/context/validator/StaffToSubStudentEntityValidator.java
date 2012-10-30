@@ -106,7 +106,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
      * @param repo
      *            Paging Delete Repository to use.
      */
-    public void setRepo(PagingRepositoryDelegate<Entity> repo) {
+    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;
     }
 
@@ -116,7 +116,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
      * @param staffToStudentValidator
      *            Staff To Student Validator.
      */
-    public void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
+    protected void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
         this.validator = staffToStudentValidator;
     }
 }
