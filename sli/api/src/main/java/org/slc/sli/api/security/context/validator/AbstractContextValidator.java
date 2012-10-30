@@ -15,10 +15,9 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import org.slc.sli.api.constants.EntityNames;
 
 public abstract class AbstractContextValidator implements IContextValidator {
 
@@ -136,4 +135,23 @@ public abstract class AbstractContextValidator implements IContextValidator {
         edorg.addAll(getChildEdOrgs(children));
         return edorg;
     }
+    
+    protected Repository<Entity> getRepo() {
+    	return this.repo;
+    }
+
+	protected Set<String> getLineage() {
+		Set<String> edorgLineage = new HashSet<String>();
+	    NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+	            NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+	    Iterable<Entity> staffEdorgs = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+	    for (Entity staffEdOrg : staffEdorgs) {
+	        if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
+	            edorgLineage
+	                    .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+	        }
+	    }
+	    edorgLineage.addAll(getChildEdOrgs(edorgLineage));
+		return edorgLineage;
+	}
 }

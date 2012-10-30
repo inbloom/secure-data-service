@@ -51,7 +51,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToSectionValidatorTest {
     
     @Autowired
-    private StaffToSectionValidator validator;
+    private AbstractContextValidator validator;
     
     @Autowired
     private ValidatorTestHelper helper;
