@@ -166,6 +166,17 @@
     </entry>
   </util:map>
 
+  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
+    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
+    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="xsdParentLocation" value="classpath:edfiXsd" />
+    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
+  </bean>
+  
+  <bean id="deterministicIdResolver" class="org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver">
+  	<property name="didSchemaParser" ref="didSchemaParser" />
+  </bean>
+
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true" depends-on="stageTrackingAspect">
     <property name="entityConfigurations" ref="entityConfigurationsFactory" />
     <property name="idNormalizer" ref="idNormalizer" />
@@ -185,13 +196,6 @@
 
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
-  </bean>
-
-  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
-    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
-    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
-    <property name="xsdParentLocation" value="classpath:edfiXsd" />
-    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
   </bean>
 
 </beans>
