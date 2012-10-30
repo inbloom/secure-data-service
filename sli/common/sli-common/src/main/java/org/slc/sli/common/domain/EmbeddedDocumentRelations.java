@@ -63,7 +63,7 @@ public class EmbeddedDocumentRelations {
         sarReferenceMap.put("studentId","studentId");
         sarReferenceMap.put("session","sessionId");
         denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
-        , "sessionId", Arrays.asList("beginDate","endDate")));
+        , "sessionId", null));
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
