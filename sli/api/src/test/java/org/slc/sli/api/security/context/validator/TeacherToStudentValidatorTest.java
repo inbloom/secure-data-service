@@ -19,7 +19,6 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -30,13 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +37,14 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -67,14 +67,14 @@ public class TeacherToStudentValidatorTest {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> mockRepo;
-    
+
     @Autowired
     private ValidatorTestHelper helper;
 
     private Set<String> studentIds;
 
     private String badDate;
-    
+
     private String programId;
 
     @Before
@@ -164,9 +164,8 @@ public class TeacherToStudentValidatorTest {
 
         helper.generateTSA(TEACHER_ID, "0", false);
 
-        List<Entity> ssas = new ArrayList<Entity>();
         for (int i = 0; i < 10; ++i) {
-            helper.generateSSA("2", "" + i, false);
+            helper.generateSSA("2", String.valueOf(i), false);
             studentIds.add("2");
         }
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
@@ -205,7 +204,7 @@ public class TeacherToStudentValidatorTest {
         studentIds.add("-32");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughValidCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
@@ -217,13 +216,13 @@ public class TeacherToStudentValidatorTest {
         }
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughDeniedCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
@@ -235,7 +234,7 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidCohort() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
@@ -247,7 +246,7 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughCohortOutsideOfEdorg() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
@@ -259,17 +258,17 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCohortAccessIntersectionRules() throws Exception {
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughValidProgram() throws Exception {
         String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         helper.generateTeacherSchool(TEACHER_ID, edOrgId);
-        
+
         helper.generateStaffProgram(TEACHER_ID, programId, false, true);
         for (int i = 0; i < 10; ++i) {
             helper.generateStudentProgram(i + "", programId, false);
@@ -277,18 +276,18 @@ public class TeacherToStudentValidatorTest {
         }
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() throws Exception {
-        
+
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughDeniedProgram() throws Exception {
         String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         helper.generateTeacherSchool(TEACHER_ID, edOrgId);
-        
+
         helper.generateStaffProgram(TEACHER_ID, programId, false, false);
         for (int i = 0; i < 10; ++i) {
             helper.generateStudentProgram(i + "", programId, false);
@@ -296,12 +295,12 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidProgram() throws Exception {
         String edOrgId = helper.generateEdorgWithProgram(Arrays.asList(programId)).getEntityId();
         helper.generateTeacherSchool(TEACHER_ID, edOrgId);
-        
+
         helper.generateStaffProgram(TEACHER_ID, programId, false, true);
         for (int i = 0; i < 10; ++i) {
             helper.generateStudentProgram(i + "", "" + i * -1, false);
@@ -310,12 +309,11 @@ public class TeacherToStudentValidatorTest {
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
-
     @Test
     public void testCanNotGetAccessThroughProgramOutsideOfEdorg() throws Exception {
         helper.generateTeacherSchool(TEACHER_ID, ED_ORG_ID);
         helper.generateEdorgWithProgram(Arrays.asList(programId));
-        
+
         helper.generateStaffProgram(TEACHER_ID, programId, false, true);
         for (int i = 0; i < 10; ++i) {
             helper.generateStudentProgram(i + "", programId, false);
@@ -323,11 +321,10 @@ public class TeacherToStudentValidatorTest {
         }
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testProgramAccessIntersectionRules() throws Exception {
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 
-    
 }
