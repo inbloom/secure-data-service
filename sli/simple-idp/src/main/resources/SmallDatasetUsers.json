@@ -20,13 +20,13 @@
   {
     "userId": "demo",
     "name": "Johnny Admin",
-    "role": "Leader",
+    "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "sampleUser",
     "name": "Billy Admin",
-    "role": "Leader",
+    "role": "IT Administrator",
     "association": ""
   },
   {
@@ -38,13 +38,13 @@
   {
     "userId": "akopel",
     "name": "Amy Kopel",
-    "role": "Leader",
+    "role": "IT Administrator",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "msmith",
     "name": "Mary Smith",
-    "role": "Leader",
+    "role": "Aggregate Viewer",
     "association": "South Daybreak Elementary"
   },
   {
@@ -56,13 +56,13 @@
   {
     "userId": "rrogers",
     "name": "Rick Rogers",
-    "role": "Leader",
+    "role": "IT Administrator",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "mjohnson",
     "name": "Michael Johnson",
-    "role": "Leader",
+    "role": "Aggregate Viewer",
     "association": "STANDARD-SEA"
   },
   {
@@ -74,13 +74,13 @@
   {
     "userId": "jstevenson",
     "name": "James Stevenson",
-    "role": "Leader",
+    "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jjackson",
     "name": "Jack Jackson",
-    "role": "Leader",
+    "role": "Aggregate Viewer",
     "association": "IL-DAYBREAK"
   }
 ]
