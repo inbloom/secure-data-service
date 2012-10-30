@@ -39,5 +39,5 @@
 </beans:bean>
 
   <context:component-scan base-package="org.slc.sli" />
-
+<context:annotation-config />
 </beans:beans>
