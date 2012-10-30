@@ -83,7 +83,7 @@ public class XsdValidatorTest {
         Assert.assertNotNull(resources.get("MasterSchedule"));
         Assert.assertNotNull(resources.get("StaffAssociation"));
         Assert.assertNotNull(resources.get("StudentAssessment"));
-        Assert.assertNotNull(resources.get("StudentAttendance"));
+        Assert.assertNotNull(resources.get("Attendance"));
         Assert.assertNotNull(resources.get("StudentCohort"));
         Assert.assertNotNull(resources.get("StudentDiscipline"));
         Assert.assertNotNull(resources.get("StudentEnrollment"));
@@ -98,7 +98,7 @@ public class XsdValidatorTest {
         Assert.assertTrue(resources.get("MasterSchedule").exists());
         Assert.assertTrue(resources.get("StaffAssociation").exists());
         Assert.assertTrue(resources.get("StudentAssessment").exists());
-        Assert.assertTrue(resources.get("StudentAttendance").exists());
+        Assert.assertTrue(resources.get("Attendance").exists());
         Assert.assertTrue(resources.get("StudentCohort").exists());
         Assert.assertTrue(resources.get("StudentDiscipline").exists());
         Assert.assertTrue(resources.get("StudentEnrollment").exists());

@@ -1979,8 +1979,8 @@
   <!-- Questionable ends -->
 
   <!-- Start Student Attendance mapping -->
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:expression property="recordType">'studentAttendance'</jb:expression>
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAttendance/AttendanceEvent">
+    <jb:expression property="recordType">'attendance'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="attendanceEventAttributes" />
   </jb:bean>
 

@@ -47,7 +47,7 @@
         <entry key="StudentAssessment">
             <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd</value>
         </entry>
-        <entry key="StudentAttendance">
+        <entry key="Attendance">
             <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd</value>
         </entry>
         <entry key="StudentCohort">
