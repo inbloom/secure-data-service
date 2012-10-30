@@ -412,6 +412,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "positionTitle" => "Hall monitor",
       "staffClassification" => "School Administrative Support Staff"
     },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
       "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
@@ -438,6 +445,7 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations"
   }

@@ -41,7 +41,7 @@ default:
         bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.name: Shared Learning Collaborative
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
@@ -1033,7 +1033,7 @@ local-acceptance-tests:
     api:
         <<: *API-LOCAL
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.name: Shared Learning Collaborative
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin

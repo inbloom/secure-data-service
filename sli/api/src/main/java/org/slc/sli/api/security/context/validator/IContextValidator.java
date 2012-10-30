@@ -23,18 +23,29 @@ public interface IContextValidator {
     /**
      * Simple method that can return true if it knows how to validate who you are to the
      * type of entity asked for. Also is split up into transitive vs non-transitive access
-     * 
+     *
      * Transitive means that your ability to see these things goes beyond direct association
      * and includes extra context through other means. (i.e. Transitive access to section is
      * through both your direct section associations and the sections of the students that a
      * teacher teaches)
-     * 
+     *
      * @param entityType
+     *            Type of entity being requested.
      * @param isTransitive
-     * @return
+     *            Flag including transitive access to entity type.
+     * @return True if access is allowed, false otherwise.
      */
     public abstract boolean canValidate(String entityType, boolean isTransitive);
-    
+
+    /**
+     * Validates that the user has access to the set of entities of type 'entityType' with _id
+     * contained within the specified 'ids' Set.
+     *
+     * @param entityType
+     *            Type of entities being requested.
+     * @param ids
+     *            Set of Strings representing the _id's of entities being requested.
+     * @return True if the user has access to ALL of the entities requested, false otherwise.
+     */
     public abstract boolean validate(String entityType, Set<String> ids);
-    
 }

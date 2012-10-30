@@ -24,12 +24,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -44,13 +42,9 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
 
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STUDENT.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+        return !through && EntityNames.STUDENT.equals(entityType) && isStaff();
     }
 
     @Override
@@ -137,7 +131,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
-        Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, studentQuery);
+        Iterable<Entity> students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
         return students;
     }
 
@@ -149,16 +143,12 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         staffEdOrgAssocQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
                 NeutralCriteria.CRITERIA_GTE, getFilterDate())));
 
-        Iterable<Entity> staffEdOrgAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
+        Iterable<Entity> staffEdOrgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
                 staffEdOrgAssocQuery);
         Set<String> staffEdOrgs = new HashSet<String>();
         for (Entity entity : staffEdOrgAssociations) {
             staffEdOrgs.add((String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
         }
         return staffEdOrgs;
-    }
-
-    public void setRepo(PagingRepositoryDelegate<Entity> repo) {
-        this.repo = repo;
     }
 }
