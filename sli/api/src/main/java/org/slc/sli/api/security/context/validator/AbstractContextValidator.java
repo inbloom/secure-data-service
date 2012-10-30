@@ -56,6 +56,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
+                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
     }
