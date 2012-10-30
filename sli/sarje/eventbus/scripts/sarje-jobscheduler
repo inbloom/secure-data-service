@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# sarje-jobscheduler      Start/Stop Instiki.
+#
+# chkconfig: - 62 38
+# description: Instiki is a ruby wiki.
+#
+# processname: sarje-jobscheduler
+#
+# By: Ryan Dlugosz - ryan@dlugosz.net
+#
+# Based on freshclam init by:
+# (c) 2004/05/17 Petr@Kristof.CZ under GNU GPL 2.0+
+#
+# Updated 4/16/2005 to accomodate sarje-jobscheduler 0.10.0
+# 
+
+# Source function library
+. /lib/lsb/init-functions
+
+RUBY=/home/stephan/.rvm/rubies/ruby-1.9.3-p125/bin/ruby
+SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
+JSCHEDULER_APP=$SARJE_HOME/jscheduler_daemon.rb
+JSCHEDULER_CONFIG=$SARJE_HOME/conf/minislirp-jscheduler-config.yml
+PID=$SARJE_HOME/run/jscheduler.pid 
+LOG_FILE=$SARJE_HOME/log/jscheduler.log 
+
+RETVAL=0
+
+start() {
+    echo -n $"Starting sarje-jobscheduler: " 
+    # Start me up!
+    echo "start_daemon -p $PID -- $RUBY $JSCHEDULER_APP $JSCHEDULER_CONFIG "
+    start_daemon -pidfile $PID -- $RUBY $JSCHEDULER_APP $JSCHEDULER_CONFIG 
+    return $?
+}
+
+stop() {
+    echo -n $"Stopping sarje-jobscheduler: " 
+    killproc -p $PID $JSCHEDULER_APP
+    return $?
+}    
+
+restart() {
+    stop
+    start
+}    
+
+reload() {
+    stop
+    start
+}
+
+case "$1" in
+  start)
+      start
+    ;;
+  stop)
+      stop
+    ;;
+  status)
+    status sarje-jobscheduler
+    ;;
+  restart)
+      restart
+    ;;
+  reload)
+    reload
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|status|restart|condrestart|reload}" 
+    exit 1
+esac
+
+exit $?

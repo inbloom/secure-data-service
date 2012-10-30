@@ -1,6 +1,6 @@
 # logging configuration 
 logger_output: STDOUT
-logger_level: INFO
+logger_level: WARN
 
 # set the node-id that is prefixed to the hostname 
 node_id: oplogagent-2-
