@@ -240,7 +240,7 @@ public class SectionEntityTest {
         Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
-        Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
+        //Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -481,8 +481,8 @@ public class SectionEntityTest {
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("sessionReference")).get("sessionIdentity")).get("sessionName"));
 
-        List<String> programReferenceList = (List<String>) entity.get("programReference");
+/*        List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("ProgramId0", programReferenceList.get(0));
-    }
+*/    }
 }

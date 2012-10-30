@@ -23,12 +23,12 @@
             }
           },
           {
-            "fieldPath" : "body.programId",
+            "fieldPath" : "body.ProgramReference",
             "ref" :
             {
                 "entityType" : "program",
                 "isRefList" : true,
-                "refObjectPath" : "body.programReferences",
+                "refObjectPath" : "body.ProgramReference",
                 "choiceOfFields" :
                 [
                   [
@@ -36,7 +36,7 @@
                         "path" : "body.programId",
                         "values" :
                         [{
-                            "valueSource" : "body.programReferences.ProgramIdentity.ProgramId"
+                            "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
                         }]
                     }
                   ]

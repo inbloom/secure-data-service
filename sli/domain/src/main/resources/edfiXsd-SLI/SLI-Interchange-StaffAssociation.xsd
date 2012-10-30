@@ -19,7 +19,7 @@
 				<xs:element name="LeaveEvent" type="LeaveEvent"/>
 				<xs:element name="OpenStaffPosition" type="OpenStaffPosition"/>
 				<xs:element name="CredentialFieldDescriptor" type="CredentialFieldDescriptor"/>
-				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramRestriction"/>
+				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

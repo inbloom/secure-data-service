@@ -214,12 +214,12 @@ public class SchoolEntityTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingOrganization", "rating org");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
-        @SuppressWarnings("unchecked")
+/*        @SuppressWarnings("unchecked")
         List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) neutralRecord.getAttributes().get("programReference");
         assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0).get("programId"));
         assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1).get("programId"));
 
-        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
+*/        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals("Third grade", gradesOfferedList.get(0));
         if (isXML) {
             // TODO: remove if block when we support csv collections
