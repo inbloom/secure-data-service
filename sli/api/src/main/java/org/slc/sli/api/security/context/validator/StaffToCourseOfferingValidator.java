@@ -34,8 +34,8 @@ public class StaffToCourseOfferingValidator extends AbstractContextValidator {
 		
 		Set<String> lineage = this.getStaffEdorgLineage();
 		
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id","in",ids));
-		nq.addCriteria(new NeutralCriteria("body.schoolId", "in", lineage));
+		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id","in",ids,false));
+		nq.addCriteria(new NeutralCriteria("body.schoolId", "in", lineage,false));
 		
 		List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.COURSE_OFFERING, nq);
 		
