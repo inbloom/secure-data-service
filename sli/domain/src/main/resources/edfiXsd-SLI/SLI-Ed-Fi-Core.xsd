@@ -973,7 +973,7 @@ Other</xs:documentation>
 							<xs:documentation>The section associated with the gradebook entry.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" minOccurs="0">
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the grading period for the gradebook entry</xs:documentation>
 						</xs:annotation>
@@ -1025,39 +1025,45 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:complexType name="SLC-SessionRestriction">
+	<xs:complexType name="SLC-AcademicWeek">
+		<xs:annotation>
+			<xs:documentation>This entity represents the academic weeks for a school year, optionally captured to support analyses.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>academicWeek</sli:recordType>
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
-			<xs:restriction base="Session">
+			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="SessionName" type="IdentificationCode" />
-					<xs:element name="SchoolYear" type="SchoolYearType" />
-					<xs:element name="Term" type="TermType" />
-					<xs:element name="BeginDate" type="xs:date" />
-					<xs:element name="EndDate" type="xs:date" />
-					<xs:element name="TotalInstructionalDays" type="xs:int" />
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" />
-					<xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" maxOccurs="unbounded" />
-					<xs:element name="CalendarDateReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="WeekIdentifier" type="WeekIdentifier">
+						<xs:annotation>
+							<xs:documentation>The school label for the week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BeginDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The start date for the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The end date for the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TotalInstructionalDays" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The total instructional days during the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CalendarDateReference" type="ReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Days associated with the grading period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
-			</xs:restriction>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-  <xs:complexType name="SLC-SessionExtension">
-    <xs:annotation>
-      <xs:documentation/>
-        <xs:appinfo>
-          <sli:recordType>session</sli:recordType>
-        </xs:appinfo>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="SLC-SessionRestriction">
-        <xs:sequence>
-            <xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-	
 	
 	<xs:complexType name="SLC-AcademicWeekReferenceType">
 	   <xs:annotation>
@@ -1249,7 +1255,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 							<xs:documentation>Association to the student-section association with which the grade is awarded.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="GradingPeriodReference" type="GradingPeriodReferenceType" minOccurs="0">
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifies the grading period for the grade.</xs:documentation>
 						</xs:annotation>
@@ -1260,12 +1266,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 	</xs:complexType>
     
     <xs:complexType name="SLC-DiplomaReferenceType">
-        <xs:annotation>
-            <xs:appinfo>
-                <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>diploma</sli:refType>
-            </xs:appinfo>
-        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ReferenceType">
                 <xs:sequence>
@@ -1414,7 +1414,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                 <xs:annotation>
                     <xs:documentation>The name of the period for which grades are reported</xs:documentation>
                     <xs:appinfo>
-                        <sli:keyFieldName>gradingPeriod</sli:keyFieldName>
+                        <sli:keyFieldName>gradingPeriodIdentity</sli:keyFieldName>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -1423,11 +1423,6 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     <xs:appinfo>
                         <sli:keyFieldName>beginDate</sli:keyFieldName>
                     </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="SchoolYear" type="SchoolYearType">
-                <xs:annotation>
-                    <xs:documentation>The identifier for the school year.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -2413,6 +2408,118 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name="SLC-Session">
+		<xs:annotation>
+			<xs:documentation>This entity represents the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>session</sli:recordType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="SessionName" type="IdentificationCode">
+						<xs:annotation>
+							<xs:documentation>The identifier for the calendar for the academic session (e.g., 2010/11, 2011 Summer).</xs:documentation>         
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolYear" type="SchoolYearType">
+						<xs:annotation>
+							<xs:documentation>The identifier for the school year.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Term" type="TermType">
+						<xs:annotation>
+							<xs:documentation>The term for the session during the school year.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BeginDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day and year of the first day of the session.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day and year of the last day of the session.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TotalInstructionalDays" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The total number of instructional days in the school calendar.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType">
+						<xs:annotation>
+							<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Grading periods associated with the calendar,</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CalendarDateReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Days associated with the calendar.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AcademicWeekReference" type="SLC-AcademicWeekReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The academic weeks associated with the school year.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SLC-GradingPeriod">
+		<xs:annotation>
+			<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="GradingPeriodIdentity" type="GradingPeriodIdentityType">
+						<xs:annotation>
+							<xs:documentation>The name of the period for which grades are reported
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BeginDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day, and year of the first day of the grading period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day, and year of the last day of the grading period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TotalInstructionalDays">
+						<xs:annotation>
+							<xs:documentation>Total days available for educational instruction during the grading period.
+</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CalendarDateReference" type="ReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Days associated with the grading period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 
 	<xs:complexType name="SLC-CourseReferenceType">
 		<xs:annotation>

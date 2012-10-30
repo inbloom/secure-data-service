@@ -53,13 +53,13 @@ public class InterchangeWriter<T> {
     private XMLStreamWriter writer = null;
     private XMLStreamWriter defaultWriter = null;
     private IndentingXMLStreamWriter indentingWriter = null;
-    
+
     private Marshaller streamMarshaller = null;
-    
+
     private long interchangeStartTime;
-    
+
     public InterchangeWriter(Class<T> interchange) {
-        
+
         interchangeStartTime = System.currentTimeMillis();
         interchangeName = interchange.getSimpleName();
         xmlFilePath = StateEdFiXmlGenerator.rootOutputPath + "/" + interchangeName + ".xml";
@@ -67,7 +67,7 @@ public class InterchangeWriter<T> {
         System.out.println("Creating interchange " + interchangeName);
         try {
             JAXBContext context = JAXBContext.newInstance(interchange);
-        	//JAXBContext context = JAXBContext.newInstance(org.slc.sli.test.edfi.entitiesR1.Section.class);
+            //JAXBContext context = JAXBContext.newInstance(org.slc.sli.test.edfi.entitiesR1.Section.class);
             streamMarshaller = context.createMarshaller();
             // Doesn't work for XMLStreamWriter
 //            streamMarshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -104,16 +104,16 @@ public class InterchangeWriter<T> {
                     return null;
                 }
             });
-            
-          	writer.writeStartElement(interchangeName);
-            
+
+              writer.writeStartElement(interchangeName);
+
             if ("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)) {
-            	writer.writeNamespace(null, "http://slc-sli/ed-org/0.1");
+                writer.writeNamespace(null, "http://slc-sli/ed-org/0.1");
             } else {
-            	 
-            	 writer.writeNamespace(null, "http://ed-fi.org/0100");
+
+                 writer.writeNamespace(null, "http://ed-fi.org/0100");
            }
-            
+
         } catch (XMLStreamException e) {
             e.printStackTrace();
             System.exit(1);  // fail fast for now
@@ -125,9 +125,9 @@ public class InterchangeWriter<T> {
             System.exit(1);  // fail fast for now
         }
     }
-    
+
     public void close() {
-        
+
       System.out.println("generated and marshaled in: "
       + (System.currentTimeMillis() - interchangeStartTime));
 
@@ -158,7 +158,7 @@ public class InterchangeWriter<T> {
 
         if (objectToMarshal != null) {
 
-            try {                
+            try {
                 if (FORMAT_INTERCHANGE_XML && SINGLE_LINE_MARSHALLING) {
                     defaultWriter.writeCharacters("\n");
                     streamMarshaller.marshal(objectToMarshal, defaultWriter);
