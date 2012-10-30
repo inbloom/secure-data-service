@@ -121,6 +121,7 @@ Then /^I should see a count of (\d+)$/ do |arg1|
 end
   
 When /^I make an API call to get my student list (at School ".*?")$/ do |school|
+  @format = "application/vnd.slc+json"
   restHttpGet("/v1/schools/"+school+"/studentSchoolAssociations/students")
 end
 
