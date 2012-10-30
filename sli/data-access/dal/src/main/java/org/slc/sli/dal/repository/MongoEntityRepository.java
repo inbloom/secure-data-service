@@ -305,7 +305,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             List<Entity> results = super.insert(persist, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
-                denormalizer.denormalization(collectionName).insert(records);
+                denormalizer.denormalization(collectionName).insert(results);
             }
 
             return results;
