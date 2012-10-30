@@ -41,37 +41,30 @@ public class ValidateSchema {
 	public static List<String> SCHEMAS = new ArrayList<String>();
 
     public static void getSchemaVersion(){
-    	if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
-    		
-    		SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";	
-    		
-    	} else {
-    		
-    		SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
-    	}
-     	  if ("../../sli/domain/src/main/resources/edfiXsd/".equalsIgnoreCase(SCHEMA_DIR)) {
-    		  	SCHEMAS.add("Interchange-AssessmentMetadata.xsd");
-  				SCHEMAS.add("Interchange-EducationOrgCalendar.xsd");
-  				SCHEMAS.add("Interchange-EducationOrganization.xsd");
-  				SCHEMAS.add("Interchange-HSGeneratedStudentTranscript.xsd");
-  				SCHEMAS.add("Interchange-MasterSchedule.xsd");
-  				SCHEMAS.add("Interchange-StaffAssociation.xsd");
-  				SCHEMAS.add("Interchange-Student.xsd");
-  				SCHEMAS.add("Interchange-StudentAssessment.xsd");
-  				SCHEMAS.add("Interchange-StudentAttendance.xsd");
-  				SCHEMAS.add("Interchange-StudentCohort.xsd");
-  				SCHEMAS.add("Interchange-StudentDiscipline.xsd");
-  				SCHEMAS.add("Interchange-StudentEnrollment.xsd");
-  				SCHEMAS.add("Interchange-StudentGrade.xsd");	
-  				SCHEMAS.add("Interchange-StudentParent.xsd");
-  				SCHEMAS.add("Interchange-StudentProgram.xsd");
-  				
-	  
-	} else {
-			
-			 SCHEMAS.add("Interchange-Section.xsd");
-			
-		}
+        if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
+            SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";
+        } else {
+            SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd-SLI/";
+        }
+        if ("../../sli/domain/src/main/resources/edfiXsd-SLI/".equalsIgnoreCase(SCHEMA_DIR)) {
+            SCHEMAS.add("SLI-Interchange-AssessmentMetadata.xsd");
+            SCHEMAS.add("SLI-Interchange-EducationOrgCalendar.xsd");
+            SCHEMAS.add("SLI-Interchange-EducationOrganization.xsd");
+            SCHEMAS.add("SLI-Interchange-HSGeneratedStudentTranscript.xsd");
+            SCHEMAS.add("SLI-Interchange-MasterSchedule.xsd");
+            SCHEMAS.add("SLI-Interchange-StaffAssociation.xsd");
+            SCHEMAS.add("SLI-Interchange-Student.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentAssessment.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentAttendance.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentCohort.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentDiscipline.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentEnrollment.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentGrade.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentParent.xsd");
+            SCHEMAS.add("SLI-Interchange-StudentProgram.xsd");
+        } else {
+            SCHEMAS.add("Interchange-Section.xsd");
+        }
 	}	
 
     public static String check(String xmlDir) throws Exception {
@@ -91,8 +84,8 @@ public class ValidateSchema {
                 String baseName = fname.replace("Interchange", "").replace("-", "").replace("_", "")
                         .replace(".xml", "");
                 
-                if (schemaMap.get(baseName) != null) {
-                    String schemaFile = schemaMap.get(baseName);
+                if (schemaMap.get("SLI" + baseName) != null) {
+                    String schemaFile = schemaMap.get("SLI" + baseName);
  
                     SchemaFactory factory;
 
