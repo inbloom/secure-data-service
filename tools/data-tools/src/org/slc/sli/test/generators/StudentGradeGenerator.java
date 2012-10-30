@@ -57,6 +57,8 @@ import org.slc.sli.test.edfi.entities.Recognition;
 import org.slc.sli.test.edfi.entities.RecognitionType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
@@ -100,6 +102,20 @@ public class StudentGradeGenerator {
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
         ssaIdentity.setStudentIdentity(student.getStudentIdentity());
         ssaIdentity.setSectionIdentity(section.getSectionIdentity());
+        return ssaRef;
+    }
+
+    public static SLCStudentSectionAssociationReferenceType getSLCStudentSectionAssociationReference(
+            StudentReferenceType student, SectionReferenceType section) {
+        SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
+        SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
+        ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
+        StudentReferenceType stuRef = new StudentReferenceType();
+        SectionReferenceType secRef = new SectionReferenceType();
+        stuRef.setStudentIdentity(student.getStudentIdentity());
+        secRef.setSectionIdentity(section.getSectionIdentity());
+        ssaIdentity.setStudentReference(stuRef);
+        ssaIdentity.setSectionReference(secRef);
         return ssaRef;
     }
 

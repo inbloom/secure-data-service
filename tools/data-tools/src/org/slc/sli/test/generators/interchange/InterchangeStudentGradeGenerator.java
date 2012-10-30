@@ -58,11 +58,13 @@ import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
@@ -71,6 +73,7 @@ import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.StudentGradebookEntry;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.StudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
@@ -332,17 +335,34 @@ public final class InterchangeStudentGradeGenerator {
 
                 if (MetaRelations.InterchangeStudentGrade_Ref) {
                     for (Grade grade : gradeList) {
-                        System.out.println(">>>>>>>>>>>>>>>>>>blah1");
                         GradeReferenceType gradeReference = new GradeReferenceType();
                         gradeReference.setRef(grade);
                         gradeReferences.add(gradeReference);
                     }
                 } else {
                     for (Grade grade : gradeList) {
-                        System.out.println("blah2<<<<<<<<<<<<<<<<<<");
                         GradeIdentityType git = new GradeIdentityType();
                         git.setGradingPeriodReference(grade.getGradingPeriodReference());
-                        git.setStudentSectionAssociationReference(grade.getStudentSectionAssociationReference());
+                        SLCStudentSectionAssociationReferenceType slcssa = new SLCStudentSectionAssociationReferenceType();
+                        StudentSectionAssociationReferenceType ssa = grade.getStudentSectionAssociationReference();
+
+                        slcssa.setId(ssa.getId());
+                        SLCStudentSectionAssociationIdentityType slcssai = new SLCStudentSectionAssociationIdentityType();
+                        StudentSectionAssociationIdentityType ssai = ssa.getStudentSectionAssociationIdentity();
+
+                        StudentReferenceType stuRef = new StudentReferenceType();
+                        SectionReferenceType secRef = new SectionReferenceType();
+
+                        stuRef.setStudentIdentity(ssai.getStudentIdentity());
+                        secRef.setSectionIdentity(ssai.getSectionIdentity());
+
+                        slcssai.setStudentReference(stuRef);
+                        slcssai.setSectionReference(secRef);
+
+
+                        slcssa.setStudentSectionAssociationIdentity(slcssai);
+
+                        git.setStudentSectionAssociationReference(slcssa);
                         GradeReferenceType grt = new GradeReferenceType();
                         grt.setGradeIdentity(git);
                         gradeReferences.add(grt);

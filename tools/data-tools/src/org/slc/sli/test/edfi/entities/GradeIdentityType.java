@@ -45,7 +45,7 @@ public class GradeIdentityType {
 
 
     @XmlElement(name = "StudentSectionAssociationReference", required = true)
-    protected StudentSectionAssociationReferenceType studentSectionAssociationReference;
+    protected SLCStudentSectionAssociationReferenceType studentSectionAssociationReference;
     @XmlElement(name = "GradingPeriodReference")
     protected GradingPeriodReferenceType gradingPeriodReference;
 
@@ -57,7 +57,7 @@ public class GradeIdentityType {
      *     {@link StudentSectionAssociationReferenceType }
      *
      */
-    public StudentSectionAssociationReferenceType getStudentSectionAssociationReference() {
+    public SLCStudentSectionAssociationReferenceType getStudentSectionAssociationReference() {
         return studentSectionAssociationReference;
     }
 
@@ -69,7 +69,7 @@ public class GradeIdentityType {
      *     {@link StudentSectionAssociationReferenceType }
      *
      */
-    public void setStudentSectionAssociationReference(StudentSectionAssociationReferenceType value) {
+    public void setStudentSectionAssociationReference(SLCStudentSectionAssociationReferenceType value) {
         this.studentSectionAssociationReference = value;
     }
 
