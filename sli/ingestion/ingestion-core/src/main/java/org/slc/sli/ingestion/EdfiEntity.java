@@ -143,7 +143,7 @@ public enum EdfiEntity {
 
     ASSESSMENT("assessment", Arrays.asList(ASSESSMENT_ITEM, OBJECTIVE_ASSESSMENT, ASSESSMENT_FAMILY, SECTION)),
 
-    ATTENDANCE_EVENT("studentAttendance", Arrays.asList(STUDENT, SECTION, SCHOOL, STUDENT_SCHOOL_ASSOCIATION)),
+    ATTENDANCE_EVENT("attendance", Arrays.asList(STUDENT, SECTION, SCHOOL, STUDENT_SCHOOL_ASSOCIATION)),
 
     TEACHER_SECTION_ASSOCIATION("teacherSectionAssociation", Arrays.asList(TEACHER, SECTION)),
 
@@ -207,7 +207,7 @@ public enum EdfiEntity {
     static {
         ALIAS.put("studentAssessmentAssociation", STUDENT_ASSESSMENT);
         ALIAS.put("studentGradebookEntry", STUDENT_GRADEBOOK_ENTRY);
-        ALIAS.put("studentAttendance", ATTENDANCE_EVENT);
+        ALIAS.put("attendance", ATTENDANCE_EVENT);
         ALIAS.put("staffEducationOrganizationAssociation", STAFF_EDUCATION_ORG_ASSIGNMENT_ASSOCIATION);
         ALIAS.put("courseTranscript", COURSE_TRANSCRIPT);
     }
