@@ -25,18 +25,20 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ValidatorTestHelper {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    public final String STAFF_ID = "1";
+    public final String ED_ORG_ID = "111";
 
     public String getBadDate() {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -196,4 +198,17 @@ public class ValidatorTestHelper {
         repo.create(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffProgram);
 
     }
+
+    public Entity generateAssessment() {
+    	return repo.create(EntityNames.ASSESSMENT, new HashMap<String, Object>());
+    }
+
+    public Entity generateLearningObjective() {
+    	return repo.create(EntityNames.LEARNING_OBJECTIVE, new HashMap<String, Object>());
+    }
+
+    public Entity generateLearningStandard() {
+    	return repo.create(EntityNames.LEARNING_STANDARD, new HashMap<String, Object>());
+    }
+
 }
