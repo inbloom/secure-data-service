@@ -26,6 +26,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.stream.XMLStreamException;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
+import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
+import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptor;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
@@ -40,11 +42,12 @@ import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.Grade;
+import org.slc.sli.test.edfi.entities.GradeIdentityType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.GradeReferenceType;
 import org.slc.sli.test.edfi.entities.GradebookEntry;
 import org.slc.sli.test.edfi.entities.GradebookEntryIdentityType;
 import org.slc.sli.test.edfi.entities.GradebookEntryReferenceType;
-import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentGrade;
@@ -54,12 +57,14 @@ import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
@@ -87,9 +92,9 @@ import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
  * Generates the StudentGradeGrade Interchange
- * 
+ *
  * @author ldalgado
- * 
+ *
  */
 public final class InterchangeStudentGradeGenerator {
 
@@ -115,15 +120,21 @@ public final class InterchangeStudentGradeGenerator {
 
     private static GradingPeriodReferenceType getGradingPeriodRef(String schoolId, GradingPeriodMeta gpMeta) {
         GradingPeriodReferenceType gradingPeriodRef = new GradingPeriodReferenceType();
-        GradingPeriodIdentityType gradingPeriodItentity = new GradingPeriodIdentityType();
+        SLCGradingPeriodIdentityType gradingPeriodItentity = new SLCGradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
-        gradingPeriodItentity.setSchoolYear(gpMeta.getBeginData() + "-" + gpMeta.getEndDate());
+        gradingPeriodItentity.setBeginDate(gpMeta.getBeginData());
         gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
 
         // gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         // orignal wrong code
 
-        gradingPeriodItentity.setStateOrganizationId(schoolId);
+
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.setStateOrganizationId(schoolId);
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        eort.setEducationalOrgIdentity(eoit);
+        gradingPeriodItentity.setEducationalOrgReference(eort);
+
         return gradingPeriodRef;
     }
 
@@ -302,7 +313,7 @@ public final class InterchangeStudentGradeGenerator {
             StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);
             for (ReportCardMeta reportCardMeta : reportCardsForStudent) {
                 String reportCardId = reportCardMeta.getId();
-                List<ReferenceType> gradeReferences = new ArrayList<ReferenceType>();// References
+                List<GradeReferenceType> gradeReferences = new ArrayList<GradeReferenceType>();// References
                                                                                      // to Grades.
                                                                                      // One Grade
                                                                                      // per
@@ -317,10 +328,25 @@ public final class InterchangeStudentGradeGenerator {
                 // One Grade per Section. N Sections per Course. N Courses per Student. We will use
                 // the first N Sections
                 List<Grade> gradeList = gradeMap.get(studentId);
-                for (Grade grade : gradeList) {
-                    ReferenceType gradeReference = new ReferenceType();
-                    gradeReference.setRef(grade);
-                    gradeReferences.add(gradeReference);
+
+
+                if (MetaRelations.InterchangeStudentGrade_Ref) {
+                    for (Grade grade : gradeList) {
+                        System.out.println(">>>>>>>>>>>>>>>>>>blah1");
+                        GradeReferenceType gradeReference = new GradeReferenceType();
+                        gradeReference.setRef(grade);
+                        gradeReferences.add(gradeReference);
+                    }
+                } else {
+                    for (Grade grade : gradeList) {
+                        System.out.println("blah2<<<<<<<<<<<<<<<<<<");
+                        GradeIdentityType git = new GradeIdentityType();
+                        git.setGradingPeriodReference(grade.getGradingPeriodReference());
+                        git.setStudentSectionAssociationReference(grade.getStudentSectionAssociationReference());
+                        GradeReferenceType grt = new GradeReferenceType();
+                        grt.setGradeIdentity(git);
+                        gradeReferences.add(grt);
+                    }
                 }
 
                 // References to StudentCompetency(For LearningObjectives and

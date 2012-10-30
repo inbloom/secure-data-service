@@ -28,8 +28,8 @@ package org.slc.sli.test.edfi.entities;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
@@ -45,12 +45,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType"/>
  *         &lt;element name="GradingPeriod" type="{http://ed-fi.org/0100}GradingPeriodType"/>
- *         &lt;element name="SchoolYear" type="{http://ed-fi.org/0100}SchoolYearType"/>
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
+ *         &lt;element name="BeginDate" type="{http://ed-fi.org/0100}BeginDateType"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -59,20 +56,21 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradingPeriodIdentityType", propOrder = {
+@XmlType(name = "SLCGradingPeriodIdentityType", propOrder = {
+    "educationalOrgReference",
     "gradingPeriod",
-    "schoolYear",
-    "stateOrganizationId"
+    "beginDate"
 })
-public class GradingPeriodIdentityType {
+public class SLCGradingPeriodIdentityType {
 
+    @XmlElement(name = "EducationalOrgReference", required = true)
+    protected EducationalOrgReferenceType educationalOrgReference;
     @XmlElement(name = "GradingPeriod", required = true)
     protected GradingPeriodType gradingPeriod;
-    @XmlElement(name = "SchoolYear", required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String schoolYear;
-    @XmlElement(name = "StateOrganizationId", required = true)
-    protected String stateOrganizationId;
+    @XmlElement(name = "BeginDate", required = true)
+    @XmlJavaTypeAdapter(Adapter2 .class)
+    @XmlSchemaType(name = "date")
+    protected String beginDate;
 
     /**
      * Gets the value of the gradingPeriod property.
@@ -106,8 +104,8 @@ public class GradingPeriodIdentityType {
      *     {@link String }
      *
      */
-    public String getSchoolYear() {
-        return schoolYear;
+    public String getBeginDate() {
+        return beginDate;
     }
 
     /**
@@ -118,31 +116,31 @@ public class GradingPeriodIdentityType {
      *     {@link String }
      *
      */
-    public void setSchoolYear(String value) {
-        this.schoolYear = value;
+    public void setBeginDate(String value) {
+        this.beginDate = value;
     }
 
     /**
-     * Gets the value of the stateOrganizationId property.
+     * Gets the value of the educationalOrgReference property.
      *
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link EducationalOrgReferenceType }
      *
      */
-    public String getStateOrganizationId() {
-        return stateOrganizationId;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
 
     /**
-     * Sets the value of the stateOrganizationId property.
+     * Sets the value of the educationalOrgReference property.
      *
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link EducationalOrgReferenceType }
      *
      */
-    public void setStateOrganizationId(String value) {
-        this.stateOrganizationId = value;
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
     }
 }
