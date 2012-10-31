@@ -10,17 +10,17 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="StudentAcademicRecord" type="SLI-StudentAcademicRecord"/>
-				<xs:element name="CourseTranscript" type="CourseTranscript"/>
-				<xs:element name="ReportCard" type="ReportCard"/>
-				<xs:element name="Grade" type="Grade"/>
-				<xs:element name="StudentCompetency" type="SLI-StudentCompetencyRestriction"/>
+				<xs:element name="StudentAcademicRecord" type="SLC-StudentAcademicRecord"/>
+				<xs:element name="CourseTranscript" type="SLC-CourseTranscript"/>
+				<xs:element name="ReportCard" type="SLC-ReportCard"/>
+				<xs:element name="Grade" type="SLC-Grade"/>
+				<xs:element name="StudentCompetency" type="SLC-StudentCompetency"/>
 				<xs:element name="Diploma" type="Diploma"/>
-				<xs:element name="GradebookEntry" type="GradebookEntry"/>
-				<xs:element name="StudentGradebookEntry" type="SLI-StudentGradebookEntry"/>
+				<xs:element name="GradebookEntry" type="SLC-GradebookEntry"/>
+				<xs:element name="StudentGradebookEntry" type="SLC-StudentGradebookEntry"/>
 				<xs:element name="CompentencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="LearningObjective" type="LearningObjective"/>
-				<xs:element name="StudentCompetencyObjective" type="SLI-StudentCompetencyObjectiveRestriction"/>
+				<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjectiveRestriction"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

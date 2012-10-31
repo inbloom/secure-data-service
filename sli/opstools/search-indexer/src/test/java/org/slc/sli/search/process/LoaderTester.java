@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process;
 
 import java.io.File;
@@ -47,6 +62,10 @@ public class LoaderTester {
         public List<IndexEntity> getEntities() {
             return entities;
         }
+        public String getHealth() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     };
     
     private final File inbox = new File(Constants.DEFAULT_INBOX_DIR);
@@ -81,20 +100,20 @@ public class LoaderTester {
     
     @Test
     public void testLoadFile() throws Exception {
-        File file = new File(getClass().getResource("/testLoad.json").getFile());
+        File file = new File(getClass().getResource("/test_load.json").getFile());
         setNumOfFilesToWait(1);
         loader.processFile(file);
         waitForFiles(1);
         Assert.assertEquals(3, indexer.getEntities().size());
         Assert.assertEquals("another", indexer.getEntities().get(0).getId());
         Assert.assertEquals("student", indexer.getEntities().get(1).getType());
-        Assert.assertEquals("tenant", indexer.getEntities().get(2).getIndex());
+        Assert.assertEquals("test", indexer.getEntities().get(2).getIndex());
     }
     
     @Test
     public void testLoadTwoFiles() throws Exception {
-        File file = new File(getClass().getResource("/testLoad.json").getFile());
-        File file1 = new File(getClass().getResource("/testLoad2.json").getFile());
+        File file = new File(getClass().getResource("/test_load.json").getFile());
+        File file1 = new File(getClass().getResource("/test_load_2.json").getFile());
         
         setNumOfFilesToWait(2);
         FileUtils.copyFile(file, new File(inbox, file.getName()));

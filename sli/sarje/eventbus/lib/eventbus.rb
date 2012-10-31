@@ -94,6 +94,7 @@ module Eventbus
       @messaging = MessagingService.new(@config, logger)
       @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
       @events_channel = Hash.new
+      # create default oplog queue by default
       @events_channel[event_type] = @messaging.get_publisher(events_address(event_type))
       @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
 
@@ -119,15 +120,16 @@ module Eventbus
     end
 
     def fire_event(events)
-      begin
-        events.each do |event|
-          event.each_pair do |key, value|
+      events.each do |event|
+        event.each_pair do |key, value|
+          begin
+            # check whether the queue name is known, if not create it so we can publish to it
             @events_channel[key] = @messaging.get_publisher(events_address(key)) if (!@events_channel.has_key?(key))
             @events_channel[key].publish(value) 
+          rescue Exception => e
+            @logger.warn("problem occurred publishing event: #{e}")
           end
         end
-      rescue Exception => e
-        @logger.warn("problem occurred publishing event: #{e}")
       end
     end
 

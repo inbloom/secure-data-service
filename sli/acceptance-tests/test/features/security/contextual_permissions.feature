@@ -118,10 +118,10 @@ When I make an API call to get the list of sections taught by the teacher <Teach
 Then I should receive a return code of <Code> 
 Examples: 
 | Realm | Username   | Password      | Teacher          | Code | 
-| "IL"  | "tbear"    | "tbear1234"   | "John Doe 3"     | 200  |
-| "NY"  | "johndoe"  | "johndoe1234" | "Ted Bear"       | 200  |
-| "IL"  | "ejane"    | "ejane1234"   | "Emily Jane"     | 200  |
-| "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" | 200  |
+| "IL"  | "tbear"    | "tbear1234"   | "John Doe 3"     | 404  |
+| "NY"  | "johndoe"  | "johndoe1234" | "Ted Bear"       | 404  |
+| "IL"  | "ejane"    | "ejane1234"   | "Emily Jane"     | 404  |
+| "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" | 404  |
  
 Scenario Outline: Authenticated Educator makes API call to get own Section 
 Given I am logged in using <Username> <Password> to realm <Realm> 
@@ -171,8 +171,8 @@ When I make an API call to get a list of students in the section <Section>
 Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | Section          | Code | 
-| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 403  |
-| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 403  |
+| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 404  |
+| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 404  |
 | "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" | 403  |
  
@@ -210,3 +210,13 @@ Examples:
 | "IL"  | "ejane"    | "ejane1234"    | "Forrest Hopper" | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "Emil Oneil"     | 403  |
 | "IL"  | "tbear"    | "tbear1234"    | "Doris Hanes"    | 403  |
+
+Scenario Outline: Teacher searching for student competency objectives gets only those for their ed-org
+Given I am logged in using <Username> <Password> to realm <Realm> 
+And I have a Role attribute that equals "Educator" 
+When I make an API call to get the student competency objective <Objective>
+Then I should receive a return code of <Code>
+Examples:
+| Realm | Username    | Password        | Objective       | Code | 
+| "IL"  | "linda.kim" | "linda.kim1234" | "Learn to read" | 200  | 
+| "IL"  | "cgray"     | "cgray1234"     | "Learn to read" | 403  |

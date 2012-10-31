@@ -2,7 +2,7 @@
     "keyFields" : [ "body.gradebookEntryId", "body.studentId", "body.sectionId"],
     "references" :
     [{
-        "fieldPath" : "body.sectionId","ref" :
+        "fieldPath" : "body.SectionReference","ref" :
         {
             "entityType" : "section",
             "takesContext" : ["edOrgs"],
@@ -13,7 +13,7 @@
                         "path" : "body.uniqueSectionCode",
                         "values" :
                         [{
-                            "valueSource" : "body.sectionId"
+                            "valueSource" : "body.SectionReference"
                         }]
                     }
                 ]
@@ -40,7 +40,9 @@
         }
     },
     {
-       "fieldPath" : "body.gradebookEntryId","ref" :
+       "fieldPath" : "body.GradebookEntryReference",
+       "deprecated" : true,
+	   "ref" :
         {
             "entityType" : "gradebookEntry",
             "takesContext" : ["edOrgs"],
@@ -51,14 +53,14 @@
                         "path" : "body.gradebookEntryType",
                         "values" :
                         [{
-                            "valueSource" : "body.gradebookReference.gradebookEntryType"
+                            "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.GradebookEntryType"
                         }]
                     },
                     {
                         "path" : "body.dateAssigned",
                         "values" :
                         [{
-                            "valueSource" : "body.gradebookReference.dateAssigned"
+                            "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.DateAssigned"
                         }]
                     },
                     {
@@ -75,7 +77,7 @@
                                             "path" : "body.uniqueSectionCode" ,
                                             "values" :
                                             [{
-                                                "valueSource" : "body.gradebookReference.uniqueSectionCode"
+                                                "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
                                             }]
                                         }
                                     ]

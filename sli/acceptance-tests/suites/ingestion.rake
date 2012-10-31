@@ -88,7 +88,6 @@ end
 
 desc "Run Ingestion Index Tests"
 task :ingestionIndexTest do
- runTests("test/features/ingestion/features/index_testing.feature")
 end
 
 desc "Run Ingestion Parallel Job Tests"
@@ -218,6 +217,21 @@ end
 desc "Ingestion Jefferson County Onbarding Test"
 task :ingestionJeffCoOnboardingTest do
   runTests("test/features/ingestion/features/ingestion_JeffCoOnboarding.feature")
+end
+
+desc "Ingestion Superdoc Tests"
+task :ingestionSuperDocTests do
+  runTests("test/features/superdoc/denormalization_ingestion.feature")
+end
+
+desc "Ingestion Subdoc Tests"
+task :ingestionSubdocTests do
+  runTests("test/features/ingestion/features/ingestion_subdoc.feature")
+end
+
+desc "Ingestion Db Spinup Test"
+task :ingestionDbSpinupTest do
+  runTests("test/features/ingestion/features/ingestion_db_spinup.feature")
 end
 
 ############################################################

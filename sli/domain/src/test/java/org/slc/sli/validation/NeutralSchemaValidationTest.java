@@ -32,6 +32,7 @@ import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.NeutralSchemaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -50,6 +51,7 @@ public class NeutralSchemaValidationTest {
     private SchemaRepository schemaRepo;
     
     @Autowired
+    @Qualifier("validationRepo")
     private DummyEntityRepository repo;
     
     @Before

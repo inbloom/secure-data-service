@@ -38,6 +38,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #sections
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"       if human_readable_id == "'8th Grade English - Sec 6' ID"
   id = "58c9ef19-c172-4798-8e6e-c73e68ffb5a3"       if human_readable_id == "'Algebra II' ID"
+  id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id11b75359-811d-4234-8ef2-ce14dd472a7c" if human_readable_id == "'Track and Field - Sec 6s10' ID"
   
   #students
   id = "0636ffd6-ad7d-4401-8de9-40538cf696c8" if human_readable_id == "'Preston Muchow' ID"

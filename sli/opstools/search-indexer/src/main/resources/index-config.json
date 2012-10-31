@@ -1,28 +1,95 @@
 {
   "student": {
     "fields": [
-      "_id",
       "body.name.firstName",
       "body.name.middleName",
       "body.name.lastSurname",
       "body.otherName.firstName",
       "body.otherName.middleName",
-      "body.otherName.lastSurname",
-      "metaData.tenantId",
-      "type"
-    ]
+      "body.otherName.lastSurname"
+    ],
+    "mapping": {
+      "student": {
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "studentSchoolAssociation": {
     "indexType": "student",
     "fields": [
-      "_id",
       "body.studentId",
-      "body.schoolId", 
-      "body.exitWithdrawDate",
-      "metaData.tenantId",
-      "type"
+      "body.schoolId",
+      "body.exitWithdrawDate"
     ],
-    "rename" : {"body.studentId" : "_id", "body.schoolId": "body.context.schoolId"},
-    "filterCondition":{"body.exitWithdrawDate": null}
+    "rename": {
+      "body.studentId": "_id",
+      "body.schoolId": "body.context.schoolId",
+      "body.exitWithdrawDate": "metaData.exitWithdrawDate"
+    },
+    "filterCondition": {
+      "body.exitWithdrawDate": null
+    },
+    "mapping": {}
+  },
+  "learningStandard": {
+    "fields": [
+      "body.contentStandard",
+      "body.courseTitle",
+      "body.description",
+      "body.gradeLevel",
+      "body.learningStandardId.identificationCode",
+      "body.subjectArea"
+    ],
+    "append": {
+      "body.context.schoolId" : "ALL"
+    },
+    "mapping": {
+      "learningStandard": {
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          },
+          "learningStandardId": {
+            "properties": {
+              "identificationCode": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          },
+          "contentStandard": {
+            "type": "string"
+          },
+          "courseTitle": {
+            "type": "string",
+            "boost": 2.0
+          },
+          "description": {
+            "type": "string",
+            "boost": 1.0
+          },
+          "gradeLevel": {
+            "type": "string"
+          },
+          "subjectArea": {
+            "type": "string"
+          }
+        }
+      }
+    }
   }
 }

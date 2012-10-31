@@ -1,0 +1,31 @@
+{
+    "entityType": "studentAcademicRecord",
+    "keyFields": [
+        {
+            "keyFieldName": "sessionId",
+            "valueSource": "StudentAcademicRecordIdentity.SessionReference",
+            "refConfig": {
+                "entityType": "session",
+                "keyFields": [
+                    {
+                        "keyFieldName": "schoolId",
+                        "optional" : true,
+                        "valueSource": "SessionIdentity.EducationalOrgReference",
+                        "refConfig": {
+                            "entityType": "educationOrganization",
+                            "keyFields": [
+                                {
+                                    "keyFieldName": "stateOrganizationId",
+                                    "valueSource": "EducationalOrgIdentity.StateOrganizationId"
+                                }
+                            ]
+                        }
+                    }, {
+                        "keyFieldName": "sessionName",
+                        "valueSource": "SessionIdentity.SessionName"
+                    }
+                ]
+            }
+        }
+    ]
+}

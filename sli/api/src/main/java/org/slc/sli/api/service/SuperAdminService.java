@@ -28,8 +28,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
@@ -78,6 +78,7 @@ public class SuperAdminService {
             interestedTypes.add(STATE_EDUCATION_AGENCY);
             interestedTypes.add(LOCAL_EDUCATION_AGENCY);
         }
+        TenantContext.setTenantId(tenant);
 
         Set<String> edOrgIds = new HashSet<String>();
         if (secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
@@ -86,10 +87,6 @@ public class SuperAdminService {
         }
 
         NeutralQuery query = new NeutralQuery();
-
-        if (secUtil.getTenantId() == null && tenant != null) {
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant, false));
-        }
 
         for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             String tmpEdOrg = (String) e.getBody().get("stateOrganizationId");

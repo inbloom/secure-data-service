@@ -6,7 +6,7 @@ import org.slc.sli.search.entity.IndexEntity;
  * Indexes provided entities with the search engine
  *
  */
-public interface Indexer {
+public interface Indexer extends Process {
     
     public abstract void index(IndexEntity entity);
     

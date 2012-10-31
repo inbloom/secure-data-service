@@ -127,7 +127,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000112</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Math001-Sec1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -140,7 +144,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000122</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Art001-Sec2</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -153,7 +161,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000112</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Math001-Sec2</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -166,7 +178,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000122</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Art001-Sec1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -179,7 +195,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000112</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>PhySci001-Sec2</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -192,7 +212,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000122</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>Art001-Sec1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -205,7 +229,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000122</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>PE001-Sec1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -218,7 +246,11 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>1000000122</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>PE001-Sec2</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>

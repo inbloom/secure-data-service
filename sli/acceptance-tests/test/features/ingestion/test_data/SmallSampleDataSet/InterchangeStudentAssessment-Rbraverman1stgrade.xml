@@ -22,9 +22,10 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1 BOY</ID>
-        </AssessmentIdentificationCode>
+        <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>First grade</GradeLevelAssessed>
+				<Version>1</Version>
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
@@ -47,9 +48,10 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1 MOY</ID>
-        </AssessmentIdentificationCode>
+        <AssessmentTitle>READ 2.0 Grade 1 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>First grade</GradeLevelAssessed>
+				<Version>1</Version>
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
@@ -72,9 +74,10 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1 BOY</ID>
-        </AssessmentIdentificationCode>
+        <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>First grade</GradeLevelAssessed>
+				<Version>1</Version>
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
@@ -97,9 +100,10 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1 MOY</ID>
-        </AssessmentIdentificationCode>
+        <AssessmentTitle>READ 2.0 Grade 1 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>First grade</GradeLevelAssessed>
+				<Version>1</Version>
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>

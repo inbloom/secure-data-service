@@ -17,6 +17,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,10 +25,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
@@ -37,16 +49,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -57,8 +59,6 @@ import org.springframework.util.Assert;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     @Autowired
     private EntityValidator validator;
@@ -83,10 +83,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private SubDocAccessor subDocs;
 
+    private Denormalizer denormalizer;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
+        denormalizer = new Denormalizer(getTemplate());
     }
 
     @Override
@@ -105,6 +108,61 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return Entity.class;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Iterable<Entity> findAllAcrossTenants(String collectionName, Query mongoQuery) {
+        List<Entity> crossTenantResults = Collections.emptyList();
+
+        guideIfTenantAgnostic("realm");
+        List<String> distinctTenantIds = template.getCollection("realm").distinct("body.tenantId");
+
+        String originalTenantId = TenantContext.getTenantId();
+        try {
+            crossTenantResults = issueQueryToTenantDbs(collectionName, mongoQuery, distinctTenantIds);
+        } finally {
+            TenantContext.setTenantId(originalTenantId);
+        }
+
+        return crossTenantResults;
+    }
+
+    private List<Entity> issueQueryToTenantDbs(String collectionName, Query mongoQuery, List<String> distinctTenantIds) {
+        List<Entity> crossTenantResults = new ArrayList<Entity>();
+
+        guideIfTenantAgnostic(collectionName);
+        for (String tenantId : distinctTenantIds) {
+            // escape nasty characters
+
+            String dbName = TenantIdToDbName.convertTenantIdToDbName(tenantId);
+
+            if (isValidDbName(dbName)) {
+                TenantContext.setTenantId(tenantId);
+
+                List<Entity> resultsForThisTenant = template.find(mongoQuery, getRecordClass(), collectionName);
+                crossTenantResults.addAll(resultsForThisTenant);
+            }
+        }
+        return crossTenantResults;
+    }
+
+    private boolean isValidDbName(String tenantId) {
+        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(" ") == -1;
+    }
+
+
+    public Entity createWithRetries(final String type, final Map<String, Object> body,
+            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+        RetryMongoCommand rc = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+                return create(type, body, metaData, collectionName);
+            }
+        };
+        return (Entity) rc.executeOperation(noOfRetries);
+    }
+
+
     @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
@@ -120,25 +178,44 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
+        boolean result = false;
         Entity entity = new MongoEntity(type, null, newValues, null);
         validator.validatePresent(entity);
         keyEncoder.encodeEntityKey(entity);
         if (subDocs.isSubDoc(collectionName)) {
-            
+
             // prepare to find desired record to be patched
             Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
             query.addCriteria(createTenantCriteria(collectionName));
-            
+
             // prepare update operation for record to be patched
             Update update = new Update();
             for (Entry<String, Object> patch : newValues.entrySet()) {
                 update.set("body." + patch.getKey(), patch.getValue());
             }
-            return subDocs.subDoc(collectionName).doUpdate(query, update);
+            result = subDocs.subDoc(collectionName).doUpdate(query, update);
+        } else {
+            result = super.patch(type, collectionName, id, newValues);
         }
 
-        return super.patch(type, collectionName, id, newValues);
+        if (result && denormalizer.isDenormalizedDoc(collectionName)) {
+            Entity updateEntity;
+            if (subDocs.isSubDoc(collectionName)) {
+                updateEntity = subDocs.subDoc(collectionName).findById(id);
+            } else {
+                updateEntity = super.findById(collectionName, id);
+            }
+
+            Update update = new Update();
+            for (Map.Entry<String, Object> patch : newValues.entrySet()) {
+                update.set(patch.getKey(), patch.getValue());
+            }
+
+            denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
+        }
+
+        return result;
     }
 
     @Override
@@ -158,11 +235,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
@@ -182,18 +254,36 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         keyEncoder.encodeEntityKey(entity);
 
         this.addTimestamps(entity);
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).create(entity);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
+
             return entity;
         } else {
-            return super.insert(entity, collectionName);
+            Entity result = super.insert(entity, collectionName);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).create(entity);
+            }
+
+            return result;
         }
     }
 
     @Override
     public List<Entity> insert(List<Entity> records, String collectionName) {
+
         if (subDocs.isSubDoc(collectionName)) {
             subDocs.subDoc(collectionName).insert(records);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -211,7 +301,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 keyEncoder.encodeEntityKey(entity);
                 persist.add(entity);
             }
-            return super.insert(persist, collectionName);
+
+            List<Entity> results = super.insert(persist, collectionName);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(records);
+            }
+
+            return results;
         }
     }
 
@@ -229,9 +326,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean delete(String collectionName, String id) {
+
         if (subDocs.isSubDoc(collectionName)) {
-            return subDocs.subDoc(collectionName).delete(id);
+            Entity entity = subDocs.subDoc(collectionName).findById(id);
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).delete(entity, id);
+            }
+
+            return subDocs.subDoc(collectionName).delete(entity);
         }
+
+        if (denormalizer.isDenormalizedDoc(collectionName)) {
+            denormalizer.denormalization(collectionName).delete(null, id);
+        }
+
         return super.delete(collectionName, id);
     }
 
@@ -280,9 +389,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
+
+        if (denormalizer.isDenormalizedDoc(collection)) {
+            denormalizer.denormalization(collection).create(entity);
+        }
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+
         return update(collection, entity, null); // body);
     }
 
@@ -337,6 +451,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
+            this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
         return super.findAll(collectionName, neutralQuery);
@@ -366,7 +481,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.count(collectionName, query);
     }
-    
+
 
     @Override
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {

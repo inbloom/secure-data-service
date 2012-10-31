@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -48,6 +49,7 @@ public class StudentSectionAssociationTest {
     private EntityValidator validator;
 
     @Autowired
+    @Qualifier("validationRepo")
     private DummyEntityRepository repo;
 
     @Before
@@ -99,7 +101,12 @@ public class StudentSectionAssociationTest {
             }
 
             @Override
-            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
                 return null;
             }
 

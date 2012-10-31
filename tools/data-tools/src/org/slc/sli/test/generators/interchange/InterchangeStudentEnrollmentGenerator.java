@@ -94,15 +94,14 @@ public class InterchangeStudentEnrollmentGenerator {
 				graduationPlan = null;
 			} else {
 				graduationPlan = GraduationPlanGenerator
-						.generateLowFi(graduationPlanMeta.id);
+						.generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
 			}
 
 
-	         iWriter.marshal(graduationPlan);
-			
-//			interchangeObjects.add(graduationPlan);
-
-			objGenCounter++;
+	        if (graduationPlan != null) {
+	            iWriter.marshal(graduationPlan);
+	            objGenCounter++;
+	        }
 		}
 
 		System.out.println("generated " + objGenCounter

@@ -1,5 +1,4 @@
 /*
-
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +38,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -250,10 +249,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                        if (neutralRecord2.getMetaDataByName("rhId") != null) {
-                            batchJobDAO.findAndUpsertRecordHash(neutralRecord2.getMetaDataByName("rhTenantId").toString(),
-                                    neutralRecord2.getMetaDataByName("rhId").toString());
-                        }
+                            upsertRecordHash(neutralRecord2);
+
                     }
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
@@ -303,7 +300,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
             if (xformedEntity != null) {
                 try {
-                    entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+                    Entity saved = entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+                    if (saved != null) {
+                        upsertRecordHash(neutralRecord);
+                    }
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception processing record with entityPersistentHandler", darfe);
                     currentMetric.setErrorCount(currentMetric.getErrorCount() + 1);
@@ -551,4 +551,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static enum EntityPipelineType {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
-}
+
+     private void upsertRecordHash(NeutralRecord nr){
+            if (nr.getMetaDataByName("rhId") != null) {
+                batchJobDAO.findAndUpsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
+                        nr.getMetaDataByName("rhId").toString());
+            }
+        }
+
+    }

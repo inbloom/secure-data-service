@@ -8,8 +8,12 @@
       <DateAssigned>2011-09-15</DateAssigned>
       <SectionReference>
         <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
           <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
@@ -27,8 +31,12 @@
         <StudentUniqueStateId>100000000</StudentUniqueStateId>
           </StudentIdentity>
           <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
@@ -38,8 +46,12 @@
                 <DateAssigned>2011-09-15</DateAssigned>
                 <SectionReference>
                     <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-                        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>

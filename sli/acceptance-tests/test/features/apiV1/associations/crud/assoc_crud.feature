@@ -42,7 +42,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              |
       | studentSchoolAssociation               | studentSchoolAssociations                | entryGradeLevel          | First grade            | Third grade            |
       | studentSectionAssociation              | studentSectionAssociations               | homeroomIndicator        | true                   | false                  |
-      | studentTranscriptAssociation           | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      |
+      | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      |
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      |
 
     Scenario Outline: CRUD round trip for an association entity can't update natural key
@@ -75,29 +75,71 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Regular Education      | Special Education      |
 
-    Scenario Outline: Read All
-      Given parameter "limit" is "0"
+    Scenario Outline: Read All as State level Staff
+     Given my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools                |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |educationOrganizations |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    |staff                  |85585b27-5368-4f10-a331-3abcaf3a3f4c|
+      And parameter "limit" is "0"
       When I navigate to GET "/<ASSOC URI>"
       Then I should receive a return code of 200
       And I should receive a collection of "<COUNT>" entities
       And each entity's "entityType" should be "<ASSOC TYPE>"
+      And uri was rewritten to <REWRITE URI>
 
     Examples:
-      | ASSOC TYPE                             | ASSOC URI                                | COUNT   |
-      | courseOffering                         | courseOfferings                          | 0       |
-      | staffCohortAssociation                 | staffCohortAssociations                  | 3       |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1       |
-      | staffProgramAssociation                | staffProgramAssociations                 | 3       |
-      | studentAssessmentAssociation           | studentAssessments                       | 0       |
-      | studentCohortAssociation               | studentCohortAssociations                | 9       |
-      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0       |
-      | studentParentAssociation               | studentParentAssociations                | 0       |
-      | studentProgramAssociation              | studentProgramAssociations               | 10      |
-      | studentSchoolAssociation               | studentSchoolAssociations                | 0       |
-      | studentSectionAssociation              | studentSectionAssociations               | 0       |
-      | studentTranscriptAssociation           | courseTranscripts                        | 0       |
-      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0       |
-      | teacherSectionAssociation              | teacherSectionAssociations               | 8       |
+      | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
+      | courseOffering                         | courseOfferings                          | 0     |"/schools/@ids/courseOfferings"|
+      | staffCohortAssociation                 | staffCohortAssociations                  | 3     |"/staff/@ids/staffCohortAssociations"|
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     |"/staff/@ids/staffEducationOrgAssignmentAssociations"|
+      | staffProgramAssociation                | staffProgramAssociations                 | 3     |"/staff/@ids/staffProgramAssociations"|
+      | studentAssessmentAssociation           | studentAssessments                       | 0     |"/schools/@ids/studentSchoolAssociations/students/studentAssessments"|
+      | studentCohortAssociation               | studentCohortAssociations                | 9     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
+      | studentParentAssociation               | studentParentAssociations                | 0     |"/schools/@ids/studentSchoolAssociations/students/studentParentAssociations"|
+      | studentProgramAssociation              | studentProgramAssociations               | 10    |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 0     |"/schools/@ids/studentSchoolAssociations"|
+      | studentSectionAssociation              | studentSectionAssociations               | 0     |"/schools/@ids/sections/studentSectionAssociations"|
+      | courseTranscript                       | courseTranscripts                        | 0     |"/schools/@ids/studentSchoolAssociations/students/courseTranscripts"|
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     |"/schools/@ids/teacherSchoolAssociations"|
+      | teacherSectionAssociation              | teacherSectionAssociations               | 0     |"/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations"|
+
+    Scenario Outline: Read All as School level Teacher
+    	Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    And my contextual access is defined by table:
+    |Context                | Ids                                |
+    |schools	                |ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
+    |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
+    |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
+    |sections |706ee3be-0dae-4e98-9525-f564e05aa388,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e,7847b027-687d-46f0-bc1a-36d3c16956aa|
+      And parameter "limit" is "0"
+      When I navigate to GET "/<ASSOC URI>"
+      Then I should receive a return code of 200
+      And I should receive a collection of "<COUNT>" entities
+      And each entity's "entityType" should be "<ASSOC TYPE>"
+      And uri was rewritten to <REWRITE URI>
+
+    Examples:
+      | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
+      | courseOffering                         | courseOfferings                          | 11    |"/schools/@ids/courseOfferings"|
+      | staffCohortAssociation                 | staffCohortAssociations                  | 0     |"/staff/@ids/staffCohortAssociations"|
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     |"/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations"|
+      | staffProgramAssociation                | staffProgramAssociations                 | 0     |"/staff/@ids/staffProgramAssociations"|
+      | studentAssessmentAssociation           | studentAssessments                       | 3     |"/sections/@ids/studentSectionAssociations/students/studentAssessments"|
+      | studentCohortAssociation               | studentCohortAssociations                | 0     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
+      | studentParentAssociation               | studentParentAssociations                | 2     |"/sections/@ids/studentSectionAssociations/students/studentParentAssociations"|
+      | studentProgramAssociation              | studentProgramAssociations               | 0     |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
+      | student                                | students                                 | 31    |"/sections/@ids/studentSectionAssociations/students"|
+      | studentSchoolAssociation               | studentSchoolAssociations                | 67    |"/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations"|
+      | studentSectionAssociation              | studentSectionAssociations               | 31    |"/sections/@ids/studentSectionAssociations"|
+      | courseTranscript                       | courseTranscripts                        | 1     |"/sections/@ids/studentSectionAssociations/students/courseTranscripts"|
+      | teacher                                | teachers                                 | 1     |"/schools/@ids/teacherSchoolAssociations/teachers"|
+      | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     |"/teachers/@ids/teacherSchoolAssociations"|
+      | teacherSectionAssociation              | teacherSectionAssociations               | 4     |"/teachers/@ids/teacherSectionAssociations"|
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
       # Log in as a user with less accessible data
@@ -158,6 +200,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | <b3f68907-8fd5-11e1-86ec-0021701f543f> | reasonExited             | Expulsion              | studentId             | programId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b> |
       | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5> | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
       | studentSectionAssociation              | studentSectionAssociations               | <4ae72560-3518-4576-a35e-a9607668c9ad> | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8> |
-      | studentTranscriptAssociation           | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
+      | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | <26a4a0fc-fad4-45f4-a00d-285acd1f83eb> | programAssignment        | Special Education      | teacherId             | schoolId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
       | teacherSectionAssociation              | teacherSectionAssociations               | <32b86a2a-e55c-4689-aedf-4b676f3da3fc> | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8> |

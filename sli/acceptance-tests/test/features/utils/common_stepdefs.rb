@@ -74,6 +74,10 @@ Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=" "#{value}"}
 end
 
+Given /^all parameters are cleared$/ do
+  @queryParams = [] 
+end
+
 Given /^parameter "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |param, op, value|
   if !defined? @queryParams
     @queryParams = []
@@ -167,7 +171,9 @@ Then /^I navigate to that link$/ do
 end
 
 Given /^that dashboard has been authorized for all ed orgs$/ do
+  disable_NOTABLESCAN()
   allLeaAllowApp("SLC Dashboards")
+  enable_NOTABLESCAN()
 end
 
 Given /^that databrowser has been authorized for all ed orgs$/ do

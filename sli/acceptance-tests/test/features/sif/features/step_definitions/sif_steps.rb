@@ -31,7 +31,7 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-SIF_DB_NAME = PropLoader.getProps['sif_database_name']
+SIF_DB_NAME= PropLoader.getProps['sif_database_name']
 SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
@@ -45,7 +45,7 @@ MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 Before do
   @conn = Mongo::Connection.new(SIF_DB)
-  @db = @conn.db(SIF_DB_NAME)
+  @db = @conn.db(convertTenantIdToDbName('Midgar'))
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
@@ -67,15 +67,14 @@ Given /^the following collections are clean and bootstrapped in datastore:$/ do 
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS})
+    @entity_collection.remove( "_id" => {"$nin" => BOOTSTRAPPED_GUIDS})
 
-    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS}).count.to_s != "0"
+    if @entity_collection.find( "_id" => {"$nin" => BOOTSTRAPPED_GUIDS}).count.to_s != "0"
       @result = "false"
     end
   end
-  createIndexesOnDb(@conn, SIF_DB_NAME)
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
@@ -97,7 +96,7 @@ Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do 
 end
 
 def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
-  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  success = system("#{MONGO_BIN}mongoimport --jsonArray -d #{convertTenantIdToDbName('Midgar')} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
   assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 
@@ -137,7 +136,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+    @entity_count = @entity_collection.count().to_i
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
@@ -173,15 +172,15 @@ def getEntitiesForParameters(row)
   @entity_collection = @db.collection(row["collectionName"])
 
   if row["searchType"] == "integer"
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).to_a
   elsif row["searchType"] == "boolean"
     if row["searchValue"] == "false"
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).to_a
     else
-      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).to_a
     end
   else
-    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).to_a
   end
 
 end

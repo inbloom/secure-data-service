@@ -1,20 +1,38 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.ExtractorImpl;
 import org.slc.sli.search.transform.IndexEntityConverter;
-import org.slc.sli.search.util.Constants;
 import org.slc.sli.search.util.MockDBCursorFactory;
 
 import com.mongodb.DBCursor;
@@ -27,34 +45,68 @@ import com.mongodb.DBCursor;
  */
 public class ExtractorImplTest {
 
-    private static final String INBOX = Constants.DEFAULT_DATA_DIR + "/inbox-test";
     private IndexConfigStore indexConfigStore;
     private IndexEntityConverter indexEntityConverter;
     
-    private final ExtractorImpl extractor = new ExtractorImpl() {
+    private class MockExtractor extends ExtractorImpl {
+        final HashSet<Action> actions = new HashSet<Action>();
+        int numOfLines = 0;
+
         @Override
-        protected DBCursor getDBCursor(String collectionName, List<String> fields) {
+        protected void finishProcessing(String index, File outFile, Action action, List<File> producedFiles) {
+            if (outFile != null) {
+                producedFiles.add(outFile);
+                try {
+                    numOfLines += FileUtils.readLines(outFile).size();
+                } catch (IOException e) {
+                    throw new RuntimeException("Something with the extract file", e);
+                }
+                outFile.delete();
+            }
+            actions.add(action);
+        }
+        
+        public HashSet<Action> getActions() {
+            return actions;
+        }
+        
+        public void reset() {
+            actions.clear();
+            numOfLines = 0;
+        }
+    };
+    
+    private final SourceDatastoreConnector connector = new SourceDatastoreConnector() {
+
+        public DBCursor getDBCursor(String collectionName, List<String> fields) {
             // get cursor from static file
             return MockDBCursorFactory.create(collectionName);
         } 
+        
+        public List<Tenant> getTenants() {
+            return Arrays.asList(new Tenant[]{new Tenant("test", "test")});
+        }
+        
     };
+    
+    private final MockExtractor extractor = new MockExtractor();
 
     @Before
     public void init() throws IOException {
-        extractor.createExtractDir();
-        (new File(INBOX)).mkdirs();
-        deleteFolder(INBOX);
+        extractor.init();
+        extractor.setJobWaitTimeoutInMins(1);
         indexConfigStore = new IndexConfigStore("index-config-test.json");
         indexEntityConverter = new IndexEntityConverter();
         indexEntityConverter.setIndexConfigStore(indexConfigStore);
         
         extractor.setIndexConfigStore(indexConfigStore);
-        extractor.setInboxDir(INBOX);
+        extractor.reset();
+        extractor.setSourceDatastoreConnector(connector);
     }
     
     @After
     public void destroy() {
-        deleteFolder(INBOX);
+        extractor.destroy();
     }
 /**
  * Test to count number of files and lines in each file
@@ -64,34 +116,18 @@ public class ExtractorImplTest {
     public void testFileCounts() throws Exception {
         // set max lines per file is 10
         extractor.setMaxLinePerFile(10);
-        extractor.extractCollection(indexConfigStore.getConfig("student"), 0);
+        List<File> files = extractor.extractCollection(indexConfigStore.getConfig("student"), Action.INDEX, new Tenant("test", "test"));
 
-        File[] files = listFiles(INBOX);
-        Assert.assertEquals(20, files.length);
-        int totalLines=0;
-        for (File file : files) {
-            totalLines+=getNumberOfLine(file);
-        }
-        Assert.assertEquals(191, totalLines);
+        Assert.assertEquals(20, files.size());
+        Assert.assertEquals(191, extractor.numOfLines);
     }
-
-    private void deleteFolder(String folder) {
-        File[] files = listFiles(folder);
-        for (File file : files) {
-            file.delete();
-        }
-    }
-
-    private File[] listFiles(String folder) {
-        return (new File(folder)).listFiles();
-    }
-
-    private int getNumberOfLine(File file) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        int lines = 0;
-        while (br.readLine() != null)
-            lines++;
-        return lines;
+    
+    @Test
+    public void testAction() throws Exception {
+        extractor.execute(Action.UPDATE);
+        HashSet<Action> actions = extractor.getActions();
+        Assert.assertEquals(1, actions.size());
+        Assert.assertEquals(Action.UPDATE, actions.iterator().next()); 
     }
 
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.util.amq;
 
 import javax.jms.Connection;
@@ -18,9 +33,7 @@ import org.apache.activemq.broker.BrokerService;
  */
 public abstract class JMSBase {
 
-    private String mqHost;
-
-    private int mqPort;
+    private String mqURL;
 
     private String mqUsername;
 
@@ -37,6 +50,9 @@ public abstract class JMSBase {
     private boolean embeddedBroker = false;
     private static BrokerService broker = null;
 
+    private static final String STOMP_URL = "stomp://localhost:61613";
+    private static final String JMS_URL = "tcp://localhost:61616";
+
     enum MessageType {
         QUEUE, TOPIC;
     }
@@ -47,25 +63,26 @@ public abstract class JMSBase {
 
     public void init() throws Exception {
         if (this.embeddedBroker) {
-            //start embedded broker
+            // start embedded broker
             if (broker == null) {
                 broker = new BrokerService();
                 broker.setPersistent(false);
                 broker.setUseJmx(true);
-                
-                broker.addConnector("stomp://localhost:61613");
-                broker.addConnector("tcp://localhost:61616");
+
+                broker.addConnector(STOMP_URL);
+                broker.addConnector(JMS_URL);
+                broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
                 broker.start();
             }
-            //use localhost and port 61616 for embedded broker to access
-            this.brokerURI = "tcp://localhost:61616";
+            // use localhost and port 61616 for embedded broker to access
+            this.brokerURI = JMS_URL;
 
         } else {
-            this.brokerURI = "tcp://" + this.mqHost + ":" + this.mqPort;
+            this.brokerURI = this.mqURL;
         }
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.brokerURI);
-        if ((this.mqUsername == null && this.mqPswd == null)||this.embeddedBroker) {
+        if ((this.mqUsername == null && this.mqPswd == null) || this.embeddedBroker) {
             this.connection = connectionFactory.createConnection();
         } else {
             this.connection = connectionFactory.createConnection(this.mqUsername, this.mqPswd);
@@ -83,9 +100,19 @@ public abstract class JMSBase {
         }
     }
 
-    public void destroy() throws JMSException {
-        session.close();
-        connection.close();
+    public void destroy() throws Exception {
+        if (this.session != null) {
+            this.session.close();
+            this.session = null;
+        }
+        if (this.connection != null) {
+            this.connection.close();
+            this.connection = null;
+        }
+        if (broker != null) {
+            broker.stop();
+            broker = null;
+        }
     }
 
     /**
@@ -122,12 +149,8 @@ public abstract class JMSBase {
         this.brokerURI = brokerURI;
     }
 
-    public void setMqHost(String mqHost) {
-        this.mqHost = mqHost;
-    }
-
-    public void setMqPort(int mqPort) {
-        this.mqPort = mqPort;
+    public void setMqURL(String mqURL) {
+        this.mqURL = mqURL;
     }
 
     public void setMqPswd(String mqPswd) {

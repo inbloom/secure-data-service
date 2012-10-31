@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process;
 
 import java.io.BufferedReader;
@@ -8,7 +23,6 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
@@ -27,8 +41,8 @@ public class IncrementalListenerTest {
     private String opLogUpdate;
     private String opLogDelete;
     
-    private IncrementalListenerImpl listener = new IncrementalListenerImpl();
-    private IndexEntityConverter indexEntityConverter = new IndexEntityConverter();;
+    private final IncrementalListenerImpl listener = new IncrementalListenerImpl();
+    private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();;
     
     @Before
     public void init() throws Exception {
@@ -58,10 +72,10 @@ public class IncrementalListenerTest {
         IndexEntity entity = listener.convertToEntity(opLogInsert);
         
         // check result
-        Assert.assertEquals(entity.getActionValue(), "index");
-        Assert.assertEquals(entity.getId(), "4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id");
-        Assert.assertEquals(entity.getType(), "student");
-        Assert.assertEquals(entity.getIndex(), "midgar");
+        Assert.assertEquals("index", entity.getActionValue());
+        Assert.assertEquals("4ef33d4356e3e757e5c3662e6a79ddbfd8b31866_id", entity.getId());
+        Assert.assertEquals("student", entity.getType());
+        Assert.assertEquals("midgar", entity.getIndex());
         Map<String, Object> name = (Map<String, Object>) entity.getBody().get("name"); 
         Assert.assertEquals(name.get("firstName"), "ESTRING:oF9iD6JYVIXWiLxhlEY5Rw==");
         Assert.assertEquals(name.get("lastSurname"), "ESTRING:B8eYiF6KTM4Fab9/A1lHsQ==");
@@ -81,7 +95,7 @@ public class IncrementalListenerTest {
         IndexEntity entity = listener.convertToEntity(opLogUpdate);
         
         // check result
-        Assert.assertEquals(entity.getActionValue(), "get_index");
+        Assert.assertEquals(entity.getActionValue(), "index");
         Assert.assertEquals(entity.getId(), "067198fd6da91e1aa8d67e28e850f224d6851713_id");
         Assert.assertEquals(entity.getType(), "student");
         Assert.assertEquals(entity.getIndex(), "midgar");
@@ -94,7 +108,6 @@ public class IncrementalListenerTest {
     /**
      * Test oplog delete -> index entity conversion
      */
-    @Ignore // TODO re-enable when delete functionality is in place
     @Test
     public void testDelete() throws Exception {
     
@@ -108,12 +121,6 @@ public class IncrementalListenerTest {
         Assert.assertEquals(entity.getIndex(), "midgar");
         
     }
-    
-    /**
-     * Test filtering of oplog info
-     */
-    public void testFilter() {
-        
-    }
+
     
 }

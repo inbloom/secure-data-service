@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.dal.convert;
 
 import static org.junit.Assert.assertEquals;
@@ -19,32 +35,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.NoNaturalKeysDefinedException;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * Test for sub doc accessor
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessorTest {
 
@@ -63,6 +82,7 @@ public class SubDocAccessorTest {
 
     @Before
     public void setUp() throws NoNaturalKeysDefinedException {
+        TenantContext.setTenantId("myTenant");
         studentSectionAssociation.put("sectionId", SECTION1);
         studentSectionAssociation.put("studentId", STUDENT1);
         studentSectionAssociation.put("beginDate", BEGINDATE);
@@ -73,7 +93,10 @@ public class SubDocAccessorTest {
         when(successCR.ok()).thenReturn(true);
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false))).thenReturn(
+        when(failCR.get("result")).thenReturn(null);
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false), eq(WriteConcern.SAFE))).thenReturn(
+                success);
+        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false), eq(WriteConcern.SAFE))).thenReturn(
                 success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
@@ -100,52 +123,65 @@ public class SubDocAccessorTest {
         }))).thenReturn(naturalKeyDescriptor);
         when(uuidGenerator.generateId(naturalKeyDescriptor)).thenReturn("subdocid");
         String updateCommand = "{findAndModify:\"section\",query:{ \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\""
-                + " , \"studentSectionAssociation.someProperty\" : \"someValue\" , \"metaData.tenantId\" : \"myTenant\" "
-                + ", \"studentSectionAssociation\" : { \"$elemMatch\" : { \"_id\" : \"parent_idchild\" , \"someProperty\" : \"someValue\" "
-                + ", \"metaData.tenantId\" : \"myTenant\"}}},update:{ \"$set\" : { \"studentSectionAssociation.$.someProperty\" : \"someNewValue\"}}}";
-        
+                + " , \"studentSectionAssociation.someProperty\" : \"someValue\" "
+                + ", \"studentSectionAssociation\" : { \"$elemMatch\" : { \"_id\" : \"parent_idchild\" , \"someProperty\" : \"someValue\""
+                + "}}},update:{ \"$set\" : { \"studentSectionAssociation.$.someProperty\" : \"someNewValue\"}}}";
+
         when(template.executeCommand(updateCommand)).thenReturn(successCR);
-        
+
         String failUpdateCommand = "{findAndModify:\"section\",query:{ \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\""
-                + " , \"studentSectionAssociation.nonExistProperty\" : \"someValue\" , \"metaData.tenantId\" : \"myTenant\" "
-                + ", \"studentSectionAssociation\" : { \"$elemMatch\" : { \"_id\" : \"parent_idchild\" , \"nonExistProperty\" : \"someValue\" "
-                + ", \"metaData.tenantId\" : \"myTenant\"}}},update:{ \"$set\" : { \"studentSectionAssociation.$.nonExistProperty\" : \"someNewValue\"}}}";
+                + " , \"studentSectionAssociation.nonExistProperty\" : \"someValue\" "
+                + ", \"studentSectionAssociation\" : { \"$elemMatch\" : { \"_id\" : \"parent_idchild\" , \"nonExistProperty\" : \"someValue\""
+                + "}}},update:{ \"$set\" : { \"studentSectionAssociation.$.nonExistProperty\" : \"someNewValue\"}}}";
         when(template.executeCommand(failUpdateCommand)).thenReturn(failCR);
-        
+
         String queryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}"
                 + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
                 + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
         DBObject subDocQueryResult = new BasicDBObject();
         DBObject subDocEntity = new BasicDBObject();
-        subDocEntity.put("_id","parent_idchild");
+        subDocEntity.put("_id", "parent_idchild");
         DBObject subDocBody = new BasicDBObject();
         subDocBody.put("someProperty", "someValue");
         DBObject subDocMetaData = new BasicDBObject();
-        subDocMetaData.put("tenantId", "myTenant");
 
         subDocEntity.put("body", subDocBody);
         subDocEntity.put("metaData", subDocMetaData);
-        subDocQueryResult.put("studentSectionAssociation",subDocEntity);
+        subDocQueryResult.put("studentSectionAssociation", subDocEntity);
         List<DBObject> subDocQueryResults = new ArrayList<DBObject>();
         subDocQueryResults.add(subDocQueryResult);
         when(successCR.get("result")).thenReturn(subDocQueryResults);
         when(template.executeCommand(queryCommand)).thenReturn(successCR);
-        
-        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" "
-                + ", \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\" "
-                + ", \"metaData.tenantId\" : \"myTenant\"}},{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
-                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" "
-                + ", \"studentSectionAssociation.someProperty\" : \"someValue\" , "
-                + "\"studentSectionAssociation.metaData.tenantId\" : \"myTenant\"}},{$limit:1}]}";
-        when(template.executeCommand(findAllQueryCommand)).thenReturn(successCR);
-    }
-    
 
+        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" "
+                + ", \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\""
+                + "}},{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
+                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" "
+                + ", \"studentSectionAssociation.someProperty\" : \"someValue\"" + "}},{$limit:1}]}";
+        when(template.executeCommand(findAllQueryCommand)).thenReturn(successCR);
+
+        String nonExistQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
+                + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match:{ \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
+        when(template.executeCommand(nonExistQueryCommand)).thenReturn(failCR);
+
+        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
+                + ", \"studentSectionAssociation.someProperty\" : \"someValue\"}},{$project : {\"studentSectionAssociation\":1"
+                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" , "
+                + "\"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
+        when(template.executeCommand(countQueryCommand)).thenReturn(successCR);
+
+        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
+                + ", \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}},{$project : {\"studentSectionAssociation\":1"
+                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" ,"
+                + " \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}]}";
+        when(template.executeCommand(nonExistCountCommand)).thenReturn(failCR);
+    }
 
     @Test
     public void testSingleInsert() {
         MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
-        entity.getMetaData().put("tenantId", "TEST");
+
         assertTrue(underTest.subDoc("studentSectionAssociation").create(entity));
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -168,7 +204,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
 
     }
 
@@ -204,7 +240,7 @@ public class SubDocAccessorTest {
                                 .get("beginDate").equals(BEGINDATE)
                                 && ssaIds.get(0).equals("studentSectionAssociation");
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
         // Test that both fry and gunther get enrolled in history of the 20th century
         verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -224,7 +260,7 @@ public class SubDocAccessorTest {
                         Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
                         return studentSectionsToPush.length == 2;
                     }
-                }), eq(false), eq(false));
+                }), eq(true), eq(false), eq(WriteConcern.SAFE));
 
     }
 
@@ -242,74 +278,89 @@ public class SubDocAccessorTest {
     }
 
     @Test
-    public void testRead() {
-        String ssaId = SECTION1 + STUDENT1;
-        // assertTrue(underTest.subDoc("studentSectionAssociation").exists(ssaId));
-        assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-        assertEquals(studentSectionAssociation, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-
-        // test the negative case when a student does not exist
-        ssaId = SECTION1 + "non-existing-student";
-        // assertTrue(!underTest.subDoc("studentSectionAssociation").exists(ssaId));
-        assertEquals(null, underTest.subDoc("studentSectionAssociation").read(ssaId, null));
-    }
-
-    @Test
     public void testMakeSubDocQuery() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
-                .and("metaData.tenantId").is("myTenant"));
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue"));
         DBObject parentQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, true);
         DBObject childQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, false);
         assertEquals("someValue", parentQuery.get("studentSectionAssociation.someProperty"));
         assertEquals("parent_id", parentQuery.get("_id"));
         assertEquals("parent_idchild", parentQuery.get("studentSectionAssociation._id"));
-        assertEquals("myTenant", parentQuery.get("metaData.tenantId"));
         assertEquals("someValue", childQuery.get("studentSectionAssociation.someProperty"));
         assertEquals("parent_idchild", childQuery.get("studentSectionAssociation._id"));
         assertEquals(null, childQuery.get("_id"));
-        assertEquals("myTenant", childQuery.get("studentSectionAssociation.metaData.tenantId"));
-
     }
-    
+
+    @Test
+    public void testSearchByParentId() {
+        Query originalQuery = new Query(Criteria.where("body.sectionId").in("parentId1", "parentId2"));
+        DBObject parentQuery = underTest.subDoc("studentSectionAssociation").toSubDocQuery(originalQuery, true);
+        assertEquals(new BasicDBObject("$in", Arrays.asList("parentId1", "parentId2")), parentQuery.get("_id"));
+    }
+
     // test the doUpdate(Query query, Update update) which is used for patch support
     @Test
     public void testdoUpdate() {
-        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
-                .and("metaData.tenantId").is("myTenant"));
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue"));
         Update update = new Update();
         update.set("someProperty", "someNewValue");
         boolean result = underTest.subDoc("studentSectionAssociation").doUpdate(originalQuery, update);
         assertTrue(result);
-        
-        originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue")
-                .and("metaData.tenantId").is("myTenant"));
+
+        originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue"));
         update = new Update();
         update.set("nonExistProperty", "someNewValue");
         result = underTest.subDoc("studentSectionAssociation").doUpdate(originalQuery, update);
         assertFalse(result);
 
     }
-    
+
     @Test
     public void testFindById() {
         Entity resultEntity = underTest.subDoc("studentSectionAssociation").findById("parent_idchild");
         assertNotNull(resultEntity);
         assertEquals("parent_idchild", resultEntity.getEntityId());
         assertEquals("someValue", resultEntity.getBody().get("someProperty"));
-        assertEquals("myTenant", resultEntity.getMetaData().get("tenantId"));
     }
-    
+
     @Test
     public void testFindAll() {
-        
-        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")
-                .and("metaData.tenantId").is("myTenant")).skip(0).limit(1);
+
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")).skip(0).limit(1);
         List<Entity> entityResults = underTest.subDoc("studentSectionAssociation").findAll(originalQuery);
         assertNotNull(entityResults);
         assertEquals(1, entityResults.size());
         assertEquals("parent_idchild", entityResults.get(0).getEntityId());
         assertEquals("someValue", entityResults.get(0).getBody().get("someProperty"));
-        assertEquals("myTenant", entityResults.get(0).getMetaData().get("tenantId"));
     }
 
+    @Test
+    public void testDelete() {
+        Entity entity = underTest.subDoc("studentSectionAssociation").findById("parent_idchild");
+        boolean result = underTest.subDoc("studentSectionAssociation").delete(entity);
+        assertTrue(result);
+
+        entity = underTest.subDoc("studentSectionAssociation").findById("nonExistId");
+        result = underTest.subDoc("studentSectionAssociation").delete(entity);
+        assertFalse(result);
+    }
+
+    @Test
+    public void testCount() {
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue"));
+        long count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        assertEquals(1L, count);
+
+        originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("nonExistProperty").is("someValue"));
+        count = underTest.subDoc("studentSectionAssociation").count(originalQuery);
+        assertEquals(0L, count);
+    }
+
+    @Test
+    public void testExists() {
+        boolean exists = underTest.subDoc("studentSectionAssociation").exists("parent_idchild");
+        assertTrue(exists);
+        boolean nonExists = underTest.subDoc("studentSectionAssociation").exists("nonExistId");
+        assertFalse(nonExists);
+
+    }
 }

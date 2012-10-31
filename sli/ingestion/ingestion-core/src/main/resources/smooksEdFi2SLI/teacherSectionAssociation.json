@@ -2,7 +2,8 @@
     "keyFields" : ["body.sectionId", "body.teacherId"],
 	"references" :
 	[{
-        "fieldPath" : "body.sectionId",
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "section",
@@ -14,7 +15,7 @@
 		           	    "path" : "body.uniqueSectionCode",
 		                "values" :
 		                [{
-			                "valueSource" : "body.sectionId"
+			                "valueSource" : "body.SectionReference"
 		                }]
 		            },
 		            {

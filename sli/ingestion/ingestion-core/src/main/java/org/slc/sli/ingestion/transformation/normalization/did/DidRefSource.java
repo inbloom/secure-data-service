@@ -27,9 +27,6 @@ public class DidRefSource {
     //the mapped entity type
     private String entityType;
 
-    //SLI x-path into which the deterministic Id is mapped
-    private String didFieldPath;
-
     //Ed-Fi x-path defining the location of ReferenceType in the source data
     private String sourceRefPath;
 
@@ -50,14 +47,6 @@ public class DidRefSource {
 
     public void setEntityType(String entityType) {
         this.entityType = entityType;
-    }
-
-    public String getDidFieldPath() {
-        return didFieldPath;
-    }
-
-    public void setDidFieldPath(String didFieldPath) {
-        this.didFieldPath = didFieldPath;
     }
 
     public String getSourceRefPath() {

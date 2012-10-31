@@ -113,7 +113,12 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public Map<String,List<Map<String,Object>>> getEmbeddedData() {
+    public Map<String,List<Entity>> getEmbeddedData() {
+        return new HashMap<String, List<Entity>>();
+    }
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return new HashMap<String, List<Map<String, Object>>>();
     }
 }

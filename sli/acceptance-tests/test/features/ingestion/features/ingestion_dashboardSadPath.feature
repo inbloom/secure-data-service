@@ -23,7 +23,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
@@ -60,6 +60,46 @@ When zip file is scp to ingestion landing zone
 @NY-NYC  
 Scenario: Post a zip file containing bad data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+And the following collections are empty in datastore:
+        | collectionName              |
+        | assessment                  |
+        | attendance                  |
+        | calendarDate                |
+        | cohort                      |
+        | course                      |
+        | courseOffering              |
+        | disciplineAction            |
+        | disciplineIncident          |
+        | educationOrganization       |
+        | grade                       |
+        | gradebookEntry              |
+        | gradingPeriod               |
+        | learningObjective           |
+        | learningStandard            |
+        | parent                      |
+        | program                     |
+        | reportCard                  |
+        | section                     |
+        | session                     |
+        | staff                       |
+        | staffCohortAssociation      |
+        | staffProgramAssociation     |
+        | student                     |
+        | studentAcademicRecord       |
+        | studentAssessmentAssociation|
+        | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
+        | studentDisciplineIncidentAssociation|
+        | studentGradebookEntry       |
+        | studentParentAssociation    |
+        | studentProgramAssociation   |
+        | studentSchoolAssociation    |
+        | studentSectionAssociation   |
+        | studentTranscriptAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        |staffEducationOrganizationAssociation|
   And I post "DashboardSadPath_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created

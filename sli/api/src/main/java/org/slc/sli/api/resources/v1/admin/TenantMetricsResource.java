@@ -31,7 +31,6 @@ import javax.ws.rs.core.UriInfo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,20 +79,6 @@ public class TenantMetricsResource {
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
         DBCursor cursor = tenants.find();
 
-        while (cursor.hasNext()) {
-
-            DBObject obj = cursor.next();
-            if (obj.containsField("body") && ((DBObject) obj.get("body")).containsField("tenantId")) {
-
-                String id = (String) ((DBObject) obj.get("body")).get("tenantId");
-                CollectionMetrics tenantMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo,
-                        "metaData.tenantId", id);
-
-                tenantMetrics.put("== Totals ==", tenantMetrics.getTotals());
-                metrics.put(id, tenantMetrics);
-            }
-        }
-
         CollectionMetric totals = new CollectionMetric(0, 0.0);
         for (Map.Entry<String, CollectionMetrics> c : metrics.entrySet()) {
             if (c.getKey().equals("== Totals ==")) {
@@ -124,8 +109,7 @@ public class TenantMetricsResource {
         }
 
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
-        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, "metaData.tenantId",
-                tenantId);
+        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, null, null);
         collMetrics.put("== Totals ==", collMetrics.getTotals());
 
         metrics.put(tenantId, collMetrics);

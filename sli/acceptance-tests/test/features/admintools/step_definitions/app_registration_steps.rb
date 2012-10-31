@@ -372,7 +372,7 @@ end
 
 When /^I click on the In Progress button$/ do
   @mongo_ids = []
-  db = Mongo::Connection.new['sli']['educationOrganization']
+  db = Mongo::Connection.new[convertTenantIdToDbName('developer-email@slidev.org')]['educationOrganization']
 
   ed_org = build_edorg("Some State", "developer-email@slidev.org")
   ed_org[:body][:organizationCategories] = ["State Education Agency"]
@@ -382,7 +382,7 @@ When /^I click on the In Progress button$/ do
   ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool")
   @mongo_ids << db.insert(ed_org)
   step 'I clicked on the button Edit for the application "NewApp"'
-  db.remove({"metaData.tenantId" => "developer-email@slidev.org"})
+  db.remove()
 end
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
   assert(@driver.find_element(:css, 'div.edorgs input[type="checkbox"]') != nil, "We should see the edorgs available for this app")

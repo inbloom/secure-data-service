@@ -1,0 +1,107 @@
+{
+    "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
+	"references" :
+    [
+        {
+            "fieldPath" : "body.StudentAcademicRecordReference",
+            "deprecated" : true,
+            "ref" :
+            {
+                "entityType" : "studentAcademicRecord",
+                "takesContext" : ["edOrgs"],
+	            "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.studentId",
+                            "values" :
+                            [{
+                                 "ref":
+                                 {
+                                     "entityType" : "student",
+                                     "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                                  "path" : "body.studentUniqueStateId",
+                                                  "values" :
+                                                   [{
+                                                         "valueSource" : "body.StudentAcademicRecordReference.StudentAcademicRecordIdentity.StudentReference.StudentIdentity.StudentUniqueStateId"
+                                                   }]
+                                              }
+                                          ]
+                                      ]
+                                 }
+                            }]
+                        },
+                        {
+                            "path" : "body.sessionId",
+                            "values" :
+                             [{
+                                 "ref":
+                                 {
+                                     "entityType" : "session",
+                                     "choiceOfFields" :
+                                      [
+                                          [{
+                                              "path" : "body.sessionName",
+                                              "values" :
+                                               [{
+                                                   "valueSource" : "body.StudentAcademicRecordReference.StudentAcademicRecordIdentity.SessionReference.SessionIdentity.SessionName"
+                                               }]
+                                          }]
+                                      ]
+                                 }
+                             }]
+                        }
+                    ]
+                ]
+            }
+      },
+      {
+         "fieldPath":"body.CourseReference",
+         "deprecated" : true,
+         "ref":
+         {
+            "entityType":"course",
+            "choiceOfFields":
+            [
+               [
+                  {
+                     "path":"body.uniqueCourseId",
+                     "values":
+                     [{
+                         "valueSource":"body.CourseReference.CourseIdentity.UniqueCourseId"
+                     }]
+                  },
+                  {
+                     "path":"body.schoolId",
+                     "values":
+                     [
+                        {
+                           "ref":
+                           {
+                              "entityType":"educationOrganization",
+                              "choiceOfFields":
+                              [
+                                 [
+                                    {
+                                       "path":"body.stateOrganizationId",
+                                       "values":
+                                       [{
+                                           "valueSource":"body.CourseReference.CourseIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                       }]
+                                    }
+                                 ]
+                              ]
+                           }
+                        }
+                     ]
+                  }
+               ]
+            ]
+         }
+       }
+    ]
+}
+

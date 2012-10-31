@@ -7,7 +7,7 @@ Given I DELETE to clear the Indexer
 
 Scenario:  Data Extraction
 Given I send a command to start the extractor to extract now
-Given Indexer should have "133" entities
+Given Indexer should have "94" entities
 And I search in Elastic Search for "matt"
 And "1" hit is returned
 And I see the following fields:
@@ -17,4 +17,3 @@ And I see the following fields:
  |_source.name.firstName    |Matt                                     |
  |_source.name.lastSurname  |Sollars                                  |
  |_source.name.middleName   |D                                        |
-

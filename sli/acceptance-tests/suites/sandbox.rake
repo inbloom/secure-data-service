@@ -4,6 +4,8 @@
 desc "Run Sandbox API tests"
 task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
+  Rake::Task["importZorkSandboxData"].invoke
+  Rake::Task["importChaosSandboxData"].invoke
   Rake::Task["securityTests"].invoke
 end
 

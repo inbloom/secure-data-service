@@ -88,7 +88,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93"
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
   },
   "student" => {
     "birthData" => {
@@ -109,7 +109,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772",
     "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
@@ -215,7 +215,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
     "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
     "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
@@ -311,11 +311,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradeType" => "Final"
   },
   "studentCompetency" => {
-     "competencyLevel" => [{
+     "competencyLevel" => {
        "description" => "really hard competency"
-     }],
+     },
+     "objectiveId" => {
+       "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+     },
      "diagnosticStatement" => "passed with flying colors",
-    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+     "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
@@ -395,7 +398,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
        "programId" => @newId,
        "beginDate" => "2011-05-01",
-       "educationOrganizationId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     },
     "studentSectionAssociation" => {
       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
@@ -468,15 +471,31 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version="v1"
-  root=expectedUri.match(/\/(.+?)\/|$/)[1]
-  expected=version+expectedUri
-  
+  version = "v1"
+  root = expectedUri.match(/\/(.+?)\/|$/)[1]
+  expected = version+expectedUri
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expected.gsub("@ids", "[^/]+")
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
   if @ctx.has_key? root
-    expected=expected.gsub("@ids",@ctx[root])
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
   end
-  
-  actual=@headers["x-executedpath"][0]
-  assert(expected==actual,"URI didn't match.  Expected #{expected} Actual #{actual}")
 end
 
+And /^field "(.*?)" is removed from the json document$/ do |arg1|
+  puts @fields.inspect 
+  @fields.delete "beginDate" 
+  puts @fields.inspect 
+end

@@ -1,9 +1,9 @@
 {
-    "keyFields" : ["metaData.externalId", "body.studentSectionAssociationId"],
+    "keyFields" : ["body.competencyLevel", "body.objectiveId.learningObjectiveId", "body.objectiveId.studentCompetencyObjectiveId", "body.studentSectionAssociationId"],
     "references" :
     [
         {
-            "fieldPath" : "body.learningObjectiveId",
+            "fieldPath" : "body.LearningObjectiveReference",
             "ref" :
             {
                 "entityType" : "learningObjective",
@@ -11,11 +11,25 @@
                 "choiceOfFields" :
                 [
                     [
-                        {
-                            "path" : "body.learningObjectiveId.identificationCode",
+                       {
+                            "path" : "body.objective",
                             "values" :
                             [{
-                                "valueSource" : "body.learningObjectiveReference.LearningObjectiveId"
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.Objective"
+                            }]
+                        },
+                       {
+                            "path" : "body.academicSubject",
+                            "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject"
+                            }]
+                        },
+                       {
+                            "path" : "body.objectiveGradeLevel",
+                            "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel"
                             }]
                         }
                     ]
@@ -23,7 +37,7 @@
             }
         },
         {
-            "fieldPath" : "body.studentCompetencyObjectiveId",
+            "fieldPath" : "body.StudentCompetencyObjectiveReference",
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",
@@ -35,7 +49,7 @@
                             "path" : "body.studentCompetencyObjectiveId",
                             "values" :
                             [{
-                                "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+                                "valueSource" : "body.StudentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
                             }]
                         }
                     ]

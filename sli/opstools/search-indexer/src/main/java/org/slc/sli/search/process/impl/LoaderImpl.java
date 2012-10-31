@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process.impl;
 
 import java.io.BufferedReader;
@@ -7,11 +22,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.process.Loader;
 import org.slc.sli.search.transform.IndexEntityConverter;
@@ -67,10 +84,14 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      */
     private class LoaderWorker implements Runnable {
 
-        File inFile;
+        private final File inFile;
+        private final Action action;
+        private final String index;
 
-        LoaderWorker(File inFile) {
+        LoaderWorker(String index, Action action, File inFile) {
             this.inFile = inFile;
+            this.action = action;
+            this.index = index;
         }
 
         public void run() {
@@ -81,10 +102,14 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             try {
                 br = new BufferedReader(new FileReader(inFile));
                 while ((entity = br.readLine()) != null) {
-                    indexer.index(indexEntityConverter.fromEntityJson(entity));
+                    try {
+                        indexer.index(indexEntityConverter.fromEntityJson(index, action, entity));
+                    } catch (Throwable e) {
+                        logger.error("Error reading record", e); 
+                    }
                 }
                 success = true;
-            } catch (Throwable e) {
+            } catch (IOException e) {
                 logger.error("Error loading from file", e);
             } finally {
                 IOUtils.closeQuietly(br);
@@ -101,7 +126,17 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * @param inFile
      */
     public void archive(File inFile) {
-        inFile.delete();
+        if (!inFile.delete()) {
+            logger.error("Unable to delete processed file: " + inFile.getAbsolutePath());
+        }
+    }
+    
+    public void processFile(File inFile) {
+        String[] nameTokens = inFile.getName().split("_");
+        if (nameTokens.length < 2) {
+            throw new IllegalArgumentException("The filename must contain index name - {index}_{collection}_{optional id}");
+        }
+        processFile(nameTokens[0], Action.INDEX, inFile);
     }
 
     /*
@@ -109,7 +144,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
      * 
      * @see org.slc.sli.search.process.Loader#processFile(java.io.File)
      */
-    public void processFile(File inFile) {
+    public void processFile(String index, Action action, File inFile) {
 
         logger.info("Processing file: " + inFile.getName());
         // protect from incomplete files
@@ -129,7 +164,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
                 IOUtils.closeQuietly(fis);
             }
         }
-        executor.execute(new LoaderWorker(inFile));
+        executor.execute(new LoaderWorker(index, action, inFile));
     }
 
     public void onDirectoryChange(File inFile) {
@@ -175,5 +210,10 @@ public class LoaderImpl implements FileAlterationListener, Loader {
     
     public void setExecutorThreads(int executorThreads) {
         this.executorThreads = executorThreads;
+    }
+    
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)executor;
+        return getClass() + ": {active count:" + tpe.getActiveCount() + ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 }

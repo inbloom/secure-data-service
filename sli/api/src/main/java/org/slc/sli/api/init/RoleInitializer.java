@@ -112,6 +112,7 @@ public class RoleInitializer {
         group.put("groupTitle", role.getName());
         group.put("names", Arrays.asList(role.getName()));
         group.put("rights", iterableToList(role.getRightsAsStrings()));
+        group.put("isAdminRole", role.isAdmin());
         return group;
     }
     
@@ -125,32 +126,40 @@ public class RoleInitializer {
     
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
-        return RoleBuilder.makeRole(AGGREGATE_VIEWER)
+        Role role = RoleBuilder.makeRole(AGGREGATE_VIEWER)
                 .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
+        role.setAdmin(false);
+        return role;
     }
     
     private Role buildEducator() {
         info("Building Educator default role.");
-        return RoleBuilder.makeRole(EDUCATOR)
+        Role role = RoleBuilder.makeRole(EDUCATOR)
                 .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
+        role.setAdmin(false);
+        return role;
     }
     
     private Role buildLeader() {
         info("Building Leader default role.");
-        return RoleBuilder
+        Role role = RoleBuilder
                 .makeRole(LEADER)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED }).build();
+        role.setAdmin(false);
+        return role;
     }
     
     private Role buildIT() {
         info("Building IT Administrator default role.");
-        return RoleBuilder
+        Role role = RoleBuilder
                 .makeRole(IT_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
-                                Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.ADMIN_APPS }).build();
+                                Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
+        role.setAdmin(true);
+        return role;
     }
     
     public void setRepository(Repository<Entity> repository) {

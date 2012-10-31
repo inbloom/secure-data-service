@@ -30,18 +30,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +41,19 @@ import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
+import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Manages SLI User/app sessions
@@ -180,13 +181,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
 
         if (session == null) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("Session with code %s does not exist.", code));
         }
-        
+
         //Find the nested app session data with the given code
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
-        Map<String, Object> curAppSession = null; 
+        Map<String, Object> curAppSession = null;
         for (Map<String, Object> appSession : appSessions) {
             Map<String, Object> codeBlock = (Map<String, Object>) appSession.get("code");
 
@@ -195,26 +196,26 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 break;
             }
         }
-        
+
         //verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
-            throw new OAuthAccessException(OAuthError.INVALID_CLIENT, 
+            throw new OAuthAccessException(OAuthError.INVALID_CLIENT,
                     String.format("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
         }
-        
+
         String verified = (String) curAppSession.get("verified");
         if (Boolean.valueOf(verified)) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("App session %s has already been verified.", code));
         }
-        
+
         Long expiration = (Long) ((Map<String, Object>) curAppSession.get("code")).get("expiration");
         if (expiration < System.currentTimeMillis()) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT, 
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
                     String.format("App session %s has expired.", code));
         }
-        
+
 
         // Locate the application and compare the client secret
         nq = new NeutralQuery();
@@ -242,7 +243,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     + " is not authorized to use " + app.getBody().get("name"), (String) session.getBody().get("state"));
         }
 
-        
+
         String token = "";
         token = (String) curAppSession.get("token");
         curAppSession.put("verified", "true");
@@ -283,6 +284,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 approved.set(token, true);
 
                                 SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                                TenantContext.setTenantId(principal.getTenantId());
                                 principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
                                 principal.setSessionId(sessionEntity.getEntityId());
                                 Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(), principal.getRoles());

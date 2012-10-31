@@ -19,6 +19,7 @@ package org.slc.sli.api.selectors.doc;
 import java.util.*;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -91,39 +92,51 @@ public class DefaultSelectorDocument implements SelectorDocument {
                                           Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
         Map<Type,List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
+
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
             Type currentType = entry.getKey();
             SelectorQueryPlan plan = entry.getValue();
             Type previousType = !types.isEmpty() ? types.peek() : null;
+            List<EntityBody> entities = null;
 
             if (!previousEntities.isEmpty() && previousType != null) {
-                String key = getKey(currentType, previousType);
-                plan.getParseFields().add(key);
+                if (isEmbedded(previousType,currentType)) {
+                    entities = getEmbeddedEntities(previousEntities,currentType);
+                } else {
+                    String key = getKey(currentType, previousType);
+                    plan.getParseFields().add(key);
 
-                String extractKey = getExtractionKey(currentType, previousType);
-                List<String> ids = extractIds(previousEntities, extractKey);
-                connectingType = modelProvider.getConnectingEntityType(currentType, previousType);
-                if ((connectingType != null) && !currentType.equals(previousType)) {
-                    types.push(connectingType);
+                    String extractKey = getExtractionKey(currentType, previousType);
+                    List<String> ids = extractIds(previousEntities, extractKey);
 
-                    //construct a new constraint using the new connecting key and ids
-                    constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
+                    connectingType = modelProvider.getConnectingEntityType(currentType, previousType);
+                    if ((connectingType != null) && !currentType.equals(previousType)) {
+                        types.push(connectingType);
 
-                    connectingEntities = getConnectingEntities(connectingType, previousType, constraint,entityCache);
-                    entityCache.put(connectingType,connectingEntities);
-                    ids = getConnectingIds(connectingEntities, currentType, connectingType);
+                        if(isEmbedded(previousType,connectingType)) {
+                            connectingEntities = getEmbeddedEntities(previousEntities,connectingType);
+                        } else {
+                            //construct a new constraint using the new connecting key and ids
+                            constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
+
+                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, constraint,entityCache);
+                        }
+                        entityCache.put(connectingType,connectingEntities);
+                        ids = getConnectingIds(connectingEntities, currentType, connectingType);
+                    }
+
+                    constraint = constructConstrainQuery(key, ids);
                 }
-
-                constraint = constructConstrainQuery(key, ids);
             }
 
             //add the current type
             types.push(currentType);
-
-            List<EntityBody> entities = (List<EntityBody>) executeQuery(currentType, constraint, first, entityCache);
-            entityCache.put(currentType,entities);
+            if(entities == null) {
+                entities = (List<EntityBody>) executeQuery(plan, currentType, constraint, first, entityCache);
+            }
+            entityCache.put(currentType, entities);
             results.addAll(entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
@@ -141,6 +154,21 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
 
         return results;
+    }
+
+    private boolean isEmbedded(Type previousType, Type currentType) {
+        return (previousType.getName().equalsIgnoreCase(EmbeddedDocumentRelations.getParentEntityType(StringUtils.lowercaseFirstLetter(currentType.getName()))));
+    }
+
+    protected List<EntityBody> getEmbeddedEntities(List<EntityBody> previousEntities, Type currentType) {
+        List<EntityBody> embeddedBodyList = new ArrayList<EntityBody>();
+        String currType = StringUtils.lowercaseFirstLetter(currentType.getName());
+        for (EntityBody body: previousEntities) {
+            if (body.containsKey(currType)) {
+                embeddedBodyList.addAll((Collection<? extends EntityBody>) body.get(currType));
+            }
+        }
+        return embeddedBodyList;
     }
 
     protected NeutralQuery constructConstrainQuery(String key, List<String> ids) {
@@ -179,14 +207,14 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
+    protected List<EntityBody> getConnectingEntities(SelectorQueryPlan plan, Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
         String key = getKey(currentType, previousType);
 
         for (NeutralCriteria criteria : constraint.getCriteria()) {
             criteria.setKey(key);
         }
 
-        return (List<EntityBody>) executeQuery(currentType, constraint, false, entityCache);
+        return (List<EntityBody>) executeQuery(plan, currentType, constraint, false, entityCache);
     }
 
     protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
@@ -336,7 +364,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
     }
 
-    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+    protected Iterable<EntityBody> executeQuery(SelectorQueryPlan plan, Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+        //add the child types to embedded fields as needed
+        addChildTypesToQuery(type, plan, constraint);
 
         if (first) {
             Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
@@ -358,9 +388,26 @@ public class DefaultSelectorDocument implements SelectorDocument {
             } catch (AccessDeniedException ade) {
                 return new ArrayList<EntityBody>();
             }
+        }
+    }
 
+    protected void addChildTypesToQuery(Type currentType, SelectorQueryPlan selectorQueryPlan, NeutralQuery neutralQuery) {
+        List<Object> childQueries = selectorQueryPlan.getChildQueryPlans();
+        List<String> embeddedFields = new ArrayList<String>();
+
+        for (Object plan : childQueries) {
+            SelectorQuery query = (SelectorQuery) plan;
+
+            for (Type key : query.keySet()) {
+                String childType = StringUtils.uncapitalise(key.getName());
+
+                if (currentType.getName().equalsIgnoreCase(EmbeddedDocumentRelations.getParentEntityType(childType))) {
+                    embeddedFields.add(childType);
+                }
+            }
         }
 
+        neutralQuery.setEmbeddedFields(embeddedFields);
     }
 
 

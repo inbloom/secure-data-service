@@ -11,23 +11,22 @@ else
   num_shards=$2
 fi
 
-
+echo killing shards.
 sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
-echo Shards killed.
+echo
 
-sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
-echo Shards started.
+echo starting shards.
+$SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
+echo
 
-mongo admin $SLI_HOME/config/shards/sli_shards.js
-#mongo admin $SLI_HOME/config/shards/is_shards.js
-echo shards configured.
-
+echo indexing sli.
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
-echo sli indexed.
+echo
 
+echo ingexing is.
 mongo is $SLI_HOME/config/indexes/is_indexes.js
-echo is indexed.
+echo
 
+echo indexing ingestion_batch_job.
 mongo ingestion_batch_job $SLI_HOME/config/indexes/ingestion_batch_job_indexes.js
-echo ingestion_batch_job indexed.
-
+echo

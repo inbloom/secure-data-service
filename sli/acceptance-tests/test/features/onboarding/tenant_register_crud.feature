@@ -101,7 +101,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     | Value |
     | "123456789012345678901234567890123456789012345678A" |
     | "" |
-    
+
 Scenario Outline: Deny creation when specifying individual landingZone wrong size fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
@@ -123,5 +123,5 @@ Scenario Outline: Deny creation when specifying individual landingZone wrong siz
     | "desc"                  | "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A" |
 
 
-    
-    
+
+

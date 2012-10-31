@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.util;
 
 import java.util.HashMap;
@@ -30,6 +45,14 @@ public class IndexEntityUtil {
         return sb.toString();
     }
     
+    public static String getBulkDeleteJson(List<IndexEntity> docs) {
+        StringBuilder sb = new StringBuilder();
+        for (IndexEntity ie: docs) {
+            toBulkDeleteJson(sb, ie);
+        }
+        return sb.toString();
+    }
+    
     public static String getBulkGetJson(List<IndexEntity> docs) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"docs\": [");
@@ -43,9 +66,6 @@ public class IndexEntityUtil {
     private static void addHeader(StringBuilder sb, IndexEntity ie) {
         sb.append("{").append("\"_index\":\"").append(ie.getIndex()).append("\", \"_type\":\"").
                 append(ie.getType()).append("\",\"_id\":\"").append(ie.getId()).append("\"");
-        if (ie.getParentId() != null) {
-            sb.append(", \"_parent\":\"").append(ie.getParentId()).append("\"");
-        }
         sb.append("}");
     }
     
@@ -66,6 +86,12 @@ public class IndexEntityUtil {
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert to body", e);
         }
+    }
+    
+    public static void toBulkDeleteJson(StringBuilder sb, IndexEntity ie) {
+        sb.append("{\"").append(ie.getActionValue()).append("\":");
+        addHeader(sb, ie);
+        sb.append("}").append(NEW_LINE);
     }
     
     public static String toUpdateJson(IndexEntity ie) {
@@ -94,5 +120,4 @@ public class IndexEntityUtil {
     public static IndexEntity getIndexEntity(Map<String, Object> entity) {
         return new IndexEntity((String)entity.get("_index"), (String)entity.get("_type"), (String)entity.get("_id"));
     }
-    
 }

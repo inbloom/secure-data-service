@@ -29,6 +29,12 @@ default:
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
 
+        # Set the maximum size of an in clause for security (CHANGE AT OWN
+        # RISK)
+        sli.security.in_clause_size: 100000
+        
+        sli.api.cookieDomain: .slidev.org
+
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false
@@ -61,7 +67,7 @@ default:
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
-        sli.api.performance.tracking: true
+        sli.api.performance.tracking: false
         
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
@@ -87,7 +93,7 @@ default:
         sli.search.url : http://localhost:9200
         sli.search.username: user
         sli.search.password: searchme
-        sli.search.embedded: true
+        sli.search.embedded: false
         sli.search.service.timeout: 3000
 
         # Key substitutions
@@ -215,7 +221,7 @@ default:
         sli.ingestion.totalRetries: 10
 
         # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
-        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,studentTranscriptAssociation
+        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,courseTranscript
 
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
@@ -400,12 +406,11 @@ default:
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.queue.host: localhost
-        sli.search.indexer.queue.port: 61616
+        sli.search.indexer.queue.url : tcp://localhost:61616
         sli.search.indexer.queue.username: system
         sli.search.indexer.queue.password: manager
         sli.search.indexer.queue.name: search_events
-        sli.search.indexer.broker.embedded: false
+        sli.search.indexer.broker.embedded: true
 
 acceptance-tests:
     api:
@@ -1275,6 +1280,8 @@ team:
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
+
+        sli.search.indexer.broker.embedded: false
 
 perf:
     data-access:

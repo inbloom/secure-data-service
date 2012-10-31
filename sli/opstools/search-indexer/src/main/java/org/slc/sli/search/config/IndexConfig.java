@@ -1,6 +1,22 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +32,8 @@ import org.slc.sli.search.util.NestedMapUtil;
  *
  */
 public final class IndexConfig {
+
+    private static final List<String> REQUIRED_FIELDS = Arrays.asList(new String[]{"type", "_id"});
     // name of the index type
     public String indexType;
     // fields of the collections
@@ -23,15 +41,18 @@ public final class IndexConfig {
     // rename to fields
     private Map<String, String> rename;
     
-    // if child entity, parentId field
-    private String parentField;
-    
-    private List<String> parentFieldChain;
+    // append to map
+    private Map<String, Object> append;
     
     private Map<String, Object> filterCondition;
     
+    private Map<String, Object> mapping;
+    
     @JsonIgnore
     private Map<List<String>, List<String>> renameMap;
+    
+    @JsonIgnore
+    private Map<List<String>, Object> appendMap;
     
     @JsonIgnore
     private Map<List<String>, Object> filtersMap;
@@ -46,7 +67,7 @@ public final class IndexConfig {
      * list of entity names that depends on this entity as the parent doc
      */
     @JsonIgnore
-    private final List<String> dependents = new ArrayList<String>(); 
+    private final List<String> dependents = new ArrayList<String>();
 
     public String getCollectionName() {
         return collectionName;
@@ -60,12 +81,13 @@ public final class IndexConfig {
         return renameMap;
     }
     
-    public String getIndexType() {
-        return indexType == null ? collectionName : indexType;
+
+    public Map<List<String>, Object> getAppend() {
+        return this.appendMap;
     }
     
-    public List<String> getParentField() {
-        return parentFieldChain;
+    public String getIndexType() {
+        return indexType == null ? collectionName : indexType;
     }
     
     public Map<List<String>, Object> getFilterCondition() {
@@ -80,6 +102,10 @@ public final class IndexConfig {
         return !dependents.isEmpty();
     }
     
+    public Map<String, Object> getMapping() {
+        return mapping;
+    }
+    
     public List<String> getDependents() {
         return dependents;
     }
@@ -92,8 +118,15 @@ public final class IndexConfig {
         return indexType != null && !this.collectionName.equals(indexType);
     }
     
+    /**
+     * Modifies the original structures for performance reasons
+     * @param name
+     */
     public void prepare(String name) {
         this.collectionName = name;
+        Set<String> fieldSet = new HashSet<String>(this.fields);
+        fieldSet.addAll(REQUIRED_FIELDS);
+        this.fields = new ArrayList<String>(fieldSet);
         if (rename != null) {
             List<String> fieldChainFrom, fieldChainTo;
             Map<List<String>, List<String>> renameMap = new HashMap<List<String>, List<String>>();
@@ -104,10 +137,17 @@ public final class IndexConfig {
             }
             this.renameMap = Collections.unmodifiableMap(renameMap);
         }
+        if (append != null) {
+            Map<List<String>, Object> appendMap = new HashMap<List<String>, Object>();
+            for (Map.Entry<String, Object> entry : append.entrySet()) {
+                appendMap.put(NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
+            }
+            this.appendMap = Collections.unmodifiableMap(appendMap);
+        }
         if (filterCondition != null) {
             Map<List<String>, Object> filterMap = new HashMap<List<String>, Object>();
             for (Map.Entry<String, Object> entry : filterCondition.entrySet()) {
-                filterMap.put( NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
+                filterMap.put(NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
             }
             this.filtersMap = Collections.unmodifiableMap(filterMap);
         }
@@ -115,7 +155,5 @@ public final class IndexConfig {
         for (String field: fields)
             flattenedFields.addAll(NestedMapUtil.getPathLinkFromDotNotation(field));
         this.flattenedFields = Collections.unmodifiableList(new ArrayList<String>(flattenedFields));
-        if (this.parentField != null)
-            this.parentFieldChain = NestedMapUtil.getPathLinkFromDotNotation(this.parentField);
     }
 }

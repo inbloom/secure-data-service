@@ -161,7 +161,7 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Canadian SIN']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Organization']")}
 end
 
 When /^I click on any of the entity IDs$/ do
@@ -218,9 +218,14 @@ Then /^the error is dismissed$/ do
 
 end
 
-
 Then /^I should click on the Home link and be redirected back$/ do
   #Ignored, should be verified in previous steps
 end
 
+Then /^I should be on the detailed page for an SEA$/ do
+  assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("State Education Agency")}
+end
 
+Then /^I should be on the detailed page for an LEA$/ do
+  assertWithWait("Failed to be directed to Databrowser's Page for an SEA")  {@driver.page_source.include?("Local Education Agency")}
+end

@@ -25,8 +25,6 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,7 +43,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CourseCode" type="{http://ed-fi.org/0100}CourseCode" maxOccurs="unbounded"/>
+ *         &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType"/>
+ *         &lt;element name="UniqueCourseId" type="{http://ed-fi.org/0100}UniqueCourseId"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -56,40 +55,61 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseIdentityType", propOrder = {
-    "courseCode"
+        "educationalOrgReference",
+        "uniqueCourseId"
 })
 public class CourseIdentityType {
 
-    @XmlElement(name = "CourseCode", required = true)
-    protected List<CourseCode> courseCode;
+    @XmlElement(name = "EducationalOrgReference", required = true)
+    protected EducationalOrgReferenceType educationalOrgReference;
+    @XmlElement(name = "UniqueCourseId", required = true)
+    protected String uniqueCourseId;
 
     /**
-     * Gets the value of the courseCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the courseCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCourseCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CourseCode }
-     * 
-     * 
+     * Gets the value of the educationalOrgReference property.
+     *
+     * @return
+     *     possible object is
+     *     {@link EducationalOrgReferenceType }
+     *
      */
-    public List<CourseCode> getCourseCode() {
-        if (courseCode == null) {
-            courseCode = new ArrayList<CourseCode>();
-        }
-        return this.courseCode;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
 
+    /**
+     * Sets the value of the educationalOrgReference property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link EducationalOrgReferenceType }
+     *
+     */
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
+    }
+
+    /**
+     * Gets the value of the uniqueCourseId property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getUniqueCourseId() {
+        return uniqueCourseId;
+    }
+
+    /**
+     * Sets the value of the uniqueCourseId property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setUniqueCourseId(String value) {
+        this.uniqueCourseId = value;
+    }
 }

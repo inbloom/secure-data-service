@@ -198,7 +198,7 @@ public interface APIClient {
      * @param params
      * @return
      */
-    public List<GenericEntity> getSessions(String token, Map<String, String> params);
+    public List<GenericEntity> getSessions(String token, String schoolId, Map<String, String> params);
 
     /**
      * Get a list of sessions using a list of ids
@@ -327,7 +327,7 @@ public interface APIClient {
      *            Query params
      * @return
      */
-    //public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
+    //public List<GenericEntity> getCourseTranscripts(final String token, final String studentId,
     //        Map<String, String> params);
 
 
@@ -429,7 +429,7 @@ public interface APIClient {
      */
     public GenericEntity getTeacher(String token, String id);
 
-    
+
     /**
      * Similar to getTeacher, but also returns all the sections associated with the teacher.
      * @param token
@@ -437,7 +437,7 @@ public interface APIClient {
      * @return
      */
     public GenericEntity getTeacherWithSections(String token, String id);
-    
+
     /**
      * Get the teacher for a specified section
      *
@@ -589,10 +589,10 @@ public interface APIClient {
      */
     List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId);
 
-    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token);
+    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String schoolId, String token);
 
     public List<GenericEntity> readEntityList(String token, String url);
-    
+
     public GenericEntity readEntity(String token, String url);
 
 }

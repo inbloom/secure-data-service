@@ -24,7 +24,7 @@
         <jb:value property="localCourseTitle" data="attributes LocalCourseTitle" />
         <jb:value property="schoolId" data="attributes schoolId" />
         <jb:value property="sessionId" data="attributes sessionId" />
-        <jb:value property="courseId" data="attributes courseId" />
+        <jb:value property="courseId" data="attributes CourseReference" />
     </jb:bean>
 
 </smooks-resource-list>

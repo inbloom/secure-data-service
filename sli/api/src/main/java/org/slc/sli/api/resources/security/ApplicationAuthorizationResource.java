@@ -36,6 +36,12 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
@@ -45,16 +51,12 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -148,7 +150,7 @@ public class ApplicationAuthorizationResource {
         }
 
         EntityBody oldAuth = service.get(uuid);
-        String oldTenant = (String) ((Map<String, Object>) oldAuth.get("metaData")).get("tenantId");
+        String oldTenant = TenantContext.getTenantId();
         verifyAccess((String) oldAuth.get(AUTH_ID), oldTenant);
 
         if (!oldAuth.get(AUTH_ID).equals(auth.get(AUTH_ID))) {
@@ -188,7 +190,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery query = new NeutralQuery();
                 query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrgId));
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, query);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
@@ -202,7 +203,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
-                finalQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
@@ -226,7 +226,7 @@ public class ApplicationAuthorizationResource {
         if (edOrgId == null) {
             throw new EntityNotFoundException("No EdOrg exists on principal.");
         }
-        
+
         if (tenantId != null && !tenantId.equals(usersTenant)) {
             throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
         }

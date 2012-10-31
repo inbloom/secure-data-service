@@ -67,7 +67,12 @@ public class ValidationTestUtils {
             }
 
             @Override
-            public Map<String, List<Map<String, Object>>> getEmbeddedData() {
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
                 return null;
             }
 

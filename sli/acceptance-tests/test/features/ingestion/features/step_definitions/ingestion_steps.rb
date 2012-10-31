@@ -33,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 ############################################################
 
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+CONFIG_DB_NAME = "config"
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_BATCHJOB_DB = PropLoader.getProps['ingestion_batchjob_db']
@@ -54,7 +55,7 @@ INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
 ############################################################
 
 Before do
-
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB)
   @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
@@ -154,6 +155,30 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
   @collection.remove({ '_id' => " " })
+end
+
+def cloneAllIndexes(db_connection, source_db_name, target_db_name)
+  puts "cloning indexes from #{source_db_name} -> #{target_db_name}"
+  source_db = db_connection[source_db_name]
+
+  source_indexes = source_db["system.indexes"].find()
+  source_indexes.each do |index|
+
+    collection_name = index['ns'][source_db_name.length+1, index['ns'].length]
+
+    index_spec_array  = Array.new
+    index['key'].each do |index_spec|
+      index_component_array = Array.new
+      index_spec.each do |index_component|
+        index_component_array.push(index_component)
+      end
+      index_spec_array.push(index_component_array)
+    end
+
+    target_collection = db_connection[target_db_name][collection_name]
+    #puts "cloning index #{source_db_name} -> #{target_db_name}(#{collection_name}): #{index_spec_array}, name: #{index['name']}"
+    target_collection.ensure_index(index_spec_array, :name => index['name'])
+  end
 end
 
 def initializeTenants()
@@ -353,16 +378,32 @@ end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
   initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
+  initializeTenantDatabase('Midgar-Daybreak')
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   initializeLandingZone(lz)
+  initializeTenantDatabase(lz_key)
+end
+
+Given /^I am using the tenant "([^"]*)"$/ do |tenantId|
+  initializeTenantDatabase(tenantId)
+end
+
+def initializeTenantDatabase(lz_key)
+
+  # split tenant from edOrg on hyphen, if necessary
+  if lz_key.index('-') != nil
+    lz_key = lz_key[0, lz_key.index('-')]
+  end
+
+  @ingestion_db_name = convertTenantIdToDbName(lz_key)
 end
 
 def initializeLandingZone(lz)
   unless lz.nil?
-    
+
   if lz.rindex('/') == (lz.length - 1)
     @landing_zone_path = lz
   else
@@ -691,46 +732,57 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
+  disable_NOTABLESCAN()
   @conn = Mongo::Connection.new(INGESTION_DB)
 
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    parent = subDocParent row["collectionName"]
+    if parent
+        @entity_collection = @db[parent]
+        superDocs = @entity_collection.find()
+        cleanupSubDoc(superDocs, row["collectionName"])
+    else
+      @entity_collection = @db[row["collectionName"]]
+      @entity_collection.remove()
 
-    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+      puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
-      @result = "false"
+      if @entity_collection.count.to_s != "0"
+        @result = "false"
+      end
     end
   end
-  createIndexesOnDb(@conn,INGESTION_DB_NAME)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
 Given /^the following collections are empty in batch job datastore:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    @entity_collection.remove()
 
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+    if @entity_collection.count.to_s != "0"
       @result = "false"
     end
   end
   ensureBatchJobIndexes(@batchConn)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
-Given /^the following collections are completely empty in batch job datastore:$/ do |table|
+Given /^the following collections are completely empty in batch job datastore$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -747,9 +799,11 @@ Given /^the following collections are completely empty in batch job datastore:$/
   end
   ensureBatchJobIndexes(@batchConn)
   assert(@result == "true", "Some collections were not cleared successfully.")
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
+  disable_NOTABLESCAN()
 
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
@@ -789,6 +843,14 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
 
+  # set instance var to this value (used for future db connections)
+  @ingestion_db_name = convertTenantIdToDbName(tenant)
+  puts "setting ingestion_db_name to #{@ingestion_db_name}"
+
+  # index the new tenant db
+  dbName = convertTenantIdToDbName('Midgar')
+  cloneAllIndexes(@conn, dbName, @ingestion_db_name)
+
   @body = {
     "tenantId" => tenant,
     "landingZone" => [
@@ -815,9 +877,13 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
+  disable_NOTABLESCAN()
+
   tenant = lz_key
   edOrg = lz_key
 
@@ -876,6 +942,8 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+
+  enable_NOTABLESCAN()
 end
 
 Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
@@ -937,6 +1005,12 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
+end
+
+Given /^the tenant database does not exist/ do
+  puts "Dropping database:" + @ingestion_db_name
+  @conn.drop_database(@ingestion_db_name)
+  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1057,6 +1131,7 @@ When /^a batch job log has not been created$/ do
 end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
+  disable_NOTABLESCAN()
 
   old_db = @db
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
@@ -1104,6 +1179,8 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   end
 
   @db = old_db
+
+  enable_NOTABLESCAN()
 end
 
 When /^two batch job logs have been created$/ do
@@ -1297,21 +1374,22 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
     @indexcollection = @db.collection("system.indexes")
-    #puts "ns" + INGESTION_DB_NAME+"student," + "name" + row["index"].to_s
-    @indexCount = @indexcollection.find("ns" => INGESTION_DB_NAME + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
 
     #puts "Index Count = " + @indexCount.to_s
 
     if @indexCount.to_s == "0"
-      puts "Index was not created for " + INGESTION_DB_NAME+ "." + row["collectionName"] + + " with name = " + row["index"]
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
       @result = "false"
     end
   end
@@ -1320,75 +1398,164 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
 end
 
-def subDocParent(collectionName)
-  case collectionName 
-    when "studentSectionAssociation"
-	 "section"
-	when "studentAssessmentAssociation"
-	 "student"
-    else 
-      nil 
+def cleanupSubDoc(superdocs, subdoc)
+  superdocs.each do |superdoc|
+      superdoc[subdoc] = nil
+      @entity_collection.update({"_id"=>superdoc["_id"]}, superdoc)
   end
 end
 
-def verifySubDoc(parent, subdoc, count) 
-    total = 0
-    coll = @db.collection(parent)
-    coll.find().each do |doc| 
-        unless doc[subdoc] == nil
-            total += doc[subdoc].size
-        end 
-    end
-    total == count
+def subDocParent(collectionName)
+  case collectionName
+    when "studentSectionAssociation"
+     "section"
+    when "gradebookEntry"
+     "section"
+    when "teacherSectionAssociation"
+     "section"
+    when "studentAssessmentAssociation"
+     "student"
+    when "studentProgramAssociation"
+      "program"
+    else
+      nil
+  end
 end
 
-def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue)
-   @entity_collection = @db.collection(subdoc_parent)
-   param = subdoc + "." + searchParameter
-   
-   if searchType == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   elsif searchType == "double"
-        @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   elseif searchType == "boolean"
-     if searchValue == "false"
-       @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-     else
-	   @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-     end
-   elsif searchType == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s  
-   else     
-     @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-   end  
+def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
+    total = 0
+    coll = @db.collection(parent)
+    coll.find().each do |doc|
+        unless doc[subdoc] == nil
+            if key == nil and match_value == nil and opts==nil
+                total += doc[subdoc].size
+            else
+                array = doc[subdoc]
+                array.each do |sub|
+                    @contains = true
+                    if (key != nil && match_value != nil)
+                        @contains = false
+                        subdocMatch(sub, key, match_value)
+                    end
+                    @failed = false
+                    if (@contains and opts != nil)
+                        opts.each_pair do |opt_key, opt_value|
+                           #and only now
+                           @contains = false
+                           subdocMatch(sub, opt_key, opt_value)
+                           if not @contains
+                               @failed = true
+                           end
+                        end
+                        if not @failed
+                            total += 1
+                        end
+                    elsif (@contains)
+                        total += 1
+                    end
+                end
+            end
+        end
+    end
+    total
+end
+
+def subdocMatch(subdoc, key, match_value)
+    if key.is_a? Array
+        keys = key
+    else
+        keys = key.split('.')
+    end
+    tmp = subdoc
+    for i in 0...keys.length
+        path = keys[i]
+        if tmp.is_a? Hash
+            tmp = tmp[path]
+            if i == keys.length - 1
+                if match_value.is_a? Array and tmp.is_a? Array
+                    @contains = true if (match_value & tmp).size > 0
+                elsif match_value.is_a? Array
+                    @contains = true if match_value.include? tmp
+                elsif tmp == match_value
+                    @contains = true
+                end
+            end
+        elsif tmp.is_a? Array
+            newkey = Array.new(keys[i...keys.length])
+            tmp.each do |newsubdoc|
+                subdocMatch(newsubdoc, newkey, match_value)
+            end
+        end
+    end
+end
+
+def runSubDocQuery(subdoc_parent, subdoc, searchType, searchParameter, searchValue, opts=nil)
+  subDocCount(subdoc_parent, subdoc, opts, searchParameter, searchValue)
+
+  #  This requires mongo driver 1.7.0, on CI it is still 1.6.4... Shall we upgrade?
+  #
+  #  coll.aggregate([ {"$match" => {"#{subdoc}.#{searchParameter}" => {"$exists" => true}}},
+  #                 {"$project" => {"#{subdoc}" => 1, "_id" => 0, "count" => 1}},
+  #                 {"$unwind" => "$#{subdoc}"},
+  #                 {"$match" => {"#{subdoc}.#{searchParameter}" => "#{searchValue}"}},
+  #              ]).size
+
+  #
+  # This does not work as it counts the number of the parents, not number of
+  # subdocs
+  #
+  #-------------------------------------------
+  # @entity_collection = @db.collection(subdoc_parent)
+  # param = subdoc + "." + searchParameter
+  #
+  # if searchType == "integer"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # elsif searchType == "double"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => searchValue.to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # elseif searchType == "boolean"
+  #   if searchValue == "false"
+  #     @entity_count = @entity_collection.find({"$and" => [{param => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  #   else
+  #     @entity_count = @entity_collection.find({"$and" => [{param => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  #   end
+  # elsif searchType == "nil"
+  #      @entity_count = @entity_collection.find({"$and" => [{param => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # else
+  #   @entity_count = @entity_collection.find({"$and" => [{param => searchValue},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+  # end
+  # ----------------------------------------
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-
+  disable_NOTABLESCAN()
+  @db   = @conn[@ingestion_db_name]
   @result = "true"
+  puts "db name #{@db.name}"
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
-        verifySubDoc(parent, row["collectionName"], row["count"])
-    else 
+    if parent
+      @entity_count = subDocCount(parent, row["collectionName"])
+    else
       @entity_collection = @db.collection(row["collectionName"])
-      @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+      @entity_count = @entity_collection.count().to_i
+    end
 
-      if @entity_count.to_s != row["count"].to_s
-        @result = "false"
-        red = "\e[31m"
-        reset = "\e[0m"
-      end
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
 
-      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
-      end
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1404,6 +1571,7 @@ Then /^I should see following map of entry counts in the corresponding batch job
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I should say that we started processing$/ do
@@ -1412,76 +1580,86 @@ Then /^I should say that we started processing$/ do
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
+  disable_NOTABLESCAN()
+  @db   = @conn[@ingestion_db_name]
 
   @result = "true"
 
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    
     if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])	
-	else  
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    else
       @entity_collection = @db.collection(row["collectionName"])
 
       if row["searchType"] == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
       elsif row["searchType"] == "double"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
       elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
         else
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
         end
       elsif row["searchType"] == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
       else
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
       end
     end
-    
+
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
+
     if @entity_count.to_s != row["expectedRecordCount"].to_s
-      puts "Failed #{row["collectionName"]}" 
+      puts "Failed #{row["collectionName"]}"
       @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
     end
-    
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
-Then /^I check _id of stateOrganizationId "([^"]*)" with tenantId "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+Then /^I check _id of stateOrganizationId "([^"]*)" for the tenant "([^"]*)" is in metaData.edOrgs:$/ do |stateOrganizationId, tenantId, table|
+  disable_NOTABLESCAN()
   @result = "true"
 
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[convertTenantIdToDbName(tenantId)]
   @edOrgCollection = @db.collection("educationOrganization")
-  @edOrgEntity = @edOrgCollection.find_one({"metaData.tenantId" => tenantId, "body.stateOrganizationId" => stateOrganizationId})
+  @edOrgEntity = @edOrgCollection.find_one({"body.stateOrganizationId" => stateOrganizationId})
+  puts "#{@edOrgEntity}"
   @stateOrganizationId = @edOrgEntity['_id']
 
   table.hashes.map do |row|
     parent = subDocParent row["collectionName"]
-    if parent 
-        verifySubDoc(parent, row["collectionName"], row["count"])
-    else 
+    if parent
+       @entity_count = subDocCount(parent, row["collectionName"], {"metaData.edOrgs" => [@stateOrganizationId]})
+    else
       @entity_collection = @db.collection(row["collectionName"])
       @entity_count = @entity_collection.find({"metaData.edOrgs" => @stateOrganizationId}).count().to_i
-
-      if @entity_count.to_s != row["count"].to_s
-        @result = "false"
-        red = "\e[31m"
-        reset = "\e[0m"
-      end
-
-      puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
     end
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
+
   assert(@result == "true", "Some records do not have the correct education organization context.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I check to find if complex record is in batch job collection:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1499,9 +1677,11 @@ Then /^I check to find if complex record is in batch job collection:$/ do |table
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
 Then /^I check to find if record is in batch job collection:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
 
   @result = "true"
@@ -1523,22 +1703,29 @@ Then /^I check to find if record is in batch job collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end
 
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
-  @db = @conn[INGESTION_DB_NAME]
+  disable_NOTABLESCAN()
+
+  @db = @conn[@ingestion_db_name]
+  @entity_collection = @db.collection(collection)
+  @entity =  @entity_collection.find({field => value})
+
   parent = subDocParent collection
-  if parent 
+  if parent
     @entity_collection = @db.collection(parent)
     sub_field = collection + "." + field
     @entity =  @entity_collection.find({sub_field => value})
-  else 
+  else
     @entity_collection = @db.collection(collection)
     @entity =  @entity_collection.find({field => value})
   end
-  
+
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
+  enable_NOTABLESCAN()
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -1560,6 +1747,7 @@ def getValueAtIndex(ent, index_string)
 end
 
 Then /^verify the following data in that document:$/ do |table|
+  disable_NOTABLESCAN()
   @entity.each do |ent|
     puts "entity #{ent}"
     table.hashes.map do |row|
@@ -1575,15 +1763,18 @@ Then /^verify the following data in that document:$/ do |table|
       end
     end
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^verify (\d+) "([^"]*)" record\(s\) where "([^"]*)" equals "([^"]*)" and its field "([^"]*)" references this document$/ do |count,collection,key,value,refField|
+  disable_NOTABLESCAN()
   @entity.each do |ent|
-    @db = @conn[INGESTION_DB_NAME]
+    @db = @conn[@ingestion_db_name]
     @entity_collection = @db.collection(collection)
     @refEntity = @entity_collection.find({key => value, refField => ent['_id']})
     assert(@refEntity.count == count.to_i, "Expected #{count} documents but found #{@refEntity.count}")
   end
+  enable_NOTABLESCAN()
 end
 
 def is_num?(str)
@@ -1829,7 +2020,7 @@ And /^I should not see a warning log file created$/ do
     else
       assert(true, "No warn files created.")
     end
-  
+
   else
     @warn_filename_component = "warn."
 
@@ -1841,13 +2032,13 @@ And /^I should not see a warning log file created$/ do
         @warn_status_filename = entry
       end
     end
-  
+
     puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
     assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
   end
 end
 
-    
+
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorLogFile(lz)
@@ -1878,11 +2069,13 @@ def checkForErrorLogFile(landing_zone)
 end
 
 Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  db = @conn[INGESTION_DB_NAME]
+  disable_NOTABLESCAN()
+  db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
 
   @record = collection.find_one({searchTerm => value})
   @record.should_not == nil
+  enable_NOTABLESCAN()
 end
 
 Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
@@ -1942,6 +2135,30 @@ Then /^the jobs ran concurrently$/ do
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
 end
 
+Then /^the database is sharded for the following collections/ do |table|
+  @configDb = @conn.db(CONFIG_DB_NAME)
+
+  @shardsCollection = @configDb.collection("shards")
+   @result = "true"
+
+  if @shardsCollection.count() > 0
+    @chunksCollection = @configDb.collection("chunks")
+
+    table.hashes.map do |row|
+      @chunksCount = @chunksCollection.find("ns" => @ingestion_db_name + "." + row["collectionName"]).to_a.count()
+      if @chunksCount.to_s == "0"
+        puts "Database " + @ingestion_db_name+ " is not sharded for the collection " + row["collectionName"]
+        @result = "false"
+      end
+    end
+  else
+      puts "Mongo is not sharded"
+  end
+
+  assert(@result == "true", "Database was not sharder successfully.")
+end
+
+
 When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collection, searchTerm, value|
   step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
 end
@@ -1974,13 +2191,17 @@ Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
 end
 
 Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
-  db = @conn[INGESTION_DB_NAME]
+  disable_NOTABLESCAN()
+
+  db = @conn[@ingestion_db_name]
   collection = db.collection(collection)
   referred = collection.find_one({searchTerm => value})
   referred.should_not == nil
   id = referred["_id"]
   references = findField(@record, referenceField)
+
   assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
+  enable_NOTABLESCAN()
 end
 
 When /^zip file "(.*?)" is scp to ingestion landing zone$/ do |fileName|
@@ -2017,14 +2238,14 @@ end
 
 Given /^I have checked the counts of the following collections:$/ do |table|
   @excludedCollectionHash = {}
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
   end
 end
 
 Then /^the following collections counts are the same:$/ do |table|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     if row["collectionName"] == "securityEvent"
       assert(@excludedCollectionHash[row["collectionName"]] <= @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
@@ -2035,7 +2256,7 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})
@@ -2069,34 +2290,33 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
 end
 
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
-	@entity_collection = @db.collection(subdoc_parent)
-	
-	id_param = subdoc + "._id"
-	field = subdoc + "." + field
-	
+  @entity_collection = @db.collection(subdoc_parent)
+
+  id_param = subdoc + "._id"
+  field = subdoc + "." + field
+
     puts "verifySubDocDid #{id_param}, #{didId}, #{field}, #{value}"
-	
-    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+
+    @entity_count = @entity_collection.find({"$and" => [{id_param => didId},{field => value}]}).count().to_s
 end
 
 Then /^I check that ids were generated properly:$/ do |table|
-  @db = @conn[INGESTION_DB_NAME]
+  @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
-    puts "subdoc_parent #{subdoc_parent}"
-    
+
     did = row['deterministicId']
     field = row['field']
     value = row['value']
     collection = row['collectionName']
-    
+
     if subdoc_parent
-      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])	
-	else  
+      @entity_count = verifySubDocDid(subdoc_parent, row["collectionName"], row['deterministicId'], row['field'], row['value'])
+  else
       @entity_collection = @db.collection(collection)
-      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{"_id" => did},{field => value}]}).count().to_s
     end
-    
+
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
 end

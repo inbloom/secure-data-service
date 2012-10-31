@@ -16,6 +16,7 @@ end
 
 conn = Mongo::Connection.new('localhost')
 db = conn.db('sli')
+tenantDb = conn.db(Digest::SHA1.hexdigest tenantToClear)
 
 ########corner cases 
 
@@ -37,7 +38,7 @@ db.collection("application").remove("body.name" => "NotTheAppYoureLookingFor")
 db.collection("application").remove("body.name" => "Schlemiel")
 
 #must clean out edorg guids from the body.authorized_ed_orgs array whose tenantid is the one we are clearing
-edorgsInTenant = db.collection("educationOrganization").find("metaData.tenantId" => tenantToClear)
+edorgsInTenant = tenantDb.collection("educationOrganization").find()
 edorgGuids = []
 edorgsInTenant.each do |row|
   edorgGuids.push row["_id"]
@@ -60,8 +61,8 @@ end
 
 
 #application authorization collection
-appAuthColl = db.collection("applicationAuthorization")
-appAuthColl.remove("metaData.tenantId" => tenantToClear)
+appAuthColl = tenantDb.collection("applicationAuthorization")
+appAuthColl.remove()
 
 
 collectionsToClearNormally = ["student",
@@ -78,7 +79,7 @@ collectionsToClearNormally = ["student",
                               "assessment",
                               "studentAssessmentAssociation",
                               "gradebookEntry",
-                              "studentTranscriptAssociation",
+                              "courseTranscript",
                               "studentGradebookEntry",
                               "parent",
                               "studentParentAssociation",
@@ -105,9 +106,9 @@ collectionsToClearNormally = ["student",
                               
 
 collectionsToClearNormally.each do |coll|
-  currentColl = db.collection(coll)
-  currentColl.remove("metaData.tenantId" => tenantToClear)
-  puts "Num records in #{coll} collection where tenantId = #{tenantToClear} is #{currentColl.find("metaData.tenantId" => tenantToClear).count}"
+  currentColl = tenantDb.collection(coll)
+  currentColl.remove()
+  puts "Num records in #{coll} collection where tenantId = #{tenantToClear} is #{currentColl.count}"
 end
 
 

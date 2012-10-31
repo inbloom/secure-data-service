@@ -41,6 +41,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.IngestionStagedEntity;
@@ -64,7 +65,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
-    private static final String BATCHJOB_NEW_BATCH_JOB_COLLECTION = "newBatchJob";
 
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
@@ -172,6 +172,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                     @Override
                     public Object execute() {
+                        TenantContext.setIsSystemCall(true);
                         sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).insert(tenantLock, WriteConcern.SAFE);
                         return null;
                     }
@@ -205,6 +206,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                 @Override
                 public Object execute() {
+                    TenantContext.setIsSystemCall(true);
                     sliMongo.remove(tenantLockQuery, TENANT_JOB_LOCK_COLLECTION);
                     return null;
                 }
@@ -623,7 +625,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         RecordHash rh = this.findRecordHash(tenantId, recordId);
 
         if (rh == null) {
-            //record was not found
+            // record was not found
             rh = new RecordHash();
             rh._id = recordId;
             rh.tenantId = tenantId;
@@ -639,22 +641,22 @@ public class BatchJobMongoDA implements BatchJobDAO {
         }
     }
 
-
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
         Query query = new Query().limit(1);
-//        query.addCriteria(Criteria.where("tenantId").is(tenantId));
+        // query.addCriteria(Criteria.where("tenantId").is(tenantId));
         query.addCriteria(Criteria.where("_id").is(recordId));
         return this.batchJobHashCacheMongoTemplate.findOne(query, RecordHash.class, RECORD_HASH);
     }
 
     @Override
     public void removeRecordHashByTenant(String tenantId) {
-//       batchJobMongoTemplate.remove(new Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")), RECORD_HASH);
-         Query searchTenantId = new Query();
-            searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(
-                    tenantId));
-            batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
+        // batchJobMongoTemplate.remove(new
+        // Query(Criteria.where("_id").regex("^"+TenantContext.getTenantId()+"-"+"[a-z|A-Z|0-9|-]*")),
+        // RECORD_HASH);
+        Query searchTenantId = new Query();
+        searchTenantId.addCriteria(Criteria.where(EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
+        batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
     }
 
 }

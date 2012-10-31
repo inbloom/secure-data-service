@@ -1,9 +1,21 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +23,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
+import org.slc.sli.search.config.IndexConfig;
+import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SearchEngineConnector;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Indexer;
@@ -23,12 +37,7 @@ import org.slc.sli.search.util.NestedMapUtil;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestOperations;
+import org.springframework.http.HttpStatus;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -44,40 +53,28 @@ public class IndexerImpl implements Indexer {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private static final int DEFAULT_BULK_SIZE = 5000;
+    private static final int DEFAULT_BULK_SIZE = 3000;
     private static final int MAX_AGGREGATE_PERIOD = 500;
     
     private static final int INDEX_WORKER_POOL_SIZE = 4;
     
-    private String esUri;
-    
-    private String bulkUri;
-
-    private String mGetUri;
-    
-    private RestOperations searchTemplate;
-    
-    private String esUsername;
-    
-    private String esPassword;
-    
     private int bulkSize = DEFAULT_BULK_SIZE;
     // queue of indexrequests limited to bulkSize
-    LinkedBlockingQueue<IndexEntity> indexRequests;
+    private LinkedBlockingQueue<IndexEntity> indexRequests;
     
+    private IndexConfigStore indexConfigStore;
+
     private int indexerWorkerPoolSize = INDEX_WORKER_POOL_SIZE;
     
     private ScheduledExecutorService queueWatcherExecutor;
 
     private long aggregatePeriodInMillis = MAX_AGGREGATE_PERIOD;
     
+    private SearchEngineConnector connector;
+    
     // this is helpful to avoid adding index mappings for each index operation. The map does not have to be accurate
     // and no harm will be done if re-mapping is issued
     private final ConcurrentHashMap<String, Boolean> knownIndexesMap = new ConcurrentHashMap<String, Boolean>();
-    
-    private String indexMappingTemplate;
-
-    private String mUpdateUri;
 
     
     public void init() {
@@ -145,7 +142,6 @@ public class IndexerImpl implements Indexer {
     @SuppressWarnings("unchecked")
     public void executeBulkGetUpdate(List<IndexEntity> updates) {
         logger.info("Preparing _mget request with " + updates.size() + " records");
-        ResponseEntity<String> response = null;
         if (updates.isEmpty())
             return;
         Map<String, IndexEntity> indexUpdateMap = new HashMap<String, IndexEntity>();
@@ -155,33 +151,31 @@ public class IndexerImpl implements Indexer {
         try {
             String request = IndexEntityUtil.getBulkGetJson(updates);
             logger.info("Sending _mget request with " + updates.size() + " records");
-            response = sendRESTCall(HttpMethod.POST, mGetUri, request);
-            logger.info("Bulk _mget response: " + response.getStatusCode());
+            String body = connector.executePost(connector.getMGetUri(), request);
             Map<String, Object> orig;
-            List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(response.getBody()).get("docs");
+            List<Map<String, Object>> docs = (List<Map<String, Object>>)IndexEntityUtil.getEntity(body).get("docs");
             IndexEntity ie;
             final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
             for (Map<String, Object> entity : docs) {
-                if (entity != null) {
-                    if (entity != null && (Boolean)entity.get("exists")) {
-                        orig = (Map<String, Object>) entity.get("_source");
-                        try {
-                            ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
-                            
-                            if (ie != null) {
-                                // if an update happened, re-index, if no update, skip the insert
-                                if (NestedMapUtil.merge(orig, ie.getBody()))
-                                    reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
-                            } else {
-                                logger.error("Unable to match response from get " + entity);
-                            }
-                        } catch (Exception e) {
-                            logger.error("Unable to process entry from ES for re-index " + entity);
+                if (entity != null && entity.containsKey("exists") && (Boolean)entity.get("exists")) {
+                    orig = (Map<String, Object>) entity.get("_source");
+                    try {
+                        ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());
+                        
+                        if (ie != null) {
+                            // if an update happened, re-index, if no update, skip the insert
+                            if (NestedMapUtil.merge(orig, ie.getBody()))
+                                reindex.add(new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), orig));
+                        } else {
+                            logger.error("Unable to match response from get " + entity.get("_id"));
                         }
-                    } else { // if doesn't exist, add
-                        ie = indexUpdateMap.remove(entity.get("_id"));
-                        reindex.add(ie);
+                    } catch (Exception e) {
+                        logger.error("Unable to process entry from ES for re-index " + entity.get("_id"));
                     }
+                } else { // if doesn't exist, add
+                    ie = indexUpdateMap.remove(entity.get("_id"));
+                    if (ie != null)
+                        reindex.add(ie);
                 }
             }
             executeBulkIndex(reindex);
@@ -203,6 +197,9 @@ public class IndexerImpl implements Indexer {
         }
         if (docMap.containsKey(Action.QUICK_UPDATE)) {
             executeUpdate(docMap.get(Action.QUICK_UPDATE));
+        }
+        if (docMap.containsKey(Action.DELETE)) {
+            executeBulkDelete(docMap.get(Action.DELETE));
         }
     }
     
@@ -227,12 +224,25 @@ public class IndexerImpl implements Indexer {
         String message = IndexEntityUtil.getBulkIndexJson(docs);
         logger.info("Sending _bulk request with " + docs.size() + " records");
          // send the message
-        ResponseEntity<String> response = sendRESTCall(bulkUri, message);
-        logger.info("Bulk index response: " + response.getStatusCode());
-        logger.debug("Bulk index response: " + response.getBody());
-        
-        // TODO: do we need to check the response status of each part of the bulk request?
-        
+        connector.executePost(connector.getBulkUri(), message);
+        logger.info("Bulk index response: OK");
+    }
+    
+    /**
+     * Takes a collection of delete requests, send a bulk delete to elastic search
+     * @param docs
+     */
+    public void executeBulkDelete(List<IndexEntity> docs) {
+        if (docs.isEmpty()) {
+            return;
+        }
+        logger.info("Preparing _bulk delete request with " + docs.size() + " records");
+
+        String message = IndexEntityUtil.getBulkDeleteJson(docs);
+        logger.info("Sending _bulk delete request with " + docs.size() + " records");
+        // send the message
+        connector.executePost(connector.getBulkUri(), message);
+        logger.info("Bulk delete response: OK");
     }
     
     /**
@@ -246,8 +256,8 @@ public class IndexerImpl implements Indexer {
         logger.info(IndexEntityUtil.toUpdateJson(docs.get(0)));
         for (IndexEntity ie : docs) {
             try {
-            sb.append(sendRESTCall(
-                    mUpdateUri, IndexEntityUtil.toUpdateJson(ie), new Object[]{ie.getIndex(), ie.getType(), ie.getId()}).toString());
+            sb.append(connector.executePost(
+                    connector.getUpdateUri(), IndexEntityUtil.toUpdateJson(ie), ie.getIndex(), ie.getType(), ie.getId()).toString());
             }
             catch (Exception e) {
                 logger.error("Unable to update entry for " + ie, e);
@@ -264,11 +274,24 @@ public class IndexerImpl implements Indexer {
      */
     public void addIndexMappingIfNeeded(String index) {
         synchronized(knownIndexesMap) {
-            if (indexMappingTemplate != null && !knownIndexesMap.containsKey(index)) {
-                logger.info("Sending mapping for " + index + ": " + indexMappingTemplate);
+            if (!knownIndexesMap.containsKey(index)) {
+                logger.info("Updating mappings for " + index);
                 try {
-                    ResponseEntity<String> response = sendRESTCall(HttpMethod.PUT, esUri + "/" + index, indexMappingTemplate);
-                    logger.info(String.format("Bulk index response: %S, %s ", response.getStatusCode().name(), response.getBody()));
+                    if (connector.executeHead(connector.getIndexUri(), index) != HttpStatus.OK) {
+                        logger.info("Creating new index " + index);
+                        connector.executePost(connector.getIndexUri(), null, index);
+                    }
+                    HttpStatus response;
+                    for (IndexConfig config : indexConfigStore.getConfigs()) {
+                        if (!config.isChildDoc()) {
+                            response = connector.executePut(
+                                    connector.getIndexUri() + "/_mapping?ignore_conflicts=true", 
+                                    IndexEntityUtil.getBodyForIndex(config.getMapping()),
+                                    index, config.getCollectionName());
+                            logger.info(String.format("Mapping response: %s ", response));
+                        }
+                    }
+                    
                 } catch (Exception e) {
                     logger.info("Index " + index + " already exists");
                 }
@@ -277,58 +300,8 @@ public class IndexerImpl implements Indexer {
         }
     }
     
-    private ResponseEntity<String> sendRESTCall(String url, String query, Object... uriParams) {
-        return sendRESTCall(HttpMethod.POST, url, query, uriParams);
-    }
-    
-    /**
-     * Send REST query to elasticsearch server
-     * 
-     * @param query
-     * @return
-     */
-    private ResponseEntity<String> sendRESTCall(HttpMethod method, String url, String query, Object... uriParams) {
-        HttpHeaders headers = new HttpHeaders();
-        
-        // Basic Authentication when username and password are provided
-        if (esUsername != null && esPassword != null) {
-            headers.set("Authorization",
-                    "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
-        }
-        HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-        if (logger.isDebugEnabled())
-            logger.debug(String.format("%s Request: %s, [%s]", method.name(), url, Arrays.asList(uriParams)));
-        
-        // make the REST call
-        try {
-            return searchTemplate.exchange(url, method, entity, String.class, uriParams);
-        } catch (RestClientException rce) {
-            logger.error("Error sending elastic search request!", rce);
-            throw rce;
-        }
-    }
-    
-    public void setSearchUrl(String esUrl) {
-        this.esUri = esUrl;
-        this.bulkUri = esUrl + "/_bulk";
-        this.mGetUri = esUrl + "/_mget";
-        this.mUpdateUri = esUrl + "/{index}/{type}/{id}" + "/_update";
-    }
-    
-    public void setSearchUsername(String esUsername) {
-        this.esUsername = esUsername;
-    }
-    
-    public void setSearchPassword(String esPassword) {
-        this.esPassword = esPassword;
-    }
-    
     public void setBulkSize(int bulkSize) {
         this.bulkSize = bulkSize;
-    }
-    
-    public void setSearchTemplate(RestOperations searchTemplate) {
-        this.searchTemplate = searchTemplate;
     }
     
     public void setAggregatePeriod(long aggregatePeriodInMillis) {
@@ -339,14 +312,17 @@ public class IndexerImpl implements Indexer {
         this.indexerWorkerPoolSize  = indexerWorkerPoolSize;
     }
     
-    public void setIndexMappingFile(File indexMappingFile) throws IOException {
-        if (!indexMappingFile.exists()) {
-            if (!indexMappingFile.getName().startsWith("/")) {
-                indexMappingFile = new File(getClass().getResource("/" + indexMappingFile.getName()).getFile());
-            }
-            if (!indexMappingFile.exists())
-                throw new IllegalArgumentException("Index mapping file does not exists: " + indexMappingFile.getAbsolutePath());
-        }
-        this.indexMappingTemplate = FileUtils.readFileToString(indexMappingFile);
+    public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
+        this.indexConfigStore = indexConfigStore;
+    }
+    
+    public void setSearchEngineConnector(SearchEngineConnector searchEngineConnector) {
+        this.connector = searchEngineConnector;
+    }
+    
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)queueWatcherExecutor;
+        return getClass() + ": {indexRequests size:" + indexRequests.size() + ", active count:" + tpe.getActiveCount() +
+            ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 }

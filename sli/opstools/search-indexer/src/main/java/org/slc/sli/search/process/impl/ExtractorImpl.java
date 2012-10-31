@@ -1,34 +1,48 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.search.process.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
+import org.slc.sli.search.connector.SourceDatastoreConnector;
+import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.Extractor;
+import org.slc.sli.search.process.Loader;
 import org.slc.sli.search.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
@@ -51,13 +65,11 @@ public class ExtractorImpl implements Extractor {
 
     private int maxLinePerFile = DEFAULT_LINE_PER_FILE;
 
-    private MongoTemplate mongoTemplate;
-
     private IndexConfigStore indexConfigStore;
+    
+    private Loader loader;
 
     private String extractDir = Constants.DEFAULT_TMP_DIR;
-
-    private String inboxDir;
 
     private ExecutorService executor;
 
@@ -66,6 +78,8 @@ public class ExtractorImpl implements Extractor {
     private int jobWaitTimeoutInMins = DEFAULT_JOB_WAIT_TIMEOUT_MINS;
 
     private boolean runOnStartup = false;
+    
+    private SourceDatastoreConnector sourceDatastoreConnector;
 
 
     public void destroy() {
@@ -77,20 +91,30 @@ public class ExtractorImpl implements Extractor {
         // create thread pool to process files
         executor = Executors.newFixedThreadPool(executorThreads);
         if (runOnStartup) {
-            executor.execute(new Runnable() {public void run() {execute();}});
+            executor.execute(new Runnable() {public void run() {execute(Action.INDEX);}});
         }
     }
 
     public void createExtractDir() {
         new File(extractDir).mkdirs();
     }
+    
+    public void execute() {
+        execute(Action.UPDATE);
+    }
 
+    public void execute(Action action) {
+        for (Tenant tenant : sourceDatastoreConnector.getTenants()) {
+            execute(tenant, action);
+        }
+    }
+    
     /*
      * (non-Javadoc)
      * 
      * @see org.slc.sli.search.process.Extractor#execute()
      */
-    public void execute() {
+    public void execute(Tenant tenant, Action action) {
         // TODO: implement isRunning flag to make sure only one extract is running at a time
         IndexConfig config;
         Collection<String> collections = indexConfigStore.getCollections();
@@ -102,45 +126,33 @@ public class ExtractorImpl implements Extractor {
             if (config.isChildDoc()) {
                 continue;
             }
-            call = executor.submit(new ExtractWorker(config));
+            call = executor.submit(new ExtractWorker(config, action, tenant));
             futures.add(call);
             if (config.hasDependents()) {
                 for (String dependent : config.getDependents()) {
-                    futures.add(executor.submit(new DependentExtractWorker(indexConfigStore.getConfig(dependent), call)));
+                    futures.add(executor.submit(new DependentExtractWorker(indexConfigStore.getConfig(dependent), call, tenant)));
                 }
             }
         }
-        
         //wait job to be finished.
         for (Future<List<File>> future : futures) {
-            try {
-                future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
-            } catch (Exception e) {
-                logger.error("Error while waiting extractor job to be finished", e);
-            }
+            processFuture(future);
         }
     }
-
-    /**
-     * Create DBCUrsor
-     * Also, make this method available to Mock for UT
-     * 
-     * @param collectionName
-     * @param fields
-     * @return
-     */
-    protected DBCursor getDBCursor(String collectionName, List<String> fields) {
-        // execute query, get cursor of results
-        BasicDBObject keys = new BasicDBObject();
-        for (String field : fields) {
-            keys.put(field, 1);
+    
+    protected void processFuture(Future<List<File>> future) {
+        try {
+            future.get(DEFAULT_EXTRACTOR_JOB_TIME, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            logger.error("Error while waiting extractor job to be finished", e);
         }
-
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
-        return collection.find(new BasicDBObject(), keys);
+    }
+    
+    public List<File> extractCollection(IndexConfig config, Action action, Tenant tenant) {
+        return extractCollection(config, action, tenant, 0);
     }
 
-    public List<File> extractCollection(IndexConfig config, int retryCount) {
+    private List<File> extractCollection(IndexConfig config, Action action, Tenant tenant, int retryCount) {
 
         logger.info("Extracting " + config);
         String collectionName = config.getCollectionName();
@@ -150,18 +162,20 @@ public class ExtractorImpl implements Extractor {
         File outFile = null;
         DBCursor cursor = null;
         List<File> producedFiles = new ArrayList<File>();
+        int fileCount = 0;
         try {
-            cursor = getDBCursor(collectionName, config.getFields());
+            TenantContext.setTenantId(tenant.getTenantId());
+            cursor = sourceDatastoreConnector.getDBCursor(collectionName, config.getFields());
             // write each record to file
             while (cursor.hasNext()) {
                 if (numberOfLineWritten % maxLinePerFile == 0) {
                     numberOfLineWritten = 0;
                     IOUtils.closeQuietly(bw);
-                    // move file to inbox for indexer
-                    finishProcessing(outFile, producedFiles);
+                    finishProcessing(tenant.getDbName(), outFile, action, producedFiles);
+                    fileCount ++;
 
                     // open file to write
-                    outFile = createTempFile(collectionName);
+                    outFile = createTempFile(collectionName, tenant, fileCount);
                     bw = new BufferedWriter(new FileWriter(outFile));
                     logger.info("File [" + outFile.getName() + "] was created");
                 }
@@ -172,7 +186,7 @@ public class ExtractorImpl implements Extractor {
             }
             IOUtils.closeQuietly(bw);
 
-            finishProcessing(outFile, producedFiles);
+            finishProcessing(tenant.getDbName(), outFile, action, producedFiles);
             logger.info("Finished extracting " + collectionName);
         } catch (FileNotFoundException e) {
             logger.error("Error writing entities file", e);
@@ -181,10 +195,10 @@ public class ExtractorImpl implements Extractor {
             if (retryCount <= 1) {
                 logger.error("Retrying extract for " + collectionName);
                 ThreadUtil.sleep(1000);
-                extractCollection(config, ++retryCount);
+                extractCollection(config, action, tenant, ++retryCount);
             }
         } finally {
-
+            TenantContext.setTenantId(null);
             // close file
             IOUtils.closeQuietly(bw);
             // close cursor
@@ -194,29 +208,16 @@ public class ExtractorImpl implements Extractor {
         return producedFiles;
     }
 
-    private void finishProcessing(File outFile, List<File> producedFiles) throws IOException {
+    protected void finishProcessing(String index, File outFile, Action action, List<File> producedFiles) {
         // finish up
-        // move file to inbox for indexer
         if (outFile != null) {
-            File movedFile = new File(inboxDir, outFile.getName());
-            FileUtils.moveFile(outFile, movedFile);
-            producedFiles.add(movedFile);
+            loader.processFile(index, action, outFile);
+            producedFiles.add(outFile);
         }
     }
-
-    protected DBCursor getCursor(String collectionName, List<String> fields) {
-        // execute query, get cursor of results
-        BasicDBObject keys = new BasicDBObject();
-        for (String field : fields) {
-            keys.put(field, 1);
-        }
-
-        DBCollection collection = mongoTemplate.getCollection(collectionName);
-        return collection.find(new BasicDBObject(), keys);
-    }
-
-    private File createTempFile(String collectionName) {
-        return new File(extractDir, collectionName + "." + UUID.randomUUID() + ".json");
+    
+    private File createTempFile(String collectionName, Tenant tenant, int increment) {
+        return new File(extractDir, tenant.getDbName() + "_" + collectionName + "_" + increment + ".json");
     }
 
     public void setIndexConfigStore(IndexConfigStore config) {
@@ -225,10 +226,6 @@ public class ExtractorImpl implements Extractor {
 
     public void setExtractDir(String extractDir) {
         this.extractDir = extractDir;
-    }
-
-    public void setInboxDir(String inboxDir) {
-        this.inboxDir = inboxDir;
     }
 
     public void setMaxLinePerFile(int maxLinePerFile) {
@@ -243,12 +240,16 @@ public class ExtractorImpl implements Extractor {
         this.runOnStartup = runOnStartup;
     }
 
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
-
     public void setJobWaitTimeoutInMins(int jobWaitTimeoutInMins) {
         this.jobWaitTimeoutInMins = jobWaitTimeoutInMins;
+    }
+    
+    public void setLoader(Loader loader) {
+        this.loader = loader;
+    }
+
+    public void setSourceDatastoreConnector(SourceDatastoreConnector sourceDatastoreConnector) {
+        this.sourceDatastoreConnector = sourceDatastoreConnector;
     }
 
     /**
@@ -260,13 +261,17 @@ public class ExtractorImpl implements Extractor {
     private class ExtractWorker implements Callable<List<File>> {
 
         final IndexConfig config;
+        final Action action;
+        final Tenant tenant;
 
-        public ExtractWorker(IndexConfig config) {
+        public ExtractWorker(IndexConfig config, Action action, Tenant tenant) {
             this.config = config;
+            this.action = action;
+            this.tenant = tenant;
         }
 
         public List<File> call() throws Exception {
-            return extractCollection(config, 0);
+            return extractCollection(config, action, tenant, 0);
         }
     }
 
@@ -279,8 +284,8 @@ public class ExtractorImpl implements Extractor {
     private class DependentExtractWorker extends ExtractWorker {
         private final Future<List<File>> parentJob;
 
-        public DependentExtractWorker(IndexConfig config, Future<List<File>> parentJob) {
-            super(config);
+        public DependentExtractWorker(IndexConfig config, Future<List<File>> parentJob, Tenant tenant) {
+            super(config, Action.UPDATE, tenant);
             this.parentJob = parentJob;
         }
 
@@ -289,16 +294,15 @@ public class ExtractorImpl implements Extractor {
             try {
                 final List<File> files = parentJob.get(20, TimeUnit.MINUTES);
                 long timeToStopWaiting = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(jobWaitTimeoutInMins);
-                File inbox = new File(inboxDir);
-                String[] filesFound = null;
-                while (filesFound == null || filesFound.length != 0) {
+                List<File> remaining = new ArrayList<File>(files);
+                File f;
+                while (!remaining.isEmpty()) {
                     if (System.currentTimeMillis() <= timeToStopWaiting) {
-                        if (filesFound != null) ThreadUtil.sleep(30000);
-                        filesFound = inbox.list(new FilenameFilter() {
-                            public boolean accept(File dir, String name) {
-                                return files.contains(new File(dir, name));
-                            }
-                        });
+                        f = remaining.get(0);
+                        if (f.exists()) 
+                            ThreadUtil.sleep(3000);
+                        else 
+                            remaining.remove(f);
                     }
 
                 }
@@ -307,6 +311,15 @@ public class ExtractorImpl implements Extractor {
             }
             return super.call();
         }
+    }
+    
+    
+
+    public String getHealth() {
+        ThreadPoolExecutor tpe = (ThreadPoolExecutor)executor;
+        return getClass() + ": {" + extractDir +  " size:" + 
+            new File(extractDir).list().length + ", active count:" + tpe.getActiveCount() +
+            ", completed count:" + tpe.getCompletedTaskCount() + "}";
     }
 
 }

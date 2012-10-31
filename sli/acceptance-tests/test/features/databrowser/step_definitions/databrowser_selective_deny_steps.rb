@@ -20,16 +20,19 @@ limitations under the License.
 require 'mongo'
 
 Transform /^IDs for "([^"]*)"$/ do |idCategory|
+    expectedIds = ["e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b", 
+      "e9ca4497-e1e5-4fc4-ac7b-24badbad998b", 
+      "edce823c-ee28-4840-ae3d-74d9e9976dc5"] if idCategory == "Daybreak and Sunset"
     expectedIds = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
-        "67ed9078-431a-465e-adf7-c720d08ef512",
-        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
-        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak and Sunset"
-    expectedIds = ["67ed9078-431a-465e-adf7-c720d08ef512",
-        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak only"
+      "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if idCategory == "Sunset only"
     expectedIds
 end
+
+Transform /the realm "([^"]*)"/ do |realm|
+  realmId = "45b02cb0-1bad-4606-a936-094331bd47fe" if realm == "Daybreak"
+  realmId
+end
+
 Then /^I should see only myself$/ do
   begin
     @driver.find_element(:id, 'simple-table')
@@ -40,7 +43,7 @@ Then /^I should see only myself$/ do
   end
 end
 When /^I should navigate to "([^"]*)"$/ do |page|
-  @driver.get(PropLoader.getProps['databrowser_server_url'] + "/entities/teachers")
+  @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
 end
 
 Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
@@ -53,6 +56,18 @@ Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
     total += 1
   end
   assert(total == expected, "Expected #{expectedNumTeachers}, found #{total}")
+end
+
+Then /^I should see that there are no teachers$/ do 
+  table = @driver.find_element(:id, "simple-table")
+  rows = table.find_elements(:xpath, ".//tr")
+  
+  message = ""
+  rows.each do |row|
+    tds = row.find_elements(:xpath, ".//td")
+    message = tds[0].text if tds.length == 1 and tds[0] != nil
+  end
+  assert(message == "No data available in table", "Should not find any teachers available.")
 end
 
 Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
@@ -85,6 +100,16 @@ Given /^I remove the application authorizations in sunset$/ do
   @coll.insert(newSunsetAuth)
 end
 
+Given /^I remove the application authorizations in daybreak/ do
+  coll()
+  @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+  $oldDaybreakAuth = @coll.find_one({"body.authId" => @daybreak})
+  newDaybreakAuth = @coll.find_one({"body.authId" => @daybreak})
+  @coll.remove({"body.authId" => @daybreak})
+  newDaybreakAuth["body"]["appIds"] = []
+  @coll.insert(newDaybreakAuth)
+end
+
 Then /^I put back the application authorizations in sunset$/ do
   @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
   coll()
@@ -92,10 +117,31 @@ Then /^I put back the application authorizations in sunset$/ do
   @coll.insert($oldSunsetAuth)
 end
 
+Then /^I put back the application authorizations in daybreak/ do
+  @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+  coll()
+  @coll.remove({"body.authId" => @daybreak})
+  @coll.insert($oldDaybreakAuth)
+end
+
 def coll
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('Midgar'))
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
 end
+
+Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
+  db = Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  coll = db.collection('customRole')
+  customRoleDoc = coll.find_one({"body.realmId" => realm})
+  coll.remove({"body.realmId" => realm})
+  customRoleDoc["body"]["roles"].each do |curRole|
+    if curRole["groupTitle"] == role
+      curRole["isAdminRole"] = isAdminRole == "true" ? true : false
+    end
+  end
+  coll.insert(customRoleDoc)
+end
+
 
 

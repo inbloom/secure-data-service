@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -91,9 +92,8 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                     // if the required key field is not found, there's a problem
                     missingKeys.add(keyField.getKey());
                 }
-            }
-            if (value instanceof String) {
-                String strValue = (String) value;
+            } else {
+                String strValue = value.toString();
                 map.put(keyField.getKey(), strValue);
             }
         }
@@ -124,7 +124,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
                 if (appInfo.applyNaturalKeys()) {
                     naturalKeyFields = new HashMap<String, Boolean>();
                     // recursive call to get natural fields
-                    getNaturalKeyFields(naturalKeyFields, schema, "");
+                    getNaturalKeyFields(naturalKeyFields, schema, false, "");
 
                     if (naturalKeyFields.isEmpty()) {
                         // if no fields are found, there is a problem
@@ -142,7 +142,7 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      * Recursive method to traverse down to the leaf nodes of a neutral schema and extract annotated
      * key fields
      */
-    private void getNaturalKeyFields(Map<String, Boolean> naturalKeyFields, NeutralSchema schema, String baseXPath) {
+    private void getNaturalKeyFields(Map<String, Boolean> naturalKeyFields, NeutralSchema schema, boolean fieldSchemaChoice, String baseXPath) {
         Map<String, NeutralSchema> fields = schema.getFields();
         for (Entry<String, NeutralSchema> fieldEntry : fields.entrySet()) {
             String fieldXPath = baseXPath + fieldEntry.getKey();
@@ -151,18 +151,25 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
 
             AppInfo fieldsAppInfo = fieldSchema.getAppInfo();
             if (fieldsAppInfo != null) {
-                boolean foo = fieldsAppInfo.isNaturalKey();
-                if (foo) {
+                boolean isNaturalKey = fieldsAppInfo.isNaturalKey();
+                if (isNaturalKey) {
                     if (fieldSchema instanceof ComplexSchema) {
-                        getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldXPath + ".");
+                        getNaturalKeyFields(naturalKeyFields, fieldSchema, fieldSchemaChoice, fieldXPath + ".");
                     } else {
                         Boolean isOptional = null;
-                        if (fieldsAppInfo.isRequired()) {
+                        if (fieldsAppInfo.isRequired() &&
+                            fieldSchemaChoice == false) {
                             isOptional = new Boolean(false);
                         } else {
                             isOptional = new Boolean(true);
                         }
                         naturalKeyFields.put(fieldXPath, isOptional);
+                    }
+                }
+                else {
+                    String schemaClass = fieldSchema.getValidatorClass();
+                    if (schemaClass.equals ("org.slc.sli.validation.schema.ChoiceSchema")) {
+                        getNaturalKeyFields(naturalKeyFields, fieldSchema, true, fieldXPath + ".");
                     }
                 }
             }
@@ -189,14 +196,14 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
         }
 
         String entityType = getCollectionName(entity);
-        String tenantId = (String) entity.getMetaData().get("tenantId");
+        String tenantId = TenantContext.getTenantId();
         String parentId = retrieveParentId(entity);
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(map, tenantId, entityType, parentId);
         return naturalKeyDescriptor;
     }
 
     private String retrieveParentId(Entity entity) {
-        if (EmbeddedDocumentRelations.getSubDocuments().contains(entity.getType())) {
+        if(EmbeddedDocumentRelations.getSubDocuments().contains(entity.getType())) {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entity.getType());
             String parentId = (String) entity.getBody().get(parentKey);
             return parentId;
@@ -213,7 +220,6 @@ public class NaturalKeyExtractor implements INaturalKeyExtractor {
      *
      */
     public String getCollectionName(Entity entity) {
-
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema != null) {
             AppInfo appInfo = schema.getAppInfo();

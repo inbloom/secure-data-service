@@ -44,7 +44,7 @@ public class GraduationPlanGenerator {
     private int numberOfCreditsBySubject = random.nextInt(10);
 
     //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
-	private static int typeIndex = 0;
+    private static int typeIndex = 0;
 
     public GraduationPlanGenerator(boolean generateOptionalFields) {
         this.optional = generateOptionalFields;
@@ -54,9 +54,8 @@ public class GraduationPlanGenerator {
         this(true);
     }
 
-    public static GraduationPlan generateLowFi(String graduationPlanId) {
-    	
-   	 GraduationPlan gp = new GraduationPlan();
+    public static GraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
+           GraduationPlan gp = new GraduationPlan();
 
         gp.setId(graduationPlanId);
 
@@ -65,22 +64,21 @@ public class GraduationPlanGenerator {
         Credits cs = new Credits();
         cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
         gp.setTotalCreditsRequired(cs);
-        
+
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        //eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
+        eoit.setStateOrganizationId(edOrg);
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        eort.setEducationalOrgIdentity(eoit);
+        gp.setEducationOrganizationReference(eort);
+
         return gp;
    }
-    
-    public GraduationPlan generate(String graduationPlanId, List<String> courses, List<String> edOrgs) {
-        GraduationPlan gp = new GraduationPlan();
 
-        gp.setId(graduationPlanId);
+    public GraduationPlan generate(String graduationPlanId, List<String> courses, String edOrg) {
+        GraduationPlan gp = generateLowFi(graduationPlanId, edOrg);
 
-        gp.setGraduationPlanType(GraduationPlanType.fromIndex(typeIndex++));
-
-        Credits cs = new Credits();
-        cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
-        gp.setTotalCreditsRequired(cs);
-
-        if (optional) {
+        if (null != gp && optional) {
             gp.setIndividualPlan(random.nextBoolean());
 
             for (int i = 0 ; i < numberOfCreditsBySubject ; i++ ) {
@@ -108,15 +106,6 @@ public class GraduationPlanGenerator {
                 cbc.setGradeLevel(gradeLevels[random.nextInt(gradeLevels.length)]);
 
                 gp.getCreditsByCourse().add(cbc);
-            }
-
-            for (String edOrg : edOrgs) {
-                EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-//                eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
-                eoit.setStateOrganizationId(edOrg);
-                EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-                eort.setEducationalOrgIdentity(eoit);
-                gp.getEducationOrganizationReference().add(eort);
             }
         }
 
