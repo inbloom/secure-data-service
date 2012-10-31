@@ -47,6 +47,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"        if human_readable_id == "FALL 2011"
   id = "62101257-592f-4cbe-bcd5-b8cd24a06f73"        if human_readable_id == "SPRING SEMESTER"
   id = "ba942e512de1fd5021a69a9d452b481c7512c1bd_id" if human_readable_id == "INGESTED FALL 2009 EAST BREAK JUNIOR HIGH"
+  id = "1771687e116b8babb04c3e5e0a1e9bda10b583c8_id" if human_readable_id == "INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH"
 
   # StudentSchoolAssociation
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
