@@ -126,7 +126,16 @@
                 <StudentUniqueStateId>100000001</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <DisciplineIncidentReference ref="disruption"/>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
         <StudentParticipationCode>Witness</StudentParticipationCode>
         <Behaviors>
             <CodeValue>BEH03</CodeValue>
@@ -138,7 +147,16 @@
                 <StudentUniqueStateId>100000002</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <DisciplineIncidentReference ref="disruption"/>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
         <StudentParticipationCode>Victim</StudentParticipationCode>
     </StudentDisciplineIncidentAssociation>
     <StudentDisciplineIncidentAssociation>
@@ -147,7 +165,16 @@
                 <StudentUniqueStateId>100000003</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <DisciplineIncidentReference ref="disruption"/>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
         <StudentParticipationCode>Perpetrator</StudentParticipationCode>
         <Behaviors>
             <CodeValue>BEH01</CodeValue>
@@ -159,7 +186,16 @@
                 <StudentUniqueStateId>100000004</StudentUniqueStateId>
             </StudentIdentity>
         </StudentReference>
-        <DisciplineIncidentReference ref="chronic-tardiness"/>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Tardiness</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
         <StudentParticipationCode>Perpetrator</StudentParticipationCode>
         <Behaviors>
             <CodeValue>BEH02</CodeValue>
@@ -190,13 +226,21 @@
         <DisciplineIncidentReference>
             <DisciplineIncidentIdentity>
                 <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <StateOrganizationId>10000000121</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </DisciplineIncidentIdentity>
         </DisciplineIncidentReference>
         <DisciplineIncidentReference>
             <DisciplineIncidentIdentity>
                 <IncidentIdentifier>Tardiness</IncidentIdentifier>
-                <StateOrganizationId>10000000121</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </DisciplineIncidentIdentity>
         </DisciplineIncidentReference>
         <StaffReference>

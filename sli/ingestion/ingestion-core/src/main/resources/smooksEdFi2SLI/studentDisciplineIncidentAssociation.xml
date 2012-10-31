@@ -20,7 +20,7 @@
   
   <jb:bean beanId="studentDisciplineIncidentAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="studentId" data="attributes StudentReference" />
-    <jb:value property="disciplineIncidentId" data="attributes disciplineIncidentId" />
+    <jb:value property="disciplineIncidentId" data="attributes DisciplineIncidentReference" />
     <jb:value property="studentParticipationCode" data="attributes StudentParticipationCode" />
     <jb:wiring property="behaviors" beanIdRef="StudentDisciplineIncidentAssociation_BehaviorsArray" />
     <jb:wiring property="secondaryBehaviors" beanIdRef="StudentDisciplineIncidentAssociation_SecondaryBehaviorsArray" />
