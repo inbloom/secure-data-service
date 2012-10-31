@@ -19,7 +19,7 @@
   </jb:bean>
   
   <jb:bean beanId="staffCohortAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="staffId" data="attributes staffId" /> 
+    <jb:value property="staffId" data="attributes StaffReference" /> 
     <jb:value property="cohortId" data="attributes cohortId" />
     <jb:value property="beginDate" data="attributes beginDate" />    
     <jb:value property="endDate" data="attributes endDate" />    

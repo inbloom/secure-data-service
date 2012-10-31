@@ -91,7 +91,6 @@ public class ContextValidator implements ApplicationContextAware {
         // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
         validators.remove(subEntityVal);
-        validators.add(genVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -119,6 +118,15 @@ public class ContextValidator implements ApplicationContextAware {
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
         if (def == null) {
             return;
+        }
+        /**
+         * If we are v1/entity/id and the entity is "public" don't validate
+         */
+        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
+            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                info("Not validating access to public entity and it's custom data");
+                return;
+            }
         }
 
         /*

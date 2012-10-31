@@ -45,6 +45,11 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Unit tests for staff --> student context validator.
+ *
+ * @author shalka
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -134,7 +139,8 @@ public class StaffToStudentValidatorTest {
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), String.valueOf(i), NOT_EXPIRED);
+                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
+                        String.valueOf(i), NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }
@@ -150,7 +156,8 @@ public class StaffToStudentValidatorTest {
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), String.valueOf(i), NOT_EXPIRED);
+                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
+                        String.valueOf(i), NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }
@@ -165,7 +172,8 @@ public class StaffToStudentValidatorTest {
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
-                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), String.valueOf(i), NOT_EXPIRED);
+                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
+                        String.valueOf(i), NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }

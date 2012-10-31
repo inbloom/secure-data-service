@@ -1,4 +1,4 @@
-{"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessmentAssociation"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}
-{"eventId": "oplog:math_proficiency_aggregation", "triggers": [{"ns": "sli.student", "op": "i"}], "jar": "/POC/aggregation/Math-Proficiency-Aggregation/target/Math-Proficiency-Aggregation-1.0-SNAPSHOT-job.jar"}
+{"eventId": "oplog:math_highest_ever", "queue":"hadoop_job", "triggers": [{"ns": "sli.studentAssessmentAssociation"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}
+{"eventId": "oplog:math_proficiency_aggregation", "queue":"hadoop_job", "triggers": [{"ns": "sli.student", "op": "i"}], "jar": "/POC/aggregation/Math-Proficiency-Aggregation/target/Math-Proficiency-Aggregation-1.0-SNAPSHOT-job.jar"}
 {"eventId": "search:student", "triggers": [{"ns": "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.student", "op": "i"}], "queue": "search", "publishOplog": true}
 {"eventId": "search:studentSchoolAssociation", "triggers": [{"ns": "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.studentSchoolAssociation", "op": "i"}], "queue": "search", "publishOplog": true}

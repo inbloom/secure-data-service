@@ -1,0 +1,2 @@
+{"eventId": "oplog:student", "queue":"hadoop_job", "triggers": [{"ns": "sli.student"}], "publishOplog": true}
+{"eventId": "oplog:studentAssessmentAssociation", "triggers": [{"ns": "is.studentAssessmentAssociation_transformed"}], "publishOplog": true}

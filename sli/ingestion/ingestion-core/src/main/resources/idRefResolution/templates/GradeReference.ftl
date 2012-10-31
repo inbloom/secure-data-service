@@ -3,27 +3,31 @@
         <StudentSectionAssociationIdentity>
             <StudentReference>
                 <StudentIdentity>
-                    <StudentUniqueStateId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
+                    <StudentUniqueStateId>${Grade.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}</StudentUniqueStateId>
                 </StudentIdentity>
             </StudentReference>
             <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
-                            <StateOrganizationId>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
+                            <StateOrganizationId>${Grade.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
                         </EducationalOrgIdentity>
                     </EducationalOrgReference>
-                    <UniqueSectionCode>${Grade.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
+                    <UniqueSectionCode>${Grade.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}</UniqueSectionCode>
                 </SectionIdentity>
             </SectionReference>
+            <BeginDate>${Grade.GradeIdentity.StudentSectionAssociationReference.StudentSectionAssociationIdentity.BeginDate}</BeginDate>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <GradingPeriodReference>
         <GradingPeriodIdentity>
-            <GradingPeriod>${Grade.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod}</GradingPeriod>
-            <BeginDate>${Grade.GradingPeriodReference.GradingPeriodIdentity.BeginDate}</BeginDate>
-            <SchoolYear>${Grade.GradingPeriodReference.GradingPeriodIdentity.SchoolYear}</SchoolYear>
-             <StateOrganizationId>${Grade.GradingPeriodReference.GradingPeriodIdentity.StateOrganizationId}</StateOrganizationId>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>${Grade.GradeIdentity.GradingPeriodReference.GradingPeriodIdentity.StateOrganizationId}</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <GradingPeriod>${Grade.GradeIdentity.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod}</GradingPeriod>
+            <BeginDate>${Grade.GradeIdentity.GradingPeriodReference.GradingPeriodIdentity.BeginDate}</BeginDate>
         </GradingPeriodIdentity>
     </GradingPeriodReference>
 </GradeIdentity>

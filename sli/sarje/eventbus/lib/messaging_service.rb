@@ -80,7 +80,13 @@ module Eventbus
         @client.publish(@queue_name, message.to_json)
       rescue Exception => e
         @client = nil
-        @logger.warn("problem publishing to queue #{@queue_name}: #{e}") unless @logger.nil?
+        @logger.error("Problem publishing to queue #{@queue_name}: #{e}") unless @logger.nil?
+      end
+    end
+
+    def close
+      unless @client.nil?
+        @client.close
       end
     end
   end
@@ -104,12 +110,14 @@ module Eventbus
 
     def handle_message
       begin
-        @client = Stomp::Client.new(@config) if @client.nil?
+        if @client.nil? 
+          @client = Stomp::Client.new(@config) if @client.nil?
+        end 
         @client.subscribe(@queue_name) do |msg|
           yield JSON.parse msg.body
         end
       rescue Exception => e
-        @logger.warn("problem occurred with subscribing: #{e}")
+        @logger.warn("problem occurred with subscribing: #{e}") unless @logger.nil?
         close()
       end
     end

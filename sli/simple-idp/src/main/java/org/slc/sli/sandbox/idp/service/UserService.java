@@ -100,6 +100,7 @@ public class UserService {
         Map<String, String> attributes;
         
         public User() {
+            attributes = new HashMap<String, String>();
         }
         
         public User(String userId, List<String> roles, Map<String, String> attributes) {

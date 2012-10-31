@@ -21,11 +21,17 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-When /^I select the "([^"]*)" realm$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-  @driver.find_element(:id, "go").click
+When /^I click on the "([^"]*)" realm in "([^"]*)"$/ do |realmName,mode|
+  if mode=="Sandbox"
+ 	@driver.find_element(:id, "sandboxLink").click if realmName=="Sandbox"
+ 	@driver.find_element(:id, "adminLink").click if realmName=="Admin"	
+  else #production mode
+  	select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  	select.select_by(:text, arg1)
+  	@driver.find_element(:id, "go").click
+  end
 end
 
 Given /^I navigate to databrowser home page$/ do
@@ -41,7 +47,8 @@ When /^I enter the credentials "([^"]*)" "([^"]*)" for the Simple IDP$/ do |arg1
   @driver.find_element(:id, "password").send_keys arg2
 end
 
-When /^I want to imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
+When /^I want to manually imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
+  @driver.find_element(:id, "manualUserBtn").click
   @driver.find_element(:id, "impersonate_user").send_keys arg1
   role_select = @driver.find_element(:id, "selected_roles")
   options = role_select.find_elements(:tag_name=>"option")
@@ -51,10 +58,46 @@ When /^I want to imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
     break
     end
   end
+  @driver.find_element(:id, "manualUserLoginButton").click
+end
+
+Then /^I want to select "(.*?)" from the "(.*?)" in automatic mode$/ do |arg1, arg2|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "datasets"))
+  select.select_by(:value, arg2)
+  assertWithWait("Failed to locate list of users dropdown") {@driver.find_element(:id, arg2)}
+
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, arg2))
+  select.select_by(:value, arg1)
+  @driver.find_element(:id, "sampleUserLoginButton").click
+end
+
+And /^I should see that I "(.*?)" am logged in$/ do |arg1|
+assertWithWait("Failed to find the developers username on the simple idp login page")  {@driver.page_source.include?(arg1)}  
+end
+
+When /^I logout of the databrowser$/ do
+  @driver.get PropLoader.getProps['databrowser_server_url']+"/entities/system/session/logout"
+  @driver.manage.delete_all_cookies
+end
+
+Then /^I should see the logout message$/ do
+  assertWithWait("Failed to receive successfully logged out message")  {@driver.page_source.include?("You are logged out of SLI")}
+end
+
+When /^I click on the simple-idp logout link$/ do
+  @driver.find_element(:id, "logoutLink").click
+end
+
+Then /^I should be redirected to an API error page that says invalid user$/ do
+  assertWithWait("Failed to receive invalid user error message")  {@driver.page_source.include?("Invalid user")}
 end
 
 When /^I want to impersonate a custom role of "([^"]*)"$/ do |arg1|
     @driver.find_element(:id, "customRoles").send_keys arg1
+end
+
+Then /^I should be redirected to the impersonation page$/ do
+  assertWithWait("Failed to be directed to Impersonation's page")  {@driver.find_element(:id, "selected_roles")}
 end
 
 Then /^I should be redirected to the databrowser web page$/ do
