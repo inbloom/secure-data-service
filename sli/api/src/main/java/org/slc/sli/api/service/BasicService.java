@@ -525,7 +525,8 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
-            String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
+            EntityDefinition def = definitionStore.lookupByEntityType(entityType);
+            String collectionName = def.getStoredCollectionName();
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -572,7 +573,7 @@ public class BasicService implements EntityService {
                 }
             } else {
                 try {
-                    contextValidator.validateContextToEntities(entityType, ids, false);
+                    contextValidator.validateContextToEntities(def, ids, false);
                 } catch (AccessDeniedException e) {
                     debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");

@@ -49,9 +49,9 @@ public class CourseOfferingGenerator {
         EducationalOrgIdentityType eoit2 = new EducationalOrgIdentityType();
         eoit2.setStateOrganizationId(courseOfferingMeta.courseMeta.schoolId);
         EducationalOrgReferenceType eort2 = new EducationalOrgReferenceType();
-        eort.setEducationalOrgIdentity(eoit2);
+        eort2.setEducationalOrgIdentity(eoit2);
         courseOffering.setSchoolReference(eort2);
-        cit.setEducationalOrgReference(eort);
+        cit.setEducationalOrgReference(eort2);
         cit.setUniqueCourseId(courseOfferingMeta.courseMeta.uniqueCourseId);
         CourseReferenceType crt = new CourseReferenceType();
         crt.setCourseIdentity(cit);

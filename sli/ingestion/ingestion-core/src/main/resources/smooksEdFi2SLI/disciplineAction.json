@@ -25,12 +25,13 @@
         }
     },
     {
-        "fieldPath" : "body.studentId",
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "student",
             "isRefList" : true,
-            "refObjectPath" : "body.studentReference",
+            "refObjectPath" : "body.StudentReference",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
@@ -39,7 +40,7 @@
                         "path" : "body.studentUniqueStateId",
                         "values" :
                         [
-                            {"valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"}
+                            {"valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"}
                         ]
                     }
                 ]

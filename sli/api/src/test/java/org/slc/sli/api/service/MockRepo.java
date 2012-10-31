@@ -409,9 +409,15 @@ public class MockRepo implements Repository<Entity> {
         return create(type, body, type);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Entity create(final String type, Map<String, Object> body, String collectionName) {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+        if (body.containsKey("denormalization")) {
+            denormalized.putAll((Map<String, List<Map<String, Object>>>) body.remove("denormalization"));
+        }
+        final Map<String, List<Map<String, Object>>> clonedDenormalization = new HashMap<String, List<Map<String, Object>>>(denormalized);
         final String id = generateId();
 
         Entity newEntity = new Entity() {
@@ -452,7 +458,7 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public Map<String, List<Map<String, Object>>> getDenormalizedData() {
-                return null;
+                return clonedDenormalization;
             }
 
             @Override
