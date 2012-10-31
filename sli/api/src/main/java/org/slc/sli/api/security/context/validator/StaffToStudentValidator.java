@@ -16,17 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -34,12 +24,19 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
  * staff member can see ALL of the students, and false otherwise.
- *
- * @author mlane
  */
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
@@ -48,8 +45,8 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     private PagingRepositoryDelegate<Entity> repo;
 
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STUDENT.equals(entityType)
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.STUDENT.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
     }
 

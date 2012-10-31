@@ -16,19 +16,17 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
+/**
+ * Validates context from the staff to education organizations and schools.
+ * Uses staffEdOrgAssociations to determine context.
+ */
 @Component
-public class StaffToSchoolValidator extends AbstractContextValidator {
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+public class StaffToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -39,13 +37,12 @@ public class StaffToSchoolValidator extends AbstractContextValidator {
     
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        boolean match = false;
-        Set<String> edorgLineage = getStaffEdorgLineage();
-        for (String schoolId : ids) {
-            if (!edorgLineage.contains(schoolId)) {
-                return false;
-            } else {
-                match = true;
+        boolean match = true;
+        Set<String> edOrgLineage = getStaffEdorgLineage();
+        for (String id : ids) {
+            if (!edOrgLineage.contains(id)) {
+                match = false;
+                break;
             }
         }
         return match;

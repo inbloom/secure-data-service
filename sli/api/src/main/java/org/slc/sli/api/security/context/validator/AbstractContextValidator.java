@@ -1,16 +1,12 @@
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -19,6 +15,15 @@ import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public abstract class AbstractContextValidator implements IContextValidator {
 
     @Value("${sli.security.gracePeriod}")
@@ -26,6 +31,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    @Autowired
+    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
+
 
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -42,8 +51,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Determines if the specified type is a sub-entity of student.
      *
-     * @param type
-     *            Type to check is 'below' student.
+     * @param type Type to check is 'below' student.
      * @return True if the entity hangs off of student, false otherwise.
      */
     protected boolean isSubEntityOfStudent(String type) {
@@ -60,10 +68,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
      * comparing only the year, month, and day.
      *
-     * @param lhs
-     *            First DateTime.
-     * @param rhs
-     *            Second DateTime.
+     * @param lhs First DateTime.
+     * @param rhs Second DateTime.
      * @return True if first DateTime is before (or equal to) to the second DateTime, false
      *         otherwise.
      */
@@ -86,8 +92,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Parse the String representing a DateTime and return the corresponding DateTime.
      *
-     * @param convert
-     *            String to be converted (of format yyyy-MM-dd).
+     * @param convert String to be converted (of format yyyy-MM-dd).
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
@@ -97,17 +102,17 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Convert the DateTime to a String representation.
      *
-     * @param convert
-     *            DateTime to be converted.
+     * @param convert DateTime to be converted.
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
         return convert.toString(fmt);
     }
+
     protected boolean isStaff() {
         return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
-    
+
     protected boolean isFieldExpired(Map<String, Object> body, String fieldName) {
         DateTime expirationDate = DateTime.now();
         int numDays = Integer.parseInt(gracePeriod);
@@ -115,7 +120,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         if (body.containsKey(fieldName)) {
             String dateStringToCheck = (String) body.get(fieldName);
             DateTime dateToCheck = DateTime.parse(dateStringToCheck, fmt);
-            
+
             return dateToCheck.isBefore(expirationDate);
         }
         return false;
@@ -129,22 +134,30 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(edorg)));
         Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
         Set<String> children = new HashSet<String>();
-        for(Entity child : childrenIds) {
+        for (Entity child : childrenIds) {
             children.add(child.getEntityId());
         }
         edorg.addAll(getChildEdOrgs(children));
         return edorg;
     }
-    
+
+    protected Set<String> getParentEdOrgs(String edOrg) {
+        return getParentEdOrgs(new HashSet<String>(Arrays.asList(edOrg)));
+    }
+
+    protected Set<String> getParentEdOrgs(Set<String> edOrgs) {
+        return Collections.emptySet(); //TODO replace stub
+    }
+
     protected Repository<Entity> getRepo() {
-    	return this.repo;
+        return this.repo;
     }
 
 
     /**
      * Will go through staffEdorgAssociations that are current and get the descendant
      * edorgs that you have.
-     * 
+     *
      * @return a set of the edorgs you are associated to and their children.
      */
     protected Set<String> getStaffEdorgLineage() {
@@ -152,12 +165,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         Iterable<Entity> staffEdorgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        Set<String> edorgLineage = new HashSet<String>();
-        for (Entity staffEdOrg : staffEdorgs) {
-            if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
-                edorgLineage
-                        .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
+        if (staffEdorgs != null) {
+            for (Entity staffEdOrg : staffEdorgs) {
+                staffEdOrgAssociations.add(staffEdOrg);
             }
+        }
+        List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+        Set<String> edorgLineage = new HashSet<String>();
+        for (Entity association : currentStaffEdOrgAssociations) {
+            edorgLineage.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
         }
         edorgLineage.addAll(getChildEdOrgs(edorgLineage));
         return edorgLineage;
