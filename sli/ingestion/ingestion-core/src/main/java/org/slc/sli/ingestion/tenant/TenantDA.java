@@ -55,4 +55,11 @@ public interface TenantDA {
      * @param tenantId
      */
     void setTenantReadyFlag(String tenantId);
+
+    /**
+     * Remove tenant with invalid characters in the landing zone path from the tenant collection
+     *
+     * @param lzPath
+     */
+    void removeInvalidTenant(String lzPath);
 }
