@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 require 'mongo'
 
-dbName='02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a'
 conn = Mongo::Connection.new()
 databases = conn.database_names
 databases.each do |dbName|
