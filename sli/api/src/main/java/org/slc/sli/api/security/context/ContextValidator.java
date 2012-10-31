@@ -36,6 +36,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.GenericContextValidator;
@@ -115,6 +116,15 @@ public class ContextValidator implements ApplicationContextAware {
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
         if (def == null) {
             return;
+        }
+        /**
+         * If we are v1/entity/id and the entity is "public" don't validate
+         */
+        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
+            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                info("Not validating access to public entity and it's custom data");
+                return;
+            }
         }
 
         /*

@@ -16,7 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -30,13 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,26 +36,36 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+
+/**
+ * Unit tests for staff --> education organization context validator.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffToSchoolValidatorTest {
-    
+
     @Autowired
     private StaffToSchoolValidator validator;
-    
+
     @Autowired
     private ValidatorTestHelper helper;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
-    Set<String> schoolIds;
 
+    Set<String> schoolIds;
 
     @Before
     public void setUp() throws Exception {
@@ -71,22 +73,22 @@ public class StaffToSchoolValidatorTest {
         String user = "fake Staff";
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        
+
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
-        
+
         schoolIds = new HashSet<String>();
     }
-    
+
     @After
     public void tearDown() throws Exception {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
 
     }
-    
+
     @Test
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.SCHOOL, false));
@@ -96,7 +98,7 @@ public class StaffToSchoolValidatorTest {
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }
-    
+
     @Test
     public void testCanValidateStaffAtSchool() {
         Entity school = helper.generateEdorgWithParent(null);
@@ -104,7 +106,7 @@ public class StaffToSchoolValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
-    
+
     @Test
     public void testCanValidateStateStaffAtSchool() {
         Entity sea = helper.generateEdorgWithParent(null);
@@ -113,9 +115,9 @@ public class StaffToSchoolValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         schoolIds.add(school.getEntityId());
         assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        
+
     }
-    
+
     @Test
     public void testCanValidateStaffAtSchoolIntersection() {
         Entity sea = helper.generateEdorgWithParent(null);
@@ -130,7 +132,7 @@ public class StaffToSchoolValidatorTest {
         schoolIds.add(school.getEntityId());
         assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
-    
+
     @Test
     public void testCanNotValidateStaffNotAtSchool() {
         Entity school = helper.generateEdorgWithParent(null);
@@ -139,7 +141,7 @@ public class StaffToSchoolValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
-    
+
     @Test
     public void testCanNotValidateExpiredStaff() {
         Entity school = helper.generateEdorgWithParent(null);

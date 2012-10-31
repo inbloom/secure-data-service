@@ -18,13 +18,18 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
+/**
+ * Validates the context of a staff member to see the requested set of sections. Returns true if the
+ * staff member can see ALL of the sections, and false otherwise.
+ */
 @Component
 public class StaffToSectionValidator extends AbstractContextValidator {
 
@@ -32,13 +37,12 @@ public class StaffToSectionValidator extends AbstractContextValidator {
     public boolean canValidate(String entityType, boolean through) {
         return through == false && entityType.equals(EntityNames.SECTION) && isStaff();
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        // Get my staffEdorg to get my edorg hierarchy
-		Set<String> edorgLineage = getStaffEdorgLineage();
-        
+        Set<String> edorgLineage = getStaffEdorgLineage();
+
         for (String id : ids) {
         	NeutralQuery basicQuery = new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id));
@@ -52,5 +56,5 @@ public class StaffToSectionValidator extends AbstractContextValidator {
         }
         return match;
     }
-    
+
 }

@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -220,5 +222,12 @@ public class TenantMongoDA implements TenantDA {
         } finally {
             TenantContext.setIsSystemCall(false);
         }
+    }
+
+    @Override
+    public void removeInvalidTenant(String lzPath) {
+        BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
+        BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
+        entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
     }
 }

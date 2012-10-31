@@ -85,9 +85,9 @@ public class StaffProgramAssociationEntityTest {
 
         assertEquals("Expected different number of attributes", 5, attributes.size());
 
-        Map<String, Object> staffOuterMap1 = (Map<String, Object>) attributes.get("staffReference");
-        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
-        assertEquals("Expected different staff unique state id", "linda.kim", staffInnerMap1.get("staffUniqueStateId"));
+        Map<String, Object> staffOuterMap1 = (Map<String, Object>) attributes.get("StaffReference");
+        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("StaffIdentity");
+        assertEquals("Expected different staff unique state id", "linda.kim", staffInnerMap1.get("StaffUniqueStateId"));
 
         Map<String, Object> programOuterMap1 = (Map<String, Object>) attributes.get("programReference");
         Map<String, Object> programInnerMap1 = (Map<String, Object>) programOuterMap1.get("programIdentity");

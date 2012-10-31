@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-
+<?xml version="1.0" ?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
   <GradingPeriod id="GRDP_20110527_DCH">
     <GradingPeriodIdentity>
       <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -12,7 +10,6 @@
     <EndDate>2011-05-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>
   </GradingPeriod>
-
   <Session>
     <SessionName>Fall 2010 Daybreak Central High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -25,7 +22,16 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference ref="GRDP_20110527_DCH"/>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2011-05-27</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
   </Session>
-
 </InterchangeEducationOrgCalendar>

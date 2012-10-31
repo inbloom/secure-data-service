@@ -77,6 +77,19 @@ public class SecurityContextInjector {
         setSecurityContext(principal);
     }
 
+    public void setStaffContext() {
+        String user = "administrator";
+        String fullName = "IT Administrator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg(ED_ORG_ID);
+        principal.setEdOrgId(ED_ORG_ID);
+        setSecurityContext(principal);
+    }
+
     public void setAccessAllAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";

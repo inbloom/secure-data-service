@@ -48,8 +48,10 @@
 					<h3>We're sorry, an error occurred. Please try again.</h3>
 				</c:if>
                 <% 
-                   String message = "SimpleIDP Request Error: " + request.getAttribute("javax.servlet.error.message").toString();
-                   logger.severe( message );
+                   Object obj = request.getAttribute("javax.servlet.error.message");
+				   if(obj !=null){
+                   		logger.severe( "SimpleIDP Request Error: " + obj.toString() );
+				   }
                  %>				
 				<!--  log:error "${requestScope['javax.servlet.error.message']}"/ -->
 			</div>
