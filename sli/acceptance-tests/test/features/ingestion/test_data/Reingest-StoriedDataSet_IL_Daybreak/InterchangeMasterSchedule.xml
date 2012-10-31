@@ -16,9 +16,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>3rd Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -38,9 +41,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Government-4</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Government-4-93</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -60,9 +66,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-4A-80</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -82,9 +91,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-4A-95</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -104,9 +116,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Reading 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Reading-4A-91</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -126,9 +141,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-4A-94</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -148,9 +166,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing 4A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Writing-4A-92</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -170,9 +191,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Choir A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Choir-A-47</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -192,9 +216,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>ELA 8A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>ELA-8A-43</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -214,9 +241,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 8A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-8A-48</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -236,9 +266,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Pre-Algebra I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Pre-Algebra-I-44</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -258,9 +291,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 8A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-8A-46</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -280,9 +316,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>U.S. History I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>U.S.-History-I-45</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -302,9 +341,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>5th Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>5th-Grade-Homeroom-3</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -324,9 +366,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Government-5</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Government-5-82</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -346,9 +391,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 5A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-5A-79</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -368,9 +416,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 5A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-5A-84</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -390,9 +441,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Reading 5A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Reading-5A-77</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -412,9 +466,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 5A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-5A-83</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -434,9 +491,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing 5A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Writing-5A-78</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -456,9 +516,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Basic Math I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Basic-Math-I-30</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -478,9 +541,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>English 9A ELL</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>English-9A-ELL-29</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -500,9 +566,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Environmental Studies I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Environmental-Studies-I-32</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -522,9 +591,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Vocal Ensemble I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Vocal-Ensemble-I-33</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -544,9 +616,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>World History I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>World-History-I-31</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -566,9 +641,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Yoga and Fitness</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Yoga-and-Fitness-34</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -588,9 +666,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Drama I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Drama-I-69</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -610,9 +691,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>ELA 6A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>ELA-6A-65</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -632,9 +716,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 6A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-6A-66</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -654,9 +741,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 6A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-6A-68</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -676,9 +766,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Team Sports</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Team-Sports-70</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -698,9 +791,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>World History I-G6</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>World-History-I-G6-67</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -720,9 +816,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>10th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>10th-Grade-English-13</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -742,9 +841,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-I-18</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -764,9 +866,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Earth Sciences I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Earth-Sciences-I-20</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -786,9 +891,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>State History I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>State-History-I-19</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -808,9 +916,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Vocal Performance I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Vocal-Performance-I-21</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -830,9 +941,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Weight Training</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Weight-Training-22</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -852,9 +966,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>7th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>7th-Grade-English-9</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -874,9 +991,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>7th Grade Math</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>7th-Grade-Math-39</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -896,9 +1016,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Conditioning</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Conditioning-58</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -918,9 +1041,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 7A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-7A-54</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -940,9 +1066,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 7A</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-7A-56</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -962,9 +1091,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Spanish I</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Spanish-I-57</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -984,9 +1116,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>State History I-G7</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>State-History-I-G7-55</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1006,9 +1141,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Kindergarten Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Kindergarten-Homeroom-11</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1028,9 +1166,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>American Literature</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>American-Literature-7</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1050,9 +1191,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1072,9 +1216,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>1st Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1094,9 +1241,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>4th Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>4th-Grade-Homeroom-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1116,9 +1266,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geography-4</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geography-4-88</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1138,9 +1291,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 4B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-4B-87</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1160,9 +1316,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 4B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-4B-90</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1182,9 +1341,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Reading 4B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Reading-4B-85</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1204,9 +1366,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 4B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-4B-89</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1226,9 +1391,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing 4B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Writing-4B-86</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1248,9 +1416,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Choir B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Choir-B-41</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1270,9 +1441,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>ELA 8B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>ELA-8B-35</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1292,9 +1466,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 8B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-8B-42</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1314,9 +1491,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Pre-Algebra II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Pre-Algebra-II-36</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1336,9 +1516,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 8B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-8B-40</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1358,9 +1541,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>U.S. History II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>U.S.-History-II-37</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1380,9 +1566,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Geography-5</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Geography-5-74</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1402,9 +1591,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 5B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-5B-73</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1424,9 +1616,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Phys-Ed 5B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Phys-Ed-5B-76</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1446,9 +1641,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Reading 5B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Reading-5B-71</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1468,9 +1666,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 5B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-5B-75</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1490,9 +1691,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing 5B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Writing-5B-72</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1512,9 +1716,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Basic Math II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Basic-Math-II-24</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1534,9 +1741,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>English 9B ELL</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>English-9B-ELL-23</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1556,9 +1766,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Environmental Studies II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Environmental-Studies-II-26</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1578,9 +1791,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Track and Field</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Track-and-Field-28</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1600,9 +1816,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Vocal Ensemble II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Vocal-Ensemble-II-27</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1622,9 +1841,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>World History II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>World-History-II-25</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1644,9 +1866,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>6th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>6th-Grade-English-6</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1666,9 +1891,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>6th Grade Math</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>6th-Grade-Math-38</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1688,9 +1916,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>7th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>7th-Grade-English-9</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1710,9 +1941,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Drama II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Drama-II-63</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1732,9 +1966,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>ELA 6B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>ELA-6B-59</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1754,9 +1991,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 6B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-6B-60</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1776,9 +2016,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Nutrition</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Nutrition-64</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1798,9 +2041,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 6B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-6B-62</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1820,9 +2066,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>World History II-G6</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>World-History-II-G6-61</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1842,9 +2091,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>10th Grade Writing</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>10th-Grade-Writing-12</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1864,9 +2116,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Algebra II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Algebra-II-14</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1886,9 +2141,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Earth Sciences II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Earth-Sciences-II-16</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1908,9 +2166,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Nutrition</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Nutrition-64</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1930,9 +2191,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>State History II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>State-History-II-15</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1952,9 +2216,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Vocal Performance II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Vocal-Performance-II-17</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1974,9 +2241,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>7th Grade Composition</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>7th-Grade-Composition-10</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -1996,9 +2266,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Jazz Band</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Jazz-Band-53</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -2018,9 +2291,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Math 7B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Math-7B-49</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -2040,9 +2316,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Science 7B</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Science-7B-51</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -2062,9 +2341,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Spanish II</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Spanish-II-52</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -2084,9 +2366,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>State History II-G7</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>State-History-II-G7-50</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>

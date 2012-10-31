@@ -307,6 +307,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(records);
             }
+            if(denormalizer.isCached(collectionName)) {
+                denormalizer.addToCache(results,collectionName);
+            }
 
             return results;
         }

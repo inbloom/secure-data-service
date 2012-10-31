@@ -15,7 +15,7 @@
                         "path" : "body.uniqueSectionCode",
                         "values" :
                         [{
-                            "valueSource" : "body.SectionReference.sectionIdentity.uniqueSectionCode"
+                            "valueSource" : "body.SectionReference.SectionIdentity.UniqueSectionCode"
                         }]
                     },
                     {
@@ -32,7 +32,7 @@
                                               "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
-                                                    "valueSource" : "body.SectionReference.sectionIdentity.stateOrganizationId"
+                                                    "valueSource" : "body.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                }]
                                           }
                                       ]
@@ -45,8 +45,8 @@
         }
     },
     {
-        "fieldPath" : "body.studentId",
-        "deprecated" : false,
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "student",

@@ -16,9 +16,12 @@
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>8th-Grade-English-1</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>
@@ -27,9 +30,12 @@
         <LocalCourseTitle>7th Grade English</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>7th Grade English</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>7th-Grade-English-4</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SchoolReference>
@@ -49,9 +55,12 @@
         <LocalCourseTitle>8th Grade Math</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade Math</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>8th-Grade-Math-2</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SchoolReference>
@@ -71,9 +80,12 @@
         <LocalCourseTitle>8th Grade Advanced Math</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade Advanced Math</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>8th-Grade-Advanced-Math-3</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SchoolReference>
@@ -93,9 +105,12 @@
         <LocalCourseTitle>American Literature</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>American Literature</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>American-Literature-6</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SchoolReference>
@@ -115,9 +130,12 @@
         <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
         <CourseReference>
             <CourseIdentity>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>1st Grade Homeroom</ID>
-                </CourseCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>1st-Grade-Homeroom-7</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
         <SchoolReference>

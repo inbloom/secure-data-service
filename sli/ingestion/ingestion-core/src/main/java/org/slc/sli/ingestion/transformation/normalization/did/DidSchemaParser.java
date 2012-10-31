@@ -618,15 +618,18 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     private XmlSchemaAppInfo getAppInfo(XmlSchemaAnnotation annotation) {
         XmlSchemaAppInfo appInfo = null;
-        XmlSchemaObjectCollection items = annotation.getItems();
 
-        for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+        if (annotation != null) {
+        	XmlSchemaObjectCollection items = annotation.getItems();
 
-            XmlSchemaObject item = items.getItem(annotationIdx);
-            if (item instanceof XmlSchemaAppInfo) {
-                appInfo = (XmlSchemaAppInfo) item;
-                break;
-            }
+        	for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+
+        		XmlSchemaObject item = items.getItem(annotationIdx);
+        		if (item instanceof XmlSchemaAppInfo) {
+        			appInfo = (XmlSchemaAppInfo) item;
+        			break;
+        		}
+        	}
         }
 
         return appInfo;
