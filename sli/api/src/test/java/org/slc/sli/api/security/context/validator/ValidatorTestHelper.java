@@ -25,13 +25,12 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Utility for unit testing context validators.
@@ -213,6 +212,19 @@ public class ValidatorTestHelper {
 
     public Entity generateLearningStandard() {
         return repo.create(EntityNames.LEARNING_STANDARD, new HashMap<String, Object>());
+    }
+
+    public Entity generateDisciplineIncident(String schoolId) {
+        Map<String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
+    }
+    
+    public void generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
+        Map<String, Object> sdia = new HashMap<String, Object>();
+        sdia.put(ParameterConstants.STUDENT_ID, studentId);
+        sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
+        repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
     }
 
 }
