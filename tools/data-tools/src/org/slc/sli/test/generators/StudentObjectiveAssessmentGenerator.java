@@ -26,14 +26,15 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentObjectiveAssessmentGenerator {
     private static final Random RANDOM = new Random();
 
-    private boolean optional;
+    private final boolean optional;
 
-    private AssessmentReportingMethodType[] armts = AssessmentReportingMethodType.values();
+    private final AssessmentReportingMethodType[] armts = AssessmentReportingMethodType.values();
 
     public StudentObjectiveAssessmentGenerator(boolean optional) {
         this.optional = optional;
@@ -84,7 +85,7 @@ public class StudentObjectiveAssessmentGenerator {
         pldt.setCodeValue(randomPerfLevelDescId);
 //        pldt.setDescription(randomPerfLevelDescId);
         soa.getPerformanceLevels().add(pldt);
-        
+
         // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
         studentAssessmentReference.setRef(studentAssessment);
@@ -92,10 +93,12 @@ public class StudentObjectiveAssessmentGenerator {
         soa.setStudentAssessmentReference(studentAssessmentReference);
 
         // objective assessment
-        String randomObjAssessCode = AssessmentMetaRelations.getRandomObjectiveAssessmentMeta().id;
-        soa.setObjectiveAssessmentReference(ObjectiveAssessmentGenerator
+        ObjectiveAssessmentMeta meta = AssessmentMetaRelations.getRandomObjectiveAssessmentMeta();
+        if(meta != null) {
+            String randomObjAssessCode = meta.id;
+            soa.setObjectiveAssessmentReference(ObjectiveAssessmentGenerator
                 .getObjectiveAssessmentReferenceType(randomObjAssessCode));
-
+        }
         return soa;
     }
 }
