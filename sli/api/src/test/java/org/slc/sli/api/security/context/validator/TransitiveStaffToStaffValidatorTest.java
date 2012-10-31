@@ -56,8 +56,6 @@ public class TransitiveStaffToStaffValidatorTest {
     @Before
     public void setUp() {
 
-        
-         
         repo.deleteAll("educationOrganization", null);
         repo.deleteAll("staff", null);
 
@@ -115,9 +113,6 @@ public class TransitiveStaffToStaffValidatorTest {
         body.put("endDate", past.toString(fmt));
         repo.create("staffEducationOrganizationAssociation", body);
 
-        
-        
-        
     }
     
     private void setupCurrentUser(Entity staff) {
@@ -133,15 +128,13 @@ public class TransitiveStaffToStaffValidatorTest {
         repo = null;
         SecurityContextHolder.clearContext();
     }
-
     
     @Test
     public void testCanValidateTeacherToStaff() throws Exception {
         setupCurrentUser(staff1);
         assertTrue(validator.canValidate(EntityNames.STAFF, true));
         assertFalse(validator.canValidate(EntityNames.STAFF, false));
-    }
-    
+    }    
     
     @Test
     public void testValidStaffStaffAssociationNoEndDate() {
@@ -171,8 +164,7 @@ public class TransitiveStaffToStaffValidatorTest {
     public void testSchoolStaffToLEAStaffAssociation() {
         setupCurrentUser(staff2);
         assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
-    }
-    
+    }  
     
     @Test
     public void testMulti1() {

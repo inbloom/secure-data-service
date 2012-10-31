@@ -47,7 +47,6 @@ Examples:
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-| "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
@@ -88,6 +87,7 @@ Examples:
 Examples:
 | Entity Type                    | Entity Resource URI   | Association Type                         | Update Field             | Updated Value             | 
 | "staff"                        | "staff"               | "staffEducationOrganizationAssociation2" | "sex"                    | "Female"                  |
+| "teacher"                      | "teachers"            | "teacherSchoolAssociation2"              | "highlyQualifiedTeacher" | "false"                   |
 
 
         Scenario Outline: CRUD operations on an entity and can't update natural key

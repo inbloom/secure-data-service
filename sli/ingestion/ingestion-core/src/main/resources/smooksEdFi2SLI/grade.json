@@ -58,11 +58,12 @@
             }
         },
         {
-           "fieldPath" : "body.gradingPeriodId",
+           "fieldPath" : "body.GradingPeriodReference",
+           "deprecated" : true,
             "ref" :
             {
                 "entityType" : "gradingPeriod",
-                "refObjectPath" : "body.gradingPeriodReference",
+                "refObjectPath" : "body.GradingPeriodReference",
                 "choiceOfFields" :
                 [
                     [
@@ -70,14 +71,14 @@
                             "path" : "body.gradingPeriodIdentity.gradingPeriod",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
                             }]
                         },
                         {
-                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                            "path" : "body.beginDate",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.schoolYear"
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.BeginDate"
                             }]
                         },
                         {
@@ -94,7 +95,7 @@
                                                  "path" : "body.stateOrganizationId" ,
                                                  "values" :
                                                  [{
-                                                    "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                                     "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                  }]
                                             }
                                        ]
