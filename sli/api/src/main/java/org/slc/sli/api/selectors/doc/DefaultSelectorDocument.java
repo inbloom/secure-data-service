@@ -92,6 +92,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                                           Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
         Map<Type,List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
+
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
@@ -99,6 +100,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             SelectorQueryPlan plan = entry.getValue();
             Type previousType = !types.isEmpty() ? types.peek() : null;
             List<EntityBody> entities = null;
+
             if (!previousEntities.isEmpty() && previousType != null) {
                 if (isEmbedded(previousType,currentType)) {
                     entities = getEmbeddedEntities(previousEntities,currentType);
@@ -119,7 +121,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                             //construct a new constraint using the new connecting key and ids
                             constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
 
-                            connectingEntities = getConnectingEntities(connectingType, previousType, constraint,entityCache);
+                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, constraint,entityCache);
                         }
                         entityCache.put(connectingType,connectingEntities);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
@@ -132,7 +134,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             //add the current type
             types.push(currentType);
             if(entities == null) {
-                entities = (List<EntityBody>) executeQuery(currentType, constraint, first, entityCache);
+                entities = (List<EntityBody>) executeQuery(plan, currentType, constraint, first, entityCache);
             }
             entityCache.put(currentType, entities);
             results.addAll(entities);
@@ -205,14 +207,14 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
+    protected List<EntityBody> getConnectingEntities(SelectorQueryPlan plan, Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
         String key = getKey(currentType, previousType);
 
         for (NeutralCriteria criteria : constraint.getCriteria()) {
             criteria.setKey(key);
         }
 
-        return (List<EntityBody>) executeQuery(currentType, constraint, false, entityCache);
+        return (List<EntityBody>) executeQuery(plan, currentType, constraint, false, entityCache);
     }
 
     protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
@@ -362,7 +364,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
     }
 
-    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+    protected Iterable<EntityBody> executeQuery(SelectorQueryPlan plan, Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+        //add the child types to embedded fields as needed
+        addChildTypesToQuery(type, plan, constraint);
 
         if (first) {
             Iterable<EntityBody> results = getEntityDefinition(type).getService().list(constraint);
@@ -384,9 +388,26 @@ public class DefaultSelectorDocument implements SelectorDocument {
             } catch (AccessDeniedException ade) {
                 return new ArrayList<EntityBody>();
             }
+        }
+    }
 
+    protected void addChildTypesToQuery(Type currentType, SelectorQueryPlan selectorQueryPlan, NeutralQuery neutralQuery) {
+        List<Object> childQueries = selectorQueryPlan.getChildQueryPlans();
+        List<String> embeddedFields = new ArrayList<String>();
+
+        for (Object plan : childQueries) {
+            SelectorQuery query = (SelectorQuery) plan;
+
+            for (Type key : query.keySet()) {
+                String childType = StringUtils.uncapitalise(key.getName());
+
+                if (currentType.getName().equalsIgnoreCase(EmbeddedDocumentRelations.getParentEntityType(childType))) {
+                    embeddedFields.add(childType);
+                }
+            }
         }
 
+        neutralQuery.setEmbeddedFields(embeddedFields);
     }
 
 

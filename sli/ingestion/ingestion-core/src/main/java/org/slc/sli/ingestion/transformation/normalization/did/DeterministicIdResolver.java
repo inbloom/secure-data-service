@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -53,17 +52,15 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * @author vmcglaughlin
  *
  */
-@Component
 public class DeterministicIdResolver {
 
     @Autowired
     @Qualifier("deterministicUUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
-    @Autowired
     private DidSchemaParser didSchemaParser;
 
-    @Autowired
+	@Autowired
     private SchemaRepository schemaRepository;
 
     @Autowired
@@ -307,4 +304,13 @@ public class DeterministicIdResolver {
                 didRefConfig.getEntityType(), parentId);
         return uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
     }
+
+    public DidSchemaParser getDidSchemaParser() {
+		return didSchemaParser;
+	}
+
+	public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
+		this.didSchemaParser = didSchemaParser;
+	}
+
 }

@@ -554,7 +554,9 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         } else {
             XmlSchemaAnnotation annotation = refSchema.getAnnotation();
-            if (annotation != null) {
+            if (annotation == null) {
+                LOG.debug("Annotation missing from refSchema: " + refSchema.getName());
+            } else {
                 refSource = parseAnnotationForRef(annotation);
                 refSourceCache.put(schemaName, refSource);
             }
@@ -616,15 +618,18 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     private XmlSchemaAppInfo getAppInfo(XmlSchemaAnnotation annotation) {
         XmlSchemaAppInfo appInfo = null;
-        XmlSchemaObjectCollection items = annotation.getItems();
 
-        for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+        if (annotation != null) {
+        	XmlSchemaObjectCollection items = annotation.getItems();
 
-            XmlSchemaObject item = items.getItem(annotationIdx);
-            if (item instanceof XmlSchemaAppInfo) {
-                appInfo = (XmlSchemaAppInfo) item;
-                break;
-            }
+        	for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+
+        		XmlSchemaObject item = items.getItem(annotationIdx);
+        		if (item instanceof XmlSchemaAppInfo) {
+        			appInfo = (XmlSchemaAppInfo) item;
+        			break;
+        		}
+        	}
         }
 
         return appInfo;

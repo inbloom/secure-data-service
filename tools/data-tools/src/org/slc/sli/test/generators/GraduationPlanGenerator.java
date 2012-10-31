@@ -44,7 +44,7 @@ public class GraduationPlanGenerator {
     private int numberOfCreditsBySubject = random.nextInt(10);
 
     //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
-	private static int typeIndex = 0;
+    private static int typeIndex = 0;
 
     public GraduationPlanGenerator(boolean generateOptionalFields) {
         this.optional = generateOptionalFields;
@@ -55,12 +55,7 @@ public class GraduationPlanGenerator {
     }
 
     public static GraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
-    	//TODO: this is a hack that needs to come out upon completion of US4349.TA6826
-        if (GraduationPlanType.NUM_TYPES <= typeIndex)
-        	return null;
-        //End hack
-
-   	    GraduationPlan gp = new GraduationPlan();
+           GraduationPlan gp = new GraduationPlan();
 
         gp.setId(graduationPlanId);
 
@@ -79,7 +74,7 @@ public class GraduationPlanGenerator {
 
         return gp;
    }
-    
+
     public GraduationPlan generate(String graduationPlanId, List<String> courses, String edOrg) {
         GraduationPlan gp = generateLowFi(graduationPlanId, edOrg);
 

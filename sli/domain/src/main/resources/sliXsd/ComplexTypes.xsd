@@ -7519,7 +7519,6 @@
 					<xs:documentation>The description of the competency level.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 					</xs:appinfo>
 				</xs:annotation>

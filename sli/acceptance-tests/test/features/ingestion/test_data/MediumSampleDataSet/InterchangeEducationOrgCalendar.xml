@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100">
     <Session>
         <SessionName>CAP0-D0-HSch0-ses0</SessionName>
@@ -12,8 +12,28 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch0-ses0-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch0-ses0-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch0-ses0-1"/>
     </Session>
@@ -29,8 +49,28 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch0-ses1-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch0-ses1-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Summer Session</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch0-ses1-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch0-ses1-1"/>
     </Session>
@@ -46,8 +86,28 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch1-ses0-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch1-ses0-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch1-ses0-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch1-ses0-1"/>
     </Session>
@@ -63,8 +123,28 @@
                 <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch1-ses1-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch1-ses1-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Summer Session</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch1-ses1-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch1-ses1-1"/>
     </Session>
@@ -80,8 +160,28 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch2-ses0-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch2-ses0-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch2-ses0-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch2-ses0-1"/>
     </Session>
@@ -97,8 +197,28 @@
                 <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch2-ses1-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch2-ses1-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Summer Session</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch2-ses1-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch2-ses1-1"/>
     </Session>
@@ -114,8 +234,28 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch3-ses0-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch3-ses0-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch3-ses0-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch3-ses0-1"/>
     </Session>
@@ -131,8 +271,28 @@
                 <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch3-ses1-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch3-ses1-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Summer Session</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch3-ses1-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch3-ses1-1"/>
     </Session>
@@ -148,8 +308,28 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch4-ses0-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch4-ses0-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch4-ses0-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch4-ses0-1"/>
     </Session>
@@ -165,8 +345,28 @@
                 <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="CAP0-D0-HSch4-ses1-0-0"/>
-        <GradingPeriodReference ref="CAP0-D0-HSch4-ses1-0-1"/>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Summer Session</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
         <CalendarDateReference ref="CAP0-D0-HSch4-ses1-0"/>
         <CalendarDateReference ref="CAP0-D0-HSch4-ses1-1"/>
     </Session>
