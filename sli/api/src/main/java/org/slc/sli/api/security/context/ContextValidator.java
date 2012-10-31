@@ -86,12 +86,11 @@ public class ContextValidator implements ApplicationContextAware {
         //move generic validator to end
         validators.remove(genVal);
         validators.add(genVal);
-        
+
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
         validators.remove(subEntityVal);
-        validators.add(genVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -107,7 +106,7 @@ public class ContextValidator implements ApplicationContextAware {
                 i.remove();
             }
         }
-        
+
         if (segs.size() < 3) {
             return;
         }
@@ -139,7 +138,7 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
-        
+
         //exists call requires a Set to function correctly, so convert to Set if necessary
         Set<String> idSet = null;
         if (entityIds instanceof Set) {
@@ -158,7 +157,7 @@ public class ContextValidator implements ApplicationContextAware {
         }
     }
 
-    
+
     private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
