@@ -1,4 +1,4 @@
-#!ruby 
+#!/usr/bin/env ruby 
 
 =begin
 
@@ -24,14 +24,19 @@ $LOAD_PATH << localdir + "/lib"
 require 'eventbus'
 require 'yaml'
 require 'logger'
+require 'daemons'
 
 if __FILE__ == $0
-  unless ARGV.length == 1
-    puts "Usage: " + $0 + " config.yml"
-    exit(1)
-  end
+  config_file = if ENV['SARJE_CONFIG']
+                    ENV['SARJE_CONFIG']
+                elsif ARGV.length == 1
+                    ARGV[0]
+                else 
+                    puts "Usage: " + $0 + " config.yml"
+                    exit(1)
+                end
 
-  config = YAML::load(File.open(ARGV[0]))
+  config = YAML::load(File.open(config_file))
 
   # make the config symbol based
   config.keys().each { |k| config[k.to_sym] = config.delete(k) }
@@ -51,4 +56,5 @@ if __FILE__ == $0
 
   scheduler = Eventbus::JobScheduler.new(active_config, logger)
   scheduler.join
+
 end

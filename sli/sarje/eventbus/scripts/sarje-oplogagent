@@ -14,11 +14,11 @@
 NAME=sarje-jscheduler
 SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
 
-DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-jscheduler-config.yml"
-DAEMON="$SARJE_HOME/jscheduler_daemon.rb"
+DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-oplogagent-1-config.yml"
+DAEMON="$SARJE_HOME/oplogagent_daemon.rb"
 
-PIDFILE=$SARJE_HOME/run/jscheduler.pid 
-LOG_FILE=$SARJE_HOME/log/jscheduler.log 
+PIDFILE=$SARJE_HOME/run/oplogagent.pid
+LOG_FILE=$SARJE_HOME/log/oplogagent.pid
 RETVAL=0
 
 # If the daemon is not there, then exit.
