@@ -1,29 +1,32 @@
-# logging configurations
+# Configure where logging will go. 
 logger_output: STDOUT
+
+# Log level. Levels are DEBUG, INFO, WARN, ERROR, FATAL.
 logger_level: INFO
 
-# ActiveMQ configuration 
-# host and port for the AactiveMQ broker running the STOMP protocol 
+# ActiveMQ host that runs the STOMP protocol to use as the message broker.  
 messaging_host: 127.0.0.1
+
+# Port of the ActiveMQ server  
 messaging_port: 61613
 
-# Job infrastructure specific configuration 
-# host and port of the mongodb used to store scheduled jobs
+# Host of the MongoDB instance where jobs are retrieved from. 
 mongo_host: 127.0.0.1
+
+# Port of the MongoDB instance defined above. 
 mongo_port: 27017
 
-# name of the mongodb database to store eventbus related data
+# Name of the Mongodb database to store jobs information. 
 mongo_db: eventbus
 
-# collection that stores the jobs to be triggered by events 
+# Collection in the above MongoDB database that stores the jobs to be triggered by oplog events. 
 mongo_job_collection: jobs
 
-# interval in seconds in which to poll the mongodb for job definitions 
+# Interval in seconds in which to poll the mongodb for job definitions. 
 mongo_poll_interval: 20
 
-# Hadoop configuration
-# directory with jars containing hadoop jobs 
+# Directory with jars containing Hadoop jobs (presently not used in production)
 hadoop_jars: "./jars"
 
-# path to the root of the hadoop installation 
-hadoop_home: /home/stephan/dev/sli/sli/sarje/eventbus/mock-hadoop
+# Path to the root of the hadoop installation. (Currently used to verify SARJE setup in production.)
+hadoop_home: $SARJE_HOME/mock-hadoop
