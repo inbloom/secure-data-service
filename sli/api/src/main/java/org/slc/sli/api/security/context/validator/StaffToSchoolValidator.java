@@ -18,17 +18,16 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+
+/**
+ * Validates the context of a staff member to see the requested set of education organizations.
+ * Returns true if the staff member can see ALL of the education organizations, and false otherwise.
+ */
 @Component
 public class StaffToSchoolValidator extends AbstractContextValidator {
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -36,7 +35,7 @@ public class StaffToSchoolValidator extends AbstractContextValidator {
                 && (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType))
                 && isStaff();
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
@@ -50,5 +49,5 @@ public class StaffToSchoolValidator extends AbstractContextValidator {
         }
         return match;
     }
-    
+
 }

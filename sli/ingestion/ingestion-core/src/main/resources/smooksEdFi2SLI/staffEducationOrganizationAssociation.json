@@ -11,7 +11,7 @@
             [
                 [
                     {
-                           "path" : "body.stateOrganizationId",
+                        "path" : "body.stateOrganizationId",
                         "values" :
                         [
                             {"valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"}
@@ -22,7 +22,8 @@
         }
     },
     {
-        "fieldPath" : "body.staffReference",
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "staff",
@@ -31,10 +32,10 @@
             [
                 [
                     {
-                           "path" : "body.staffUniqueStateId",
+                        "path" : "body.staffUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
                         }]
                     }
                 ]

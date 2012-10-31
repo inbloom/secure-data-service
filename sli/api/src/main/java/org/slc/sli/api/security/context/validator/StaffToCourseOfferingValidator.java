@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Decides if given user has access to given course offering
- * 
+ *
  * @author dkornishev
  * 
  */
