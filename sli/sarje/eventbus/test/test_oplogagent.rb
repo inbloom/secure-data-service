@@ -198,4 +198,41 @@ class TestOpLogAgent < Test::Unit::TestCase
       thread.kill
     end
   end
+
+  def test_regex_trigger
+    config = {
+        :collect_events_interval => 1
+    }
+
+    throttler = Eventbus::OpLogThrottler.new(config)
+    oplog1 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog2 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.worm", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog3 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog4 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"animal.otter", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplogs = [oplog1, oplog2, oplog3, oplog4]
+
+    subscription_event1 = {
+        "eventId" => "1",
+        "triggers" => [{"op"=>"i", "ns"=>"[.]bear"}],
+        "publishOplog" => true
+    }
+    throttler.set_subscription_events([subscription_event1])
+    oplogs.each do |oplog|
+      throttler.push oplog
+    end
+
+    result = []
+    throttler.process_messages do |messages|
+      messages.each do |message|
+        result << message
+      end
+    end
+    assert_equal(2, result.size)
+    namespaces = []
+    result.each do |message|
+      namespaces << message["oplog"][0]["ns"]
+    end
+    assert(namespaces.include?("gummy.bear"))
+    assert(namespaces.include?("animal.bear"))
+  end
 end

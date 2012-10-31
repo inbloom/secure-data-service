@@ -109,17 +109,13 @@ module Eventbus
       start_heartbeat(node_id, @config[:heartbeat_period])
     end
 
-    # Functio to handle incoming subscriptions. Requires a block 
+    # handle incoming subscriptions. Requires a block
     # and will yield an arry of subscriptions where each element in 
     # the array is a hash that contains at least an 'eventId' field. 
     def handle_subscriptions
       @subscription_channel.handle_message do | event_subs |
         handled_subs = yield event_subs
-        e = if !handled_subs
-              event_subs.map { |x| [x[F_EVENT_ID], x[F_QUEUE]] }
-            else
-              handled_subs
-            end
+        e = handled_subs || event_subs.map { |x| [x[F_EVENT_ID], x[F_QUEUE]] }
 
         # get the subscribed event ids and the queues involved 
         unique = Set.new e
@@ -140,13 +136,13 @@ module Eventbus
     end
 
     def fire_events(events)
-      if not events.is_a?(Array)
+      unless events.is_a?(Array)
         events = [events]
       end 
       events.each do |event|
         event.each_pair do |q, value|
           begin
-            if not @event_channels.has_key?(q)
+            unless @event_channels.has_key?(q)
               @event_channels[q] = @messaging.get_publisher(events_address(q))
             end
             @event_channels[q].publish(value) 
@@ -157,7 +153,6 @@ module Eventbus
       end
     end
 
-    # TODO:
     def shutdown
       @event_channels.each { |q| q.close }
       @heartbeat_thread.terminate
