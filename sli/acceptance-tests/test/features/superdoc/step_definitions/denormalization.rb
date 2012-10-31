@@ -44,9 +44,13 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
   id = "983dd657325009aefa88a234fa18bdb1e11c82a8_id" if human_readable_id == "INGESTED ACC TEST PROG 2"
   # Session
-  id = "1cb50f82-7200-441a-a1b6-02d6532402a0"        if human_readable_id == "FALL 2011"
+  id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"        if human_readable_id == "FALL 2011"
+  id = "62101257-592f-4cbe-bcd5-b8cd24a06f73"        if human_readable_id == "SPRING SEMESTER"
+  id = "ba942e512de1fd5021a69a9d452b481c7512c1bd_id" if human_readable_id == "INGESTED FALL 2009 EAST BREAK JUNIOR HIGH"
+
   # StudentSchoolAssociation
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
+  id = "b4a4697c3c7d08b48a38460c34b58286ad3b3f60_id" if human_readable_id == "INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH"
 
   # Return the translated value
   id
@@ -116,6 +120,10 @@ $entity_data = {
     "reasonExited" => "Refused services",
     "educationOrganizationId" =>"ec2e4218-6483-4e9c-8954-0aecccfd4731"
   },
+  "studentAcademicRecord" => {
+      "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+      "sessionId" => "62101257-592f-4cbe-bcd5-b8cd24a06f73"
+    },
   "attendance" => {
     "entityType" => "attendance",
     "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
