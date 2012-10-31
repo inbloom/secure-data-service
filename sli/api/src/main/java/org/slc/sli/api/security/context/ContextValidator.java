@@ -36,6 +36,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.GenericContextValidator;
@@ -85,7 +86,7 @@ public class ContextValidator implements ApplicationContextAware {
         //move generic validator to end
         validators.remove(genVal);
         validators.add(genVal);
-        
+
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
@@ -106,12 +107,15 @@ public class ContextValidator implements ApplicationContextAware {
                 i.remove();
             }
         }
-        
+
         if (segs.size() < 3) {
             return;
         }
 
         String rootEntity = segs.get(1).getPath();
+        if (rootEntity.equals(EntityNames.SEARCH)) {
+            return;
+        }
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
         if (def == null) {
             return;
@@ -129,7 +133,7 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
-        
+
         //exists call requires a Set to function correctly, so convert to Set if necessary
         Set<String> idSet = null;
         if (entityIds instanceof Set) {
@@ -148,7 +152,7 @@ public class ContextValidator implements ApplicationContextAware {
         }
     }
 
-    
+
     private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
