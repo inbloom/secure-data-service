@@ -79,7 +79,7 @@ class UserAccountRegistrationsController < ApplicationController
           format.html  { redirect_to("/eula")}
           format.json  { render :json => @user_account_registration,action: "/eulas"}
         elsif render500==true
-          format.html { render :file => "#{Rails.root}/public/500.html", :status => 500 }
+          format.html { render :noframe_500, :status => 500 }
           #format.json { :status => :not_found}
           format.any  { head :not_found }
         else
@@ -102,7 +102,7 @@ private
     max_user = APP_CONFIG['maximum_user_count']
     if max_user
       begin
-        user_count = ApprovalEngine.get_user_count_ignore_states
+        user_count = ApprovalEngine.get_sandbox_admin_count
         Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
         user_count >= max_user
       rescue Exception => e

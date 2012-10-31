@@ -10,7 +10,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="AttendanceEvent" type="SLC-AttendanceEventExtension"/>
+				<xs:element name="AttendanceEvent" type="SLC-AttendanceEvent"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

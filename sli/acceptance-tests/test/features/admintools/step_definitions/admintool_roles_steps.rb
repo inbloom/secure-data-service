@@ -73,7 +73,7 @@ Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
 end
 
 Then /^I am informed that authentication has failed$/ do
-  errorBox = @driver.find_element(:class, "error-message")
+  errorBox = @driver.find_element(:class, "alert-error")
   assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
 end
 

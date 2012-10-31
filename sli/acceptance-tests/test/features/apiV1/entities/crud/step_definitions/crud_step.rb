@@ -412,6 +412,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "positionTitle" => "Hall monitor",
       "staffClassification" => "School Administrative Support Staff"
     },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
       "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
@@ -419,6 +426,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "teacherSchoolAssociation" => {
       "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    },
+    "teacherSchoolAssociation2" => {
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
       "programAssignment" => "Regular Education",
       "teacherId" => @newId,
       "instructionalGradeLevels" => ["First grade"],
@@ -438,12 +452,15 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations"
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations"
   }
   if type != ""
     step "I navigate to POST \"/#{@assocUrl[type]}\""
     headers = @res.raw_headers
+    puts @res.inspect
     assert(headers != nil, "Headers are nil")
     assert(headers['location'] != nil, "There is no location link from the previous request")
     s = headers['location'][0]
