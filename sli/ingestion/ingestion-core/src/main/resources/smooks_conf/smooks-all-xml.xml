@@ -3053,7 +3053,10 @@
     <jb:value data="DisciplineIncident/StaffReference/StaffIdentity/StaffIdentificationCode/ID" property="ID"/>
   </jb:bean>
   <jb:bean beanId="SLC-DisciplineIncident_Attributes_WeaponsType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Weapons">
-    <jb:value data="DisciplineIncident/Weapons/Weapon" property="Weapon"/>
+    <jb:wiring property="Weapon" beanIdRef="DisciplineIncident_Weapons_WeaponArray" />
+  </jb:bean>
+ <jb:bean beanId="DisciplineIncident_Weapons_WeaponArray" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Weapons">
+    <jb:value data="DisciplineIncident/Weapons/Weapon" />
   </jb:bean>
   <jb:bean beanId="SLC-DisciplineIncident_Attributes_BehaviorDescriptorTypeArray" class="java.util.ArrayList" createOnElement="DisciplineIncident">
     <jb:wiring beanIdRef="SLC-DisciplineIncident_Attributes_BehaviorDescriptorType"/>
