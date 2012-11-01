@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -103,6 +104,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         LOG.info("Transforming attendance data");
         
         NeutralRecordRepository neutralRecordRepository = super.getNeutralRecordMongoAccess().getRecordRepository();
+        //MongoTemplate mongoTemplate = neutralRecordRepository.getTemplate();
         
         Map<String, String> naturalKeys = new HashMap<String, String>();
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "attendance", null);
@@ -129,9 +131,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             
             String deterministicId = this.deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
 
-            NeutralQuery query = new NeutralQuery(1);
-            query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, deterministicId, false));
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
+            neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, deterministicId, false));
 
             List<Map<String, Object>> attendanceEvent = new ArrayList<Map<String, Object>>();
             attendanceEvent.add (event);
@@ -147,14 +149,13 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             Map<String, Object> attendanceEventToPush = new HashMap<String, Object>();
             attendanceEventToPush.put("body.attendanceEvent", updateValue);
 
-            Map<String, Object> update = new HashMap<String, Object>();
-            update.put("addToSet", attendanceEventToPush);
-
-            Object updatedExisting = neutralRecordRepository.updateMulti(query, update, ATTENDANCE_TRANSFORMED).getField("updatedExisting");
+            Map<String, Object> updateMap = new HashMap<String, Object>();
+            updateMap.put("addToSet", attendanceEventToPush);
+            //updateMap.put("set", arg1);
             
-            // if did not update an existing document, an insert is required
-            if (updatedExisting.equals(Boolean.FALSE)) {
-                
+            //neutralRecordRepository.upsert(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED, ATTENDANCE_TRANSFORMED);
+            
+            try {
                 Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
                 attendanceAttributes.put("studentId", studentId);
                 attendanceAttributes.put("schoolId", schoolId);
@@ -171,7 +172,21 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 record.setRecordId(deterministicId);
 
                 super.insertRecord(record);
+            } catch (DuplicateKeyException dke) {
+                neutralRecordRepository.updateFirst(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED);
             }
+            
+            /*
+            Object updatedExisting = neutralRecordRepository.updateMulti(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED).getField("updatedExisting");
+            
+            
+            
+            // if did not update an existing document, an insert is required
+            if (updatedExisting.equals(Boolean.FALSE)) {
+                
+                
+            }
+            */
         }
 
         LOG.info("Finished transforming attendance data");
