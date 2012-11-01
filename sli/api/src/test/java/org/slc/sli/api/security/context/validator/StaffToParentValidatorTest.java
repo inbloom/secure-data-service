@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import junit.framework.Assert;
 
@@ -37,10 +38,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @Component
-public class StaffToCourseValidatorTest {
+public class StaffToParentValidatorTest {
     
     @Autowired
-    private StaffToCourseValidator validator;
+    private StaffToParentValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -51,15 +52,16 @@ public class StaffToCourseValidatorTest {
     Entity staff1 = null;   //associated to LEA
     Entity staff2 = null;   //associated to school1
     Entity staff3 = null;   //associated to school2
-    Entity teacher1 = null;
-    Entity course1 = null;   //associated to LEA
-    Entity course2 = null;   //associated to school1
-    Entity course3 = null;   //associated to school2
+    Entity student1 = null;   //associated to school1
+    Entity student2 = null;   //associated to school2
+
     
     Entity lea1 = null;
     Entity school1 = null;
     Entity school2 = null;
     
+    Entity parent1 = null;  //parent of student1
+    Entity parent2 = null;  //parent of student2
     @Before
     public void setUp() {
 
@@ -74,9 +76,6 @@ public class StaffToCourseValidatorTest {
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff2");
         staff2 = repo.create("staff", body);
-
-        body = new HashMap<String, Object>();
-        teacher1 = repo.create("teacher", body);
         
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff3");
@@ -99,29 +98,57 @@ public class StaffToCourseValidatorTest {
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea1.getEntityId());
         body.put("staffReference", staff1.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
         
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", school1.getEntityId());
         body.put("staffReference", staff2.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
         
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", school2.getEntityId());
         body.put("staffReference", staff3.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
         
         body = new HashMap<String, Object>();
-        body.put("schoolId", lea1.getEntityId());
-        course1 = repo.create("course", body);
+        student1 = repo.create("student", body);
+        Map<String, Object> schoolData = new HashMap<String, Object>();
+        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
+        student1.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+
+        
+        body = new HashMap<String, Object>();
+        student2 = repo.create("student", body);
+        schoolData = new HashMap<String, Object>();
+        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school2.getEntityId()));
+        student2.getDenormalizedData().put("schools", Arrays.asList(schoolData));
         
         body = new HashMap<String, Object>();
         body.put("schoolId", school1.getEntityId());
-        course2 = repo.create("course", body);
-
+        body.put("studentId", student1.getEntityId());
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+        
         body = new HashMap<String, Object>();
         body.put("schoolId", school2.getEntityId());
-        course3 = repo.create("course", body);
+        body.put("studentId", student2.getEntityId());
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+        
+        body = new HashMap<String, Object>();
+        parent1 = repo.create("parent", body);
+        
+        body = new HashMap<String, Object>();
+        parent2 = repo.create("parent", body);
+
+        body = new HashMap<String, Object>();
+        body.put("parentId", parent1.getEntityId());
+        body.put("studentId", student1.getEntityId());
+        repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put("parentId", parent2.getEntityId());
+        body.put("studentId", student2.getEntityId());
+        repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
+      
     }
     
     private void setupCurrentUser(Entity staff) {
@@ -135,53 +162,49 @@ public class StaffToCourseValidatorTest {
     @Test
     public void testCanValidateAsStaff() {
         setupCurrentUser(staff1);
-        Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.COURSE, false));
-        Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.COURSE, true));
+        Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.PARENT, false));
+        Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.PARENT, true));
         Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
-    
-    @Test
-    public void testCannotValidateAsTeacher() {
-        setupCurrentUser(teacher1);
-        Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.COURSE, false));
-        Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.COURSE, true));
-        Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
-    }
-    
+       
     @Test
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(
-                Arrays.asList(course1.getEntityId(), course2.getEntityId(), course3.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(
+                Arrays.asList(parent1.getEntityId(), parent2.getEntityId()))));
     }
     
     @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
     }
     
     @Test
     public void testInvalidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
     }
     
     @Test
     public void testValidAssociationsForStaff3() {
         setupCurrentUser(staff3);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
     }
     
     @Test
     public void testInvalidAssociationsForStaff3() {
         setupCurrentUser(staff3);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
+    }
+    
+    @Test
+    public void testInvalidAssociations() {
+        setupCurrentUser(staff2);
+        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
+        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>()));
     }
     
 }

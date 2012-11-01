@@ -36,7 +36,7 @@ desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+  runTests("test/features/apiV1/entities/Links")
 end
 
 desc "Run API querying tests"
