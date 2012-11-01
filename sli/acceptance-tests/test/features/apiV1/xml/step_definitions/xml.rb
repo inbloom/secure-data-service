@@ -124,7 +124,7 @@ end
 
 Then /^I should receive (\d+) entities$/ do |count|
   assert(@result.elements != nil, "Cannot find any element")
-  assert(@result.elements.size == convert(count), "Expected #{count}, received #{@result.elements.size}")
+    assert(@result.elements.size == convert(count), "Expected #{count}, received #{@result.elements.size}")
 end
 
 Then /^when I look at the student "([^\"]*)" "([^\"]*)"$/ do |fname, lname|
@@ -147,6 +147,9 @@ end
 Then /^I should see each entity's "([^\"]*)" is "([^\"]*)"$/ do |key, value|
   @result.elements.each do |element|
     ele = element.elements["#{key}"]
+    if ele.nil?
+      ele = @result.elements["#{key}"]
+    end
     assert(ele != nil, "Cannot find element #{key}")
     assert(ele.text == value, "Value does not match")
   end

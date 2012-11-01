@@ -2115,7 +2115,7 @@
     <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditConversion" decoder="Double" />
   </jb:bean>
 
-  <jb:bean beanId="SLC-StudentAcademicRecordExtension_Attributes_SLC-ReportCardReferenceTypeArray" class="java.util.ArrayList" createOnElement="StudentAcademicRecord">
+  <jb:bean beanId="SLC-StudentAcademicRecordExtension_Attributes_SLC-ReportCardReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:wiring beanIdRef="SLC-StudentAcademicRecordExtension_Attributes_SLC-ReportCardReferenceType"/>
   </jb:bean>
   <jb:bean beanId="SLC-StudentAcademicRecordExtension_Attributes_SLC-ReportCardReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference">
