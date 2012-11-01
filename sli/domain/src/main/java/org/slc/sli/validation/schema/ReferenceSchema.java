@@ -83,8 +83,7 @@ public class ReferenceSchema extends NeutralSchema {
      */
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
-        boolean isValidReference = isValidReference(entity);
-        if (!addError(isValidReference, fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
+        if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
 
@@ -109,16 +108,6 @@ public class ReferenceSchema extends NeutralSchema {
         }
 
         return true;
-    }
-
-    private boolean isValidReference(Object reference) {
-        // reference must be a non-null, non-empty String
-        if (reference != null && String.class.isInstance(reference)) {
-            String referenceString  = (String) reference;
-            return (!referenceString.isEmpty());
-        }
-
-        return false;
     }
 
     private String getCollectionName() {
