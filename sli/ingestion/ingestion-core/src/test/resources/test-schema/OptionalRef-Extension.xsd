@@ -16,7 +16,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReferenceType">
+			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType"
 						minOccurs="0">
