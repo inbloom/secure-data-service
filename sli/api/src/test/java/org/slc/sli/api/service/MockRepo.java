@@ -28,21 +28,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
-
 import org.bson.BasicBSONObject;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
@@ -99,7 +98,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("gradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("studentGradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("learningObjective", new LinkedHashMap<String, Entity>());
-        repo.put("studentDisciplineIncidentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put("studentParentAssociation", new LinkedHashMap<String, Entity>());
         repo.put("courseTranscript", new LinkedHashMap<String, Entity>());
         repo.put("teacherSectionAssociation", new LinkedHashMap<String, Entity>());

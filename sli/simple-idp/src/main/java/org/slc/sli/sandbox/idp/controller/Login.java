@@ -142,6 +142,8 @@ public class Login {
             }else if (!requestInfo.isForceAuthn()) {
                 LOG.debug("Login request with existing session, skipping authentication");
                 return handleNoAuthRequired(user, requestInfo);
+            }else{
+                httpSession.setAttribute(USER_SESSION_KEY, null);
             }
         }
 

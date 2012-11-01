@@ -87,4 +87,29 @@ public class ReferenceSchemaTest {
         assertFalse("Invalid Reference entity validation failed",
                 spySchema.validate(REFERENCE_FIELDNAME, "45679", errors, repo));
     }
+
+
+    @Test
+    public void testNullReferenceValidation() throws IllegalArgumentException {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+
+        assertFalse("Null reference should not be valid",
+                spySchema.validate(REFERENCE_FIELDNAME, null, errors, repo));
+    }
+
+    @Test
+    public void testNonStringReferenceValidation() throws IllegalArgumentException {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+
+        assertFalse("Non-string reference should not be valid",
+                spySchema.validate(REFERENCE_FIELDNAME, new Integer(0), errors, repo));
+    }
+
+    @Test
+    public void testEmptyStringReferenceValidation() throws IllegalArgumentException {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+
+        assertFalse("Non-string reference should not be valid",
+                spySchema.validate(REFERENCE_FIELDNAME, "", errors, repo));
+    }
 }

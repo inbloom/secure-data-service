@@ -25,6 +25,7 @@
     <jb:value property="description" data="attributes description"/>
     <jb:value property="dateAssigned" data="attributes dateAssigned" />
     <jb:value property="gradebookEntryType" data="attributes gradebookEntryType" />
+    <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
   </jb:bean>
 
 </smooks-resource-list>

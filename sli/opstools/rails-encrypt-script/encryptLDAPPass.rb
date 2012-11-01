@@ -34,7 +34,7 @@ def generateKey
 
 end
 
-if ARGV.count < 1
+if ARGV.count < 2
   puts "Usage: encryptLDAPPass <keyfile> <ldap_pass>"
   puts "\t keyfile - filename into which the key is stored, which was created by generateRailsKey.rb script"
   puts "\t ldap_pass - LDAP server password to be ecrypted"
