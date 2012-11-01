@@ -131,16 +131,19 @@ public class Login {
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if (user != null){
-            if (!requestInfo.isForceAuthn() || (isAdminRealm(realm) && isSandboxImpersonationEnabled)) {
+            if(isSandboxImpersonationEnabled){
+                if(isAdminRealm(realm)){
+                    LOG.debug("Sandbox Admin Login request with existing session, skipping authentication");
+                    return handleNoAuthRequired(user, requestInfo);
+                }else{
+                    LOG.debug("Sandbox Impersonation Login request with existing session, skipping authentication, going to impersonation");
+                    return  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
+                }
+            }else if (!requestInfo.isForceAuthn()) {
                 LOG.debug("Login request with existing session, skipping authentication");
-                SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
-                        user.getAttributes(), requestInfo);
-                ModelAndView mav = new ModelAndView("post");
-                mav.addObject("samlAssertion", samlAssertion);
-                return mav;
+                return handleNoAuthRequired(user, requestInfo);
             }else{
-                ModelAndView mav =  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
-                return mav;
+                httpSession.setAttribute(USER_SESSION_KEY, null);
             }
         }
 
@@ -158,7 +161,15 @@ public class Login {
         mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
         return mav;
     }
-
+    
+    private ModelAndView handleNoAuthRequired(User user, AuthRequestService.Request requestInfo){
+        SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                user.getAttributes(), requestInfo);
+        ModelAndView mav = new ModelAndView("post");
+        mav.addObject("samlAssertion", samlAssertion);
+        return mav;
+    }
+    
     private String buildSubTitle(String realm) {
         if(sliAdminRealmName.equals(realm)){
             return "";

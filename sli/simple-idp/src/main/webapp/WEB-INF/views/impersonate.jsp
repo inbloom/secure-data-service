@@ -155,7 +155,7 @@ $(document).ready(function() {
 					<label for="${dataset.key}" class="control-label">Select a test user</label>
 					<div class="controls">
 					<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
-						<c:forEach items="<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>" var="user">
+						<c:forEach items='<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>' var="user">
                               	 <option value="${user.userId}">${user.name} - ${user.role} at ${user.association}</option>
 						</c:forEach>
 					</select>
