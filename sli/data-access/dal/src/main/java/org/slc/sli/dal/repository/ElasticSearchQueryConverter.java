@@ -75,7 +75,7 @@ public class ElasticSearchQueryConverter {
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
                 if (Q.equals(criteria.getKey())) {
-                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase());
+                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true);
                 }
                 return QueryBuilders.termsQuery(criteria.getKey(), getTermTokens(criteria.getValue()));
             }
@@ -120,7 +120,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return QueryBuilders.prefixQuery(criteria.getKey(), ((String)criteria.getValue()).trim().toLowerCase());
+                return QueryBuilders.wildcardQuery(criteria.getKey(), "*" + ((String)criteria.getValue()).trim().toLowerCase() + "*");
             }
         });
 
@@ -143,11 +143,8 @@ public class ElasticSearchQueryConverter {
      * @return
      */
     public QueryBuilder getQuery(NeutralQuery query) {
-
-        QueryBuilder qb;
-
         if (query.getCriteria().size() == 1 && query.getOrQueries().isEmpty()) {
-            qb = getQuery(query.getCriteria().get(0));
+            return getQuery(query.getCriteria().get(0));
         } else {
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             // set query criteria
@@ -157,9 +154,8 @@ public class ElasticSearchQueryConverter {
             for (NeutralQuery nq : query.getOrQueries()) {
                 bqb.should(getQuery(nq));
             }
-            qb = bqb;
+            return bqb;
         }
-        return qb;
     }
 
     @SuppressWarnings("unchecked")
