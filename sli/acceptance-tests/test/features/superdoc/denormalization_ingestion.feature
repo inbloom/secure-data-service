@@ -104,6 +104,9 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     Then I should not find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
     And I should not find "<INGESTED ACC TEST PROG 2>" in "program"
 
+    When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
+    Then I should not find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
+
     #When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
     #Then I should not find "<INGESTED FALL 2009 EAST BREAK JUNIOR HIGH>" in "sessions"
     # Ingest new data
@@ -115,7 +118,9 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | collectionName                        | count |
       | studentProgramAssociation             | 7     |
       | studentSectionAssociation             | 298   |
-    And I should see "Processed 2 records." in the resulting batch job file
+      | session                               | 23    |
+      | studentAcademicRecord                 | 118   |
+    And I should see "Processed 4 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
     # Check if references are inserted
@@ -124,5 +129,5 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should find "<INGESTED ACC TEST PROG 2>" in "program"
 
     When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
-    Then I should find "<INGESTED FALL 2009 EAST BREAK JUNIOR HIGH>" in "sessions"
+    Then I should find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
 

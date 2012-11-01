@@ -243,4 +243,10 @@ public class TenantMongoDA implements TenantDA {
         }
 
     }
+
+    public void removeInvalidTenant(String lzPath) {
+        BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
+        BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
+        entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
+    }
 }

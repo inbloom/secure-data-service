@@ -119,7 +119,7 @@ public class TeacherEntityTest {
             + "<Race>"
             + "    <RacialCategory>White</RacialCategory>"
             + "</Race>"
-            + "<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>"
+            + "<HighestLevelOfEducationCompleted>Bachelor&apos;s</HighestLevelOfEducationCompleted>"
             + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
             + "<YearsOfPriorTeachingExperience>13</YearsOfPriorTeachingExperience>"
             + "<Credentials>"
@@ -132,7 +132,7 @@ public class TeacherEntityTest {
             + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
             + "    <CredentialIssuanceDate>2005-09-25</CredentialIssuanceDate>"
             + "    <CredentialExpirationDate>2013-09-25</CredentialExpirationDate>"
-            + "    <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>"
+            + "    <TeachingCredentialBasis>Master's degree</TeachingCredentialBasis>"
             + "</Credentials>"
             + "<LoginId>aTeacher</LoginId>"
             + "<TeacherUniqueStateId>teacher123</TeacherUniqueStateId>"
@@ -295,7 +295,7 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialType", "One Year");
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "credentialIssuanceDate", "2005-09-25");
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "credentialExpirationDate", "2013-09-25");
-        EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialBasis", "Doctoral degree");
+        EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialBasis", "Master's degree");
         List credentialFieldList = (List) credentialsMap.get("credentialField");
         assertNotNull(credentialFieldList);
         assertEquals(2, credentialFieldList.size());
