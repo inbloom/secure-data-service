@@ -104,7 +104,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         LOG.info("Transforming attendance data");
         
         NeutralRecordRepository neutralRecordRepository = super.getNeutralRecordMongoAccess().getRecordRepository();
-        //MongoTemplate mongoTemplate = neutralRecordRepository.getTemplate();
         
         Map<String, String> naturalKeys = new HashMap<String, String>();
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, null, "attendance", null);
@@ -153,8 +152,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             updateMap.put("addToSet", attendanceEventToPush);
             //updateMap.put("set", arg1);
             
-            //neutralRecordRepository.upsert(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED, ATTENDANCE_TRANSFORMED);
-            
             try {
                 Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
                 attendanceAttributes.put("studentId", studentId);
@@ -175,18 +172,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             } catch (DuplicateKeyException dke) {
                 neutralRecordRepository.updateFirst(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED);
             }
-            
-            /*
-            Object updatedExisting = neutralRecordRepository.updateMulti(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED).getField("updatedExisting");
-            
-            
-            
-            // if did not update an existing document, an insert is required
-            if (updatedExisting.equals(Boolean.FALSE)) {
-                
-                
-            }
-            */
         }
 
         LOG.info("Finished transforming attendance data");
