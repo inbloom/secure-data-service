@@ -88,34 +88,35 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      * @param opLog
      */
     public void process(Message message) {
+        if (message != null) {
+            try {
+                String opLog = "";
+                // for now we will always receive ActiveMQBytesMessage.
+                // we also support TextMessage if it ever needs to be used.
+                if (message instanceof ActiveMQBytesMessage) {
+                    ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
+                    ByteSequence bs = byteMessage.getContent();
+                    InputStream is = new ByteArrayInputStream(bs.getData());
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String line = "";
+                    StringBuilder sb = new StringBuilder();
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    opLog = sb.toString();
 
-        try {
-            String opLog = "";
-            // for now we will always receive ActiveMQBytesMessage. 
-            // we also support TextMessage if it ever needs to be used.
-            if (message instanceof ActiveMQBytesMessage) {
-                ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
-                ByteSequence bs = byteMessage.getContent();
-                InputStream is = new ByteArrayInputStream(bs.getData());
-                BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                String line = "";
-                StringBuilder sb = new StringBuilder();
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
+                } else if (message instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) message;
+                    opLog = textMessage.getText();
                 }
-                opLog = sb.toString();
 
-            } else if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                opLog = textMessage.getText();
+                IndexEntity entity = convertToEntity(opLog);
+                if (entity != null) {
+                    sendToIndexer(entity);
+                }
+            } catch (Exception e) {
+                logger.error("Error processing message", e);
             }
-
-            IndexEntity entity = convertToEntity(opLog);
-            if (entity != null) {
-                sendToIndexer(entity);
-            }
-        } catch (Exception e) {
-            logger.error("Error processing message", e);
         }
     }
 
@@ -205,21 +206,22 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         }
         Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-        String id = (String) o.get("_id");;
-          
+        String id = (String) o.get("_id");
+        ;
+
         Meta meta = getMeta(opLogMap);
         String type = meta.getType();
-          
+
         // merge data into entity json (id, type, metadata.tenantId)
         Map<String, Object> entityMap = new HashMap<String, Object>();
         entityMap.put("_id", id);
         entityMap.put("type", type);
-        //entityMap.put("metaData", metadata);
-          
+        // entityMap.put("metaData", metadata);
+
         // convert to index entity object
         return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE, entityMap);
     }
-    
+
     private Meta getMeta(Map<String, Object> opLogMap) {
         String[] meta = ((String) opLogMap.get("ns")).split("\\.");
         return new Meta(meta[0], meta[1]);
@@ -265,21 +267,21 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     public void setActiveMQConsumer(JMSQueueConsumer activeMQConsumer) {
         this.activeMQConsumer = activeMQConsumer;
     }
-    
+
     private static class Meta {
         private final String index;
         private final String type;
-        
+
         public Meta(String index, String type) {
             super();
             this.index = index;
             this.type = type;
         }
-        
+
         public String getIndex() {
             return index;
         }
-        
+
         public String getType() {
             return type;
         }
