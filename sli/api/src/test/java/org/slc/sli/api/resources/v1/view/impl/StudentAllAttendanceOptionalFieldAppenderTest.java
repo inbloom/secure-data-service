@@ -68,9 +68,9 @@ public class StudentAllAttendanceOptionalFieldAppenderTest {
     private Entity student2Entity;
     private Entity school1Entity;
     private Entity school2Entity;
-    private List<Map<String, Object>> attendance1;
-    private List<Map<String, Object>> attendance2;
-    private List<Map<String, Object>> attendance3;
+    private Map<String, Object> attendance1;
+    private Map<String, Object> attendance2;
+    private Map<String, Object> attendance3;
 
     @Before
     public void setup() {
@@ -120,35 +120,29 @@ public class StudentAllAttendanceOptionalFieldAppenderTest {
         event9.put("event", "Tardy");
         event9.put("reason", "Missed school bus");
         
-        attendance1 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> attendance1Map = new HashMap<String, Object>();
+        attendance1 = new HashMap<String, Object>();
         List<Map<String, Object>> events1 = new ArrayList<Map<String, Object>>();
         events1.add(event1);
         events1.add(event2);
         events1.add(event3);
-        attendance1Map.put("schoolYear", schoolYear);
-        attendance1Map.put("attendanceEvent", events1);
-        attendance1.add(attendance1Map);
-        
-        attendance2 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> attendance2Map = new HashMap<String, Object>();
+        attendance1.put("schoolYear", schoolYear);
+        attendance1.put("attendanceEvent", events1);
+
+        attendance2 = new HashMap<String, Object>();
         List<Map<String, Object>> events2 = new ArrayList<Map<String, Object>>();
         events2.add(event4);
         events2.add(event5);
         events2.add(event6);
-        attendance2Map.put("schoolYear", schoolYear);
-        attendance2Map.put("attendanceEvent", events2);
-        attendance2.add(attendance2Map);
-        
-        attendance3 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> attendance3Map = new HashMap<String, Object>();
+        attendance2.put("schoolYear", schoolYear);
+        attendance2.put("attendanceEvent", events2);
+
+        attendance3 = new HashMap<String, Object>();
         List<Map<String, Object>> events3 = new ArrayList<Map<String, Object>>();
         events3.add(event4);
         events3.add(event5);
         events3.add(event6);
-        attendance3Map.put("schoolYear", schoolYear);
-        attendance3Map.put("attendanceEvent", events3);
-        attendance3.add(attendance3Map);
+        attendance3.put("schoolYear", schoolYear);
+        attendance3.put("attendanceEvent", events3);
     }
 
     @After
@@ -203,12 +197,12 @@ public class StudentAllAttendanceOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createAttendance(String studentId, String schoolId, List<Map<String, Object>> schoolYearAttendance) {
+    private Map<String, Object> createAttendance(String studentId, String schoolId, Map<String, Object> schoolYearAttendance) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("schoolId", schoolId);
-        entity.put("schoolYearAttendance", schoolYearAttendance);
+        entity.put("schoolYear", schoolYearAttendance.get("schoolYear"));
+        entity.put("attendanceEvent", schoolYearAttendance.get("attendanceEvent"));
         return entity;
     }
-
 }
