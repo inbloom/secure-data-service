@@ -449,7 +449,7 @@ Other</xs:documentation>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-                    <xs:element name="DisciplineIncidentReference" type="ReferenceType" />
+                    <xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType" />
                     <xs:element name="StudentParticipationCode" type="StudentParticipationCodeType" />
                     <xs:element name="Behaviors" type="BehaviorDescriptorType" minOccurs="0" maxOccurs="unbounded" />
                     <xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded" />
@@ -458,6 +458,39 @@ Other</xs:documentation>
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="SLC-DisciplineIncidentReferenceType">
+        <xs:annotation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>disciplineIncident</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="DisciplineIncidentIdentity" type="SLC-DisciplineIncidentIdentityType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SLC-DisciplineIncidentIdentityType">
+        <xs:sequence>
+            <xs:element name="IncidentIdentifier" type="IncidentIdentifier" >
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>disciplineActionIdentifier</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType" >
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>schoolId</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    
     <xs:complexType name="SLC-StudentCohortAssociation">
         <xs:annotation>
             <xs:appinfo>
@@ -1446,7 +1479,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     <xs:element name="ActualDisciplineActionLength" type="xs:integer" minOccurs="0"/>
                     <xs:element name="DisciplineActionLengthDifferenceReason" type="DisciplineActionLengthDifferenceReasonType" minOccurs="0"/>
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType" maxOccurs="unbounded" />
-                    <xs:element name="DisciplineIncidentReference" type="DisciplineIncidentReferenceType" maxOccurs="unbounded"/>
+                    <xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType" maxOccurs="unbounded"/>
                     <xs:element name="StaffReference" type="SLC-StaffReferenceType" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="ResponsibilitySchoolReference" type="EducationalOrgReferenceType"/>
                     <xs:element name="AssignmentSchoolReference" type="EducationalOrgReferenceType" minOccurs="0"/>

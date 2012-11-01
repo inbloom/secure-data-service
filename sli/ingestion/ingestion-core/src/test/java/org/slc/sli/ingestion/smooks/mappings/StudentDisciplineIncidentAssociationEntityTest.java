@@ -28,13 +28,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for Program entity.
@@ -86,9 +85,9 @@ public class StudentDisciplineIncidentAssociationEntityTest {
 
         assertEquals("Expected different StudentParticipationCode", "Perpetrator", attributes.get("StudentParticipationCode"));
 
-        String disciplineIncidentReference = (String) attributes.get("disciplineIncidentIdentifier");
+        Map<String, Object> disciplineIncidentReference = (Map<String, Object>) attributes
+                .get("DisciplineIncidentReference");
         assertNotNull("Expected non-null DisciplineIncidentReference", disciplineIncidentReference);
-        assertEquals("Expected different ref", "waterboard", disciplineIncidentReference);
 
         //behaviors
         @SuppressWarnings("unchecked")
