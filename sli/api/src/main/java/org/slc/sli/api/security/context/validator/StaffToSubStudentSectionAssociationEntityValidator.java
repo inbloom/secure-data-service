@@ -19,7 +19,6 @@ package org.slc.sli.api.security.context.validator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates the context of a staff member to see the requested set of grades. Returns true if the
@@ -38,14 +34,14 @@ import org.slc.sli.domain.NeutralQuery;
  * @author shalka
  */
 @Component
-public class StaffToGradeValidator extends AbstractContextValidator {
+public class StaffToSubStudentSectionAssociationEntityValidator extends AbstractContextValidator {
 
     @Autowired
     private StaffToStudentValidator validator;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return !through && isStaff() && EntityNames.GRADE.equals(entityType);
+        return !through && isStaff() && isSubEntityOfStudentSectionAssociation(entityType);
     }
 
     @Override
@@ -63,37 +59,6 @@ public class StaffToGradeValidator extends AbstractContextValidator {
         }
 
         return validator.validate(EntityNames.STUDENT, new HashSet<String>(studentIds));
-    }
-
-    /**
-     * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
-     * Iterates through result and peels off String value contained in body.<<field>>. Returns
-     * unique set of values that were stored in body.<<field>>.
-     *
-     * @param type
-     *            Entity type to query for.
-     * @param ids
-     *            List of _ids of entities to query.
-     * @param field
-     *            Field (contained in body) to peel off of entities.
-     * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
-     */
-    protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
-        Set<String> matching = new HashSet<String>();
-
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, ids));
-        Iterable<Entity> entities = getRepo().findAll(type, query);
-        if (entities != null) {
-            for (Entity entity : entities) {
-                Map<String, Object> body = entity.getBody();
-                if (body.containsKey(field)) {
-                    matching.add((String) body.get(field));
-                }
-            }
-        }
-
-        return new ArrayList<String>(matching);
     }
 
     /**
