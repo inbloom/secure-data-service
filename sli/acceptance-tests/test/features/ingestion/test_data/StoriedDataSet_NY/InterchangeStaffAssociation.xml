@@ -12,7 +12,7 @@
 		<Race>
 			<RacialCategory>Asian</RacialCategory>
 		</Race>
-		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<HighestLevelOfEducationCompleted>Bachelor&apos;s</HighestLevelOfEducationCompleted>
 	</Teacher>
 	<Teacher>
 		<StaffUniqueStateId>aharwell</StaffUniqueStateId>
@@ -26,7 +26,7 @@
 			<RacialCategory>White</RacialCategory>
 			<RacialCategory>Asian</RacialCategory>
 		</Race>
-		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
 	</Teacher>
 	<Teacher>
 		<StaffUniqueStateId>dreiss</StaffUniqueStateId>
@@ -34,6 +34,10 @@
 			<FirstName>Dale</FirstName>
 			<LastSurname>Reiss</LastSurname>
 		</Name>
+		<OtherName OtherNameType="Other Name">
+			<FirstName>C&amp;lifragilisticexpialid&apos;cious</FirstName>
+			<LastSurname>Poppins</LastSurname>
+		</OtherName>
 		<Sex>Male</Sex>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 		<Race>
