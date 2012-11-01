@@ -1183,8 +1183,7 @@ task :importUnifiedData => [:realmInit] do
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
-    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
-    "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
+    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
