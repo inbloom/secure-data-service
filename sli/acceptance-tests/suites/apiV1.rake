@@ -50,7 +50,7 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/xml/xml.feature")
+  runTests("test/features/apiV1/xml")
 end
 
 desc "Run V1 Staff Secuity Tests"
