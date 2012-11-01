@@ -29,7 +29,7 @@ desc "Run V1 Selectors Tests"
 task :v1SelectorTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/selectors/selectors.feature")
+  runTests("test/features/apiV1/selectors")
 end
 
 desc "Run V1 check for duplicate links"
@@ -50,7 +50,7 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/xml/xml.feature")
+  runTests("test/features/apiV1/xml")
 end
 
 desc "Run V1 Staff Secuity Tests"
