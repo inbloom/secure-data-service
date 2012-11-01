@@ -19,14 +19,13 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -60,10 +59,10 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StaffToGradeValidatorTest {
+public class StaffToSubStudentSectionAssociationEntityValidatorTest {
 
     @Autowired
-    private StaffToGradeValidator validator;
+    private StaffToSubStudentSectionAssociationEntityValidator validator;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -107,12 +106,25 @@ public class StaffToGradeValidatorTest {
 
     @Test
     public void testDeniedStaffToGradeThrough() throws Exception {
-        Assert.assertFalse(validator.canValidate(EntityNames.GRADE, true));
+        assertFalse(validator.canValidate(EntityNames.GRADE, true));
+    }
+
+    @Test
+    public void testCanValidateStaffToStudentCompetency() throws Exception {
+        assertTrue(validator.canValidate(EntityNames.STUDENT_COMPETENCY, false));
+    }
+
+    @Test
+    public void testDeniedStaffToStudentCompetencyThrough() throws Exception {
+        assertFalse(validator.canValidate(EntityNames.STUDENT_COMPETENCY, true));
     }
 
     @Test
     public void testDeniedStaffToOtherEntity() throws Exception {
-        Assert.assertFalse(validator.canValidate(EntityNames.STUDENT, false));
+        assertFalse(validator.canValidate(EntityNames.STUDENT, false));
+        assertFalse(validator.canValidate(EntityNames.STUDENT, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, false));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, true));
     }
 
     @Test
@@ -158,6 +170,44 @@ public class StaffToGradeValidatorTest {
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
         Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        assertFalse(validator.validate(EntityNames.GRADE, grades));
+    }
+
+    @Test
+    public void testCanNotGetAccessToGradeDueToGradeLookup() throws Exception {
+        Set<String> grades = new HashSet<String>();
+        Map<String, Object> association = buildStudentSectionAssociation("student123", "section123", DateTime.now()
+                .minusDays(3));
+        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
+
+        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
+        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+        grades.add(gradeEntity.getEntityId());
+
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+                new ArrayList<Entity>());
+
+        assertFalse(validator.validate(EntityNames.GRADE, grades));
+    }
+
+    @Test
+    public void testCanNotGetAccessToGradeDueToStudentSectionAssociationLookup() throws Exception {
+        Set<String> grades = new HashSet<String>();
+        Map<String, Object> association = buildStudentSectionAssociation("student123", "section123", DateTime.now()
+                .minusDays(3));
+        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
+
+        Map<String, Object> grade = buildGrade(studentSectionAssociation.getEntityId());
+        Entity gradeEntity = new MongoEntity(EntityNames.GRADE, grade);
+        grades.add(gradeEntity.getEntityId());
+
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+                Arrays.asList(gradeEntity));
+
+        Mockito.when(
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                .thenReturn(new ArrayList<Entity>());
+
         assertFalse(validator.validate(EntityNames.GRADE, grades));
     }
 
