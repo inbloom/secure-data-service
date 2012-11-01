@@ -2978,7 +2978,8 @@
     <jb:wiring beanIdRef="SLC-DisciplineIncident_Attributes_BehaviorDescriptorTypeArray" property="Behaviors"/>
     <jb:value data="DisciplineIncident/CaseNumber" property="CaseNumber"/>
   </jb:bean>
-  <jb:bean beanId="SLC-DisciplineIncident_Attributes_SecondaryBehaviorArray" class="java.util.ArrayList" createOnElement="DisciplineIncident">
+
+  <jb:bean beanId="SLC-DisciplineIncident_Attributes_SecondaryBehaviorArray" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineIncident">
     <jb:wiring beanIdRef="SLC-DisciplineIncident_Attributes_SecondaryBehavior"/>
   </jb:bean>
   <jb:bean beanId="SLC-DisciplineIncident_Attributes_SecondaryBehavior" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/SecondaryBehaviors">
@@ -3058,13 +3059,22 @@
  <jb:bean beanId="DisciplineIncident_Weapons_WeaponArray" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Weapons">
     <jb:value data="DisciplineIncident/Weapons/Weapon" />
   </jb:bean>
-  <jb:bean beanId="SLC-DisciplineIncident_Attributes_BehaviorDescriptorTypeArray" class="java.util.ArrayList" createOnElement="DisciplineIncident">
+  <jb:bean beanId="SLC-DisciplineIncident_Attributes_BehaviorDescriptorTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineIncident">
     <jb:wiring beanIdRef="SLC-DisciplineIncident_Attributes_BehaviorDescriptorType"/>
   </jb:bean>
-  <jb:bean beanId="SLC-DisciplineIncident_Attributes_BehaviorDescriptorType" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Behaviors">
-    <jb:value data="DisciplineIncident/Behaviors/ShortDescription" property="ShortDescription"/>
-    <jb:value data="DisciplineIncident/Behaviors/Description" property="Description"/>
-    <jb:value data="DisciplineIncident/Behaviors/CodeValue" property="CodeValue"/>
+  <jb:bean beanId="SLC-DisciplineIncident_Attributes_BehaviorDescriptorType" class="java.util.ArrayList" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Behaviors">
+      <jb:wiring beanIdRef="DisciplineIncident_Behaviors_CodeValue" />
+      <jb:wiring beanIdRef="DisciplineIncident_Behaviors_ShortDescription" />
+      <jb:wiring beanIdRef="DisciplineIncident_Behaviors_Description" />
+  </jb:bean>
+  <jb:bean beanId="DisciplineIncident_Behaviors_CodeValue" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Behaviors/CodeValue">
+    <jb:value property="CodeValue" data="DisciplineIncident/Behaviors/CodeValue" />
+  </jb:bean>
+  <jb:bean beanId="DisciplineIncident_Behaviors_ShortDescription" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Behaviors/ShortDescription">
+    <jb:value property="ShortDescription" data="DisciplineIncident/Behaviors/ShortDescription" />
+  </jb:bean>
+  <jb:bean beanId="DisciplineIncident_Behaviors_Description" class="java.util.HashMap" createOnElement="InterchangeStudentDiscipline/DisciplineIncident/Behaviors/Description">
+    <jb:value property="Description" data="DisciplineIncident/Behaviors/Description" />
   </jb:bean>
   <!-- End DisciplineIncident mapping -->
 
