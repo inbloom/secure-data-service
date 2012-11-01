@@ -146,6 +146,27 @@
                   ]
               ]
           }
-       }
+      },
+      {
+        "fieldPath" : "body.ProgramReference",
+        "ref" :
+        {
+            "entityType" : "program",
+            "isRefList" : true,
+            "refObjectPath" : "body.ProgramReference",
+            "choiceOfFields" :
+            [
+              [
+                {
+                    "path" : "body.programId",
+                    "values" :
+                    [{
+                        "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+                    }]
+                }
+              ]
+            ]
+        }
+      }
    ]
 }
