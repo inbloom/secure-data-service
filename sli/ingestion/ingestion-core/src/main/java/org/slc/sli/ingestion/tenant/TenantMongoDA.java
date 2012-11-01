@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -186,6 +189,7 @@ public class TenantMongoDA implements TenantDA {
 
         // checking for indexes ensures that the scripts were capable of running
         TenantContext.setTenantId(tenantId);
+        TenantContext.setIsSystemCall(false);
         boolean isIndexed = entityRepository.count("system.indexes", new Query()) > 0;
 
         if (isIndexed) {
@@ -193,7 +197,7 @@ public class TenantMongoDA implements TenantDA {
             // checking for flag that will only be set after scripts run
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
-            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", true, false));
+            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", "Ready", false));
 
             try {
                 TenantContext.setIsSystemCall(true);
@@ -212,7 +216,7 @@ public class TenantMongoDA implements TenantDA {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
 
         Update update = new Update();
-        update.set(TENANT_READY_FIELD, true);
+        update.set(TENANT_READY_FIELD, "Ready");
 
         try {
             TenantContext.setIsSystemCall(true);
@@ -220,5 +224,23 @@ public class TenantMongoDA implements TenantDA {
         } finally {
             TenantContext.setIsSystemCall(false);
         }
+    }
+
+    @Override
+    public boolean setTenantInProgressFlag(String tenantId) {
+
+    	DBObject query = new BasicDBObject("body.tenantId", tenantId);
+    	query.put("body."+TENANT_READY_FIELD, null);
+
+        DBObject set = new BasicDBObject("body."+TENANT_READY_FIELD, "In Progress");
+        DBObject update = new BasicDBObject("$set", set);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            return entityRepository.getCollection("tenant").findAndModify(query, update) == null ? false:true;
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
+
     }
 }

@@ -55,4 +55,11 @@ public interface TenantDA {
      * @param tenantId
      */
     void setTenantReadyFlag(String tenantId);
+
+    /**
+     * Flag that the database for the given tenantId is in progress of being created
+     *
+     * @param tenantId
+     */
+    boolean setTenantInProgressFlag(String tenantId);
 }

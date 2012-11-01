@@ -41,7 +41,9 @@ public class IngestionTenantLockChecker {
     }
 
     public boolean ingestionLocked(String tenantId) {
-        return repo.findOne("tenantJobLock", new NeutralQuery(new NeutralCriteria("_id", "=", tenantId))) != null;
+    	NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+    	query.addCriteria(new NeutralCriteria("tenantIsReady", "=", "In Progress"));
+        return repo.findOne("tenant", query) != null;
     }
 
 }

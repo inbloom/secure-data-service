@@ -45,7 +45,6 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -65,7 +64,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -87,9 +85,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private Validator<Job> jobValidator;
 
     @Autowired
     private TenantDA tenantDA;
@@ -130,12 +125,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (jobValidator.isValid(newBatchJob, errorReport)) {
+            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
                 /* tenant job lock has been acquired */
 
                 // FIXME: Move to appropriate processor (maybe its own)
-                boolean dbIsReady = ensureTenantDbIsReady(newBatchJob.getTenantId());
 
                 controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
@@ -194,16 +188,21 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     }
 
     private void runDbSpinUpScripts(String tenantId) {
-        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
-        String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
+        boolean isTenantInProgress = tenantDA.setTenantInProgressFlag(tenantId);
 
-        LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        if (isTenantInProgress) {
+            String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+            String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
-        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+            LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-        tenantDA.setTenantReadyFlag(tenantId);
+            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+
+            tenantDA.setTenantReadyFlag(tenantId);
+
+        }
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
