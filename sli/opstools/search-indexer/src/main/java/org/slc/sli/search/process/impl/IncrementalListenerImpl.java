@@ -27,6 +27,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -170,25 +173,36 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         if (opLogs.size() == 0) {
             return null;
         }
-        Map<String, Object> opLogMap = opLogs.get(0);
 
-        Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
-        String id = (String) o2.get("_id");
-        Meta meta = getMeta(opLogMap);
-        String type = meta.getType();
-        Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
-        Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-        Map<String, Object> updates = (Map<String, Object>) o.get("$set");
+        Meta meta = null;
+        Map<String, Object> entityMap = null;
+        try {
 
-        // merge data into entity json (id, type, metadata.tenantId, body)
-        Map<String, Object> entityMap = new HashMap<String, Object>();
-        entityMap.put("_id", id);
-        entityMap.put("type", type);
-        entityMap.put("metaData", metadata);
+            Map<String, Object> opLogMap = opLogs.get(0);
 
-        for (String updateField : updates.keySet()) {
-            List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
-            NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
+            Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
+            String id = (String) o2.get("_id");
+            meta = getMeta(opLogMap);
+            String type = meta.getType();
+            Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
+            Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
+            Map<String, Object> updates = (Map<String, Object>) o.get("$set");
+
+            // merge data into entity json (id, type, metadata.tenantId, body)
+            entityMap = new HashMap<String, Object>();
+            entityMap.put("_id", id);
+            entityMap.put("type", type);
+            entityMap.put("metaData", metadata);
+
+            for (String updateField : updates.keySet()) {
+                List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
+                NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
+            }
+        } catch (Exception e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Message:" + (new GsonBuilder().create().toJson(opLogs)));
+            }
+            throw e;
         }
 
         // convert to index entity object
