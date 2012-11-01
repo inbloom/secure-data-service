@@ -139,9 +139,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
         SearchRequestBuilder srb = getClient().prepareSearch(
                 TenantContext.getTenantId().toLowerCase()).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
         srb.setQuery(converter.getQuery(neutralQuery));
-        srb.setFrom(neutralQuery.getOffset()).setSize(neutralQuery.getLimit());
         if (noFields) {
             srb.setNoFields();
+        } else {
+            srb.setFrom(neutralQuery.getOffset()).setSize(neutralQuery.getLimit());
         }
         return srb.toString();
     }
