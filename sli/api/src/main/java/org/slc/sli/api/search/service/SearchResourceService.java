@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,11 +49,9 @@ import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
@@ -84,9 +83,6 @@ public class SearchResourceService {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
-    @Autowired
-    private ContextResolverStore contextResolverStore;
-
     @Value("${sli.search.maxUnfilteredResults:1000}")
     private long maxUnfilteredSearchResultCount;
 
@@ -107,13 +103,17 @@ public class SearchResourceService {
     public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
 
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-
+        List<EntityBody> finalEntities = Collections.emptyList();
         // set up query criteria, make query
         ApiQuery apiQuery = prepareQuery(resourcesToSearch, queryUri);
-        if (definition.getService().count(apiQuery) >= maxUnfilteredSearchResultCount) {
+        long count = definition.getService().count(apiQuery);
+        if (count >= maxUnfilteredSearchResultCount) {
             throw new ResponseTooLargeException();
         }
-        List<EntityBody> finalEntities = retrieveResults(definition, apiQuery);
+        if (count == 0) {
+            return new ServiceResponse(finalEntities, 0);
+        }
+        finalEntities = retrieveResults(definition, apiQuery);
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -133,7 +133,6 @@ public class SearchResourceService {
         }
         int offset = apiQuery.getOffset();
         int totalLimit = limit + offset;
-        int total = 0, newTotal = 0;
 
         // now, based on the requested offset and limit, calculate
         // new offset and limit for retrieving data in batches from Elasticsearch.
@@ -147,29 +146,16 @@ public class SearchResourceService {
         apiQuery.setOffset(0);
 
         List<EntityBody> entityBodies = null;
-        List<EntityBody> accessible = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-        // in a loop, retrieve results and filter them, until we have enough
-        // results to return
-        while (total < totalLimit) {
+        while (finalEntities.size() < totalLimit) {
 
             // call BasicService to query the elastic search repo
-            entityBodies = retrieve(apiQuery, definition);
+            entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
 
             // filter results through security context
-            accessible = filterResultsBySecurity(entityBodies);
 
-            // if past offset, add accessible results to final list
-            newTotal = total + accessible.size();
-            if (newTotal > offset) {
-                for (int i=0; i<accessible.size(); i++) {
-                    if ((total+i >= offset) && (total+i < totalLimit)) {
-                        finalEntities.add(accessible.get(i));
-                    }
-                }
-            }
-            total = newTotal;
+            finalEntities.addAll(filterResultsBySecurity(entityBodies));
 
             // if no more results to grab, then we're done
             if (entityBodies.size() < limitPerQuery) {
@@ -180,17 +166,8 @@ public class SearchResourceService {
         }
 
         debug("finalEntities " + finalEntities.size() + " totalLimit " + totalLimit + " offset " + offset);
-        return finalEntities;
-    }
 
-    /**
-     * Retrieve results from the Elasticsearch repo, via BasicService and the data access layer
-     * @param apiQuery
-     * @param definition
-     * @return
-     */
-    public List<EntityBody> retrieve(ApiQuery apiQuery, final EntityDefinition definition) {
-        return (List<EntityBody>) definition.getService().list(apiQuery);
+        return finalEntities.subList(offset, Math.min(finalEntities.size() - 1, totalLimit));
     }
 
     /**
@@ -239,10 +216,8 @@ public class SearchResourceService {
 
         List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
-
         // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
-
             toType = (String) entity.get("type");
             entityId = (String) entity.get("id");
             if (isAccessible(toType, entityId)) {
@@ -252,13 +227,6 @@ public class SearchResourceService {
         return accessible;
     }
 
-
-    /**
-     * Checks if an entity is accessible
-     * @param toType
-     * @param id
-     * @return
-     */
     public boolean isAccessible(String toType, String id) {
 
         // get and save validator
@@ -271,22 +239,6 @@ public class SearchResourceService {
         }
         return false;
     }
-
-    /**
-     * Returns list of accessible ids for one entity type
-     * @param toType
-     * @return
-     */
-    public List<String> findAccessible(String toType) {
-        Entity user = ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEntity();
-        EntityContextResolver resolver = contextResolverStore.findResolver(user.getType(), toType);
-        if (resolver == null) {
-            return new ArrayList<String>();
-        } else {
-            return resolver.findAccessible(user);
-        }
-    }
-
 
     /**
      * NeutralCriteria filter. Keep NeutralCriteria only on the White List
