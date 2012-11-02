@@ -16,6 +16,9 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -85,31 +88,98 @@ public class StaffToCohortValidatorTest {
     
     @Test
     public void testCanValidate() {
-        
+        assertTrue(validator.canValidate(EntityNames.COHORT, false));
+        assertTrue(validator.canValidate(EntityNames.COHORT, true));
+        assertFalse(validator.canValidate(EntityNames.SECTION, true));
+        assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }
     
     @Test
     public void testCanValidateStaffToCohort() {
-        
+        Entity school = helper.generateEdorgWithParent(null);
+        Entity cohort = helper.generateCohort(school.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        Entity school2 = helper.generateEdorgWithParent(null);
+        cohort = helper.generateCohort(school2.getEntityId());
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        cohortIds.add(cohort.getEntityId());
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
     }
     
     @Test
-    public void tesCanValidateStaffAtStateToCohort() {
-        
+    public void testCanValidateStaffAtStateToCohort() {
+        Entity sea = helper.generateEdorgWithParent(null);
+        Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
+        Entity cohort = helper.generateCohort(sea.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        // Add the association
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
     }
     
     @Test
     public void testCanNotValidateInvalidCohort() {
-        
+        Entity lea = helper.generateEdorgWithParent(null);
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        Entity school2 = helper.generateEdorgWithParent(null);
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        Entity cohort = helper.generateCohort(lea.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        // Can't see it because it's above you in the edorg
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        cohortIds.clear();
+        cohort = helper.generateCohort(school2.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        // Can't see it because it's in an edorg not beneath you.
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
     }
     
     @Test
     public void testCanNotValidateExpiredCohort() {
+        Entity lea = helper.generateEdorgWithParent(null);
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), true);
+        Entity cohort = helper.generateCohort(lea.getEntityId());
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+        assertFalse(validator.validate(null, cohortIds));
+
+        repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+        repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), true, true);
+        assertFalse(validator.validate(null, cohortIds));
         
+        repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
+        assertFalse(validator.validate(null, cohortIds));
+
     }
     
     @Test
     public void testCanValidateIntersectionRules() {
+        Entity sea = helper.generateEdorgWithParent(null);
+        Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
+        for (int i = 0; i < 10; ++i) {
+            Entity cohort = helper.generateCohort(school.getEntityId());
+            cohortIds.add(cohort.getEntityId());
+        }
+        Entity cohort = helper.generateCohort(lea.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        assertTrue(validator.validate(null, cohortIds));
+
+        for (int i = 0; i < 5; ++i) {
+            cohort = helper.generateCohort(sea.getEntityId());
+            helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+            cohortIds.add(cohort.getEntityId());
+        }
+        
+        assertTrue(validator.validate(null, cohortIds));
+
         
     }
 

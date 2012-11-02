@@ -16,20 +16,67 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.springframework.stereotype.Component;
+
+@Component
 public class StaffToCohortValidator extends AbstractContextValidator {
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        // TODO Auto-generated method stub
-        return false;
+        return isStaff() && EntityNames.COHORT.equals(entityType);
     }
     
+    /**
+     * The rule is you can see cohorts at and beneath you in the edorg heirarchy as
+     * well as the ones you're directly associated with.
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-        // TODO Auto-generated method stub
-        return false;
+        boolean match = false;
+        Set<String> myCohortIds = new HashSet<String>();
+        // Get the one's I'm associated to.
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        for (Entity sca : scas) {
+            Map<String, Object> body = sca.getBody();
+            if(!body.containsKey(ParameterConstants.STUDENT_RECORD_ACCESS)) {
+                continue;
+            } else if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+                continue;
+            } else if ((Boolean) body.get(ParameterConstants.STUDENT_RECORD_ACCESS) == false) {
+                continue;
+            } else {
+                myCohortIds.add((String) body.get(ParameterConstants.COHORT_ID));
+            }
+        }
+        
+        // Get the one's beneath me
+        basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
+                getStaffEdorgLineage()));
+        Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
+        for(Entity cohort : cohorts) {
+            myCohortIds.add(cohort.getEntityId());
+        }
+
+        for(String id : ids) {
+            if(!myCohortIds.contains(id)) {
+                return false;
+            } else {
+                match = true;
+            }
+        }
+        return match;
     }
     
 }

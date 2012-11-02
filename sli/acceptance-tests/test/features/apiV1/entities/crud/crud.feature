@@ -213,7 +213,7 @@ Examples:
 | Entity Type             | Entity Resource URI       | Code | Count | Rewrite URI|
 | "assessment"            | "assessments"             |  200 | 17    |/assessments|
 | "attendance"            | "attendances"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
-| "cohort"                | "cohorts"                 |  200 | 3     |/staff/@ids/staffCohortAssociations/cohorts|
+| "cohort"                | "cohorts"                 |  200 | 2     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 |  200 | 0     |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       |  200 | 2     |/staff/@ids/disciplineActions|
 | "disciplineIncident"    | "disciplineIncidents"     |  200 | 0     |/staff/@ids/disciplineIncidents|

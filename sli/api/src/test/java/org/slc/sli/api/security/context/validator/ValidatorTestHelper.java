@@ -163,13 +163,13 @@ public class ValidatorTestHelper {
         }
     }
 
-    public void generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
+    public Entity generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
         Map<String, Object> studentCohort = new HashMap<String, Object>();
         studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
         studentCohort.put(ParameterConstants.COHORT_ID, cohortId);
         expireAssociation(isExpired, studentCohort);
 
-        repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
+        return repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
     }
 
     public void generateStudentProgram(String studentId, String programId, boolean isExpired) {

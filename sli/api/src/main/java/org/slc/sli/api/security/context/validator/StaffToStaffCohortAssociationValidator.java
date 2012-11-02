@@ -17,12 +17,11 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -33,34 +32,44 @@ import org.springframework.stereotype.Component;
 public class StaffToStaffCohortAssociationValidator extends AbstractContextValidator {
     
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+    private TransitiveStaffToStaffValidator staffValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive && EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType) && isStaff();
+        return EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType) && isStaff();
     }
     
+    /**
+     * You can see all of the staffCohortAssociations that you have and that
+     * all of the staff you can see have.
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        Set<String> cohortIds = new HashSet<String>();
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> scas = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
-        for (Entity sca : scas) {
-            if (!isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
-                cohortIds.add(sca.getEntityId());
+        Set<String> myAssociationIds = new HashSet<String>();
+        Set<String> myLineage = getStaffEdorgLineage();
+        //Get the ones based on staffIds (Including me)
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(
+ParameterConstants.ID,
+                NeutralCriteria.CRITERIA_IN, ids));
+        Set<String> staffIds = new HashSet<String>();
+        Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        for (Entity staff : staffCohorts) {
+            Map<String, Object> body = staff.getBody();
+            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+                continue;
             }
+            staffIds.add((String) body.get(ParameterConstants.STAFF_ID));
         }
-
-        for (String id : ids) {
-            if (!cohortIds.contains(id)) {
-                return false;
-            } else {
-                match = true;
-            }
-        }
-        return match;
+        
+        return staffValidator.validate(EntityNames.STAFF, staffIds);
     }
     
+    /**
+     * @param staffValidator
+     *            the staffValidator to set
+     */
+    public void setStaffValidator(TransitiveStaffToStaffValidator staffValidator) {
+        this.staffValidator = staffValidator;
+    }
 }
