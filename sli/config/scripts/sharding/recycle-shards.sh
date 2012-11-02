@@ -23,10 +23,6 @@ echo indexing sli.
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js
 echo
 
-echo ingexing is.
-mongo is $SLI_HOME/config/indexes/is_indexes.js
-echo
-
 echo indexing ingestion_batch_job.
 mongo ingestion_batch_job $SLI_HOME/config/indexes/ingestion_batch_job_indexes.js
 echo

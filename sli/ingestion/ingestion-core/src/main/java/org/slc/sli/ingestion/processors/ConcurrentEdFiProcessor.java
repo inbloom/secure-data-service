@@ -47,6 +47,7 @@ import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.MongoCommander;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -60,6 +61,8 @@ import org.slc.sli.ingestion.util.LogUtil;
 public class ConcurrentEdFiProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
+
+    public static final String INDEX_SCRIPT = "is_indexes.js";
 
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
 
@@ -91,6 +94,8 @@ public class ConcurrentEdFiProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             TenantContext.setJobId(batchJobId);
 
+            indexStagingDB();
+
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
@@ -105,6 +110,14 @@ public class ConcurrentEdFiProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
+    }
+
+    private void indexStagingDB() {
+        String jobId = TenantContext.getJobId();
+        String dbName = BatchJobUtils.jobIdToDbName(jobId);
+
+        LOG.info("Indexing staging db {}  for job {}", dbName, jobId);
+        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
     }
 
     private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,
