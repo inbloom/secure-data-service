@@ -32,6 +32,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.repository.MongoQueryConverter;
 import org.slc.sli.dal.repository.MongoRepository;
@@ -120,7 +121,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName, int noOfRetries) {
+    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName,
+            int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -130,7 +132,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         };
         return (List<NeutralRecord>) rc.executeOperation(noOfRetries);
     }
-
 
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
@@ -207,16 +208,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void deleteStagedRecordsForJob(String batchJobId) {
-        if (batchJobId != null) {
-            Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
-            for (String currentCollection : getCollectionNames()) {
-                if (!currentCollection.startsWith("system.")) {
-                    LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
-                            batchJobId);
-                    getTemplate().remove(query, currentCollection);
-                }
-            }
-        }
+        LOG.info("Dropping db for job: {}", batchJobId);
+
+        TenantContext.setJobId(batchJobId);
+        getTemplate().getDb().dropDatabase();
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {

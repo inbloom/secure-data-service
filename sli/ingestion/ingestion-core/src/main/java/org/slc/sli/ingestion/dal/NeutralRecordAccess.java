@@ -35,4 +35,6 @@ public interface NeutralRecordAccess {
 
     long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId);
 
+    void cleanupJob(String batchJobId);
+
 }

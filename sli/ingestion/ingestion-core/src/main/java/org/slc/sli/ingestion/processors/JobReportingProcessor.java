@@ -86,7 +86,8 @@ public class JobReportingProcessor implements Processor {
 
     private static final int ERRORS_RESULT_LIMIT = 100;
 
-    private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor", "TransformationProcessor", "WorkNoteSplitter");
+    private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor",
+            "TransformationProcessor", "WorkNoteSplitter");
 
     public static final String ORCHESTRATION_STAGES_NAME = "OrchestrationStages";
 
@@ -165,7 +166,7 @@ public class JobReportingProcessor implements Processor {
                     stageDesc = stageChunk.getStageDesc();
                 }
 
-//                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
+                // Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
                 Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
@@ -176,19 +177,22 @@ public class JobReportingProcessor implements Processor {
                             && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
                         stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
                     }
-//                    stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
-                    stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime() - stageBrief.getStartTimestamp().getTime());
+                    // stageBrief.setElapsedTime(stageBrief.getElapsedTime() +
+                    // stageChunk.getElapsedTime());
+                    stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime()
+                            - stageBrief.getStartTimestamp().getTime());
 
                 } else {
-//                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
-//                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
-                    stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(), stageChunk.getStartTimestamp(),
-                            stageChunk.getStopTimestamp(), null);
+                    // stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(),
+                    // stageChunk.getStatus(),
+                    // stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
+                    stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(),
+                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
                     stageBrief.setProcessingInformation("");
 
-//                    stageBriefMap.put(stageChunk.getStageName(), stageBrief);
+                    // stageBriefMap.put(stageChunk.getStageName(), stageBrief);
                     stageBriefMap.put(stageName, stageBrief);
                 }
             }
@@ -264,8 +268,6 @@ public class JobReportingProcessor implements Processor {
         Map<String, PrintWriter> resourceToErrorMap = new HashMap<String, PrintWriter>();
         Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
 
-
-
         try {
             Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
             LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
@@ -285,48 +287,38 @@ public class JobReportingProcessor implements Processor {
                             resourceToErrorCount.put(externalResourceId, 1);
                         } else {
                             resourceToErrorCount.put(externalResourceId,
-                                    resourceToErrorCount
-                                    .get(externalResourceId) + 1);
+                                    resourceToErrorCount.get(externalResourceId) + 1);
                         }
 
-
                         hasErrors = true;
-                        errorWriter = getErrorWriter("error", job.getId(),
-                                externalResourceId, resourceToErrorMap,
+                        errorWriter = getErrorWriter("error", job.getId(), externalResourceId, resourceToErrorMap,
                                 landingZone);
 
                         if (errorWriter != null) {
                             writeErrorLine(errorWriter, error.getErrorDetail());
                         } else {
-                            LOG.error(
-                                    "Unable to write to error file for: {} {}",
-                                    job.getId(), externalResourceId);
+                            LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
                         }
                     }
-                } else if (FaultType.TYPE_WARNING.getName().equals(
-                        error.getSeverity())) {
+                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
-                    if (resourceToWarningCount.get(externalResourceId) == null || resourceToWarningCount.get(externalResourceId) < warningsCountPerInterchange) {
+                    if (resourceToWarningCount.get(externalResourceId) == null
+                            || resourceToWarningCount.get(externalResourceId) < warningsCountPerInterchange) {
 
                         if (resourceToWarningCount.get(externalResourceId) == null) {
                             resourceToWarningCount.put(externalResourceId, 1);
                         } else {
                             resourceToWarningCount.put(externalResourceId,
-                                    resourceToWarningCount
-                                    .get(externalResourceId) + 1);
+                                    resourceToWarningCount.get(externalResourceId) + 1);
                         }
 
-                        errorWriter = getErrorWriter("warn", job.getId(),
-                                externalResourceId, resourceToWarningMap,
+                        errorWriter = getErrorWriter("warn", job.getId(), externalResourceId, resourceToWarningMap,
                                 landingZone);
 
                         if (errorWriter != null) {
-                            writeWarningLine(errorWriter,
-                                    error.getErrorDetail());
+                            writeWarningLine(errorWriter, error.getErrorDetail());
                         } else {
-                            LOG.error(
-                                    "Unable to write to warning file for: {} {}",
-                                    job.getId(), externalResourceId);
+                            LOG.error("Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                         }
                     }
                 }
@@ -375,16 +367,16 @@ public class JobReportingProcessor implements Processor {
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
         List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
         if (edfiMetrics != null) {
-            for (Metrics metric:edfiMetrics) {
+            for (Metrics metric : edfiMetrics) {
                 Map<String, Long> duplicates = metric.getDuplicateCounts();
 
                 if (duplicates != null) {
                     String resource = metric.getResourceId();
-                    for (String entity: duplicates.keySet()) {
+                    for (String entity : duplicates.keySet()) {
                         Long count = duplicates.get(entity);
-                                if (count > 0) {
-                                    writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
-                                }
+                        if (count > 0) {
+                            writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                        }
                     }
                 }
             }
@@ -575,7 +567,9 @@ public class JobReportingProcessor implements Processor {
 
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+
+            neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
+
             LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
         } else {
             LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",

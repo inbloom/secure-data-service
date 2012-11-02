@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.routes.orchestra;
 
 import static org.junit.Assert.assertEquals;
@@ -1444,6 +1443,11 @@ public class BalancedTimestampSplitStrategyTest {
         @Override
         public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
             return testRepoTimes[0];
+        }
+
+        @Override
+        public void cleanupJob(String batchJobId) {
+            // nothing
         }
     }
 }

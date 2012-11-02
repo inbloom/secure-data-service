@@ -98,13 +98,21 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
         return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), jobId, Order.ASCENDING);
     }
 
+    @Override
+    public void cleanupJob(String batchJobId) {
+        neutralRecordRepository.deleteStagedRecordsForJob(batchJobId);
+    }
+
     /**
      * Gets the creation time for the first entity that matches the criteria of collection name,
      * batch job id, and sort order.
      *
-     * @param collectionName Collection in which to find entity.
-     * @param jobId Current batch job id.
-     * @param order Sort order (ascending, descending).
+     * @param collectionName
+     *            Collection in which to find entity.
+     * @param jobId
+     *            Current batch job id.
+     * @param order
+     *            Sort order (ascending, descending).
      * @return Long representing creation time of entity.
      */
     private long getCreationTimeForEntity(String collectionName, String jobId, Order order) {
