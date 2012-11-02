@@ -112,14 +112,14 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.COHORT, cohortBody);
     }
 
-    public void generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
+    public Entity generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffCohort = new HashMap<String, Object>();
         staffCohort.put(ParameterConstants.STAFF_ID, teacherId);
         staffCohort.put(ParameterConstants.COHORT_ID, cohortId);
         expireAssociation(isExpired, staffCohort);
         staffCohort.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
 
-        repo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
+        return repo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
 
     }
 
@@ -166,13 +166,13 @@ public class ValidatorTestHelper {
         }
     }
 
-    public void generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
+    public Entity generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
         Map<String, Object> studentCohort = new HashMap<String, Object>();
         studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
         studentCohort.put(ParameterConstants.COHORT_ID, cohortId);
         expireAssociation(isExpired, studentCohort);
 
-        repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
+        return repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
     }
 
     public void generateStudentProgram(String studentId, String programId, boolean isExpired) {
