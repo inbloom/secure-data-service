@@ -173,23 +173,21 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         if (opLogs.size() == 0) {
             return null;
         }
-
-        Meta meta = null;
-        Map<String, Object> entityMap = null;
+        IndexEntity indexEntity = null;
         try {
 
             Map<String, Object> opLogMap = opLogs.get(0);
 
             Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
             String id = (String) o2.get("_id");
-            meta = getMeta(opLogMap);
+            Meta meta = getMeta(opLogMap);
             String type = meta.getType();
             Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
             Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
             Map<String, Object> updates = (Map<String, Object>) o.get("$set");
 
             // merge data into entity json (id, type, metadata.tenantId, body)
-            entityMap = new HashMap<String, Object>();
+            Map<String, Object> entityMap = new HashMap<String, Object>();
             entityMap.put("_id", id);
             entityMap.put("type", type);
             entityMap.put("metaData", metadata);
@@ -198,6 +196,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                 List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
                 NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
             }
+            indexEntity = indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
         } catch (Exception e) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Message:" + (new GsonBuilder().create().toJson(opLogs)));
@@ -206,7 +205,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         }
 
         // convert to index entity object
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
+        return indexEntity;
     }
 
     @SuppressWarnings("unchecked")
