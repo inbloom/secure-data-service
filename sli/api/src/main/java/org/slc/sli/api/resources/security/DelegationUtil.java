@@ -78,10 +78,15 @@ public class DelegationUtil {
     }
 
     private List<String> getDelegateEdOrgs(String delegateFeature) {
+        List<String> delegateEdOrgs = new ArrayList<String>();
         String edOrgId = SecurityUtil.getEdOrgId();
+        
+        if (edOrgId == null) {  //hasn't provisioned any edorgs yet
+            return delegateEdOrgs;
+        }
         Entity sea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
         List<String> myEdOrgsIds = helper.getChildLEAsOfEdOrg(sea);
-        List<String> delegateEdOrgs = new ArrayList<String>();
+        
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();
             delegateQuery.addCriteria(new NeutralCriteria(delegateFeature, "=", true));

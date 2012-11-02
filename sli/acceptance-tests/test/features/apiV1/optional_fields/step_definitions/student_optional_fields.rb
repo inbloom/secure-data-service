@@ -149,9 +149,6 @@ end
 
 Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
   @col.each do |col|
-    puts("  COL    ")
-    puts(col)
-    puts("\n\n\n")
     assert(col[key] != nil, "Response contains no #{key}")
   end
 end

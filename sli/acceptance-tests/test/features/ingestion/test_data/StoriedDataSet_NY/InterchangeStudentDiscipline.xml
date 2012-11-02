@@ -1,213 +1,262 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
-
-  <BehaviorDescriptor>
-      <CodeValue>BEH01</CodeValue>
-      <ShortDescription>Disruption</ShortDescription>
-      <Description>Disruption in the classroom</Description>
-      <BehaviorCategory>State Offense</BehaviorCategory>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </BehaviorDescriptor>
-  <BehaviorDescriptor>
-      <CodeValue>BEH02</CodeValue>
-      <ShortDescription>Tardiness</ShortDescription>
-      <Description>Chronic tardiness</Description>
-      <BehaviorCategory>School Violation</BehaviorCategory>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>NY</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </BehaviorDescriptor>
-  <BehaviorDescriptor>
-      <CodeValue>BEH03</CodeValue>
-      <ShortDescription>Language</ShortDescription>
-      <Description>Using disrespectful language toward others</Description>
-      <BehaviorCategory>School Code of Conduct</BehaviorCategory>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>NY</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </BehaviorDescriptor>
-
-  <DisciplineDescriptor>
-      <CodeValue>DIS01</CodeValue>
-      <ShortDescription>Detention 1hr</ShortDescription>
-      <Description>Students required to stay behind after school for 1 hour</Description>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </DisciplineDescriptor>
-  <DisciplineDescriptor>
-      <CodeValue>DIS02</CodeValue>
-      <ShortDescription>Detention 2hrs</ShortDescription>
-      <Description>Students required to stay behind after school for 2 hours</Description>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </DisciplineDescriptor>
-  <DisciplineDescriptor>
-      <CodeValue>DIS03</CodeValue>
-      <ShortDescription>Two minutes hate</ShortDescription>
-      <Description>Student chastised by entire school during morning assembly for two minutes.</Description>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </DisciplineDescriptor>
-  <DisciplineDescriptor>
-      <CodeValue>DIS04</CodeValue>
-      <ShortDescription>Room 101</ShortDescription>
-      <Description>Room 101</Description>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-  </DisciplineDescriptor>
-
-  <DisciplineIncident id="disruption">
-      <IncidentIdentifier>Disruption</IncidentIdentifier>
-      <IncidentDate>2011-02-01</IncidentDate>
-      <IncidentTime>15:23:02</IncidentTime>
-      <IncidentLocation>On School</IncidentLocation>
-      <ReporterDescription>Student</ReporterDescription>
-      <ReporterName>Karen Jones</ReporterName>
-      <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
-      <Weapons><Weapon>Club</Weapon></Weapons>
-      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
-      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>10000000121</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <StaffReference>
-        <StaffIdentity>
-          <StaffUniqueStateId>eengland</StaffUniqueStateId>
-        </StaffIdentity>
-      </StaffReference>
-  </DisciplineIncident>
-
-  <DisciplineIncident id="chronic-tardiness">
-      <IncidentIdentifier>Tardiness</IncidentIdentifier>
-      <IncidentDate>2011-09-06</IncidentDate>
-      <IncidentTime>10:22:00</IncidentTime>
-      <IncidentLocation>On School</IncidentLocation>
-      <ReporterDescription>Staff</ReporterDescription>
-      <ReporterName>Charles Gray</ReporterName>
-      <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
-      <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
-      <SchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>10000000121</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </SchoolReference>
-      <StaffReference>
-        <StaffIdentity>
-          <StaffUniqueStateId>eengland</StaffUniqueStateId>
-        </StaffIdentity>
-      </StaffReference>
-  </DisciplineIncident>
-
-  <StudentDisciplineIncidentAssociation>
-    <StudentReference>
-       <StudentIdentity>
-         <StudentUniqueStateId>100000001</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference ref="disruption" />
-    <StudentParticipationCode>Witness</StudentParticipationCode>
-    <Behaviors><CodeValue>BEH03</CodeValue></Behaviors>
-  </StudentDisciplineIncidentAssociation>
-
-  <StudentDisciplineIncidentAssociation>
-    <StudentReference>
-       <StudentIdentity>
-         <StudentUniqueStateId>100000002</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference ref="disruption" />
-    <StudentParticipationCode>Victim</StudentParticipationCode>
-  </StudentDisciplineIncidentAssociation>
-
-  <StudentDisciplineIncidentAssociation>
-    <StudentReference>
-       <StudentIdentity>
-          <StudentUniqueStateId>100000003</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference ref="disruption" />
-    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
-    <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
-  </StudentDisciplineIncidentAssociation>
-
-  <StudentDisciplineIncidentAssociation>
-    <StudentReference>
-       <StudentIdentity>
-          <StudentUniqueStateId>100000004</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference ref="chronic-tardiness" />
-    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
-    <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
-  </StudentDisciplineIncidentAssociation>
-
-  <DisciplineAction>
-    <DisciplineActionIdentifier>Disc Act 12/02/11</DisciplineActionIdentifier>
-    <Disciplines><CodeValue>DIS03</CodeValue></Disciplines>
-    <Disciplines><CodeValue>DIS04</CodeValue></Disciplines>
-    <DisciplineDate>2011-12-02</DisciplineDate>
-    <DisciplineActionLength>23</DisciplineActionLength>
-    <ActualDisciplineActionLength>23</ActualDisciplineActionLength>
-    <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
-    <StudentReference>
-       <StudentIdentity>
-          <StudentUniqueStateId>100000003</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <StudentReference>
-       <StudentIdentity>
-         <StudentUniqueStateId>100000004</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference>
-        <DisciplineIncidentIdentity>
-            <IncidentIdentifier>Disruption</IncidentIdentifier>
-            <StateOrganizationId>10000000121</StateOrganizationId>
-        </DisciplineIncidentIdentity>
-    </DisciplineIncidentReference>
-    <DisciplineIncidentReference>
-        <DisciplineIncidentIdentity>
-            <IncidentIdentifier>Tardiness</IncidentIdentifier>
-            <StateOrganizationId>10000000121</StateOrganizationId>
-        </DisciplineIncidentIdentity>
-    </DisciplineIncidentReference>
-    <StaffReference>
-        <StaffIdentity>
-          <StaffUniqueStateId>eengland</StaffUniqueStateId>
-        </StaffIdentity>
-    </StaffReference>
-    <ResponsibilitySchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>10000000121</StateOrganizationId>
-        </EducationalOrgIdentity>
-    </ResponsibilitySchoolReference>
-    <AssignmentSchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>10000000121</StateOrganizationId>
-        </EducationalOrgIdentity>
-    </AssignmentSchoolReference>
-  </DisciplineAction>
-
+<?xml version="1.0" ?>
+<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+    <BehaviorDescriptor>
+        <CodeValue>BEH01</CodeValue>
+        <ShortDescription>Disruption</ShortDescription>
+        <Description>Disruption in the classroom</Description>
+        <BehaviorCategory>State Offense</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <BehaviorDescriptor>
+        <CodeValue>BEH02</CodeValue>
+        <ShortDescription>Tardiness</ShortDescription>
+        <Description>Chronic tardiness</Description>
+        <BehaviorCategory>School Violation</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>NY</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <BehaviorDescriptor>
+        <CodeValue>BEH03</CodeValue>
+        <ShortDescription>Language</ShortDescription>
+        <Description>Using disrespectful language toward others</Description>
+        <BehaviorCategory>School Code of Conduct</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>NY</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS01</CodeValue>
+        <ShortDescription>Detention 1hr</ShortDescription>
+        <Description>Students required to stay behind after school for 1 hour</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS02</CodeValue>
+        <ShortDescription>Detention 2hrs</ShortDescription>
+        <Description>Students required to stay behind after school for 2 hours</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS03</CodeValue>
+        <ShortDescription>Two minutes hate</ShortDescription>
+        <Description>Student chastised by entire school during morning assembly for two minutes.</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS04</CodeValue>
+        <ShortDescription>Room 101</ShortDescription>
+        <Description>Room 101</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineIncident id="disruption">
+        <IncidentIdentifier>Disruption</IncidentIdentifier>
+        <IncidentDate>2011-02-01</IncidentDate>
+        <IncidentTime>15:23:02</IncidentTime>
+        <IncidentLocation>On School</IncidentLocation>
+        <ReporterDescription>Student</ReporterDescription>
+        <ReporterName>Karen Jones</ReporterName>
+        <Behaviors>
+            <CodeValue>BEH01</CodeValue>
+        </Behaviors>
+        <Weapons>
+            <Weapon>Club</Weapon>
+        </Weapons>
+        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eengland</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+    </DisciplineIncident>
+    <DisciplineIncident id="chronic-tardiness">
+        <IncidentIdentifier>Tardiness</IncidentIdentifier>
+        <IncidentDate>2011-09-06</IncidentDate>
+        <IncidentTime>10:22:00</IncidentTime>
+        <IncidentLocation>On School</IncidentLocation>
+        <ReporterDescription>Staff</ReporterDescription>
+        <ReporterName>Charles Gray</ReporterName>
+        <Behaviors>
+            <CodeValue>BEH02</CodeValue>
+        </Behaviors>
+        <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eengland</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+    </DisciplineIncident>
+    <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000001</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Witness</StudentParticipationCode>
+        <Behaviors>
+            <CodeValue>BEH03</CodeValue>
+        </Behaviors>
+    </StudentDisciplineIncidentAssociation>
+    <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000002</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Victim</StudentParticipationCode>
+    </StudentDisciplineIncidentAssociation>
+    <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000003</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+        <Behaviors>
+            <CodeValue>BEH01</CodeValue>
+        </Behaviors>
+    </StudentDisciplineIncidentAssociation>
+    <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000004</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Tardiness</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+        <Behaviors>
+            <CodeValue>BEH02</CodeValue>
+        </Behaviors>
+    </StudentDisciplineIncidentAssociation>
+    <DisciplineAction>
+        <DisciplineActionIdentifier>Disc Act 12/02/11</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DIS03</CodeValue>
+        </Disciplines>
+        <Disciplines>
+            <CodeValue>DIS04</CodeValue>
+        </Disciplines>
+        <DisciplineDate>2011-12-02</DisciplineDate>
+        <DisciplineActionLength>23</DisciplineActionLength>
+        <ActualDisciplineActionLength>23</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000003</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000004</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Disruption</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Tardiness</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>eengland</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>10000000121</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
 </InterchangeStudentDiscipline>

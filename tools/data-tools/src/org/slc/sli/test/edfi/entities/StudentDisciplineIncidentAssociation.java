@@ -27,6 +27,7 @@ package org.slc.sli.test.edfi.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -34,11 +35,14 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * This association indicates those students who were victims, perpetrators, witnesses, and/or reporters for a discipline incident.
+ * This association indicates those students who were victims, perpetrators, witnesses, and/or
+ * reporters for a discipline incident.
  * 
- * <p>Java class for StudentDisciplineIncidentAssociation complex type.
+ * <p>
+ * Java class for StudentDisciplineIncidentAssociation complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="StudentDisciplineIncidentAssociation">
@@ -46,7 +50,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="StudentReference" type="{http://ed-fi.org/0100}StudentReferenceType"/>
- *         &lt;element name="DisciplineIncidentReference" type="{http://ed-fi.org/0100}ReferenceType"/>
+ *         &lt;element name="DisciplineIncidentReference" type="{http://ed-fi.org/0100}SLC-DisciplineIncidentReferenceType"/>
  *         &lt;element name="StudentParticipationCode" type="{http://ed-fi.org/0100}StudentParticipationCodeType"/>
  *         &lt;element name="Behaviors" type="{http://ed-fi.org/0100}BehaviorDescriptorType" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="SecondaryBehaviors" type="{http://ed-fi.org/0100}SecondaryBehavior" maxOccurs="unbounded" minOccurs="0"/>
@@ -71,7 +75,7 @@ public class StudentDisciplineIncidentAssociation {
     @XmlElement(name = "StudentReference", required = true)
     protected StudentReferenceType studentReference;
     @XmlElement(name = "DisciplineIncidentReference", required = true)
-    protected ReferenceType disciplineIncidentReference;
+    protected DisciplineIncidentReferenceType disciplineIncidentReference;
     @XmlElement(name = "StudentParticipationCode", required = true)
     protected StudentParticipationCodeType studentParticipationCode;
     @XmlElement(name = "Behaviors")
@@ -111,7 +115,7 @@ public class StudentDisciplineIncidentAssociation {
      *     {@link ReferenceType }
      *     
      */
-    public ReferenceType getDisciplineIncidentReference() {
+    public DisciplineIncidentReferenceType getDisciplineIncidentReference() {
         return disciplineIncidentReference;
     }
 
@@ -123,7 +127,7 @@ public class StudentDisciplineIncidentAssociation {
      *     {@link ReferenceType }
      *     
      */
-    public void setDisciplineIncidentReference(ReferenceType value) {
+    public void setDisciplineIncidentReference(DisciplineIncidentReferenceType value) {
         this.disciplineIncidentReference = value;
     }
 

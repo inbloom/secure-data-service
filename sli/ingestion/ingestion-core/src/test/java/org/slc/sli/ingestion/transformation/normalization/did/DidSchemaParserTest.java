@@ -42,7 +42,8 @@ public class DidSchemaParserTest {
     private static final String SECTION_KEY_FIELD = "uniqueSectionCode";
     private static final String SECTION_SCHOOL_KEYFIELD = "schoolId";
     private static final String SCHOOL_KEYFIELD = "stateOrganizationId";
-
+    private static final String BASE_ENTITY_TYPE = "baseEntity";
+    private static final String EXTENDED_ENTITY_TYPE = "extendedEntity";
 
     @Before
     public void setup() {
@@ -280,6 +281,37 @@ public class DidSchemaParserTest {
         KeyFieldDef keyFieldB = keyFieldMap.get("keyFieldB");
         Assert.assertEquals("keyFieldB", keyFieldB.getKeyFieldName());
         Assert.assertTrue(keyFieldB.isOptional());
+    }
+
+    @Test
+    public void shouldExtractEntityConfigsWithRefsInBaseType() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/RefInBaseEntity.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.getEntityConfigs();
+
+        Assert.assertEquals("Should extract 2 entity configs for the base and extended type", 2, entityConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(entityConfigs.containsKey(BASE_ENTITY_TYPE));
+        Assert.assertTrue(entityConfigs.containsKey(EXTENDED_ENTITY_TYPE));
+
+
+        /*
+        //test the entityConfig for StudentSectionAssociation
+        DidEntityConfig gbeConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
+        Assert.assertNotNull(gbeConfig);
+        Assert.assertNotNull(gbeConfig.getReferenceSources());
+
+        List<DidRefSource> refSources = gbeConfig.getReferenceSources();
+        Assert.assertEquals("entity config should contain a single DidRefSource (edOrg)", 1, refSources.size());
+        DidRefSource refSource = refSources.get(0);
+        Assert.assertNotNull(refSource);
+        Assert.assertEquals(EDORG_TYPE, refSource.getEntityType());
+        Assert.assertEquals(true, refSource.isOptional());
+        Assert.assertEquals("body.OptionalSchoolRef", refSource.getSourceRefPath());
+        */
     }
 
 }
