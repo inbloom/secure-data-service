@@ -16,15 +16,7 @@
 
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -87,6 +79,12 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     private static final boolean ENABLE_CONTEXT_RESOLVING = true;
+    private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
+            Arrays.asList(
+                    EntityNames.STUDENT,
+                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
+            )
+    );
 
     @Autowired
     @Qualifier("validationRepo")
@@ -132,7 +130,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
@@ -153,7 +151,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
         }
@@ -340,7 +338,7 @@ public class BasicService implements EntityService {
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
             }
 
-            if (ENABLE_CONTEXT_RESOLVING) {
+            if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(defn.getType());
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
             }
@@ -367,7 +365,7 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         Collection<Entity> entities;
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
             localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
@@ -525,7 +523,7 @@ public class BasicService implements EntityService {
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(MAX_RESULT_SIZE);
-            if (ENABLE_CONTEXT_RESOLVING) {
+            if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(entityType);
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
@@ -781,7 +779,7 @@ public class BasicService implements EntityService {
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             try {
                 securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
             } catch (NumberFormatException e) {
@@ -1067,6 +1065,15 @@ public class BasicService implements EntityService {
             debug("Updating metadData with edOrg ids");
             metaData.put("edOrgs", lineage);
         }
+    }
+
+    private boolean useContextResolver() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        if (VALIDATOR_ENTITIES.contains(defn.getType()) && principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            return false;
+        }
+        return ENABLE_CONTEXT_RESOLVING;
     }
 
     /**
