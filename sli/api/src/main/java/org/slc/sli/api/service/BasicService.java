@@ -564,14 +564,29 @@ public class BasicService implements EntityService {
                     }
                 }
             } else {
-                try {
-                    contextValidator.validateContextToEntities(def, ids, false);
-                } catch (AccessDeniedException e) {
-                    debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
-                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                } catch (EntityNotFoundException e) {
-                    debug("Invalid Reference: {} in {} does not exist", value, collectionName);
-                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                List<String> idsToValidate = new ArrayList<String>();
+
+                String principalId = SecurityUtil.principalId();
+                NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", ids)).setLimit(MAX_RESULT_SIZE);
+                for (Entity ent : repo.findAll(collectionName, getIdsQuery)) {
+                    if (principalId.equals(ent.getMetaData().get("createdBy"))
+                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                        debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                    } else {
+                        idsToValidate.add(ent.getEntityId());
+                    }
+                }
+
+                if (!idsToValidate.isEmpty()) {
+                    try {
+                        contextValidator.validateContextToEntities(def, idsToValidate, false);
+                    } catch (AccessDeniedException e) {
+                        debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
+                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    } catch (EntityNotFoundException e) {
+                        debug("Invalid Reference: {} in {} does not exist", value, collectionName);
+                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    }
                 }
             }
         }
