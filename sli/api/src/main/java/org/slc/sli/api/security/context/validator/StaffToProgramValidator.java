@@ -58,15 +58,6 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 			allowedIds.add((String) assoc.getBody().get("programId"));
 		}
 		
-		//	Fetch orphaned
-		nq = new NeutralQuery(new NeutralCriteria("metaData.isOrphaned","=","true",false));
-		nq.addOrQuery(new NeutralQuery(new NeutralCriteria("metaData.createdBy","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId(),false)));
-
-		Iterable<Entity> orphans = getRepo().findAll(EntityNames.PROGRAM, nq);
-		
-		for(Entity orphan:orphans) {
-			allowedIds.add(orphan.getEntityId());
-		}
 		
 		return allowedIds.containsAll(ids);
 	}

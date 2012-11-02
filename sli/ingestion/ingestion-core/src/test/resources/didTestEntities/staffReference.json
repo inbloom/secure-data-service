@@ -1,0 +1,13 @@
+{
+"recordType":"staffEducationOrganizationAssociation",
+"attributes":
+{
+	"StaffReference":
+	{
+		"StaffIdentity":
+		{
+			"StaffUniqueStateId":"jjackson"
+		}
+	}
+}
+}

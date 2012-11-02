@@ -17,9 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -55,30 +53,23 @@ public class StaffToGradebookEntryValidator extends AbstractContextValidator {
       query.setIncludeFields(Arrays.asList("sectionId", "_id"));
       Iterable<Entity> ents = repo.findAll(EntityNames.GRADEBOOK_ENTRY, query);
       
-      //Generate a map so that we can guarantee every GBE id passed in contains an association
-      Map<String, Set<String>> gbeToSections = new HashMap<String, Set<String>>();
+      Set<String> sectionIds = new HashSet<String>();
+      Set<String> gbeIds = new HashSet<String>();
+
       for (Entity gbe : ents) {
           String id = (String) gbe.getEntityId();
           String sectionId = (String) gbe.getBody().get("sectionId");
-          Set<String> sects = gbeToSections.get(sectionId);
-          if (sects == null) {
-              sects = new HashSet<String>();
-              gbeToSections.put(id, sects);
-          }
-          sects.add(sectionId);
+          gbeIds.add(id);
+          sectionIds.add(sectionId);
       }
       
-      if (gbeToSections.entrySet().size() != ids.size() || ids.size() == 0) {
+      if (gbeIds.size() != ids.size() || ids.size() == 0) {
           return false;
       }
       
-      for (Set<String> sects : gbeToSections.values()) {
-          if (!sectionVal.validate(EntityNames.SECTION, sects)) {
-              return false;
-          }
-      }
 
-      return true;
+      return sectionVal.validate(EntityNames.SECTION, sectionIds);
+
       
     }
 
