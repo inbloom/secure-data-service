@@ -98,6 +98,11 @@ public class StaffToSubStudentEntityValidatorTest {
         studentIds.clear();
         SecurityContextHolder.clearContext();
     }
+    
+    @Test
+    public void testCanValidateStaffToReportCard() {
+        assertTrue(validator.canValidate(EntityNames.REPORT_CARD, false));
+    }
 
     @Test
     public void testCanValidateStaffToAttendance() throws Exception {
@@ -154,6 +159,22 @@ public class StaffToSubStudentEntityValidatorTest {
         assertFalse(validator.canValidate(EntityNames.STUDENT, false));
     }
 
+    @Test
+    public void testCanGetAccessToReportCard() {
+        Set<String> studentIds = new HashSet<String>();
+        Set<String> reportCards = new HashSet<String>();
+        Map<String, Object> reportCard1 = buildReportCard("student123");
+        Entity reportCardEntity = new MongoEntity("reportCard", reportCard1);
+        reportCards.add(reportCardEntity.getEntityId());
+        studentIds.add("student123");
+        
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.REPORT_CARD), 
+                Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(reportCardEntity));
+        
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        assertTrue(validator.validate(EntityNames.REPORT_CARD, reportCards));
+    }
+    
     @Test
     public void testCanGetAccessToAttendance() throws Exception {
         Set<String> studentIds = new HashSet<String>();
@@ -275,6 +296,12 @@ public class StaffToSubStudentEntityValidatorTest {
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
         assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
+    }
+    
+    private Map<String, Object> buildReportCard(String studentId) {
+        Map<String, Object> reportCard = new HashMap<String, Object>();
+        reportCard.put("studentId", studentId);
+        return reportCard;
     }
 
     private Map<String, Object> buildAttendanceForStudent(String studentId, String schoolId) {
