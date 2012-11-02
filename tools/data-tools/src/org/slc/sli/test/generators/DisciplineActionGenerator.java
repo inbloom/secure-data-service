@@ -21,12 +21,9 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Random;
 
-import javax.xml.bind.JAXBElement;
-
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.DisciplineAction;
 import org.slc.sli.test.edfi.entities.DisciplineDescriptorType;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
 import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
@@ -114,11 +111,9 @@ public class DisciplineActionGenerator {
 
         // construct and add the disciplineIncident reference
         for (String disciplineIncidentId : disciplineIncidentIds) {
-            DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
-            DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
-            diit.setIncidentIdentifier(disciplineIncidentId);
-            diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);
-            dirt.setDisciplineIncidentIdentity(diit);
+
+            DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(disciplineIncidentId,
+                    responsibilitySchoolId);
             action.getDisciplineIncidentReference().add(dirt);
         }
 
@@ -178,11 +173,8 @@ public class DisciplineActionGenerator {
         DisciplineAction action = basicLowFiFactory(disciplineActionId, responsibilitySchoolId);
 
         // construct and add the disciplineIncident reference
-        DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
-        DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
-        diit.setIncidentIdentifier(disciplineIncidentId);
-        diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);
-        dirt.setDisciplineIncidentIdentity(diit);
+        DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(disciplineIncidentId,
+                responsibilitySchoolId);
         action.getDisciplineIncidentReference().add(dirt);
 
         // construct and add the student reference

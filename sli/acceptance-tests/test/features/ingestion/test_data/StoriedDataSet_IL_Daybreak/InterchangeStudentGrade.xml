@@ -58,6 +58,17 @@
                 <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Second Six Weeks</GradingPeriod>
+                <BeginDate>2010-10-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
     </GradebookEntry>
     <GradebookEntry id="GBE-8th_Grade_English-2">
         <GradebookEntryType>Unit test</GradebookEntryType>
