@@ -152,26 +152,39 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             updateMap.put("addToSet", attendanceEventToPush);
             //updateMap.put("set", arg1);
             
-            try {
-                Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
-                attendanceAttributes.put("studentId", studentId);
-                attendanceAttributes.put("schoolId", schoolId);
-                attendanceAttributes.put("schoolYear", schoolYear);
-                attendanceAttributes.put("attendanceEvent", attendanceEvent);
-                
-                NeutralRecord record = new NeutralRecord();
-                record.setAttributes(attendanceAttributes);
-                record.setBatchJobId(super.getBatchJobId());
-                record.setRecordType(ATTENDANCE_TRANSFORMED);
-                record.setSourceFile(this.attendances.values().iterator().next().getSourceFile());
-                record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
-                record.setCreationTime(super.getWorkNote().getRangeMinimum());
-                record.setRecordId(deterministicId);
 
-                super.insertRecord(record);
-            } catch (DuplicateKeyException dke) {
-                neutralRecordRepository.updateFirst(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED);
+            // try the update first. may not exist
+            Object updatedExisting = neutralRecordRepository.updateFirst(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED).getField("updatedExisting");
+            
+            // if did not update an existing document, an insert is required
+            if (updatedExisting.equals(Boolean.FALSE)) {
+                //try to insert, catch because someone else may be inserting as well
+                try {
+                    Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+                    attendanceAttributes.put("studentId", studentId);
+                    attendanceAttributes.put("schoolId", schoolId);
+                    attendanceAttributes.put("schoolYear", schoolYear);
+                    attendanceAttributes.put("attendanceEvent", attendanceEvent);
+                    
+                    NeutralRecord record = new NeutralRecord();
+                    record.setAttributes(attendanceAttributes);
+                    record.setBatchJobId(super.getBatchJobId());
+                    record.setRecordType(ATTENDANCE_TRANSFORMED);
+                    record.setSourceFile(this.attendances.values().iterator().next().getSourceFile());
+                    record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
+                    record.setCreationTime(super.getWorkNote().getRangeMinimum());
+                    record.setRecordId(deterministicId);
+
+                    super.insertRecord(record);
+                } catch (DuplicateKeyException dke) {
+                    //caught a race condition on 2+ inserts, just update
+                    neutralRecordRepository.updateFirst(neutralQuery, updateMap, ATTENDANCE_TRANSFORMED);
+                }
+                
             }
+            
+            
+            
         }
 
         LOG.info("Finished transforming attendance data");

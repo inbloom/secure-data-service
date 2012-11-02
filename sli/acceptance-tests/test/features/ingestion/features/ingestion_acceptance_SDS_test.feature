@@ -497,8 +497,9 @@ Scenario: Verify deterministic ids generated: Clean Database
 # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
-    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
-    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
+    | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id | body.schoolYear                      | 2011-2012 |
     | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | graduationPlan | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
@@ -1993,7 +1994,7 @@ Then I should see following map of entry counts in the corresponding collections
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 118 records." in the resulting batch job file
+  And I should see "Processed 119 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file

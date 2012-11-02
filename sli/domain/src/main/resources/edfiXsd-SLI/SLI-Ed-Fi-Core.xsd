@@ -33,13 +33,14 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
-  <!-- Make SchoolReference required, Change SectionReference to SLC type -->
+  
+  <!-- Make SchoolReference required, Change SectionReference to SLC type, add/require SchoolYear -->
   <xs:complexType name="SLC-AttendanceEventRestriction">
     <xs:complexContent>
       <xs:restriction base="AttendanceEvent">
         <xs:sequence>
           <xs:element name="EventDate" type="xs:date" />
+          <xs:element name="SchoolYear" type="SchoolYearType" />
           <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0" />
           <xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType" />
           <xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0" />
