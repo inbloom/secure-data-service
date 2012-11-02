@@ -256,36 +256,35 @@ Other</xs:documentation>
 		</xs:sequence>
 	</xs:complexType>
 
-  <!-- Limit SchoolReference to 1 on TeacherSchoolAssociation -->
-  <xs:complexType name="SLC-TeacherSchoolAssociationRestriction">
-    <xs:complexContent>
-      <xs:restriction base="TeacherSchoolAssociation">
-        <xs:sequence>
-          <xs:element name="TeacherReference" type="StaffReferenceType" />
-          <!--<xs:element name="SchoolReference" type="EducationalOrgReferenceType" />-->
-          <xs:element name="ProgramAssignment" type="ProgramAssignmentType" />
-          <xs:element name="InstructionalGradeLevels" type="GradeLevelsType" />
-          <xs:element name="AcademicSubjects" type="AcademicSubjectsType" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="SLC-TeacherSchoolAssociationExtension">
-        <xs:annotation>
-            <xs:documentation>This entity represents a student attendance.</xs:documentation>
-            <xs:appinfo>
-                <sli:recordType>teacherSchoolAssociation</sli:recordType>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="SLC-TeacherSchoolAssociationRestriction">
-                <xs:sequence>
-                    <xs:element name="SchoolReference"  type="TEMPORARY-EducationalOrgReferenceType" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-  </xs:complexType>
+ <!-- TeacherSchoolAssociation
+- Limit SchoolReference to 1 on TeacherSchoolAssociation 
+- Change SchoolReference to SLC type-->
+	<xs:complexType name="SLC-TeacherSchoolAssociation">
+		<xs:annotation>
+			<xs:documentation>This association indicates the school(s) to which a teacher provides instructional services to.</xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>teacherSchoolAssociation</sli:recordType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="TeacherReference" type="StaffReferenceType"/>
+					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
+						<xs:annotation>
+							<xs:documentation>The school where the teacher provides services.</xs:documentation>
+							<xs:appinfo>
+								<sli:keyFieldName>schoolId</sli:keyFieldName>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ProgramAssignment" type="ProgramAssignmentType"/>
+					<xs:element name="InstructionalGradeLevels" type="GradeLevelsType"/>
+					<xs:element name="AcademicSubjects" type="AcademicSubjectsType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
   <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType, Change SectionReference to SLC type -->
   <xs:complexType name="SLC-Assessment">
@@ -666,7 +665,6 @@ Other</xs:documentation>
 						<xs:annotation>
 							<xs:documentation>Provide user information to lookup and link to an existing educational organization record in the receiving system</xs:documentation>
 						</xs:annotation>
-@@@
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
