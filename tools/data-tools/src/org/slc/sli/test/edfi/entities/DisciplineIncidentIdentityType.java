@@ -25,21 +25,21 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Encapsulates the possible attributes that can be used to lookup the identity of discipline incidents.
+ * Encapsulates the possible attributes that can be used to lookup the identity of discipline
+ * incidents.
  * 
- * <p>Java class for DisciplineIncidentIdentityType complex type.
+ * <p>
+ * Java class for DisciplineIncidentIdentityType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="DisciplineIncidentIdentityType">
@@ -47,10 +47,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="IncidentIdentifier" type="{http://ed-fi.org/0100}IncidentIdentifier"/>
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
+ *         &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}SLC-EducationalOrgReference"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -62,17 +59,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DisciplineIncidentIdentityType", propOrder = {
     "incidentIdentifier",
-    "stateOrganizationIdOrEducationOrgIdentificationCode"
+ "educationalOrgReference"
 })
 public class DisciplineIncidentIdentityType {
 
     @XmlElement(name = "IncidentIdentifier", required = true)
     protected String incidentIdentifier;
-    @XmlElements({
-        @XmlElement(name = "StateOrganizationId", type = String.class),
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    @XmlElement(name = "EducationalOrgReference", required = true)
+    protected EducationalOrgReferenceType educationalOrgReference;
 
     /**
      * Gets the value of the incidentIdentifier property.
@@ -98,34 +92,28 @@ public class DisciplineIncidentIdentityType {
         this.incidentIdentifier = value;
     }
 
+
     /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
+     * Gets the value of the educationalOrgReference property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link EducationOrgIdentificationCode }
-     * 
+     * @return
+     *         possible object is {@link String }
      * 
      */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
+
+    /**
+     * Sets the value of the educationalOrgReference property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
+    }
+
 
 }
