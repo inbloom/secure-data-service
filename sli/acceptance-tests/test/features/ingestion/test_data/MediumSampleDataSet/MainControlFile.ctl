@@ -10,7 +10,7 @@ edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,1ee8b646a37e75710d23
 edfi-xml,Attendance,InterchangeStudentAttendance.xml,a0f228429ffb891c2be81731c3299835
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,77e1a3a8da84664b95b443ce2663c104
 edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,815da6e83d1b3242f822091e8429a1b3
-edfi-xml,StudentGrades,InterchangeStudentGrade.xml,c72fd5d3fa52cff7e12853caa0683982
+edfi-xml,StudentGrades,InterchangeStudentGrade.xml,c8d42be2494de741cfa9e6ff43435743
 
 
 
