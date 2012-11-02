@@ -195,7 +195,6 @@
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />

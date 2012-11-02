@@ -15,22 +15,22 @@
 		<MaxRawScore>36</MaxRawScore>
         <AssessmentItemReference>
             <AssessmentItemIdentity>
-                <IdentificationCode>AssessmentItem-1</IdentificationCode>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
 		<AssessmentItemReference>
             <AssessmentItemIdentity>
-                <IdentificationCode>AssessmentItem-2</IdentificationCode>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
 		<AssessmentItemReference>
             <AssessmentItemIdentity>
-                <IdentificationCode>AssessmentItem-3</IdentificationCode>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
 		<AssessmentItemReference>
             <AssessmentItemIdentity>
-                <IdentificationCode>AssessmentItem-4</IdentificationCode>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
 		<ObjectiveAssessmentReference>
