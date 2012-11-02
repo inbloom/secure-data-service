@@ -1686,17 +1686,13 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                 <sli:refType>student</sli:refType>
             </xs:appinfo>
         </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ReferenceType">
-                <xs:sequence>
-                    <xs:element name="StudentIdentity" type="SLC-StudentIdentityType" minOccurs="0">
-                        <xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing student record in the receiving system</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
+        <xs:sequence>
+          <xs:element name="StudentIdentity" type="SLC-StudentIdentityType">
+            <xs:annotation>
+						  <xs:documentation>Provide user information to lookup and link to an existing student record in the receiving system</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
     </xs:complexType>
       <xs:complexType name="SLC-StudentIdentityType">
         <xs:annotation>
@@ -2331,17 +2327,13 @@ Second grade
                 <sli:refType>parent</sli:refType>
             </xs:appinfo>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="ParentIdentity" type="SLC-ParentIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing parent record in the receiving system.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+		<xs:sequence>
+			<xs:element name="ParentIdentity" type="SLC-ParentIdentityType">
+				<xs:annotation>
+					<xs:documentation>Provide user information to lookup and link to an existing parent record in the receiving system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-ParentIdentityType">
 		<xs:annotation>
