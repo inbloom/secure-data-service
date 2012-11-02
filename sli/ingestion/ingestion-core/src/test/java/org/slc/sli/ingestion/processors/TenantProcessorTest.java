@@ -27,7 +27,10 @@ import java.util.List;
 
 import com.google.common.io.Files;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.Route;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -64,6 +67,9 @@ public class TenantProcessorTest {
 
     @Mock
     private TenantDA mockedTenantDA;
+
+    @Mock
+    private CamelContext mockedCamelContext;
 
     @Before
     public void setup() {
@@ -112,6 +118,44 @@ public class TenantProcessorTest {
         } finally {
             landingZone.delete();
         }
+    }
+
+    @Test
+    public void testInvalidLZPath() throws Exception {
+        String lzPath = "/ingestion-server/inbound/Ten?nant";
+        List<String> newPaths = new ArrayList<String>();
+        newPaths.add(lzPath);
+
+        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(newPaths);
+        List<Route> routes = new ArrayList<Route>();
+        when(mockedCamelContext.getRoutes()).thenReturn(routes);
+
+        Exchange exchange = new DefaultExchange(mockedCamelContext);
+
+        tenantProcessor.process(exchange);
+
+        Mockito.verify(mockedTenantDA, Mockito.times(1)).removeInvalidTenant(Mockito.anyString());
+        Mockito.verify(mockedCamelContext, Mockito.times(0)).addRoutes(Mockito.any(RouteBuilder.class));
+
+    }
+
+    @Test
+    public void testValidLZPath() throws Exception {
+        String lzPath = "/ingestion-server/inbound/Te*^n.n#@nt";
+        List<String> newPaths = new ArrayList<String>();
+        newPaths.add(lzPath);
+
+        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(newPaths);
+        List<Route> routes = new ArrayList<Route>();
+        when(mockedCamelContext.getRoutes()).thenReturn(routes);
+
+        Exchange exchange = new DefaultExchange(mockedCamelContext);
+
+        tenantProcessor.process(exchange);
+
+        Mockito.verify(mockedTenantDA, Mockito.times(0)).removeInvalidTenant(Mockito.anyString());
+        Mockito.verify(mockedCamelContext, Mockito.times(1)).addRoutes(Mockito.any(RouteBuilder.class));
+
     }
 
 }

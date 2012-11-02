@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'ldapstorage'
+require 'digest/sha1'
 
 def cleanUpLdapUser(user_email)
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
@@ -31,14 +32,20 @@ def cleanUpLdapUser(user_email)
 end
 
 def allLeaAllowApp(appName)
+  allLeaAllowAppForTenant(appName, 'Midgar')
+  allLeaAllowAppForTenant(appName, 'Hyrule')
+end
+
+def allLeaAllowAppForTenant(appName, tenantName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
   appId = appColl.find_one({"body.name" => appName})["_id"]
   puts("The app #{appName} id is #{appId}") if ENV['DEBUG']
   
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  edOrgColl = dbTenant.collection("educationOrganization")
 
   neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
   neededEdOrgs.each do |edOrg|
@@ -60,6 +67,9 @@ def allLeaAllowApp(appName)
   end
 end
 
+def convertTenantIdToDbName(tenantId)
+  return Digest::SHA1.hexdigest tenantId
+end
 # Property Loader class
 
 class PropLoader
@@ -78,5 +88,39 @@ class PropLoader
       @@yml[key] = ENV[key] if ENV[key]
     end
     @@modified=true
+  end
+end
+
+##############################################################################
+# turn ON --notablescan MongoDB flag, if set in ENV
+##############################################################################
+def enable_NOTABLESCAN()
+  if ENV["TOGGLE_TABLESCANS"]
+    puts "Turning --notablescan flag ON!  (indexes must hit queries)"
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
+    cmd = Hash.new
+    cmd['setParameter'] = 1
+    cmd['notablescan'] = true
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
+  end
+end
+
+##############################################################################
+# turn OFF --notablescan MongoDB flag, if set in ENV
+##############################################################################
+def disable_NOTABLESCAN()
+  if ENV["TOGGLE_TABLESCANS"]
+    puts "Turning --notablescan flag OFF."
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
+    cmd = Hash.new
+    cmd['setParameter'] = 1
+    cmd['notablescan'] = false
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
   end
 end

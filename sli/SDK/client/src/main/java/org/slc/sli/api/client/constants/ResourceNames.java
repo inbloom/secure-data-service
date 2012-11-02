@@ -40,6 +40,7 @@ public final class ResourceNames {
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
@@ -70,7 +71,6 @@ public final class ResourceNames {
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
@@ -101,7 +101,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "getStudentSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS,
                 "getStaffEducationOrgAssignmentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getCourseTranscript");
+        SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_TRANSCRIPTS, "getCourseTranscript");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS,
                 "getStudentDisciplineIncidentAssociation");

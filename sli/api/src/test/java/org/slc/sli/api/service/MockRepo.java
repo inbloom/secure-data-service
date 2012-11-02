@@ -18,6 +18,7 @@ package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,21 +28,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
-
 import org.bson.BasicBSONObject;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
@@ -98,9 +98,9 @@ public class MockRepo implements Repository<Entity> {
         repo.put("gradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("studentGradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("learningObjective", new LinkedHashMap<String, Entity>());
-        repo.put("studentDisciplineIncidentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put("studentParentAssociation", new LinkedHashMap<String, Entity>());
-        repo.put("studentTranscriptAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("courseTranscript", new LinkedHashMap<String, Entity>());
         repo.put("teacherSectionAssociation", new LinkedHashMap<String, Entity>());
         repo.put("studentProgramAssociation", new LinkedHashMap<String, Entity>());
         repo.put("staffProgramAssociation", new LinkedHashMap<String, Entity>());
@@ -177,113 +177,20 @@ public class MockRepo implements Repository<Entity> {
         }
 
         for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
+            results = processCriteria(results, criteria);
+        }
 
-            Map<String, Entity> results2 = new LinkedHashMap<String, Entity>();
+        if (neutralQuery.getOrQueries().size() > 0) {
+            Map<String, Entity> oredResults = new LinkedHashMap<String, Entity>();
 
-            if (criteria.getOperator().equals("=")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (entityValue.equals(criteria.getValue())) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        } else if (entityValue instanceof List) { //also need to handle = for array
-                            for (Object arrayElement : (List) entityValue) {
-                                if (arrayElement.equals(criteria.getValue())) {
-                                    results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                                }
-                            }
-                        }
-                    }
+            for (NeutralQuery orQueries : neutralQuery.getOrQueries()) {
+                Map<String, Entity> tmpResults = results;
+                for (NeutralCriteria criteria : orQueries.getCriteria()) {
+                    tmpResults = processCriteria(tmpResults, criteria);
                 }
-                results = results2;
-            } else if (criteria.getOperator().equals("in")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-
-                    String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed()));
-
-                    List<String> validValues = toList(criteria.getValue());
-                    if (validValues.contains(entityValue)) {
-                        results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                    }
-                }
-
-                results = results2;
-            } else if (criteria.getOperator().equals("!=")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (!entityValue.equals(criteria.getValue())) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        }
-                    }
-                }
-                results = results2;
-            } else if (criteria.getOperator().equals(">")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (entityValue.compareTo((String) criteria.getValue()) > 0) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        }
-                    }
-                }
-                results = results2;
-            } else if (criteria.getOperator().equals("<")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed()).toString();
-                    if (entityValue != null) {
-                        if (entityValue.compareTo(criteria.getValue().toString()) < 0) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        }
-                    }
-                }
-                results = results2;
-            } else if (criteria.getOperator().equals(">=")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (entityValue.compareTo((String) criteria.getValue()) >= 0) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        }
-                    }
-                }
-                results = results2;
-            } else if (criteria.getOperator().equals("<=")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (entityValue.compareTo((String) criteria.getValue()) <= 0) {
-                            results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                        }
-                    }
-                }
-                results = results2;
-            } else if (criteria.getOperator().equals("=~")) {
-                for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
-                            criteria.canBePrefixed());
-                    if (entityValue != null) {
-                        if (entityValue instanceof String && criteria.getValue() instanceof String) {
-                            String entityValueString = (String) entityValue;
-                            String criteriaValueString = (String) criteria.getValue();
-
-                            if (!entityValueString.equals(entityValueString.replaceAll(criteriaValueString, ""))) {
-                                results2.put(idAndEntity.getKey(), idAndEntity.getValue());
-                            }
-                        }
-                    }
-                }
-                results = results2;
-            } else {
-                warn("Unsupported operator: {}", criteria.getOperator());
+                oredResults.putAll(tmpResults);
             }
+            results = oredResults;
         }
 
         List<Entity> entitiesFound = new ArrayList<Entity>();
@@ -373,6 +280,113 @@ public class MockRepo implements Repository<Entity> {
         return value;
     }
 
+    private Map<String, Entity> processCriteria(Map<String, Entity> results, NeutralCriteria criteria) {
+        Map<String, Entity> toReturn = new LinkedHashMap<String, Entity>();
+        if (criteria.getOperator().equals("=")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (entityValue.equals(criteria.getValue())) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    } else if (entityValue instanceof List) { // also need to handle = for array
+                        for (Object arrayElement : (List) entityValue) {
+                            if (arrayElement.equals(criteria.getValue())) {
+                                toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals("in")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+
+                String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                        criteria.canBePrefixed()));
+                Collection<String> validValues = toList(criteria.getValue());
+                if (validValues.contains(entityValue)) {
+                    toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                }
+            }
+
+        } else if (criteria.getOperator().equals("exists")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+                if (entityValue != null == (Boolean) criteria.getValue()) {
+
+                    toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                }
+            }
+
+        } else if (criteria.getOperator().equals("!=")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (!entityValue.equals(criteria.getValue())) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals(">")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                        criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (entityValue.compareTo((String) criteria.getValue()) > 0) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals("<")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed())
+                        .toString();
+                if (entityValue != null) {
+                    if (entityValue.compareTo(criteria.getValue().toString()) < 0) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals(">=")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                        criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (entityValue.compareTo((String) criteria.getValue()) >= 0) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals("<=")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                        criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (entityValue.compareTo((String) criteria.getValue()) <= 0) {
+                        toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                    }
+                }
+            }
+        } else if (criteria.getOperator().equals("=~")) {
+            for (Entry<String, Entity> idAndEntity : results.entrySet()) {
+                Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(), criteria.canBePrefixed());
+                if (entityValue != null) {
+                    if (entityValue instanceof String && criteria.getValue() instanceof String) {
+                        String entityValueString = (String) entityValue;
+                        String criteriaValueString = (String) criteria.getValue();
+
+                        if (!entityValueString.equals(entityValueString.replaceAll(criteriaValueString, ""))) {
+                            toReturn.put(idAndEntity.getKey(), idAndEntity.getValue());
+                        }
+                    }
+                }
+            }
+        } else {
+            warn("Unsupported operator: {}", criteria.getOperator());
+        }
+        return toReturn;
+    }
+
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery) {
 
@@ -394,9 +408,15 @@ public class MockRepo implements Repository<Entity> {
         return create(type, body, type);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Entity create(final String type, Map<String, Object> body, String collectionName) {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+        if (body.containsKey("denormalization")) {
+            denormalized.putAll((Map<String, List<Map<String, Object>>>) body.remove("denormalization"));
+        }
+        final Map<String, List<Map<String, Object>>> clonedDenormalization = new HashMap<String, List<Map<String, Object>>>(denormalized);
         final String id = generateId();
 
         Entity newEntity = new Entity() {
@@ -428,6 +448,16 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+                return clonedDenormalization;
             }
 
             @Override
@@ -508,8 +538,17 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+                return null;
+            }
+
+            @Override
             public String getStagedEntityId() {
-                // TODO Auto-generated method stub
                 return null;
             }
         };
@@ -566,12 +605,12 @@ public class MockRepo implements Repository<Entity> {
         return null;
     }
 
-    protected List<String> toList(Object obj) {
+    protected Collection<String> toList(Object obj) {
         if (String.class.isInstance(obj)) {
             return Arrays.asList((String) obj);
         }
 
-        return (List<String>) obj;
+        return (Collection<String>) obj;
     }
 
     @Override

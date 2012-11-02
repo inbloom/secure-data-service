@@ -52,10 +52,11 @@ public class NeutralSchemaValidator implements EntityValidator {
     protected SchemaRepository entitySchemaRegistry;
 
     @Autowired
+    @Qualifier("validationRepo")
     protected Repository<Entity> validationRepo;
 
     @Autowired
-    @Qualifier("validationRepo")
+    @Qualifier("simpleValidationRepo")
     private Repository<Entity> simpleValidationRepo;
 
     // Constructors

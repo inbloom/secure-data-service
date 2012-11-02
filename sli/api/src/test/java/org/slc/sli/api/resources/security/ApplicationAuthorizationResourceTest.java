@@ -17,6 +17,21 @@
 
 package org.slc.sli.api.resources.security;
 
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +42,10 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -36,7 +53,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,19 +62,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  *
@@ -101,6 +104,11 @@ public class ApplicationAuthorizationResourceTest {
         
     }
 
+    @After
+    public void cleanup() {
+        TenantContext.setTenantId(null);
+    }
+    
     @Test
     public void testGoodCreate() {
         setupAuth("MY-DISTRICT");
@@ -227,7 +235,7 @@ public class ApplicationAuthorizationResourceTest {
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
 
-    @Test(expected = InsufficientAuthenticationException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void testBadGet2() {  //not authenticated
         setupAuth(null);
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
@@ -235,7 +243,7 @@ public class ApplicationAuthorizationResourceTest {
         Response resp = resource.getAuthorization("some-uuid");
     }
 
-    @Test(expected = InsufficientAuthenticationException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void testBadGet3() {  //not authenticated
         setupAuth(null);
 
@@ -267,6 +275,7 @@ public class ApplicationAuthorizationResourceTest {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEdOrgId(edorg);
         principal.setTenantId("IL");
+        TenantContext.setTenantId("IL");
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
         

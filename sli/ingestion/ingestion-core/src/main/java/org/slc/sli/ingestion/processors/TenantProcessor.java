@@ -98,15 +98,20 @@ public class TenantProcessor implements Processor {
             List<String> lzPaths = tenantDA.getLzPaths(getHostname());
             LOG.debug("TenantProcessor: Localhost is {}", getHostname());
             for (String currLzPath : lzPaths) {
-                // Skip currLzPath if path already exists, failed to create the lz or the name is invalid.
-                if (!isValidDirName(currLzPath) || !createValidDir(currLzPath)) {
-                    continue;
+
+                if (isValidDirName(currLzPath)) {
+
+                    createDirIfNotExists(currLzPath);
+
+                } else {
+                    LOG.info("Lz path is invalid, removing from from tenant collection: {}", currLzPath);
+
+                    tenantDA.removeInvalidTenant(currLzPath);
                 }
             }
         } catch (UnknownHostException e) {
             LOG.error("TenantProcessor", e);
         }
-
     }
 
     /**
@@ -117,10 +122,11 @@ public class TenantProcessor implements Processor {
      *            : the absolute directory path to be created
      * @return : true if successfully created the directory.
      **/
-    private boolean createValidDir(String inboundDir) {
+    private boolean createDirIfNotExists(String inboundDir) {
 
         File landingZoneDir = new File(inboundDir);
         try {
+            // will try to create if dir doesn't already exist
             FileUtils.forceMkdir(landingZoneDir);
         } catch (IOException e) {
             LOG.error("TenantProcessor: Failed to create landing zone: {} ", inboundDir);

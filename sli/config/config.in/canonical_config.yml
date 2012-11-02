@@ -29,13 +29,19 @@ default:
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
 
+        # Set the maximum size of an in clause for security (CHANGE AT OWN
+        # RISK)
+        sli.security.in_clause_size: 100000
+        
+        sli.api.cookieDomain: .slidev.org
+
         # Sandbox settings
         sli.sandbox.enabled: false
         sli.autoRegisterApps: false
         bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.name: Shared Learning Collaborative
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
@@ -82,6 +88,9 @@ default:
         sli.mongodb.connections: 20
         sli.stagingmongodb.connections: 20
         sli.batchjobmongodb.connections: 20
+
+        # Key substitutions
+        sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
@@ -208,10 +217,10 @@ default:
         sli.ingestion.warningsCountPerInterchange: 15
 
         # Number of retries for mongo operations in ingestion
-        sli.ingestion.totalRetries: 5
+        sli.ingestion.totalRetries: 10
 
-        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names
-        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,studentTranscriptAssociation
+        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
+        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,courseTranscript
 
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
@@ -350,7 +359,9 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
-
+        # List of sample user files for our standard datasets. Values are in pairs, where the first is the display name, second is the file name
+        sli.simple-idp.sandbox.users: SmallDatasetUsers,Small Sample Dataset,MediumDatasetUsers,Medium Sample Dataset
+        
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
@@ -476,6 +487,7 @@ acceptance-tests:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -563,6 +575,7 @@ ci:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -656,6 +669,7 @@ dev:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -755,6 +769,7 @@ devjuggernauts:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -849,6 +864,7 @@ devapp1:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     misc:
         <<: *MISC-DEFAULT
@@ -939,6 +955,7 @@ local:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -1010,6 +1027,7 @@ local-sandbox:
         <<: *INGESTION-LOCAL
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -1031,7 +1049,7 @@ local-acceptance-tests:
     api:
         <<: *API-LOCAL
         # Used to bootstrap the admin realm
-        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.name: Shared Learning Collaborative
         bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
@@ -1197,6 +1215,7 @@ team:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -1319,6 +1338,7 @@ perf:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 test-local:
     test:
@@ -1351,6 +1371,7 @@ test-local:
         sli.application.buildTag: UNKNOWN
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
 
 test-team:
     test:
@@ -1385,6 +1406,7 @@ test-team:
         sli.landingZone.server: landingZone
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 test-perf:
     ingestion:
@@ -1400,6 +1422,7 @@ test-perf:
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
 sandbox:
     api:
@@ -1469,6 +1492,7 @@ nxteam:
         sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
@@ -1502,6 +1526,7 @@ nxteam-maestro:
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 2000
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
@@ -1535,6 +1560,7 @@ local-maestro:
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         sli.ingestion.lz.pollInterval: 1000
+        sli.ingestion.lz.readLockCheckInterval: 1000
     data-access:
         <<: *DATA-ACCESS-LOCAL
         sli.ingestion.staging.clearOnCompletion: transformed

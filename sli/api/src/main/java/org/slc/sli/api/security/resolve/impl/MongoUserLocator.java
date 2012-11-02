@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.resolve.impl;
 
 import java.util.HashMap;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -54,9 +54,9 @@ public class MongoUserLocator implements UserLocator {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
         neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
 
+        TenantContext.setTenantId(tenantId);
         Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
 
         if (staff != null && staff.iterator().hasNext()) {

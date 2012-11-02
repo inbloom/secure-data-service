@@ -16,6 +16,7 @@
 
 package org.slc.sli.domain;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,4 +67,20 @@ public interface Entity {
      * @return
      */
     public CalculatedData<Map<String, Integer>> getAggregates();
+
+    /**
+     * Get data embedded on this entity. This refers to entities that are ENTIRELY embedded on this
+     * entity.
+     *
+     * @return
+     */
+    public Map<String, List<Entity>> getEmbeddedData();
+
+    /**
+     * Get data denormalized onto this entity. This refers to entities that are PARTIALLY embedded
+     * on this entity.
+     *
+     * @return
+     */
+    public Map<String, List<Map<String, Object>>> getDenormalizedData();
 }

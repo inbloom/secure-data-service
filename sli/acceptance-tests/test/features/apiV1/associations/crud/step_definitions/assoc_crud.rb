@@ -54,6 +54,13 @@ Given /^a valid association json document for ([^"]*)$/ do |arg1|
   @fields = deep_copy($entityData[arg1])
 end
 
+Given /^my contextual access is defined by table:$/ do |table|
+  @ctx={}
+  table.hashes.each do |hash|
+  @ctx[hash["Context"]]=hash["Ids"]
+  end
+end
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
@@ -67,6 +74,30 @@ Then /^I should receive a new ID for the association I just created$/ do
   assert(@newId != nil, "Cannot obtain new ID (== nil)")
 end
 
+
+Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
+  root = expectedUri.match(/v1\/(.+?)\/|$/)[1]
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expectedUri.gsub("@ids", "[^/]*")
+  expectedPath.slice!(0) #Delete the extra beginning slash
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
+  if @ctx.has_key? root
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
+  end
+end
+
 ###############################################################################
 # DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA DATA
 ###############################################################################
@@ -78,6 +109,17 @@ $entityData = {
         "courseId" => "ddf01d82-9293-49ba-b16e-0fe5b4f4804d",
         "localCourseCode" => "LCCGR101",
         "localCourseTitle" => "German 101 - Intro"
+    },
+    "courseTranscript" => {
+        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
+        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
+        "courseAttemptResult" => "Pass",
+        "creditsEarned" => {
+             "credit" => 4.0
+        },
+        "gradeType" => "Final",
+        "finalLetterGradeEarned" => "A"
     },
     "staffCohortAssociation" => {
         "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
@@ -142,17 +184,6 @@ $entityData = {
         "beginDate" => "2011-12-01",
         "endDate" => "2012-01-01",
         "homeroomIndicator" => true
-    },
-    "studentTranscriptAssociation" => {
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
-        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
-        "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
-        "courseAttemptResult" => "Pass",
-        "creditsEarned" => {
-            "credit" => 4.0
-        },
-        "gradeType" => "Final",
-        "finalLetterGradeEarned" => "A"
     },
     "teacherSchoolAssociation" => {
         "teacherId" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",

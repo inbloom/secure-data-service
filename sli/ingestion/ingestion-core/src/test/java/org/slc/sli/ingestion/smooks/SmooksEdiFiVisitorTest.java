@@ -18,15 +18,11 @@ package org.slc.sli.ingestion.smooks;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.container.ExecutionContext;
 import org.milyn.javabean.context.BeanContext;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
@@ -76,13 +72,11 @@ public class SmooksEdiFiVisitorTest {
         final String stateOrgId = "STATE_ID";
         final DummyErrorReport errorReport = new DummyErrorReport();
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
-        final String tenantId = "ATenant";
         final String beanId = "ABeanId";
         final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito
                 .mock(DeterministicUUIDGeneratorStrategy.class);
         final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry,
-                tenantId, mockUUIDStrategy);
+        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
         HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
         recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
         visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
@@ -101,18 +95,6 @@ public class SmooksEdiFiVisitorTest {
 
         // execute
         visitor.visitAfter(null, mockExecutionContext);
-
-        // verify
-        ArgumentCaptor<NaturalKeyDescriptor> argument = ArgumentCaptor.forClass(NaturalKeyDescriptor.class);
-        Mockito.verify(mockUUIDStrategy, Mockito.times(1)).generateId(argument.capture());
-        Assert.assertEquals(deterministicId, neutralRecord.getRecordId());
-        NaturalKeyDescriptor desc = argument.getValue();
-        Assert.assertEquals(tenantId, desc.getTenantId());
-        Assert.assertEquals(recordType, desc.getEntityType());
-        Map<String, String> keys = desc.getNaturalKeys();
-        Assert.assertEquals(1, keys.size());
-        Assert.assertEquals(stateOrgId, keys.get("stateOrganizationId"));
-
     }
 
     @Test
@@ -124,13 +106,11 @@ public class SmooksEdiFiVisitorTest {
         final String recordType = "otherType";
         final DummyErrorReport errorReport = new DummyErrorReport();
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
-        final String tenantId = "ATenant";
         final String beanId = "ABeanId";
         final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito
                 .mock(DeterministicUUIDGeneratorStrategy.class);
         final ExecutionContext mockExecutionContext = Mockito.mock(ExecutionContext.class);
-        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry,
-                tenantId, mockUUIDStrategy);
+        SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance(beanId, "batchJobId", errorReport, mockFileEntry);
         HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
         recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
         visitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);

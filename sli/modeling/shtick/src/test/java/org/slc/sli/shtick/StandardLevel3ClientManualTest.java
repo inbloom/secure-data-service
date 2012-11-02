@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.shtick;
 
 import static org.junit.Assert.assertEquals;
@@ -167,22 +183,21 @@ public class StandardLevel3ClientManualTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Student> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<Student> students = client.getStudents(TestingConstants.KIM_TOKEN, queryArgs);
             assertNotNull(students);
             final Map<String, Student> studentMap = new HashMap<String, Student>();
             for (final Student student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Student student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Student student = studentMap.get(TestingConstants.TEST_STUDENT_KIM_ID);
                 assertNotNull(student);
-                assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+                assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
                 assertEquals(SexType.MALE, student.getSex());
                 final Name name = student.getName();
-                assertEquals("Garry", name.getFirstName());
-                assertEquals("Kinsel", name.getLastSurname());
-                assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
-                assertEquals("100000005", student.getStudentUniqueStateId());
+                assertEquals("Preston", name.getFirstName());
+                assertEquals("Muchow", name.getLastSurname());
+                assertEquals("800000019", student.getStudentUniqueStateId());
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -196,18 +211,17 @@ public class StandardLevel3ClientManualTest {
         // One identifier.
         try {
             final List<String> studentIds = new LinkedList<String>();
-            studentIds.add(TestingConstants.TEST_STUDENT_ID);
-            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+            studentIds.add(TestingConstants.TEST_STUDENT_KIM_ID);
+            final List<Student> students = client.getStudentsById(TestingConstants.KIM_TOKEN, studentIds,
                     EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
             final Student student = students.get(0);
             assertNotNull(student);
-            assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+            assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
             assertEquals(SexType.MALE, student.getSex());
-            assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
-            assertEquals("100000005", student.getStudentUniqueStateId());
+            assertEquals("800000019", student.getStudentUniqueStateId());
 
             @SuppressWarnings("unused")
             List<Address> studentAddresses = student.getAddress();
@@ -230,9 +244,9 @@ public class StandardLevel3ClientManualTest {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_KIM_ID);
                 assertNotNull(student);
-                assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+                assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
                 assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);

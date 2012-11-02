@@ -346,13 +346,21 @@ Examples:
 @smoke
 Scenario Outline: Staff accessing lists of students at differing levels
   Given I am user <User> in IDP "SEC"
-  When I make an API call to get my student list
+  When I make an API call to get my student list at School <School>  
+  Then I should receive a return code of <Code>
   Then I should see a count of <Count>
 Examples:
-| User      | Count | Comment |
-| "staff1"  | 45    | School-staff should see all students currently enrolled at the school. |
-| "staff6"  | 48    | District-staff should see all students currently enrolled at the schools in their district. |
-| "staff11" | 55    | State-staff should see all students currently enrolled at the schools in their state. |
+| User      | School    | Code | Count | Comment |
+| "staff1"  | "Secured" | 200  | 45    | School-staff should see all students currently enrolled at the school. |
+| "staff1"  | "Lonely"  | 403  | 0     | School-staff should see all students currently enrolled at the school. |
+| "staff1"  | "Empty"   |  403 | 0     | School-staff should see all students currently enrolled at the school. |
+| "staff6"  | "Secured" | 200  | 45    | District-staff should see all students currently enrolled at the school. |
+| "staff6"  | "Lonely"  | 403  | 0     | District-staff should see all students currently enrolled at the school. |
+| "staff6"  | "Empty"   |  200 | 3     | District-staff should see all students currently enrolled at the school. |
+| "staff11" | "Secured" | 200  | 45    | State-staff should see all students currently enrolled at the school. |
+| "staff11" | "Lonely"  | 200  | 7     | State-staff should see all students currently enrolled at the school. |
+| "staff11" | "Empty"   |  200 | 3     | State-staff should see all students currently enrolled at the school. |
+
 
 Scenario Outline: Seeing data about student only if you can see the student
 Given I am user <User> in IDP "SEC"
@@ -396,7 +404,7 @@ Scenario: Update data associations to change access for teachers and staff
 Given I am user "staff13" in IDP "SEC"
 When I move teacher12 to a new section
 And I move student58 to a new section
-And I move staff22 to a new school
+#And I move staff22 to a new school
 And I move student61 to a new school
 Then the stamper runs and completes
 
@@ -417,7 +425,7 @@ Examples:
 | "teacher12" | 1     | "student58"       | "student57"          |
 | "staff20"   | 6     | "student60"       | "student61"          |
 | "staff21"   | 4     | "student61"       | "student60"          |
-| "staff22"   | 4     | "student62"       | "student60"          |
+#| "staff22"   | 4     | "student62"       | "student60"          |
 
 Scenario Outline: Teachers and Staff seeing new section data from changed associations
 Given I am user <User> in IDP "SEC"
@@ -432,7 +440,7 @@ And I should not be able to access data about the section <Section I cannot see>
 Examples:
 | User        | Count | Section I can see | Section I cannot see | Notes |
 | "teacher10" | 1     | "section4"        | "section5"           | none |
-| "teacher11" | 2     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
+| "teacher11" |  1     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
 | "teacher12" | 2     | "section5"        | "section6"           | Sec 5 now has student that used to be in Sec4 |
 #| "staff20"   | 7     | "student61"       | "student62"          |
 #| "staff21"   | 3     | "student62"       | "student61"          |

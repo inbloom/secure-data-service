@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -30,6 +46,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
@@ -90,6 +107,7 @@ public class UserResource {
 
     @POST
     public final Response create(final User newUser) {
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -110,7 +128,7 @@ public class UserResource {
 
     @GET
     public final Response readAll() {
-
+        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
 
@@ -145,6 +163,7 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser) {
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -159,7 +178,7 @@ public class UserResource {
     @DELETE
     @Path("{uid}")
     public final Response delete(@PathParam("uid") final String uid) {
-
+        SecurityUtil.ensureAuthenticated();
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -180,7 +199,7 @@ public class UserResource {
     @GET
     @Path("edorgs")
     public final Response getEdOrgs() {
-
+        SecurityUtil.ensureAuthenticated();
         String tenant = secUtil.getTenantId();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);

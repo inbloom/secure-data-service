@@ -40,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -52,6 +51,7 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -150,7 +150,7 @@ public class ApplicationAuthorizationResource {
         }
 
         EntityBody oldAuth = service.get(uuid);
-        String oldTenant = (String) ((Map<String, Object>) oldAuth.get("metaData")).get("tenantId");
+        String oldTenant = TenantContext.getTenantId();
         verifyAccess((String) oldAuth.get(AUTH_ID), oldTenant);
 
         if (!oldAuth.get(AUTH_ID).equals(auth.get(AUTH_ID))) {
@@ -190,7 +190,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery query = new NeutralQuery();
                 query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrgId));
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, query);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
@@ -204,7 +203,6 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
-                finalQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
@@ -226,9 +224,9 @@ public class ApplicationAuthorizationResource {
         String usersTenant = SecurityUtil.getTenantId();
 
         if (edOrgId == null) {
-            throw new InsufficientAuthenticationException("No EdOrg exists on principal.");
+            throw new EntityNotFoundException("No EdOrg exists on principal.");
         }
-        
+
         if (tenantId != null && !tenantId.equals(usersTenant)) {
             throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
         }

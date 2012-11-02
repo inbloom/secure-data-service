@@ -34,6 +34,7 @@ import javax.annotation.Resource;
 import com.mongodb.MongoException;
 
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -41,7 +42,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -55,6 +56,11 @@ import org.slc.sli.domain.Repository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
+
+    @Before
+    public void setUp() {
+        TenantContext.setTenantId("SLIUnitTest");
+    }
 
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
@@ -231,7 +237,6 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCount() {
-        TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
@@ -407,7 +412,7 @@ public class EntityRepositoryTest {
         int noOfRetries = 5;
 
         Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
-            .create("student", null, studentBody, studentMetaData, "student");
+            .internalCreate("student", null, studentBody, studentMetaData, "student");
         Mockito.doCallRealMethod().when(mockRepo)
             .createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
 
@@ -417,7 +422,7 @@ public class EntityRepositoryTest {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).create("student", null, studentBody, studentMetaData, "student");
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).internalCreate("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test

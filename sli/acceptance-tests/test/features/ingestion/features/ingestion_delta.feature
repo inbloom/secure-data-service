@@ -46,7 +46,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
         | studentProgramAssociation             |
         | studentSchoolAssociation              |
         | studentSectionAssociation             |
-        | studentTranscriptAssociation          |
+        | courseTranscript                      |
         | teacherSchoolAssociation              |
         | teacherSectionAssociation             |
 
@@ -80,7 +80,7 @@ And I should see "InterchangeStudentEnrollment.xml studentSectionAssociation 325
 And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningStandard 954 deltas!" in the resulting batch job file
 And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningStandard 509 deltas!" in the resulting batch job file
 And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningStandard 36 deltas!" in the resulting batch job file
-And I should see "InterchangeStudentGrade.xml studentTranscriptAssociation 196 deltas!" in the resulting batch job file
+And I should see "InterchangeStudentGrade.xml courseTranscript 196 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentGrade.xml studentAcademicRecord 117 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentGrade.xml studentCompetencyObjective 4 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentGrade.xml reportCard 2 deltas!" in the resulting batch job file
@@ -96,6 +96,9 @@ And I should see "InterchangeStudentCohort.xml staffCohortAssociation 3 deltas!"
 And I should see "InterchangeStudentDiscipline.xml disciplineAction 2 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentDiscipline.xml studentDisciplineIncidentAssociation 4 deltas!" in the resulting batch job file
 And I should see "InterchangeStudentDiscipline.xml disciplineIncident 2 deltas!" in the resulting batch job file
+And I should see "InterchangeAssessmentMetadata-CCS-English.xml learningObjective 70 deltas!" in the resulting batch job file
+And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
+And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
 
 
 Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId
@@ -117,7 +120,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |

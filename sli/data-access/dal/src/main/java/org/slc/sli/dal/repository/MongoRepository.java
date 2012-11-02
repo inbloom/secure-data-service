@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -43,11 +40,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -66,9 +64,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Autowired
     private MongoQueryConverter queryConverter;
 
-    private static final String[] COLLECTIONS_EXCLUDED = { "tenant", "userSession", "userAccount", "roles",
-            "application", "tenantJobLock" };
-    protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONS_EXCLUDED));
+    /**
+     * Collections that are not specific for a tenant.
+     * Includes the likes of 'realm', 'application', 'userSession', etc.
+     */
+    private Set<String> tenantAgnosticCollections;
+
+    MongoQueryConverter getQueryConverter() {
+        return queryConverter;
+    }
 
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
@@ -85,11 +89,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new NeutralQuery();
         }
 
-        if (!template.getDb().getName().equalsIgnoreCase("SLI")) {
+        // TODO: this is assuming that the staging db is the only non-sli db. remove all of this
+        // eventually.
+        if (template.getDb().getName().equalsIgnoreCase("is")) {
             return query;
         }
+
         // Add tenant ID
-        if (!NOT_BY_TENANT.contains(collectionName)) {
+        if (!isTenantAgnostic(collectionName)) {
             String tenantId = TenantContext.getTenantId();
             // We decided that if tenantId is null then we will query on blank string.
             // This may need to be revisited.
@@ -98,21 +105,21 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
 
             // make sure a criterion for tenantId has not already been added to this query
-            boolean addCrit = true;
-            List<NeutralCriteria> criteria = query.getCriteria();
-            if (criteria != null) {
-                ListIterator<NeutralCriteria> li = criteria.listIterator();
-                while (li.hasNext()) {
-                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
-                        addCrit = false;
-                        break;
-                    }
-                }
-            }
-            // add the tenant ID if it's not already there
-            if (addCrit) {
-                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-            }
+//            boolean addCrit = true;
+//            List<NeutralCriteria> criteria = query.getCriteria();
+//            if (criteria != null) {
+//                ListIterator<NeutralCriteria> li = criteria.listIterator();
+//                while (li.hasNext()) {
+//                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
+//                        addCrit = false;
+//                        break;
+//                    }
+//                }
+//            }
+//            // add the tenant ID if it's not already there
+//            if (addCrit) {
+//                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+//            }
         }
         return query;
     }
@@ -127,7 +134,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *         tenant id.
      */
     protected Criteria createTenantCriteria(String collectionName) {
-        if (NOT_BY_TENANT.contains(collectionName)) {
+        if (isTenantAgnostic(collectionName)) {
             return null;
         }
         String tenantId = TenantContext.getTenantId();
@@ -137,9 +144,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (tenantId == null) {
             return null;
         }
-        Criteria c = new Criteria("metaData.tenantId");
-        c.is(tenantId);
-        return c;
+        return new Criteria();
     }
 
     public void setTemplate(MongoTemplate template) {
@@ -177,6 +182,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public T insert(T record, String collectionName) {
+        guideIfTenantAgnostic(collectionName);
         template.insert(record, collectionName);
         LOG.debug("Insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
@@ -185,15 +191,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      * Leverages batch insert functionality.
-     *
-     * @param records Database records to be inserted.
-     * @param collectionName Name of collection to insert record in.
+     * @param records
+     *            Database records to be inserted.
+     * @param collectionName
+     *            Name of collection to insert record in.
      * @return Successfully inserted record.
      */
     @Override
     public List<T> insert(List<T> records, String collectionName) {
+        guideIfTenantAgnostic(collectionName);
         template.insert(records, collectionName);
-        LOG.debug("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
         return records;
     }
 
@@ -228,15 +236,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // exist, then we append.
         try {
             String tenantId = TenantContext.getTenantId();
-            BasicDBObject obj = null;
-
-            if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
-
-                obj = new BasicDBObject("metaData.tenantId", tenantId);
-                obj.append("_id", databaseId);
-            } else {
-                obj = new BasicDBObject("_id", databaseId);
-            }
+            BasicDBObject obj = new BasicDBObject("_id", databaseId);
 
             return getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
@@ -260,6 +260,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     public T findOne(String collectionName, Query query) {
+        guideIfTenantAgnostic(collectionName);
         return template.findOne(query, getRecordClass(), collectionName);
     }
 
@@ -277,13 +278,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // convert the neutral query into a mongo query
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
+        // always call guideIfTenantAgnostic - this sets threadlocal flag
+        if (!guideIfTenantAgnostic(collectionName) && TenantContext.getTenantId() == null) {
+
+            return findAllAcrossTenants(collectionName, mongoQuery);
+        } else {
         // find and return an instance
         return findAll(mongoQuery, collectionName);
+        }
     }
 
     private Iterable<T> findAll(Query query, String collectionName) {
+    	guideIfTenantAgnostic(collectionName);
         return template.find(query, getRecordClass(), collectionName);
     }
+
+    protected abstract Iterable<T> findAllAcrossTenants(String collectionName, Query mongoQuery);
 
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
@@ -303,8 +313,26 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return ids;
     }
 
+
+    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
+
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+
+        for (Map.Entry<String, String> field : paths.entrySet()) {
+            neutralQuery.addCriteria(new NeutralCriteria(field.getKey(), "=", field.getValue(), false));
+        }
+
+        // find and return an entity
+        guideIfTenantAgnostic(collectionName);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        return template.find(mongoQuery, getRecordClass(), collectionName);
+    }
+
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
+        guideIfTenantAgnostic(collectionName);
         return this.count(collectionName, this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
     }
 
@@ -323,6 +351,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public DBCollection getCollection(String collectionName) {
+        guideIfTenantAgnostic(collectionName);
         return template.getCollection(collectionName);
     }
 
@@ -394,10 +423,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
+
         return updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
     private WriteResult updateFirst(Query query, Update update, String collectionName) {
+        guideIfTenantAgnostic(collectionName);
         return template.updateFirst(query, update, collectionName);
     }
 
@@ -429,6 +460,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
+        guideIfTenantAgnostic(collectionName);
         return template.updateMulti(convertedQuery, convertedUpdate, collectionName);
     }
 
@@ -460,16 +492,41 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new Query(idCrit);
         }
 
+        guideIfTenantAgnostic(collectionName);
         T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
         LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
 
-    @Override
-    public void deleteAll(String collectionName, NeutralQuery query) {
+
+    public void deleteAll(String collectionName) {
+        // We decided that if TenantId is null, then we will search on blank.
+        // This option may need to be revisted.
+        String tenantId = TenantContext.getTenantId();
+        BasicDBObject obj = new BasicDBObject();
+
+        guideIfTenantAgnostic(collectionName);
+        template.getCollection(collectionName).remove(obj);
+        LOG.debug("delete all objects in collection {}", collectionName);
+    }
+
+    protected void logResults(String collectioName, List<T> results) {
+        if (results == null) {
+            LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
+        } else {
+            LOG.debug("find objects in collection {} with total numbers is {}",
+                    new Object[] { collectioName, results.size() });
+        }
+     }
+
+
+	@Override
+	public void deleteAll(String collectionName, NeutralQuery query) {
         this.addDefaultQueryParams(query, collectionName);
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        guideIfTenantAgnostic(collectionName);
         template.remove(convertedQuery, collectionName);
+
     }
 
     protected abstract String getRecordId(T record);
@@ -479,6 +536,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
         Iterable<T> results = findAll(query, collectionName);
+
         return results;
     }
 
@@ -502,14 +560,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return findByQuery(collectionName, query);
     }
 
-
-
     @Override
     /**The existing collections have been cached
      * to avoid unnecessary DB queries.
      *
      */
     public boolean collectionExists(String collection) {
+        guideIfTenantAgnostic(collection);
         return template.collectionExists(collection);
     }
 
@@ -524,8 +581,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
         query.addCriteria(createTenantCriteria(collectionName));
-
-        //prepare update operation for record to be patched
+        // prepare update operation for record to be patched
         Update update = new Update();
         for (Entry<String, Object> patch : newValues.entrySet()) {
             update.set("body." + patch.getKey(), patch.getValue());
@@ -570,5 +626,34 @@ public abstract class MongoRepository<T> implements Repository<T> {
             collections.add(getCollection(name));
         }
         return collections;
+    }
+
+    public void setTenantAgnosticCollections(Set<String> tenantAgnosticCollections) {
+        this.tenantAgnosticCollections = tenantAgnosticCollections;
+    }
+
+    /**
+     * Checks if this is a tenant-specific collection based on a set provided in spring
+     * configuration.
+     *
+     * @param collectionName
+     * @return <code>true</code> if the collection is in the non-tenant-specific set.
+     */
+    protected boolean isTenantAgnostic(String collectionName) {
+        return tenantAgnosticCollections.contains(collectionName);
+    }
+
+    /**
+     * Set a boolean value in TenantContext threadlocal store which signals whether this collection
+     * is tenant-specific. The method should be used before MongoTemplate calls to ensure that the
+     * correct database is used.
+     *
+     * @param collectionName
+     * @return <code>true</code> if this collection is tenant agnostic.
+     */
+    protected boolean guideIfTenantAgnostic(String collectionName) {
+        boolean isTenantAgnostic = isTenantAgnostic(collectionName);
+        TenantContext.setIsSystemCall(isTenantAgnostic);
+        return isTenantAgnostic;
     }
 }

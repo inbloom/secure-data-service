@@ -2,7 +2,8 @@
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
 Scenario: Preload Small Sample Data Set
-  Given the following collections are empty in datastore:
+  Given I am using the tenant "TENANT-EDORG"
+  And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
      | attendance                                |
@@ -48,7 +49,7 @@ Scenario: Preload Small Sample Data Set
      | studentSchoolAssociation                  |
      | studentSectionAssociation                 |
      | studentGradebookEntry                     |
-     | studentTranscriptAssociation              |
+     | courseTranscript                          |
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
@@ -73,7 +74,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |                 12|
      | gradingPeriod                            |                 17|
      | graduationPlan                           |                  0|
-     | learningObjective                        |                197|
+     | learningObjective                        |                198|
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
@@ -99,13 +100,15 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                 |                167|
      | studentSectionAssociation                |                297|
      | studentGradebookEntry                    |                315|
-     | studentTranscriptAssociation             |                196|
+     | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
     And I should not see an error log file created
+	And I should not see a warning log file created
 
 
 Scenario: Preload Medium Sample Data Set
    Then I create a tenant set to preload data set "medium"
    And a batch job log has been created
    And I should not see an error log file created
+   And I should not see a warning log file created

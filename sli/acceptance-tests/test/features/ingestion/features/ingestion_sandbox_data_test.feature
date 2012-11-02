@@ -24,7 +24,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentGradebookEntry|
         | parent                      |
         | studentParentAssociation    |
@@ -66,7 +66,7 @@ Then I should see following map of entry counts in the corresponding collections
         | schoolSessionAssociation    | 22    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
-        | studentTranscriptAssociation| 196   |
+        | courseTranscript            | 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
@@ -230,7 +230,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
-        | studentTranscriptAssociation|
+        | courseTranscript            |
         | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
@@ -272,7 +272,7 @@ Then I should see following map of entry counts in the corresponding collections
         | schoolSessionAssociation    | 10    |
         | assessment                  | 1     |
         | studentAssessmentAssociation| 2500  |
-        | studentTranscriptAssociation| 2500  |
+        | courseTranscript            | 2500  |
         | parent                      | 0     |
         | studentParentAssociation    | 0     |
         | gradebookEntry              | 1     |

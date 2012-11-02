@@ -42,6 +42,14 @@ Transform /the student "([^"]*)"/ do |arg1|
   base
 end
 
+Transform /at School "([^"]*)"/ do |school|
+  schoolId = "00000000-0000-0000-0000-000000000004" if school == "Lonely"
+  schoolId = "00000000-0000-0000-0000-000000000002" if school == "Secured"
+  schoolId = "00000000-0000-0000-0000-000000000005" if school == "Empty"
+  schoolId
+end
+
+
 Given /^I am user "([^"]*)" in IDP "([^"]*)"$/ do |arg1, arg2|
   user = arg1
   pass = arg1+"1234"
@@ -111,3 +119,9 @@ Then /^I should see a count of (\d+)$/ do |arg1|
     assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
   end
 end
+  
+When /^I make an API call to get my student list (at School ".*?")$/ do |school|
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/schools/"+school+"/studentSchoolAssociations/students")
+end
+

@@ -1482,7 +1482,7 @@
 					<xs:documentation>The education organization referenced by this session.
 					</xs:documentation>
 					<xs:appinfo>
-                        <sli:ReferenceType>school</sli:ReferenceType>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4070,13 +4070,13 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="studentTranscriptAssociation">
+	<xs:complexType name="courseTranscript">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
+				<sli:CollectionType>courseTranscript</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
@@ -4733,12 +4733,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="programReference" type="xs:string"
+			<xs:element name="programReference" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The programs offered at the education
+					<xs:documentation>References to programs offered at the education
 						organization.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>program</sli:ReferenceType>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="agencyHierarchyName" type="agencyHierarchyType"
@@ -7500,7 +7503,7 @@
 				loaded specify either CodeValue OR Description.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:choice minOccurs="0">
 			<xs:element name="codeValue" type="codeValue">
 				<xs:annotation>
 					<xs:documentation>A code or abbreviation that is used to refer to
@@ -7535,35 +7538,15 @@
             </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<!-- learningObjective and studentCompetencyObjective were wrapped in
-				<xs:choice>, and one and only one should be chosen, so minOccurs="0" is not
-				correct. I will leave it like this here - this should be changed when the
-				resources are implemented. -->
-			<!--<xs:choice> -->
-			<xs:element name="learningObjectiveId" type="reference"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The learning objective evaluated or assessed for
-						the student.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>learningObjective</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="studentCompetencyObjectiveId" type="reference"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The student competency objective evaluated for
-						the student.</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<!--</xs:choice> -->
-			<xs:element name="competencyLevel" type="competencyLevelDescriptorType">
+            <xs:element name="objectiveId" type="studentCompetencyObjectiveReference">
+                <xs:annotation>
+                    <xs:documentation>The objective evaluated or assessed for the student.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="competencyLevel" type="competencyLevelDescriptorType">
 				<xs:annotation>
 					<xs:documentation>The competency level assessed for the student for
 						the referenced learning objective.</xs:documentation>
@@ -7592,6 +7575,32 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+    <xs:complexType name="studentCompetencyObjectiveReference">
+        <xs:annotation>
+            <xs:documentation>The objective evaluated or assessed for the student.</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="learningObjectiveId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
+                    <xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:ReferenceType>learningObjective</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="studentCompetencyObjectiveId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
+                    <xs:appinfo>
+						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
 
 	<xs:complexType name="studentCompetencyObjective">
 		<xs:annotation>

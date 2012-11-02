@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,13 +83,13 @@ public class MongoQueryConverter {
 
 
     @SuppressWarnings("unchecked")
-    private List<Object> convertIds(Object rawValues) {
-        List<String> idList = null;
+    private Collection<Object> convertIds(Object rawValues) {
+        Collection<String> idList = null;
 
         //type checking
-        if (rawValues instanceof List<?>) {
+        if (rawValues instanceof Collection<?>) {
             try {
-                idList = (List<String>) rawValues;
+                idList = (Collection<String>) rawValues;
             } catch (ClassCastException cce) {
                 throw new RuntimeException("IDs must be List<String>");
             }
@@ -128,8 +129,8 @@ public class MongoQueryConverter {
                 Object value = neutralCriteria.getValue();
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(value));
-                } else if (value instanceof List) {
-                    return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                } else if (value instanceof Collection) {
+                    return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
                 } else {
                     return Criteria.where(prefixKey(neutralCriteria)).is(neutralCriteria.getValue());
                 }
@@ -142,13 +143,28 @@ public class MongoQueryConverter {
             @SuppressWarnings("unchecked")
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
-                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                    Collection<Object> convertedIds = convertIds(neutralCriteria.getValue());
+                    if (convertedIds.size() == 1) {
+                        return Criteria.where(MONGO_ID).is(convertedIds.iterator().next());
+                    } else {
+                        return Criteria.where(MONGO_ID).in(convertedIds);
+                    }
                 } else if (criteria != null) {
-                    criteria.in((List<Object>) neutralCriteria.getValue());
+                    Collection<Object> critList = (Collection<Object>) neutralCriteria.getValue();
+                    if (critList.size() == 1) {
+                        criteria.is(critList.iterator().next());
+                    } else {
+                        criteria.in(critList);
+                    }
                     return criteria;
                 } else {
                      try {
-                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                         Collection<Object> critList = (Collection<Object>) neutralCriteria.getValue();
+                         if (critList.size() == 1) {
+                             return Criteria.where(prefixKey(neutralCriteria)).is(critList.iterator().next());
+                         } else {
+                             return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
+                         }
                      } catch (ClassCastException cce) {
                         throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
                      }
@@ -173,6 +189,20 @@ public class MongoQueryConverter {
                 }
             }
         });
+
+        this.operatorImplementations.put("exists", new MongoCriteriaGenerator() {
+            @Override
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.exists(Boolean.valueOf((Boolean) neutralCriteria.getValue()));
+
+                    return criteria;
+                } else {
+                    return Criteria.where(prefixKey(neutralCriteria)).exists((Boolean) neutralCriteria.getValue());
+                }
+            }
+        });
+
 
         // >=
         this.operatorImplementations.put(">=", new MongoCriteriaGenerator() {
@@ -295,12 +325,29 @@ public class MongoQueryConverter {
         if (neutralQuery != null) {
             // Include fields
             if (neutralQuery.getIncludeFields() != null) {
-                for (String includeField : neutralQuery.getIncludeFields()) {
-                    mongoQuery.fields().include(MONGO_BODY + includeField);
+
+                if (!neutralQuery.getIncludeFields().contains("*")) {
+                    for (String includeField : neutralQuery.getIncludeFields()) {
+                        mongoQuery.fields().include(MONGO_BODY + includeField);
+                    }
+
+                    mongoQuery.fields().include("type");
+                    mongoQuery.fields().include("metaData");
                 }
+            }
+            else {
+                mongoQuery.fields().include("body");
                 mongoQuery.fields().include("type");
                 mongoQuery.fields().include("metaData");
-            } else if (neutralQuery.getExcludeFields() != null) {
+            }
+
+            if (neutralQuery.getEmbeddedFields() != null) {
+                for (String includeField : neutralQuery.getEmbeddedFields()) {
+                    mongoQuery.fields().include(includeField);
+                }
+            }
+
+            if (neutralQuery.getExcludeFields() != null) {
                 for (String excludeField : neutralQuery.getExcludeFields()) {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }
@@ -334,8 +381,10 @@ public class MongoQueryConverter {
                 }
             }
 
-            Criteria criteria = convertToCriteria(entityName, neutralQuery, entitySchema);
-            mongoQuery.addCriteria(criteria);
+            List<Criteria> criteriaList = convertToCriteria(entityName, neutralQuery, entitySchema);
+            for (Criteria c : criteriaList) {
+                mongoQuery.addCriteria(c);
+            }
         }
 
         return mongoQuery;
@@ -346,9 +395,9 @@ public class MongoQueryConverter {
      * Converts a given neutral sub-query into a mongo Criteria object where each argument has
      * been converted into the proper type.
      */
-    public Criteria convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
+    public List<Criteria> convertToCriteria(String entityName, NeutralQuery neutralQuery, NeutralSchema entitySchema) {
         Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
-        
+
         // other criteria
         for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
             String key = neutralCriteria.getKey();
@@ -358,7 +407,9 @@ public class MongoQueryConverter {
             NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
 
             if (fieldSchema != null) {
-                value = fieldSchema.convert(neutralCriteria.getValue());
+                if (!operator.equals("exists")) {
+                    value = fieldSchema.convert(neutralCriteria.getValue());
+                }
                 if (fieldSchema.isPii()) {
                     if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
                         throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
@@ -384,21 +435,33 @@ public class MongoQueryConverter {
         }
 
         // merge the criteria into one
-        Criteria mongoCriteria = mergeCriteria(fields);
+        List<Criteria> criteriaList = mergeCriteria(fields);
 
         // now tag on the "orQueries"
         List<NeutralQuery> orQueries = neutralQuery.getOrQueries();
         if (!orQueries.isEmpty()) {
-            Criteria[] orCriteria = new Criteria[orQueries.size()];
-            for (int i = 0; i < orCriteria.length; i++) {
-                NeutralQuery orQuery = orQueries.get(i);
-                Criteria orCriterion = convertToCriteria(entityName, orQuery, entitySchema);
-                orCriteria[i] = orCriterion; 
+            List<Criteria> orClauses = new ArrayList<Criteria>(orQueries.size());
+            for (NeutralQuery orQuery : orQueries) {
+                List<Criteria> orCriterion = convertToCriteria(entityName, orQuery, entitySchema);
+                if (orCriterion.size() == 1) {
+                    orClauses.add(orCriterion.get(0));
+                } else if (orCriterion.size() > 1) {
+                    Criteria base = orCriterion.get(0);
+                    for (int i = 1; i < orCriterion.size(); i++) {
+                        Criteria fieldCriteria = orCriterion.get(i);
+                        base.and(fieldCriteria.getKey()).is(fieldCriteria.getCriteriaObject().get(fieldCriteria.getKey()));
+                    }
+                    orClauses.add(base);
+                }
             }
-            mongoCriteria.orOperator(orCriteria);
+
+            if (orClauses.size() >= 1) {
+                Criteria allOrClauses = new Criteria().orOperator(orClauses.toArray(new Criteria[orClauses.size()]));
+                criteriaList.add(allOrClauses);
+            }
         }
 
-        return mongoCriteria;
+        return criteriaList;
     }
 
     /**
@@ -406,10 +469,10 @@ public class MongoQueryConverter {
      * @param criteriaForFields The criteria for fields
      * @return The updated mongo query
      */
-    protected Criteria mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
+    protected List<Criteria> mergeCriteria(Map<String, List<NeutralCriteria>> criteriaForFields) {
+        List<Criteria> criteriaList = new ArrayList<Criteria>();
 
-        // Gather the criteria from the chain. 
-        List<Criteria> toMerge = new ArrayList<Criteria>();
+        // Gather the criteria from the chain.
         if (criteriaForFields != null) {
             for (Map.Entry<String, List<NeutralCriteria>> e : criteriaForFields.entrySet()) {
                 List<NeutralCriteria> list = e.getValue();
@@ -421,25 +484,12 @@ public class MongoQueryConverter {
                                 criteria.getOperator()).generateCriteria(criteria, fullCriteria);
                     }
 
-                    toMerge.add(fullCriteria);
+                    criteriaList.add(fullCriteria);
                 }
             }
         }
 
-        // merge the criteria as needed.  
-        if (toMerge.isEmpty()) {
-            return new Criteria();
-        } else if (toMerge.size() == 1) {
-            return toMerge.get(0);
-        } else {
-            Criteria criterion = toMerge.get(0);
-            Criteria[] otherCriteria = new Criteria[toMerge.size() - 1];
-            for (int i = 1; i < toMerge.size(); i++) {
-                otherCriteria[i - 1] = toMerge.get(i);
-            }
-            criterion.andOperator(otherCriteria);
-            return criterion;
-        }
+        return criteriaList;
     }
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {

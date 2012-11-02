@@ -47,6 +47,7 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
+  @ingestion_db_name = convertTenantIdToDbName('Midgar')
   
   # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
   # it can go away once there is no lingering bad data anywhere
@@ -131,12 +132,37 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => UNIQUE_TENANT_ID_1
+      "tenantId" => UNIQUE_TENANT_ID_1,
+      "dbName" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPut(arg1, data)
   assert(@res != nil, "Response from PUT operation was null")
 end
+
+And /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[@ingestion_db_name]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @indexcollection = @db.collection("system.indexes")
+    #puts "ns" + @ingestion_db_name+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + @ingestion_db_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
+
 
 Then /^I should no longer be able to get that tenant's data$/ do
   @format = "application/json;charset=utf-8"

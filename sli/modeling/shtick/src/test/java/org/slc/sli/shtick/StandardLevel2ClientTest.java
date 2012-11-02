@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.shtick;
 
 import static org.junit.Assert.assertEquals;
@@ -26,16 +42,16 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Entity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<Entity> students = client.getStudents(TestingConstants.KIM_TOKEN, queryArgs);
             assertNotNull(students);
             final Map<String, Entity> studentMap = new HashMap<String, Entity>();
             for (final Entity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_KIM_ID);
                 assertNotNull(student);
-                assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+                assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
                 assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
@@ -44,10 +60,9 @@ public class StandardLevel2ClientTest {
                 assertTrue(name instanceof Map);
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> nameMap = (Map<String, Object>) name;
-                assertEquals("Garry", nameMap.get("firstName"));
-                assertEquals("Kinsel", nameMap.get("lastSurname"));
-                assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
-                assertEquals("100000005", data.get("studentUniqueStateId"));
+                assertEquals("Preston", nameMap.get("firstName"));
+                assertEquals("Muchow", nameMap.get("lastSurname"));
+                assertEquals("800000019", data.get("studentUniqueStateId"));
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -61,21 +76,20 @@ public class StandardLevel2ClientTest {
         // One identifier.
         try {
             final List<String> studentIds = new LinkedList<String>();
-            studentIds.add(TestingConstants.TEST_STUDENT_ID);
-            final List<Entity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+            studentIds.add(TestingConstants.TEST_STUDENT_KIM_ID);
+            final List<Entity> students = client.getStudentsById(TestingConstants.KIM_TOKEN, studentIds,
                     EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
             final Entity student = students.get(0);
             assertNotNull(student);
-            assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+            assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
             assertEquals("student", student.getType());
             final Map<String, Object> data = student.getData();
             assertNotNull(data);
             assertEquals("Male", data.get("sex"));
-            assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
-            assertEquals("100000005", data.get("studentUniqueStateId"));
+            assertEquals("800000019", data.get("studentUniqueStateId"));
         } catch (final IOException e) {
             throw new RuntimeException(e);
         } catch (final StatusCodeException e) {
@@ -95,9 +109,9 @@ public class StandardLevel2ClientTest {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_KIM_ID);
                 assertNotNull(student);
-                assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+                assertEquals(TestingConstants.TEST_STUDENT_KIM_ID, student.getId());
                 assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
@@ -106,10 +120,9 @@ public class StandardLevel2ClientTest {
                 assertTrue(name instanceof Map);
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> nameMap = (Map<String, Object>) name;
-                assertEquals("Garry", nameMap.get("firstName"));
-                assertEquals("Kinsel", nameMap.get("lastSurname"));
-                assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
-                assertEquals("100000005", data.get("studentUniqueStateId"));
+                assertEquals("Preston", nameMap.get("firstName"));
+                assertEquals("Muchow", nameMap.get("lastSurname"));
+                assertEquals("800000019", data.get("studentUniqueStateId"));
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -165,7 +178,7 @@ public class StandardLevel2ClientTest {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
             final List<Entity> studentSchoolAssociations = client.getStudentSchoolAssociations(
-                    TestingConstants.ROGERS_TOKEN, queryArgs);
+                    TestingConstants.KIM_TOKEN, queryArgs);
             assertNotNull(studentSchoolAssociations);
             final Map<String, Entity> associationMap = new HashMap<String, Entity>();
             for (final Entity studentSchoolAssociation : studentSchoolAssociations) {

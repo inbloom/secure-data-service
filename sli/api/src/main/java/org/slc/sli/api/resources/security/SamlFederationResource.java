@@ -38,6 +38,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -69,7 +70,7 @@ import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -298,10 +299,16 @@ public class SamlFederationResource {
 
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles);
         List<String> sliRoleList = new ArrayList<String>();
+        boolean isAdmin = true;
         for (Role role : sliRoleSet) {
             sliRoleList.add(role.getName());
+            if (!role.isAdmin()) {
+                isAdmin = false;
+                break;
+            }
         }
         principal.setRoles(sliRoleList);
+        principal.setAdminUser(isAdmin);
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
@@ -313,7 +320,6 @@ public class SamlFederationResource {
         }
 
         NeutralQuery idQuery = new NeutralQuery();
-        idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
         idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
         Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
         if (edOrg != null) {
@@ -399,6 +405,7 @@ public class SamlFederationResource {
      */
     @GET
     @Path("metadata")
+    @Produces( { "text/xml" } )
     public Response getMetadata() {
 
         if (!metadata.isEmpty()) {

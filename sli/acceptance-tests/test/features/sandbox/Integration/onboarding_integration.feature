@@ -1,7 +1,7 @@
 @RALLY_US2281 @RALLY_US206
 Feature: Complete onboarding workflow for sandbox and production
 
-Background: 
+Background:
 Given I have an open web browser
 #And I have a "mock" SMTP/Email server configured
 And I have a SMTP/Email server configured
@@ -13,11 +13,11 @@ Given I go to the sandbox account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
 And there is no registered account for "<USER_EMAIL>" in LDAP
 And the developer type in first name "<USER_FIRSTNAME>" and last name "<USER_LASTNAME>"
-And the developer type in email "<USER_EMAIL>" and password "<USER_PASS>" 
+And the developer type in email "<USER_EMAIL>" and password "<USER_PASS>"
 And the developer submits the account registration request
 Then the developer is redirected to a page with terms and conditions
-When the developer click "Accept" 
-Then the developer is directed to an acknowledgement page. 
+When the developer click "Accept"
+Then the developer is directed to an acknowledgement page.
  And a verification email is sent to "<USER_EMAIL>"
 When the developer click link in verification email in "sandbox"
 Then an account entry is made in ldap with "Approved" status
@@ -30,8 +30,8 @@ When the user clicks on "<URL_TO_PROVISIONING_APPLICATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
 
 When the user selects the option to use the "<ED-ORG_SAMPLE_DS1>"
-And clicks on "Provision" 
-Then an "<ED-ORG_SAMPLE_DS1>" is saved to mongo
+And clicks on "Provision"
+Then an "<ED-ORG_SAMPLE_DS1>" is saved to sandbox mongo
 #And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
 And a request for a Landing zone is made with "<Tenant_ID>" and "<ED-ORG_SAMPLE_DS1>"
 And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
@@ -53,7 +53,7 @@ Scenario: Developer is able to register applications on sandbox
 Given the user has an approved sandbox account
 When the user clicks on "<URL_TO_APPLICATION_REGISTRATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
-And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>"
+And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>" after "5" seconds
 
 @production
 Scenario: Vendor registers on a production environment
@@ -61,11 +61,11 @@ Given I go to the production account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
 And there is no registered account for "<USER_EMAIL>" in LDAP
 And the developer type in first name "<USER_FIRSTNAME>" and last name "<USER_LASTNAME>"
-And the developer type in email "<USER_EMAIL>" and password "<USER_PASS>" 
+And the developer type in email "<USER_EMAIL>" and password "<USER_PASS>"
 And the developer submits the account registration request
 Then the developer is redirected to a page with terms and conditions
-When the developer click "Accept" 
-Then the developer is directed to an acknowledgement page. 
+When the developer click "Accept"
+Then the developer is directed to an acknowledgement page.
 And a verification email is sent to "<USER_EMAIL>"
 When the developer click link in verification email in "production"
 Then an account entry is made in ldap with "pending" status
@@ -80,7 +80,7 @@ Scenario: District admin provisions LZ for an Ed-Org
 Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
 When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"
 Then the state super admin authenticates as "<DISTRICT_ADMIN_USER>" and "<DISTRICT_ADMIN_PASS>"
-And clicks on "Provision" 
+And clicks on "Provision"
 Then an "<STATE_ED_ORG>" is saved to mongo
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"
 And a tenant entry with "<Prod_Tenant_ID>" and "<Prod_Landing_zone_directory>" is added to mongo

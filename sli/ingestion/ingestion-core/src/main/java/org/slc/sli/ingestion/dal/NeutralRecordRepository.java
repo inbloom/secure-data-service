@@ -146,6 +146,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
+        neutralQuery.setIncludeFieldString("*");
         return findAll(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -153,6 +154,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         paths.put(BATCH_JOB_ID, jobId);
         NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setIncludeFieldString("*");
         Query query = this.queryConverter.convert(collectionName, neutralQuery);
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
     }
@@ -167,6 +169,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        neutralQuery.setIncludeFieldString("*");
         return findOne(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -175,6 +178,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        neutralQuery.setIncludeFieldString("*");
         return count(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -216,6 +220,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+        query.setIncludeFieldString("*");
         updateFirst(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
 
@@ -261,5 +266,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             Map<String, Object> metaData, String collectionName, int noOfRetries) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    protected Iterable<NeutralRecord> findAllAcrossTenants(String collectionName, Query mongoQuery) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -36,7 +36,11 @@ CUSTOM_DATA_SET_CHOICE = "custom"
 Before do
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+   @db = Mongo::Connection.new.db(convertTenantIdToDbName('mreynolds'))
+
+   @sandboxdb_name = convertTenantIdToDbName('devldapuser@slidev.org')
+   @sandboxdb = Mongo::Connection.new.db(@sandboxdb_name)
+   @slidb = Mongo::Connection.new.db("sli")
 end
 
 After do |scenario|
@@ -135,11 +139,11 @@ end
 When /^the developer click "([^"]*)"$/ do |button|
   if(button == "Accept")
     if(@prod)
-      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil, PropLoader.getProps['email_imap_registration_user']) do
+      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Account - Email Confirmation"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     else
-      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil, PropLoader.getProps['email_imap_registration_user']) do
+      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Sandbox Account"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     end
@@ -160,8 +164,7 @@ end
 
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
-    approval_email_subject = "Welcome to the SLC Developer Sandbox"
-    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+    @email_content = check_email({:subject_substring => "Welcome to the SLC Developer Sandbox"}) do
       sleep(2)
       url = getVerificationLink()
       puts url
@@ -219,6 +222,11 @@ Then /^the user is redirected to "([^"]*)"$/ do |link|
   assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
 end
 
+Then /^the user is redirected to "([^"]*)" after "([^"]*)" seconds$/ do |link, seconds|
+  sleep(seconds.to_i)
+  assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
+end
+
 When /^the user selects the option to use the "([^"]*)"$/ do |arg1|
   @driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE).click
 end
@@ -236,8 +244,14 @@ Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
 end
 
+Then /^an "([^"]*)" is saved to sandbox mongo$/ do |arg1|
+ edOrg_coll=@sandboxdb["educationOrganization"]
+ edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
+ assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+end
+
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
-  app_collection=@db["application"]
+  app_collection=@slidb["application"]
   results=app_collection.find({"body.bootstrap"=>true})
    results.each do |application|
     found=false
@@ -257,7 +271,7 @@ Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |a
 end
 
 Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenantId, landing_zone_path|
-  tenant_coll=@db["tenant"]
+  tenant_coll=@slidb["tenant"]
   count=tenant_coll.find().count
   assert(count==1,"tenant entry is not added to mongo")
   tenant=tenant_coll.find().to_a[0]
@@ -295,6 +309,27 @@ Then /^the tenantId "([^"]*)" is saved in Ldap$/ do |tenantId|
 end
 
 
+And /^the sandbox db should have the following map of indexes in the corresponding collections:$/ do |table|
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @sandboxdb.collection(row["collectionName"])
+    @indexcollection = @sandboxdb.collection("system.indexes")
+    @indexCount = @indexcollection.find("ns" => @sandboxdb_name + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + @sandboxdb_name+ "." + row["collectionName"] + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
+
+
 Given /^the user has an approved sandbox account$/ do
   # do nothing, use account approved from last scenario
 end
@@ -320,7 +355,7 @@ end
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   if(@prod)
     approval_email_subject = "Welcome to the Shared Learning Collaborative"
-    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+    @email_content = check_email({:subject_substring => approval_email_subject}) do
       @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
       @driver.switch_to().alert().accept()
     end
@@ -442,7 +477,7 @@ def clear_edOrg
 end
 
 def clear_tenant
-   tenant_coll=@db["tenant"]
+   tenant_coll=@slidb["tenant"]
    tenant_coll.remove()
 end
 

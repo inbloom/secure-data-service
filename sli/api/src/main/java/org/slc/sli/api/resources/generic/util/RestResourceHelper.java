@@ -93,6 +93,13 @@ public class RestResourceHelper implements ResourceHelper {
     }
 
     @Override
+    public EntityDefinition getEntityDefinitionByType(String type) {
+        EntityDefinition definition = entityDefinitionStore.lookupByEntityType(type);
+
+        return definition;
+    }
+
+    @Override
     public boolean resolveResourcePath(final String uri, final ResourceTemplate template) {
         final UriTemplate uriTemplate = new UriTemplate(template.getTemplate());
 

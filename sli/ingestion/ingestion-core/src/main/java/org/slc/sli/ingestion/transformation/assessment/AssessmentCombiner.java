@@ -156,7 +156,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             return data.iterator().next().getAttributes();
         } else {
             Query choice = new Query().limit(0);
-            choice.addCriteria(Criteria.where("metaData.tenantId").is(getJob().getTenantId()));
             choice.addCriteria(Criteria.where("body.assessmentPeriodDescriptor.codeValue").is(assessmentPeriodDescriptorRef));
             MongoEntityRepository mongoEntityRepository = getMongoEntityRepository();
             Entity assessmentEntity = mongoEntityRepository.findOne(ASSESSMENT, choice);

@@ -145,7 +145,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
-     | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
+     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-01                                   | string     |
    And I check that ID fields resolved correctly:
      | collectionName           | searchParameter | searchValue | searchType | idResolutionField | targetCollectionName  | targetSearchParameter     | targetSearchValue             | targetSearchType |
      | studentSchoolAssociation | body.schoolYear | 2013-2014   | string     | body.studentId    | student               | body.studentUniqueStateId | WB0025                        | string           |
@@ -163,7 +163,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
-     | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
+     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-01                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2011-2012                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Tenth grade                                  | string     |
    And I check that ID fields resolved correctly:
@@ -183,7 +183,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName           | expectedRecordCount | searchParameter      | searchValue                                  | searchType |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2013-2014                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Ninth grade                                  | string     |
-     | studentSchoolAssociation | 1                   | body.entryDate       | 2013-08-13                                   | string     |
+     | studentSchoolAssociation | 1                   | body.entryDate       | 2012-09-01                                   | string     |
      | studentSchoolAssociation | 1                   | body.schoolYear      | 2012-2013                                    | string     |
      | studentSchoolAssociation | 1                   | body.entryGradeLevel | Eleventh grade                               | string     |
    And I check that ID fields resolved correctly:
@@ -321,7 +321,8 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
      | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
      | staffEducationOrganizationAssociation | body.endDate       | 2013-09-15         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | Daybreak West High            | string           |
-  
+#ecole 10/12/12 updates to natural key fields no longer allowed, these tests will be fixed in the future
+@wip   
 Scenario: Add an EmployeeAssignment for a staff
 Given the data store is "data_EmployeeAssignment"
 And I want to POST a(n) "sifEvent_EmployeeAssignment_add_staff" SIF message
@@ -337,8 +338,8 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                        | searchParameter    | searchValue        | searchType | idResolutionField                   | targetCollectionName  | targetSearchParameter    | targetSearchValue             | targetSearchType |
      | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.staffReference                 | staff                 | body.staffUniqueStateId  | C2345681                      | string           |
      | staffEducationOrganizationAssociation | body.endDate       | 2013-07-31         | string     | body.educationOrganizationReference | educationOrganization | body.stateOrganizationId | IL                            | string           |
-  
-Scenario: Update an EmployeeAssignment for a teacher
+@wip  
+Scenario: Update an EmployeeAssignment for a staff
 Given the data store is "data_EmployeeAssignment"
 And I want to POST a(n) "sifEvent_EmployeeAssignment_change_staff" SIF message
 When I POST the message to the ZIS

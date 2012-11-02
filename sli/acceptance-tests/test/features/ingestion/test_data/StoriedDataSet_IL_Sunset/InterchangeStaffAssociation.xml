@@ -67,7 +67,11 @@
 		</TeacherReference>
 		<SectionReference>
 			<SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
 				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
 				<UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
@@ -81,8 +85,12 @@
         </TeacherReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-                <UniqueSectionCode>A.P. Calculus Sec 301</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>A.P. Calculus Sec 301</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -95,8 +103,12 @@
         </TeacherReference>
         <SectionReference>
             <SectionIdentity>
+			    <EducationalOrgReference>
+			    <EducationalOrgIdentity>
                 <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-                <UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
+				</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Teacher of Record</ClassroomPosition>

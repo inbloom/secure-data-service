@@ -621,7 +621,7 @@
 		<!-- CourseTranscript is renamed for SLI -->
 		<entity>
 			<title xml:lang="en">Course Transcript</title>
-			<class name="StudentTranscriptAssociation"></class>
+			<class name="CourseTranscript"></class>
 		</entity>
 		<!-- EducationalPlansType is not defined for SLI -->
 		<entity>

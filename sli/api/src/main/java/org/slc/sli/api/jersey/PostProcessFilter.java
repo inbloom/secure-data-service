@@ -34,8 +34,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -74,6 +74,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Autowired
     private MongoStat mongoStat;
 
+    @SuppressWarnings("unchecked")
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         SecurityContextHolder.clearContext();
@@ -84,6 +85,14 @@ public class PostProcessFilter implements ContainerResponseFilter {
         TenantContext.setTenantId(null);
         printElapsed(request);
         expireCache();
+
+        response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
+        response.getHttpHeaders().add("X-ExecutedPath", request.getPath());
+
+//        Map<String,Object> body = (Map<String, Object>) response.getEntity();
+//        body.put("requestedPath", request.getProperties().get("requestedPath"));
+//        body.put("executedPath", request.getPath());
+
 
         return response;
     }

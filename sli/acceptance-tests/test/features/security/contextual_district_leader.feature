@@ -25,7 +25,7 @@ Then I should receive a return code of <Code>
 Examples:
 	|Username    |Password        |Realm|Role      |District     |Data                                   | Code|
 	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"        | 403 |
-	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"| 200 |
+	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"| 404 |
 	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"                         | 403 |
 	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Matt Sollars"                         | 403 |
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"          | 403 |
@@ -37,7 +37,7 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
 And my "district" is <District>
 When I try to access the data for "My Teachers" in my "district" from the API
-Then I get the data containing <Data> returned in json format
+Then The response contains an empty array
 Examples:
   |Username    |Password        |Realm|Role      |District     |Data|
   |"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Teachers in Dusk District"|

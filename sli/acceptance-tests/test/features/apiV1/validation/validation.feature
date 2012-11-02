@@ -131,20 +131,20 @@ Scenario: Passing blank object to a valid entity with PUT should fail with valid
     Then I should receive a return code of 200   
     When I create a blank request body object
       And I navigate to PUT "/v1/students/<'Jones' ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 409
 
 Scenario: Given a known school object, perform a PUT with a base school object to confirm option attributes are gone (test non-patching)
 	Given format "application/json"
     When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
     When I create a valid base level school object
-      And "stateOrganizationId" has a value of "2305238"
+      And "stateOrganizationId" has a value of "South Daybreak Elementary"
       And I navigate to PUT "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 204
     When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
       And "nameOfInstitution" should be "school name"
-      And "stateOrganizationId" should be "2305238"
+      And "stateOrganizationId" should be "South Daybreak Elementary"
       And "gradesOffered" should contain "First_grade" and "Second_grade"
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links
@@ -167,8 +167,85 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     Then I should receive a return code of 200
     And a collection of size 1
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 404
 
+  @wip
+  @DE1876
+  Scenario: Given a valid JSON document for a staff, when I POST it multiple times I should only find one record
+    Given format "application/json"
+    And a valid json document for staff
+    When I navigate to POST "/v1/staff"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to POST "/v1/staff"
+    Then I should receive a return code of 409
+
+  @wip
+  @DE1876
+  Scenario: Given a valid JSON document for a teacher, when I POST it multiple times I should only find one record
+    Given format "application/json"
+    And a valid json document for teacher
+    When I navigate to POST "/v1/teachers"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to POST "/v1/teachers"
+    Then I should receive a return code of 409
+
+  @wip
+  @DE1876
+  Scenario Outline: Given a valid JSON document for an entity, when I POST it multiple times I should only find one record
+    Given format "application/json"
+    And a valid json document for <entity>
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 409
+    When I query <entity_uri> by <query_field> = <query_value>
+    Then I should receive only 1 record
+
+    # Change the natural key and try a put
+    When I navigate to GET "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    When I set the <query_field> to <new_query_value>
+    And I navigate to PUT "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+
+    # Post a new record, and then try to change natural key and do a put
+    And a valid json document for <entity>
+    When I navigate to POST "/v1/<entity_uri>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to GET "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    When I set the <query_field> to <new_query_value>
+    And I navigate to PUT "/v1/<entity_uri>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 400
+
+    Examples:
+    | entity                       | entity_uri              | query_field                      | query_value                                | new_query_value    |
+#    | assessment                   | assessments             | assessmentTitle                  | Validation Test Assessment Title           |                    |
+#    | attendance                   | attendances             | studentId                        | 12345678-1234-1234-1234-1234567890ab       |                    |
+#    | cohort                       | cohorts                 | cohortDescription                | Validation Test Cohort Desc                |                    |
+#    | course                       | courses                 | courseDescription                | Validation Test Course Desc                |                    |
+#    | disciplineAction             | disciplineActions       | disciplineActionIdentifier       | Validation Test Discip. Act. ID            |                    |
+#    | disciplineIncident           | disciplineIncidents     | incidentIdentifier               | Validation Test Discip. Inc. ID            |                    |
+#    | educationOrganization        | educationOrganizations  | nameOfInstitution                | Validation Test School District            |                    |
+#    | gradebookEntry               | gradebookEntries        | gradebookEntryType               | Validation Test GBE Type                   |                    |
+#    | learningObjective            | learningObjectives      | objective                        | Validation Test Objective                  |                    |
+#    | learningStandard             | learningStandards       | description                      | Validation Test Learning Standard Desc.    |                    |
+#    | parent                       | parents                 | parentUniqueStateId              | ValidationTestParentUniqId                 |                    |
+#    | program                      | programs                | programType                      | Title I Part A                             |                    |
+#    | school                       | schools                 | nameOfInstitution                | Validation Test School                     |                    |
+#    | section                      | sections                | populationServed                 | Migrant Students                           |                    |
+#    | session                      | sessions                | sessionName                      | Validation Test Spring 2012                |                    |
+    | staff                        | staff                   | staffUniqueStateId               | WLVDSUSID00001                      | newteststaffid     |
+#    | student                      | students                | studentUniqueStateId             | 87654321                                   |                    |
+#    | studentAcademicRecord        | studentAcademicRecords  | cumulativeGradePointsEarned      | 99.0                                       |                    |
+#    | studentGradebookEntry        | studentGradebookEntries | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
+    | teacher                      | teachers                | teacherUniqueStateId             | testing123                          | testing456         |
+#    | grade                        | grades                  | letterGradeEarned                | F--                                        |                    |
+#    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
+#    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |
+#    | reportCard                   | reportCards             | numberOfDaysAbsent               | 999                                        |                    |
 
   Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
     Given format "application/json"

@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.bson.types.BasicBSONList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,8 +42,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
-
-import org.springframework.data.mongodb.core.query.Criteria;
 
 /**
  * JUnits for DAL
@@ -79,10 +79,11 @@ public class MongoQueryConverterTest {
         Map<String, List<NeutralCriteria>> map = new HashMap<String, List<NeutralCriteria>>();
         map.put("eventDate", list);
 
-        Criteria criteriaMerged = mongoQueryConverter.mergeCriteria(map);
+        List<Criteria> criteriaMerged = mongoQueryConverter.mergeCriteria(map);
 
         assertNotNull("Should not be null", criteriaMerged);
-        DBObject obj = criteriaMerged.getCriteriaObject();
+        assertNotNull("Should not be null", criteriaMerged.get(0));
+        DBObject obj = criteriaMerged.get(0).getCriteriaObject();
         assertTrue("Should not be null", obj.containsField("body.eventDate"));
 
         DBObject criteria = (DBObject) obj.get("body.eventDate");
@@ -92,10 +93,9 @@ public class MongoQueryConverterTest {
 
     @Test
     public void testNullMergeCriteria() {
-        Criteria criteriaMerged = mongoQueryConverter.mergeCriteria(null);
+        List<Criteria> criteriaMerged = mongoQueryConverter.mergeCriteria(null);
         assertNotNull("Should not be null", criteriaMerged);
-        DBObject obj = criteriaMerged.getCriteriaObject();
-        assertEquals("Should match", 0, obj.keySet().size());
+        assertEquals("Should match", 0, criteriaMerged.size());
     }
 
     @Test
@@ -253,6 +253,7 @@ public class MongoQueryConverterTest {
         //test in
         List<String> list = new ArrayList<String>();
         list.add("Regular Students");
+        list.add("Irregular Students");
         neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_IN, list));
         query = mongoQueryConverter.convert("section", neutralQuery);
@@ -261,6 +262,16 @@ public class MongoQueryConverterTest {
         assertNotNull("Should not be null", obj);
         obj1 = (DBObject) obj.get("body.populationServed");
         assertNotNull(obj1.get("$in"));
+
+        //test exists
+        neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_EXISTS, true));
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        obj1 = (DBObject) obj.get("body.populationServed");
+        assertNotNull(obj1.get("$exists"));
     }
 
     @Test(expected = QueryParseException.class)
@@ -281,7 +292,7 @@ public class MongoQueryConverterTest {
      * select *
      *   from student
      *  where economicDisadvantaged = true
-     *    and (metaData.tenantId = 'Security' or studentUniqueStateId = '000000054')
+     *    and studentUniqueStateId = '000000054')
      *
      */
     @Test
@@ -293,7 +304,6 @@ public class MongoQueryConverterTest {
 
         //construct a query representing all the criteria in 1 or branch
         NeutralQuery orQuery1 = new NeutralQuery();
-        orQuery1.addCriteria(new NeutralCriteria("metaData.tenantId", "=", "Security", false));
 
         //construct a query representing all the criteria in a second or branch
         NeutralQuery orQuery2 = new NeutralQuery();
@@ -310,7 +320,51 @@ public class MongoQueryConverterTest {
         DBObject obj = query.getQueryObject();
         assertNotNull("Should not be null", obj);
         assertNotNull("Should not be null", obj.get("$or"));
-        assertTrue(((BasicBSONList) obj.get("$or")).size() == 2);
+        assertTrue(((BasicBSONList) obj.get("$or")).size() == 1);
+    }
+
+    @Test
+    public void testEmptyIncludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("body"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+    }
+
+    @Test
+    public void testEmbeddedFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setEmbeddedFields(Arrays.asList("studentSectionAssociation", "teacherSectionAssociation"));
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("studentSectionAssociation"));
+        assertEquals("Should match", 1, obj.get("teacherSectionAssociation"));
+        assertEquals("Should match", 1, obj.get("body"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+    }
+
+    @Test
+    public void testNonEmptyIncludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setIncludeFieldString("name");
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("body.name"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+        assertNull("Should be null", obj.get("body"));
     }
 
 

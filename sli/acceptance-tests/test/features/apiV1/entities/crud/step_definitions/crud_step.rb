@@ -88,7 +88,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93"
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
   },
   "student" => {
     "birthData" => {
@@ -109,7 +109,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "educationOrgId" => "92d6d5a0-852c-45f4-907a-912752831772",
     "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
@@ -215,7 +215,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
-    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
     "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
     "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
@@ -311,11 +311,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradeType" => "Final"
   },
   "studentCompetency" => {
-     "competencyLevel" => [{
+     "competencyLevel" => {
        "description" => "really hard competency"
-     }],
+     },
+     "objectiveId" => {
+       "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
+     },
      "diagnosticStatement" => "passed with flying colors",
-    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
+     "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1"
   },
   "reportCard" => {
       "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
@@ -327,9 +330,142 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysTardy" => 10,
       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
       "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
-  }
+  },
+  "graduationPlan" => {
+       "creditsBySubject" => [{
+            "subjectArea" => "English",
+            "credits" => {
+                "creditConversion" => 0,
+                "creditType" => "Semester hour credit",
+                "credit" => 6
+             }
+       }],
+       "individualPlan" => false,
+       "graduationPlanType" => "Minimum",
+       "educationOrganizationId" => "67ce204b-9999-4a11-bfea-000000000009",
+       "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+       }
+    }
 }
   @fields = @entityData[arg1]
+end
+
+When /^I create an association of type "([^"]*)"$/ do |type|
+  @assocData = {
+    "studentCohortAssocation" => {
+       "cohortId" => @newId,
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "endDate" => "2020-01-15",
+       "beginDate" => "2011-04-01"
+    },
+    "courseOffering" => {
+      "localCourseCode" => "LCC7252GR2",
+      "localCourseTitle" => "German 2 - Outro to German",
+      "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+      "courseId" => @newId,
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772"
+    },
+    "section" => {
+       "educationalEnvironment" => "Classroom",
+       "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+       "populationServed" => "Regular Students",
+       "sequenceOfCourse" => 3,
+       "uniqueSectionCode" => "Motorcycle Repair 101",
+       "mediumOfInstruction" => "Independent study",
+       "programReference" => [],
+       "courseOfferingId" => @assocId,
+       "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+       "availableCredit" => nil
+    },
+    "studentDisciplineIncidentAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "disciplineIncidentId" => @newId,
+       "studentParticipationCode" => "Reporter"
+    },
+    "studentParentAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "parentId" => @newId,
+       "livesWith" => true,
+       "primaryContactStatus" => true,
+       "relation" => "Father",
+       "contactPriority" => 0,
+       "emergencyContactStatus" => true
+    },
+    "studentProgramAssociation" => {
+       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+       "programId" => @newId,
+       "beginDate" => "2011-05-01",
+       "educationOrganizationId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    },
+    "studentSectionAssociation" => {
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+      "sectionId" => @newId,
+      "beginDate" => "2012-05-01"
+    },
+    "staffEducationOrganizationAssociation" => {
+      "educationOrganizationReference" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
+    "studentSectionAssociation2" => {
+      "studentId" => @newId,
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "beginDate" => "2012-05-01"
+    },
+    "teacherSchoolAssociation" => {
+      "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    },
+    "teacherSchoolAssociation2" => {
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    }
+  }
+  @fields = @assocData[type]
+end
+
+When /^I POST the association of type "([^"]*)"$/ do |type|
+  @assocUrl = {
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "courseOffering" => "courseOfferings",
+    "section" => "sections",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
+    "studentSectionAssociation2" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations"
+  }
+  if type != ""
+    step "I navigate to POST \"/#{@assocUrl[type]}\""
+    headers = @res.raw_headers
+    puts @res.inspect
+    assert(headers != nil, "Headers are nil")
+    assert(headers['location'] != nil, "There is no location link from the previous request")
+    s = headers['location'][0]
+    @assocId = s[s.rindex('/')+1..-1]
+  end
 end
 
 Then /^I should receive a new entity URI$/ do
@@ -342,4 +478,41 @@ Then /^the tenant ID of the entity should be "([^"]*)"$/ do |arg1|
   assert(result != nil, "Result of JSON parsing is nil")
   tenant = result["metaData"]["tenantId"]
   assert(tenant == arg1, "Tenant ID expected #{arg1} but was #{tenant}")
+end
+
+Given /^my contextual access is defined by table:$/ do |table|
+  @ctx={}
+  table.hashes.each do |hash|
+  @ctx[hash["Context"]]=hash["Ids"]
+  end
+end
+
+Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
+  version = "v1"
+  root = expectedUri.match(/\/(.+?)\/|$/)[1]
+  expected = version+expectedUri
+  actual = @headers["x-executedpath"][0]
+
+  #First, make sure the paths of the URIs are the same
+  expectedPath = expected.gsub("@ids", "[^/]+")
+  assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
+
+  #Then, validate the list of ids are the same
+  ids = []
+  if @ctx.has_key? root
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
+    actualIds = idsString.split(",")
+    expectedIds = @ctx[root].split(",")
+    
+    assert(actualIds.length == expectedIds.length,"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    expectedIds.each do |id|
+      assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
+    end
+  end
+end
+
+And /^field "(.*?)" is removed from the json document$/ do |arg1|
+  puts @fields.inspect 
+  @fields.delete "beginDate" 
+  puts @fields.inspect 
 end

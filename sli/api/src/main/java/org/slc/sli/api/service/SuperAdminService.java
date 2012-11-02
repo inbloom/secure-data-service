@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.service;
 
 import java.util.Collection;
@@ -12,8 +28,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
@@ -62,6 +78,7 @@ public class SuperAdminService {
             interestedTypes.add(STATE_EDUCATION_AGENCY);
             interestedTypes.add(LOCAL_EDUCATION_AGENCY);
         }
+        TenantContext.setTenantId(tenant);
 
         Set<String> edOrgIds = new HashSet<String>();
         if (secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
@@ -70,10 +87,6 @@ public class SuperAdminService {
         }
 
         NeutralQuery query = new NeutralQuery();
-
-        if (secUtil.getTenantId() == null && tenant != null) {
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant, false));
-        }
 
         for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             String tmpEdOrg = (String) e.getBody().get("stateOrganizationId");

@@ -1,27 +1,28 @@
 {
     "keyFields" : ["body.sectionId", "body.teacherId"],
-	"references" :
-	[{
-        "fieldPath" : "body.sectionId",
+    "references" :
+    [{
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "section",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.uniqueSectionCode",
-		                "values" :
-		                [{
-			                "valueSource" : "body.sectionId"
-		                }]
-		            },
-		            {
-	                    "path" : "body.schoolId",
-	                    "values" :
-	                    [{
-	                        "ref":
+            "entityType" : "section",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference.SectionIdentity.UniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
                              {
                                  "entityType" : "school",
                                  "choiceOfFields" :
@@ -31,19 +32,19 @@
                                               "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
-                                                    "valueSource" : "body.schoolId"
+                                                    "valueSource" : "body.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
                                                }]
                                           }
                                       ]
                                   ]
                              }
-	                    }]
-	                },
-	                {
-	                    "path" : "body.sessionId",
-	                    "values" :
-	                    [{
-	                        "ref":
+                        }]
+                    },
+                    {
+                        "path" : "body.sessionId",
+                        "values" :
+                        [{
+                            "ref":
                              {
                                  "entityType" : "session",
                                  "optional" : true,
@@ -60,13 +61,13 @@
                                       ]
                                   ]
                              }
-	                    }]
-	                },
-	                {
-	                    "path" : "body.courseId",
-	                    "values" :
-	                    [{
-	                        "ref":
+                        }]
+                    },
+                    {
+                        "path" : "body.courseId",
+                        "values" :
+                        [{
+                            "ref":
                              {
                                  "entityType" : "course",
                                  "optional" : true,
@@ -83,30 +84,31 @@
                                       ]
                                   ]
                              }
-	                    }]
-	                }
-	            ]
-	        ]
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
-        "fieldPath" : "body.teacherId",
+        "fieldPath" : "body.TeacherReference",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "staff",
-	        "takesContext" : ["edOrgs"],
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.staffUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.teacherId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "staff",
+            "takesContext" : ["edOrgs"],
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.TeacherReference.StaffIdentity.StaffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

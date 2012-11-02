@@ -179,8 +179,6 @@ public class CustomRoleResource {
         
         String realmId = (String) newCustomRole.get("realmId");
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
-        existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
         Entity existingRoleDoc = repo.findOne(RESOURCE_NAME, existingCustomRoleQuery);
         if (existingRoleDoc != null) {

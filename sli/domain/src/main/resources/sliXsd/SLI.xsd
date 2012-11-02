@@ -12,6 +12,7 @@
   <xs:element name="cohort" type="cohort" />
   <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
   <xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
+  <xs:element name="courseTranscript" type="courseTranscript" />
   <xs:element name="course" type="course" />
   <xs:element name="disciplineIncident" type="disciplineIncident" />
   <xs:element name="grade" type="grade" />
@@ -45,7 +46,6 @@
   <xs:element name="studentGradebookEntry" type="studentGradebookEntry" />
   <xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
   <xs:element name="studentSchoolAssociation" type="studentSchoolAssociation" />
-  <xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
   <xs:element name="teacher" type="teacher" />
   <xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
   <xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />

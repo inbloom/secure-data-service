@@ -1,5 +1,3 @@
-package org.slc.sli.ingestion.transformation.normalization.did;
-
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -16,6 +14,7 @@ package org.slc.sli.ingestion.transformation.normalization.did;
  * limitations under the License.
  */
 
+package org.slc.sli.ingestion.transformation.normalization.did;
 
 /**
  * Configures how a referenceType objects maps to keyFields for
@@ -34,6 +33,8 @@ public class KeyFieldDef {
     //optional nested deterministic Id reference configuration
     private DidRefConfig refConfig;
 
+    private boolean isOptional = false;
+
     public String getKeyFieldName() {
         return keyFieldName;
     }
@@ -51,5 +52,11 @@ public class KeyFieldDef {
     }
     public void setRefConfig(DidRefConfig refConfig) {
         this.refConfig = refConfig;
+    }
+    public boolean isOptional() {
+        return isOptional;
+    }
+    public void setOptional(boolean isOptional) {
+        this.isOptional = isOptional;
     }
 }

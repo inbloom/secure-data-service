@@ -40,6 +40,7 @@ public final class ResourceNames {
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
+    public static final String STUDENT_TRANSCRIPTS = "courseTranscripts";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
@@ -61,6 +62,7 @@ public final class ResourceNames {
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
     public static final String GRADES = "grades";
+    public static final String GRADUATION_PLANS = "graduationPlans";
 
     public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
@@ -69,7 +71,6 @@ public final class ResourceNames {
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrgAssignmentAssociations";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "courseTranscripts";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
@@ -83,6 +84,7 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     public static final String ADMIN_DELEGATION = "adminDelegation";
+    public static final String HOME = "home";
 
     public static final Map<String, Set<String>> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, Set<String>>();
 
@@ -100,7 +102,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "getStudentSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS,
                 "getStaffEducationOrgAssignmentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getCourseTranscript");
+        SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_TRANSCRIPTS, "getCourseTranscript");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS,
                 "getStudentDisciplineIncidentAssociation");
@@ -134,6 +136,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADUATION_PLANS, "getGraduationPlans");
     }
 
     /*
@@ -153,4 +156,6 @@ public final class ResourceNames {
         }
     }
 
+
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
 }

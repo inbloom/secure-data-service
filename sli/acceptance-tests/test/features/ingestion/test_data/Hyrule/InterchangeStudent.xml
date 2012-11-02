@@ -50,7 +50,6 @@
     <StudentUniqueStateId>814202099</StudentUniqueStateId>
     <Name>
       <FirstName>Yolanda</FirstName>
-      <MiddleName />
       <LastSurname>Campos</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -102,9 +101,9 @@
       <LastSurname>Sollars</LastSurname>
     </Name>
     <Sex>Male</Sex>
-    <EconomicDisadvantaged>True</EconomicDisadvantaged>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
     <Race />
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>Motor Impairment</Section504Disabilities>
@@ -122,7 +121,6 @@
     <StudentUniqueStateId>555685177</StudentUniqueStateId>
     <Name>
       <FirstName>Charde</FirstName>
-      <MiddleName />
       <LastSurname>Lowery</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -162,7 +160,6 @@
     <StudentUniqueStateId>336344132</StudentUniqueStateId>
     <Name>
       <FirstName>Odysseus</FirstName>
-      <MiddleName />
       <LastSurname>Merrill</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -298,7 +295,6 @@
     <StudentUniqueStateId>936070219</StudentUniqueStateId>
     <Name>
       <FirstName>Kay</FirstName>
-      <MiddleName />
       <LastSurname>Sullivan</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -388,7 +384,6 @@
     <StudentUniqueStateId>541397175</StudentUniqueStateId>
     <Name>
       <FirstName>Lunea</FirstName>
-      <MiddleName />
       <LastSurname>Glass</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -436,7 +431,6 @@
     <StudentUniqueStateId>851123275</StudentUniqueStateId>
     <Name>
       <FirstName>Hoyt</FirstName>
-      <MiddleName />
       <LastSurname>Hicks</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -575,7 +569,6 @@
     <StudentUniqueStateId>555685100</StudentUniqueStateId>
     <Name>
       <FirstName>Johnny</FirstName>
-      <MiddleName />
       <LastSurname>Patel</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -652,7 +645,6 @@
     <StudentUniqueStateId>421216329</StudentUniqueStateId>
     <Name>
       <FirstName>Madeline</FirstName>
-      <MiddleName />
       <LastSurname>Hinton</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -743,7 +735,6 @@
     <StudentUniqueStateId>178828452</StudentUniqueStateId>
     <Name>
       <FirstName>Tyrone</FirstName>
-      <MiddleName />
       <LastSurname>Burnett Jones</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -879,7 +870,6 @@
     <StudentUniqueStateId>444444444</StudentUniqueStateId>
     <Name>
       <FirstName>Raphael</FirstName>
-      <MiddleName />
       <LastSurname>De Silva</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -933,7 +923,6 @@
     <StudentUniqueStateId>376191021</StudentUniqueStateId>
     <Name>
       <FirstName>Jeanette</FirstName>
-      <MiddleName />
       <LastSurname>Graves</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1023,7 +1012,6 @@
     <StudentUniqueStateId>258392050</StudentUniqueStateId>
     <Name>
       <FirstName>Patricia</FirstName>
-      <MiddleName />
       <LastSurname>Harper</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1102,7 +1090,6 @@
     <StudentUniqueStateId>170011136</StudentUniqueStateId>
     <Name>
       <FirstName>Arsenio</FirstName>
-      <MiddleName />
       <LastSurname>Durham</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1141,7 +1128,6 @@
     <StudentUniqueStateId>453827070</StudentUniqueStateId>
     <Name>
       <FirstName>Marvin</FirstName>
-      <MiddleName />
       <LastSurname>Miller</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1183,7 +1169,6 @@
     <StudentUniqueStateId>547028299</StudentUniqueStateId>
     <Name>
       <FirstName>Alec</FirstName>
-      <MiddleName />
       <LastSurname>Swanson</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1231,7 +1216,6 @@
     <StudentUniqueStateId>333333333</StudentUniqueStateId>
     <Name>
       <FirstName>Fabio</FirstName>
-      <MiddleName />
       <LastSurname>De Silva</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1304,7 +1288,6 @@
     <StudentUniqueStateId>453827023</StudentUniqueStateId>
     <Name>
       <FirstName>Carmen</FirstName>
-      <MiddleName />
       <LastSurname>Ortiz</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1364,7 +1347,6 @@
     <StudentUniqueStateId>683314355</StudentUniqueStateId>
     <Name>
       <FirstName>Cherokee</FirstName>
-      <MiddleName />
       <LastSurname>Stuart</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1509,7 +1491,6 @@
     <StudentUniqueStateId>114989598</StudentUniqueStateId>
     <Name>
       <FirstName>Trevor</FirstName>
-      <MiddleName />
       <LastSurname>Kim</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1546,7 +1527,6 @@
     <StudentUniqueStateId>711411586</StudentUniqueStateId>
     <Name>
       <FirstName>Rafael</FirstName>
-      <MiddleName />
       <LastSurname>Kirk</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1694,7 +1674,6 @@
     <StudentUniqueStateId>978367577</StudentUniqueStateId>
     <Name>
       <FirstName>Xaviera</FirstName>
-      <MiddleName />
       <LastSurname>Erickson</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1743,7 +1722,6 @@
     <StudentUniqueStateId>222222222</StudentUniqueStateId>
     <Name>
       <FirstName>Salmon</FirstName>
-      <MiddleName />
       <LastSurname>Burger</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1783,7 +1761,6 @@
     <StudentUniqueStateId>323538529</StudentUniqueStateId>
     <Name>
       <FirstName>Hector</FirstName>
-      <MiddleName />
       <LastSurname>Marks</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1909,7 +1886,6 @@
     <StudentUniqueStateId>927436385</StudentUniqueStateId>
     <Name>
       <FirstName>Uriah</FirstName>
-      <MiddleName />
       <LastSurname>Hernandez</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1975,7 +1951,6 @@
     <StudentUniqueStateId>428250371</StudentUniqueStateId>
     <Name>
       <FirstName>K</FirstName>
-      <MiddleName />
       <LastSurname>Pierce</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2062,7 +2037,6 @@
     <StudentUniqueStateId>746199592</StudentUniqueStateId>
     <Name>
       <FirstName>James</FirstName>
-      <MiddleName />
       <LastSurname>Mckenzie</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2101,7 +2075,6 @@
     <StudentUniqueStateId>560029459</StudentUniqueStateId>
     <Name>
       <FirstName>Florence</FirstName>
-      <MiddleName />
       <LastSurname>Cline</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2540,7 +2513,6 @@
     <StudentUniqueStateId>91919011</StudentUniqueStateId>
     <Name>
       <FirstName>Tanya</FirstName>
-      <MiddleName />
       <LastSurname>Hervey</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2785,7 +2757,6 @@
     <StudentUniqueStateId>91919016</StudentUniqueStateId>
     <Name>
       <FirstName>Darren</FirstName>
-      <MiddleName />
       <LastSurname>Mansfield</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2813,7 +2784,6 @@
     <StudentUniqueStateId>91919017</StudentUniqueStateId>
     <Name>
       <FirstName>Michelle</FirstName>
-      <MiddleName />
       <LastSurname>McGurrin</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2861,7 +2831,6 @@
     <StudentUniqueStateId>91919018</StudentUniqueStateId>
     <Name>
       <FirstName>Kevin</FirstName>
-      <MiddleName />
       <LastSurname>Murray</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2892,7 +2861,6 @@
     <StudentUniqueStateId>91919019</StudentUniqueStateId>
     <Name>
       <FirstName>Mieu</FirstName>
-      <MiddleName />
       <LastSurname>Phan</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2929,7 +2897,6 @@
     <StudentUniqueStateId>91919020</StudentUniqueStateId>
     <Name>
       <FirstName>Catherine</FirstName>
-      <MiddleName />
       <LastSurname>Zacharias</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -2977,14 +2944,13 @@
     <StudentUniqueStateId>20174689</StudentUniqueStateId>
     <Name>
       <FirstName>Lauretta</FirstName>
-      <MiddleName></MiddleName>
       <LastSurname>Vincent</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-    <EconomicDisadvantaged>True</EconomicDisadvantaged>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility></SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
     <Race></Race>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>Motor Impairment</Section504Disabilities>
@@ -2996,8 +2962,6 @@
     <StudentUniqueStateId>20174690</StudentUniqueStateId>
     <Name>
       <FirstName>Maria</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Werner</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3009,21 +2973,17 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
   </Student>
-
 
   <Student>
     <StudentUniqueStateId>20174691
     </StudentUniqueStateId>
     <Name>
       <FirstName>Smouse</FirstName>
-      <MiddleName></MiddleName>
+      
       <LastSurname>Zhou</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3035,9 +2995,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-01-25</BirthDate>
     </BirthData>
@@ -3046,8 +3003,6 @@
     <StudentUniqueStateId>20174692</StudentUniqueStateId>
     <Name>
       <FirstName>Rod</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Zwolinski</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -3060,9 +3015,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-09-23</BirthDate>
     </BirthData>
@@ -3071,7 +3023,6 @@
     <StudentUniqueStateId>20174693</StudentUniqueStateId>
     <Name>
       <FirstName>Dominic</FirstName>
-      <MiddleName></MiddleName>
       <LastSurname>Smolka</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3083,9 +3034,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-10-15</BirthDate>
     </BirthData>
@@ -3094,8 +3042,6 @@
     <StudentUniqueStateId>20174694</StudentUniqueStateId>
     <Name>
       <FirstName>Vesta</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Smay</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3107,9 +3053,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-10-24</BirthDate>
     </BirthData>
@@ -3118,8 +3061,6 @@
     <StudentUniqueStateId>20174695</StudentUniqueStateId>
     <Name>
       <FirstName>Rudoplh</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Sennett</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3131,9 +3072,6 @@
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-06-13</BirthDate>
     </BirthData>
@@ -3154,9 +3092,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-03-07</BirthDate>
     </BirthData>
@@ -3177,9 +3112,6 @@
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-06-02</BirthDate>
     </BirthData>
@@ -3188,8 +3120,6 @@
     <StudentUniqueStateId>20174698</StudentUniqueStateId>
     <Name>
       <FirstName>Dalia</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Pingel</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3201,9 +3131,6 @@
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
@@ -3212,7 +3139,6 @@
     <StudentUniqueStateId>20174699</StudentUniqueStateId>
     <Name>
       <FirstName>Dara</FirstName>
-      <MiddleName></MiddleName>
       <LastSurname>Nemecek</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3224,9 +3150,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-01-01</BirthDate>
     </BirthData>
@@ -3235,8 +3158,6 @@
     <StudentUniqueStateId>20174700</StudentUniqueStateId>
     <Name>
       <FirstName>Alecia</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Nakken</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -3248,9 +3169,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-03-17</BirthDate>
     </BirthData>
@@ -3271,9 +3189,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-02-26</BirthDate>
     </BirthData>
@@ -3294,9 +3209,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-12-04</BirthDate>
     </BirthData>
@@ -3305,8 +3217,6 @@
     <StudentUniqueStateId>20174702</StudentUniqueStateId>
     <Name>
       <FirstName>Preston</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Lynds</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3318,9 +3228,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-10-04</BirthDate>
     </BirthData>
@@ -3341,9 +3248,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-06-05</BirthDate>
     </BirthData>
@@ -3352,7 +3256,6 @@
     <StudentUniqueStateId>20174704</StudentUniqueStateId>
     <Name>
       <FirstName>Malcolm</FirstName>
-      <MiddleName></MiddleName>
       <LastSurname>Haehn</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3364,9 +3267,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
@@ -3375,8 +3275,6 @@
     <StudentUniqueStateId>20174705</StudentUniqueStateId>
     <Name>
       <FirstName>Gerardo</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Gayer</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3388,9 +3286,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-05-18</BirthDate>
     </BirthData>
@@ -3399,8 +3294,6 @@
     <StudentUniqueStateId>20174706</StudentUniqueStateId>
     <Name>
       <FirstName>Archie</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Forker</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3412,9 +3305,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-08-30</BirthDate>
     </BirthData>
@@ -3436,9 +3326,6 @@
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2005-08-20</BirthDate>
     </BirthData>
@@ -3447,8 +3334,6 @@
     <StudentUniqueStateId>20174708</StudentUniqueStateId>
     <Name>
       <FirstName>Bennie</FirstName>
-      <MiddleName>
-      </MiddleName>
       <LastSurname>Cimmino</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3460,20 +3345,15 @@
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>
     </Section504Disabilities>
-    <DisplacementStatus>
-    </DisplacementStatus>
-
     <BirthData>
       <BirthDate>2006-01-09</BirthDate>
     </BirthData>
   </Student>
 
-
   <Student>
     <StudentUniqueStateId>2312321</StudentUniqueStateId>
     <Name>
       <FirstName>Merrilee</FirstName>
-      <MiddleName />
       <LastSurname>Kleinhans</LastSurname>
       <GenerationCodeSuffix />
     </Name>
@@ -3504,7 +3384,6 @@
     <StudentUniqueStateId>2312320</StudentUniqueStateId>
     <Name>
       <FirstName>Frida</FirstName>
-      <MiddleName />
       <LastSurname>Hlavacek</LastSurname>
       <GenerationCodeSuffix />
     </Name>

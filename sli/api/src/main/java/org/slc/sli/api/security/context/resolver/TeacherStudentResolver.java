@@ -24,9 +24,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -58,6 +62,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
     private static final String FROM_ENTITY = "teacher";
     private static final String TO_ENTITY = "student";
 
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         boolean canHandle = false;
@@ -82,34 +89,56 @@ public class TeacherStudentResolver implements EntityContextResolver {
         return new ArrayList<String>(ids);
     }
 
-    private List<String> findAccessibleThroughSection(Entity principal) {
+    public List<String> getTeachersSectionIds(Entity teacher) {
+        List<String> sectionIds = new ArrayList<String>();
 
         // teacher -> teacherSectionAssociation
-        Iterable<Entity> teacherSectionAssociations = helper.getReferenceEntities(EntityNames.TEACHER_SECTION_ASSOCIATION, ParameterConstants.TEACHER_ID, Arrays.asList(principal.getEntityId()));
-
-        // filter on end_date to get list of programIds
-        List<String> sectionIds = new ArrayList<String>();
-        final String currentDate = dateFilter.getCurrentDate();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        final String sectionGraceDate = helper.getFilterDate(sectionGracePeriod, calendar);
+        Iterable<Entity> teacherSectionAssociations = helper.getReferenceEntities(EntityNames.TEACHER_SECTION_ASSOCIATION, ParameterConstants.TEACHER_ID, Arrays.asList(teacher.getEntityId()));
 
         for (Entity assoc : teacherSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate))) {
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(getSectionGraceDate(), endDate))) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
+        return sectionIds;
+    }
 
-        // section -> studentSectionAssociation
-        Iterable<Entity> studentSectionAssociations = helper.getReferenceEntities(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, sectionIds);
+    private String getSectionGraceDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        return helper.getFilterDate(sectionGracePeriod, calendar);
+    }
+
+    private List<String> findAccessibleThroughSection(Entity principal) {
+
+        List<String> sectionIds = getTeachersSectionIds(principal);
+
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(0);
+        query.setOffset(0);
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, sectionIds));
+        query.setEmbeddedFields(Arrays.asList(EntityNames.STUDENT_SECTION_ASSOCIATION));
+
+        Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, query);
+
+        List<Entity> studentSectionAssociations = new ArrayList<Entity>();
+        for (Entity section : sections) {
+            Map<String, List<Entity>> embeddedData = section.getEmbeddedData();
+
+            if (embeddedData != null) {
+                List<Entity> associations = embeddedData.get(EntityNames.STUDENT_SECTION_ASSOCIATION);
+                if (associations != null) {
+                    studentSectionAssociations.addAll(associations);
+                }
+            }
+        }
 
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(getSectionGraceDate(), endDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }

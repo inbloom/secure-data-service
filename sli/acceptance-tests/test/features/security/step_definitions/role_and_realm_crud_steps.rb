@@ -85,6 +85,13 @@ Then /^I should see a list of valid realm objects$/ do
   end
 end
 
+Then /^I should only see the (realm ".*?")$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == 1, "Admin users should only ever see one realm, got #{result.size}")
+  assert(result[0]["id"] == arg1, "Realm returned was not expected: got #{result[0]["id"]}, expected #{arg1}")
+end
+
 When /^I GET a specific (realm "[^"]*")$/ do |arg1|
   restHttpGet("/realm/" + arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
@@ -145,7 +152,7 @@ When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"]}
+    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"], "isAdminRole" => false}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
@@ -165,7 +172,7 @@ When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right]}
+    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right], "isAdminRole" => false}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
@@ -195,6 +202,13 @@ When /^I GET my custom role doc$/ do
   assert(@res != nil, "Response from custom role request is nil")
 end
 
+Then /^I should see one custom roles document for the (realm ".*?")$/ do |arg1|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == 1, "Admin users should only ever see one custom roles doc, got #{result.size}")
+  assert(result[0]["realmId"] == arg1, "Custom role doc returned was not expected: got #{result[0]["realmId"]}, expected #{arg1}")
+end
+
 Then /^I should see that my custom role document is the default with (realm "[^"]*")$/ do |realm|
   data = JSON.parse(@res.body)[0]
   assert(data["realmId"] == realm, "Realm received from custom role document did not match")
@@ -208,7 +222,7 @@ When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group
   assert(@res != nil, "Response from custom role request is nil")
   data = JSON.parse(@res.body)[0]
   puts("\n\nThe data is #{data.inspect}")
-  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right]}
+  newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right], "isAdminRole" => false}
   data["roles"].push(newGroup)
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")

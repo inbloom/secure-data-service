@@ -138,6 +138,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
         factory.makeEntity(EntityNames.REPORT_CARD, ResourceNames.REPORT_CARDS).buildAndRegister(this);
         factory.makeEntity(EntityNames.ADMIN_DELEGATION, ResourceNames.ADMIN_DELEGATION).buildAndRegister(this);
+        factory.makeEntity(EntityNames.GRADUATION_PLAN, ResourceNames.GRADUATION_PLANS).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")
@@ -203,8 +204,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .build();
         addDefinition(courseOffering);
 
-        AssociationDefinition courseTranscript = factory.makeAssoc("studentTranscriptAssociation", "courseTranscripts")
-                .exposeAs(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS).storeAs("studentTranscriptAssociation")
+        AssociationDefinition courseTranscript = factory.makeAssoc("courseTranscript", "courseTranscripts")
+                .exposeAs(ResourceNames.COURSE_TRANSCRIPTS).storeAs("courseTranscript")
                 .from(student, "getStudent", "getStudents").to(course, "getCourse", "getCourses")
                 .calledFromSource("getCourseTranscripts")
                 .calledFromTarget("getCourseTranscripts").build();

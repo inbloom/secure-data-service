@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
-  
-  <!-- CalendarDates for the 2011-2012 school year -->
+<?xml version="1.0" ?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
+	<!-- CalendarDates for the 2011-2012 school year -->
 	<CalendarDate id="CLND_20110822Instructionalday">
 		<Date>2011-08-22</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
@@ -1114,14 +1113,13 @@
 		<Date>2012-05-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-
-    <!-- GradingPeriods for the 2011-2012 school year -->
-  	<GradingPeriod id="GRDP_20110822">
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </GradingPeriodIdentity>
+	<!-- GradingPeriods for the 2011-2012 school year -->
+	<GradingPeriod id="GRDP_20110822">
+		<GradingPeriodIdentity>
+			<GradingPeriod>First Six Weeks</GradingPeriod>
+			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+		</GradingPeriodIdentity>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
 		<TotalInstructionalDays>34</TotalInstructionalDays>
@@ -1175,16 +1173,16 @@
 		<CalendarDateReference ref="CLND_20111008Holiday"/>
 		<CalendarDateReference ref="CLND_20111009Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20111010">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </GradingPeriodIdentity>
+	<GradingPeriod id="GRDP_20111010">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Second Six Weeks</GradingPeriod>
+			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+		</GradingPeriodIdentity>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
 		<TotalInstructionalDays>33</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20111010Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111010Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111011Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111012Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111013Instructionalday"/>
@@ -1205,7 +1203,7 @@
 		<CalendarDateReference ref="CLND_20111028Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111029Holiday"/>
 		<CalendarDateReference ref="CLND_20111030Holiday"/>
-        <CalendarDateReference ref="CLND_20111031Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111031Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111101Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111102Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111103Instructionalday"/>
@@ -1234,12 +1232,12 @@
 		<CalendarDateReference ref="CLND_20111126Holiday"/>
 		<CalendarDateReference ref="CLND_20111127Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20111128">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Third Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </GradingPeriodIdentity>
+	<GradingPeriod id="GRDP_20111128">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Third Six Weeks</GradingPeriod>
+			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+		</GradingPeriodIdentity>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
 		<TotalInstructionalDays>31</TotalInstructionalDays>
@@ -1300,22 +1298,50 @@
 		<CalendarDateReference ref="CLND_20120121Holiday"/>
 		<CalendarDateReference ref="CLND_20120122Holiday"/>
 	</GradingPeriod>
-  
-  <Session>
-    <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-  
+	<Session>
+		<SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Fall Semester</Term>
+		<BeginDate>2011-09-06</BeginDate>
+		<EndDate>2011-12-16</EndDate>
+		<TotalInstructionalDays>75</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<BeginDate>2011-08-22</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Third Six Weeks</GradingPeriod>
+				<BeginDate>2011-11-28</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>Second Six Weeks</GradingPeriod>
+				<BeginDate>2011-10-10</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Session>
 </InterchangeEducationOrgCalendar>

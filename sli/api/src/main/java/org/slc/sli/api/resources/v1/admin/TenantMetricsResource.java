@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.resources.v1.admin;
 
 import java.util.HashMap;
@@ -15,7 +31,6 @@ import javax.ws.rs.core.UriInfo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -64,20 +79,6 @@ public class TenantMetricsResource {
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
         DBCursor cursor = tenants.find();
 
-        while (cursor.hasNext()) {
-
-            DBObject obj = cursor.next();
-            if (obj.containsField("body") && ((DBObject) obj.get("body")).containsField("tenantId")) {
-
-                String id = (String) ((DBObject) obj.get("body")).get("tenantId");
-                CollectionMetrics tenantMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo,
-                        "metaData.tenantId", id);
-
-                tenantMetrics.put("== Totals ==", tenantMetrics.getTotals());
-                metrics.put(id, tenantMetrics);
-            }
-        }
-
         CollectionMetric totals = new CollectionMetric(0, 0.0);
         for (Map.Entry<String, CollectionMetrics> c : metrics.entrySet()) {
             if (c.getKey().equals("== Totals ==")) {
@@ -108,8 +109,7 @@ public class TenantMetricsResource {
         }
 
         Map<String, CollectionMetrics> metrics = new HashMap<String, CollectionMetrics>();
-        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, "metaData.tenantId",
-                tenantId);
+        CollectionMetrics collMetrics = MetricsResourceHelper.getAllCollectionMetrics(repo, null, null);
         collMetrics.put("== Totals ==", collMetrics.getTotals());
 
         metrics.put(tenantId, collMetrics);

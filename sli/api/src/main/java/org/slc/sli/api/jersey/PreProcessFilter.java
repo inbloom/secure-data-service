@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.jersey;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +24,7 @@ import javax.annotation.Resource;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
-import org.slc.sli.dal.MongoStat;
+import org.slc.sli.api.security.context.ContextValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -35,8 +32,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.pdp.BaseEndpointMutator;
 import org.slc.sli.api.validation.URLValidator;
-import org.slc.sli.dal.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.MongoStat;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
@@ -58,7 +57,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private OauthSessionManager manager;
 
     @Autowired
+    private ContextValidator contextValidator;
+
+    @Autowired
     private MongoStat mongoStat;
+
+    @Resource
+    private BaseEndpointMutator baseEndpointMutator;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
@@ -66,6 +71,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validate(request);
         populateSecurityContext(request);
         mongoStat.clear();
+
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
+        baseEndpointMutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        contextValidator.validateContextToUri(request, principal);
         return request;
     }
 
@@ -81,20 +91,21 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     /**
      * Validate the request url
+     *
      * @param request
      */
     private void validate(ContainerRequest request) {
-        request.getProperties().put("logIntoDb", true );
+        request.getProperties().put("logIntoDb", true);
 
         for (URLValidator validator : urlValidators) {
             if (!validator.validate(request.getRequestUri())) {
-                request.getProperties().put("logIntoDb", false );
+                request.getProperties().put("logIntoDb", false);
                 List<ValidationError> errors = new ArrayList<ValidationError>();
-                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
+                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request
+                        .getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
             }
         }
     }
-
 
 }

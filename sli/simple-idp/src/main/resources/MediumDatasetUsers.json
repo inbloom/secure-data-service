@@ -1,0 +1,362 @@
+[
+  {
+    "userId": "CAP0-D0-HSch0-teacher1",
+    "name": "Clinton Fitzpatrick",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher2",
+    "name": "Ruben Harmon",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher3",
+    "name": "Robert Pitts",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher4",
+    "name": "Clarence Lang",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher5",
+    "name": "Brandon Le",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher6",
+    "name": "Ramona Lamb",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher7",
+    "name": "Eduardo Larsen",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher8",
+    "name": "Francisca Chandler",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch0-teacher9",
+    "name": "Hope Justice",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher0",
+    "name": "Bill Wilcox",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher1",
+    "name": "Miguel Phelps",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher2",
+    "name": "Bridgette Schroeder",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher3",
+    "name": "Brandon Valentine",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher4",
+    "name": "Michele Livingston",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher5",
+    "name": "Jimmie Silva",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher6",
+    "name": "Kelly Christensen",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher7",
+    "name": "Maryellen Santiago",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher8",
+    "name": "Alyssa Gould",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch1-teacher9",
+    "name": "Florence Mcdonald",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch1"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher0",
+    "name": "Jacob White",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher1",
+    "name": "Luis Finley",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher2",
+    "name": "Sherrie Malone",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher3",
+    "name": "Kurt Jordan",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher4",
+    "name": "Chasity Lindsay",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher5",
+    "name": "Francis Vinson",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher6",
+    "name": "Bernard Mitchell",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher7",
+    "name": "Francisco Jackson",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher8",
+    "name": "Rick Rowland",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch2-teacher9",
+    "name": "Luella Craig",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch2"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher0",
+    "name": "Ernestine Frank",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher1",
+    "name": "Karen Olsen",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher2",
+    "name": "Amie Lowery",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher3",
+    "name": "Christy Conner",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher4",
+    "name": "Patsy Horton",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher5",
+    "name": "Regina Franco",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher6",
+    "name": "Samuel Spears",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher7",
+    "name": "Allan Dominguez",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher8",
+    "name": "Chad Adams",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch3-teacher9",
+    "name": "Ken Foley",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch3"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher0",
+    "name": "Edwin Wallace",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher1",
+    "name": "Jenna Manning",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher2",
+    "name": "Ray Salazar",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher3",
+    "name": "Glenda Daniel",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher4",
+    "name": "Nicholas Mcfadden",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher5",
+    "name": "Keri Solis",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher6",
+    "name": "Lou Giles",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher7",
+    "name": "Roger England",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher8",
+    "name": "Darryl Joyce",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "CAP0-D0-HSch4-teacher9",
+    "name": "Bettie Young",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch4"
+  },
+  {
+    "userId": "lroslin",
+    "name": "Nathaniel Butler",
+    "role": "Educator",
+    "association": "CAP0-D0-HSch0"
+  },
+  {
+    "userId": "CAP0-staff0",
+    "name": "Paulette Tucker",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff1",
+    "name": "Francis Sharp",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff2",
+    "name": "Lucile Porter",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff3",
+    "name": "Hannah Wood",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff4",
+    "name": "Ruben Valencia",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff5",
+    "name": "Dan Richard",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff6",
+    "name": "Clifford Robbins",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff7",
+    "name": "Billie Richardson",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff8",
+    "name": "Rosemary Ayers",
+    "role": "Leader",
+    "association": "CAP0"
+  },
+  {
+    "userId": "CAP0-staff9",
+    "name": "Chasity Gutierrez",
+    "role": "Leader",
+    "association": "CAP0"
+  }
+]
