@@ -164,7 +164,11 @@
         <ProgramReference ref="CAP0-D0-prgCAP0-D0_0"/>
         <ProgramReference ref="CAP0-D0-prgCAP0-D0_1"/>
         <LEACategory>Charter</LEACategory>
-        <StateEducationAgencyReference ref="CAP0"/>
+        <StateEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+        </StateEducationAgencyReference>
     </LocalEducationAgency>
     <School id="CAP0-D0-HSch0">
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
@@ -236,7 +240,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch1">
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
@@ -308,7 +316,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch2">
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
@@ -380,7 +392,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch3">
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
@@ -452,7 +468,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch4">
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
@@ -524,7 +544,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <Course id="CAP0-D0-HSch0-cse0">
         <CourseTitle>CAP0-D0-HSch0-cse0</CourseTitle>
