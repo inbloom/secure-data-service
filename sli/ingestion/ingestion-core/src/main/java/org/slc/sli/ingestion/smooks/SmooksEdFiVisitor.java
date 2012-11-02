@@ -193,7 +193,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)
-        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+        neutralRecord.setAttributes(NeutralRecordUtils.decodeAndTrimXmlStrings(neutralRecord.getAttributes()));
         if (String.class.isInstance(neutralRecord.getLocalId())) {
             neutralRecord.setLocalId(((String) neutralRecord.getLocalId()).trim());
         }

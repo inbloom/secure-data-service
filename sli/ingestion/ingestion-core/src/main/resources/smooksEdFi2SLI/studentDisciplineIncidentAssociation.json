@@ -22,7 +22,8 @@
         }
     },
     {
-        "fieldPath" : "body.disciplineIncidentId",
+        "fieldPath" : "body.DisciplineIncidentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "disciplineIncident",
@@ -34,7 +35,7 @@
                         "path" : "body.incidentIdentifier",
                         "values" :
                         [{
-                            "valueSource" : "body.disciplineIncidentIdentifier"
+                            "valueSource" : "body.DisciplineIncidentReference.DisciplineIncidentIdentity.IncidentIdentifier"
                         }]
                     }
                 ]

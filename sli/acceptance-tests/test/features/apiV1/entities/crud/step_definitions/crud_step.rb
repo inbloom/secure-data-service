@@ -437,6 +437,20 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "teacherId" => @newId,
       "instructionalGradeLevels" => ["First grade"],
       "academicSubjects" => ["Composite"]
+    },
+    "studentParentAssociation2" => {
+      "parentId" => @newId,
+      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be",
+      "livesWith" => true,
+      "primaryContactStatus" => true,
+      "relation" => "Father",
+      "contactPriority" => 0,
+      "emergencyContactStatus" => true
+    },
+    "staffProgramAssociation" => {
+      "programId" => @newId,
+      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "beginDate" => "2012-01-01"
     }
   }
   @fields = @assocData[type]
@@ -455,12 +469,13 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
     "teacherSchoolAssociation" => "teacherSchoolAssociations",
-    "teacherSchoolAssociation2" => "teacherSchoolAssociations"
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
     step "I navigate to POST \"/#{@assocUrl[type]}\""
     headers = @res.raw_headers
-    puts @res.inspect
     assert(headers != nil, "Headers are nil")
     assert(headers['location'] != nil, "There is no location link from the previous request")
     s = headers['location'][0]
