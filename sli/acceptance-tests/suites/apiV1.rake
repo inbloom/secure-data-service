@@ -62,7 +62,9 @@ end
 desc "Run V1 Cascade Deletion Tests"
 task :v1CascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion")
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion_teacher.feature")
 end
 
 desc "Run V1 Direct References Tests"
