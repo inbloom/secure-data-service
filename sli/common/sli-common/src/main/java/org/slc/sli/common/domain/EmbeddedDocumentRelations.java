@@ -20,6 +20,7 @@ package org.slc.sli.common.domain;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,9 @@ public class EmbeddedDocumentRelations {
 
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
     private static final Map<String, Denormalization> DENORMALIZATIONS;
+    private static Set<String> denormalizationByEntityAndKey;
+    private static final Map<String,String> DENORMALIZATION_CACHED_ENTITY;
+    private static final Map<String,Map<String,String>>CACHED_REFERENCE_KEY;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
@@ -55,6 +59,12 @@ public class EmbeddedDocumentRelations {
         denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
                 "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
 
+        Map<String,String> sarReferenceMap = new HashMap<String, String>();
+        sarReferenceMap.put("studentId","studentId");
+        sarReferenceMap.put("session","sessionId");
+        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
+        , "sessionId", Arrays.asList("beginDate","endDate")));
+
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
@@ -63,7 +73,24 @@ public class EmbeddedDocumentRelations {
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
+
+        denormalizationByEntityAndKey = new HashSet<String>();
+        for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {
+            denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
+        }
+        Map<String,String> mapCache = new HashMap<String, String>();
+        mapCache.put("session","_id");
+        DENORMALIZATION_CACHED_ENTITY = Collections.unmodifiableMap(mapCache);
+        Map<String,String> cachedReferenceKeyMap = new HashMap<String, String>();
+        cachedReferenceKeyMap.put("schoolId","schoolId");
+        Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
+        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
+        CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
     };
+
+    private static String stringifyEntityAndField(String entity, String field) {
+        return new StringBuilder().append(entity).append("|").append(field).toString();
+    }
 
     public static Set<String> getSubDocuments() {
         return SUBDOC_TO_PARENT.keySet();
@@ -121,6 +148,25 @@ public class EmbeddedDocumentRelations {
         return (denormalization != null ? denormalization.getDenormalizedToField() : null);
     }
 
+    public static boolean isDenormalization(String entity, String field) {
+        return denormalizationByEntityAndKey.contains(stringifyEntityAndField(entity, field));
+    }
+
+    public static boolean isCached(String entity) {
+        return DENORMALIZATION_CACHED_ENTITY.containsKey(entity);
+    }
+    public static String getCacheKey(String entity) {
+        if(!isCached(entity)) {
+            return null;
+        }
+        return DENORMALIZATION_CACHED_ENTITY.get(entity);
+    }
+    public static Map<String,String> getCachedRefKeys(String entity) {
+        if(!CACHED_REFERENCE_KEY.containsKey(entity)) {
+            return null;
+        }
+        return CACHED_REFERENCE_KEY.get(entity);
+    }
     private static Denormalization getDenormalization(String entityType) {
         if (!DENORMALIZATIONS.containsKey(entityType)) {
             return null;

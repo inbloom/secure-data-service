@@ -16,11 +16,15 @@
 			</StudentIdentity>
 		</StudentReference>
 		<DisciplineIncidentReference>
-			<DisciplineIncidentIdentity>
-				<IncidentIdentifier>Tardiness</IncidentIdentifier>
-				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
-			</DisciplineIncidentIdentity>
-		</DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Tardiness</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                       <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>ckoch</StaffUniqueStateId>
@@ -54,7 +58,11 @@
         <DisciplineIncidentReference>
             <DisciplineIncidentIdentity>
                 <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                       <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </DisciplineIncidentIdentity>
         </DisciplineIncidentReference>
         <StaffReference>

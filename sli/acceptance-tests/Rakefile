@@ -137,7 +137,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   else
     db_used = DB_NAME
   end
-  
+
   if TODROP
     dropOption = (dropExistingCollection) ? "--drop":""
   else
@@ -162,15 +162,6 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     end
   end
 
-
-  #Big hack because nobody bothered splitting up fixture data into the correct tenants
-  #Remove all the Hyrule students from the Midgar database and vice versa
-  if db_used == convertTenantIdToDbName('Midgar') && collectionName == 'student'
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Hyrule'}); assert.eq(null, db.getLastError());\""
-  end
-  if db_used == convertTenantIdToDbName('Hyrule') && collectionName == 'student'
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{db_used} --quiet --eval \"db.#{collectionName}.remove({'metaData.tenantId': 'Midgar'}); assert.eq(null, db.getLastError());\""
-  end
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -208,7 +199,7 @@ def cleanseRealms()
   @realmColl = @db.collection('realm')
 
   @realmColl.find.each do |row|
-    if row['body']['uniqueIdentifier'] != 'Shared Learning Infrastructure' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
+    if row['body']['uniqueIdentifier'] != 'Shared Learning Collaborative' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
       @realmColl.remove(row)
     end
   end
@@ -251,7 +242,7 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
     db_used = DB_NAME
   end
-  
+
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(db_used)
@@ -271,7 +262,7 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   else
     db_used = DB_NAME
   end
-  
+
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
@@ -293,7 +284,7 @@ def swap_realm_ids()
   user_sessions = @db.collection('userSession')
   custom_roles = @dbTenant.collection('customRole')
   to_swap = [
-        {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
         {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
   ]
 
@@ -548,6 +539,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiPatchTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
+                     :v1TeacherValidationTests,
                      :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
@@ -720,7 +712,7 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests] do
+                         :ingestionSuperDocTests, :ingestionDbSpinupTest, :ingestionSubdocTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -990,7 +982,7 @@ task :importSecuredData do
   db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
   setMultipleFixtureFiles(testHash)
- 
+
   testHash = Hash[
     "educationOrganization" => "secured/Other/educationOrganization.json",
     "student" => "secured/Other/student.json",
@@ -1191,8 +1183,7 @@ task :importUnifiedData => [:realmInit] do
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
-    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
-    "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
+    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

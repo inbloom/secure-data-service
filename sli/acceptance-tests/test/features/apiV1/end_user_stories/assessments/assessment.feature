@@ -84,6 +84,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
     Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
     Given I am a valid SEA/LEA end user <Username> with password <Password>
@@ -174,6 +175,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
@@ -187,7 +189,7 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
     When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
     Then I should receive a return code of 403
 
-    When I navigate to GET "/<STUDENT SECTION ASSOC URI>/<'Algebra II' ID>/<STUDENT URI>"
+    When I navigate to GET "/<STUDENT SECTION ASSOC URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT URI>"
     Then I should receive a return code of 403
 
     When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      

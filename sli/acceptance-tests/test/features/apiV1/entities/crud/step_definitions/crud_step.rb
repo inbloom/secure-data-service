@@ -311,9 +311,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradeType" => "Final"
   },
   "studentCompetency" => {
-     "competencyLevel" => [{
+     "competencyLevel" => {
        "description" => "really hard competency"
-     }],
+     },
      "objectiveId" => {
        "learningObjectiveId" => "dd9165f2-65be-6d27-a8ac-bdc5f46757b6"
      },
@@ -412,6 +412,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "positionTitle" => "Hall monitor",
       "staffClassification" => "School Administrative Support Staff"
     },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
       "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
@@ -423,6 +430,27 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "teacherId" => @newId,
       "instructionalGradeLevels" => ["First grade"],
       "academicSubjects" => ["Composite"]
+    },
+    "teacherSchoolAssociation2" => {
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    },
+    "studentParentAssociation2" => {
+      "parentId" => @newId,
+      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be",
+      "livesWith" => true,
+      "primaryContactStatus" => true,
+      "relation" => "Father",
+      "contactPriority" => 0,
+      "emergencyContactStatus" => true
+    },
+    "staffProgramAssociation" => {
+      "programId" => @newId,
+      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "beginDate" => "2012-01-01"
     }
   }
   @fields = @assocData[type]
@@ -438,8 +466,12 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations"
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
     step "I navigate to POST \"/#{@assocUrl[type]}\""
@@ -477,13 +509,13 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
-  expectedPath = expected.gsub("@ids", "[^/]*")
+  expectedPath = expected.gsub("@ids", "[^/]+")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\//)[1]
+    idsString = actual.match(/v1\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     

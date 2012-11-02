@@ -18,15 +18,22 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import javax.ws.rs.core.PathSegment;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.GenericContextValidator;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
+import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -37,6 +44,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
+
 import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
@@ -46,37 +54,42 @@ import com.sun.jersey.spi.container.ContainerRequest;
  */
 @Component
 public class ContextValidator implements ApplicationContextAware {
-    
+
     private List<IContextValidator> validators;
-    
+
     @Autowired
     private ResourceHelper resourceHelper;
-    
+
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         validators = new ArrayList<IContextValidator>();
         validators.addAll(applicationContext.getBeansOfType(IContextValidator.class).values());
-        
+
         IContextValidator genVal = null;
         IContextValidator studentVal = null;
+        IContextValidator subEntityVal = null;
         //Make GenericContextValidator last, since we want to use that as a last resort
         for (IContextValidator validator : validators) {
             if (validator instanceof GenericContextValidator) {
                 genVal = validator;
             } else if (validator instanceof TeacherToStudentValidator) {
                 studentVal = validator;
+            } else if (validator instanceof TeacherToSubStudentEntityValidator) {
+                subEntityVal = validator;
             }
         }
-        
+
         //move generic validator to end
         validators.remove(genVal);
-        //validators.add(genVal); //temporarily disable
+        validators.add(genVal);
         
         //temporarily disable teacher-student validator
+        // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
+        validators.remove(subEntityVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
@@ -85,37 +98,66 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
-   
-        if (request.getPathSegments().size() < 3) {
+
+        List<PathSegment> segs = request.getPathSegments();
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
+            if (i.next().getPath().isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        if (segs.size() < 3) {
             return;
         }
 
-        String rootEntity = request.getPathSegments().get(1).getPath();
+        String rootEntity = segs.get(1).getPath();
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (def == null) //e.g. home resource
+        if (def == null) {
             return;
-        String entityName = def.getType();
-        
-        /*
-         * e.g. 
-         * through - /v1/staff/<ID>/disciplineActions
-         * !through - /v1/staff/<ID>
+        }
+        /**
+         * If we are v1/entity/id and the entity is "public" don't validate
          */
-        boolean through = request.getPathSegments().size() > 3;
-        IContextValidator validator = findValidator(entityName, through);
+        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
+            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                info("Not validating access to public entity and it's custom data");
+                return;
+            }
+        }
+
+        /*
+         * e.g.
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
+         */
+        boolean isTransitive = segs.size() < 4;
+        String idsString = segs.get(2).getPath();
+        Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
+        validateContextToEntities(def, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
+        
+        //exists call requires a Set to function correctly, so convert to Set if necessary
+        Set<String> idSet = null;
+        if (entityIds instanceof Set) {
+            idSet = (Set<String>) entityIds;
+        } else {
+            idSet = new HashSet<String>(entityIds);
+        }
+        IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+            if (!validator.validate(def.getType(), idSet)) {
+                if (!exists(idSet, def.getStoredCollectionName())) {
+                    throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entityIds);
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+                throw new AccessDeniedException("Cannot access entities " + entityIds);
             }
         }
     }
 
-    private boolean exists(List<String> ids, String collectionName) {
+    
+    private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         long count = repo.count(collectionName, query);
@@ -133,22 +175,22 @@ public class ContextValidator implements ApplicationContextAware {
     /**
      * 
      * @param toType
-     * @param through
+     * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
-        
+    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
+
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
-            if (validator.canValidate(toType, through)) {
+            if (validator.canValidate(toType, isTransitive)) {
                 found = validator;
                 break;
             }
         }
-        
+
         if (found == null) {
-            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;
