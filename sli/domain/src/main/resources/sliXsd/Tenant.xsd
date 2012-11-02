@@ -28,7 +28,7 @@
                 </xs:element>
                 <xs:element name="tenantIsReady" minOccurs="0" maxOccurs="1">
                     <xs:simpleType>
-                        <xs:restriction base="xs:string">
+                        <xs:restriction base="xs:boolean">
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>

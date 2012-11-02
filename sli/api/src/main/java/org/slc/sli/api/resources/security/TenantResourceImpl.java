@@ -425,11 +425,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        if (lockChecker.ingestionLocked(tenantName)) {
-            // throw new TenantResourceCreationException(Status.CONFLICT,
-            // "Ingestion is locked for this tenant");
-            return Response.status(Status.CONFLICT).build();
-        }
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) entity.get("landingZone");
         if (landingZones == null || landingZones.isEmpty()) {

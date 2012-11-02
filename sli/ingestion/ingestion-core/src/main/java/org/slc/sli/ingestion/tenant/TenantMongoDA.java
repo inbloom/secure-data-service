@@ -197,7 +197,7 @@ public class TenantMongoDA implements TenantDA {
             // checking for flag that will only be set after scripts run
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
-            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", "Ready", false));
+            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", true, false));
 
             try {
                 TenantContext.setIsSystemCall(true);
@@ -216,7 +216,7 @@ public class TenantMongoDA implements TenantDA {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
 
         Update update = new Update();
-        update.set(TENANT_READY_FIELD, "Ready");
+        update.set(TENANT_READY_FIELD, true);
 
         try {
             TenantContext.setIsSystemCall(true);
@@ -230,9 +230,9 @@ public class TenantMongoDA implements TenantDA {
     public boolean setTenantInProgressFlag(String tenantId) {
 
     	DBObject query = new BasicDBObject("body.tenantId", tenantId);
-    	query.put("body."+TENANT_READY_FIELD, null);
+    	query.put(TENANT_READY_FIELD, null);
 
-        DBObject set = new BasicDBObject("body."+TENANT_READY_FIELD, "In Progress");
+        DBObject set = new BasicDBObject(TENANT_READY_FIELD, false);
         DBObject update = new BasicDBObject("$set", set);
 
         try {
@@ -244,7 +244,8 @@ public class TenantMongoDA implements TenantDA {
 
     }
 
-    public void removeInvalidTenant(String lzPath) {
+    @Override
+	public void removeInvalidTenant(String lzPath) {
         BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
         BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
         entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
