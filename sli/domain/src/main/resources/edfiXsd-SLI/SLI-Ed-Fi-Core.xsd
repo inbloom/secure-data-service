@@ -297,6 +297,9 @@ Met standard
 	<xs:complexType name="SLC-StaffProgramAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
+        	<xs:appinfo>
+          		<sli:recordType>staffProgramAssociation</sli:recordType>
+        	</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="StaffReference" type="SLC-StaffReferenceType">

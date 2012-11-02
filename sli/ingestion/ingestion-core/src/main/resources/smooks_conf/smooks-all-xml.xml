@@ -2844,11 +2844,6 @@
     <jb:value data="StaffProgramAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" property="StaffUniqueStateId"/>
   </jb:bean>
 
-  <jb:bean beanId="staffProgramAssociation_staffReference_staffIdentity" class="java.util.HashMap"
-    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/StaffReference/StaffIdentity">
-    <jb:value property="staffUniqueStateId" data="StaffProgramAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
-  </jb:bean>
-
   <jb:bean beanId="staffProgramAssociation_programReference" class="java.util.HashMap"
     createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/ProgramReference">
     <jb:wiring property="ProgramIdentity" beanIdRef="staffProgramAssociation_programReference_programIdentity" />
