@@ -70,7 +70,7 @@ public class SearchResourceServiceTest {
     public void testNotEnoughToken() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=t");
-        resourceService.doFilter(new ApiQuery(queryUri));
+        resourceService.filterCriteria(new ApiQuery(queryUri));
         Assert.fail("should be trown HttpClientErrorException");
     }
 
@@ -79,7 +79,7 @@ public class SearchResourceServiceTest {
     public void testNotEnoughTotalCharacters() throws URISyntaxException {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=a%20b");
-        resourceService.doFilter(new ApiQuery(queryUri));
+        resourceService.filterCriteria(new ApiQuery(queryUri));
         Assert.fail("should be trown HttpClientErrorException");
     }
 
@@ -98,7 +98,7 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?abc=David%20Wu&efg=hij");
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        resourceService.doFilter(apiQuery);
+        resourceService.filterCriteria(apiQuery);
         List<NeutralCriteria> criteria = apiQuery.getCriteria();
         Assert.assertEquals(2, criteria.size());
     }
@@ -108,7 +108,7 @@ public class SearchResourceServiceTest {
         setupAuth(EntityNames.STAFF);
         URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu&abc=efg");
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        resourceService.doFilter(apiQuery);
+        resourceService.filterCriteria(apiQuery);
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
         Assert.assertEquals(1, criterias.size());
         NeutralCriteria criteria = criterias.get(0);
@@ -144,7 +144,7 @@ public class SearchResourceServiceTest {
 
         // for staff, list of entities should not change
         Mockito.doReturn(true).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
-        List<EntityBody> result = rs.checkAccessible(getEntities());
+        List<EntityBody> result = rs.filterResultsBySecurity(getEntities());
         Assert.assertEquals(3, result.size());
     }
 
@@ -161,14 +161,14 @@ public class SearchResourceServiceTest {
         Mockito.doReturn(false).when(rs).isAccessible("section", "1");
         Mockito.doReturn(true).when(rs).isAccessible("section", "3");
         Mockito.doReturn(true).when(rs).isAccessible("someRandomType", "1");
-        List<EntityBody> result = rs.checkAccessible(getEntities());
+        List<EntityBody> result = rs.filterResultsBySecurity(getEntities());
         Assert.assertEquals(2, result.size());
         Assert.assertEquals("1", result.get(0).get("id"));
         Assert.assertEquals("3", result.get(1).get("id"));
 
         // test when all entities are inaccessible
         Mockito.doReturn(false).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
-        result = rs.checkAccessible(getEntities());
+        result = rs.filterResultsBySecurity(getEntities());
         Assert.assertEquals(0, result.size());
 
     }
@@ -220,7 +220,7 @@ public class SearchResourceServiceTest {
         MockBasicService mockService = new MockBasicService();
         mockService.setNumToReturn(numSearchHits);
         Mockito.when(mockDef.getService()).thenReturn(mockService);
-        Mockito.doReturn(getResults(filterNum)).when(rs).checkAccessible(Mockito.isA(List.class));
+        Mockito.doReturn(getResults(filterNum)).when(rs).filterResultsBySecurity(Mockito.isA(List.class));
         ApiQuery apiQuery = rs.prepareQuery(null, queryUri);
         List<EntityBody> results = rs.retrieveResults(mockDef, apiQuery);
         Assert.assertEquals(numResults, results.size());

@@ -68,6 +68,8 @@ import org.slc.sli.domain.NeutralCriteria;
 @Component
 public class SearchResourceService {
 
+    private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
+
     // Minimum limit on results to retrieve from Elasticsearch each trip
     private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
@@ -96,7 +98,7 @@ public class SearchResourceService {
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
 
     /**
-     * Main method for retrieving search results with this service class
+     * Main entry point for retrieving search results
      * @param resource
      * @param resourcesToSearch
      * @param queryUri
@@ -156,7 +158,7 @@ public class SearchResourceService {
             entityBodies = retrieve(apiQuery, definition);
 
             // filter results through security context
-            accessible = checkAccessible(entityBodies);
+            accessible = filterResultsBySecurity(entityBodies);
 
             // if past offset, add accessible results to final list
             newTotal = total + accessible.size();
@@ -191,10 +193,17 @@ public class SearchResourceService {
         return (List<EntityBody>) definition.getService().list(apiQuery);
     }
 
+    /**
+     * Prepare an ApiQuery to send to the search repository.
+     * Creates the ApiQuery from the query URI, sets query criteria and security context criteria.
+     * @param resourcesToSearch
+     * @param queryUri
+     * @return
+     */
     public ApiQuery prepareQuery(String resourcesToSearch, URI queryUri) {
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        doFilter(apiQuery);
-        addContext(apiQuery);
+        filterCriteria(apiQuery);
+        addSecurityContext(apiQuery);
         if (resourcesToSearch != null) {
             apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resourcesToSearch)));
         }
@@ -226,7 +235,7 @@ public class SearchResourceService {
      * @param entities
      * @return
      */
-    public List<EntityBody> checkAccessible(List<EntityBody> entities) {
+    public List<EntityBody> filterResultsBySecurity(List<EntityBody> entities) {
 
         List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
@@ -284,7 +293,7 @@ public class SearchResourceService {
      *
      * @param apiQuery
      */
-    public void doFilter(ApiQuery apiQuery) {
+    public void filterCriteria(ApiQuery apiQuery) {
 
         // keep only whitelist parameters
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
@@ -309,8 +318,8 @@ public class SearchResourceService {
     }
 
     /**
-     * apply default query for ElasticSearch
-     *
+     * Apply default query pattern for ElasticSearch.
+     * Query strategy - start-of-word match on each query token
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -322,10 +331,18 @@ public class SearchResourceService {
         if (tokens == null || tokens.length < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
+        // append wildcard '*' to each token
         criteria.setValue(StringUtils.join(tokens, "* ") + "*");
     }
 
-    private void addContext(ApiQuery apiQuery) {
+    /**
+     * Add security context criteria to query.
+     * The security context is determined by the user's accessible schools. The list of
+     * accessible school ids is added to the query, and records in Elasticsearch must
+     * match an id in order to be returned.
+     * @param apiQuery
+     */
+    private void addSecurityContext(ApiQuery apiQuery) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
         // get allSchools for staff
@@ -333,13 +350,18 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
-        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
+        apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
     }
 
     public void setMaxUnfilteredSearchResultCount(long maxUnfilteredSearchResultCount) {
         this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
     }
 
+    /**
+     * Run an embedded ElasticSearch instance, if enabled by configuration.
+     * @author dwu
+     *
+     */
     @Component
     static final class Embedded {
         final Logger logger = LoggerFactory.getLogger(Embedded.class);
