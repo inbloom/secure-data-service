@@ -425,7 +425,7 @@ Examples:
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/schools/@ids|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
@@ -433,7 +433,7 @@ Examples:
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
-| "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
 
 	@DE1825 
