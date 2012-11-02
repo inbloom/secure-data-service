@@ -846,6 +846,18 @@ Given /^the following collections are completely empty in batch job datastore$/ 
   enable_NOTABLESCAN()
 end
 
+Given /^I lock ingestion for that tenant$/ do
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => "Midgar"}, {"$set" => {"body.tenantIsReady" => false}})
+end
+
+Given /^I unlock that tenant$/ do
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => "Midgar"}, {"$set" => {"body.tenantIsReady" => true}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
