@@ -42,7 +42,6 @@ Examples:
 | "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
 | "learningObjective"            | "learningObjectives"      | "description"            | "Mathematics Objective"                      |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
-| "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
@@ -88,6 +87,7 @@ Examples:
 | Entity Type                    | Entity Resource URI   | Association Type                         | Update Field             | Updated Value             | 
 | "staff"                        | "staff"               | "staffEducationOrganizationAssociation2" | "sex"                    | "Female"                  |
 | "teacher"                      | "teachers"            | "teacherSchoolAssociation2"              | "highlyQualifiedTeacher" | "false"                   |
+| "program"                      | "programs"            | "staffProgramAssociation"                | "programSponsor"         | "State Education Agency"  |
 
         Scenario Outline: CRUD operations on an entity and can't update natural key
        Given entity URI <Entity Resource URI>

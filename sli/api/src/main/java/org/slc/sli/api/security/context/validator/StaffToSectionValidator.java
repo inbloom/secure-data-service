@@ -47,6 +47,9 @@ public class StaffToSectionValidator extends AbstractContextValidator {
         	NeutralQuery basicQuery = new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id));
             Entity section = getRepo().findOne(EntityNames.SECTION, basicQuery);
+            if (section == null) {
+                return false;
+            }
             String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
             if (!edorgLineage.contains(schoolId)) {
                 return false;

@@ -2,6 +2,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +60,17 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
+    }
+
+    /**
+     * Determines if the specified type is a sub-entity of student section association.
+     *
+     * @param type
+     *            Type to check is 'below' student section association.
+     * @return True if the entity hangs off of student section association, false otherwise.
+     */
+    protected boolean isSubEntityOfStudentSectionAssociation(String type) {
+        return EntityNames.GRADE.equals(type) || EntityNames.STUDENT_COMPETENCY.equals(type);
     }
 
     /**
@@ -167,6 +179,37 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         edorgLineage.addAll(getChildEdOrgs(edorgLineage));
         return edorgLineage;
+    }
+
+    /**
+     * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
+     * Iterates through result and peels off String value contained in body.<<field>>. Returns
+     * unique set of values that were stored in body.<<field>>.
+     *
+     * @param type
+     *            Entity type to query for.
+     * @param ids
+     *            List of _ids of entities to query.
+     * @param field
+     *            Field (contained in body) to peel off of entities.
+     * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
+     */
+    protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
+        Set<String> matching = new HashSet<String>();
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.OPERATOR_EQUAL, ids));
+        Iterable<Entity> entities = getRepo().findAll(type, query);
+        if (entities != null) {
+            for (Entity entity : entities) {
+                Map<String, Object> body = entity.getBody();
+                if (body.containsKey(field)) {
+                    matching.add((String) body.get(field));
+                }
+            }
+        }
+
+        return new ArrayList<String>(matching);
     }
 
     protected Repository<Entity> getRepo() {
