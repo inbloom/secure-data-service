@@ -12,7 +12,12 @@
          <StudentIdentity> 
             <StudentUniqueStateId>530425896</StudentUniqueStateId> 
          </StudentIdentity> 
-      </StudentReference> 
+      </StudentReference>
+       <SchoolReference>
+           <EducationalOrgIdentity>
+               <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+           </EducationalOrgIdentity>
+       </SchoolReference>
    </AttendanceEvent> 
    
    <AttendanceEvent> 
@@ -26,7 +31,12 @@
          <StudentIdentity> 
             <StudentUniqueStateId>530425896</StudentUniqueStateId> 
          </StudentIdentity> 
-      </StudentReference> 
+      </StudentReference>
+       <SchoolReference>
+           <EducationalOrgIdentity>
+               <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+           </EducationalOrgIdentity>
+       </SchoolReference>
    </AttendanceEvent> 
 
    </InterchangeStudentAttendance> 
