@@ -251,4 +251,13 @@ public interface Repository<T> {
      * @return
      */
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced);
+
+    /**
+     *
+     * @param collectionName
+     * @param neutralQuery
+     * @param update
+     * @return
+     */
+    public abstract T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update);
 }
