@@ -17,8 +17,6 @@ limitations under the License.
 =end
 
 require 'eventbus/version'
-require 'hadoop_job_runner'
-require 'jobscheduler'
 require 'messaging_service'
 require 'mongo_helper'
 require 'oplogagent'
