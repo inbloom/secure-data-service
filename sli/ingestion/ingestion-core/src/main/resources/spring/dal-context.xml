@@ -24,10 +24,10 @@
       socket-timeout="600000" socket-keep-alive="true" />
   </mongo:mongo>
 
-  <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}"
-    mongo-ref="stagingMongo" />
-
-  <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+  <bean id="mongoDbStagingFactory" class="org.slc.sli.ingestion.dal.JobSpecificMongoDbFactory">
+    <constructor-arg ref="stagingMongo" />
+    <constructor-arg value="${sli.ingestion.staging.mongodb.database}" />
+  </bean>
 
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
