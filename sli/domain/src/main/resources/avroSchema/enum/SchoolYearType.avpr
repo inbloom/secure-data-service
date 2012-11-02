@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SchoolYearType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Identifier for a school year",
-  "xsd-type" : "token",
-  "symbols" : [ "Year_1996_1997", "Year_1997_1998", "Year_1998_1999", "Year_1999_2000", "Year_2000_2001", "Year_2001_2002", "Year_2002_2003", "Year_2003_2004", "Year_2004_2005", "Year_2005_2006", "Year_2006_2007", "Year_2007_2008", "Year_2008_2009", "Year_2009_2010", "Year_2010_2011", "Year_2011_2012", "Year_2012_2013", "Year_2013_2014", "Year_2014_2015", "Year_2015_2016", "Year_2016_2017", "Year_2017_2018", "Year_2018_2019", "Year_2019_2020", "Year_2021_2022", "Year_2022_2023", "Year_2023_2024", "Year_2024_2025", "Year_2025_2026", "Year_2026_2027", "Year_2027_2028", "Year_2028_2029", "Year_2029_2030" ]
-}

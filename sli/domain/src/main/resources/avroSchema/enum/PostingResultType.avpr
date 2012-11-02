@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PostingResultType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indication of whether the position was filled or retired without filling.",
-  "xsd-type" : "token",
-  "symbols" : [ "Position_Filled", "Posting_Cancelled" ]
-}

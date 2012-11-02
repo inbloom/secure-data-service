@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "BilingualProgramType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicates whether the student is participating in a state-approved bilingual education program.",
-  "xsd-type" : "token",
-  "symbols" : [ "Student_does_not_participate_in_the_Bilingual_Education_Program", "Transitional_Bilingual_Early_Exit", "Transitional_Bilingual_Late_Exit", "Dual_Language_Immersion_Two_Way", "Dual_Language_Immersion_One_Way" ]
-}
