@@ -37,7 +37,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ValidatorTestHelper {
-    @Autowired
+
+    private static final String GRADING_PERIOD_REFERENCE = "gradingPeriodReference";
+
+	@Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
     public final String STAFF_ID = "1";
@@ -225,6 +228,19 @@ public class ValidatorTestHelper {
         sdia.put(ParameterConstants.STUDENT_ID, studentId);
         sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
         repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
+    }
+
+    public Entity generateSession(String schoolId, List<String> gradingPeriodRefs) {
+    	Map<String, Object> session = new HashMap<String, Object>();
+    	session.put(ParameterConstants.SCHOOL_ID, schoolId);
+    	if (null != gradingPeriodRefs) {
+    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs.toArray());
+    	}
+        return repo.create(EntityNames.SESSION, session);
+    }
+    
+    public Entity generateGradingPeriod() {
+        return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
     }
 
 }
