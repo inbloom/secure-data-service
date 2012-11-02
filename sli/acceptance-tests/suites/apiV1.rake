@@ -23,6 +23,7 @@ task :apiPatchTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/patch/api_patch.feature")
+  runTests("test/features/apiV1/patch/api_patch_teacher.feature")
 end
 
 desc "Run V1 Selectors Tests"

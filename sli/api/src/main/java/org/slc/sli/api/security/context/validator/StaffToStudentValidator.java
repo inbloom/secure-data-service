@@ -64,7 +64,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                if (!isIntersection(staffsEdOrgIds, studentsEdOrgs) && !isCreatedBy(entity)) {
+                if (!isIntersection(staffsEdOrgIds, studentsEdOrgs)) {
                     isValid = false;
                     break;
                 }
@@ -85,20 +85,6 @@ public class StaffToStudentValidator extends AbstractContextValidator {
             }
         }
         return isIntersection;
-    }
-
-    private boolean isCreatedBy(Entity studentEntity) {
-        boolean isCreatedBy = false;
-        Map<String, Object> metaData = studentEntity.getMetaData();
-        if (metaData.containsKey("isOrphaned") && metaData.containsKey("createdBy")) {
-            boolean isOrphaned = Boolean.valueOf((String) metaData.get("isOrphaned"));
-            String createdBy = (String) metaData.get("createdBy");
-            String accessingUserId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-            if (isOrphaned && createdBy.equals(accessingUserId)) {
-                isCreatedBy = true;
-            }
-        }
-        return isCreatedBy;
     }
 
     private Set<String> getStudentsEdOrgs(Entity studentEntity) {
