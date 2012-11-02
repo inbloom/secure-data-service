@@ -969,5 +969,87 @@ Representative of visiting school
 		</xs:complexContent>
 	</xs:complexType>
 
+        <!-- Discipline action -->
+	<xs:complexType name="SLC-DisciplineAction">
+		<xs:annotation>
+			<xs:documentation>This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.
+</xs:documentation>
+                <xs:appinfo>
+                    <sli:recordType>disciplineAction</sli:recordType>
+                </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="DisciplineActionIdentifier" type="DisciplineActionIdentifier">
+						<xs:annotation>
+							<xs:documentation>Identifier assigned by the education organization to the discipline action.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Disciplines" type="DisciplineDescriptorType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Type of action or removal from the classroom used to discipline the student involved as a perpetrator in a discipline incident.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DisciplineDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The date of the discipline action.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DisciplineActionLength" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The length of time in days for the Discipline Action (e.g. removal, detention), if applicable.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ActualDisciplineActionLength" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates the actual length in days of a student’s disciplinary assignment.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DisciplineActionLengthDifferenceReason" type="DisciplineActionLengthDifferenceReasonType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentReference" type="StudentReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The student(s) disciplined by the discipline action.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DisciplineIncidentReference" type="DisciplineIncidentReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to the DisciplineIncident(s) associated with the DisciplineAction.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StaffReference" type="StaffReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The staff responsible for enforcing the discipline action.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ResponsibilitySchoolReference" type="SLC-EducationalOrgReferenceType">
+						<xs:annotation>
+							<xs:documentation>School responsible for student's discipline.</xs:documentation>
+							<xs:appinfo>
+                                                		<sli:keyFieldName>responsibilitySchoolId</sli:keyFieldName>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssignmentSchoolReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Optional school where student is transferred for discipline.</xs:documentation>
+							<xs:appinfo>
+                                                		<sli:keyFieldName>assignmentSchoolId</sli:keyFieldName>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 </xs:schema>
