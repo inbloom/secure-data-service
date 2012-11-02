@@ -23,20 +23,21 @@ task :apiPatchTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/patch/api_patch.feature")
+  runTests("test/features/apiV1/patch/api_patch_teacher.feature")
 end
 
 desc "Run V1 Selectors Tests"
 task :v1SelectorTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/selectors/selectors.feature")
+  runTests("test/features/apiV1/selectors")
 end
 
 desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+  runTests("test/features/apiV1/entities/Links")
 end
 
 desc "Run API querying tests"
@@ -50,7 +51,7 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/xml/xml.feature")
+  runTests("test/features/apiV1/xml")
 end
 
 desc "Run V1 Staff Secuity Tests"
@@ -61,7 +62,9 @@ end
 desc "Run V1 Cascade Deletion Tests"
 task :v1CascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion")
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion_teacher.feature")
 end
 
 desc "Run V1 Direct References Tests"

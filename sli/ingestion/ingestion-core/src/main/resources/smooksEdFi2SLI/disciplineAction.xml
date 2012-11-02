@@ -76,7 +76,7 @@
   <!-- DisciplineAction wiring for disciplineIncidentId, Current SLI model as on 04/26/2012 -->
   <jb:bean beanId="disciplineAction_disciplineIncidentIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
-    <jb:value data="attributes disciplineIncidentId element" />
+    <jb:value data="attributes DisciplineIncidentReference element" />
   </jb:bean>
 
   <!-- DisciplineAction wiring for staffId -->

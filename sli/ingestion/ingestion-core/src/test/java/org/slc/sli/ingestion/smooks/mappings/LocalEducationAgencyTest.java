@@ -69,7 +69,7 @@ public class LocalEducationAgencyTest {
             + "    <EducationOrgIdentificationCode IdentificationSystem=\"LEA\">"
             + "        <Id>9777</Id>"
             + "    </EducationOrgIdentificationCode>"
-            + "    <NameOfInstitution>Apple Alternative Elementary School</NameOfInstitution>"
+            + "    <NameOfInstitution>CHILDREN&apos;S DEVELOPMENT GROUP, SPEECH, OCCUPATIONAL, AND PHYSICAL THERAPY, P</NameOfInstitution>"
             + "    <ShortNameOfInstitution>Apple</ShortNameOfInstitution>"
             + "    <OrganizationCategories>"
             + "        <OrganizationCategory>School</OrganizationCategory>"
@@ -165,7 +165,7 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "identificationSystem", "LEA");
         EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "ID", "9777");
 
-        assertEquals("Apple Alternative Elementary School", neutralRecord.getAttributes().get("nameOfInstitution"));
+        assertEquals("CHILDREN'S DEVELOPMENT GROUP, SPEECH, OCCUPATIONAL, AND PHYSICAL THERAPY, P", neutralRecord.getAttributes().get("nameOfInstitution"));
         assertEquals("Apple", neutralRecord.getAttributes().get("shortNameOfInstitution"));
 
         List organizationCategoriesList = (List) neutralRecord.getAttributes().get("organizationCategories");

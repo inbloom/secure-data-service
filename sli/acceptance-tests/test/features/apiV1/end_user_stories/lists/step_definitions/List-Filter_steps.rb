@@ -64,28 +64,12 @@ Transform /^<.+>$/ do |template|
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "<'8th Grade English - Sec 5' ID>"
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e" if template == "<'8th Grade English - Sec 6' ID>"
   id = "7847b027-687d-46f0-bc1a-36d3c16956aa" if template == "<'Science 7A - Sec 5f10' ID>"
-
-
-
-
   id
 end
-
-# transform /path/<Place Holder Id>
-#Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
-#  uri + Transform(template)
-#end
-
-# transform /path/<Place Holder Id>/targets
-#Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
-#  Transform(uri + template) + "/targets"
-#end
 
 Transform /^([^"]*)\/(<.+>)([^"]*)$/ do |pre_url, template, post_url|
   pre_url + "/" + Transform(template) + Transform(post_url)
 end
-
-
 
 When /^I navigate to "([^"]*)" with URI "([^"]*)"$/ do |rel,href|
   restHttpGet(href)

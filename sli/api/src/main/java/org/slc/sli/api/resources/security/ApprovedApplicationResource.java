@@ -83,7 +83,6 @@ public class ApprovedApplicationResource {
     @GET
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
-
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         NeutralQuery query = new NeutralQuery(0);
@@ -139,7 +138,7 @@ public class ApprovedApplicationResource {
     }
 
     private List<String> getUsersRights() {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         ArrayList<String> rights = new ArrayList<String>();
         for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             rights.add(right.toString());

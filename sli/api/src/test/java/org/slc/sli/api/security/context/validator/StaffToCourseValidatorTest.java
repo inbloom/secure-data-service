@@ -148,6 +148,7 @@ public class StaffToCourseValidatorTest {
         Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
     
+    @Test
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
@@ -157,26 +158,30 @@ public class StaffToCourseValidatorTest {
                 Arrays.asList(course1.getEntityId(), course2.getEntityId(), course3.getEntityId()))));
     }
     
+    @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
     }
     
+    @Test
     public void testInvalidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertTrue("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
-        Assert.assertTrue("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
     }
     
+    @Test
     public void testValidAssociationsForStaff3() {
         setupCurrentUser(staff3);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course3.getEntityId()))));
     }
     
+    @Test
     public void testInvalidAssociationsForStaff3() {
         setupCurrentUser(staff3);
-        Assert.assertTrue("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
-        Assert.assertTrue("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course1.getEntityId()))));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE, new HashSet<String>(Arrays.asList(course2.getEntityId()))));
     }
     
 }

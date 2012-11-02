@@ -27,13 +27,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for StaffCohortAssociation entity.
@@ -119,15 +118,15 @@ public class DisciplineActionEntityTest {
         assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap2.get("StaffUniqueStateId"));
 
         List<Map<String, Object>> disciplineIncidentReferences = (List<Map<String, Object>>) attributes
-                .get("disciplineIncidentReference");
+                .get("DisciplineIncidentReference");
         assertNotNull("Expected non-null list of disciplineIncidentReferences", disciplineIncidentReferences);
         assertEquals("Expected 1 disciplineIncidentReferences", 1, disciplineIncidentReferences.size());
 
         Map<String, Object> disciplineOuterMap1 = disciplineIncidentReferences.get(0);
         Map<String, Object> disciplineInnerMap1 = (Map<String, Object>) disciplineOuterMap1
-                .get("disciplineIncidentIdentity");
+                .get("DisciplineIncidentIdentity");
         assertEquals("Expected different discipline incidentIdentifier", "di-10001",
-                disciplineInnerMap1.get("incidentIdentifier"));
+                disciplineInnerMap1.get("IncidentIdentifier"));
 
         Map<String, Object> responsibilitySchoolReference = (Map<String, Object>) attributes
                 .get("responsibilitySchoolId");

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -32,7 +33,7 @@ import org.springframework.util.StringUtils;
 public class NeutralRecordUtils {
 
     @SuppressWarnings("unchecked")
-    public static <T> T scrubEmptyStrings(T obj) {
+    public static <T> T decodeAndTrimXmlStrings(T obj) {
         if (Map.class.isInstance(obj)) {
             return (T) process((Map<?, ?>) obj);
         } else if (List.class.isInstance(obj)) {
@@ -49,7 +50,7 @@ public class NeutralRecordUtils {
 
         boolean isEmpty = true;
         for (Object record : value) {
-            record = scrubEmptyStrings(record);
+            record = decodeAndTrimXmlStrings(record);
 
             if (record != null) {
                 isEmpty = false;
@@ -70,7 +71,7 @@ public class NeutralRecordUtils {
 
         boolean isEmpty = true;
         for (Map.Entry<?, ?> item : value.entrySet()) {
-            Object newValue = scrubEmptyStrings(item.getValue());
+            Object newValue = decodeAndTrimXmlStrings(item.getValue());
 
             if (newValue != null) {
                 isEmpty = false;
@@ -92,7 +93,7 @@ public class NeutralRecordUtils {
         if (!StringUtils.hasText(cmp)) {
             value = null;
         } else {
-            value = value.trim();
+            value = StringEscapeUtils.unescapeXml(value.trim());
         }
 
         return value;

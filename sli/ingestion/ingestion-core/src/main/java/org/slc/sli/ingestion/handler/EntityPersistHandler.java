@@ -188,7 +188,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
-            LOG.debug("Processing: " + entity.getType());
+            LOG.debug("Processing: {}", entity.getType());
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
