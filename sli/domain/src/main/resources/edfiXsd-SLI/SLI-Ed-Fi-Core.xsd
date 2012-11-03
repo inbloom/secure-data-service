@@ -755,17 +755,13 @@ Other</xs:documentation>
         <sli:refType>studentAssessmentAssociation</sli:refType>
       </xs:appinfo>
     </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="ReferenceType">
-        <xs:sequence>
-          <xs:element name="StudentAssessmentIdentity" type="SLC-StudentAssessmentIdentityType" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation/>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element name="StudentAssessmentIdentity" type="SLC-StudentAssessmentIdentityType">
+        <xs:annotation>
+          <xs:documentation/>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="SLC-StudentAssessmentIdentityType">
     <xs:annotation>
