@@ -1523,6 +1523,9 @@ def subdocMatch(subdoc, key, match_value)
         path = keys[i]
         if tmp.is_a? Hash
             tmp = tmp[path]
+            if tmp.is_a? Integer
+                tmp = tmp.to_s()
+            end
             if i == keys.length - 1
                 if match_value.is_a? Array and tmp.is_a? Array
                     @contains = true if (match_value & tmp).size > 0
