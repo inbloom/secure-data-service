@@ -16,6 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -24,13 +31,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
@@ -51,6 +51,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
+        // TODO need programs/cohorts with studentRecordAccess = true
         boolean isValid = true;
 
         // lookup current staff edOrg associations and get the Ed Org Ids
