@@ -83,9 +83,10 @@ SLI Checkstyle configuration.
       <property name="ignoreComments" value="true"/>
     </module>
     <module name="Regexp">
-      <property name="format" value="(LOG|log).*\.(debug|trace).*\+"/>
+      <property name="format" value="(debug\().*\+"/>
       <property name="illegalPattern" value="true"/>
       <property name="ignoreComments" value="true"/>
+      <property name="message" value="String concatenation within a debug statement"/>
     </module>
     <module name="IllegalCatch"/>
     <module name="ModifiedControlVariable">

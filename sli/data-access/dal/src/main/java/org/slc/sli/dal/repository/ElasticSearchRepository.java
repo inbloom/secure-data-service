@@ -348,6 +348,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
         throw new UnsupportedOperationException("ElasticSearchRepository.patch not implemented");
     }
 
+
+    @Override
+    public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findAndUpdate not implemented");
+    }
+
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
         throw new UnsupportedOperationException("ElasticSearchRepository.updateMulti not implemented");
@@ -421,4 +427,5 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
 
     }
+
 }

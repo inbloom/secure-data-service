@@ -30,7 +30,7 @@ import org.slc.sli.domain.NeutralQuery;
  * @author mabernathy
  */
 @Component
-public class StaffToNonTransitivePublicEntityValidator extends GenericContextValidator {
+public class StaffToNonTransitivePublicEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {

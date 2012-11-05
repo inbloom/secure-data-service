@@ -23,12 +23,13 @@
             }
         },
         {
-            "fieldPath" : "body.programReference",
+            "fieldPath" : "body.ProgramReference",
+        	"deprecated" : true,
             "ref" :
             {
                 "entityType" : "program",
                 "isRefList" : true,
-                "refObjectPath" : "body.programReference",
+                "refObjectPath" : "body.ProgramReference",
                 "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
@@ -37,7 +38,7 @@
                             "path" : "body.programId",
                             "values" :
                             [{
-                                "valueSource" : "body.programReference.programId"
+                                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
                             }]
                         }
                     ]

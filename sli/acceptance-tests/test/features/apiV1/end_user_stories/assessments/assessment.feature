@@ -84,6 +84,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
     Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
     Given I am a valid SEA/LEA end user <Username> with password <Password>
@@ -174,6 +175,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
