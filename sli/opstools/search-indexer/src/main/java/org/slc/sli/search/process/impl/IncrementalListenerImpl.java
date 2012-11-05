@@ -27,9 +27,6 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -199,7 +196,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
             indexEntity = indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
         } catch (Exception e) {
             if (logger.isDebugEnabled()) {
-                logger.debug("Message:" + (new GsonBuilder().create().toJson(opLogs)));
+                logger.info("Message: " + mapper.writeValueAsString(opLogs));
             }
             throw e;
         }
