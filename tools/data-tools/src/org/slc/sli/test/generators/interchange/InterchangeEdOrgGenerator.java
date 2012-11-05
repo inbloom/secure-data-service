@@ -268,7 +268,7 @@ public class InterchangeEdOrgGenerator {
             	course = null;
             } else {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
-                course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
+                course = gen.getCourse(courseMeta.id, courseMeta.schoolId, courseMeta.uniqueCourseId);
             }
 
             courseMeta.courseCodes.addAll(course.getCourseCode());
