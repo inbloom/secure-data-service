@@ -39,12 +39,12 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive && EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isStaff();
+        return EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isStaff();
     }
     
     /**
-     * Can see all of the studentCohortAssociations of the students I can see and of all the cohorts
-     * I can see provided they aren't expired.
+     * Can see all of the studentCohortAssociations of the students I can see provided they aren't
+     * expired.
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
@@ -56,12 +56,9 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             String studentId = (String) sca.getBody().get(ParameterConstants.STUDENT_ID);
-            String cohortId = (String) sca.getBody().get(ParameterConstants.COHORT_ID);
             boolean validByStudent = studentValidator.validate(EntityNames.STUDENT,
                     new HashSet<String>(Arrays.asList(studentId)));
-            boolean validByCohort = cohortValidator.validate(EntityNames.COHORT,
-                    new HashSet<String>(Arrays.asList(cohortId)));
-            if (!(validByStudent && validByCohort) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            if (!(validByStudent) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
                 return false;
             } else {
                 match = true;

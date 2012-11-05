@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -31,16 +30,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private StaffToProgramValidator staffProgramValidator;
     
-    @Autowired
-    private StaffToStudentValidator staffStudentValidator;
-
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType);
@@ -80,14 +73,5 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
     public void setStaffProgramValidator(StaffToProgramValidator staffProgramValidator) {
         this.staffProgramValidator = staffProgramValidator;
     }
-    
-    /**
-     * @param staffStudentValidator
-     *            the staffStudentValidator to set
-     */
-    public void setStaffStudentValidator(StaffToStudentValidator staffStudentValidator) {
-        this.staffStudentValidator = staffStudentValidator;
-    }
-    
     
 }
