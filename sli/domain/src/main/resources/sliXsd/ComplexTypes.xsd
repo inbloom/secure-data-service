@@ -5953,6 +5953,14 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="gradingPeriodId" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the grading period for the grade.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

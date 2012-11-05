@@ -285,7 +285,7 @@ public class IndexerImpl implements Indexer {
                     for (IndexConfig config : indexConfigStore.getConfigs()) {
                         if (!config.isChildDoc()) {
                             response = connector.executePut(
-                                    connector.getIndexUri() + "/_mapping?ignore_conflicts=true", 
+                                    connector.getIndexTypeUri() + "/_mapping?ignore_conflicts=true", 
                                     IndexEntityUtil.getBodyForIndex(config.getMapping()),
                                     index, config.getCollectionName());
                             logger.info(String.format("Mapping response: %s ", response));

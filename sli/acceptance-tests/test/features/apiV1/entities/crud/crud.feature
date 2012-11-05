@@ -46,15 +46,48 @@ Examples:
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
-| "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
-| "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
-| "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 | "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 
+    Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And format "application/vnd.slc+json"
+       Given entity URI <Entity Resource URI>
+        # Create
+       Given a valid entity json document for a <Entity Type>
+        When I navigate to POST "/<ENTITY URI>"
+        Then I should receive a return code of 201
+         And I should receive a new entity URI
+        # Association
+        When I create an association of type <Association Type>
+        When I POST the association of type <Association Type>
+        Then I should receive a return code of 201
+        # Read
+        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 200
+         And a valid entity json document for a <Entity Type>
+         And the response should contain the appropriate fields and values
+         And "entityType" should be <Entity Type>
+         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        # Update
+        When I set the <Update Field> to <Updated Value>
+         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+         And <Update Field> should be <Updated Value>
+        # Delete
+        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+         And I should receive a return code of 404
+
+Examples:
+| Entity Type                    | Entity Resource URI   | Association Type                         | Update Field             | Updated Value             | 
+| "staff"                        | "staff"               | "staffEducationOrganizationAssociation2" | "sex"                    | "Female"                  |
+| "teacher"                      | "teachers"            | "teacherSchoolAssociation2"              | "highlyQualifiedTeacher" | "false"                   |
 
         Scenario Outline: CRUD operations on an entity and can't update natural key
        Given entity URI <Entity Resource URI>
@@ -84,8 +117,40 @@ Examples:
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a"       |
 | "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
-| "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+
+        Scenario Outline: CRUD operations on an entity requiring explicit associations and can't update natural key
+       Given entity URI <Entity Resource URI>
+        # Create
+       Given a valid entity json document for a <Entity Type>
+        When I navigate to POST "/<ENTITY URI>"
+        Then I should receive a return code of 201
+         And I should receive a new entity URI
+        # Optional Association
+        When I create an association of type <Association Type>
+        When I POST the association of type <Association Type>
+        Then I should receive a return code of 201
+        # Read
+        When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 200
+         And a valid entity json document for a <Entity Type>
+         And the response should contain the appropriate fields and values
+         And "entityType" should be <Entity Type>
+         And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        # Update
+        When I set the <Update Field> to <Updated Value>
+         And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 409
+        # Delete
+        When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+         And I should receive a return code of 404
+
+Examples:
+| Entity Type                    | Entity Resource URI       | Association Type            | Update Field             | Updated Value                                |
+| "parent"                       | "parents"                 | "studentParentAssociation2" | "parentUniqueStateId"    | "ParentID102"                                |
+
 
 
         Scenario Outline: CRUD operations on invalid entities

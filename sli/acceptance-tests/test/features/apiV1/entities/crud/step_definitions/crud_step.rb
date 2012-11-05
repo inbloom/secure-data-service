@@ -412,6 +412,13 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "positionTitle" => "Hall monitor",
       "staffClassification" => "School Administrative Support Staff"
     },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
       "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
@@ -423,6 +430,22 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "teacherId" => @newId,
       "instructionalGradeLevels" => ["First grade"],
       "academicSubjects" => ["Composite"]
+    },
+    "teacherSchoolAssociation2" => {
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    },
+    "studentParentAssociation2" => {
+      "parentId" => @newId,
+      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be",
+      "livesWith" => true,
+      "primaryContactStatus" => true,
+      "relation" => "Father",
+      "contactPriority" => 0,
+      "emergencyContactStatus" => true
     }
   }
   @fields = @assocData[type]
@@ -438,8 +461,11 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations"
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations"
   }
   if type != ""
     step "I navigate to POST \"/#{@assocUrl[type]}\""

@@ -30,7 +30,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -46,6 +45,9 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Unit tests for teacher --> student context validator.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -62,9 +64,6 @@ public class TeacherToStudentValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
 
-    @Value("${sli.security.gracePeriod}")
-    private String gracePeriod;
-
     @Autowired
     private PagingRepositoryDelegate<Entity> mockRepo;
 
@@ -72,9 +71,6 @@ public class TeacherToStudentValidatorTest {
     private ValidatorTestHelper helper;
 
     private Set<String> studentIds;
-
-    private String badDate;
-
     private String programId;
 
     @Before
@@ -91,9 +87,6 @@ public class TeacherToStudentValidatorTest {
 
         studentIds = new HashSet<String>();
         programId = helper.generateProgram().getEntityId();
-
-        badDate = "2001-01-01";
-
     }
 
     @After

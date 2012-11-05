@@ -20,11 +20,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -61,14 +59,19 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 
 /**
- * Search service
+ * Service class to handle all API search requests.
+ * Retrieves results using data access classes. Queries and filters results based on the
+ * user's security context (role, ed-org, school, section assocs, etc.)
  *
  */
 
 @Component
 public class SearchResourceService {
 
-    private static final int DEFAULT_ES_LIMIT_PER_QUERY = 10;
+    private static final String CONTEXT_SCHOOL_ID = "context.schoolId";
+
+    // Minimum limit on results to retrieve from Elasticsearch each trip
+    private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
     private static final int SEARCH_RESULT_LIMIT = 500;
 
@@ -91,15 +94,22 @@ public class SearchResourceService {
     private ContextValidator contextValidator;
 
     // keep parameters for ElasticSearch
-    // q,
+    // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
 
-    public ServiceResponse list(Resource resource, String entity, URI queryUri) {
+    /**
+     * Main entry point for retrieving search results
+     * @param resource
+     * @param resourcesToSearch
+     * @param queryUri
+     * @return
+     */
+    public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
 
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         // set up query criteria, make query
-        ApiQuery apiQuery = prepareQuery(entity, queryUri);
+        ApiQuery apiQuery = prepareQuery(resourcesToSearch, queryUri);
         if (definition.getService().count(apiQuery) >= maxUnfilteredSearchResultCount) {
             throw new ResponseTooLargeException();
         }
@@ -107,8 +117,16 @@ public class SearchResourceService {
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
+    /**
+     * Takes an ApiQuery and retrieve results. Includes logic for pagination and calls
+     * methods to filter by security context.
+     * @param definition
+     * @param apiQuery
+     * @return
+     */
     public List<EntityBody> retrieveResults(EntityDefinition definition, ApiQuery apiQuery) {
 
+        // get the offset and limit requested
         int limit = apiQuery.getLimit();
         if (limit == 0) {
             limit = SEARCH_RESULT_LIMIT;
@@ -117,9 +135,13 @@ public class SearchResourceService {
         int totalLimit = limit + offset;
         int total = 0, newTotal = 0;
 
+        // now, based on the requested offset and limit, calculate
+        // new offset and limit for retrieving data in batches from Elasticsearch.
+        // this is necessary because some Elasticsearch results will be
+        // filtered out based on security context.
         int limitPerQuery = totalLimit * 2;
-        if (limitPerQuery < DEFAULT_ES_LIMIT_PER_QUERY) {
-            limitPerQuery = DEFAULT_ES_LIMIT_PER_QUERY;
+        if (limitPerQuery < MINIMUM_ES_LIMIT_PER_QUERY) {
+            limitPerQuery = MINIMUM_ES_LIMIT_PER_QUERY;
         }
         apiQuery.setLimit(limitPerQuery);
         apiQuery.setOffset(0);
@@ -128,13 +150,15 @@ public class SearchResourceService {
         List<EntityBody> accessible = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
+        // in a loop, retrieve results and filter them, until we have enough
+        // results to return
         while (total < totalLimit) {
 
             // call BasicService to query the elastic search repo
             entityBodies = retrieve(apiQuery, definition);
 
             // filter results through security context
-            accessible = checkAccessible(entityBodies);
+            accessible = filterResultsBySecurity(entityBodies);
 
             // if past offset, add accessible results to final list
             newTotal = total + accessible.size();
@@ -159,18 +183,48 @@ public class SearchResourceService {
         return finalEntities;
     }
 
+    /**
+     * Retrieve results from the Elasticsearch repo, via BasicService and the data access layer
+     * @param apiQuery
+     * @param definition
+     * @return
+     */
     public List<EntityBody> retrieve(ApiQuery apiQuery, final EntityDefinition definition) {
         return (List<EntityBody>) definition.getService().list(apiQuery);
     }
 
-    public ApiQuery prepareQuery(String entity, URI queryUri) {
+    /**
+     * Prepare an ApiQuery to send to the search repository.
+     * Creates the ApiQuery from the query URI, sets query criteria and security context criteria.
+     * @param resourcesToSearch
+     * @param queryUri
+     * @return
+     */
+    public ApiQuery prepareQuery(String resourcesToSearch, URI queryUri) {
         ApiQuery apiQuery = new ApiQuery(queryUri);
-        doFilter(apiQuery);
-        addContext(apiQuery);
-        if (entity != null) {
-            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, entity));
+        filterCriteria(apiQuery);
+        addSecurityContext(apiQuery);
+        if (resourcesToSearch != null) {
+            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resourcesToSearch)));
         }
         return apiQuery;
+    }
+
+    /**
+     * Given string of resource names, get corresponding string of entity types
+     * @param resourceNames
+     * @return
+     */
+    private String getEntityTypes(String resourceNames) {
+        List<String> entityTypes = new ArrayList<String>();
+        EntityDefinition def;
+        for (String resourceName : resourceNames.split(",")) {
+            def = resourceHelper.getEntityDefinition(resourceName);
+            if (def != null) {
+                entityTypes.add(def.getType());
+            }
+        }
+        return StringUtils.join(entityTypes, ',');
     }
 
     /**
@@ -181,7 +235,7 @@ public class SearchResourceService {
      * @param entities
      * @return
      */
-    public List<EntityBody> checkAccessible(List<EntityBody> entities) {
+    public List<EntityBody> filterResultsBySecurity(List<EntityBody> entities) {
 
         List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
@@ -239,7 +293,7 @@ public class SearchResourceService {
      *
      * @param apiQuery
      */
-    public void doFilter(ApiQuery apiQuery) {
+    public void filterCriteria(ApiQuery apiQuery) {
 
         // keep only whitelist parameters
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
@@ -264,8 +318,8 @@ public class SearchResourceService {
     }
 
     /**
-     * apply default query for ElasticSearch
-     *
+     * Apply default query pattern for ElasticSearch.
+     * Query strategy - start-of-word match on each query token
      * @param criterias
      */
     private static void applyDefaultPattern(NeutralCriteria criteria) {
@@ -277,10 +331,18 @@ public class SearchResourceService {
         if (tokens == null || tokens.length < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
+        // append wildcard '*' to each token
         criteria.setValue(StringUtils.join(tokens, "* ") + "*");
     }
 
-    private void addContext(ApiQuery apiQuery) {
+    /**
+     * Add security context criteria to query.
+     * The security context is determined by the user's accessible schools. The list of
+     * accessible school ids is added to the query, and records in Elasticsearch must
+     * match an id in order to be returned.
+     * @param apiQuery
+     */
+    private void addSecurityContext(ApiQuery apiQuery) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Entity principalEntity = principal.getEntity();
         // get allSchools for staff
@@ -288,13 +350,18 @@ public class SearchResourceService {
         schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
         schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
         schoolIds.add("ALL");
-        apiQuery.addCriteria(new NeutralCriteria("context.schoolId", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
+        apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
     }
 
     public void setMaxUnfilteredSearchResultCount(long maxUnfilteredSearchResultCount) {
         this.maxUnfilteredSearchResultCount = maxUnfilteredSearchResultCount;
     }
 
+    /**
+     * Run an embedded ElasticSearch instance, if enabled by configuration.
+     * @author dwu
+     *
+     */
     @Component
     static final class Embedded {
         final Logger logger = LoggerFactory.getLogger(Embedded.class);

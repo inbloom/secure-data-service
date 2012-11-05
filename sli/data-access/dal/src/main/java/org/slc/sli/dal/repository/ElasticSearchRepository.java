@@ -141,6 +141,8 @@ public class ElasticSearchRepository implements Repository<Entity> {
         srb.setQuery(converter.getQuery(neutralQuery));
         if (noFields) {
             srb.setNoFields();
+        } else {
+            srb.setFrom(neutralQuery.getOffset()).setSize(neutralQuery.getLimit());
         }
         return srb.toString();
     }

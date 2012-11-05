@@ -32,6 +32,9 @@ import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utility for unit testing context validators.
+ */
 @Component
 public class ValidatorTestHelper {
     @Autowired
@@ -200,15 +203,28 @@ public class ValidatorTestHelper {
     }
 
     public Entity generateAssessment() {
-    	return repo.create(EntityNames.ASSESSMENT, new HashMap<String, Object>());
+        return repo.create(EntityNames.ASSESSMENT, new HashMap<String, Object>());
     }
 
     public Entity generateLearningObjective() {
-    	return repo.create(EntityNames.LEARNING_OBJECTIVE, new HashMap<String, Object>());
+        return repo.create(EntityNames.LEARNING_OBJECTIVE, new HashMap<String, Object>());
     }
 
     public Entity generateLearningStandard() {
-    	return repo.create(EntityNames.LEARNING_STANDARD, new HashMap<String, Object>());
+        return repo.create(EntityNames.LEARNING_STANDARD, new HashMap<String, Object>());
+    }
+
+    public Entity generateDisciplineIncident(String schoolId) {
+        Map<String, Object> diBody = new HashMap<String, Object>();
+        diBody.put(ParameterConstants.SCHOOL_ID, schoolId);
+        return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
+    }
+    
+    public void generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
+        Map<String, Object> sdia = new HashMap<String, Object>();
+        sdia.put(ParameterConstants.STUDENT_ID, studentId);
+        sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
+        repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
     }
 
 }

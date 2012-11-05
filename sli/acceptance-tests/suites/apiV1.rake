@@ -29,14 +29,14 @@ desc "Run V1 Selectors Tests"
 task :v1SelectorTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/selectors/selectors.feature")
+  runTests("test/features/apiV1/selectors")
 end
 
 desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+  runTests("test/features/apiV1/entities/Links")
 end
 
 desc "Run API querying tests"
@@ -110,6 +110,18 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
+end
+
+desc "Run V1 Teacher Validation Tests"
+task :v1TeacherValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
 
 desc "Run V1 White List Validation Tests"

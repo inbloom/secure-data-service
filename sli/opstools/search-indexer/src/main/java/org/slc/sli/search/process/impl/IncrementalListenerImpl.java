@@ -27,6 +27,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -88,34 +91,35 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      * @param opLog
      */
     public void process(Message message) {
+        if (message != null) {
+            try {
+                String opLog = "";
+                // for now we will always receive ActiveMQBytesMessage.
+                // we also support TextMessage if it ever needs to be used.
+                if (message instanceof ActiveMQBytesMessage) {
+                    ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
+                    ByteSequence bs = byteMessage.getContent();
+                    InputStream is = new ByteArrayInputStream(bs.getData());
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String line = "";
+                    StringBuilder sb = new StringBuilder();
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    opLog = sb.toString();
 
-        try {
-            String opLog = "";
-            // for now we will always receive ActiveMQBytesMessage. 
-            // we also support TextMessage if it ever needs to be used.
-            if (message instanceof ActiveMQBytesMessage) {
-                ActiveMQBytesMessage byteMessage = (ActiveMQBytesMessage) message;
-                ByteSequence bs = byteMessage.getContent();
-                InputStream is = new ByteArrayInputStream(bs.getData());
-                BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                String line = "";
-                StringBuilder sb = new StringBuilder();
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
+                } else if (message instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) message;
+                    opLog = textMessage.getText();
                 }
-                opLog = sb.toString();
 
-            } else if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                opLog = textMessage.getText();
+                IndexEntity entity = convertToEntity(opLog);
+                if (entity != null) {
+                    sendToIndexer(entity);
+                }
+            } catch (Exception e) {
+                logger.error("Error processing message", e);
             }
-
-            IndexEntity entity = convertToEntity(opLog);
-            if (entity != null) {
-                sendToIndexer(entity);
-            }
-        } catch (Exception e) {
-            logger.error("Error processing message", e);
         }
     }
 
@@ -169,29 +173,39 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         if (opLogs.size() == 0) {
             return null;
         }
-        Map<String, Object> opLogMap = opLogs.get(0);
+        IndexEntity indexEntity = null;
+        try {
 
-        Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
-        String id = (String) o2.get("_id");
-        Meta meta = getMeta(opLogMap);
-        String type = meta.getType();
-        Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
-        Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-        Map<String, Object> updates = (Map<String, Object>) o.get("$set");
+            Map<String, Object> opLogMap = opLogs.get(0);
 
-        // merge data into entity json (id, type, metadata.tenantId, body)
-        Map<String, Object> entityMap = new HashMap<String, Object>();
-        entityMap.put("_id", id);
-        entityMap.put("type", type);
-        entityMap.put("metaData", metadata);
+            Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
+            String id = (String) o2.get("_id");
+            Meta meta = getMeta(opLogMap);
+            String type = meta.getType();
+            Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
+            Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
+            Map<String, Object> updates = (Map<String, Object>) o.get("$set");
 
-        for (String updateField : updates.keySet()) {
-            List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
-            NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
+            // merge data into entity json (id, type, metadata.tenantId, body)
+            Map<String, Object> entityMap = new HashMap<String, Object>();
+            entityMap.put("_id", id);
+            entityMap.put("type", type);
+            entityMap.put("metaData", metadata);
+
+            for (String updateField : updates.keySet()) {
+                List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
+                NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
+            }
+            indexEntity = indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
+        } catch (Exception e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Message:" + (new GsonBuilder().create().toJson(opLogs)));
+            }
+            throw e;
         }
 
         // convert to index entity object
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
+        return indexEntity;
     }
 
     @SuppressWarnings("unchecked")
@@ -205,21 +219,22 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         }
         Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-        String id = (String) o.get("_id");;
-          
+        String id = (String) o.get("_id");
+        ;
+
         Meta meta = getMeta(opLogMap);
         String type = meta.getType();
-          
+
         // merge data into entity json (id, type, metadata.tenantId)
         Map<String, Object> entityMap = new HashMap<String, Object>();
         entityMap.put("_id", id);
         entityMap.put("type", type);
-        //entityMap.put("metaData", metadata);
-          
+        // entityMap.put("metaData", metadata);
+
         // convert to index entity object
         return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE, entityMap);
     }
-    
+
     private Meta getMeta(Map<String, Object> opLogMap) {
         String[] meta = ((String) opLogMap.get("ns")).split("\\.");
         return new Meta(meta[0], meta[1]);
@@ -265,21 +280,21 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     public void setActiveMQConsumer(JMSQueueConsumer activeMQConsumer) {
         this.activeMQConsumer = activeMQConsumer;
     }
-    
+
     private static class Meta {
         private final String index;
         private final String type;
-        
+
         public Meta(String index, String type) {
             super();
             this.index = index;
             this.type = type;
         }
-        
+
         public String getIndex() {
             return index;
         }
-        
+
         public String getType() {
             return type;
         }
