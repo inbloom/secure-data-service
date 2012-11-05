@@ -37,7 +37,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ValidatorTestHelper {
-    @Autowired
+
+    private static final String GRADING_PERIOD_REFERENCE = "gradingPeriodReference";
+
+	@Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
     public final String STAFF_ID = "1";
@@ -109,14 +112,14 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.COHORT, cohortBody);
     }
 
-    public void generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
+    public Entity generateStaffCohort(String teacherId, String cohortId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffCohort = new HashMap<String, Object>();
         staffCohort.put(ParameterConstants.STAFF_ID, teacherId);
         staffCohort.put(ParameterConstants.COHORT_ID, cohortId);
         expireAssociation(isExpired, staffCohort);
         staffCohort.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
 
-        repo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
+        return repo.create(EntityNames.STAFF_COHORT_ASSOCIATION, staffCohort);
 
     }
 
@@ -163,13 +166,13 @@ public class ValidatorTestHelper {
         }
     }
 
-    public void generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
+    public Entity generateStudentCohort(String studentId, String cohortId, boolean isExpired) {
         Map<String, Object> studentCohort = new HashMap<String, Object>();
         studentCohort.put(ParameterConstants.STUDENT_ID, studentId);
         studentCohort.put(ParameterConstants.COHORT_ID, cohortId);
         expireAssociation(isExpired, studentCohort);
 
-        repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
+        return repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
     }
 
     public void generateStudentProgram(String studentId, String programId, boolean isExpired) {
@@ -225,6 +228,19 @@ public class ValidatorTestHelper {
         sdia.put(ParameterConstants.STUDENT_ID, studentId);
         sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
         repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
+    }
+
+    public Entity generateSession(String schoolId, List<String> gradingPeriodRefs) {
+    	Map<String, Object> session = new HashMap<String, Object>();
+    	session.put(ParameterConstants.SCHOOL_ID, schoolId);
+    	if (null != gradingPeriodRefs) {
+    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs.toArray());
+    	}
+        return repo.create(EntityNames.SESSION, session);
+    }
+    
+    public Entity generateGradingPeriod() {
+        return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
     }
 
 }

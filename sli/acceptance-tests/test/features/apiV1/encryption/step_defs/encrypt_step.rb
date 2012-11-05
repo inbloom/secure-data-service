@@ -267,7 +267,7 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
       object = object[f]
     end
   end
-  object.should_not == value
+  object.should_not =~ /#{value}/i
 end
 
 Then /^all students should have "([^\"]*)" equal to "([^\"]*)"$/ do |field, value|
