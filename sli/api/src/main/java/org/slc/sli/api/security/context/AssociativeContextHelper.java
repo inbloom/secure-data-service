@@ -254,7 +254,7 @@ public class AssociativeContextHelper {
     public Iterable<Entity> getEntitiesWithDenormalizedReference(String collectionName, String referenceLocation,
                                                  List<String> referenceIds) {
         NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds, false));
+        neutralQuery.addCriteria(new NeutralCriteria(referenceLocation + "_id", "in", referenceIds, false));
         neutralQuery.setIncludeFields(Arrays.asList(referenceLocation));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(0);
