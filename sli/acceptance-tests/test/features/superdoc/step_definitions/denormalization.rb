@@ -54,8 +54,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "b4a4697c3c7d08b48a38460c34b58286ad3b3f60_id" if human_readable_id == "INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH"
 
   #Cohort
-  id = "b40926af-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC-TEST-COH-2"
-  id = "dce4d9a8240e3d3ebdbb1759a5376e1dd4bec4d0_id" if human_readable_id == "INGESTED MATT SOLLARS ACC-TEST-COH-4"
+  id = "a6929135-4782-46f1-ab01-b4df2e6ad093"        if human_readable_id == "ACC-TEST-COH-3"
 
   # Return the translated value
   id
@@ -129,9 +128,9 @@ $entity_data = {
       "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
       "sessionId" => "62101257-592f-4cbe-bcd5-b8cd24a06f73"
     },
-    "studentCohortAssociation" => {
-           "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f",
-           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085",
+    "studentCohortAssocation" => {
+           "cohortId" => "a6929135-4782-46f1-ab01-b4df2e6ad093",
+           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085"
            "endDate" => "2020-01-15",
            "beginDate" => "2011-04-01"
         },
