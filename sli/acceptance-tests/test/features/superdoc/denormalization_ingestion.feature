@@ -103,6 +103,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should not find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
     And I should not find "<INGESTED ACC TEST PROG 2>" in "program"
+    And I should not find "<INGESTED MATT SOLLARS ACC-TEST-COH-4>" in "cohort"
 
     When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
     Then I should not find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
@@ -120,13 +121,17 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | studentSectionAssociation             | 298   |
       | session                               | 23    |
       | studentAcademicRecord                 | 118   |
-    And I should see "Processed 4 records." in the resulting batch job file
+      | cohort                                | 4     |
+      | studentCohortAssociation              | 7     |
+
+    And I should see "Processed 6 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
     # Check if references are inserted
     When I look at "<INGESTED MATT SOLLARS>" in the "student"
     Then I should find "<INGESTED 7TH GRADE ENGLISH SEC 5>" in "section"
     And I should find "<INGESTED ACC TEST PROG 2>" in "program"
+    And I should find "<INGESTED MATT SOLLARS ACC-TEST-COH-4>" in "cohort"
 
     When I look at "<INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH>" in the "studentSchoolAssociation"
     Then I should find "<INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH>" in "sessions"
