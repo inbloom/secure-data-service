@@ -23,20 +23,21 @@ task :apiPatchTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/patch/api_patch.feature")
+  runTests("test/features/apiV1/patch/api_patch_teacher.feature")
 end
 
 desc "Run V1 Selectors Tests"
 task :v1SelectorTests => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/selectors/selectors.feature")
+  runTests("test/features/apiV1/selectors")
 end
 
 desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+  runTests("test/features/apiV1/entities/Links")
 end
 
 desc "Run API querying tests"
@@ -50,7 +51,7 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/xml/xml.feature")
+  runTests("test/features/apiV1/xml")
 end
 
 desc "Run V1 Staff Secuity Tests"
@@ -61,7 +62,9 @@ end
 desc "Run V1 Cascade Deletion Tests"
 task :v1CascadeDeletionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion")
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion/cascadeDeletion_teacher.feature")
 end
 
 desc "Run V1 Direct References Tests"
@@ -102,21 +105,33 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation/validation.feature")
+end
+
+desc "Run V1 Teacher Validation Tests"
+task :v1TeacherValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "Midgar_data/educationOrganization_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("staffEducationOrganizationAssociation", "Midgar_data/staffEducationOrganizationAssociation_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
+  setFixture("section", "Midgar_data/section_fixture.json")
+  setFixture("studentSectionAssociation", "Midgar_data/studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "Midgar_data/teacherSectionAssociation_fixture.json")
+  runTests("test/features/apiV1/validation/teacher_validation.feature")
 end
 
 desc "Run V1 White List Validation Tests"
 task :v1WhiteListValidationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("student", "student_fixture.json")
+  setFixture("staff", "Midgar_data/staff_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
@@ -189,7 +204,7 @@ end
 desc "Run V1 Comma-Separated List Order Tests"
 task :v1CommaSeparatedListOrderTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  setFixture("student", "student_fixture.json")
+  setFixture("student", "Midgar_data/student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
 
@@ -218,10 +233,6 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
-  Rake::Task["importSandboxData"].execute
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-
   runTests("test/features/security")
 end
 
@@ -252,7 +263,10 @@ task :importCompletedAggData => [:importSandboxData] do
     "student" => "completedAggregation/students.json",
     "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
     "studentSectionAssociation" => "completedAggregation/studentSections.json",
-    "educationOrganization" => "completedAggregation/educationOrganization.json"
+    "educationOrganization_Midgar" => "completedAggregation/Midgar/educationOrganization.json",
+    "educationOrganization_Hyrule" => "completedAggregation/Hyrule/educationOrganization.json",
+    "educationOrganization_chaos_mokey_org" => "completedAggregation/chaos_mokey_org/educationOrganization.json",
+    "educationOrganization_fakedev@zork.net" => "completedAggregation/fakedev@zork.net/educationOrganization.json"
   ]
   setMultipleFixtureFiles(data)
 end

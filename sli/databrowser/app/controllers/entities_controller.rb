@@ -78,16 +78,19 @@ class EntitiesController < ApplicationController
   def show
     @@LIMIT = 50
     @page = Page.new
+
     if params[:search_id] && @search_field
       @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
       return
     else
+      #Clean up the parameters to pass through to the API.
       if params[:offset]
-        @entities = Entity.get("", {:offset => params[:offset], :limit => @@LIMIT})
-      else
-        @entities = Entity.get("")
+        params[:limit] == @@LIMIT
       end
+      query = params.reject {|k, v| k == 'controller' || k == 'action' || k == 'other' || k == 'search_id'}
+      logger.debug {"Keeping query parameters #{query.inspect}"}
+      @entities = Entity.get("", query)
       @page = Page.new(@entities.http_response)
     end
     if @entities.is_a?(Hash)

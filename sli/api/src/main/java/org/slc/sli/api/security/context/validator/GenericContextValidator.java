@@ -16,41 +16,85 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Generic context validator that makes use of the old context resolvers until we can
  * fully transition to the new logic.
- * 
+ *
  */
 @Component
 public class GenericContextValidator implements IContextValidator {
-    
+
     @Autowired
     private ContextResolverStore store;
-    
-    private EntityContextResolver resolver;
+
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
         String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
-        resolver = store.findResolver(userType, entityType);
-        return resolver.canResolve(userType, entityType);
+        if (userType.equals("staff")) {
+            return false;
+        }
+        if (entityType.equals("school") || entityType.equals("educationOrganization") || entityType.equals("graduationPlan")) {
+            return false;
+        }
+        return store.findResolver(userType, entityType) != null;
     }
-    
+
     @Override
-    public boolean validate(Collection<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) {
+        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
+        EntityContextResolver resolver = store.findResolver(userType, entityType);
+        if (resolver instanceof AllowAllEntityContextResolver) {
+            return true;
+        }
         Set<String> contextIds = new HashSet<String>(
                 resolver.findAccessible(SecurityUtil.getSLIPrincipal().getEntity()));
         return contextIds.containsAll(ids);
     }
-    
+
+    /**
+     * Determines if the entity type is public.
+     *
+     * @param type
+     *            Entity type.
+     * @return True if the entity is public, false otherwise.
+     */
+    protected boolean isPublic(String type) {
+        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
+                || type.equals(EntityNames.LEARNING_STANDARD);
+    }
+
+    /**
+     * Determines if the user is of type 'staff'.
+     *
+     * @return True if user is of type 'staff', false otherwise.
+     */
+    protected boolean isStaff() {
+        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+    }
+
+    protected Repository<Entity> getRepo() {
+        return this.repo;
+    }
+
+    protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
+        this.repo = repo;
+    }
 }

@@ -22,8 +22,8 @@ import com.mongodb.Mongo;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.dal.TenantContext;
 
 /**
  * @author okrook

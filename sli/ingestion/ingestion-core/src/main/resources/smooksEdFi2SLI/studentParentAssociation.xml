@@ -19,8 +19,8 @@
     </jb:bean>
 
     <jb:bean beanId="studentParentAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="studentId" data="attributes studentId"/>
-        <jb:value property="parentId" data="attributes parentId" />
+        <jb:value property="studentId" data="attributes StudentReference"/>
+        <jb:value property="parentId" data="attributes ParentReference" />
         <jb:value property="relation" data="attributes relation" />
         <jb:value property="livesWith" data="attributes livesWith" decoder="Boolean" />
         <jb:value property="primaryContactStatus" data="attributes primaryContactStatus" decoder="Boolean" />

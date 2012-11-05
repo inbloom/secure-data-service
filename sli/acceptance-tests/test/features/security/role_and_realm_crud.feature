@@ -3,41 +3,13 @@ Feature: Custom Role Mapping functions and Realm Listing functions
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 As any SLI application, I can access an API resource that only returns a list of realms, even while unauthenticated
 
-@wip
-Scenario Outline: Deny access to users not using SLI Adminstrator credentials
-
-	Given I am logged in using <Username> <Password> to realm "SLI"
-	When I try to access the URI "/realm" with operation <Operation>
-	Then I should be denied access
-	Examples:
-	| Username        | Password            | Operation |
-	| "leader"        | "leader1234"        | "POST"    |
-	| "educator"      | "educator1234"      | "GET"     |
-	
-@wip
-Scenario Outline: Deny access to users using non-allowed methods
-
-	Given I am logged in using <Username> <Password> to realm "SLI"
-	When I try to access the URI "/realm" with operation <Operation>
-	Then I should receive a return code of 405
-  Examples:
-  | Username        | Password            | Operation |
-  | "leader"        | "leader1234"        | "PUT"     |
-  | "administrator" | "administrator1234" | "DELETE"  |
-
-@wip
-Scenario: Deny access to users using SLI Administrator credentials from non-SLI realms
-
-	Given I am logged in using "badadmin" "badadmin1234" to realm "IL"
-	When I try to access the URI "/realm" with operation "GET"
-	Then I should be denied access
-
 Scenario: Read a list of realms
 
-	Given I am logged in using "sunsetrealmadmin" "sunsetrealmadmin1234" to realm "SLI"
+  Given I am logged in using "sunsetrealmadmin" "sunsetrealmadmin1234" to realm "SLI"
   When I GET a list of realms
   Then I should receive a return code of 200
   And I should see a list of valid realm objects
+  And I should only see the realm "IL-Sunset"
 
 Scenario: Read an existing realm
 
@@ -69,6 +41,12 @@ Scenario: Deny creation of a new custom role doc when one already exists for thi
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I POST a new custom role document with realm "Fake Realm"
   Then I should receive a return code of 400
+
+Scenario: List custom role docs only ever returns one
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I GET my custom role doc
+  Then I should receive a return code of 200
+  And I should see one custom roles document for the realm "Fake Realm"
 
 Scenario: Delete a custom role doc
 Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"

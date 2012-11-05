@@ -60,7 +60,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="CompetencyLevel" type="{http://ed-fi.org/0100}CompetencyLevelDescriptorType" minOccurs="0"/>
  *         &lt;element name="DiagnosticStatement" type="{http://ed-fi.org/0100}text" minOccurs="0"/>
  *         &lt;element name="StudentSectionAssociationReference" type="{http://ed-fi.org/0100}StudentSectionAssociationReferenceType"/>
- *         &lt;element name="GradebookEntryReference" type="{http://ed-fi.org/0100}ReferenceType"/>
+ *         &lt;element name="GradebookEntryReference" type="{http://ed-fi.org/0100}SLC-GradebookEntryReferenceType"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -100,7 +100,7 @@ public class StudentGradebookEntry
     @XmlElement(name = "StudentSectionAssociationReference", required = true)
     protected StudentSectionAssociationReferenceType studentSectionAssociationReference;
     @XmlElement(name = "GradebookEntryReference", required = true)
-    protected ReferenceType gradebookEntryReference;
+    protected GradebookEntryReferenceType gradebookEntryReference;
 
     /**
      * Gets the value of the dateFulfilled property.
@@ -254,7 +254,7 @@ public class StudentGradebookEntry
      *     {@link ReferenceType }
      *     
      */
-    public ReferenceType getGradebookEntryReference() {
+    public GradebookEntryReferenceType getGradebookEntryReference() {
         return gradebookEntryReference;
     }
 
@@ -266,7 +266,7 @@ public class StudentGradebookEntry
      *     {@link ReferenceType }
      *     
      */
-    public void setGradebookEntryReference(ReferenceType value) {
+    public void setGradebookEntryReference(GradebookEntryReferenceType value) {
         this.gradebookEntryReference = value;
     }
 

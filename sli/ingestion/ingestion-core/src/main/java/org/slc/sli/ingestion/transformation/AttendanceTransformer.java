@@ -17,6 +17,7 @@
 
 package org.slc.sli.ingestion.transformation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,8 +26,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +47,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -113,7 +114,19 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            String studentId = (String) attributes.get("studentId");
+
+
+            String studentId = null;
+            try {
+                studentId = (String) PropertyUtils.getNestedProperty(attributes,
+                        "StudentReference.StudentIdentity.StudentUniqueStateId");
+            } catch (IllegalAccessException e) {
+                LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+            } catch (InvocationTargetException e) {
+                LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+            } catch (NoSuchMethodException e) {
+                LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+            }
 
             if (attributes.containsKey("schoolId")) {
                 Object stateOrganizationId = attributes.get("schoolId");
@@ -282,6 +295,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         }
 
         Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+
+        // rebuild StudentReference, since that is what reference resolution will expect
+        Map<String, Object> studentReference = new HashMap<String, Object>();
+        Map<String, Object> studentIdentity = new HashMap<String, Object>();
+        studentIdentity.put("StudentUniqueStateId", studentId);
+        studentReference.put("StudentIdentity", studentIdentity);
+
+        attendanceAttributes.put("StudentReference", studentReference);
         attendanceAttributes.put("studentId", studentId);
         attendanceAttributes.put("schoolId", schoolId);
         attendanceAttributes.put("schoolYearAttendance", daily);

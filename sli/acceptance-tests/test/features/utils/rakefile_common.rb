@@ -97,12 +97,14 @@ end
 def enable_NOTABLESCAN()
   if ENV["TOGGLE_TABLESCANS"]
     puts "Turning --notablescan flag ON!  (indexes must hit queries)"
-    @admindb = Mongo::Connection.new.db('admin')
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
     cmd = Hash.new
     cmd['setParameter'] = 1
     cmd['notablescan'] = true
-    @admindb.command(cmd)
-    @admindb.get_last_error()
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
   end
 end
 
@@ -112,11 +114,13 @@ end
 def disable_NOTABLESCAN()
   if ENV["TOGGLE_TABLESCANS"]
     puts "Turning --notablescan flag OFF."
-    @admindb = Mongo::Connection.new.db('admin')
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
     cmd = Hash.new
     cmd['setParameter'] = 1
     cmd['notablescan'] = false
-    @admindb.command(cmd)
-    @admindb.get_last_error()
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
   end
 end

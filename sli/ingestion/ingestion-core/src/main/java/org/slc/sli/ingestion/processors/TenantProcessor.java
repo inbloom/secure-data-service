@@ -38,6 +38,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,8 @@ public class TenantProcessor implements Processor {
     private ControlFilePreProcessor controlFilePreProcessor;
 
     private Map<String, List<String>> dataSetLookup;
+
+    private static final String INVALID_CHARACTERS = "?";
 
     @Autowired
     private NoExtractProcessor noExtractProcessor;
@@ -138,7 +141,14 @@ public class TenantProcessor implements Processor {
             if (oldLzPaths.contains(lzPath)) {
                 oldLzPaths.remove(lzPath);
             } else {
-                routesToAdd.add(lzPath);
+                if (isValidDirName(lzPath)) {
+                    routesToAdd.add(lzPath);
+                } else {
+                    LOG.error(
+                            "Can't create file poller, because of invalid characters in the landing zone path {}. Removing tenant from database",
+                            lzPath);
+                    tenantDA.removeInvalidTenant(lzPath);
+                }
             }
         }
 
@@ -288,17 +298,13 @@ public class TenantProcessor implements Processor {
      * @return
      */
     boolean doPreloads() {
-        try {
-            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles(getHostname());
+
+            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles();
             boolean result = true;
             for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
                 result &= preLoad(entry.getKey(), entry.getValue());
             }
             return result;
-        } catch (UnknownHostException e) {
-            LOG.error("Error preloading files", e);
-            return false;
-        }
     }
 
     Map<String, List<String>> getDataSetLookup() {
@@ -310,6 +316,18 @@ public class TenantProcessor implements Processor {
     void setDataSetLookup(String dataSetLookup) throws IOException {
         ObjectMapper om = new ObjectMapper();
         this.dataSetLookup = om.readValue(dataSetLookup, Map.class);
+    }
+
+
+    /**
+     * Check if the inboundDir name contains any invalid characters
+     *
+     * @param inboundDir : directory name to be checked
+     * @return : true if directory name doesn't contain any invalid character.
+     */
+    boolean isValidDirName(String inboundDir) {
+        boolean res = StringUtils.containsNone(inboundDir, INVALID_CHARACTERS);
+        return res;
     }
 
 }

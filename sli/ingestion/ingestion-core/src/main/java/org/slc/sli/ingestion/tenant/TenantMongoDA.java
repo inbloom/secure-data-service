@@ -23,9 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+import org.springframework.data.mongodb.core.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -39,6 +44,7 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class TenantMongoDA implements TenantDA {
+    protected static final Logger LOG = LoggerFactory.getLogger(TenantDA.class);
 
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
@@ -54,6 +60,10 @@ public class TenantMongoDA implements TenantDA {
     public static final String TENANT_TYPE = "tenant";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String DESC = "desc";
+    public static final String ALL_STATUS_FIELDS = "body.landingZone.$.preload.status";
+    public static final String STATUS_FIELD      = "landingZone.preload.status";
+
+    private static final String TENANT_READY_FIELD = "body.tenantIsReady";
 
     private Repository<Entity> entityRepository;
     private static final NeutralCriteria PRELOAD_READY_CRITERIA = new NeutralCriteria(LANDING_ZONE + "." + PRELOAD_DATA
@@ -107,9 +117,9 @@ public class TenantMongoDA implements TenantDA {
             List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
             if (landingZones != null) {
                 for (Map<String, String> landingZone : landingZones) {
-                        String path = landingZone.get(PATH);
-                        if (path != null) {
-                            tenantPaths.add(path);
+                    String path = landingZone.get(PATH);
+                    if (path != null) {
+                        tenantPaths.add(path);
                     }
                 }
             }
@@ -145,8 +155,9 @@ public class TenantMongoDA implements TenantDA {
                                 LANDING_ZONE_INGESTION_SERVER)));
         Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
         for (Entity tenant : tenants) {
-            if (readyTenant(tenant)) { // only return this if the tenant is not already in the
-                                       // started state
+            if (markPreloadStarted(tenant)) { // only return this if the tenant is not already in
+                                              // the
+                // started state
                 List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
                 for (Map<String, Object> landingZone : landingZones) {
                     if (landingZone.get(INGESTION_SERVER).equals(ingestionServer)) {
@@ -165,7 +176,7 @@ public class TenantMongoDA implements TenantDA {
         return fileMap;
     }
 
-    private boolean readyTenant(Entity tenant) {
+    private boolean markPreloadStarted(Entity tenant) {
         return entityRepository.doUpdate(
                 TENANT_COLLECTION,
                 new NeutralQuery().addCriteria(new NeutralCriteria("_id", "=", tenant.getEntityId())).addCriteria(
@@ -174,4 +185,77 @@ public class TenantMongoDA implements TenantDA {
                         + TenantMongoDA.PRELOAD_STATUS, "started"));
 
     }
+
+    @Override
+    public boolean tenantDbIsReady(String tenantId) {
+        boolean isPartitioned = false;
+
+        // checking for indexes ensures that the scripts were capable of running
+        TenantContext.setTenantId(tenantId);
+        boolean isIndexed = entityRepository.count("system.indexes", new Query()) > 0;
+
+        if (isIndexed) {
+
+            // checking for flag that will only be set after scripts run
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            query.addCriteria(new NeutralCriteria(TENANT_READY_FIELD, "=", true, false));
+
+            try {
+                TenantContext.setIsSystemCall(true);
+                isPartitioned = entityRepository.count("tenant", query) > 0;
+            } finally {
+                TenantContext.setIsSystemCall(false);
+            }
+        }
+
+        return isPartitioned;
+    }
+
+    @Override
+    public void setTenantReadyFlag(String tenantId) {
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+
+        Update update = new Update();
+        update.set(TENANT_READY_FIELD, true);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            entityRepository.doUpdate("tenant", query, update);
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
+    }
+
+    @Override
+    public void removeInvalidTenant(String lzPath) {
+        BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
+        BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
+        entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
+    }
+
+    public Map<String, List<String>> getPreloadFiles() {
+        NeutralQuery preloadReadyTenantQuery = new NeutralQuery().
+                addCriteria(new NeutralCriteria(STATUS_FIELD, "=", "ready")).
+                setIncludeFields(Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH, TENANT_ID));
+        Update update = Update.update(ALL_STATUS_FIELDS, "started");
+
+        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
+        Entity tenant;
+        while((tenant = entityRepository.findAndUpdate(TENANT_COLLECTION, preloadReadyTenantQuery, update)) != null ) {
+            LOG.info("Found new tenant to preload! [" + tenant.getBody().get(TENANT_ID) + "]");
+            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
+            for (Map<String, Object> landingZone : landingZones) {
+                List<String> files = new ArrayList<String>();
+                Map<String, Object> preloadData = (Map<String, Object>) landingZone.get(PRELOAD_DATA);
+                if (preloadData != null) {
+                    files.addAll((Collection<? extends String>) preloadData.get(PRELOAD_FILES));
+                    fileMap.put((String) landingZone.get(PATH), files);
+                }
+            }
+        }
+        return fileMap;
+    }
+
 }

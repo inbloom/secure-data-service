@@ -1,123 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
-	<BehaviorDescriptor>
-		<CodeValue>BEH01</CodeValue>
-		<ShortDescription>Disruption</ShortDescription>
-		<Description>Disruption of classroom order</Description>
-		<BehaviorCategory>State Offense</BehaviorCategory>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</BehaviorDescriptor>
-	<BehaviorDescriptor>
-		<CodeValue>BEH02</CodeValue>
-		<ShortDescription>Tardiness</ShortDescription>
-		<Description>Chronic tardiness</Description>
-		<BehaviorCategory>School Violation</BehaviorCategory>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</BehaviorDescriptor>
-	<BehaviorDescriptor>
-		<CodeValue>BEH03</CodeValue>
-		<ShortDescription>Language</ShortDescription>
-		<Description>Using disrespectful language toward others</Description>
-		<BehaviorCategory>School Code of Conduct</BehaviorCategory>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</BehaviorDescriptor>
-	<DisciplineDescriptor>
-		<CodeValue>DIS01</CodeValue>
-		<ShortDescription>Detention 1hr</ShortDescription>
-		<Description>Students required to stay behind after school for 1 hour</Description>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</DisciplineDescriptor>
-	<DisciplineDescriptor>
-		<CodeValue>DIS02</CodeValue>
-		<ShortDescription>Detention 2hrs</ShortDescription>
-		<Description>Students required to stay behind after school for 2 hours</Description>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</DisciplineDescriptor>
-	<DisciplineDescriptor>
-		<CodeValue>DIS03</CodeValue>
-		<ShortDescription>Detention 3 hrs</ShortDescription>
-		<Description>Student required to stay behind after school for 3hours</Description>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</DisciplineDescriptor>
-	<DisciplineDescriptor>
-		<CodeValue>DIS04</CodeValue>
-		<ShortDescription>Service</ShortDescription>
-		<Description>Student required to perform school service for 1 week</Description>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-	</DisciplineDescriptor>
-	<DisciplineIncident id="distruption">
-		<IncidentIdentifier>Disruption</IncidentIdentifier>
-		<IncidentDate>2011-02-01</IncidentDate>
-		<IncidentTime>15:23:02</IncidentTime>
-		<IncidentLocation>On School</IncidentLocation>
-		<ReporterDescription>Student</ReporterDescription>
-		<ReporterName>Gold Finger</ReporterName>
-		<Behaviors>
-			<CodeValue>BEH01</CodeValue>
-		</Behaviors>
-		<Weapons>
-			<Weapon>Club</Weapon>
-		</Weapons>
-		<ReportedToLawEnforcement>false</ReportedToLawEnforcement>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-	</DisciplineIncident>
-	<DisciplineIncident id="chronic-tardiness">
-		<IncidentIdentifier>Tardiness</IncidentIdentifier>
-		<IncidentDate>2011-09-06</IncidentDate>
-		<IncidentTime>10:22:00</IncidentTime>
-		<IncidentLocation>On School</IncidentLocation>
-		<ReporterDescription>Staff</ReporterDescription>
-		<ReporterName>Charles Gray</ReporterName>
-		<Behaviors>
-			<CodeValue>BEH02</CodeValue>
-		</Behaviors>
-		<ReportedToLawEnforcement>true</ReportedToLawEnforcement>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-	</DisciplineIncident>
+<?xml version="1.0" ?>
+<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+    <BehaviorDescriptor>
+        <CodeValue>BEH01</CodeValue>
+        <ShortDescription>Disruption</ShortDescription>
+        <Description>Disruption of classroom order</Description>
+        <BehaviorCategory>State Offense</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <BehaviorDescriptor>
+        <CodeValue>BEH02</CodeValue>
+        <ShortDescription>Tardiness</ShortDescription>
+        <Description>Chronic tardiness</Description>
+        <BehaviorCategory>School Violation</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <BehaviorDescriptor>
+        <CodeValue>BEH03</CodeValue>
+        <ShortDescription>Language</ShortDescription>
+        <Description>Using disrespectful language toward others</Description>
+        <BehaviorCategory>School Code of Conduct</BehaviorCategory>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </BehaviorDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS01</CodeValue>
+        <ShortDescription>Detention 1hr</ShortDescription>
+        <Description>Students required to stay behind after school for 1 hour</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS02</CodeValue>
+        <ShortDescription>Detention 2hrs</ShortDescription>
+        <Description>Students required to stay behind after school for 2 hours</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS03</CodeValue>
+        <ShortDescription>Detention 3 hrs</ShortDescription>
+        <Description>Student required to stay behind after school for 3hours</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineDescriptor>
+        <CodeValue>DIS04</CodeValue>
+        <ShortDescription>Service</ShortDescription>
+        <Description>Student required to perform school service for 1 week</Description>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </DisciplineDescriptor>
+    <DisciplineIncident id="distruption">
+        <IncidentIdentifier>Disruption</IncidentIdentifier>
+        <IncidentDate>2011-02-01</IncidentDate>
+        <IncidentTime>15:23:02</IncidentTime>
+        <IncidentLocation>On School</IncidentLocation>
+        <ReporterDescription>Student</ReporterDescription>
+        <ReporterName>Gold Finger</ReporterName>
+        <Behaviors>
+            <CodeValue>BEH01</CodeValue>
+        </Behaviors>
+        <Weapons>
+            <Weapon>Club</Weapon>
+        </Weapons>
+        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+    </DisciplineIncident>
+    <DisciplineIncident id="chronic-tardiness">
+        <IncidentIdentifier>Tardiness</IncidentIdentifier>
+        <IncidentDate>2011-09-06</IncidentDate>
+        <IncidentTime>10:22:00</IncidentTime>
+        <IncidentLocation>On School</IncidentLocation>
+        <ReporterDescription>Staff</ReporterDescription>
+        <ReporterName>Charles Gray</ReporterName>
+        <Behaviors>
+            <CodeValue>BEH02</CodeValue>
+        </Behaviors>
+        <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+    </DisciplineIncident>
 </InterchangeStudentDiscipline>
