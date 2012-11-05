@@ -42,6 +42,10 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         return !isTransitive && EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isStaff();
     }
     
+    /**
+     * Can see all of the studentCohortAssociations of the students I can see and of all the cohorts
+     * I can see provided they aren't expired.
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;

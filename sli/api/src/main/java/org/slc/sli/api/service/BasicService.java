@@ -518,7 +518,6 @@ public class BasicService implements EntityService {
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
-            String collectionName = def.getStoredCollectionName();
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -528,7 +527,7 @@ public class BasicService implements EntityService {
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
-                Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+                Iterable<Entity> entities = repo.findAll(def.getStoredCollectionName(), neutralQuery);
                 int found = 0;
                 if (entities != null) {
                     for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
@@ -551,7 +550,7 @@ public class BasicService implements EntityService {
                     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                     SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
                     String userId = user.getEntity().getEntityId();
-                    for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+                    for (Entity ent : repo.findAll(def.getStoredCollectionName(), neutralQuery)) {
 
                         if (userId.equals(ent.getMetaData().get("createdBy"))
                                 && "true".equals(ent.getMetaData().get("isOrphaned"))) {
@@ -559,40 +558,19 @@ public class BasicService implements EntityService {
                         }
                     }
                     if (found != ids.size()) {
-                        debug("{} in {} is not accessible", value, collectionName);
+                        debug("{} in {} is not accessible", value, def.getStoredCollectionName());
                         throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                     }
                 }
             } else {
-                List<String> idsToValidate = new ArrayList<String>();
-
-                String principalId = SecurityUtil.principalId();
-                int found = 0;
-                NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", ids)).setLimit(MAX_RESULT_SIZE);
-                for (Entity ent : repo.findAll(collectionName, getIdsQuery)) {
-                    found++;
-                    if (principalId.equals(ent.getMetaData().get("createdBy"))
-                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                        debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                    } else {
-                        idsToValidate.add(ent.getEntityId());
-                    }
-                }
-                if (found != ids.size()) {
-                    debug("Invalid reference, an entity does not exist. collection: {} ids: {}", collectionName, ids);
+                try {
+                    contextValidator.validateContextToEntities(def, ids, false);
+                } catch (AccessDeniedException e) {
+                    debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                }
-
-                if (!idsToValidate.isEmpty()) {
-                    try {
-                        contextValidator.validateContextToEntities(def, idsToValidate, false);
-                    } catch (AccessDeniedException e) {
-                        debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
-                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                    } catch (EntityNotFoundException e) {
-                        debug("Invalid Reference: {} in {} does not exist", value, collectionName);
-                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                    }
+                } catch (EntityNotFoundException e) {
+                    debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                 }
             }
         }
