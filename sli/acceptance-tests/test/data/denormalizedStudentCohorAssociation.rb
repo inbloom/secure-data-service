@@ -31,7 +31,7 @@ if ARGV.length == 0
 elsif ARGV.length == 3
   studentFileString                          = ARGV[0]
   studentCohortAssociationString             = ARGV[1]
-  denormalizedStudentCohortAssociationString = ARGV[3]
+  denormalizedStudentCohortAssociationString = ARGV[2]
 else
   puts "Usage: #{$0} <student_json_file> <studentCohortAssociation_json_file> <output_json_file>"
   puts "If no argument is given, the default is:"
