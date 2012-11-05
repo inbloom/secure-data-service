@@ -16,10 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -28,6 +24,10 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class StaffToDisciplineIncidentValidator extends AbstractContextValidator {
     
@@ -35,7 +35,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
     private StaffToSubStudentEntityValidator subStudentValidator;
     
     @Autowired
-    private StaffToSchoolValidator schoolValidator;
+    private StaffToEdOrgValidator schoolValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -95,7 +95,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      * @param schoolValidator
      *            the schoolValidator to set
      */
-    public void setSchoolValidator(StaffToSchoolValidator schoolValidator) {
+    public void setSchoolValidator(StaffToEdOrgValidator schoolValidator) {
         this.schoolValidator = schoolValidator;
     }
 }

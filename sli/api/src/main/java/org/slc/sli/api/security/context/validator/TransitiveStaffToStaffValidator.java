@@ -15,18 +15,15 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -40,12 +37,11 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     private PagingRepositoryDelegate<Entity> repo;
     
     @Autowired
-    private StaffToSchoolValidator staffToSchool;
+    private StaffToEdOrgValidator staffToSchool;
     
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return through && EntityNames.STAFF.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+        return EntityNames.STAFF.equals(entityType) && isStaff();
     }
     
     @Override
@@ -53,6 +49,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
+        info("Attempting to validate transitively from staff to staff with ids {}", staffIds);
         
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));

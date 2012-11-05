@@ -22,7 +22,7 @@
 
     <jb:value property="staffId" data="attributes StaffReference" />
 
-    <jb:value property="programId" data="attributes programId" />
+    <jb:value property="programId" data="attributes ProgramReference" />
 
     <jb:value property="beginDate" data="attributes beginDate" />
 

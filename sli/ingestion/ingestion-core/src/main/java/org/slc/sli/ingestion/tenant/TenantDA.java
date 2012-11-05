@@ -69,4 +69,9 @@ public interface TenantDA {
      * @param lzPath
      */
     void removeInvalidTenant(String lzPath);
+
+     /*
+     * @return a map of landing zone paths to the list of files to preload on them
+     */
+    Map<String, List<String>> getPreloadFiles();
 }
