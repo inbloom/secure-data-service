@@ -188,6 +188,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
+                info("Using {} to validate {}", new String[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }

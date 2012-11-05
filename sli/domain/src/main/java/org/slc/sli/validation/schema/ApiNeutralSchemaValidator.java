@@ -19,6 +19,7 @@ package org.slc.sli.validation.schema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,8 +119,21 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                         throw new NaturalKeyValidationException(e, entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
                     }
                 }
-            }
+            } else {
+                NeutralQuery neutralQuery = new NeutralQuery();
+                Map<String, Object> newEntityBody = entity.getBody();
+                for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
+                    neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
+                            newEntityBody.get(keyField.getKey())));
+                }
+                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                        entity.getMetaData().get("tenantId"), false));
 
+                Entity existingEntity = validationRepo.findOne(collectionName, neutralQuery);
+                if (existingEntity != null) {
+                    throw new NaturalKeyValidationException(entity.getType(), new ArrayList<String>(naturalKeyFields.keySet()));
+                }
+            }
         }
     }
 }

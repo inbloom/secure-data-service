@@ -1,3 +1,29 @@
 {
     "keyFields" : ["body.stateOrganizationId"]
+    "references" :
+    [
+        {
+            "fieldPath" : "body.ProgramReference",
+        	"deprecated" : true,
+            "ref" :
+            {
+                "entityType" : "program",
+                "isRefList" : true,
+                "refObjectPath" : "body.ProgramReference",
+                "givesContext" : ["edOrgs"],
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.programId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
 }

@@ -50,8 +50,7 @@ public class StaffToParentValidator extends AbstractContextValidator {
         basicQuery.setIncludeFields(Arrays.asList("studentId", "parentId"));
         Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
 
-        //Generate the map so that we can tell whether each parent has an association
-        Map<String, Set<String>> parentStudentMap = new HashMap<String, Set<String>>();
+        Set<String> parentIdsFound = new HashSet<String>();
           
         Set<String> studentList = new HashSet<String>();
         
@@ -59,15 +58,10 @@ public class StaffToParentValidator extends AbstractContextValidator {
             String studentId = (String) assoc.getBody().get("studentId");
             String parentId = (String) assoc.getBody().get("parentId");
             studentList.add(studentId);
-            Set<String> studs = parentStudentMap.get(parentId);
-            if (studs == null) {
-                studs = new HashSet<String>();
-                parentStudentMap.put(parentId, studs);
-            }
-            studs.add(studentId);
+            parentIdsFound.add(parentId);
         }
 
-        if (parentStudentMap.values().size() < parentIds.size()) {
+        if (parentIdsFound.size() < parentIds.size()) {
             return false;
         }
         return studentVal.validate(EntityNames.STUDENT, studentList);
