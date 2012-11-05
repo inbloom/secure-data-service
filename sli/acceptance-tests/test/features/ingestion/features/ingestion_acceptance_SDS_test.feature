@@ -259,6 +259,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
+# check for id-ref warnings
+    And I should see "Attribute 'ref' is not allowed to appear in element 'StudentAcademicRecordReference'." in the resulting warning log file for "InterchangeStudentGrade.xml"
+    And I should see "Attribute 'ref' is not allowed to appear in element 'StudentAssessmentReference'." in the resulting warning log file for "InterchangeStudentAssessment-Cgray-ACT.xml"
 
 @smoke
 Scenario: Check the collections: Clean Database
@@ -403,8 +406,8 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
    And I check to find if record is in collection:
      #check to make sure we're actually resolving references
-     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |   
-	 | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
+     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+     | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
