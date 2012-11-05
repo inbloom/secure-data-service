@@ -16,7 +16,7 @@
 package org.slc.sli.search.process.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -144,12 +144,19 @@ public class IndexerImpl implements Indexer {
         logger.info("Preparing _mget request with " + updates.size() + " records");
         if (updates.isEmpty())
             return;
-        Map<String, IndexEntity> indexUpdateMap = new HashMap<String, IndexEntity>();
+        Map<String, IndexEntity> indexUpdateMap = new LinkedHashMap<String, IndexEntity>();
+        Map<String, Object> entityBody;
         for (IndexEntity ie : updates) {
+            // merge updates for the same entity
+            if (indexUpdateMap.containsKey(ie.getId())) {
+                entityBody = indexUpdateMap.get(ie.getId()).getBody();
+                if (NestedMapUtil.merge(entityBody, ie.getBody()))
+                    ie = new IndexEntity(ie.getIndex(), ie.getType(), ie.getId(), entityBody);
+            }
             indexUpdateMap.put(ie.getId(), ie);
         }
         try {
-            String request = IndexEntityUtil.getBulkGetJson(updates);
+            String request = IndexEntityUtil.getBulkGetJson(indexUpdateMap.values());
             logger.info("Sending _mget request with " + updates.size() + " records");
             String body = connector.executePost(connector.getMGetUri(), request);
             Map<String, Object> orig;
