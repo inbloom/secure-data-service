@@ -6,10 +6,10 @@
     </StudentReference>
     <SessionReference>
         <SessionIdentity>
-            <#if (StudentAcademicRecord.SessionReference.SessionIdentity.StateOrganizationId[0])??>
+            <#if (StudentAcademicRecord.SessionReference.SessionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId[0])??>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>${StudentAcademicRecord.SessionReference.SessionIdentity.StateOrganizationId}</StateOrganizationId>
+                        <StateOrganizationId>${StudentAcademicRecord.SessionReference.SessionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
             </#if>
