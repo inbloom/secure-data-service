@@ -15,26 +15,15 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
@@ -51,6 +40,19 @@ import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Default implementation of the resource service.
@@ -342,6 +344,14 @@ public class DefaultResourceService implements ResourceService {
             final ApiQuery apiQuery = getApiQuery(assocEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+            if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
+                    && requestUri.getPath().matches("^/api/rest/v1/schools/[^/]+/studentSchoolAssociations/students")) {
+                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
+                        NeutralCriteria.CRITERIA_EXISTS, false)));
+                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
+                        NeutralCriteria.CRITERIA_GTE, DateTime.now().toString(DateTimeFormat.forPattern("yyyy-MM-dd"))
+                )));
+            }
 
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
                 List<String> filteredIds = entityBody.getId(resourceKey);

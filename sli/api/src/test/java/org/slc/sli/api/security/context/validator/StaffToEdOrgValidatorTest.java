@@ -51,11 +51,11 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StaffToSchoolValidatorTest {
-
+public class StaffToEdOrgValidatorTest {
+    
     @Autowired
-    private StaffToSchoolValidator validator;
-
+    private StaffToEdOrgValidator validator;
+    
     @Autowired
     private ValidatorTestHelper helper;
 

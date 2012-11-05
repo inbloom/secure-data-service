@@ -16,10 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
@@ -27,6 +23,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextValidator {
@@ -49,7 +49,7 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
         Iterable<Entity> objectives = repo.findAll(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, basicQuery);
 
         Set<String> objIdsFound = new HashSet<String>();
-        Set<String> edorgLineage = getStaffEdorgLineage();
+        Set<String> edorgLineage = getStaffEdOrgLineage();
         for (Entity obj : objectives) {
             String objId = (String) obj.getEntityId();
             String edorgId = (String) obj.getBody().get("educationOrganizationId");

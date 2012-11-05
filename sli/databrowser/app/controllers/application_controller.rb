@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.debug {"401 detected"}
     logger.info { "Unauthorized Access: Redirecting..." }
-    session[:oauth] = nil
+    reset_session
     handle_oauth
   end
   
@@ -125,7 +125,6 @@ class ApplicationController < ActionController::Base
           @header = PortalHeader.get("", :isAdmin => true)
           @footer = PortalFooter.get("", :isAdmin => true)
         rescue Exception => e
-          logger.warn
           logger.warn {"We couldn't load the portal header and footer #{e.message}"}
         end
         SessionResource.access_token = oauth.token
@@ -133,7 +132,8 @@ class ApplicationController < ActionController::Base
         check = Check.get("")
         session[:full_name] = check["full_name"]
         session[:is_admin] = check["isAdminUser"]
-        if !session[:is_admin]
+        if !session[:is_admin] && !session[:is_admin].nil?
+          logger.warn {"User is not an administrator, they cannot use this application"}
           render :auth_error_page
         end
 
