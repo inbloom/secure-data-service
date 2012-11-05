@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +35,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
-
 
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -72,8 +69,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Determines if the specified type is a sub-entity of student section association.
      *
-     * @param type
-     *            Type to check is 'below' student section association.
+     * @param type Type to check is 'below' student section association.
      * @return True if the entity hangs off of student section association, false otherwise.
      */
     protected boolean isSubEntityOfStudentSectionAssociation(String type) {
@@ -162,28 +158,17 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return edOrg;
     }
 
-    protected Set<String> getParentEdOrgs(String edOrg) {
-        return getParentEdOrgs(new HashSet<String>(Arrays.asList(edOrg)));
-    }
-
-    protected Set<String> getParentEdOrgs(Set<String> edOrgs) {
-        return Collections.emptySet(); //TODO replace stub
-    }
-
     protected Repository<Entity> getRepo() {
         return this.repo;
     }
 
 
     /**
-        * Will go through staffEdOrgAssociations that are current and get the descendant
-        * edOrgs that you have.
-        *
-        * @return a set of the edOrgs you are associated to and their children.
-        */
-    
-    
-    
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
+     *
+     * @return a set of the edorgs you are associated to and their children.
+     */
     protected Set<String> getStaffEdOrgLineage() {
         Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
         edOrgLineage.addAll(getChildEdOrgs(edOrgLineage));
@@ -208,17 +193,51 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return edOrgIds;
     }
 
+
+    protected Set<String> getStaffEdOrgParents() {
+        Set<String> edorgHiearchy = new HashSet<String>();
+        Set<String> directEdorgs = new HashSet<String>();
+        directEdorgs = getStaffCurrentAssociatedEdOrgs();
+        edorgHiearchy.addAll(directEdorgs);
+        for (String edorg : directEdorgs) {
+            edorgHiearchy.addAll(fetchParentEdorgs(edorg));
+        }
+        return edorgHiearchy;
+    }
+
+    private Set<String> fetchParentEdorgs(String id) {
+        Set<String> parents = new HashSet<String>();
+        Entity edOrg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id, false)));
+        if (edOrg != null) {
+            parents.add(id);
+            Map<String, Object> body = edOrg.getBody();
+            if (body.containsKey("parentEducationAgencyReference")) {
+                String myParent = (String) body.get("parentEducationAgencyReference");
+                parents.addAll(fetchParentEdorgs(myParent));
+            }
+        }
+        return parents;
+    }
+
+    /**
+     * Determines if the entity type is public.
+     *
+     * @param type Entity type.
+     * @return True if the entity is public, false otherwise.
+     */
+    protected boolean isPublic(String type) {
+        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
+                || type.equals(EntityNames.LEARNING_STANDARD);
+    }
+
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
      * Iterates through result and peels off String value contained in body.<<field>>. Returns
      * unique set of values that were stored in body.<<field>>.
      *
-     * @param type
-     *            Entity type to query for.
-     * @param ids
-     *            List of _ids of entities to query.
-     * @param field
-     *            Field (contained in body) to peel off of entities.
+     * @param type  Entity type to query for.
+     * @param ids   List of _ids of entities to query.
+     * @param field Field (contained in body) to peel off of entities.
      * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
      */
     protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
@@ -241,5 +260,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;
+    }
+
+    public void setStaffEdOrgEdOrgIDNodeFilter(StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter) {
+        this.staffEdOrgEdOrgIDNodeFilter = staffEdOrgEdOrgIDNodeFilter;
     }
 }

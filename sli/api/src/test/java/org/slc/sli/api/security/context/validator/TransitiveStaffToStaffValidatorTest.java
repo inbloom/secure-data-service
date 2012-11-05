@@ -133,7 +133,9 @@ public class TransitiveStaffToStaffValidatorTest {
     public void testCanValidateTeacherToStaff() throws Exception {
         setupCurrentUser(staff1);
         assertTrue(validator.canValidate(EntityNames.STAFF, true));
-        assertFalse(validator.canValidate(EntityNames.STAFF, false));
+        assertTrue(validator.canValidate(EntityNames.STAFF, false));
+        assertFalse(validator.canValidate(EntityNames.SECTION, false));
+        assertFalse(validator.canValidate(EntityNames.SECTION, true));
     }    
     
     @Test

@@ -18,43 +18,41 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.stereotype.Component;
 
 /**
- * Validates the context of a staff member to see the requested set of non-transitive public
- * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.
+ * Validates the context of a staff member to see the requested set of sessions.
+ * Returns true if the staff member can see ALL of the entities, and false otherwise.
  *
  * @author mabernathy
  */
 @Component
-public class StaffToNonTransitivePublicEntityValidator extends AbstractContextValidator {
+public class StaffToSessionValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return isPublic(entityType) && isStaff();
+        return EntityNames.SESSION.equals(entityType) && isStaff();
     }
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
-
-        /* Minor guard to prevent calling this on non-public entities */
-        if (!this.canValidate(entityType, true)) {
-            throw new IllegalArgumentException("This resolver should not have been called for entityType " + entityType);
-        }
-
+    	Set<String> lineage = this.getStaffEdOrgLineage();
+    	lineage.addAll(this.getStaffEdOrgParents());
+    	
         /*
          * Check if the entities being asked for exist in the repo
          * This is done by checking sizes of the input set and
          * the return from the database
+         * 
+         * Restriction for edorg lineage is added since session access
+         * is granted through schools/edorgs
          */
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", entityIds, false));
-
-        long repoCount = getRepo().count(entityType, nq);
-
-        return repoCount == entityIds.size();
+		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", entityIds));
+		nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, lineage));
+		return getRepo().count(EntityNames.SESSION, nq) == entityIds.size();
     }
 
 }

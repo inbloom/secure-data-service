@@ -213,7 +213,7 @@ Examples:
 | Entity Type             | Entity Resource URI       | Code | Count | Rewrite URI|
 | "assessment"            | "assessments"             |  200 | 17    |/assessments|
 | "attendance"            | "attendances"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
-| "cohort"                | "cohorts"                 |  200 | 3     |/staff/@ids/staffCohortAssociations/cohorts|
+| "cohort"                | "cohorts"                 |  200 | 2     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 |  200 | 0     |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       |  200 | 2     |/staff/@ids/disciplineActions|
 | "disciplineIncident"    | "disciplineIncidents"     |  200 | 0     |/staff/@ids/disciplineIncidents|
@@ -425,7 +425,7 @@ Examples:
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/schools/@ids|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
@@ -433,7 +433,7 @@ Examples:
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
-| "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
 
 	@DE1825 
