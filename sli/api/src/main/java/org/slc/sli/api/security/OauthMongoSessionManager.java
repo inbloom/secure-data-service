@@ -277,20 +277,25 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         for (Map<String, Object> session : sessions) {
                             if (session.get("token").equals(accessToken)) {
 
-                            	//	Log that the long lived session is being used
-                                String date  = (String) sessionEntity.getMetaData().get("created");
-                                
-                                if(date.contains("T")) {	
-                                	date = date.substring(0, date.indexOf("T"));
-                                }
-                                
-                                DateTime createdOn = DateTimeUtil.parseDateTime(date);
-                                Long hl = (Long) sessionEntity.getBody().get("hardLogout");
-                                
-                                if(hl-createdOn.getMillis()>this.hardLogout) {
-                                	info("Using long-lived session {} belonging to app {}",accessToken,session.get("clientId"));
-                                }
-                            	//****
+								// Log that the long lived session is being used
+								Date createdOn;
+								if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
+									String date = (String) sessionEntity.getMetaData().get("created");
+
+									if (date.contains("T")) {
+										date = date.substring(0, date.indexOf("T"));
+									}
+									createdOn = DateTimeUtil.parseDateTime(date).toDate();
+
+								} else {
+									createdOn = (Date) sessionEntity.getMetaData().get("created");
+								}
+								Long hl = (Long) sessionEntity.getBody().get("hardLogout");
+
+								if (hl - createdOn.getTime() > this.hardLogout) {
+									info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
+								}
+								// ****
                                 
                                 ClientToken token = new ClientToken((String) session.get("clientId"), null , null);
 
