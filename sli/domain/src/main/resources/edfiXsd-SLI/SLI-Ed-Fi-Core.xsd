@@ -1088,7 +1088,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 							<xs:documentation>The total instructional days during the academic week.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="CalendarDateReference" type="ReferenceType" maxOccurs="unbounded">
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Days associated with the grading period.</xs:documentation>
 						</xs:annotation>
@@ -1513,7 +1513,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     </xs:element>
                     <xs:element name="SessionReference" type="SessionReferenceType" />
                     <xs:element name="MeetingTimeReference" type="SLC-MeetingTimeReferenceType" maxOccurs="unbounded" />
-                    <xs:element name="CalendarDateReference" type="CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -2494,7 +2494,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 							<xs:documentation>Grading periods associated with the calendar,</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="CalendarDateReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Days associated with the calendar.</xs:documentation>
 						</xs:annotation>
@@ -2510,8 +2510,11 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 	</xs:complexType>
 	
 	<xs:complexType name="SLC-GradingPeriod">
+		<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
 		<xs:annotation>
-			<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
+			<xs:appinfo>
+                <sli:recordType>gradingPeriod</sli:recordType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
@@ -2543,7 +2546,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:element>
-					<xs:element name="CalendarDateReference" type="ReferenceType" maxOccurs="unbounded">
+					<xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Days associated with the grading period.</xs:documentation>
 						</xs:annotation>
@@ -2814,5 +2817,41 @@ Representative of visiting school
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    
+    <xs:complexType name="SLC-CalendarDateReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for calendar dates during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+			<xs:appinfo>
+        		<sli:applyKeyFields>true</sli:applyKeyFields>
+        		<sli:refType>calendarDate</sli:refType>
+      		</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReferenceType">
+				<xs:sequence>
+					<xs:element name="CalendarDateIdentity" type="SLC-CalendarDateIdentityType">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing class period record in the receiving system.  </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-CalendarDateIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of calendar dates in the school calendar.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Date" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The month, day and year of the calendar date.</xs:documentation>
+					<xs:appinfo>
+                        <sli:keyFieldName>date</sli:keyFieldName>
+                    </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
 </xs:schema>
