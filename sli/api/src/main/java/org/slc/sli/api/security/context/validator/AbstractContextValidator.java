@@ -168,18 +168,61 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected Set<String> getStaffEdorgLineage() {
         // Get my staffEdorg to get my edorg hierarchy
+        Set<String> edorgLineage = new HashSet<String>();
+        edorgLineage.addAll(getDirectEdorgs());
+        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
+        return edorgLineage;
+    }
+
+    private Set<String> getDirectEdorgs() {
+    	// Get my staffEdorg to get my edorg hierarchy
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         Iterable<Entity> staffEdorgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        Set<String> edorgLineage = new HashSet<String>();
+        Set<String> edorgs = new HashSet<String>();
         for (Entity staffEdOrg : staffEdorgs) {
             if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
-                edorgLineage
-                        .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+                edorgs.add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
             }
         }
-        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
-        return edorgLineage;
+        return edorgs;
+    }
+    
+    protected Set<String> getStaffEdorgParents() {
+    	Set<String> edorgHiearchy = new HashSet<String>();
+    	Set<String> directEdorgs = new HashSet<String>();
+    	directEdorgs = getDirectEdorgs();
+    	edorgHiearchy.addAll(directEdorgs);
+    	for (String edorg : directEdorgs) {
+    		edorgHiearchy.addAll(fetchParentEdorgs(edorg));
+    	}
+    	return edorgHiearchy;
+    }
+
+    private Set<String> fetchParentEdorgs(String id) {
+    	Set<String> parents = new HashSet<String>();
+        Entity edOrg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id, false)));
+        if (edOrg != null) {
+            parents.add(id);
+            Map<String, Object> body = edOrg.getBody();
+            if (body.containsKey("parentEducationAgencyReference")) {
+                String myParent = (String) body.get("parentEducationAgencyReference");
+                parents.addAll(fetchParentEdorgs(myParent));
+            }
+        }
+        return parents;
+    }
+    
+    /**
+     * Determines if the entity type is public.
+     *
+     * @param type
+     *            Entity type.
+     * @return True if the entity is public, false otherwise.
+     */
+    protected boolean isPublic(String type) {
+        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
+                || type.equals(EntityNames.LEARNING_STANDARD);
     }
 
     /**
