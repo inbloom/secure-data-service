@@ -220,7 +220,7 @@ public class SectionEntityTest {
         Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
-        //Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
