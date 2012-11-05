@@ -11,15 +11,20 @@
 . /lib/lsb/init-functions
 
 # Process name ( For display )
-NAME=sarje-jscheduler
-SARJE_HOME=/home/stephan/dev/sli/sli/sarje/eventbus
+NAME=sarje-jobscheduler
+SARJE_HOME=/opt/sarje
 
+PROG_NAME="jscheduler_daemon.rb"
 DAEMON_CONFIG="$SARJE_HOME/conf/minislirp-jscheduler-config.yml"
-DAEMON="$SARJE_HOME/jscheduler_daemon.rb"
+DAEMON="$SARJE_HOME/$PROG_NAME"
 
-PIDFILE=$SARJE_HOME/run/jscheduler.pid 
-LOG_FILE=$SARJE_HOME/log/jscheduler.log 
+LOG_DIR=$SARJE_HOME/log 
+PIDFILE=$LOG_DIR/jscheduler.pid 
+LOG_FILE=$LOG_DIR/jscheduler.log 
 RETVAL=0
+
+# make sure the log directory exists
+mkdir -p $LOG_DIR
 
 # If the daemon is not there, then exit.
 test -x $JSCHEDULER_APP || exit 5
@@ -43,10 +48,13 @@ case $1 in
  status)
   # Check the status of the process.
   if [ -e $PIDFILE ]; then
-   status_of_proc -p $PIDFILE $DAEMON "$NAME process" && exit 0 || exit $?
+     if [ $(ps aux | grep -e '$PROG_NAME' | grep -v grep | wc -l | tr -s "\n") -eq 0 ]; then 
+       log_success_msg "$PROG_NAME Process is running."
+     else
+       log_failure_msg "$PROG_NAME Process is not running"
+     fi
   else
-   log_daemon_msg "$NAME Process is not running"
-   log_end_msg 0
+   log_failure_msg "$NAME Process is not running"
   fi
   ;;
  *)
