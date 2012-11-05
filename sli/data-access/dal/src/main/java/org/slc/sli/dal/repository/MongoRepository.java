@@ -656,4 +656,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         TenantContext.setIsSystemCall(isTenantAgnostic);
         return isTenantAgnostic;
     }
+
+    @Override
+    public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
 }
