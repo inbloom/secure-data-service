@@ -268,17 +268,13 @@ public class TenantProcessor implements Processor {
      * @return
      */
     boolean doPreloads() {
-        try {
-            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles(getHostname());
+
+            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles();
             boolean result = true;
             for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
                 result &= preLoad(entry.getKey(), entry.getValue());
             }
             return result;
-        } catch (UnknownHostException e) {
-            LOG.error("Error preloading files", e);
-            return false;
-        }
     }
 
     Map<String, List<String>> getDataSetLookup() {

@@ -38,6 +38,19 @@ Background: Nothing yet
     | studentSectionAssociations  | studentSectionAssociation  | 31               |
     | courseOfferings             | courseOffering             | 11               |
 
+  Scenario: Getting response from POST - Create (school)
+    Given a valid XML document for a new school entity
+    When I POST the entity to "/v1/schools"
+    Then I should receive a return code of 403
+
+  Scenario: Getting response from PUT - Update (school)
+    When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
+    Then I should see "<nameOfInstitution>" is "Sunset Central High School"
+    When I change the name to "Updated School Name"
+    And I try to PUT the entity to "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
+    Then I should receive a return code of 403
+
+
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"

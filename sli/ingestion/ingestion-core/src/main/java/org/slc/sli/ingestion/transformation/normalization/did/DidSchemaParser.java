@@ -68,6 +68,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
     // cache for complex types
     private Map<String, XmlSchemaComplexType> complexTypes;
+
     // cache for reference types
     private Map<String, XmlSchemaComplexType> referenceTypes;
 
@@ -153,7 +154,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
         // extract and cache the reference types from the complexTypes
         cacheReferenceTypes();
 
-        removeParentTypesFromCache();
+        extractBaseTypesFromCache();
 
         refSourceCache = new HashMap<String, DidRefSource>();
 
@@ -291,22 +292,21 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Remove parent types from the complexTypes cache.
      * We are only interested in the leaf node extended types.
      */
-    private void removeParentTypesFromCache() {
+    private void extractBaseTypesFromCache() {
         // find all the parent types
-        Set<String> parentTypeSet = new HashSet<String>();
+        Set<String> baseTypeSet = new HashSet<String>();
 
         for (XmlSchemaComplexType complexType : complexTypes.values()) {
             // this needs to also respect restriction
             String baseName = extractBaseTypeName(complexType);
             if (baseName != null) {
-                parentTypeSet.add(baseName);
+                baseTypeSet.add(baseName);
             }
         }
 
-        // remove all the parentTypes from cache
-        for (String parentType : parentTypeSet) {
-            complexTypes.remove(parentType);
-            referenceTypes.remove(parentType);
+        // remove all the baseTypes from reference Cache
+        for (String baseType : baseTypeSet) {
+            referenceTypes.remove(baseType);
         }
     }
 
@@ -428,6 +428,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
         List<DidRefSource> refSources = new ArrayList<DidRefSource>();
         parseParticleForRef(extractParticle(complexType), refSources, false);
 
+        //parse base type as well if it has one - we only ever need to go
+        if (complexType.getBaseSchemaTypeName() != null) {
+        	String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
+        	XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
+        	if (baseType != null) {
+        		parseParticleForRef(extractParticle(baseType), refSources, false);
+        	} else {
+        		LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
+        	}
+        }
+
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
         if (refSources.size() > 0) {
             entityConfig = new DidEntityConfig();
@@ -544,7 +555,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
         } else {
             XmlSchemaAnnotation annotation = refSchema.getAnnotation();
             if (annotation == null) {
-                LOG.debug("Annotation missing from refSchema: " + refSchema.getName());
+                LOG.debug("Annotation missing from refSchema: {}", refSchema.getName());
             } else {
                 refSource = parseAnnotationForRef(annotation);
                 refSourceCache.put(schemaName, refSource);
