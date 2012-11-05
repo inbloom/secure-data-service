@@ -67,7 +67,7 @@ while (line = studentFile.gets)
   
   if cohorts_array.length > 0
     puts "Student: #{student["_id"]} has #{cohorts_array.length} student-cohort associations"
-    student["cohorts"] = cohorts_array
+    student["cohort"] = cohorts_array
   end
   
   studentCohortAssociationFile.close
