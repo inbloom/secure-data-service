@@ -29,7 +29,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"       if human_readable_id == "SAT ID"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085"       if human_readable_id == "Marvin ID"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"       if human_readable_id == "Marvin ID"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15"       if human_readable_id == "Matt Sollars ID"
   id = "bcfcc33f-f4a6-488f-baee-b92fbd062e8d"       if human_readable_id == "Braverman ID"
   id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f"       if human_readable_id == "Homeroom ID"

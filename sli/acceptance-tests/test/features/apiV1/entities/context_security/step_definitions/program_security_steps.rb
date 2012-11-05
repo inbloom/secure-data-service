@@ -40,7 +40,7 @@ Transform /the student "([^"]*)"/ do |arg1|
   id = "ace7d09a-56b4-486a-85bd-64474ab64083" if arg1 == "Glenda Koch"
   id = "1c30fdce-11ad-4894-a95d-d8315c88ac7d" if arg1 == "Johnny Tallent"
   id = "33b80864-ec9a-4836-b114-47e45b291ac6" if arg1 == "Thelma Frasier"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if arg1 == "Marvin Miller"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if arg1 == "Marvin Miller"
   id = "6a98d5d3-d508-4b9c-aec2-59fce7e16825" if arg1 == "Delilah D. Sims"
   id
 end

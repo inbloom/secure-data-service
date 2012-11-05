@@ -18,8 +18,8 @@ Background: Nothing yet
     | ENTITY URI                  | ENTITY TYPE                | ENTITY ID                               |
     | assessments                 | assessment                 | dd916592-7d7e-5d27-a87d-dfc7fcb757f6    |
     | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
-    | students                    | student                    | 74cf790e-84c4-4322-84b8-fca7206f1085    |
-    | studentSectionAssociations  | studentSectionAssociation  | bac890d6-b580-4d9d-a0d4-8bce4e8d351a    |
+    | students                    | student                    | 74cf790e-84c4-4322-84b8-fca7206f1085_id |
+    | studentSectionAssociations  | studentSectionAssociation  | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
     | courseOfferings             | courseOffering             | dc7df8c7-a5f1-48df-9e51-4c45afcc149f    |
 
   Scenario Outline: Getting response from GET - Read all

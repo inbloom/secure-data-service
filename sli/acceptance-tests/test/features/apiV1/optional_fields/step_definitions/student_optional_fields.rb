@@ -33,7 +33,7 @@ Transform /^<(.+)>$/ do |template|
   id = "53777181-3519-4111-9210-529350429899" if template == "COURSE ID"
   id = "fef10fc3-9dee-4bd9-ac9b-88bf3e850841" if template == "COURSE OFFERING ID"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "SCHOOL ID"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "STUDENT_ID"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if template == "STUDENT_ID"
   id
 end
 
