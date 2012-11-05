@@ -166,8 +166,11 @@ public class SearchResourceService {
         }
 
         debug("finalEntities " + finalEntities.size() + " totalLimit " + totalLimit + " offset " + offset);
-
-        return finalEntities.subList(offset, Math.min(finalEntities.size() - 1, totalLimit));
+        if (finalEntities.size() < offset) {
+            return Collections.emptyList();
+        }
+        finalEntities.subList(0, offset).clear();
+        return (finalEntities.size() <= limit) ? finalEntities : finalEntities.subList(0, limit);
     }
 
     /**
