@@ -21,11 +21,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of grades. Returns true if the
@@ -41,6 +40,7 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
+        // TODO does this really have a transitive distinction?
         return !through && isStaff() && isSubEntityOfStudentSectionAssociation(entityType);
     }
 

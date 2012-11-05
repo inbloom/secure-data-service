@@ -21,16 +21,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.BasicDBList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.BasicDBList;
 
 /**
  * Validates a staff accessing a set of entities that are directly associated to a student.
@@ -77,6 +76,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
                 } else {
+                    // TODO students.addAll?
                     Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
                     if (studentInfo instanceof BasicDBList) {
                         BasicDBList studentList = (BasicDBList) studentInfo;
