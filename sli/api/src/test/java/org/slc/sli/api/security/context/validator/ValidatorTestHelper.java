@@ -235,7 +235,7 @@ public class ValidatorTestHelper {
     	Map<String, Object> session = new HashMap<String, Object>();
     	session.put(ParameterConstants.SCHOOL_ID, schoolId);
     	if (null != gradingPeriodRefs) {
-    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs.toArray());
+    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs);
     	}
         return repo.create(EntityNames.SESSION, session);
     }
