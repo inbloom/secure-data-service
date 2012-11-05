@@ -1454,6 +1454,7 @@
     <jb:value data="Assessment/AssessmentPeriod/Description" />
   </jb:bean>
 
+<!--
   <jb:bean beanId="assessmentItemReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:wiring beanIdRef="assessmentItemReferenceType" />
   </jb:bean>
@@ -1462,7 +1463,7 @@
     <jb:value property="id" data="AssessmentItemReference/@id" />
     <jb:value property="ref" data="AssessmentItemReference/@ref" />
   </jb:bean>
-
+-->
   <!-- JWC - remove??? -->
   <jb:bean beanId="objectiveAssessmentReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:wiring beanIdRef="objectiveAssessmentReferenceType" />
