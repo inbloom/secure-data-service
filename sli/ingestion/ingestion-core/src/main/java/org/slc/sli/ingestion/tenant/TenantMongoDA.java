@@ -230,7 +230,7 @@ public class TenantMongoDA implements TenantDA {
     public boolean setTenantInProgressFlag(String tenantId) {
 
     	DBObject query = new BasicDBObject("body.tenantId", tenantId);
-    	query.put(TENANT_READY_FIELD, null);
+    	query.put(TENANT_READY_FIELD, new BasicDBObject("$ne", false));
 
         DBObject set = new BasicDBObject(TENANT_READY_FIELD, false);
         DBObject update = new BasicDBObject("$set", set);

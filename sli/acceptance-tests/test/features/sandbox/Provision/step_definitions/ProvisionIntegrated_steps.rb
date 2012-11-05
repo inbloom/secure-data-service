@@ -350,6 +350,18 @@ Then /^I clean the landing zone$/ do
   end
 end
 
+Then /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => @tenantId}, {"$set" => {"body.tenantIsReady" => false}})
+end
+
+Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => @tenantId}, {"$set" => {"body.tenantIsReady" => true}})
+end
+
 def check_lz_path(path, tenant, edOrg)
   path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)
 end
