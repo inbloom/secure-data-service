@@ -2834,6 +2834,10 @@ Representative of visiting school
 	<xs:complexType name="SLC-ProgramReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for programs. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>program</sli:refType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
@@ -2855,6 +2859,9 @@ Representative of visiting school
 			<xs:element name="ProgramId" type="ProgramId">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>programId</sli:keyFieldName>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3227,6 +3234,9 @@ Special education students
 		<xs:annotation>
 			<xs:documentation>This entity represents the agency of the state charged with primary responsibility for coordinating and supervising public instruction, including the setting of standards for elementary and secondary instruction programs.
 </xs:documentation>
+		    <xs:appinfo>
+                <sli:recordType>stateEducationAgency</sli:recordType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="SLC-EducationOrganization"/>

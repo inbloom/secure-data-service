@@ -24,7 +24,7 @@
     },
     {
         "fieldPath" : "body.ProgramReference",
-        "deprecated" : false,
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "program",

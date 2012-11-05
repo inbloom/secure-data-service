@@ -149,6 +149,7 @@
       },
       {
         "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "program",
