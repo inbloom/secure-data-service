@@ -57,7 +57,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
-        Set<String> lineage = getStaffEdorgLineage();
+        Set<String> lineage = getStaffEdOrgLineage();
         for (Entity sca : scas) {
             String edOrgId = (String) sca.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
             String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
