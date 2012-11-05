@@ -53,6 +53,12 @@ When I make an API call to get my available apps
 Then I receive a JSON object listing all the apps approved for "SLI"
 And the list contains and app named "AuthorizeTestApp4"
 
+Scenario: Verify admin user that hasn't provisioned can still see userapps
+Given I am logged in using "unprovisioned_sunset_admin" "unprovisioned_sunset_admin1234" to realm "SLI"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "SLI"
+And the list contains the admin app
+
 Scenario Outline: Verify endpoints in admin app
 
     Given I am logged in using <USERNAME> <PASSWORD> to realm "SLI"

@@ -26,7 +26,7 @@ public class TeacherToStaffValidator extends AbstractContextValidator {
     
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STAFF.equals(entityType);
+        return !through && EntityNames.STAFF.equals(entityType) && !isStaff();
     }
     
     @Override
