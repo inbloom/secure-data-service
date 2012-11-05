@@ -15,8 +15,8 @@
  */
 package org.slc.sli.search.util;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -37,7 +37,7 @@ public class IndexEntityUtil {
         }
     }
     
-    public static String getBulkIndexJson(List<IndexEntity> docs) {
+    public static String getBulkIndexJson(Collection<IndexEntity> docs) {
         StringBuilder sb = new StringBuilder();
         for (IndexEntity ie: docs) {
             toBulkIndexJson(sb, ie);
@@ -45,7 +45,7 @@ public class IndexEntityUtil {
         return sb.toString();
     }
     
-    public static String getBulkDeleteJson(List<IndexEntity> docs) {
+    public static String getBulkDeleteJson(Collection<IndexEntity> docs) {
         StringBuilder sb = new StringBuilder();
         for (IndexEntity ie: docs) {
             toBulkDeleteJson(sb, ie);
@@ -53,7 +53,7 @@ public class IndexEntityUtil {
         return sb.toString();
     }
     
-    public static String getBulkGetJson(List<IndexEntity> docs) {
+    public static String getBulkGetJson(Collection<IndexEntity> docs) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"docs\": [");
         for (IndexEntity ie: docs) {
