@@ -63,7 +63,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         
         // Get the one's beneath me
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
-                getStaffEdorgLineage()));
+                getStaffEdOrgLineage()));
         Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
         for(Entity cohort : cohorts) {
             myCohortIds.add(cohort.getEntityId());

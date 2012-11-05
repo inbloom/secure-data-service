@@ -39,8 +39,8 @@ public class StaffToSessionValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
-    	Set<String> lineage = this.getStaffEdorgLineage();
-    	lineage.addAll(this.getStaffEdorgParents());
+    	Set<String> lineage = this.getStaffEdOrgLineage();
+    	lineage.addAll(this.getStaffEdOrgParents());
     	
         /*
          * Check if the entities being asked for exist in the repo

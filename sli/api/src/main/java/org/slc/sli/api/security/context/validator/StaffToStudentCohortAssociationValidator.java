@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -31,10 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StaffToStudentCohortAssociationValidator extends AbstractContextValidator {
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-    
+        
     @Autowired
     private StaffToStudentValidator studentValidator;
     
@@ -46,10 +42,14 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         return !isTransitive && EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isStaff();
     }
     
+    /**
+     * Can see all of the studentCohortAssociations of the students I can see and of all the cohorts
+     * I can see provided they aren't expired.
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        Set<String> cohortIds = new HashSet<String>();
+
         // See the cohort && see the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
@@ -69,21 +69,5 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         }
         return match;
     }
-    
-    /**
-     * @param studentValidator
-     *            the studentValidator to set
-     */
-    public void setStudentValidator(StaffToStudentValidator studentValidator) {
-        this.studentValidator = studentValidator;
-    }
-    
-    /**
-     * @param cohortValidator
-     *            the cohortValidator to set
-     */
-    public void setCohortValidator(StaffToCohortValidator cohortValidator) {
-        this.cohortValidator = cohortValidator;
-    }
-    
+        
 }

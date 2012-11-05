@@ -10,7 +10,7 @@
     <div class="container">
       <div id="header">
         <div id="portal">
-          <%= @header.gsub(/\[\$USER_NAME\$\]/, session[:full_name]).html_safe unless @header.nil? %>
+          <%= @header.gsub(/\[\$USER_NAME\$\]/, session[:full_name]).html_safe unless @header.nil? || session[:full_name].nil? %>
         </div>
         <div class="left">
           <h1><%=link_to "The SLC Data Browser", :root%></h1>

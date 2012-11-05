@@ -175,13 +175,13 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
     }
 
-    public void generateStudentProgram(String studentId, String programId, boolean isExpired) {
+    public Entity generateStudentProgram(String studentId, String programId, boolean isExpired) {
         Map<String, Object> studentProgram = new HashMap<String, Object>();
         studentProgram.put(ParameterConstants.STUDENT_ID, studentId);
         studentProgram.put(ParameterConstants.PROGRAM_ID, programId);
         expireAssociation(isExpired, studentProgram);
 
-        repo.create(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentProgram);
+        return repo.create(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentProgram);
     }
 
     public Entity generateEdorgWithProgram(List<String> programIds) {
@@ -193,15 +193,16 @@ public class ValidatorTestHelper {
     public Entity generateProgram() {
         return repo.create(EntityNames.PROGRAM, new HashMap<String, Object>());
     }
+    
 
-    public void generateStaffProgram(String teacherId, String programId, boolean isExpired, boolean studentAccess) {
+    public Entity generateStaffProgram(String teacherId, String programId, boolean isExpired, boolean studentAccess) {
         Map<String, Object> staffProgram = new HashMap<String, Object>();
         staffProgram.put(ParameterConstants.STAFF_ID, teacherId);
         staffProgram.put(ParameterConstants.PROGRAM_ID, programId);
         expireAssociation(isExpired, staffProgram);
         staffProgram.put(ParameterConstants.STUDENT_RECORD_ACCESS, studentAccess);
 
-        repo.create(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffProgram);
+        return repo.create(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffProgram);
 
     }
 
