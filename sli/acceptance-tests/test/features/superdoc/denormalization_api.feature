@@ -43,4 +43,5 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
        | studentSectionAssociation | studentSectionAssociations | student                  | <MARVIN MILLER>               | section         | <8TH GRADE ENGLISH SEC 6> |
        | studentProgramAssociation | studentProgramAssociations | student                  | <MARVIN MILLER>               | program         | <ACC TEST PROG 2>         |
        | studentAcademicRecord     | studentAcademicRecords     | studentSchoolAssociation | <MARVIN MILLER EAST DB JR HI> | sessions        | <SPRING SEMESTER>               |
+       | studentCohortAssociation  | studentCohortAssociations  | student                  | <MARVIN MILLER>               | cohorts         | <ACC-TEST-COH-3>               |
 #       | attendance                | attendances                | studentSchoolAssociation | <MARVIN MILLER EAST DB JR HI> | session         | <FALL 2011>               |
