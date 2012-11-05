@@ -91,11 +91,11 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
       | courseOffering                         | courseOfferings                          | 0     |"/schools/@ids/courseOfferings"|
-      | staffCohortAssociation                 | staffCohortAssociations                  | 3     |"/staff/@ids/staffCohortAssociations"|
+      | staffCohortAssociation                 | staffCohortAssociations                  | 2     |"/staff/@ids/staffCohortAssociations"|
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     |"/staff/@ids/staffEducationOrgAssignmentAssociations"|
       | staffProgramAssociation                | staffProgramAssociations                 | 3     |"/staff/@ids/staffProgramAssociations"|
       | studentAssessmentAssociation           | studentAssessments                       | 0     |"/schools/@ids/studentSchoolAssociations/students/studentAssessments"|
-      | studentCohortAssociation               | studentCohortAssociations                | 9     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
+      | studentCohortAssociation               | studentCohortAssociations                | 6     |"/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations"|
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     |"/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations"|
       | studentParentAssociation               | studentParentAssociations                | 0     |"/schools/@ids/studentSchoolAssociations/students/studentParentAssociations"|
       | studentProgramAssociation              | studentProgramAssociations               | 10    |"/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations"|
