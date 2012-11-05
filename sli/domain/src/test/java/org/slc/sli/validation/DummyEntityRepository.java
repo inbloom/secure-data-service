@@ -230,4 +230,9 @@ public class DummyEntityRepository implements Repository<Entity> {
             entities.put(collectionName, map);
         }
     }
+
+    @Override
+    public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
 }

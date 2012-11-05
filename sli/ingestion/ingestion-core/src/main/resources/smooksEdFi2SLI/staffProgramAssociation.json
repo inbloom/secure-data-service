@@ -23,7 +23,8 @@
         }
     },
     {
-        "fieldPath" : "body.programId",
+        "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "program",
@@ -34,7 +35,7 @@
                         "path" : "body.programId",
                         "values" :
                         [
-                            {"valueSource" : "body.programReference.programIdentity.programId"}
+                            {"valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"}
                         ]
                     }
                 ]
