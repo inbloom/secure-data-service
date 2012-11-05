@@ -519,6 +519,7 @@ public class MongoQueryConverter {
                     }
                 }
                 return null;
+            case CHOICE:
             case COMPLEX:
                 for (String key : schema.getFields().keySet()) {
                     NeutralSchema possibleSchema = schema.getFields().get(key);
