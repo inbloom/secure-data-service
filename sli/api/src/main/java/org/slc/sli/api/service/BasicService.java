@@ -567,14 +567,20 @@ public class BasicService implements EntityService {
                 List<String> idsToValidate = new ArrayList<String>();
 
                 String principalId = SecurityUtil.principalId();
+                int found = 0;
                 NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", ids)).setLimit(MAX_RESULT_SIZE);
                 for (Entity ent : repo.findAll(collectionName, getIdsQuery)) {
+                    found++;
                     if (principalId.equals(ent.getMetaData().get("createdBy"))
                             && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                         debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
                     } else {
                         idsToValidate.add(ent.getEntityId());
                     }
+                }
+                if (found != ids.size()) {
+                    debug("Invalid reference, an entity does not exist. collection: {} ids: {}", collectionName, ids);
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                 }
 
                 if (!idsToValidate.isEmpty()) {
