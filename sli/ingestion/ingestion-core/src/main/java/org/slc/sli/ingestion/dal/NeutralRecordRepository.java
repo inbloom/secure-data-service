@@ -24,6 +24,7 @@ import java.util.Set;
 
 import com.mongodb.DBCollection;
 
+import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -271,5 +272,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     protected Iterable<NeutralRecord> findAllAcrossTenants(String collectionName, Query mongoQuery) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public NeutralRecord findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
     }
 }

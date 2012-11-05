@@ -18,6 +18,7 @@ package org.slc.sli.dal.convert;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -322,9 +323,9 @@ public class Denormalizer {
 
             TenantContext.setIsSystemCall(false);
             result &= template.getCollection(denormalizeToEntity)
-                    .update(parentQuery, buildPullObject(entities), false, true).getLastError().ok();
+                    .update(parentQuery, buildPullObject(entities), false, true, WriteConcern.SAFE).getLastError().ok();
             result &= template.getCollection(denormalizeToEntity)
-                    .update(parentQuery, buildPushObject(entities), false, true).getLastError().ok();
+                    .update(parentQuery, buildPushObject(entities), false, true, WriteConcern.SAFE).getLastError().ok();
             referencedEntityMap = null;
 
             return result;
@@ -402,7 +403,7 @@ public class Denormalizer {
             TenantContext.setIsSystemCall(false);
 
             return template.getCollection(denormalizeToEntity)
-                    .update(parentQuery, buildPullObject(subEntities), false, true).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, true, WriteConcern.SAFE).getLastError().ok();
         }
 
         private Entity findTypeEntity(String id) {
@@ -420,7 +421,7 @@ public class Denormalizer {
 
             DBObject patchUpdate = toDenormalizedObjectUpdate(update);
 
-            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true)
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true, WriteConcern.SAFE)
                         .getLastError().ok();
 
             return result;

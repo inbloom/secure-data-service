@@ -22,16 +22,17 @@ import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -44,8 +45,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DateSchema extends NeutralSchema {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DateSchema.class);
-	
+    private static final Logger LOG = LoggerFactory.getLogger(DateSchema.class);
+
     // Constructors
     public DateSchema() {
         this(NeutralSchemaType.DATE.getName());
@@ -63,17 +64,20 @@ public class DateSchema extends NeutralSchema {
     }
 
     @Override
-	public Object convert(Object value) {
-		try {
-			DatatypeConverter.parseDate((String) value);
-		} catch (IllegalArgumentException e) {
-			LOG.error("Failed to parse date", e);
-			throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
-		}
+    public Object convert(Object value) {
+        try {
+            DatatypeConverter.parseDate((String) value);
+        } catch (NullPointerException e) {
+            LOG.error("Failed to parse date", e);
+            throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
+        } catch (IllegalArgumentException e) {
+            LOG.error("Failed to parse date", e);
+            throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
+        }
 
-		return value;
-	}    
-    
+        return value;
+    }
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -89,6 +93,7 @@ public class DateSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid;
         try {

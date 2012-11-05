@@ -32,21 +32,20 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Provides alternative references for DisciplineIncident reference during interchange. Use XML IDREF to reference a DisciplineMetric record that is included in the interchange
+ * Provides alternative references for DisciplineIncident reference during interchange. Use XML
+ * IDREF to reference a DisciplineMetric record that is included in the interchange
  * 
- * <p>Java class for DisciplineIncidentReferenceType complex type.
+ * <p>
+ * Java class for DisciplineIncidentReferenceType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="DisciplineIncidentReferenceType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://ed-fi.org/0100}ReferenceType">
- *       &lt;sequence>
- *         &lt;element name="DisciplineIncidentIdentity" type="{http://ed-fi.org/0100}DisciplineIncidentIdentityType" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
+ *   &lt;sequence>
+ *     &lt;element name="DisciplineIncidentIdentity" type="{http://ed-fi.org/0100}DisciplineIncidentIdentityType" minOccurs="0"/>
+ *   &lt;/sequence>
  * &lt;/complexType>
  * </pre>
  * 
@@ -57,7 +56,6 @@ import javax.xml.bind.annotation.XmlType;
     "disciplineIncidentIdentity"
 })
 public class DisciplineIncidentReferenceType
-    extends ReferenceType
 {
 
     @XmlElement(name = "DisciplineIncidentIdentity")

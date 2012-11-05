@@ -2,6 +2,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,7 +59,19 @@ public abstract class AbstractContextValidator implements IContextValidator {
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
+                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type)
+                || EntityNames.REPORT_CARD.equals(type);
+    }
+
+    /**
+     * Determines if the specified type is a sub-entity of student section association.
+     *
+     * @param type
+     *            Type to check is 'below' student section association.
+     * @return True if the entity hangs off of student section association, false otherwise.
+     */
+    protected boolean isSubEntityOfStudentSectionAssociation(String type) {
+        return EntityNames.GRADE.equals(type) || EntityNames.STUDENT_COMPETENCY.equals(type);
     }
 
     /**
@@ -155,18 +168,92 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected Set<String> getStaffEdorgLineage() {
         // Get my staffEdorg to get my edorg hierarchy
+        Set<String> edorgLineage = new HashSet<String>();
+        edorgLineage.addAll(getDirectEdorgs());
+        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
+        return edorgLineage;
+    }
+
+    private Set<String> getDirectEdorgs() {
+    	// Get my staffEdorg to get my edorg hierarchy
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         Iterable<Entity> staffEdorgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        Set<String> edorgLineage = new HashSet<String>();
+        Set<String> edorgs = new HashSet<String>();
         for (Entity staffEdOrg : staffEdorgs) {
             if (!isFieldExpired(staffEdOrg.getBody(), ParameterConstants.END_DATE)) {
-                edorgLineage
-                        .add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+                edorgs.add((String) staffEdOrg.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
             }
         }
-        edorgLineage.addAll(getChildEdOrgs(edorgLineage));
-        return edorgLineage;
+        return edorgs;
+    }
+    
+    protected Set<String> getStaffEdorgParents() {
+    	Set<String> edorgHiearchy = new HashSet<String>();
+    	Set<String> directEdorgs = new HashSet<String>();
+    	directEdorgs = getDirectEdorgs();
+    	edorgHiearchy.addAll(directEdorgs);
+    	for (String edorg : directEdorgs) {
+    		edorgHiearchy.addAll(fetchParentEdorgs(edorg));
+    	}
+    	return edorgHiearchy;
+    }
+
+    private Set<String> fetchParentEdorgs(String id) {
+    	Set<String> parents = new HashSet<String>();
+        Entity edOrg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id, false)));
+        if (edOrg != null) {
+            parents.add(id);
+            Map<String, Object> body = edOrg.getBody();
+            if (body.containsKey("parentEducationAgencyReference")) {
+                String myParent = (String) body.get("parentEducationAgencyReference");
+                parents.addAll(fetchParentEdorgs(myParent));
+            }
+        }
+        return parents;
+    }
+    
+    /**
+     * Determines if the entity type is public.
+     *
+     * @param type
+     *            Entity type.
+     * @return True if the entity is public, false otherwise.
+     */
+    protected boolean isPublic(String type) {
+        return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
+                || type.equals(EntityNames.LEARNING_STANDARD);
+    }
+
+    /**
+     * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
+     * Iterates through result and peels off String value contained in body.<<field>>. Returns
+     * unique set of values that were stored in body.<<field>>.
+     *
+     * @param type
+     *            Entity type to query for.
+     * @param ids
+     *            List of _ids of entities to query.
+     * @param field
+     *            Field (contained in body) to peel off of entities.
+     * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
+     */
+    protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
+        Set<String> matching = new HashSet<String>();
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.OPERATOR_EQUAL, ids));
+        Iterable<Entity> entities = getRepo().findAll(type, query);
+        if (entities != null) {
+            for (Entity entity : entities) {
+                Map<String, Object> body = entity.getBody();
+                if (body.containsKey(field)) {
+                    matching.add((String) body.get(field));
+                }
+            }
+        }
+
+        return new ArrayList<String>(matching);
     }
 
     protected Repository<Entity> getRepo() {
