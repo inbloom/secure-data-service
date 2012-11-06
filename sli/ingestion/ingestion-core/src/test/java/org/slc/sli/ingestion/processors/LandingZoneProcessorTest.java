@@ -73,6 +73,7 @@ public class LandingZoneProcessorTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testValidLz() {
 
         File validLzPathFile = new File("/test/lz/inbound/TEST-LZ/testFile.zip");
@@ -101,6 +102,7 @@ public class LandingZoneProcessorTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testInvalidLz() {
 
         File validLzPathFile = new File("/test/lz/inbound/TEST-LZ/testFile.zip");
