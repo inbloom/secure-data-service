@@ -18,14 +18,9 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 
 import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
-import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
@@ -62,12 +57,12 @@ public class InterchangeStudentEnrollmentGenerator {
 //        return interchange;
     }
 
-    
+
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
 
         generateStudentSchoolAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
 
-        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());        
+        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
 
 		generateGraduationPlan(iWriter,
 				MetaRelations.GRADUATION_PLAN_MAP.values());
@@ -81,7 +76,7 @@ public class InterchangeStudentEnrollmentGenerator {
      * @param interchangeObjects
      */
     private static void generateGraduationPlan(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<GraduationPlanMeta> graduationPlanMetas) {
-    	
+
 		long startTime = System.currentTimeMillis();
 
 		int objGenCounter = 0;
@@ -97,7 +92,6 @@ public class InterchangeStudentEnrollmentGenerator {
 						.generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
 			}
 
-
 	        if (graduationPlan != null) {
 	            iWriter.marshal(graduationPlan);
 	            objGenCounter++;
@@ -108,15 +102,15 @@ public class InterchangeStudentEnrollmentGenerator {
 				+ " GraduationPlan objects in: "
 				+ (System.currentTimeMillis() - startTime));
    }
-    
+
     /**
      * Generate the individual Student Association entities.
      *
      * @param interchangeObjects
      */
-    
+
     private static void generateStudentSchoolAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<StudentMeta> studentMetas) {
-    	
+
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
