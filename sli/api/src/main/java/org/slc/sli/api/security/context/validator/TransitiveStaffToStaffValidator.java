@@ -37,7 +37,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     private PagingRepositoryDelegate<Entity> repo;
     
     @Autowired
-    private StaffToSchoolValidator staffToSchool;
+    private StaffToEdOrgValidator staffToSchool;
     
     @Override
     public boolean canValidate(String entityType, boolean through) {

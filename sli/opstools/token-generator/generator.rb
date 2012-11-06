@@ -101,6 +101,7 @@ body[:principal] = principal
 body[:appSession] = appSessions
 userSession[:body] = body
 userSession[:metaData] = {}
+userSession[:metaData][:created]=Date.today.strftime("%Y-%m-%d")
 db[:userSession].insert(userSession)
 
 puts "Your new long-lived session token is #{appSession[:token]}"

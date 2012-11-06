@@ -63,8 +63,6 @@ public class StaffToStaffCohortAssociationValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
     
     Set<String> cohortIds;
-    
-    private TransitiveStaffToStaffValidator staffValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -79,13 +77,11 @@ public class StaffToStaffCohortAssociationValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
         
         cohortIds = new HashSet<String>();
-        staffValidator = Mockito.mock(TransitiveStaffToStaffValidator.class);
 
     }
     
     @After
     public void tearDown() throws Exception {
-        staffValidator = null;
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
         cleanCohortData();
 
@@ -153,7 +149,6 @@ public class StaffToStaffCohortAssociationValidatorTest {
     public void testCanNotValidateOutsideOfEdorg() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         Entity school2 = helper.generateEdorgWithParent(null);
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
@@ -167,7 +162,6 @@ public class StaffToStaffCohortAssociationValidatorTest {
     public void testCanNotValidateAtStateLevel() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
         Entity sca = helper.generateStaffCohort("MOOP", helper.generateCohort(sea.getEntityId()).getEntityId(),

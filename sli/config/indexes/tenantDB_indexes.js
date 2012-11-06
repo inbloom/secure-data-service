@@ -239,3 +239,6 @@ db["staff"].ensureIndex({"type":1});
 
 // TODO: Index to make querying acceptance tests pass - this is really bad!!
 db["reportCard"].ensureIndex({"body.gpaCumulative":1});
+
+//US4365
+db["student"].ensureIndex({"cohort._id" : 1});
