@@ -9,8 +9,8 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 
 	<import resource="classpath:/spring/validation.xml" />
 	<context:component-scan base-package="org.slc.sli.dal" />
@@ -62,7 +62,7 @@
 		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
 	
-	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.SearchEngineConnectorImpl">
+	<bean id="searchEngineConnector" class="org.slc.sli.search.connector.impl.ESOperation">
 		<property name="searchUrl" value="${sli.search.url}" />
 		<property name="searchUsername" value="${sli.search.username}" />
 		<property name="searchPassword" value="${sli.search.password}" />
@@ -101,11 +101,21 @@
 		<property name="inboxDir" value="${sli.search.indexer.dir.inbox}" />
 		<property name="executorThreads" value="${sli.search.indexer.thread.number:5}" />
 	</bean>
-	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" />
+	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" >
+	    <constructor-arg>
+	    <bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+		    <property name="connectTimeout" value="${sli.search.indexer.connTimeout:1000}" />
+		    <property name="readTimeout" value="${sli.search.indexer.readTimeout:1000}" />
+	    </bean>
+	    </constructor-arg>
+	</bean>
 	<bean id="indexer" class="org.slc.sli.search.process.impl.IndexerImpl"
 		init-method="init" destroy-method="destroy">
 		<property name="searchEngineConnector" ref="searchEngineConnector"/>
 		<property name="indexConfigStore" ref="indexConfigStore"/>
+		<property name="aggregatePeriod" value="${sli.search.indexer.aggregatePeriodInMillis:500}"/>
+		<property name="bulkSize" value="${sli.search.indexer.bulkSize:500}"/>
+		<property name="indexerWorkerPoolSize" value="${sli.search.indexer.indexerWorkerPoolSize:4}"/>
 	</bean>
 	
 	<bean id="admin" class="org.slc.sli.search.process.impl.AdminImpl">

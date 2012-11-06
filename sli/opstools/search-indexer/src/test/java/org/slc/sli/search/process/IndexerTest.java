@@ -24,7 +24,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slc.sli.search.connector.impl.SearchEngineConnectorImpl;
+import org.slc.sli.search.connector.impl.ESOperation;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.impl.IndexerImpl;
@@ -37,10 +37,12 @@ public class IndexerTest {
     
     @Before
     public void setup() {
-        SearchEngineConnectorImpl searchEngineConnector = new SearchEngineConnectorImpl();
+        ESOperation searchEngineConnector = new ESOperation();
         searchEngineConnector.setSearchTemplate(searchTemplate);
         indexer.setBulkSize(1);
         indexer.setSearchEngineConnector(searchEngineConnector);
+        indexer.setAggregatePeriod(500);
+        indexer.setIndexerWorkerPoolSize(2);
         searchEngineConnector.setSearchUrl("");
         indexer.init();
         indexer.setAggregatePeriod(10);
@@ -74,7 +76,7 @@ public class IndexerTest {
         List<IndexEntity> ies = new ArrayList<IndexEntity>();
         ies.add(new IndexEntity(Action.UPDATE, "tests", "test", "1", map));
         ies.add(new IndexEntity(Action.UPDATE, "tests1", "test1", "2", map));
-        indexer.executeBulkGetUpdate(ies);
+        indexer.execute(Action.UPDATE, ies);
         List<HttpEntity<?>> calls = searchTemplate.getCalls();
         // 2 class - _mget and _bulk 
         Assert.assertEquals(2, calls.size());

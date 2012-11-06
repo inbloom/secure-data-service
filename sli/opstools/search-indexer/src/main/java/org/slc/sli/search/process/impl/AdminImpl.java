@@ -30,7 +30,7 @@ public class AdminImpl implements Admin {
     public void reload(String tenantId) {
         logger.info("Received reload " + tenantId);
         Tenant tenant = getTenant(tenantId);
-        searchEngine.executeDelete(searchEngine.getIndexUri(), tenant.getDbName());
+        searchEngine.deleteIndex(tenant.getDbName());
         extractor.execute(tenant, Action.INDEX);
     }
     public void reloadAll() {

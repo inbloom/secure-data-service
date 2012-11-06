@@ -18,7 +18,7 @@ package org.slc.sli.search.connector.impl;
 import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
-import org.slc.sli.search.connector.SearchEngineConnector;
+import org.slc.sli.search.util.RecoverableIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -27,6 +27,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestOperations;
 
 /**
@@ -36,27 +37,15 @@ import org.springframework.web.client.RestOperations;
  * @author dwu
  * 
  */
-public class SearchEngineConnectorImpl implements SearchEngineConnector {
+public abstract class ESConnector {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
-    private String bulkUri;
-
-    private String mGetUri;
-    
-    private String mUpdateUri;
-    
-    private String indexUri;
-    
-    private String indexTypeUri;
     
     private RestOperations searchTemplate;
     
     private String esUsername;
     
     private String esPassword;
-
-    private String esUrl;
     
     /**
      * Send REST query to elasticsearch server
@@ -79,9 +68,12 @@ public class SearchEngineConnectorImpl implements SearchEngineConnector {
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, uriParams);
+        } catch (ResourceAccessException ste) {
+            logger.error("rest call failed: " + ste);
+            throw new RecoverableIndexerException();
         } catch (HttpClientErrorException rce) {
             return new ResponseEntity<String>(rce.getStatusCode());
-        }
+        } 
     }
     
 
@@ -104,40 +96,7 @@ public class SearchEngineConnectorImpl implements SearchEngineConnector {
     public HttpStatus executePut(String url, String body, Object... uriParams) {
         return sendRESTCall(HttpMethod.PUT, url, body, uriParams).getStatusCode();
     }
-    
-    public void setSearchUrl(String esUrl) {
-        this.esUrl = esUrl;
-        this.bulkUri = esUrl + "/_bulk";
-        this.mGetUri = esUrl + "/_mget";
-        this.indexUri = esUrl + "/{index}";
-        this.indexTypeUri = esUrl + "/{index}/{type}";
-        this.mUpdateUri = indexTypeUri + "/{id}/_update";
-    }
-    
-    public String getBaseUrl() {
-        return esUrl;
-    }
 
-    public String getBulkUri() {
-        return bulkUri;
-    }
-
-    public String getMGetUri() {
-        return mGetUri;
-    }
-
-    public String getUpdateUri() {
-        return mUpdateUri;
-    }
-
-    public String getIndexUri() {
-        return indexUri;
-    }
-
-    public String getIndexTypeUri() {
-        return indexTypeUri;
-    }
-    
     public void setSearchUsername(String esUsername) {
         this.esUsername = esUsername;
     }

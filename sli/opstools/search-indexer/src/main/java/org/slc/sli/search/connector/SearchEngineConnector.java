@@ -1,5 +1,9 @@
 package org.slc.sli.search.connector;
 
+import java.util.List;
+
+import org.slc.sli.search.entity.IndexEntity;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -14,19 +18,13 @@ public interface SearchEngineConnector {
     public HttpStatus executeDelete(String url, Object... uriParams);
     public HttpStatus executeHead(String url, Object... uriParams);
     
-    public String getBaseUrl();
+    public void createIndex(String index);
+    public void deleteIndex(String index);
     
-    public String getBulkUri();
-
-
-    public String getMGetUri();
-
-
-    public String getUpdateUri();
-
-
+    public void putMapping(String index, String type, String mapping);
+    
+    public String getBaseUrl();
     public String getIndexUri();
-
-
-    public String getIndexTypeUri();
+    
+    public void execute(Action a, List<IndexEntity> docs);
 }
