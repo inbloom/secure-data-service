@@ -143,16 +143,6 @@ public class LocalEducationAgencyGenerator {
         	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         	eort.setRef(seaRef);
         	localEducationAgency.setStateEducationAgencyReference(eort);
-        	
-        
-           for (String pid:leaMeta.programs.keySet()){
-        	
-        	   ProgramMeta pm = leaMeta.programs.get(pid); 
-        	   Ref programRef = new Ref(pm.id);
-        	   ProgramReferenceType prt = new ProgramReferenceType();
-        	   prt.setRef(programRef);
-        	   localEducationAgency.getProgramReference().add(prt);  	  
-           }
 		} else {
 			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
 			edOrgIdentityType.setStateOrganizationId(seaId);
@@ -160,17 +150,18 @@ public class LocalEducationAgencyGenerator {
 			EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
 			seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 			localEducationAgency.setStateEducationAgencyReference(seaRef);
-
-			for (String pid : leaMeta.programs.keySet()) {
-
-				ProgramMeta pm = leaMeta.programs.get(pid);
-				ProgramIdentityType pit = new ProgramIdentityType();
-				pit.setProgramId(pm.id);
-				ProgramReferenceType prt = new ProgramReferenceType();
-				prt.setProgramIdentity(pit);
-				localEducationAgency.getProgramReference().add(prt);
-			}
 		}
+
+		for (String pid : leaMeta.programs.keySet()) {
+
+			ProgramMeta pm = leaMeta.programs.get(pid);
+			ProgramIdentityType pit = new ProgramIdentityType();
+			pit.setProgramId(pm.id);
+			ProgramReferenceType prt = new ProgramReferenceType();
+			prt.setProgramIdentity(pit);
+			localEducationAgency.getProgramReference().add(prt);
+		}
+
         return localEducationAgency;
     }
     

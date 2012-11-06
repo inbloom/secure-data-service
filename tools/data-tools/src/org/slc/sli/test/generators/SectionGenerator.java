@@ -23,8 +23,6 @@ import org.slc.sli.test.edfi.entities.CourseCode;
 import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.CourseOfferingIdentityType;
 import org.slc.sli.test.edfi.entities.CourseOfferingReferenceType;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
@@ -34,7 +32,6 @@ import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
 
@@ -113,11 +110,7 @@ public class SectionGenerator {
          section.setCourseOfferingReference(courseRef);
 
          // construct and add the session reference
-         SessionIdentityType sessionIdentity = new SessionIdentityType();
-         sessionIdentity.setSessionName(sessionId);
-
-         SessionReferenceType sessionRef = new SessionReferenceType();
-         sessionRef.setSessionIdentity(sessionIdentity);
+        SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
 
          section.setSessionReference(sessionRef);
 
@@ -156,11 +149,7 @@ public class SectionGenerator {
         section.setCourseOfferingReference(courseRef);
 
         // construct and add the session reference
-        SessionIdentityType sessionIdentity = new SessionIdentityType();
-        sessionIdentity.setSessionName(sessionId);
-
-        SessionReferenceType sessionRef = new SessionReferenceType();
-        sessionRef.setSessionIdentity(sessionIdentity);
+        SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(schoolId, sessionId);
 
         section.setSessionReference(sessionRef);
 
