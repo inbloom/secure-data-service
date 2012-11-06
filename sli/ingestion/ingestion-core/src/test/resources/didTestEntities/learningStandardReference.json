@@ -1,0 +1,13 @@
+{
+"recordType":"gradebookEntry",
+"attributes":
+{
+    "LearningStandardReference":
+    {
+        "LearningStandardIdentity":
+        {
+            "IdentificationCode":"0123456789"
+        }
+    }
+}
+}

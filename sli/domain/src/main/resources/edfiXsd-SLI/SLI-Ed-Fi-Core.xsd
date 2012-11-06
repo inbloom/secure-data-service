@@ -221,7 +221,7 @@
   </xs:complexType>
   <xs:complexType name="SLC-LearningStandardIdentityType">
     <xs:sequence>
-      <xs:element name="identificationCode" type="IdentificationCode">
+      <xs:element name="IdentificationCode" type="IdentificationCode">
         <xs:annotation>
           <xs:appinfo>
             <sli:keyFieldName>learningStandardId.identificationCode</sli:keyFieldName>
