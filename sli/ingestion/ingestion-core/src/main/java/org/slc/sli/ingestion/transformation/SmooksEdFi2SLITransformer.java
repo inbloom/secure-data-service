@@ -29,18 +29,19 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.validation.ErrorReport;
+
 /**
  * EdFi to SLI transformer based on Smooks
- * 
+ *
  * @author okrook
- * 
+ *
  */
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
@@ -49,7 +50,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
 
     private final String EDFI_STUDENT_REFERENCE = "StudentReference";
+    private final String EDFI_ASSESSMENT_REFERENCE = "AssessmentReference";
     private final String SLI_STUDENT_REFERENCE = "studentId";
+    private final String SLI_ASSESSMENT_REFERENCE = "assessmentId";
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -94,6 +97,14 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     entity.getBody().put(SLI_STUDENT_REFERENCE, studentId);
                 } else {
                     LOG.error("Unable to map 'studentId' in studentAssessmentAssociation. Expected a String.");
+                }
+
+                ref = entity.getBody().remove(EDFI_ASSESSMENT_REFERENCE);
+                if (ref instanceof String) {
+                    String assessmentId = (String) ref;
+                    entity.getBody().put(SLI_ASSESSMENT_REFERENCE, assessmentId);
+                } else {
+                    LOG.error("Unable to map 'assessmentId' in studentAssessmentAssociation. Expected a String.");
                 }
             }
 

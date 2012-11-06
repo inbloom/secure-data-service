@@ -534,7 +534,7 @@ Other</xs:documentation>
                     <xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0" />
                     <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType" />
+                    <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -2293,7 +2293,7 @@ Second grade
 			<xs:documentation/>
 		    <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>objectiveAssessment</sli:refType>
+                <sli:refType>assessment</sli:refType>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
