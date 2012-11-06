@@ -49,6 +49,7 @@ def processPayloadFile(file_name)
   if Dir.exists?(zip_dir)
     FileUtils.rm_r zip_dir
   end
+
   FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
 
   ctl_template = nil
@@ -87,6 +88,7 @@ def processPayloadFile(file_name)
   runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
   FileUtils.rm_r zip_dir
 
+  file_name = @local_file_store_path + path_delim + file_name
   return file_name
 end
 

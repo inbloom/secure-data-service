@@ -55,6 +55,19 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
+    public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/programReference.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("programId", "program ID");
+
+        checkId(entity, "ProgramReference", naturalKeys, "program");
+    }
+
+    @Test
     public void shouldResolveLearningStandardDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/learningStandardReference.json");
         ErrorReport errorReport = new TestErrorReport();
