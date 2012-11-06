@@ -164,26 +164,6 @@ public class SessionGenerator {
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-
-        if (MetaRelations.Session_Ref) {
-            for (String cal : calendarList) {
-                Ref calRef = new Ref(cal);
-                ReferenceType ref = new ReferenceType();
-                ref.setRef(calRef);
-                session.getCalendarDateReference().add(ref);
-            }
-        } else {
-            for (String cal : calendarList) {
-                CalendarDateIdentityType cit = new CalendarDateIdentityType();
-                cit.setDate("2011-01-01");
-                cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
-                CalendarDateReferenceType crf = new CalendarDateReferenceType();
-                crf.setCalendarDateIdentity(cit);
-
-                session.getCalendarDateReference().add(crf);
-            }
-        }
-
         //should really have gradingPeriod meta data to build this up from
         //restrict grading periods so that refs are unique
 
