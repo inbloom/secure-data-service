@@ -27,13 +27,13 @@ import org.slc.sli.ingestion.IngestionStagedEntity;
  */
 public interface NeutralRecordAccess {
 
-    long collectionCountForJob(String collectionNameAsStaged, String jobId);
+    long collectionCountForJob(String collectionNameAsStaged);
 
-    long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId);
+    long countCreationTimeWithinRange(String collectionName, long min, long max);
 
-    long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId);
+    long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity);
 
-    long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId);
+    long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity);
 
     void cleanupJob(String batchJobId);
 

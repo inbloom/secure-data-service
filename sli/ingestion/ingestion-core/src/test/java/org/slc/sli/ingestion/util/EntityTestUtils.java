@@ -262,7 +262,7 @@ public class EntityTestUtils {
         }
 
         @Override
-        public void writeResource(NeutralRecord neutralRecord, String jobId) {
+        public void writeResource(NeutralRecord neutralRecord) {
             neutralRecordList.add(neutralRecord);
         }
 
@@ -271,12 +271,12 @@ public class EntityTestUtils {
         }
 
         @Override
-        public void insertResource(NeutralRecord neutralRecord, String jobId) {
+        public void insertResource(NeutralRecord neutralRecord) {
             neutralRecordList.add(neutralRecord);
         }
 
         @Override
-        public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+        public void insertResources(List<NeutralRecord> neutralRecords, String collectionName) {
             neutralRecordList.addAll(neutralRecords);
         }
     }

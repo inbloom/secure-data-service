@@ -34,6 +34,9 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,6 +44,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
@@ -48,66 +54,61 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.TransformationStrategy;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 
 /**
  * Test for combining student assessments
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentCombinerTest {
-    
+
     private StudentAssessmentCombiner saCombiner = spy(new StudentAssessmentCombiner());
-    
+
     private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
-    
+
     @Mock
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Mock
     private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
-    
+
     private String batchJobId = "10001";
     private Job job = mock(Job.class);
-    
+
     @Before
     public void setup() throws IOException {
         MockitoAnnotations.initMocks(this);
-        
+
         saCombiner.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
-        
+
         when(
-                repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class))).thenReturn(buildSOANeutralRecords());
-        
-        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class)))
+                repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), any(NeutralQuery.class))).thenReturn(buildSOANeutralRecords());
+
+        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), any(NeutralQuery.class)))
                 .thenReturn(
                         Arrays.asList(AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ1_ID),
                                 AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ2_ID)));
         DBCollection oaCollection = mock(DBCollection.class);
         when(repository.getCollectionForJob(STUDENT_OBJECTIVE_ASSESSMENT)).thenReturn(oaCollection);
-        
+
         when(oaCollection.distinct(eq("body." + OBJECTIVE_ASSESSMENT_REFERENCE), any(BasicDBObject.class))).thenReturn(
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));
-        
+
         when(
-                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(
                         new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa1")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1")));
         when(
-                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, batchJobId, new NeutralQuery(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(
                         new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa2")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2")));
@@ -125,7 +126,7 @@ public class StudentAssessmentCombinerTest {
         when(repository.findByPathsForJob("assessmentItem", paths2, batchJobId)).thenReturn(
                 Arrays.asList(assessmentItem));
     }
-    
+
     @Ignore
     @Test
     public void testStudentObjectiveAssessment() throws IOException {
@@ -144,7 +145,7 @@ public class StudentAssessmentCombinerTest {
         Assert.assertEquals(2, sas.size());
         Assert.assertTrue(foundSai);
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<NeutralRecord> buildSANeutralRecords() {
         NeutralRecord sa1 = new NeutralRecord();
@@ -171,14 +172,14 @@ public class StudentAssessmentCombinerTest {
         sa2.setAttributeField("xmlId", "sa2");
         return Arrays.asList(sa1, sa2);
     }
-    
+
     public List<NeutralRecord> buildSOANeutralRecords() {
         return Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1"),
                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2"));
     }
-    
+
     @SuppressWarnings("unchecked")
     private NeutralRecord buildSOANeutralRecord(String oaRef, String saRef) {
         NeutralRecord soa = new NeutralRecord();
@@ -210,20 +211,20 @@ public class StudentAssessmentCombinerTest {
         rec.getLocalParentIds().put("studentTestResultRef", studentAssessmentId);
         return rec;
     }
-    
+
     public Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer, Job job) throws IOException {
         List<NeutralRecord> transformed = new ArrayList<NeutralRecord>();
-        
+
         // Performing the transformation
         transformer.perform(job);
-        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob("studentAssessmentAssociation", job.getId(), new NeutralQuery(0));
+        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob("studentAssessmentAssociation", new NeutralQuery(0));
         Iterator<NeutralRecord> itr = records.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {
             record = itr.next();
             transformed.add(record);
         }
-        
+
         return transformed;
     }
 }

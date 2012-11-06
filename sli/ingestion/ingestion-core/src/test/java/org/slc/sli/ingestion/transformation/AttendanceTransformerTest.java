@@ -35,6 +35,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -45,11 +51,6 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit Test for AttendanceTransformer
@@ -331,8 +332,7 @@ public class AttendanceTransformerTest {
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed"),
-                Mockito.eq(batchJobId)
+                Mockito.eq("attendance_transformed")
              );
 
         //verify attendance for studentId2
@@ -346,8 +346,7 @@ public class AttendanceTransformerTest {
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed"),
-                Mockito.eq(batchJobId)
+                Mockito.eq("attendance_transformed")
              );
 
     }

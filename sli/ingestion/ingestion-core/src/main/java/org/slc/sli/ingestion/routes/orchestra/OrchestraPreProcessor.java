@@ -61,8 +61,7 @@ public class OrchestraPreProcessor implements Processor {
 
         LOG.info("Looking up staged entities for batch job: {}", jobId);
 
-        Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob(
-                jobId);
+        Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob();
 
         Set<IngestionStagedEntity> stagedEntities = constructStagedEntities(stagedCollectionNames);
 
