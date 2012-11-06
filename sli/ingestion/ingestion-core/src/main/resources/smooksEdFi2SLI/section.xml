@@ -19,7 +19,7 @@
   </jb:bean>
 
   <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="sessionId" data="attributes sessionId" />
+    <jb:value property="sessionId" data="attributes SessionReference" />
     <jb:value property="schoolId" data="attributes schoolId" />
     <jb:value property="courseOfferingId" data="attributes courseOfferingId" />
     <jb:wiring property="availableCredit" beanIdRef="availableCreditValue" />
@@ -38,7 +38,7 @@
   </jb:bean>
 
   <jb:bean beanId="programReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="attributes programReference element" />
+    <jb:value data="attributes ProgramReference element" />
   </jb:bean>
 
 </smooks-resource-list>

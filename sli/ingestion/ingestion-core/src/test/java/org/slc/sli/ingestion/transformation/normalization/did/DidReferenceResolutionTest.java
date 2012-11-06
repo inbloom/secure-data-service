@@ -56,6 +56,19 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
+	public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/programReference.json");
+		ErrorReport errorReport = new TestErrorReport();
+
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("programId", "program ID");
+
+		checkId(entity, "ProgramReference", naturalKeys, "program");
+	}
+
+	@Test
 	public void shouldResolveCalendarDateDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/calendarDateReference.json");
 		ErrorReport errorReport = new TestErrorReport();
@@ -91,7 +104,7 @@ public class DidReferenceResolutionTest {
 		}
 	}
 
-	//load a sample NeutralRecordEntity from a json file
+	// load a sample NeutralRecordEntity from a json file
 	private Entity loadEntity(String fname) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Resource jsonFile = new ClassPathResource(fname);

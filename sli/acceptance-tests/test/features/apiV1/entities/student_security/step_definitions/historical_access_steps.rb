@@ -70,15 +70,16 @@ When /^I move teacher12 to a new section$/ do
     "beginDate" => "2012-07-16"
   }
   
-  #Make the old association outdated
-  restHttpPut("/v1/teacherSectionAssociations/00000000-0001-0000-0000-000000000018", updateHash.to_json, "application/json")
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.code == 204, "Failed to move teacher12 to new section, code was #{@res.code}")
-  
   #Create the new association
   restHttpPost("/v1/teacherSectionAssociations", createHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
   assert(@res.code == 201, "Failed to move teacher12 to new section, code was #{@res.code}")
+
+  #Make the old association outdated
+  restHttpPut("/v1/teacherSectionAssociations/00000000-0001-0000-0000-000000000018", updateHash.to_json, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.code == 204, "Failed to move teacher12 to new section, code was #{@res.code}")
+
 end
 
 When /^I move student58 to a new section$/ do
@@ -96,15 +97,16 @@ When /^I move student58 to a new section$/ do
     "beginDate" => "2012-07-16"
   }
   
-  #Make the old association outdated
-  restHttpPut("/v1/studentSectionAssociations/48151623-4200-0000-0000-000000000011", updateHash.to_json, "application/json")
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.code == 204, "Failed to move student58 to new section, code was #{@res.code}")
-  
   #Create the new association
   restHttpPost("/v1/studentSectionAssociations", createHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
   assert(@res.code == 201, "Failed to move student58 to new section, code was #{@res.code}")
+
+  #Make the old association outdated
+  restHttpPut("/v1/studentSectionAssociations/48151623-4200-0000-0000-000000000011", updateHash.to_json, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.code == 204, "Failed to move student58 to new section, code was #{@res.code}")
+
 end
 
 When /^I move staff22 to a new school$/ do
@@ -124,15 +126,16 @@ When /^I move staff22 to a new school$/ do
     "beginDate" => "2012-07-16"
   }
   
+  #Create the new association
+  restHttpPost("/v1/staffEducationOrgAssignmentAssociations", createHash.to_json, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+  assert(@res.code == 201, "Failed to move staff22 to new school, code was #{@res.code}")
+
   #Make the old association outdated
   restHttpPut("/v1/staffEducationOrgAssignmentAssociations/10000000-1000-0000-0000-000000000022", updateHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
   assert(@res.code == 204, "Failed to move staff22 to new school, code was #{@res.code}")
   
-  #Create the new association
-  restHttpPost("/v1/staffEducationOrgAssignmentAssociations", createHash.to_json, "application/json")
-  assert(@res != nil, "Response from rest-client POST is nil")
-  assert(@res.code == 201, "Failed to move staff22 to new school, code was #{@res.code}")
 end
 
 When /^I move student61 to a new school$/ do
@@ -150,16 +153,16 @@ When /^I move student61 to a new school$/ do
     "studentId" => "00000000-abcd-0000-0000-000000000061",
     "exitWithdrawDate" => "2015-12-16"
   }
-  
-  #Make the old association outdated
-  restHttpPut("/v1/studentSchoolAssociations/00000000-7890-0000-0000-000000000057", updateHash.to_json, "application/json")
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.code == 204, "Failed to move student61 to new school, code was #{@res.code}")
-  
+
   #Create the new association
   restHttpPost("/v1/studentSchoolAssociations", createHash.to_json, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
   assert(@res.code == 201, "Failed to move student61 to new school, code was #{@res.code}")
+
+  #Make the old association outdated
+  restHttpPut("/v1/studentSchoolAssociations/00000000-7890-0000-0000-000000000057", updateHash.to_json, "application/json")
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.code == 204, "Failed to move student61 to new school, code was #{@res.code}")
 end
 
 Then /^the stamper runs and completes$/ do
