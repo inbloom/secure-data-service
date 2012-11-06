@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * Provides alternative references for programs. Use XML IDREF to reference a program record that is included in the interchange
+ * Provides alternative references for programs.
  * 
  * <p>Java class for ProgramReferenceType complex type.
  * 
@@ -40,13 +40,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <pre>
  * &lt;complexType name="ProgramReferenceType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://ed-fi.org/0100}ReferenceType">
  *       &lt;sequence>
  *         &lt;element name="ProgramIdentity" type="{http://ed-fi.org/0100}ProgramIdentityType" minOccurs="0"/>
  *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
  * 
@@ -57,7 +53,6 @@ import javax.xml.bind.annotation.XmlType;
     "programIdentity"
 })
 public class ProgramReferenceType
-    extends ReferenceType
 {
 
     @XmlElement(name = "ProgramIdentity")

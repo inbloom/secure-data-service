@@ -87,7 +87,7 @@ public class Grade
     @XmlElement(name = "LetterGradeEarned")
     protected String letterGradeEarned;
     @XmlElement(name = "NumericGradeEarned")
-    protected BigInteger numericGradeEarned;
+    protected int numericGradeEarned;
     @XmlElement(name = "DiagnosticStatement")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String diagnosticStatement;
@@ -132,7 +132,7 @@ public class Grade
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getNumericGradeEarned() {
+    public int getNumericGradeEarned() {
         return numericGradeEarned;
     }
 
@@ -144,7 +144,7 @@ public class Grade
      *     {@link BigInteger }
      *     
      */
-    public void setNumericGradeEarned(BigInteger value) {
+    public void setNumericGradeEarned(int value) {
         this.numericGradeEarned = value;
     }
 
