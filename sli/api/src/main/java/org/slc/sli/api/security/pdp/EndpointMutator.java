@@ -87,11 +87,18 @@ public class EndpointMutator {
             String newParameters = mutated.getRight();
 
             if (newPath != null) {
-                info("URI Rewrite: {}?{} --> {}?{}", new Object[]{ request.getPath(), parameters, newPath, newParameters });
-                request.setUris(
-                        request.getBaseUri(),
-                        request.getBaseUriBuilder().path(PathConstants.V1).path(newPath)
-                                .replaceQuery(newParameters).build());
+                if (newParameters != null) {
+                    info("URI Rewrite: {}?{} --> {}?{}", new Object[]{ request.getPath(), parameters, newPath, newParameters });
+                    request.setUris(
+                            request.getBaseUri(),
+                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath)
+                                    .replaceQuery(newParameters).build());
+                } else {
+                    info("URI Rewrite: {} --> {}", new Object[]{ request.getPath(), newPath });
+                    request.setUris(
+                            request.getBaseUri(),
+                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
+                }
             }
         }
     }
