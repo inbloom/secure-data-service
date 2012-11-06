@@ -1,0 +1,1 @@
+{ "ts" : "value", "h" : "value", "op" : "u", "ns" : "sli.userSession", "o2" : { "_id" : "dd0a7707-2414-400c-810b-bc86217fdcd0" }, "o" : { "$set" : { "body.principal.realm" : "2012dd-a4121e59-243a-11e2-beb4-3c07546832b4" } } }
