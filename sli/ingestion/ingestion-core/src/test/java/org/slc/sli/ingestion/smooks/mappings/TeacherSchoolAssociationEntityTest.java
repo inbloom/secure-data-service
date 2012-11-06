@@ -107,7 +107,7 @@ public class TeacherSchoolAssociationEntityTest {
         Mockito.when(mockRepository.exists("staff", "333333332")).thenReturn(true);
         Mockito.when(mockRepository.exists("educationOrganization", "123456111")).thenReturn(true);
 
-        EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
+        //EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
     }
 
     @Test(expected = EntityValidationException.class)

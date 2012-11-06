@@ -151,11 +151,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         Entity entity = new NeutralRecordEntity(item);
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-
-        if(entity.getType().equals("teacherSchoolAssociation")) {
-            System.out.println("teacherSchoolAssociation");
-        }
-
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
             String entityType = ref.getEntityType();
@@ -165,9 +160,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
-        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
-
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
+
+        didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
 
         // propagate context according to configuration
         giveContext(entity, entityConfig);
@@ -293,6 +288,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         LOG.info("updating cohort context for {}: {}", entity.getType(), entity.getBody().get("cohortIdentifier"));
 
         String edOrgId = (String) entity.getBody().get("educationOrgId");
+
+        if(edOrgId == null) edOrgId =   (String) entity.getBody().get("EducationOrgReference");
 
         if (edOrgId != null) {
             NeutralQuery query = new NeutralQuery(0);

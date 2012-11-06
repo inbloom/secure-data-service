@@ -20,9 +20,9 @@
 
   <jb:bean beanId="staffEducationOrganizationAssocoiationBody" class="java.util.HashMap" createOnElement="attributes">
 
-    <jb:value property="staffId" data="attributes staffId" />
+    <jb:value property="staffReference" data="attributes staffReference" />
 
-    <jb:value property="schoolId" data="attributes schoolId" />
+    <jb:value property="educationOrganizationReference" data="attributes EducationOrganizationReference" />
 
     <jb:value property="beginDate" data="attributes beginDate" />
 

@@ -3,6 +3,7 @@
     "references" :
       [
           {
+            "deprecated" : true,
             "fieldPath" : "body.educationOrgId",
             "ref" :
             {

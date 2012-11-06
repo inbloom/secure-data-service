@@ -4,6 +4,7 @@
     [
         {
             "fieldPath" : "body.parentEducationAgencyReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "educationOrganization",
