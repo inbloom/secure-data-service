@@ -2510,7 +2510,6 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 	</xs:complexType>
 	
 	<xs:complexType name="SLC-GradingPeriod">
-		<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
 		<xs:annotation>
 			<xs:appinfo>
                 <sli:recordType>gradingPeriod</sli:recordType>

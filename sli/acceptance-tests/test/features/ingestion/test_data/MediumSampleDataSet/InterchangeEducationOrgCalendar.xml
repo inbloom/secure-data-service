@@ -1067,67 +1067,67 @@
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses0-0">
-        <Date>2011-03-06</Date>
+        <Date>2011-03-05</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses0-1">
-        <Date>2011-03-07</Date>
+        <Date>2011-03-06</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses1-0">
-        <Date>2011-03-08</Date>
+        <Date>2011-03-07</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses1-1">
-        <Date>2011-03-09</Date>
+        <Date>2011-03-08</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-0">
-        <Date>2011-03-10</Date>
+        <Date>2011-03-09</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-1">
-        <Date>2011-03-11</Date>
+        <Date>2011-03-10</Date>
         <CalendarEvent>Make-up day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses1-0">
-        <Date>2011-03-12</Date>
+        <Date>2011-03-11</Date>
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses1-1">
-        <Date>2011-03-13</Date>
+        <Date>2011-03-12</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses0-0">
-        <Date>2011-03-14</Date>
+        <Date>2011-03-13</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses0-1">
-        <Date>2011-03-15</Date>
+        <Date>2011-03-14</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses1-0">
-        <Date>2011-03-16</Date>
+        <Date>2011-03-15</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses1-1">
-        <Date>2011-03-17</Date>
+        <Date>2011-03-16</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses0-0">
-        <Date>2011-03-18</Date>
+        <Date>2011-03-17</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses0-1">
-        <Date>2011-03-19</Date>
+        <Date>2011-03-18</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses1-0">
-        <Date>2011-03-20</Date>
+        <Date>2011-03-19</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses1-1">
-        <Date>2011-03-21</Date>
+        <Date>2011-03-20</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
 </InterchangeEducationOrgCalendar>
