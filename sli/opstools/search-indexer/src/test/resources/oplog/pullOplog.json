@@ -1,0 +1,20 @@
+{
+   "ts" : "", 
+   "h" : "", 
+   "op" : "u",
+   "ns" : "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a.student",
+   "o2" : { 
+      "_id" : "366e15c0213a81f653cdcf524606edeed3f80f99_id"
+   },  
+   "o" : { 
+      "$pull" : { 
+         "schools" : { 
+            "_id" : { 
+               "$in" : [ 
+                  "a13489364c2eb015c219172d561c62350f0453f3_id"
+               ]   
+            }   
+         }   
+      }   
+   }   
+}

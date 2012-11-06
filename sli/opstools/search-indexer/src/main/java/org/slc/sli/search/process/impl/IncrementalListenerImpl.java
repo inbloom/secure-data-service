@@ -20,15 +20,13 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
@@ -38,7 +36,7 @@ import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
-import org.slc.sli.search.util.NestedMapUtil;
+import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.amq.JMSQueueConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,8 +111,8 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                     opLog = textMessage.getText();
                 }
 
-                IndexEntity entity = convertToEntity(opLog);
-                if (entity != null) {
+                List<IndexEntity> entities = convertToEntity(opLog);
+                for (IndexEntity entity : entities) {
                     sendToIndexer(entity);
                 }
             } catch (Exception e) {
@@ -130,97 +128,56 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      * @return
      * @throws Exception
      */
-    public IndexEntity convertToEntity(String opLog) throws Exception {
+    public List<IndexEntity> convertToEntity(String opLogString) throws Exception {
 
-        IndexEntity entity = null;
-        opLog = preProcess(opLog);
+        List<IndexEntity> entities = new LinkedList<IndexEntity>();
+        opLogString = preProcess(opLogString);
 
+        List<Map<String, Object>> opLogs = mapper.readValue(opLogString,
+                new TypeReference<List<Map<String, Object>>>() {
+                });
         // check action type and convert to an index entity
-        if (isInsert(opLog)) {
-            entity = convertInsertToEntity(opLog);
-        } else if (isUpdate(opLog)) {
-            entity = convertUpdateToEntity(opLog);
-        } else if (isDelete(opLog)) {
-            entity = convertDeleteToEntity(opLog);
-        } else {
-            logger.info("Unrecognized message type. Ignoring.");
+        for (Map<String, Object> opLog : opLogs) {
+            try {
+                if (isInsert(opLog)) {
+                    entities.add(convertInsertToEntity(opLog));
+                } else if (isUpdate(opLog)) {
+                    entities.add(convertUpdateToEntity(opLog));
+                } else if (isDelete(opLog)) {
+                    entities.add(convertDeleteToEntity(opLog));
+                } else {
+                    logger.info("Unrecognized message type. Ignoring.");
+                }
+            } catch (Exception e) {
+                if (logger.isDebugEnabled()) {
+                    logger.info("Message: " + mapper.writeValueAsString(opLogs));
+                }
+                throw e;
+            }
         }
 
-        return entity;
+        return entities;
     }
 
     @SuppressWarnings("unchecked")
-    private IndexEntity convertInsertToEntity(String opLog) throws Exception {
+    private IndexEntity convertInsertToEntity(Map<String, Object> opLogMap) throws Exception {
 
-        // parse out entity
-        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
-        });
-        if (opLogs.size() == 0) {
-            return null;
-        }
-        Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> entityMap = (Map<String, Object>) opLogMap.get("o");
         // convert to index entity object
         return indexEntityConverter.fromEntity(getMeta(opLogMap).getIndex(), IndexEntity.Action.INDEX, entityMap);
     }
 
-    @SuppressWarnings("unchecked")
-    private IndexEntity convertUpdateToEntity(String opLog) throws Exception {
+    private IndexEntity convertUpdateToEntity(Map<String, Object> opLogMap) throws Exception {
 
-        // parse out entity data
-        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
-        });
-        if (opLogs.size() == 0) {
-            return null;
-        }
-        IndexEntity indexEntity = null;
-        try {
-
-            Map<String, Object> opLogMap = opLogs.get(0);
-
-            Map<String, Object> o2 = (Map<String, Object>) opLogMap.get("o2");
-            String id = (String) o2.get("_id");
-            Meta meta = getMeta(opLogMap);
-            String type = meta.getType();
-            Map<String, Object> metadata = (Map<String, Object>) o2.get("metaData");
-            Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-            Map<String, Object> updates = (Map<String, Object>) o.get("$set");
-
-            // merge data into entity json (id, type, metadata.tenantId, body)
-            Map<String, Object> entityMap = new HashMap<String, Object>();
-            entityMap.put("_id", id);
-            entityMap.put("type", type);
-            entityMap.put("metaData", metadata);
-
-            for (String updateField : updates.keySet()) {
-                List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
-                NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
-            }
-            indexEntity = indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE, entityMap);
-        } catch (Exception e) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Message:" + (new GsonBuilder().create().toJson(opLogs)));
-            }
-            throw e;
-        }
-
-        // convert to index entity object
-        return indexEntity;
+        return indexEntityConverter.fromEntity(getMeta(opLogMap).getIndex(), IndexEntity.Action.UPDATE,
+                OplogConverter.getEntity(opLogMap));
     }
 
     @SuppressWarnings("unchecked")
-    private IndexEntity convertDeleteToEntity(String opLog) throws Exception {
+    private IndexEntity convertDeleteToEntity(Map<String, Object> opLogMap) throws Exception {
 
-        // parse out entity data
-        List<Map<String, Object>> opLogs = mapper.readValue(opLog, new TypeReference<List<Map<String, Object>>>() {
-        });
-        if (opLogs.size() == 0) {
-            return null;
-        }
-        Map<String, Object> opLogMap = opLogs.get(0);
         Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
         String id = (String) o.get("_id");
-        ;
 
         Meta meta = getMeta(opLogMap);
         String type = meta.getType();
@@ -229,7 +186,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         Map<String, Object> entityMap = new HashMap<String, Object>();
         entityMap.put("_id", id);
         entityMap.put("type", type);
-        // entityMap.put("metaData", metadata);
 
         // convert to index entity object
         return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE, entityMap);
@@ -249,16 +205,16 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         return entityStr;
     }
 
-    private boolean isInsert(String opLog) {
-        return opLog.contains("\"op\":\"i\"");
+    private boolean isInsert(Map<String, Object> oplog) {
+        return "i".equals(oplog.get("op"));
     }
 
-    private boolean isUpdate(String opLog) {
-        return opLog.contains("\"op\":\"u\"");
+    private boolean isUpdate(Map<String, Object> oplog) {
+        return "u".equals(oplog.get("op"));
     }
 
-    private boolean isDelete(String opLog) {
-        return opLog.contains("\"op\":\"d\"");
+    private boolean isDelete(Map<String, Object> oplog) {
+        return "d".equals(oplog.get("op"));
     }
 
     private void sendToIndexer(IndexEntity entity) {
