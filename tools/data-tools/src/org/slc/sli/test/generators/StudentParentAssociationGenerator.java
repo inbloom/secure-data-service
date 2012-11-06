@@ -27,7 +27,7 @@ import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentParentAssociationGenerator {
-   public static Random random = new Random();
+   public static Random random = new Random(31);
 
     public StudentParentAssociation generate(String studentParentId, String studentId) {
 
