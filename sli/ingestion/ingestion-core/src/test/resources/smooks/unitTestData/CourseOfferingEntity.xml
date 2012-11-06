@@ -17,17 +17,12 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>Session Reference State Organization Id 1</StateOrganizationId>
-                <StateOrganizationId>Session Reference State Organization Id 2</StateOrganizationId>
-                <EducationOrgIdentificationCode IdentificationSystem="Session Reference Identification System 1">
-                    <ID>Session Reference ID 1</ID>
-                </EducationOrgIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="Session Reference Identification System 2">
-                    <ID>Session Reference ID 2</ID>
-                </EducationOrgIdentificationCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Session Reference State Organization Id 1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Session Name</SessionName>
-                <SchoolYear>School Year</SchoolYear>
-                <Term>My Term</Term>
             </SessionIdentity>
         </SessionReference>
         <CourseReference id="Course Reference ID" ref="Course Reference IDREF">
