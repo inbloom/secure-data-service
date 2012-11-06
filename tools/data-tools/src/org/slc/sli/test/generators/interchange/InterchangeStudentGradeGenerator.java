@@ -324,10 +324,6 @@ public final class InterchangeStudentGradeGenerator {
                                                                                      // Sections per
                                                                                      // Course
 
-                List<String> sectionSet = new LinkedList<String>(sectionMetaMap.keySet());
-                sectionSet = sectionSet.subList(0, MetaRelations.COURSES_PER_STUDENT
-                        * MetaRelations.SECTIONS_PER_COURSE_SESSION);
-
                 // One Grade per Section. N Sections per Course. N Courses per Student. We will use
                 // the first N Sections
                 List<Grade> gradeList = gradeMap.get(studentId);
@@ -464,7 +460,6 @@ public final class InterchangeStudentGradeGenerator {
 
                     String loId = loIds.get(i);
                     SectionMeta section = loSections.get(i);
-                    String sectionId = section.id;
                     String sectionSchool = section.schoolId;
 
                     SectionReferenceType sectionRef = getSectionRef(studentMeta.sectionIds.get(0), sectionSchool);// Reference
