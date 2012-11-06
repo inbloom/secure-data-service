@@ -27,6 +27,9 @@
     <xs:annotation>
       <xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. 
 </xs:documentation>
+      <xs:appinfo>
+        <sli:recordType>course</sli:recordType>
+      </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="ComplexObjectType">
@@ -121,7 +124,7 @@
               <xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:documentation>Learning Standard(s) to be taught by the course.</xs:documentation>
             </xs:annotation>
@@ -179,7 +182,7 @@
           <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
           <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:restriction>
     </xs:complexContent>
@@ -202,24 +205,27 @@
 
   <xs:complexType name="SLC-LearningStandardReferenceType">
     <xs:annotation>
-      <xs:documentation>Provides alternative references for Learning Standard reference during interchange. Use XML IDREF to reference a learning standard record that is included in the interchange</xs:documentation>
+      <xs:documentation />
+      <xs:appinfo>
+        <sli:applyKeyFields>true</sli:applyKeyFields>
+        <sli:refType>learningStandard</sli:refType>
+      </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="LearningStandardIdentity" type="SLC-LearningStandardIdentityType">
         <xs:annotation>
-          <xs:documentation>Provide user information to lookup and link to an existing learning standard record in the receiving system</xs:documentation>
+          <xs:documentation />
         </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="SLC-LearningStandardIdentityType">
-    <xs:annotation>
-      <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Standards.</xs:documentation>
-    </xs:annotation>
     <xs:sequence>
-      <xs:element name="LearningStandardId" type="LearningStandardId" minOccurs="0">
+      <xs:element name="identificationCode" type="IdentificationCode">
         <xs:annotation>
-          <xs:documentation>Provide user information to lookup and link to an existing learning standard record in the receiving system</xs:documentation>
+          <xs:appinfo>
+            <sli:keyFieldName>learningStandardId.identificationCode</sli:keyFieldName>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -333,7 +339,7 @@ Met standard
           <xs:element name="SessionGradePointsEarned" type="xs:decimal" minOccurs="0" />
           <xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0" />
           <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-          <xs:element name="SessionReference" type="SLC-SessionReferenceType" />
+          <xs:element name="SessionReference" type="SessionReferenceType" />
           <xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0" />
         </xs:sequence>
@@ -1140,7 +1146,7 @@ Other</xs:documentation>
 							<xs:documentation>A description of the assignment, homework, or classroom assessment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Learning Standard(s) to be taught by the course.</xs:documentation>
 						</xs:annotation>
@@ -1937,13 +1943,17 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                 <sli:refType>session</sli:refType>
             </xs:appinfo>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="SessionIdentity" type="SLC-SessionIdentityType" minOccurs="0">
-                <xs:annotation>
-    				<xs:documentation>Provide user information to lookup and link to an existing session record in the receiving system.  </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType">
+                <xs:sequence>
+                    <xs:element name="SessionIdentity" type="SLC-SessionIdentityType" minOccurs="0">
+                        <xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to an existing session record in the receiving system.  </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
       <xs:complexType name="SLC-SessionIdentityType">
         <xs:annotation>
@@ -2654,9 +2664,6 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 		</xs:complexContent>
 	</xs:complexType>
 	
-    
-    
-    
 	<xs:complexType name="SLC-GradingPeriod">
 		<xs:annotation>
 			<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
@@ -2774,7 +2781,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 							<xs:documentation>The school that offers the course.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType">
+					<xs:element name="SessionReference" type="SessionReferenceType">
 						<xs:annotation>
 							<xs:documentation>The session the course is offered at the school.</xs:documentation>
 						</xs:annotation>
@@ -3337,7 +3344,7 @@ Special education students
 							<xs:documentation>The school where the section is taught.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0">
+					<xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The session associated with the session.  This reference is optional only if the session reference is available elsewhere in the interchange.</xs:documentation>
 						</xs:annotation>
