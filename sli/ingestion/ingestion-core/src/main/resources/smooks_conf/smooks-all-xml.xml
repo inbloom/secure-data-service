@@ -2893,15 +2893,7 @@
     <!-- EducationOrgReference reference type -->
     <jb:wiring property="educationOrgReference" beanIdRef="Cohort_EducationOrgReference" />
     <!-- ProgramReference - array of reference type -->
-    <jb:wiring property="programReferences" beanIdRef="cohort_programReferenceTypeArray" />
-
-    <!-- ProgramId: placeholder for reference resolution -->
-    <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
-  </jb:bean>
-
-  <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/Cohort">
-    <jb:wiring beanIdRef="Cohort_ProgramReference" />
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceTypeArray" property="ProgramReference"/>
   </jb:bean>
 
   <!-- Cohort supporting objects: EducationOrgReference -->
@@ -2934,16 +2926,14 @@
   </jb:bean>
 
   <!-- Cohort supporting objects: ProgramReference -->
-  <jb:bean beanId="Cohort_ProgramReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
-    <jb:wiring property="ProgramIdentity" beanIdRef="Cohort_ProgramReference_ProgramIdentity" />
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="Cohort">
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceType"/>
   </jb:bean>
-  <jb:bean beanId="Cohort_ProgramReference_ProgramIdentity"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
-    <jb:value property="ProgramId"
-        data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceType_SLC-ProgramIdentityType" property="ProgramIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceType_SLC-ProgramIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
+    <jb:value data="Cohort/ProgramReference/ProgramIdentity/ProgramId" property="ProgramId"/>
   </jb:bean>
   <!-- End Cohort Mapping -->
 
