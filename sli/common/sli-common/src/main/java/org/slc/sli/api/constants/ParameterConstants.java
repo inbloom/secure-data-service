@@ -142,6 +142,7 @@ public class ParameterConstants {
     public static final String SECTION_ID = "sectionId";
     public static final String SESSION_ID = "sessionId";
     public static final String STAFF_ID = "staffId";
+    public static final String STAFF_REFERENCE = "staffReference";
     public static final String STUDENT_ID = "studentId";
     public static final String STUDENT_COMPETENCY_ID = "studentCompetencyId";
     public static final String STUDENT_COMPETENCY_OBJECTIVE_ID = "studentCompetencyObjectiveId";
@@ -150,6 +151,7 @@ public class ParameterConstants {
     public static final String STUDENT_ACADEMIC_RECORD_ID = "studentAcademicRecordId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
+    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
     public static final String ATTENDANCE_ID = "attendanceId";
     public static final String LEARNING_STANDARD_ID = "learningStandardId";
     public static final String LEARNING_STANDARDS = "learningStandards";
@@ -177,6 +179,6 @@ public class ParameterConstants {
     public static final String ID = "_id";
     public static final String END_DATE = "endDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
-    public static final String STAFF_REFERENCE = "staffReference";
-    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
+    public static final String PARENT_EDUCATION_AGENCY_REFERENCE = "parentEducationAgencyReference";
+    public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
 }

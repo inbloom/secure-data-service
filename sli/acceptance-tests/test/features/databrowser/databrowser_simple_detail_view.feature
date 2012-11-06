@@ -71,9 +71,9 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I have navigated to the "GetStaffCohortAssociations" page of the Data Browser
-When I click on the row containing "b4e31b1a-8e55-8803-722c-14d8087c0712"
+When I click on the row containing "8fef446f-fc63-15f9-8606-0b85086c07d5"
 Then the row expands below listing the rest of the attributes for the item
-When I click on the row containing "b4e31b1a-8e55-8803-722c-14d8087c0712"
+When I click on the row containing "8fef446f-fc63-15f9-8606-0b85086c07d5"
 Then the row collapses hiding the additional attributes
 
 Scenario Outline: Entity Detail View
@@ -136,6 +136,21 @@ And I click on the "GetTeachers" link
 Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
+
+@DE1948
+Scenario: Traverse Edorg Hiearchy from SEA down to LEA
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+Then I should be redirected to the Data Browser home page
+When I click on the "GetEducationOrganizations" link
+Then I should be on the detailed page for an SEA
+When I click on the "GetFeederEducationOrganizations" link
+Then I should be on the detailed page for an LEA
 
  @wip
 Scenario: Click on an entity ID in Simple View (same for Detail View)

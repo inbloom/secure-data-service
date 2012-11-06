@@ -291,13 +291,13 @@ public class CourseGenerator {
         return clone;
     }
 
-    public Course getCourse(String courseId, String schoolId) {
+    public Course getCourse(String courseId, String schoolId, String uniqueCourseId) {
         Course course = null;
         course = clone(courses.get((counter++)%courses.size()));
 
         // courseCount--;
         course.setId(courseId);
-        course.setUniqueCourseId(courseId);
+        course.setUniqueCourseId(uniqueCourseId);
         CourseCode cc = new CourseCode();
         cc.setID(courseId);
         // cc.setID(course.getId() + courseCount);
@@ -335,17 +335,18 @@ public class CourseGenerator {
         CourseReferenceType crt = new CourseReferenceType();
         CourseIdentityType ci = new CourseIdentityType();
         crt.setCourseIdentity(ci);
-        ci.getCourseCode().addAll(course.getCourseCode());
+        ci.setEducationalOrgReference(course.getEducationOrganizationReference());
+        ci.setUniqueCourseId(course.getUniqueCourseId());
         return crt;
     }
 
-    public static Course generateLowFi(String id, String schoolId) throws Exception {
+    public static Course generateLowFi(String id, String schoolId, String uniqueCourseId) throws Exception {
 
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
 
-        course.setUniqueCourseId(id);
+        course.setUniqueCourseId(uniqueCourseId);
 
         CourseCode CourseCode = new CourseCode();
         CourseCode.setID(id);

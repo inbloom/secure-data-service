@@ -27,7 +27,19 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../utils/email.rb'
 
-SEA_ADMINISTRATOR_EMAIL = 'testuser0.wgen@gmail.com'
+Transform /^<([^>]*)>$/ do |human_readable_text|
+ if human_readable_text == "PRIMARY_EMAIL"
+   value = PropLoader.getProps['primary_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['primary_email_imap_registration_user']
+   @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
+ elsif human_readable_text == "SECONDARY_EMAIL"
+  value = PropLoader.getProps['secondary_email_imap_registration_user_email']
+  @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
+  @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
+ end
+
+ value
+end
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
@@ -94,7 +106,9 @@ end
 
 Then /^I set my password to "(.*?)"$/ do |password|
   first_name = @user_full_name.split(" ", 2)[0]
-  content = check_email_rc(first_name, @user_email) do
+  content = check_email({:content_substring => first_name,
+                         :imap_username => @email_username,
+                         :imap_password => @email_password}) do
     @driver.get(PropLoader.getProps["admintools_server_url"] + "/forgot_passwords")
     @driver.find_element(:id, "user_id").clear
     @driver.find_element(:id, "user_id").send_keys @user_email
@@ -111,7 +125,9 @@ Then /^I set my password to "(.*?)"$/ do |password|
   puts "reset password link = #{reset_password_link}"
   @driver.get(reset_password_link)
 
-  @welcome_email_content = check_email_rc(first_name, @user_email) do
+  @welcome_email_content = check_email({:content_substring => first_name,
+                                        :imap_username => @email_username,
+                                        :imap_password => @email_password}) do
     @driver.find_element(:id, "new_account_password_new_pass").clear
     @driver.find_element(:id, "new_account_password_new_pass").send_keys password
     @driver.find_element(:id, "new_account_password_confirmation").clear

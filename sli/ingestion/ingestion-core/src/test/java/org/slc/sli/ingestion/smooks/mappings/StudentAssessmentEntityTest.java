@@ -21,19 +21,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for StudentAssessment entity
@@ -71,8 +72,7 @@ public class StudentAssessmentEntityTest {
     }
 
     @SuppressWarnings("rawtypes")
-    private void checkValidStudentAssessmentNeutralRecord(
-            NeutralRecord studentAssessmentNeutralRecord) {
+    private void checkValidStudentAssessmentNeutralRecord(NeutralRecord studentAssessmentNeutralRecord) {
 
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
 
@@ -116,8 +116,17 @@ public class StudentAssessmentEntityTest {
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevelDescriptorTypeList.get(0), "codeValue", "KYn6axx9pJEX");
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevelDescriptorTypeList.get(1), "description", "bn");
 
-        assertEquals("Yjmyw", studentAssessmentNeutralRecord
-                .getAttributes().get("studentId"));
+        try {
+            String studentId = (String) PropertyUtils.getNestedProperty(studentAssessmentNeutralRecord.getAttributes(),
+                    "StudentReference.StudentIdentity.StudentUniqueStateId");
+            assertEquals("Yjmyw", studentId);
+        } catch (IllegalAccessException e) {
+            Assert.fail(e.getLocalizedMessage());
+        } catch (InvocationTargetException e) {
+            Assert.fail(e.getLocalizedMessage());
+        } catch (NoSuchMethodException e) {
+            Assert.fail(e.getLocalizedMessage());
+        }
 
     }
 }

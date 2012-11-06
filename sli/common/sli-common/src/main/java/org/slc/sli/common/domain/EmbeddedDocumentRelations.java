@@ -37,6 +37,8 @@ public class EmbeddedDocumentRelations {
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
     private static final Map<String, Denormalization> DENORMALIZATIONS;
     private static Set<String> denormalizationByEntityAndKey;
+    private static final Map<String,String> DENORMALIZATION_CACHED_ENTITY;
+    private static final Map<String,Map<String,String>>CACHED_REFERENCE_KEY;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
@@ -51,20 +53,30 @@ public class EmbeddedDocumentRelations {
         //Student--program
         denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program", studentReferenceMap,
                 "programId", Arrays.asList("endDate")));
+        denormalizationMap.put("studentCohortAssociation", new Denormalization("student", "cohort", studentReferenceMap,
+                "cohortId", Arrays.asList("beginDate", "endDate")));
         //student school association de-normalization
         // -> puts information from the student school association on the student db object
         // -> assembles school's 'education organization lineage' and denormalizes onto student with school _id
         // -> required for staff context resolvers
         denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
                 "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
-        
+
         denormalizationMap.put("attendance", new Denormalization("student", "attendances", studentReferenceMap,
                 "_id", null));
-        
+       
+
+        Map<String,String> sarReferenceMap = new HashMap<String, String>();
+        sarReferenceMap.put("studentId","studentId");
+        sarReferenceMap.put("session","sessionId");
+        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
+        , "sessionId", Arrays.asList("beginDate","endDate")));
+
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
@@ -74,6 +86,14 @@ public class EmbeddedDocumentRelations {
         for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {
             denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
         }
+        Map<String,String> mapCache = new HashMap<String, String>();
+        mapCache.put("session","_id");
+        DENORMALIZATION_CACHED_ENTITY = Collections.unmodifiableMap(mapCache);
+        Map<String,String> cachedReferenceKeyMap = new HashMap<String, String>();
+        cachedReferenceKeyMap.put("schoolId","schoolId");
+        Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
+        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
+        CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
     };
 
     private static String stringifyEntityAndField(String entity, String field) {
@@ -140,6 +160,21 @@ public class EmbeddedDocumentRelations {
         return denormalizationByEntityAndKey.contains(stringifyEntityAndField(entity, field));
     }
 
+    public static boolean isCached(String entity) {
+        return DENORMALIZATION_CACHED_ENTITY.containsKey(entity);
+    }
+    public static String getCacheKey(String entity) {
+        if(!isCached(entity)) {
+            return null;
+        }
+        return DENORMALIZATION_CACHED_ENTITY.get(entity);
+    }
+    public static Map<String,String> getCachedRefKeys(String entity) {
+        if(!CACHED_REFERENCE_KEY.containsKey(entity)) {
+            return null;
+        }
+        return CACHED_REFERENCE_KEY.get(entity);
+    }
     private static Denormalization getDenormalization(String entityType) {
         if (!DENORMALIZATIONS.containsKey(entityType)) {
             return null;

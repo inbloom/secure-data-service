@@ -21,6 +21,7 @@
 @RALLY_US4136
 @RALLY_US4080
 @RALLY_US4116
+@RALLY_DE1934
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -400,6 +401,10 @@ And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
+   And I check to find if record is in collection:
+     #check to make sure we're actually resolving references
+     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |   
+	 | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
@@ -415,9 +420,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staff                                | 6757c28005c30748f3bbda02882bf59bc81e0d71_id | body.staffUniqueStateId           | linda.kim                            |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.educationOrgId       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.administrationDate   | 2011-10-01                           |
@@ -2052,9 +2057,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records considered: 1" in the resulting batch job file
   And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeStudent.xml records considered: 13" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 12" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 12" in the resulting batch job file
-  And I should see "InterchangeStudent.xml records failed: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file

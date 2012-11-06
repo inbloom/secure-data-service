@@ -2,8 +2,8 @@
     "keyFields" : [ "body.studentId", "body.programId", "body.beginDate"],
     "references" :
     [{
-        "fieldPath" : "body.studentId",
-        "deprecated" : false,
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "student",
@@ -23,7 +23,8 @@
         }
     },
     {
-        "fieldPath" : "body.programId",
+        "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "program",

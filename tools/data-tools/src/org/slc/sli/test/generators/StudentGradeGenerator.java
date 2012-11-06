@@ -17,7 +17,6 @@
 package org.slc.sli.test.generators;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +42,7 @@ import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.Grade;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.GradeReferenceType;
 import org.slc.sli.test.edfi.entities.GradeType;
 import org.slc.sli.test.edfi.entities.GradebookEntry;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
@@ -56,8 +56,11 @@ import org.slc.sli.test.edfi.entities.Recognition;
 import org.slc.sli.test.edfi.entities.RecognitionType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
@@ -98,6 +101,20 @@ public class StudentGradeGenerator {
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
         ssaIdentity.setStudentIdentity(student.getStudentIdentity());
         ssaIdentity.setSectionIdentity(section.getSectionIdentity());
+        return ssaRef;
+    }
+
+    public static SLCStudentSectionAssociationReferenceType getSLCStudentSectionAssociationReference(
+            StudentReferenceType student, SectionReferenceType section) {
+        SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
+        SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
+        ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
+        StudentReferenceType stuRef = new StudentReferenceType();
+        SectionReferenceType secRef = new SectionReferenceType();
+        stuRef.setStudentIdentity(student.getStudentIdentity());
+        secRef.setSectionIdentity(section.getSectionIdentity());
+        ssaIdentity.setStudentReference(stuRef);
+        ssaIdentity.setSectionReference(secRef);
         return ssaRef;
     }
 
@@ -153,7 +170,7 @@ public class StudentGradeGenerator {
     }
 
     public static ReportCard getReportCard(StudentReferenceType studentRef,
-            GradingPeriodReferenceType gradingPeriodRef, List<ReferenceType> gradeReference,
+            GradingPeriodReferenceType gradingPeriodRef, List<GradeReferenceType> gradeReference,
             List<ReferenceType> scReference) {
         ReportCard reportCard = new ReportCard();
         if (gradeReference != null)
@@ -162,7 +179,7 @@ public class StudentGradeGenerator {
             reportCard.getStudentCompetencyReference().addAll(scReference);
         if (studentRef != null)
             reportCard.setStudentReference(studentRef);
-        if (gradeReference != null)
+        if (gradingPeriodRef != null)
             reportCard.setGradingPeriodReference(gradingPeriodRef);
         reportCard.setGPAGivenGradingPeriod(new BigDecimal(1));
         reportCard.setGPACumulative(new BigDecimal(1));
@@ -177,7 +194,7 @@ public class StudentGradeGenerator {
 
         Grade grade = new Grade();
         grade.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        grade.setNumericGradeEarned(new BigInteger("3"));
+        grade.setNumericGradeEarned(3);
         grade.setDiagnosticStatement("Grade Exam Taken");
         grade.setGradeType(GradeType.EXAM);
         grade.setPerformanceBaseConversion(PerformanceBaseType.BASIC);
@@ -299,9 +316,9 @@ public class StudentGradeGenerator {
     public static GradingPeriodReferenceType getGradingPeriodReferenceType(GradingPeriod period,
             EducationOrgIdentificationCode edOrg) {
         GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
-        GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
+        SLCGradingPeriodIdentityType identity = new SLCGradingPeriodIdentityType();
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
-        identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
+        identity.setBeginDate(period.getBeginDate());
         // identity.setStateOrganizationId(edOrg);
         ref.setGradingPeriodIdentity(identity);
         return ref;
@@ -312,7 +329,7 @@ public class StudentGradeGenerator {
         StudentGradebookEntry sgbe = new StudentGradebookEntry();
         sgbe.setDateFulfilled(thisDay);
         sgbe.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        sgbe.setNumericGradeEarned(BigInteger.ONE);
+        sgbe.setNumericGradeEarned(1);
 
         CompetencyLevelDescriptorType cld = new CompetencyLevelDescriptorType();
         sgbe.setCompetencyLevel(cld);

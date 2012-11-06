@@ -313,6 +313,45 @@ public class DefaultSelectorDocumentTest {
         assertEquals(embeddedEntities.size(),1);
     }
 
+    @Test
+    public void testAddChildTypesToQuery()  {
+        ClassType parentType = mock(ClassType.class);
+        when(parentType.getName()).thenReturn("Section");
+        ClassType childType = mock(ClassType.class);
+        when(childType.getName()).thenReturn("StudentSectionAssociation");
+        ClassType nonChildType = mock(ClassType.class);
+        when(nonChildType.getName()).thenReturn("StudentParentAssociation");
+
+        SelectorQuery childQuery = new SelectorQuery();
+        childQuery.put(childType, new SelectorQueryPlan());
+        List<Object> childQueryPlans = new ArrayList<Object>();
+        childQueryPlans.add(childQuery);
+
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.setChildQueryPlans(childQueryPlans);
+
+        NeutralQuery query = new NeutralQuery();
+        defaultSelectorDocument.addChildTypesToQuery(parentType, plan, query);
+        assertEquals("Should match", 1, query.getEmbeddedFields().size());
+        assertEquals("Should match", "studentSectionAssociation", query.getEmbeddedFields().get(0));
+
+        query = new NeutralQuery();
+        defaultSelectorDocument.addChildTypesToQuery(parentType, new SelectorQueryPlan(), query);
+        assertEquals("Should match", 0, query.getEmbeddedFields().size());
+
+        childQuery = new SelectorQuery();
+        childQuery.put(nonChildType, new SelectorQueryPlan());
+        childQueryPlans = new ArrayList<Object>();
+        childQueryPlans.add(childQuery);
+
+        plan = new SelectorQueryPlan();
+        plan.setChildQueryPlans(childQueryPlans);
+
+        query = new NeutralQuery();
+        defaultSelectorDocument.addChildTypesToQuery(parentType, new SelectorQueryPlan(), query);
+        assertEquals("Should match", 0, query.getEmbeddedFields().size());
+    }
+
     private List<EntityBody> createResults() {
         List<EntityBody> results = new ArrayList<EntityBody>();
         EntityBody body = new EntityBody();

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.common.encrypt.security.saml2;
 
 import java.io.File;
@@ -73,6 +72,8 @@ public class DefaultSAML2Validator implements SAML2Validator {
     
     @Value("${sli.trust.certificates}")
     private String trustedCertificatesStore;
+    
+    private KeyStore cacerts;
     
     private DOMValidateContext valContext;
     
@@ -148,7 +149,9 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
         
         if (certificate != null) {
-            KeyStore cacerts = loadCaCerts();
+            if (cacerts == null) {
+                cacerts = loadCaCerts();
+            }
             PKIXParameters params = new PKIXParameters(cacerts);
             params.setRevocationEnabled(false);
             
@@ -174,7 +177,6 @@ public class DefaultSAML2Validator implements SAML2Validator {
      * @return KeyStore containing trusted certificate authorities.
      */
     private KeyStore loadCaCerts() {
-        KeyStore cacerts = null;
         FileInputStream fis = null;
         try {
             cacerts = KeyStore.getInstance("JKS");
@@ -354,5 +356,6 @@ public class DefaultSAML2Validator implements SAML2Validator {
     
     protected void setTrustedCertificatesStore(String certStore) {
         trustedCertificatesStore = certStore;
+        loadCaCerts();
     }
 }
