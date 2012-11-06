@@ -34,8 +34,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-01</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-02</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch0-ses1</SessionName>
@@ -71,8 +79,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-03</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-04</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch1-ses0</SessionName>
@@ -108,8 +124,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-06</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-07</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch1-ses1</SessionName>
@@ -145,8 +169,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-08</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-09</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch2-ses0</SessionName>
@@ -182,8 +214,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-10</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-11</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch2-ses1</SessionName>
@@ -219,8 +259,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-12</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-13</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch3-ses0</SessionName>
@@ -256,8 +304,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-14</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-15</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch3-ses1</SessionName>
@@ -293,8 +349,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-16</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-17</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch4-ses0</SessionName>
@@ -330,8 +394,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-18</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-19</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <Session>
         <SessionName>CAP0-D0-HSch4-ses1</SessionName>
@@ -367,8 +439,16 @@
                 <BeginDate>2011-03-04</BeginDate>
             </GradingPeriodIdentity>
         </GradingPeriodReference>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-0"/>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-20</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-21</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </Session>
     <GradingPeriod id="CAP0-D0-HSch0-ses0-0-0">
         <GradingPeriodIdentity>
@@ -379,7 +459,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>140</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-01</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses0-0-1">
         <GradingPeriodIdentity>
@@ -390,7 +474,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>145</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-01</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses0-1-0">
         <GradingPeriodIdentity>
@@ -401,7 +489,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>75</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-02</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses0-1-1">
         <GradingPeriodIdentity>
@@ -412,7 +504,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>140</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-02</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses1-0-0">
         <GradingPeriodIdentity>
@@ -423,7 +519,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>47</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-03</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses1-0-1">
         <GradingPeriodIdentity>
@@ -434,7 +534,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>83</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-03</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses1-1-0">
         <GradingPeriodIdentity>
@@ -445,7 +549,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>65</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-04</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch0-ses1-1-1">
         <GradingPeriodIdentity>
@@ -456,7 +564,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>136</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch0-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-04</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses0-0-0">
         <GradingPeriodIdentity>
@@ -467,7 +579,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>83</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-06</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses0-0-1">
         <GradingPeriodIdentity>
@@ -478,7 +594,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>131</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-06</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses0-1-0">
         <GradingPeriodIdentity>
@@ -489,7 +609,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>105</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-07</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses0-1-1">
         <GradingPeriodIdentity>
@@ -500,7 +624,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>102</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-07</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses1-0-0">
         <GradingPeriodIdentity>
@@ -511,7 +639,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>96</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-08</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses1-0-1">
         <GradingPeriodIdentity>
@@ -522,7 +654,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>52</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-08</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses1-1-0">
         <GradingPeriodIdentity>
@@ -533,7 +669,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>45</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-09</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch1-ses1-1-1">
         <GradingPeriodIdentity>
@@ -544,7 +684,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>80</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch1-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-09</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses0-0-0">
         <GradingPeriodIdentity>
@@ -555,7 +699,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>139</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-10</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses0-0-1">
         <GradingPeriodIdentity>
@@ -566,7 +714,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>101</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-10</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses0-1-0">
         <GradingPeriodIdentity>
@@ -577,7 +729,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>121</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-11</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses0-1-1">
         <GradingPeriodIdentity>
@@ -588,7 +744,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>137</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-11</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses1-0-0">
         <GradingPeriodIdentity>
@@ -599,7 +759,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>121</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-12</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses1-0-1">
         <GradingPeriodIdentity>
@@ -610,7 +774,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>113</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-12</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses1-1-0">
         <GradingPeriodIdentity>
@@ -621,7 +789,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>51</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-13</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch2-ses1-1-1">
         <GradingPeriodIdentity>
@@ -632,7 +804,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>73</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch2-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-13</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses0-0-0">
         <GradingPeriodIdentity>
@@ -643,7 +819,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>147</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-14</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses0-0-1">
         <GradingPeriodIdentity>
@@ -654,7 +834,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>81</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-14</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses0-1-0">
         <GradingPeriodIdentity>
@@ -665,7 +849,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>133</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-15</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses0-1-1">
         <GradingPeriodIdentity>
@@ -676,7 +864,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>99</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-15</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses1-0-0">
         <GradingPeriodIdentity>
@@ -687,7 +879,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>113</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-16</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses1-0-1">
         <GradingPeriodIdentity>
@@ -698,7 +894,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>95</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-16</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses1-1-0">
         <GradingPeriodIdentity>
@@ -709,7 +909,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>97</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-17</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch3-ses1-1-1">
         <GradingPeriodIdentity>
@@ -720,7 +924,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>96</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch3-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-17</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses0-0-0">
         <GradingPeriodIdentity>
@@ -731,7 +939,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>133</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-18</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses0-0-1">
         <GradingPeriodIdentity>
@@ -742,7 +954,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>140</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-18</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses0-1-0">
         <GradingPeriodIdentity>
@@ -753,7 +969,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>149</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-19</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses0-1-1">
         <GradingPeriodIdentity>
@@ -764,7 +984,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>88</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses0-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-19</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses1-0-0">
         <GradingPeriodIdentity>
@@ -775,7 +999,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>79</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-20</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses1-0-1">
         <GradingPeriodIdentity>
@@ -786,7 +1014,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>50</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-0"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-20</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses1-1-0">
         <GradingPeriodIdentity>
@@ -797,7 +1029,11 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>53</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-21</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <GradingPeriod id="CAP0-D0-HSch4-ses1-1-1">
         <GradingPeriodIdentity>
@@ -808,86 +1044,90 @@
         <BeginDate>2011-03-04</BeginDate>
         <EndDate>2012-03-04</EndDate>
         <TotalInstructionalDays>67</TotalInstructionalDays>
-        <CalendarDateReference ref="CAP0-D0-HSch4-ses1-1"/>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-03-21</Date>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <CalendarDate id="CAP0-D0-HSch0-ses0-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-01</Date>
         <CalendarEvent>Make-up day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses0-1">
-        <Date>2011-03-05</Date>
+        <Date>2011-03-02</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses1-0">
-        <Date>2011-03-06</Date>
+        <Date>2011-03-03</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch0-ses1-1">
-        <Date>2011-03-07</Date>
+        <Date>2011-03-04</Date>
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses0-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-05</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses0-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-06</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses1-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-07</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch1-ses1-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-08</Date>
         <CalendarEvent>Other</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-0">
-        <Date>2011-03-08</Date>
+        <Date>2011-03-09</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses0-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-10</Date>
         <CalendarEvent>Make-up day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses1-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-11</Date>
         <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch2-ses1-1">
-        <Date>2011-03-09</Date>
+        <Date>2011-03-12</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses0-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-13</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses0-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-14</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses1-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-15</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch3-ses1-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-16</Date>
         <CalendarEvent>Emergency day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses0-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-17</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses0-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-18</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses1-0">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-19</Date>
         <CalendarEvent>Instructional day</CalendarEvent>
     </CalendarDate>
     <CalendarDate id="CAP0-D0-HSch4-ses1-1">
-        <Date>2011-03-04</Date>
+        <Date>2011-03-20</Date>
         <CalendarEvent>Holiday</CalendarEvent>
     </CalendarDate>
 </InterchangeEducationOrgCalendar>
