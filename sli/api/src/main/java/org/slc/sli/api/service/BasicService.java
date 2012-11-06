@@ -80,10 +80,10 @@ public class BasicService implements EntityService {
 
     private static final boolean ENABLE_CONTEXT_RESOLVING = true;
     private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
-            Arrays.asList(
-                    EntityNames.STUDENT,
-                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
-            )
+//            Arrays.asList(
+//                    EntityNames.STUDENT,
+//                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
+//            )
     );
 
     @Autowired
