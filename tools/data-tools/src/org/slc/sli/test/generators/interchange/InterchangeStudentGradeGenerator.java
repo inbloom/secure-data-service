@@ -411,9 +411,6 @@ public final class InterchangeStudentGradeGenerator {
             for (ReportCardMeta reportCardMeta : reportCardsForStudent) {
 
                 String reportCardId = reportCardMeta.getId();
-                List<String> sectionSet = new LinkedList<String>(sectionMetaMap.keySet());
-                sectionSet = sectionSet.subList(0, MetaRelations.COURSES_PER_STUDENT
-                        * MetaRelations.SECTIONS_PER_COURSE_SESSION);
 
                 for (String sectionId : studentMeta.sectionIds) {// One Grade per Section. N
                                                                  // Sections per
