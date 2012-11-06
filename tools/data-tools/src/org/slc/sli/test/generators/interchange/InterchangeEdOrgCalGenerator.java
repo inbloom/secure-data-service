@@ -17,23 +17,16 @@
 
 package org.slc.sli.test.generators.interchange;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 
 import org.slc.sli.test.edfi.entities.CalendarDate;
 import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
 import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
-import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.Session;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
@@ -82,8 +75,8 @@ public class InterchangeEdOrgCalGenerator {
         generateSessions(iWriter, MetaRelations.SESSION_MAP.values());
 
         generateGradingPeriod(iWriter, MetaRelations.GRADINGPERIOD_MAP.values());
-//
-//        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
+
+        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
 
     }
 
@@ -121,7 +114,7 @@ public class InterchangeEdOrgCalGenerator {
                     } else {
                         CalendarDateReferenceType calRef = new CalendarDateReferenceType();
                         CalendarDateIdentityType cit = new CalendarDateIdentityType();
-                        cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
+                        cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(new String("CAP0-D1-HSch1-ses1-1"));
                         cit.setDate("2011-01-01");
                         calRef.setCalendarDateIdentity(cit);
                         gradingPeriod.getCalendarDateReference().add(calRef);

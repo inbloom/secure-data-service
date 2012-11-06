@@ -86,15 +86,17 @@ public class InterchangeStudentEnrollmentGenerator {
 			GraduationPlan graduationPlan;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+			    System.out.println("GraduationPlan is null");
 				graduationPlan = null;
 			} else {
 				graduationPlan = GraduationPlanGenerator
 						.generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
 			}
 
+
 			if(graduationPlan != null) {
 			    iWriter.marshal(graduationPlan);
-
+	             System.out.println("generated  GraduationPlan " + graduationPlan.getId());
 //			interchangeObjects.add(graduationPlan);
 
 			    objGenCounter++;
