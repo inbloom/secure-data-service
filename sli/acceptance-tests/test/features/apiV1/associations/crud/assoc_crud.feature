@@ -114,7 +114,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     |educationOrganizations	|ec2e4218-6483-4e9c-8954-0aecccfd4731|
     |staff	                  |67ed9078-431a-465e-adf7-c720d08ef512|
     |teachers               |67ed9078-431a-465e-adf7-c720d08ef512|
-    |sections |706ee3be-0dae-4e98-9525-f564e05aa388_id,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e,7847b027-687d-46f0-bc1a-36d3c16956aa|
+    |sections |706ee3be-0dae-4e98-9525-f564e05aa388_id,f048354d-dbcb-0214-791d-b769f521210d,ceffbb26-1327-4313-9cfc-1c3afd38122e_id,7847b027-687d-46f0-bc1a-36d3c16956aa|
       And parameter "limit" is "0"
       When I navigate to GET "/<ASSOC URI>"
       Then I should receive a return code of 200
