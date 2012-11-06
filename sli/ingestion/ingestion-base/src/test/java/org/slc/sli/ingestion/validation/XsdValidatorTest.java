@@ -311,9 +311,9 @@ public class XsdValidatorTest {
         List<Fault> faults = faultsReport.getFaults();
         Assert.assertFalse(faults.isEmpty());
 
-        // Check program reference - TODO update to assertTrue once id-ref for program has been removed
+        // Check program reference
         String invalidRefMessage = String.format(REF_ERROR_FORMAT, "ProgramReference");
-        Assert.assertFalse("Should see warning for program reference", faultListContainsWarningMessage(faults, invalidRefMessage));
+        Assert.assertTrue("Should see warning for program reference", faultListContainsWarningMessage(faults, invalidRefMessage));
     }
 
     @Test
