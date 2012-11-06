@@ -1476,6 +1476,8 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
+    when "studentCohortAssociation"
+      "cohort"
     else
       nil
   end
@@ -2368,6 +2370,7 @@ def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
 end
 
 Then /^I check that ids were generated properly:$/ do |table|
+  disable_NOTABLESCAN()
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
@@ -2386,6 +2389,7 @@ Then /^I check that ids were generated properly:$/ do |table|
 
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
+  enable_NOTABLESCAN()
 end
 
 ############################################################

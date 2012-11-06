@@ -40,7 +40,7 @@ import org.slc.sli.domain.NeutralQuery;
 public class StaffToTeacherSchoolAssociationValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToSchoolValidator validator;
+    private StaffToEdOrgValidator validator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -78,7 +78,7 @@ public class StaffToTeacherSchoolAssociationValidator extends AbstractContextVal
      * @param validator
      *            Staff to education organization validator to be used.
      */
-    protected void setStaffToSchoolValidator(StaffToSchoolValidator validator) {
+    protected void setStaffToEdOrgValidator(StaffToEdOrgValidator validator) {
         this.validator = validator;
     }
 }
