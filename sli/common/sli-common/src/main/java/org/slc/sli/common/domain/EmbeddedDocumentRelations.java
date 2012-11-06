@@ -40,7 +40,9 @@ public class EmbeddedDocumentRelations {
     private static final Map<String,Map<String,String>>CACHED_REFERENCE_KEY;
 
     static {
-        Map<String, Parent> map = new HashMap<String, Parent>();
+        /*
+         *  Denormalization
+         */
         Map<String, Denormalization> denormalizationMap = new HashMap<String, Denormalization>();
 
         Map<String, String> studentReferenceMap = new HashMap<String, String>();
@@ -69,13 +71,6 @@ public class EmbeddedDocumentRelations {
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
-        map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
-        map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
-        map.put("gradebookEntry", new Parent("section", "sectionId"));
-        map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentProgramAssociation", new Parent("program", "programId"));
-        SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
         denormalizationByEntityAndKey = new HashSet<String>();
         for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {
@@ -89,6 +84,22 @@ public class EmbeddedDocumentRelations {
         Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
         referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
         CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
+
+        /*
+         *  Superdoc Relationships
+         */
+        Map<String, Parent> map = new HashMap<String, Parent>();
+
+        map.put("studentSectionAssociation", new Parent("section", "sectionId"));
+        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
+        map.put("gradebookEntry", new Parent("section", "sectionId"));
+        map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
+        map.put("studentProgramAssociation", new Parent("program", "programId"));
+        map.put("studentDisciplineIncidentAssociation", new Parent("student", "studentId"));
+
+        SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
+
     };
 
     private static String stringifyEntityAndField(String entity, String field) {
