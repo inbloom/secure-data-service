@@ -29,36 +29,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StaffToStudentCohortAssociationValidator extends AbstractContextValidator {
-        
-    @Autowired
-    private StaffToStudentValidator studentValidator;
-    
-    @Autowired
-    private StaffToCohortValidator cohortValidator;
+public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
 
+    @Autowired
+    private StaffToProgramValidator staffProgramValidator;
+    
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType) && isStaff();
+        return isStaff() && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType);
     }
     
     /**
-     * Can see all of the studentCohortAssociations of the students I can see provided they aren't
-     * expired.
+     * Can see all of the studentProgramAssociations of all of the edorgs and programs
+     * that I can see that aren't expired.
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-
-        // See the cohort && see the student
+        // See the program && see the edorg
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
+        Set<String> lineage = getStaffEdOrgLineage();
         for (Entity sca : scas) {
-            String studentId = (String) sca.getBody().get(ParameterConstants.STUDENT_ID);
-            boolean validByStudent = studentValidator.validate(EntityNames.STUDENT,
-                    new HashSet<String>(Arrays.asList(studentId)));
-            if (!(validByStudent) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            String edOrgId = (String) sca.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
+            String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
+            boolean validByEdOrg = lineage.contains(edOrgId);
+            boolean validByProgram = staffProgramValidator.validate(EntityNames.PROGRAM,
+                    new HashSet<String>(Arrays.asList(programId)));
+            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
                 return false;
             } else {
                 match = true;
@@ -66,5 +65,13 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
         }
         return match;
     }
-        
+    
+    /**
+     * @param staffProgramValidator
+     *            the staffProgramValidator to set
+     */
+    public void setStaffProgramValidator(StaffToProgramValidator staffProgramValidator) {
+        this.staffProgramValidator = staffProgramValidator;
+    }
+    
 }

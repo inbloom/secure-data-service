@@ -16,12 +16,13 @@
 
 package org.slc.sli.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.ws.rs.core.Response;
-
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -34,13 +35,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Holder for security utilities
@@ -62,6 +60,7 @@ public class SecurityUtil {
 
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
+    private static String principalId;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -109,6 +108,11 @@ public class SecurityUtil {
         }
 
         return toReturn;
+    }
+
+    public static String principalId() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getEntity().getEntityId();
     }
 
     /**
