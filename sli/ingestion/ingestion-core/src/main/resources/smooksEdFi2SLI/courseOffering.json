@@ -22,7 +22,8 @@
         }
     },
       {
-         "fieldPath":"body.sessionId",
+         "fieldPath":"body.SessionReference",
+         "deprecated" : true,
          "ref":
          {
             "entityType":"session",
