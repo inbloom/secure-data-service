@@ -21,27 +21,31 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class TransitiveStaffToTeacherValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+<<<<<<< HEAD
     
+=======
+>>>>>>> pantheon-program2
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return through && EntityNames.TEACHER.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
     }
-    
+
     @Override
     public boolean validate(String entityName, Set<String> teacherIds) {
         
@@ -53,7 +57,10 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
         populateMapFromMongoResponse(teacherSchoolMap, schoolAssoc);
         Set<String> edOrgLineage = getStaffEdOrgLineage();
         for (Set<String> schools : teacherSchoolMap.values() ) {
+<<<<<<< HEAD
             
+=======
+>>>>>>> pantheon-program2
             //Make sure there's a valid intersection between the schools and edOrgLIneage
             Set<String> tmpSet = new HashSet<String>(schools);
             tmpSet.retainAll(edOrgLineage);
@@ -65,7 +72,7 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
             return false;
         }
         return true;
-        
+
     }
 
     private void populateMapFromMongoResponse(
@@ -81,5 +88,5 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
             edorgList.add(schoolId);
         }
     }
-    
+
 }
