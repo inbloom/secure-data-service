@@ -175,13 +175,20 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.STUDENT_COHORT_ASSOCIATION, studentCohort);
     }
 
-    public Entity generateStudentProgram(String studentId, String programId, boolean isExpired) {
+    public Entity generateStudentProgram(String studentId, String programId, String edorgId, boolean isExpired) {
         Map<String, Object> studentProgram = new HashMap<String, Object>();
         studentProgram.put(ParameterConstants.STUDENT_ID, studentId);
         studentProgram.put(ParameterConstants.PROGRAM_ID, programId);
+        if (edorgId != null) {
+            studentProgram.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+        }
         expireAssociation(isExpired, studentProgram);
 
         return repo.create(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentProgram);
+    }
+    
+    public Entity generateStudentProgram(String studentId, String programId, boolean isExpired) {
+        return generateStudentProgram(studentId, programId, null, isExpired);
     }
 
     public Entity generateEdorgWithProgram(List<String> programIds) {
@@ -235,7 +242,7 @@ public class ValidatorTestHelper {
     	Map<String, Object> session = new HashMap<String, Object>();
     	session.put(ParameterConstants.SCHOOL_ID, schoolId);
     	if (null != gradingPeriodRefs) {
-    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs.toArray());
+    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs);
     	}
         return repo.create(EntityNames.SESSION, session);
     }

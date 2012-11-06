@@ -54,6 +54,19 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "StaffReference", naturalKeys, "staff");
 	}
 
+	@Test
+	public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/programReference.json");
+		ErrorReport errorReport = new TestErrorReport();
+
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("programId", "program ID");
+
+		checkId(entity, "ProgramReference", naturalKeys, "program");
+	}
+
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
 		NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);
