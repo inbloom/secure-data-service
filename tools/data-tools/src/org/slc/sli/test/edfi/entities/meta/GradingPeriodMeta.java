@@ -34,7 +34,7 @@ public class GradingPeriodMeta {
         this.gradingPeriodNum = gradingPeriodNum;
     }
     
-    public List<String> calendars = new ArrayList<String>();
+    public List<CalendarMeta> calendars = new ArrayList<CalendarMeta>();
     
     public GradingPeriodMeta(String id) {
         this.id =  id; 
