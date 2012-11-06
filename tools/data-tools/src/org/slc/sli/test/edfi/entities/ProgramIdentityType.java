@@ -45,14 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;choice>
  *           &lt;element name="ProgramId" type="{http://ed-fi.org/0100}ProgramId"/>
- *           &lt;element name="ProgramType" type="{http://ed-fi.org/0100}ProgramType"/>
- *         &lt;/choice>
- *         &lt;choice minOccurs="0">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -63,21 +56,12 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProgramIdentityType", propOrder = {
-    "programId",
-    "programType",
-    "stateOrganizationId",
-    "educationOrgIdentificationCode"
+    "programId"
 })
 public class ProgramIdentityType {
 
     @XmlElement(name = "ProgramId")
     protected String programId;
-    @XmlElement(name = "ProgramType")
-    protected ProgramType programType;
-    @XmlElement(name = "StateOrganizationId")
-    protected String stateOrganizationId;
-    @XmlElement(name = "EducationOrgIdentificationCode")
-    protected List<EducationOrgIdentificationCode> educationOrgIdentificationCode;
 
     /**
      * Gets the value of the programId property.
@@ -102,82 +86,4 @@ public class ProgramIdentityType {
     public void setProgramId(String value) {
         this.programId = value;
     }
-
-    /**
-     * Gets the value of the programType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ProgramType }
-     *     
-     */
-    public ProgramType getProgramType() {
-        return programType;
-    }
-
-    /**
-     * Sets the value of the programType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ProgramType }
-     *     
-     */
-    public void setProgramType(ProgramType value) {
-        this.programType = value;
-    }
-
-    /**
-     * Gets the value of the stateOrganizationId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getStateOrganizationId() {
-        return stateOrganizationId;
-    }
-
-    /**
-     * Sets the value of the stateOrganizationId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setStateOrganizationId(String value) {
-        this.stateOrganizationId = value;
-    }
-
-    /**
-     * Gets the value of the educationOrgIdentificationCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the educationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EducationOrgIdentificationCode }
-     * 
-     * 
-     */
-    public List<EducationOrgIdentificationCode> getEducationOrgIdentificationCode() {
-        if (educationOrgIdentificationCode == null) {
-            educationOrgIdentificationCode = new ArrayList<EducationOrgIdentificationCode>();
-        }
-        return this.educationOrgIdentificationCode;
-    }
-
 }

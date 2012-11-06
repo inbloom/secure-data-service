@@ -44,12 +44,13 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
 
     @Override
     public boolean validate(String entityType, Set<String> objectiveIds) {
+        // TODO return true by default has a smell.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, objectiveIds));
         basicQuery.setIncludeFields(Arrays.asList("_id", "educationOrganizationId"));
         Iterable<Entity> objectives = repo.findAll(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, basicQuery);
 
         Set<String> objIdsFound = new HashSet<String>();
-        Set<String> edorgLineage = getStaffEdorgLineage();
+        Set<String> edorgLineage = getStaffEdOrgLineage();
         for (Entity obj : objectives) {
             String objId = (String) obj.getEntityId();
             String edorgId = (String) obj.getBody().get("educationOrganizationId");
