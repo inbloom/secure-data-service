@@ -259,9 +259,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
-# check for id-ref warnings
-    And I should see "Attribute 'ref' is not allowed to appear in element 'StudentAcademicRecordReference'." in the resulting warning log file for "InterchangeStudentGrade.xml"
-    And I should see "Attribute 'ref' is not allowed to appear in element 'StudentAssessmentReference'." in the resulting warning log file for "InterchangeStudentAssessment-Cgray-ACT.xml"
 
 @smoke
 Scenario: Check the collections: Clean Database
@@ -407,7 +404,13 @@ And I check to find if record is in collection:
    And I check to find if record is in collection:
      #check to make sure we're actually resolving references
      | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+     | cohort                       | 1 | body.programId.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+     | educationOrganization        | 2 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+     | educationOrganization        | 1 | body.programReference.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+     | section                      | 1 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+     | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
      | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
+     | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database

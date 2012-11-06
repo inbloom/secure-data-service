@@ -66,7 +66,7 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-                          INaturalKeyExtractor naturalKeyExtractor) {
+            INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
@@ -229,9 +229,11 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+                    .ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError()
+                    .ok();
             return result;
         }
 
@@ -308,8 +310,9 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE)
-                    .getLastError().ok();
+            return template.getCollection(collection)
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+                    .ok();
         }
 
         private boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
@@ -336,8 +339,7 @@ public class SubDocAccessor {
             Query subDocQuery = new Query(Criteria.where("_id").is(id));
 
             DBObject parentQueryDBObject = toSubDocQuery(subDocQuery, true);
-            List<Entity> entities = findSubDocs(parentQueryDBObject, null,
-                    new Query().getQueryObject());
+            List<Entity> entities = findSubDocs(parentQueryDBObject, null, new Query().getQueryObject());
             if (entities != null && entities.size() == 1) {
                 return entities.get(0);
             }
@@ -366,7 +368,7 @@ public class SubDocAccessor {
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject originalOrQueryDBObject : originalOrQueryDBObjects) {
                         DBObject orQueryDBObject = appendSubField(originalOrQueryDBObject, isParentQuery);
-                        if(orQueryDBObject.get("_id") != null) {
+                        if (orQueryDBObject.get("_id") != null) {
                             addId(queryDBObject, orQueryDBObject.get("_id"));
                             orQueryDBObject.removeField("_id");
                         }
@@ -425,7 +427,7 @@ public class SubDocAccessor {
                             combined.addAll(extractIdSet(idList));
                             combined.addAll(extractIdSet(newValue));
                             newDBObject.put(lookup.get(updatedKey), new BasicDBObject("$in", combined));
-                        } else{
+                        } else {
                             newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
                         }
                     } else {
@@ -499,22 +501,23 @@ public class SubDocAccessor {
                 } else {
                     idQuery.put("_id", idFinalList);
                 }
-               parentQuery.removeField("_id");
+                parentQuery.removeField("_id");
             }
 
             String queryCommand;
             if (idQuery != null) {
-                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : "+ idQuery.toString()+ "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
-                        "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + idQuery.toString()
+                        + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},"
+                        + "{$match : " + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
             } else {
-                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," +
-                        "{$match : " + parentQuery.toString()+ "}" + limitQuerySB.toString() + "]}";
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField
+                        + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," + "{$match : "
+                        + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
             }
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
-            System.out.println(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
 
@@ -530,10 +533,12 @@ public class SubDocAccessor {
         private Set<String> extractIdSet(final Object obj) {
             if (obj instanceof DBObject) {
                 Object dbObj = ((DBObject) obj).get("$in");
-                if (dbObj instanceof List)
+                if (dbObj instanceof List) {
                     return new HashSet<String>((List<String>) dbObj);
-            } else if (obj instanceof String)
+                }
+            } else if (obj instanceof String) {
                 return new HashSet<String>(Arrays.asList((String) obj));
+            }
             return Collections.emptySet();
         }
 
