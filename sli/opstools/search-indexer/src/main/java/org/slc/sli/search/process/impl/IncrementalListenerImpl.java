@@ -131,9 +131,8 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     public List<IndexEntity> convertToEntity(String opLogString) throws Exception {
 
         List<IndexEntity> entities = new LinkedList<IndexEntity>();
-        opLogString = preProcess(opLogString);
 
-        List<Map<String, Object>> opLogs = mapper.readValue(opLogString,
+        List<Map<String, Object>> opLogs = mapper.readValue(OplogConverter.preProcess(opLogString),
                 new TypeReference<List<Map<String, Object>>>() {
                 });
         // check action type and convert to an index entity
@@ -175,15 +174,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         Meta meta = OplogConverter.getMeta(opLogMap);
         return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE,
                 OplogConverter.getEntityForDelete(opLogMap));
-    }
-
-    // TODO : is there a better way to make the json valid?
-    private String preProcess(String entityStr) {
-
-        // handle ISODates and NumberLong
-        entityStr = entityStr.replaceAll("ISODate\\((\".*?\")\\)", "$1");
-        entityStr = entityStr.replaceAll("NumberLong\\((.*?)\\)", "$1");
-        return entityStr;
     }
 
     private void sendToIndexer(IndexEntity entity) {

@@ -207,6 +207,15 @@ public class OplogConverter {
     public static boolean isDelete(Map<String, Object> oplog) {
         return "d".equals(oplog.get("op"));
     }
+    
+    // TODO : is there a better way to make the json valid?
+    public static String preProcess(String entityStr) {
+
+        // handle ISODates and NumberLong
+        entityStr = entityStr.replaceAll("ISODate\\((\".*?\")\\)", "$1");
+        entityStr = entityStr.replaceAll("NumberLong\\((.*?)\\)", "$1");
+        return entityStr;
+    }
 
     public static class Meta {
         private final String index;
