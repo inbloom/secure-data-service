@@ -54,6 +54,12 @@ Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1,
   uri
 end
 
+Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5|
+  uri = "/v1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
+  #puts "URI = #{uri}"
+  uri
+end
+
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
