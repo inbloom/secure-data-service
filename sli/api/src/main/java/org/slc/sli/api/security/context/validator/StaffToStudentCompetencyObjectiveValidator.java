@@ -16,6 +16,10 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
@@ -23,10 +27,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextValidator {
@@ -44,6 +44,7 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
 
     @Override
     public boolean validate(String entityType, Set<String> objectiveIds) {
+        // TODO return true by default has a smell.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, objectiveIds));
         basicQuery.setIncludeFields(Arrays.asList("_id", "educationOrganizationId"));
         Iterable<Entity> objectives = repo.findAll(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, basicQuery);
