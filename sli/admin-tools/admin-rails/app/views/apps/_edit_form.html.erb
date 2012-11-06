@@ -84,7 +84,9 @@
 <div class = "field">
   <%= f.hidden_field(:authorized_ed_orgs) %>
 </div>
+
 <div id="enable-menu" class="well">
+<h3>Enable the districts you would like to use your application</h3>
 <div id="state-menu">
   
   <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>

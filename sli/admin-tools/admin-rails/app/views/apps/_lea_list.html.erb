@@ -1,5 +1,9 @@
-<ul class="select-list clear">
+<ul class="unstyled clear">
   <% results.each do |lea| %>
-    <li id="<%= lea["id"]%>"><input type="checkbox"><%=lea["name"]%></input></li>
+    <li id="<%= lea["id"]%>">
+      <label class="checkbox inline">
+      <input type="checkbox"><%=lea["name"]%></input>
+      </label>
+      </li>
   <% end %>
 </ul>

@@ -15,12 +15,12 @@ jQuery ->
         #Populate the LI classes with enabled stuff
         edorgs = getEdorgs()
         jQuery.each(edorgs, (index, item) ->
-            $("#lea-menu ul").find("li##{item} input").prop('checked',true)
+            $("#lea-menu ul").find("li##{item} input").attr('checked', true)
         )
 
 jQuery ->
     $("#lea-menu ul li input").live 'change', ->
-        id = $(@).parent().attr('id')
+        id = $(@).parent().parent().attr('id')
         edorgs = getEdorgs()
         if $(@).is(':checked')
             edorgs.push id

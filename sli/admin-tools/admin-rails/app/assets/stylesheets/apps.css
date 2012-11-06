@@ -4,10 +4,7 @@ div.yellow {background-color: rgb(246, 248, 191);}
 dt {width: 250px;}
 ul.clear {list-style: none;}
 dl.dl-horizontal dd:after {content: "\0000a0";}
-div#lea-menu {background-color:#FFF;}
 ul.select-list {margin-left: 0px; padding-left:0px;}
-ul.select-list li {background-color: #DDD; margin-top: 4px;}
-ul.select-list li.enabled {background-color: #2D2;}
 div#enable-menu {width: 40%;}
 ul.select-list li a {width:100%; display:block;} 
 ul.select-list li a:link, a:visited {text-decoration: none;} 
