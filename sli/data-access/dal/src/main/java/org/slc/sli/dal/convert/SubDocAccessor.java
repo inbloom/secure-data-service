@@ -333,12 +333,10 @@ public class SubDocAccessor {
 
         public Entity findById(String id) {
             LOG.debug("the subDoc id is: {}", id);
-            Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
-            Query parentQuery = subDocQuery;
-            if (!id.equals(getParentId(id))) {
-                parentQuery = new Query(Criteria.where("_id").is(getParentId(id)));
-            }
-            List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), null,
+            Query subDocQuery = new Query(Criteria.where("_id").is(id));
+
+            DBObject parentQueryDBObject = toSubDocQuery(subDocQuery, true);
+            List<Entity> entities = findSubDocs(parentQueryDBObject, null,
                     new Query().getQueryObject());
             if (entities != null && entities.size() == 1) {
                 return entities.get(0);
@@ -490,7 +488,6 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
-
             simplifyParentQuery(parentQuery);
 
             DBObject idQuery = null;
@@ -517,6 +514,7 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
+            System.out.println(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
 
