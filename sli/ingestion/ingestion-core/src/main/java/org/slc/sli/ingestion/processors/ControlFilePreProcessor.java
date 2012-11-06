@@ -173,36 +173,41 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     protected boolean ensureTenantDbIsReady(String tenantId) {
 
         if (tenantDA.tenantDbIsReady(tenantId)) {
+
             LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
             return true;
+
         } else {
+
             LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
+            boolean onboardingLockIsAcquired = tenantDA.updateAndAquireOnboardingLock(tenantId);
+            boolean isNowReady = false;
+            
+            if (onboardingLockIsAcquired) {
 
-            runDbSpinUpScripts(tenantId);
+                runDbSpinUpScripts(tenantId);
 
-            boolean isNowReady = tenantDA.tenantDbIsReady(tenantId);
-            LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                isNowReady = tenantDA.tenantDbIsReady(tenantId);
+                LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+            }   
 
             return isNowReady;
+
         }
     }
 
     private void runDbSpinUpScripts(String tenantId) {
-        boolean isTenantInProgress = tenantDA.setTenantInProgressFlag(tenantId);
 
-        if (isTenantInProgress) {
-            String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
-            String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
+        String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
+        String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
-            LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
 
-            tenantDA.setTenantReadyFlag(tenantId);
-
-        }
+        tenantDA.setTenantReadyFlag(tenantId);
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,

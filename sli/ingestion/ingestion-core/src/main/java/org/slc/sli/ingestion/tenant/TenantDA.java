@@ -57,11 +57,12 @@ public interface TenantDA {
     void setTenantReadyFlag(String tenantId);
 
     /**
-     * Flag that the database for the given tenantId is in progress of being created
+     * Locks ingestion for this tenant until onboarding is complete.
      *
      * @param tenantId
+     * @return whether the lock was acquired
      */
-    boolean setTenantInProgressFlag(String tenantId);
+    boolean updateAndAquireOnboardingLock(String tenantId);
 
     /**
      * Remove tenant with invalid characters in the landing zone path from the tenant collection

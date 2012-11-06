@@ -101,7 +101,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     private RealmHelper realmHelper;
 
     @Autowired
-    private IngestionTenantLockChecker lockChecker;
+    private IngestionOnboardingLockChecker lockChecker;
 
     @Autowired
     private SecurityUtilProxy secUtil;
@@ -490,11 +490,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         return super.update(uuid, tenant, headers, uriInfo);
     }
 
-    IngestionTenantLockChecker getLockChecker() {
+    IngestionOnboardingLockChecker getLockChecker() {
         return lockChecker;
     }
 
-    void setLockChecker(IngestionTenantLockChecker lockChecker) {
+    void setLockChecker(IngestionOnboardingLockChecker lockChecker) {
         this.lockChecker = lockChecker;
     }
 

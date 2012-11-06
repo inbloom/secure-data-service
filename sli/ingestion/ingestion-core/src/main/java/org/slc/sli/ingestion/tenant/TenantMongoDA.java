@@ -48,6 +48,7 @@ import org.slc.sli.domain.Repository;
 public class TenantMongoDA implements TenantDA {
     protected static final Logger LOG = LoggerFactory.getLogger(TenantDA.class);
 
+    private static final String TENANT = "tenant";
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
     public static final String TENANT_ID = "tenantId";
@@ -218,31 +219,32 @@ public class TenantMongoDA implements TenantDA {
     @Override
     public void setTenantReadyFlag(String tenantId) {
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
         Update update = new Update();
         update.set(TENANT_READY_FIELD, true);
 
         try {
             TenantContext.setIsSystemCall(true);
-            entityRepository.doUpdate("tenant", query, update);
+            entityRepository.doUpdate(TENANT, query, update);
         } finally {
             TenantContext.setIsSystemCall(false);
         }
     }
 
     @Override
-    public boolean setTenantInProgressFlag(String tenantId) {
+    public boolean updateAndAquireOnboardingLock(String tenantId) {
 
-    	DBObject query = new BasicDBObject("body.tenantId", tenantId);
-    	query.put(TENANT_READY_FIELD, new BasicDBObject("$ne", false));
-
-        DBObject set = new BasicDBObject(TENANT_READY_FIELD, false);
-        DBObject update = new BasicDBObject("$set", set);
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", "exists", false));
+        
+        Update update = new Update();
+        update.set(TENANT_READY_FIELD, false);
 
         try {
             TenantContext.setIsSystemCall(true);
-            return entityRepository.getCollection("tenant").findAndModify(query, update) == null ? false:true;
+            return entityRepository.findAndUpdate(TENANT, query, update) == null ? false : true;
         } finally {
             TenantContext.setIsSystemCall(false);
         }
@@ -250,7 +252,7 @@ public class TenantMongoDA implements TenantDA {
     }
 
     @Override
-	public void removeInvalidTenant(String lzPath) {
+    public void removeInvalidTenant(String lzPath) {
         BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
         BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
         entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
