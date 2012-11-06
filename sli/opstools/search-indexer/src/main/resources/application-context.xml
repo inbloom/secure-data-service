@@ -114,7 +114,7 @@
 		<property name="searchEngineConnector" ref="searchEngineConnector"/>
 		<property name="indexConfigStore" ref="indexConfigStore"/>
 		<property name="aggregatePeriod" value="${sli.search.indexer.aggregatePeriodInMillis:500}"/>
-		<property name="bulkSize" value="${sli.search.indexer.bulkSize:500}"/>
+		<property name="bulkSize" value="${sli.search.indexer.bulkSize:5000}"/>
 		<property name="indexerWorkerPoolSize" value="${sli.search.indexer.indexerWorkerPoolSize:4}"/>
 	</bean>
 	
