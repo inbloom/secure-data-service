@@ -199,5 +199,9 @@
     <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
   </bean>
 
+  <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
+  </bean>
+
 </beans>
 
