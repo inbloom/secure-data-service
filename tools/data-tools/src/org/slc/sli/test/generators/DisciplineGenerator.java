@@ -47,7 +47,7 @@ public class DisciplineGenerator {
     }
 
     public DisciplineIncident generate(String incidentId, String delimiter) {
-        Random random = new Random();
+        Random random = new Random(31);
 
         DisciplineIncident discIncident = new DisciplineIncident();
 

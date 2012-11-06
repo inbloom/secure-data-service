@@ -58,3 +58,7 @@ end
 Then /^the response at position (\d)+ should include the information (.+)$/ do |position, string|
   assert(@result[convert(position)].to_s.include?(string), "Can't find the specified string \"#{string}\" at position #{position}")
 end
+
+Then /^I should see a total of (\d+) entities$/ do |arg1|
+  assert(@result.size == convert(arg1), "Expected to see #{arg1} entities, actual number #{@result.size}")
+end

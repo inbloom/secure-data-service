@@ -52,6 +52,8 @@ public class TransitiveStaffToStaffValidatorTest {
     Entity staff5 = null;   //not associated to anything
     Entity lea1 = null;
     Entity school1 = null;
+    Entity lea2 = null;
+    Entity school2 = null;
     
     @Before
     public void setUp() {
@@ -82,11 +84,20 @@ public class TransitiveStaffToStaffValidatorTest {
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         lea1 = repo.create("educationOrganization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        lea2 = repo.create("educationOrganization", body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school1 = repo.create("educationOrganization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("School"));
+        body.put("parentEducationAgencyReference", lea2.getEntityId());
+        school2 = repo.create("educationOrganization", body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea1.getEntityId());
@@ -111,6 +122,11 @@ public class TransitiveStaffToStaffValidatorTest {
         body.put("staffReference", staff4.getEntityId());
         DateTime past = DateTime.now().minusYears(10);
         body.put("endDate", past.toString(fmt));
+        repo.create("staffEducationOrganizationAssociation", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("educationOrganizationReference", school2.getEntityId());
+        body.put("staffReference", staff3.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
 
     }

@@ -80,6 +80,15 @@ public class EducationAgencyGenerator {
         return ref;
     }
 
+    public static EducationalOrgReferenceType generateReference(String stateOrganizationId) {
+        EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+        EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+        identity.setStateOrganizationId(stateOrganizationId);
+        ref.setEducationalOrgIdentity(identity);
+        return ref;
+
+    }
+
     public LocalEducationAgency getLEA(String id) {
         LocalEducationAgency agency = new LocalEducationAgency();
         agency.setStateOrganizationId("ManhattanLEA");

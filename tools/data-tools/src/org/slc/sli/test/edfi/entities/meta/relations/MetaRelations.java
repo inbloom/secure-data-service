@@ -160,7 +160,7 @@ public final class MetaRelations {
 
     public static final Map<String, SuperSectionMeta> SUPERSECTION_MAP = new TreeMap<String, SuperSectionMeta>();
 
-    public static final String SEA_PREFIX = "CAP";
+    public static final String SEA_PREFIX = "X";
     public static final String FIRST_TEACHER_ID = "lroslin";
 
     public static final boolean RUN_FLAG = true;
@@ -441,7 +441,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
-            SchoolMeta schoolMeta = new SchoolMeta("HSch" + idNum, leaMeta);
+            SchoolMeta schoolMeta = new SchoolMeta("Z" + idNum, leaMeta);
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
@@ -549,7 +549,7 @@ public final class MetaRelations {
     private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
         int counter = 0;
         int parentId = 0;
-        Random random = new Random();
+        Random random = new Random(31);
         Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
         Map<String, ParentMeta> parentStudentsMap = new HashMap<String, ParentMeta>();
         Map<String, StudentParentAssociationMeta> stuParAssoMap = new HashMap<String, StudentParentAssociationMeta>();
@@ -656,7 +656,7 @@ public final class MetaRelations {
         Map<String, GradingPeriodMeta> gradingPeriodMetas = new HashMap<String, GradingPeriodMeta>(
                 GRADINGPERIOD_PER_CALENDAR);
 
-        Random random = new Random();
+        Random random = new Random(31);
         int count = random.nextInt(InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS);
         for (CalendarMeta calendarMeta : calendarForGradingPeriod.values()) {
 
@@ -665,7 +665,7 @@ public final class MetaRelations {
                 String gradingPeriodId = calendarMeta.id + "-" + idNum;
 
                 GradingPeriodMeta gradingPeriodMeta = new GradingPeriodMeta(gradingPeriodId);
-                gradingPeriodMeta.calendars.add(calendarMeta.id);
+                gradingPeriodMeta.calendars.add(calendarMeta);
 
                 gradingPeriodMeta.setGradingPeriodNum(count % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS + 1);
                 count++;
