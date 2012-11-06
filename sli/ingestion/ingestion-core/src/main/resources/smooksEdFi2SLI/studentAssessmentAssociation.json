@@ -4,7 +4,9 @@
                       "body.studentObjectiveAssessments?" : "studentObjectiveAssessment"},
     "references" :
     [{
-        "fieldPath" : "body.assessmentId","ref" :
+        "fieldPath" : "body.assessmentId",
+        "deprecated" : true,
+        "ref" :
         {
             "entityType" : "assessment",
             "choiceOfFields" :
