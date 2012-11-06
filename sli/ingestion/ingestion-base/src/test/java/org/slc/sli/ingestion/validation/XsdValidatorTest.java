@@ -183,9 +183,9 @@ public class XsdValidatorTest {
         List<Fault> faults = faultsReport.getFaults();
         Assert.assertFalse(faults.isEmpty());
 
-        // Check session reference - TODO update to assertTrue once id-ref for session has been removed
+        // Check session reference
         String invalidSessionRefMessage = String.format(REF_ERROR_FORMAT, "SessionReference");
-        Assert.assertFalse("Should see warning for session reference", faultListContainsWarningMessage(faults, invalidSessionRefMessage));
+        Assert.assertTrue("Should see warning for session reference", faultListContainsWarningMessage(faults, invalidSessionRefMessage));
 
         // Check course reference
         String invalidCourseRefMessage = String.format(REF_ERROR_FORMAT, "CourseReference");
