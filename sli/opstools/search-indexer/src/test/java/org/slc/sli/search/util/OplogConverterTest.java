@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +33,12 @@ public class OplogConverterTest {
         Assert.assertEquals("2012dd-a4121e59-243a-11e2-beb4-3c07546832b4", obj);
     }
 
-   // @Test
+    // @Test
     public void testPull() throws JsonParseException, JsonMappingException, IOException {
-        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("schools"),
-                getEntity("pullOplog"));
+        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("schools"), getEntity("pullOplog"));
         Assert.assertTrue(obj instanceof List);
-        List list = (List) obj;
+        @SuppressWarnings("unchecked")
+        List<Object> list = (List<Object>) obj;
         Assert.assertEquals(0, list.size());
     }
 
@@ -48,7 +47,8 @@ public class OplogConverterTest {
         Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("metaData.edOrgs"),
                 getEntity("addToSetEachOplog"));
         Assert.assertTrue(obj instanceof List);
-        List list = (List) obj;
+        @SuppressWarnings("unchecked")
+        List<Object> list = (List<Object>) obj;
         Assert.assertEquals(3, list.size());
         Assert.assertEquals("884daa27d806c2d725bc469b273d840493f84b4d_id", list.get(0));
         Assert.assertEquals("1b223f577827204a1c7e9c851dba06bea6b031fe_id", list.get(1));
@@ -74,7 +74,7 @@ public class OplogConverterTest {
         String opLog = getOplogJsonFile(file);
         Map<String, Object> opLogs = mapper.readValue(opLog, new TypeReference<Map<String, Object>>() {
         });
-        return OplogConverter.getEntity(opLogs);
+        return OplogConverter.getEntityForUpdate(opLogs);
     }
 
     private String getOplogJsonFile(String name) {

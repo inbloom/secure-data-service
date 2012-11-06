@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,7 @@ import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
+import org.slc.sli.search.util.OplogConverter.Meta;
 import org.slc.sli.search.util.amq.JMSQueueConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,11 +139,11 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         // check action type and convert to an index entity
         for (Map<String, Object> opLog : opLogs) {
             try {
-                if (isInsert(opLog)) {
+                if (OplogConverter.isInsert(opLog)) {
                     entities.add(convertInsertToEntity(opLog));
-                } else if (isUpdate(opLog)) {
+                } else if (OplogConverter.isUpdate(opLog)) {
                     entities.add(convertUpdateToEntity(opLog));
-                } else if (isDelete(opLog)) {
+                } else if (OplogConverter.isDelete(opLog)) {
                     entities.add(convertDeleteToEntity(opLog));
                 } else {
                     logger.info("Unrecognized message type. Ignoring.");
@@ -155,45 +155,26 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                 throw e;
             }
         }
-
         return entities;
     }
 
-    @SuppressWarnings("unchecked")
     private IndexEntity convertInsertToEntity(Map<String, Object> opLogMap) throws Exception {
-
-        Map<String, Object> entityMap = (Map<String, Object>) opLogMap.get("o");
-        // convert to index entity object
-        return indexEntityConverter.fromEntity(getMeta(opLogMap).getIndex(), IndexEntity.Action.INDEX, entityMap);
+        Meta meta = OplogConverter.getMeta(opLogMap);
+        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.INDEX,
+                OplogConverter.getEntityForInsert(opLogMap));
     }
 
     private IndexEntity convertUpdateToEntity(Map<String, Object> opLogMap) throws Exception {
-
-        return indexEntityConverter.fromEntity(getMeta(opLogMap).getIndex(), IndexEntity.Action.UPDATE,
-                OplogConverter.getEntity(opLogMap));
+        Meta meta = OplogConverter.getMeta(opLogMap);
+        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE,
+                OplogConverter.getEntityForUpdate(opLogMap));
     }
 
-    @SuppressWarnings("unchecked")
     private IndexEntity convertDeleteToEntity(Map<String, Object> opLogMap) throws Exception {
-
-        Map<String, Object> o = (Map<String, Object>) opLogMap.get("o");
-        String id = (String) o.get("_id");
-
-        Meta meta = getMeta(opLogMap);
-        String type = meta.getType();
-
-        // merge data into entity json (id, type, metadata.tenantId)
-        Map<String, Object> entityMap = new HashMap<String, Object>();
-        entityMap.put("_id", id);
-        entityMap.put("type", type);
-
         // convert to index entity object
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE, entityMap);
-    }
-
-    private Meta getMeta(Map<String, Object> opLogMap) {
-        String[] meta = ((String) opLogMap.get("ns")).split("\\.");
-        return new Meta(meta[0], meta[1]);
+        Meta meta = OplogConverter.getMeta(opLogMap);
+        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE,
+                OplogConverter.getEntityForDelete(opLogMap));
     }
 
     // TODO : is there a better way to make the json valid?
@@ -203,18 +184,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         entityStr = entityStr.replaceAll("ISODate\\((\".*?\")\\)", "$1");
         entityStr = entityStr.replaceAll("NumberLong\\((.*?)\\)", "$1");
         return entityStr;
-    }
-
-    private boolean isInsert(Map<String, Object> oplog) {
-        return "i".equals(oplog.get("op"));
-    }
-
-    private boolean isUpdate(Map<String, Object> oplog) {
-        return "u".equals(oplog.get("op"));
-    }
-
-    private boolean isDelete(Map<String, Object> oplog) {
-        return "d".equals(oplog.get("op"));
     }
 
     private void sendToIndexer(IndexEntity entity) {
@@ -235,25 +204,6 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     public void setActiveMQConsumer(JMSQueueConsumer activeMQConsumer) {
         this.activeMQConsumer = activeMQConsumer;
-    }
-
-    private static class Meta {
-        private final String index;
-        private final String type;
-
-        public Meta(String index, String type) {
-            super();
-            this.index = index;
-            this.type = type;
-        }
-
-        public String getIndex() {
-            return index;
-        }
-
-        public String getType() {
-            return type;
-        }
     }
 
     public String getHealth() {
