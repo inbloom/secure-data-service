@@ -91,7 +91,7 @@ public class StudentGradebookEntry
     @XmlElement(name = "LetterGradeEarned")
     protected String letterGradeEarned;
     @XmlElement(name = "NumericGradeEarned")
-    protected BigInteger numericGradeEarned;
+    protected int numericGradeEarned;
     @XmlElement(name = "CompetencyLevel")
     protected CompetencyLevelDescriptorType competencyLevel;
     @XmlElement(name = "DiagnosticStatement")
@@ -158,7 +158,7 @@ public class StudentGradebookEntry
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getNumericGradeEarned() {
+    public int getNumericGradeEarned() {
         return numericGradeEarned;
     }
 
@@ -170,7 +170,7 @@ public class StudentGradebookEntry
      *     {@link BigInteger }
      *     
      */
-    public void setNumericGradeEarned(BigInteger value) {
+    public void setNumericGradeEarned(int value) {
         this.numericGradeEarned = value;
     }
 
