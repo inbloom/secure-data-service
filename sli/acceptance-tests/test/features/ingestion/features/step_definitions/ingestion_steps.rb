@@ -2379,8 +2379,8 @@ Then /^I check that ids were generated properly:$/ do |table|
     end
 
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
-    enable_NOTABLESCAN()
   end
+  enable_NOTABLESCAN()
 end
 
 ############################################################
