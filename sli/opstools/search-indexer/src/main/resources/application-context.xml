@@ -104,8 +104,8 @@
 	<bean id="searchTemplate" class="org.springframework.web.client.RestTemplate" >
 	    <constructor-arg>
 	    <bean class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-		    <property name="connectTimeout" value="${sli.search.indexer.connTimeout:1000}" />
-		    <property name="readTimeout" value="${sli.search.indexer.readTimeout:1000}" />
+		    <property name="connectTimeout" value="${sli.search.indexer.connTimeout:5000}" />
+		    <property name="readTimeout" value="${sli.search.indexer.readTimeout:10000}" />
 	    </bean>
 	    </constructor-arg>
 	</bean>
