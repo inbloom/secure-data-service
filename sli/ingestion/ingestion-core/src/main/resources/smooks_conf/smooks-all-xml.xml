@@ -1082,8 +1082,7 @@
   </jb:bean>
   <jb:bean beanId="SubObjectiveAssessmentItemReferenceType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
-    <jb:value property="id" data="ObjectiveAssessment/AssessmentItemReference/@id" />
-    <jb:value property="ref" data="ObjectiveAssessment/AssessmentItemReference/@ref" />
+    <jb:value property="identificationCode" data="ObjectiveAssessment/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
   </jb:bean>
 
   <!-- AssessmentItem -->
