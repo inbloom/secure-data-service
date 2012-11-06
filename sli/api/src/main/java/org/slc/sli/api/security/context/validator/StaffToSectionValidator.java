@@ -41,7 +41,7 @@ public class StaffToSectionValidator extends AbstractContextValidator {
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        Set<String> edorgLineage = getStaffEdorgLineage();
+        Set<String> edorgLineage = getStaffEdOrgLineage();
 
         for (String id : ids) {
         	NeutralQuery basicQuery = new NeutralQuery(

@@ -48,10 +48,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StaffToStaffCohortAssociationValidatorTest {
+public class StaffToStaffProgramAssociationValidatorTest {
     
     @Autowired
-    private StaffToStaffCohortAssociationValidator validator;
+    private StaffToStaffProgramAssociationValidator validator;
 
     @Autowired
     private ValidatorTestHelper helper;
@@ -63,7 +63,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
     
     Set<String> cohortIds;
-
+    
     @Before
     public void setUp() throws Exception {
         // Set up the principal
@@ -83,39 +83,39 @@ public class StaffToStaffCohortAssociationValidatorTest {
     @After
     public void tearDown() throws Exception {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
-        cleanCohortData();
+        cleanProgramData();
 
     }
     
-    private void cleanCohortData() {
+    private void cleanProgramData() {
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
-        repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
-        repo.deleteAll(EntityNames.COHORT, new NeutralQuery());
+        repo.deleteAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
+        repo.deleteAll(EntityNames.PROGRAM, new NeutralQuery());
     }
     
     @Test
     public void testCanValidate() {
-        assertTrue(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, false));
-        assertTrue(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, true));
-        assertFalse(validator.canValidate(EntityNames.COHORT, true));
-        assertFalse(validator.canValidate(EntityNames.COHORT, false));
+        assertTrue(validator.canValidate(EntityNames.STAFF_PROGRAM_ASSOCIATION, false));
+        assertTrue(validator.canValidate(EntityNames.STAFF_PROGRAM_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
+        assertFalse(validator.canValidate(EntityNames.PROGRAM, false));
     }
     
     @Test
-    public void testCanValidateStaffCohortAssociation() {
+    public void testCanValidateStaffProgramAssociation() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
         Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
-        Entity sca = helper.generateStaffCohort(helper.STAFF_ID,
-                helper.generateCohort(sea.getEntityId()).getEntityId(), false, true);
+        Entity sca = helper.generateStaffProgram(helper.STAFF_ID,
+                helper.generateProgram().getEntityId(), false, true);
         cohortIds.add(sca.getEntityId());
         assertTrue(validator.validate(null, cohortIds));
         
         // And ones below me
         for (int i = 0; i < 5; ++i) {
-            sca = helper.generateStaffCohort(i + "", helper.generateCohort(school.getEntityId()).getEntityId(), false,
+            sca = helper.generateStaffProgram(i + "", helper.generateProgram().getEntityId(), false,
                     true);
             helper.generateStaffEdorg(i + "", school.getEntityId(), false);
             cohortIds.add(sca.getEntityId());
@@ -129,16 +129,16 @@ public class StaffToStaffCohortAssociationValidatorTest {
         // Association itself is bad.
         Entity school = helper.generateEdorgWithParent(null);
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
-        Entity sca = helper.generateStaffCohort(helper.STAFF_ID, helper.generateCohort(school.getEntityId())
+        Entity sca = helper.generateStaffProgram(helper.STAFF_ID, helper.generateProgram()
                 .getEntityId(), true, false);
         cohortIds.add(sca.getEntityId());
         assertFalse(validator.validate(null, cohortIds));
         cohortIds.clear();
-        cleanCohortData();
+        cleanProgramData();
         
         // Staff edorg is bad
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), true);
-        sca = helper.generateStaffCohort(helper.STAFF_ID, helper.generateCohort(school.getEntityId())
+        sca = helper.generateStaffProgram(helper.STAFF_ID, helper.generateProgram()
                 .getEntityId(), false, false);
         cohortIds.add(sca.getEntityId());
         assertFalse(validator.validate(null, cohortIds));
@@ -149,10 +149,11 @@ public class StaffToStaffCohortAssociationValidatorTest {
     public void testCanNotValidateOutsideOfEdorg() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         Entity school2 = helper.generateEdorgWithParent(null);
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
-        Entity sca = helper.generateStaffCohort("MOOP", helper.generateCohort(school2.getEntityId()).getEntityId(),
+        Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
         assertFalse(validator.validate(null, cohortIds));
@@ -162,9 +163,10 @@ public class StaffToStaffCohortAssociationValidatorTest {
     public void testCanNotValidateAtStateLevel() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         // Get the ones above that I'm associated to.
-        Entity sca = helper.generateStaffCohort("MOOP", helper.generateCohort(sea.getEntityId()).getEntityId(),
+        Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
         assertFalse(validator.validate(null, cohortIds));

@@ -24,27 +24,25 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
  * staff member can see ALL of the students, and false otherwise.
- *
- * @author mlane
  */
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STUDENT.equals(entityType) && isStaff();
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.STUDENT.equals(entityType)
+                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
     }
 
     @Override
@@ -53,10 +51,11 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
+        // TODO need programs/cohorts with studentRecordAccess = true
         boolean isValid = true;
 
         // lookup current staff edOrg associations and get the Ed Org Ids
-        Set<String> staffsEdOrgIds = getStaffsDirectlyAssociatedEdOrgs();
+        Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
 
         // lookup students
         Iterable<Entity> students = getStudentEntitiesFromIds(ids);
@@ -121,20 +120,4 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         return students;
     }
 
-    private Set<String> getStaffsDirectlyAssociatedEdOrgs() {
-        NeutralQuery staffEdOrgAssocQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        staffEdOrgAssocQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_EXISTS, false)));
-        staffEdOrgAssocQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_GTE, getFilterDate())));
-
-        Iterable<Entity> staffEdOrgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
-                staffEdOrgAssocQuery);
-        Set<String> staffEdOrgs = new HashSet<String>();
-        for (Entity entity : staffEdOrgAssociations) {
-            staffEdOrgs.add((String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-        }
-        return staffEdOrgs;
-    }
 }
