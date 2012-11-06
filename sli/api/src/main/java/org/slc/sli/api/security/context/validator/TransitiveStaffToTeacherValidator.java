@@ -36,10 +36,7 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-<<<<<<< HEAD
-    
-=======
->>>>>>> pantheon-program2
+
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return through && EntityNames.TEACHER.equals(entityType)
@@ -48,7 +45,7 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
 
     @Override
     public boolean validate(String entityName, Set<String> teacherIds) {
-        
+
         //Query teacher's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.CRITERIA_IN, teacherIds));
         basicQuery.setIncludeFields(Arrays.asList("teacherId", "schoolId"));
@@ -57,10 +54,7 @@ public class TransitiveStaffToTeacherValidator extends AbstractContextValidator 
         populateMapFromMongoResponse(teacherSchoolMap, schoolAssoc);
         Set<String> edOrgLineage = getStaffEdOrgLineage();
         for (Set<String> schools : teacherSchoolMap.values() ) {
-<<<<<<< HEAD
-            
-=======
->>>>>>> pantheon-program2
+
             //Make sure there's a valid intersection between the schools and edOrgLIneage
             Set<String> tmpSet = new HashSet<String>(schools);
             tmpSet.retainAll(edOrgLineage);
