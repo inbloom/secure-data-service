@@ -107,7 +107,7 @@ end
 $entity_data = {
   "studentSectionAssociation" => {
     "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
-    "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e",
+    "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e_id",
     "repeatIdentifier" => "Repeated, counted in grade point average",
     "beginDate" => "2011-12-01",
     "endDate" => "2012-01-01",
