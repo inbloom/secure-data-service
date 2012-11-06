@@ -1,10 +1,13 @@
 getEdorgs = ->
-    edorgs = jQuery.parseJSON($("input#app_authorized_ed_orgs").val())
-    edorgs
+  edorgs = []
+  $('input#app_authorized_ed_orgs').map ->
+    edorgs.push $(@).val()
+  edorgs
 
 jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
+        return false if selected.val() == ""
         $.get("/lea?state=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
             $("#lea-menu ul").trigger("change")
@@ -19,17 +22,17 @@ jQuery ->
         )
 
 jQuery ->
-    $("#lea-menu ul li input").live 'change', ->
-        id = $(@).parent().parent().attr('id')
-        edorgs = getEdorgs()
-        if $(@).is(':checked')
-            edorgs.push id
-        else
-            #Remove the element from the array
-            index = edorgs.indexOf id
-            if index != -1
-                edorgs.splice(index, 1)
-        $("input#app_authorized_ed_orgs").attr("value", JSON.stringify(edorgs))
+  $("#lea-menu ul li input").live 'change', ->
+    id = $(@).parent().parent().attr('id')
+    edorgs = getEdorgs()
+    if $(@).is(':checked')
+      #Add the input
+      $('div#ed_orgs').append("<input id=\"app_authorized_ed_orgs\" name=\"app[authorized_ed_orgs][]\" multiple=\"multiple\" type=\"hidden\" value=#{id}>")
+    else
+      index = edorgs.indexOf id
+      if index != -1
+        #Remove the input
+        $("input#app_authorized_ed_orgs[value=#{id}]").remove()
 jQuery ->
     $("div.enable-disable a#enable-all").click ->
         $("#lea-menu ul li input:not(:checked)").click()

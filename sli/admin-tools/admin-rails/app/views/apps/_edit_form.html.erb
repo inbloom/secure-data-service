@@ -81,8 +81,10 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-<div class = "field">
-  <%= f.hidden_field(:authorized_ed_orgs) %>
+<div id="ed_orgs" class = "field">
+  <% app.authorized_ed_orgs.each do |role| %>
+      <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
+  <% end %>
 </div>
 
 <div id="enable-menu" class="well">
@@ -90,7 +92,7 @@
 <div id="state-menu">
   
   <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>
-  <%= select_tag(:state_select, options_for_select(state_array)) %>
+  <%= select_tag(:state_select, options_for_select(state_array), :prompt => 'Please select a state') %>
 
 <div class="enable-disable"><a id="enable-all" href="#">Enable All</a> | <a id="disable-all" href="#">Disable All</a></div>
 </div>
