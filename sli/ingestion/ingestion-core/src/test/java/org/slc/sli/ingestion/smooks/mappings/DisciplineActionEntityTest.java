@@ -124,15 +124,15 @@ public class DisciplineActionEntityTest {
         Map<String, Object> disciplineInnerMap1 = (Map<String, Object>) disciplineOuterMap1.get("disciplineIncidentIdentity");
         assertEquals("Expected different discipline incidentIdentifier", "di-10001", disciplineInnerMap1.get("incidentIdentifier"));
 
-        Map<String, Object> responsibilitySchoolReference = (Map<String, Object>) attributes.get("responsibilitySchoolId");
-        Map<String, Object> responsibilitySchooIdentity = (Map<String, Object>) responsibilitySchoolReference.get("educationalOrgIdentity");
-        List<String> responsibilitySchools = (List<String>) responsibilitySchooIdentity.get("stateOrganizationId");
-        assertEquals("Expected different responsibilitySchool stateOrganizationId", "Daybreak Central High", responsibilitySchools.get(0));
+        Map<String, Object> responsibilitySchoolReference = (Map<String, Object>) attributes.get("ResponsibilitySchoolReference");
+        Map<String, Object> responsibilitySchooIdentity = (Map<String, Object>) responsibilitySchoolReference.get("EducationalOrgIdentity");
+        String responsibilitySchool = (String) responsibilitySchooIdentity.get("StateOrganizationId");
+        assertEquals("Expected different responsibilitySchool stateOrganizationId", "Daybreak Central High", responsibilitySchool);
 
-        Map<String, Object> assignmentSchoolReference = (Map<String, Object>) attributes.get("assignmentSchoolId");
-        Map<String, Object> assignmentSchooIdentity = (Map<String, Object>) assignmentSchoolReference.get("educationalOrgIdentity");
-        List<String> assignmentSchools = (List<String>) assignmentSchooIdentity.get("stateOrganizationId");
-        assertEquals("Expected different assignmentSchool stateOrganizationId", "Daybreak Central High", assignmentSchools.get(0));
+        Map<String, Object> assignmentSchoolReference = (Map<String, Object>) attributes.get("AssignmentSchoolReference");
+        Map<String, Object> assignmentSchooIdentity = (Map<String, Object>) assignmentSchoolReference.get("EducationalOrgIdentity");
+        String assignmentSchool = (String) assignmentSchooIdentity.get("StateOrganizationId");
+        assertEquals("Expected different assignmentSchool stateOrganizationId", "Daybreak Central High", assignmentSchool);
 
         List<List<Map<String, Object>>> disciplines = (List<List<Map<String, Object>>>) attributes.get("disciplines");
         assertNotNull("Expected non-null list of disciplines", disciplines);
