@@ -8,7 +8,7 @@
                 <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
-        <SessionReference>
+        <SessionReference ref="CAP0-D0-HSch0-ses0">
             <SessionIdentity>
                 <SessionName>CAP0-D0-HSch0-ses0</SessionName>
             </SessionIdentity>
