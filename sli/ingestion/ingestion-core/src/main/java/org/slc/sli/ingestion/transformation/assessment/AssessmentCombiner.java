@@ -173,9 +173,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             if (records != null) {
                 for (NeutralRecord record : records) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("record: {} attr: {}", record, record.getAttributes());
-                    }
                     assessmentItems.add(record.getAttributes());
                 }
 
