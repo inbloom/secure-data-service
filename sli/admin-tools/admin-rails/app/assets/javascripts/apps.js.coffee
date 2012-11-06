@@ -5,7 +5,6 @@ getEdorgs = ->
 jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
-        console.log("Changed to: " +selected.val())
         $.get("/lea?state=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
             $("#lea-menu ul").trigger("change")
@@ -22,11 +21,8 @@ jQuery ->
 jQuery ->
     $("#lea-menu ul li input").live 'change', ->
         id = $(@).parent().attr('id')
-        console.log $(@)
-
-        $(@).prop('checked', !$(@).checked) 
         edorgs = getEdorgs()
-        if $(@).checked 
+        if $(@).is(':checked')
             edorgs.push id
         else
             #Remove the element from the array
@@ -36,13 +32,11 @@ jQuery ->
         $("input#app_authorized_ed_orgs").attr("value", JSON.stringify(edorgs))
 jQuery ->
     $("div.enable-disable a#enable-all").click ->
-        alert "Enable"
-        $("#lea-menu ul li input:not(:checked)").trigger("change")
+        $("#lea-menu ul li input:not(:checked)").click()
+        false
     $("div.enable-disable a#disable-all").click ->
-        alert "Disable"
-        $("#lea-menu ul li input:checked").trigger("change")
-    false
-
+        $("#lea-menu ul li input:checked").click()
+        false
 jQuery ->
   $("#applications tr:odd").addClass("odd")
   $("#applications tr:not(.odd)").hide()
