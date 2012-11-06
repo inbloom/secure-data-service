@@ -32,7 +32,6 @@ require_relative '../../../utils/sli_utils.rb'
 ############################################################
 
 def processPayloadFile(file_name)
-  puts "Preparing payload file " + file_name
   path_name = file_name[0..-5]
   file_name = file_name.split('/')[-1] if file_name.include? '/'
 
@@ -51,7 +50,6 @@ def processPayloadFile(file_name)
     FileUtils.rm_r zip_dir
   end
 
-  puts "Recursive copy from " + @local_file_store_path + path_delim + path_name + " to " + zip_dir
   FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
 
   ctl_template = nil
@@ -64,7 +62,6 @@ def processPayloadFile(file_name)
   # for each line in the ctl file, recompute the md5 hash
   new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
-    puts "Considering rewriting control file"
     ctl_file.each_line do |line|
       if line.chomp.length == 0
       next
@@ -88,13 +85,10 @@ def processPayloadFile(file_name)
   new_ctl_file.close
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
-  puts "Zipping: zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*"
-
   runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
   FileUtils.rm_r zip_dir
 
   file_name = @local_file_store_path + path_delim + file_name
-  puts "returning file_name: " + file_name
   return file_name
 end
 
