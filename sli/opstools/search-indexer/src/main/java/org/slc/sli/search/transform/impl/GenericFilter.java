@@ -23,21 +23,37 @@ import org.slc.sli.search.transform.Filter;
 import org.slc.sli.search.util.NestedMapUtil;
 
 /**
- * Filters by key/value pairs
+ * Filters by key/value pairs and can potentially mutate the original object
  * 
  */
 public class GenericFilter implements Filter {
     
+    @SuppressWarnings("unchecked")
     public boolean matchesCondition(IndexConfig config, Map<String, Object> entity) {
         Map<List<String>, Object> filters = config.getFilterCondition();
         Object val;
         if (filters != null) {
             for (Map.Entry<List<String>, Object> entry : filters.entrySet()) {
                 val = NestedMapUtil.get(entry.getKey(), entity);
-                if (entry.getValue() != null && !entry.getValue().equals(val) || entry.getValue() == null && val != null)
+                if (val != null && val instanceof List) {
+                    boolean found = false;
+                    // if an array, look through the values if one match found
+                    for (Object arVal: (List<Object>)val) {
+                        if (isMatch(entry.getValue(), arVal)) {
+                            found = true;
+                            break;
+                        }  
+                        if (!found) return false;
+                    }
+                }
+                else if (!isMatch(entry.getValue(), val))
                     return false;
             }
         }
         return true;
+    }
+    
+    private boolean isMatch(Object expected, Object actual) {
+        return (actual != null && actual.equals(expected) || actual == null && expected == null);
     }
 }

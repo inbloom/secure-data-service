@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Interface for communicating wiht the search engine via REST
- * @author agrebneva
  *
  */
 public interface SearchEngineConnector {
@@ -24,7 +23,6 @@ public interface SearchEngineConnector {
     public void putMapping(String index, String type, String mapping);
     
     public String getBaseUrl();
-    public String getIndexUri();
     
     public void execute(Action a, List<IndexEntity> docs);
 }

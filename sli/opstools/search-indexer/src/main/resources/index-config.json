@@ -6,8 +6,16 @@
       "body.name.lastSurname",
       "body.otherName.firstName",
       "body.otherName.middleName",
-      "body.otherName.lastSurname"
+      "body.otherName.lastSurname",
+      "schools.exitWithdrawDate",
+      "schools._id"
     ],
+    "rename": {
+      "schools.$._id": "body.context.schoolId"
+    },
+    "filterCondition": {
+      "schools.exitWithdrawDate": null
+    },
     "mapping": {
       "student": {
         "properties": {
@@ -22,23 +30,6 @@
         }
       }
     }
-  },
-  "studentSchoolAssociation": {
-    "indexType": "student",
-    "fields": [
-      "body.studentId",
-      "body.schoolId",
-      "body.exitWithdrawDate"
-    ],
-    "rename": {
-      "body.studentId": "_id",
-      "body.schoolId": "body.context.schoolId",
-      "body.exitWithdrawDate": "metaData.exitWithdrawDate"
-    },
-    "filterCondition": {
-      "body.exitWithdrawDate": null
-    },
-    "mapping": {}
   },
   "learningStandard": {
     "fields": [

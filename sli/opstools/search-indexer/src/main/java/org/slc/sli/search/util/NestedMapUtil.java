@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class NestedMapUtil {
     private static final String _DOT = ".";
+    private static final String _ARRAY_ELEM = "$";
     private static final String DOT_REGEX = "[" + _DOT + "]";
 
     /**
@@ -117,9 +118,9 @@ public class NestedMapUtil {
     private static Object findRecursively(List<String> fieldChain, Object entity, boolean delete, int count) {
         if (fieldChain.isEmpty()) return entity;
         if (count > 10) throw new IllegalArgumentException("Recursion too deep");
+        String field = fieldChain.remove(0);
         if (entity instanceof Map) {
             Map<String, Object> map = (Map<String, Object>)entity;
-            String field = fieldChain.remove(0);
             if (fieldChain.isEmpty()) {
                 return (delete) ? map.remove(field) : map.get(field);
             }
@@ -132,7 +133,13 @@ public class NestedMapUtil {
                 }
             }
             return entity;
-        } 
+        } else if (entity instanceof List) {
+            if (_ARRAY_ELEM.equals(field)) {
+                List<Object> arr = (List<Object>)entity;
+                if (!arr.isEmpty())
+                    return findRecursively(fieldChain, arr.get(0), delete, count ++);
+            }
+        }
         return null;
     }
     

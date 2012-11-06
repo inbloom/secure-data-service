@@ -15,13 +15,13 @@
  */
 package org.slc.sli.search.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.slc.sli.search.util.NestedMapUtil;
 
 public class NestedUtilMapTest {
     
@@ -29,6 +29,7 @@ public class NestedUtilMapTest {
     @Test
     public void testFlatMap() {
         Map<String, Object> testMap = new HashMap<String, Object>();
+        
         NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.levl2"), 1, testMap);
         NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.name"), "my name", testMap);
         Map<String, Object> map = (Map<String, Object>) ((Map<String, Object>)testMap.get("test")).get("levl1");
@@ -39,6 +40,22 @@ public class NestedUtilMapTest {
         Assert.assertEquals(2, flatMap.size());
         Assert.assertEquals("my name", flatMap.get("test.levl1.name"));
         Assert.assertEquals(1, flatMap.get("test.levl1.levl2"));
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testArray() {
+        Map<String, Object> testMap = new HashMap<String, Object>();
+        Map<String, Object> testMap1 = new HashMap<String, Object>();
+        testMap1.put("id", 1111);
+        testMap1.put("cond", "a");
+        Map<String, Object> testMap2 = new HashMap<String, Object>();
+        testMap2.put("id", "2xy");
+        
+        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.levl2"), 1, testMap);
+        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.array"), Arrays.asList(testMap1, testMap2), testMap);
+      
+        Assert.assertEquals(1111, NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.array.$.id"), testMap));
     }
     
 }
