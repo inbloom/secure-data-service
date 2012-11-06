@@ -137,7 +137,8 @@ public class SubDocAccessorTest {
 
         String queryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}"
                 + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
-                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
+                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\"" +
+                ", \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
         DBObject subDocQueryResult = new BasicDBObject();
         DBObject subDocEntity = new BasicDBObject();
         subDocEntity.put("_id", "parent_idchild");
@@ -153,11 +154,19 @@ public class SubDocAccessorTest {
         when(successCR.get("result")).thenReturn(subDocQueryResults);
         when(template.executeCommand(queryCommand)).thenReturn(successCR);
 
-        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" "
-                + ", \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\""
-                + "}},{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
-                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" "
-                + ", \"studentSectionAssociation.someProperty\" : \"someValue\"" + "}},{$limit:1}]}";
+        String findByID = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
+                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }," +
+                "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
+        when(template.executeCommand(findByID)).thenReturn(successCR);
+
+        String nonExistIdForDelete = "{aggregate : \"section\", pipeline:[{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }," +
+                "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
+
+        when(template.executeCommand(nonExistIdForDelete)).thenReturn(failCR);
+
+        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
+                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
+                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}},{$limit:1}]}";
         when(template.executeCommand(findAllQueryCommand)).thenReturn(successCR);
 
         String nonExistQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
@@ -165,16 +174,14 @@ public class SubDocAccessorTest {
                 + "{$match:{ \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
         when(template.executeCommand(nonExistQueryCommand)).thenReturn(failCR);
 
-        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
-                + ", \"studentSectionAssociation.someProperty\" : \"someValue\"}},{$project : {\"studentSectionAssociation\":1"
-                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" , "
-                + "\"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
+        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
+                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
+                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
         when(template.executeCommand(countQueryCommand)).thenReturn(successCR);
 
-        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\" , \"studentSectionAssociation._id\" : \"parent_idchild\" "
-                + ", \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}},{$project : {\"studentSectionAssociation\":1"
-                + ",\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\" ,"
-                + " \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}]}";
+        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
+                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
+                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}]}";
         when(template.executeCommand(nonExistCountCommand)).thenReturn(failCR);
     }
 
@@ -287,7 +294,7 @@ public class SubDocAccessorTest {
         assertEquals("parent_idchild", parentQuery.get("studentSectionAssociation._id"));
         assertEquals("someValue", childQuery.get("studentSectionAssociation.someProperty"));
         assertEquals("parent_idchild", childQuery.get("studentSectionAssociation._id"));
-        assertEquals(null, childQuery.get("_id"));
+        assertNotNull(childQuery.get("_id"));
     }
 
     @Test

@@ -35,6 +35,7 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
 import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -136,22 +137,33 @@ public class ContextValidator implements ApplicationContextAware {
         validateContextToEntities(def, ids, isTransitive);
     }
 
-    public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
+    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
         
-        //exists call requires a Set to function correctly, so convert to Set if necessary
-        Set<String> idSet = null;
-        if (entityIds instanceof Set) {
-            idSet = (Set<String>) entityIds;
-        } else {
-            idSet = new HashSet<String>(entityIds);
-        }
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            if (!validator.validate(def.getType(), idSet)) {
-                if (!exists(idSet, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entityIds);
+            Set<String> idsToValidate = new HashSet<String>();
+
+            NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            int found = 0;
+            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+                found++;
+                if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                        && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                    debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                } else {
+                    idsToValidate.add(ent.getEntityId());
                 }
-                throw new AccessDeniedException("Cannot access entities " + entityIds);
+            }
+
+            if (found != ids.size()) {
+                debug("Invalid reference, an entity does not exist. collection: {} ids: {}", def.getStoredCollectionName(), ids);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+            }
+
+            if (!idsToValidate.isEmpty()) {
+                if (!validator.validate(def.getType(), idsToValidate)) {
+                    throw new AccessDeniedException("Cannot access entities " + ids);
+                }
             }
         }
     }
