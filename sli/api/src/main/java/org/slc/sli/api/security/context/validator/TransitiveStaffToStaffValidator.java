@@ -36,8 +36,6 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
-    @Autowired
-    private StaffToEdOrgValidator staffToSchool;
     
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -59,9 +57,13 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         
         Map<String, Set<String>> staffEdorgMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
-
+        Set<String> edOrgLineage = getStaffEdOrgLineage();
+        
         for (Set<String> edorgs : staffEdorgMap.values() ) {
-            if (!staffToSchool.validate(EntityNames.EDUCATION_ORGANIZATION, edorgs)) {
+            //Make sure there's a valid intersection between the schools and edOrgLIneage
+            Set<String> tmpSet = new HashSet<String>(edorgs);
+            tmpSet.retainAll(edOrgLineage);
+            if (tmpSet.size() == 0) {
                 return false;
             }
         }
