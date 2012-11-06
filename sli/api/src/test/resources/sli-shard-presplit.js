@@ -54,7 +54,7 @@ var sharded_collections = [
     "studentParentAssociation",
     "studentProgramAssociation",
     "studentSchoolAssociation",
-    "studentTranscriptAssociation",
+    "courseTranscript",
     "teacherSchoolAssociation",
     "teacherSectionAssociation"
 ];

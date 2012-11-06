@@ -19,6 +19,7 @@ package org.slc.sli.api.ldap;
 import java.util.Collection;
 
 import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.ldap.core.LdapTemplate;
 
 /**
  * define the interface for basic CRUD and search operations on LDAP
@@ -56,4 +57,6 @@ public interface LdapService {
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs);
 
     public Collection<User> findUsersByGroups(String realm, Collection<String> allowedGroupNames, Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs);
+
+    public void setLdapTemplate(LdapTemplate ldapTemplate);
 }

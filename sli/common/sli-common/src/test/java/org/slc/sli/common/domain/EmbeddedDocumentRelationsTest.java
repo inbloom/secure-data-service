@@ -18,14 +18,13 @@ package org.slc.sli.common.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Test;
 
 /**
  *
@@ -80,7 +79,7 @@ public class EmbeddedDocumentRelationsTest {
     public void testGetDenormalizedFields() {
         String entityType = "studentProgramAssociation";
         List<String> expected = Arrays.asList("endDate");
-        List<String> actual = EmbeddedDocumentRelations.getDenormalizedFields(entityType);
+        List<String> actual = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
         assertEquals(expected, actual);
     }
 

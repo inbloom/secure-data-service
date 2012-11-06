@@ -51,7 +51,7 @@ $collectionSet = ["student",
                   "assessment",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
-                  "studentTranscriptAssociation",
+                  "courseTranscript",
                   "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
@@ -353,6 +353,8 @@ task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
+  disable_NOTABLESCAN()
+
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
@@ -397,6 +399,7 @@ task :realmInit => [:appInit] do
   setFixture("customRole", "customRole_Midgar_fixture.json", "test/data")
   swap_realm_ids()
 
+  enable_NOTABLESCAN()
 end
 
 task :appDenialInit do
@@ -408,6 +411,7 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
+  disable_NOTABLESCAN()
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
@@ -424,6 +428,7 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_app_ids(convertTenantIdToDbName("Midgar"))
   swap_app_ids(convertTenantIdToDbName("Hyrule"))
+  enable_NOTABLESCAN()
 end
 
 desc "Approve SLC apps for ingested realms"
@@ -489,7 +494,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -529,7 +534,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
-                     :apiSuperDocTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
                      :v1WhiteListValidationTests,
@@ -692,7 +696,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 #task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionCourseTranscriptTests, :ingestionProgramTest, :ingestionCohortTest,
 #                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
 #                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
 #                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
@@ -703,7 +707,8 @@ task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTen
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
-                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest] do
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
+                         :ingestionSuperDocTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -917,6 +922,7 @@ task :importSecuredData do
     "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "course" => "secured/course.json",
+    "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
@@ -933,9 +939,7 @@ task :importSecuredData do
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
     "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",
-    "studentTranscriptAssociation" => "secured/studentTranscriptAssociation.json",
-    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
@@ -988,7 +992,7 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "courseOffering" => "sessionCourseAssociation_fixture.json",
-    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
+    "courseTranscript" => "courseTranscript_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
     "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
@@ -1076,7 +1080,7 @@ task :importUnifiedData => [:realmInit] do
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
-    "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
+    "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"

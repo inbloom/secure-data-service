@@ -237,7 +237,6 @@ public class LdapServiceImpl implements LdapService {
         return users;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames) {
         return findUsersByGroups(realm, groupNames, null, null, null);
@@ -372,4 +371,8 @@ public class LdapServiceImpl implements LdapService {
         return null;
     }
 
+    @Override
+    public void setLdapTemplate(LdapTemplate ldapTemplate) {
+        this.ldapTemplate = ldapTemplate;
+    }
 }

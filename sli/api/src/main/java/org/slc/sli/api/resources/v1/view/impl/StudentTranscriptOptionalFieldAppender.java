@@ -63,7 +63,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
         List<String> studentAcademicRecordIds = optionalFieldAppenderHelper.getIdList(studentAcademicRecords, "id");
 
         //get the transcripts
-        List<EntityBody> studentTranscripts = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS,
+        List<EntityBody> courseTranscripts = optionalFieldAppenderHelper.queryEntities(ResourceNames.COURSE_TRANSCRIPTS,
                ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, studentAcademicRecordIds);
 
         //get the sessions
@@ -91,7 +91,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
             List<EntityBody> studentSectionAssociationsForStudent = optionalFieldAppenderHelper.getEntitySubList(
                     studentSectionAssociations, ParameterConstants.STUDENT_ID, studentId);
 
-            List<EntityBody> studentTranscriptAssociations = new ArrayList<EntityBody>();
+            List<EntityBody> studentCourseTranscripts = new ArrayList<EntityBody>();
             for (EntityBody studentSectionAssociationForStudent : studentSectionAssociationsForStudent) {
                 String sectionId = (String) studentSectionAssociationForStudent.get(ParameterConstants.SECTION_ID);
 
@@ -125,7 +125,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                 List<EntityBody> studentTranscriptsForStudent = new ArrayList<EntityBody>();
 
                 for (String studentAcademicRecordId : studentAcademicRecordIdsForStudent) {
-                    studentTranscriptsForStudent.addAll(optionalFieldAppenderHelper.getEntitySubList(studentTranscripts,
+                    studentTranscriptsForStudent.addAll(optionalFieldAppenderHelper.getEntitySubList(courseTranscripts,
                             ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, studentAcademicRecordId));
                 }
 
@@ -133,7 +133,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                 List<EntityBody> studentTranscriptsForStudentAndCourse = optionalFieldAppenderHelper.getEntitySubList(
                         studentTranscriptsForStudent, ParameterConstants.COURSE_ID,
                         (String) courseOfferingForSection.get(ParameterConstants.COURSE_ID));
-                studentTranscriptAssociations.addAll(studentTranscriptsForStudentAndCourse);
+                studentCourseTranscripts.addAll(studentTranscriptsForStudentAndCourse);
 
                 // add the session and course into the section
                 sectionForStudent.put(PathConstants.SESSIONS, sessionForSection);
@@ -147,7 +147,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
 
             EntityBody body = new EntityBody();
             body.put(PathConstants.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsForStudent);
-            body.put(PathConstants.COURSE_TRANSCRIPTS, studentTranscriptAssociations);
+            body.put(PathConstants.COURSE_TRANSCRIPTS, studentCourseTranscripts);
 
             // add the associations to the student
             student.put(ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, body);

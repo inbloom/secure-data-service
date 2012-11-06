@@ -29,29 +29,29 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Transformer for StudentTranscriptAssociation Entities
+ * Transformer for CourseTranscript Entities
  *
  * @author jcole
  * @author shalka
  */
 @Scope("prototype")
-@Component("studentTranscriptAssociationTransformationStrategy")
-public class StudentTranscriptAssociationCombiner extends AbstractTransformationStrategy {
+@Component("courseTranscriptTransformationStrategy")
+public class CourseTranscriptCombiner extends AbstractTransformationStrategy {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StudentTranscriptAssociationCombiner.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseTranscriptCombiner.class);
 
-    private static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
-    private static final String STUDENT_TRANSCRIPT_ASSOCIATION_TRANSFORMED = "studentTranscriptAssociation_transformed";
+    private static final String COURSE_TRANSCRIPT = "courseTranscript";
+    private static final String COURSE_TRANSCRIPT_TRANSFORMED = "courseTranscript_transformed";
 
-    private Map<Object, NeutralRecord> studentTranscripts;
-    private List<NeutralRecord> transformedTranscripts;
+    private Map<Object, NeutralRecord> courseTranscripts;
+    private List<NeutralRecord> transformedCourseTranscripts;
 
     /**
      * Default constructor.
      */
-    public StudentTranscriptAssociationCombiner() {
-        this.studentTranscripts = new HashMap<Object, NeutralRecord>();
-        this.transformedTranscripts = new ArrayList<NeutralRecord>();
+    public CourseTranscriptCombiner() {
+        this.courseTranscripts = new HashMap<Object, NeutralRecord>();
+        this.transformedCourseTranscripts = new ArrayList<NeutralRecord>();
     }
 
     /**
@@ -62,7 +62,7 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     public void performTransformation() {
         loadData();
         transform();
-        insertRecords(transformedTranscripts, STUDENT_TRANSCRIPT_ASSOCIATION_TRANSFORMED);
+        insertRecords(transformedCourseTranscripts, COURSE_TRANSCRIPT_TRANSFORMED);
     }
 
     /**
@@ -70,10 +70,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
      * student
      */
     public void loadData() {
-        LOG.info("Loading data for studentTranscriptAssociation transformation.");
-        this.studentTranscripts = getCollectionFromDb(STUDENT_TRANSCRIPT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_TRANSCRIPT_ASSOCIATION,
-                studentTranscripts.size());
+        LOG.info("Loading data for courseTranscript transformation.");
+        this.courseTranscripts = getCollectionFromDb(COURSE_TRANSCRIPT);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", COURSE_TRANSCRIPT,
+                courseTranscripts.size());
     }
 
     /**
@@ -81,8 +81,8 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
      * staging mongo db.
      */
     public void transform() {
-        LOG.info("Transforming student transcript association data");
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentTranscripts.entrySet()) {
+        LOG.info("Transforming course transcript data");
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : courseTranscripts.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             if (attributes.get("creditsAttempted") == null) {
@@ -94,7 +94,7 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            transformedTranscripts.add(neutralRecord);
+            transformedCourseTranscripts.add(neutralRecord);
         }
         LOG.info("Finished transforming student transcript association data");
     }
