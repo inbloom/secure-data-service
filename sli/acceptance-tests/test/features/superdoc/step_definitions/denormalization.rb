@@ -38,7 +38,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"     if human_readable_id == "MARVIN MILLER"
   id = "067198fd6da91e1aa8d67e28e850f224d6851713_id" if human_readable_id == "INGESTED MATT SOLLARS"
   # Section
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"        if human_readable_id == "8TH GRADE ENGLISH SEC 6"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id"     if human_readable_id == "8TH GRADE ENGLISH SEC 6"
   id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
   # Program
   id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
