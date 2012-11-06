@@ -61,7 +61,6 @@ public class StaffToStudentProgramAssociationValidatorTest {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
-    private StaffToStudentValidator mockStudentValidator;
     private StaffToProgramValidator mockProgramValidator;
     
     Set<String> programIds;
@@ -80,18 +79,17 @@ public class StaffToStudentProgramAssociationValidatorTest {
         
         programIds = new HashSet<String>();
         
-        mockStudentValidator = Mockito.mock(StaffToStudentValidator.class);
         mockProgramValidator = Mockito.mock(StaffToProgramValidator.class);
         validator.setStaffProgramValidator(mockProgramValidator);
-        validator.setStaffStudentValidator(mockStudentValidator);
         
     }
     
     @After
     public void tearDown() {
         repo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new NeutralQuery());
+        repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
+        repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         
-        mockStudentValidator = null;
         mockProgramValidator = null;
     }
     
@@ -105,8 +103,7 @@ public class StaffToStudentProgramAssociationValidatorTest {
     
     @Test
     public void testCanValidateValidAssociation() {
-        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.any(Set.class)))
                 .thenReturn(
                 true);
@@ -118,37 +115,40 @@ public class StaffToStudentProgramAssociationValidatorTest {
     
     @Test
     public void testCanNotValidExpiredAssociation() {
-        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.any(Set.class)))
                 .thenReturn(
                 true);
-        programIds.add(helper.generateStudentCohort("Boop", "Beep", true).getEntityId());
+        programIds.add(helper.generateStudentProgram("Boop", "Beep", true).getEntityId());
         assertFalse(validator.validate(null, programIds));
     }
     
     @Test
-    public void testCanNotValidateAssociationWithoutStudentAcccess() {
-        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
+    public void testCanNotValidateAssociationWithoutEdOrgAcccess() {
+        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.any(Set.class)))
                 .thenReturn(false);
-        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.any(Set.class)))
-                .thenReturn(
-                true);
+        Entity lea = helper.generateEdorgWithParent(null);
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        Entity school2 = helper.generateEdorgWithParent(null);
+        helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         for (int i = 0; i < 10; ++i) {
-            programIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
+            programIds.add(helper.generateStudentProgram("Boop", "" + i, school.getEntityId(), false).getEntityId());
         }
+        assertTrue(validator.validate(null, programIds));
+        
+        // Add one to a different school and it should fail
+        programIds.add(helper.generateStudentProgram("Boop", "Merp", school2.getEntityId(), false).getEntityId());
         assertFalse(validator.validate(null, programIds));
     }
     
     @Test
-    public void testCanNotValidateAssociationWithoutCohortAccess() {
-        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+    public void testCanNotValidateAssociationWithoutProgramAccess() {
+
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.any(Set.class)))
                 .thenReturn(
                 false);
         for (int i = 0; i < 10; ++i) {
-            programIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
+            programIds.add(helper.generateStudentProgram("Boop", "" + i, false).getEntityId());
         }
         assertFalse(validator.validate(null, programIds));
     }

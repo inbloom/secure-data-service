@@ -22,6 +22,7 @@
 @RALLY_US4080
 @RALLY_US4116
 @RALLY_DE1934
+@RALLY_US4391
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -404,7 +405,13 @@ And I check to find if record is in collection:
    And I check to find if record is in collection:
      #check to make sure we're actually resolving references
      | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |   
+	 | cohort                       | 1 | body.programId.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+	 | educationOrganization        | 2 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+	 | educationOrganization        | 1 | body.programReference.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+	 | section                      | 1 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+	 | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
 	 | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
+	 | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
@@ -420,9 +427,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staff                                | 6757c28005c30748f3bbda02882bf59bc81e0d71_id | body.staffUniqueStateId           | linda.kim                            |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.educationOrgId       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
-    | studentCohortAssociation             | bc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
+    | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.administrationDate   | 2011-10-01                           |
@@ -499,6 +506,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.beginDate                           | 2012-03-05                           |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.gradingPeriod | Fifth Six Weeks                      |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.schoolId      | 352e8570bd1116d11a72755b987902440045d346_id |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.calendarDateReference		        | 085e5a5fcc6c175e66eed7b8edcc2ed1b3b38ba0_id |
 # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |

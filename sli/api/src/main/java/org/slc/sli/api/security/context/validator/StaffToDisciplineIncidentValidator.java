@@ -16,6 +16,10 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -23,10 +27,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class StaffToDisciplineIncidentValidator extends AbstractContextValidator {
@@ -42,6 +42,11 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
         return isStaff() && EntityNames.DISCIPLINE_INCIDENT.equals(entityType);
     }
     
+    /**
+     * Can see the Discipline incidents of the students beneath you with student discipline incident
+     * associations
+     * and you can see the ones that are in the edorg heirarchy beneath you
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
