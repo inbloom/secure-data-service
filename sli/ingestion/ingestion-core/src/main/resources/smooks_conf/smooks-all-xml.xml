@@ -1366,25 +1366,6 @@
   <jb:bean beanId="AssessmentItemResolvedReference" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference">
     <jb:value property="identificationCode" data="AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
-<!--    <jb:value property="identificationCode" data="AssessmentItemReference/AssessmentItem/IdentificationCode" />
-    <jb:value property="itemCategory" data="AssessmentItemReference/AssessmentItem/ItemCategory" />
-    <jb:value property="maxRawScore" decoder="Integer" data="AssessmentItemReference/AssessmentItem/MaxRawScore" />
-    <jb:value property="correctResponse" data="AssessmentItemReference/AssessmentItem/CorrectResponse" />
-    <jb:value property="nomenclature" data="AssessmentItemReference/AssessmentItem/Nomenclature" />
-    <jb:wiring property="learningStandards" beanIdRef="AssessmentItemLearningStandardResolvedReferencesArray" />
-  
-  </jb:bean>
-
-  <jb:bean beanId="AssessmentItemLearningStandardResolvedReferencesArray" class="java.util.ArrayList"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference">
-    <jb:wiring beanIdRef="AssessmentItemLearningStandardResolvedReference" />
-  </jb:bean>
-
-  <jb:bean beanId="AssessmentItemLearningStandardResolvedReference" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference/AssessmentItemIdentity/LearningStandardReference">
-    <jb:value property="identificationCode" data="LearningStandardReference/LearningStandardIdentity/LearningStandardId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningStandardReference/LearningStandardIdentity/LearningStandardId/@ContentStandardName" />
-  -->
   </jb:bean>
 
   <jb:bean beanId="objectiveAssessmentRefs" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1453,16 +1434,6 @@
     <jb:value data="Assessment/AssessmentPeriod/Description" />
   </jb:bean>
 
-<!--
-  <jb:bean beanId="assessmentItemReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
-    <jb:wiring beanIdRef="assessmentItemReferenceType" />
-  </jb:bean>
-  <jb:bean beanId="assessmentItemReferenceType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference">
-    <jb:value property="id" data="AssessmentItemReference/@id" />
-    <jb:value property="ref" data="AssessmentItemReference/@ref" />
-  </jb:bean>
--->
   <!-- JWC - remove??? -->
   <jb:bean beanId="objectiveAssessmentReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:wiring beanIdRef="objectiveAssessmentReferenceType" />
