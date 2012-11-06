@@ -23,7 +23,7 @@
         <jb:value property="localCourseCode" data="attributes LocalCourseCode" />
         <jb:value property="localCourseTitle" data="attributes LocalCourseTitle" />
         <jb:value property="schoolId" data="attributes schoolId" />
-        <jb:value property="sessionId" data="attributes sessionId" />
+        <jb:value property="sessionId" data="attributes SessionReference" />
         <jb:value property="courseId" data="attributes CourseReference" />
     </jb:bean>
 

@@ -11,7 +11,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Sunset Central High School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -51,6 +55,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Sunset Central High School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -80,6 +89,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Sunset Central High School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -109,6 +123,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Sunset Central High School</SessionName>
             </SessionIdentity>
         </SessionReference>

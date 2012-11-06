@@ -47,14 +47,12 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         // Get the one's I'm associated to.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
+                NeutralCriteria.OPERATOR_EQUAL, true));
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
-            if(!body.containsKey(ParameterConstants.STUDENT_RECORD_ACCESS)) {
-                continue;
-            } else if (isFieldExpired(body, ParameterConstants.END_DATE)) {
-                continue;
-            } else if ((Boolean) body.get(ParameterConstants.STUDENT_RECORD_ACCESS) == false) {
+            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
                 continue;
             } else {
                 myCohortIds.add((String) body.get(ParameterConstants.COHORT_ID));

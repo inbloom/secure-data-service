@@ -11,7 +11,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000122</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -36,7 +40,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000122</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -61,7 +69,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>10000000121</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -86,7 +98,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>10000000121</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -111,7 +127,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000112</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -136,7 +156,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000112</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -161,7 +185,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000111</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -186,7 +214,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>1000000111</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -223,6 +255,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -249,6 +286,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -275,6 +317,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -301,6 +348,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -327,6 +379,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -353,6 +410,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -379,6 +441,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -405,6 +472,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000112</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -431,6 +503,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -457,6 +534,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -483,6 +565,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000122</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-Elem-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -509,6 +596,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -535,6 +627,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -561,6 +658,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -587,6 +689,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>10000000121</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Dusk-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -613,6 +720,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000000111</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Parker-High-Spring2012</SessionName>
             </SessionIdentity>
         </SessionReference>

@@ -25,12 +25,9 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -62,9 +59,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CalendarDateIdentityType", propOrder = {
-    "date",
-    "stateOrganizationIdOrEducationOrgIdentificationCode"
+@XmlType(name = "SLC-CalendarDateIdentityType", propOrder = {
+    "date"
 })
 public class CalendarDateIdentityType {
 
@@ -72,11 +68,6 @@ public class CalendarDateIdentityType {
     @XmlJavaTypeAdapter(Adapter2 .class)
     @XmlSchemaType(name = "date")
     protected String date;
-    @XmlElements({
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class),
-        @XmlElement(name = "StateOrganizationId", type = String.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
 
     /**
      * Gets the value of the date property.
@@ -101,35 +92,4 @@ public class CalendarDateIdentityType {
     public void setDate(String value) {
         this.date = value;
     }
-
-    /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EducationOrgIdentificationCode }
-     * {@link String }
-     * 
-     * 
-     */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
-    }
-
 }

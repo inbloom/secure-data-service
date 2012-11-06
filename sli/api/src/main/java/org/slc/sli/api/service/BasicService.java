@@ -16,7 +16,27 @@
 
 package org.slc.sli.api.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -41,15 +61,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -80,10 +91,10 @@ public class BasicService implements EntityService {
 
     private static final boolean ENABLE_CONTEXT_RESOLVING = true;
     private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
-            Arrays.asList(
-                    EntityNames.STUDENT,
-                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
-            )
+//            Arrays.asList(
+//                    EntityNames.STUDENT,
+//                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
+//            )
     );
 
     @Autowired
@@ -518,7 +529,6 @@ public class BasicService implements EntityService {
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
-            String collectionName = def.getStoredCollectionName();
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -528,7 +538,7 @@ public class BasicService implements EntityService {
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
-                Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+                Iterable<Entity> entities = repo.findAll(def.getStoredCollectionName(), neutralQuery);
                 int found = 0;
                 if (entities != null) {
                     for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
@@ -551,7 +561,7 @@ public class BasicService implements EntityService {
                     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                     SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
                     String userId = user.getEntity().getEntityId();
-                    for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
+                    for (Entity ent : repo.findAll(def.getStoredCollectionName(), neutralQuery)) {
 
                         if (userId.equals(ent.getMetaData().get("createdBy"))
                                 && "true".equals(ent.getMetaData().get("isOrphaned"))) {
@@ -559,40 +569,19 @@ public class BasicService implements EntityService {
                         }
                     }
                     if (found != ids.size()) {
-                        debug("{} in {} is not accessible", value, collectionName);
+                        debug("{} in {} is not accessible", value, def.getStoredCollectionName());
                         throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                     }
                 }
             } else {
-                List<String> idsToValidate = new ArrayList<String>();
-
-                String principalId = SecurityUtil.principalId();
-                int found = 0;
-                NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", ids)).setLimit(MAX_RESULT_SIZE);
-                for (Entity ent : repo.findAll(collectionName, getIdsQuery)) {
-                    found++;
-                    if (principalId.equals(ent.getMetaData().get("createdBy"))
-                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                        debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                    } else {
-                        idsToValidate.add(ent.getEntityId());
-                    }
-                }
-                if (found != ids.size()) {
-                    debug("Invalid reference, an entity does not exist. collection: {} ids: {}", collectionName, ids);
+                try {
+                    contextValidator.validateContextToEntities(def, ids, false);
+                } catch (AccessDeniedException e) {
+                    debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                }
-
-                if (!idsToValidate.isEmpty()) {
-                    try {
-                        contextValidator.validateContextToEntities(def, idsToValidate, false);
-                    } catch (AccessDeniedException e) {
-                        debug("Invalid Reference: {} in {} is not accessible by user", value, collectionName);
-                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                    } catch (EntityNotFoundException e) {
-                        debug("Invalid Reference: {} in {} does not exist", value, collectionName);
-                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                    }
+                } catch (EntityNotFoundException e) {
+                    debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                 }
             }
         }

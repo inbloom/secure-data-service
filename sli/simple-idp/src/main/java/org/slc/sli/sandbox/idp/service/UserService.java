@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,7 @@ public class UserService {
         String userId;
         List<String> roles;
         Map<String, String> attributes;
+        User impersonationUser;
         
         public User() {
             attributes = new HashMap<String, String>();
@@ -129,6 +131,13 @@ public class UserService {
             this.userId = userId;
         }
         
+        public void setImpersonationUser(User impersonationUser) {
+            this.impersonationUser = impersonationUser; 
+        }
+        
+        public User getImpersonationUser() {
+            return impersonationUser; 
+        }
         /**
          * Enumerates the User object's ldap id, roles, and attributes.
          */
