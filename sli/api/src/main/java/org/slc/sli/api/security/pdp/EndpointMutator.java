@@ -71,11 +71,10 @@ public class EndpointMutator {
         /* (Temporarily) Allow root calls with query parameters through */
         if (segments.size() < 3 && parameters != null) {
             String[] queries = request.getRequestUri().getQuery().split("&");
-            if (queries.length == 1) {
-                for (String query : queries) {
-                    if (!query.matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
-                        return;
-                    }
+            for (String query : queries) {
+                if (!query
+                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
+                    return;
                 }
             }
         }
@@ -88,15 +87,14 @@ public class EndpointMutator {
 
             if (newPath != null) {
                 if (newParameters != null) {
-                    info("URI Rewrite: {}?{} --> {}?{}", new Object[]{ request.getPath(), parameters, newPath, newParameters });
-                    request.setUris(
-                            request.getBaseUri(),
+                    info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, newPath,
+                            newParameters });
+                    request.setUris(request.getBaseUri(),
                             request.getBaseUriBuilder().path(PathConstants.V1).path(newPath)
                                     .replaceQuery(newParameters).build());
                 } else {
-                    info("URI Rewrite: {} --> {}", new Object[]{ request.getPath(), newPath });
-                    request.setUris(
-                            request.getBaseUri(),
+                    info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), newPath });
+                    request.setUris(request.getBaseUri(),
                             request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
                 }
             }
