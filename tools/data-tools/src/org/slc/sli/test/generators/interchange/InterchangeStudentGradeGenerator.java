@@ -26,8 +26,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.stream.XMLStreamException;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
-import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
-import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptor;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
@@ -55,16 +53,14 @@ import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
-import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
@@ -86,6 +82,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
+import org.slc.sli.test.generators.SessionGenerator;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentGradeGenerator;
@@ -233,13 +230,12 @@ public final class InterchangeStudentGradeGenerator {
             List<ReportCardMeta> reportCardsForStudent, InterchangeWriter<InterchangeStudentGrade> writer) {
 
         String sessionId = sessionMetaMap.keySet().iterator().next();
-        SessionReferenceType sessionRef = new SessionReferenceType();// Reference to First Session.
-                                                                     // All Academic Records are for
-                                                                     // the first Session in
-                                                                     // SessionMetaMap
-        SessionIdentityType sessionIdentity = new SessionIdentityType();
-        sessionIdentity.setSessionName(sessionId);
-        sessionRef.setSessionIdentity(sessionIdentity);
+        SessionMeta sessionMeta = sessionMetaMap.get(sessionId);
+        // Reference to First Session.
+        // All Academic Records are for
+        // the first Session in
+        // SessionMetaMap
+        SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(sessionMeta.schoolId, sessionId);
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;

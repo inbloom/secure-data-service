@@ -200,7 +200,7 @@ Met standard
           <xs:element name="SessionGradePointsEarned" type="xs:decimal" minOccurs="0" />
           <xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0" />
           <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-          <xs:element name="SessionReference" type="SessionReferenceType" />
+          <xs:element name="SessionReference" type="SLC-SessionReferenceType" />
           <xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0" />
         </xs:sequence>
@@ -2445,6 +2445,9 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 		</xs:complexContent>
 	</xs:complexType>
 	
+    
+    
+    
 	<xs:complexType name="SLC-GradingPeriod">
 		<xs:annotation>
 			<xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
@@ -2558,7 +2561,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 							<xs:documentation>The school that offers the course.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SessionReference" type="SessionReferenceType">
+					<xs:element name="SessionReference" type="SLC-SessionReferenceType">
 						<xs:annotation>
 							<xs:documentation>The session the course is offered at the school.</xs:documentation>
 						</xs:annotation>
@@ -3117,7 +3120,7 @@ Special education students
 							<xs:documentation>The school where the section is taught.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0">
+					<xs:element name="SessionReference" type="SLC-SessionReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The session associated with the session.  This reference is optional only if the session reference is available elsewhere in the interchange.</xs:documentation>
 						</xs:annotation>
