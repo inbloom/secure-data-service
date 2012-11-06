@@ -35,7 +35,7 @@
     </jb:bean>
 
     <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes calendarDateReference element" />
+        <jb:value data="attributes CalendarDateReference element" />
     </jb:bean>
 
 </smooks-resource-list>

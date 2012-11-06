@@ -665,7 +665,7 @@ public final class MetaRelations {
                 String gradingPeriodId = calendarMeta.id + "-" + idNum;
 
                 GradingPeriodMeta gradingPeriodMeta = new GradingPeriodMeta(gradingPeriodId);
-                gradingPeriodMeta.calendars.add(calendarMeta.id);
+                gradingPeriodMeta.calendars.add(calendarMeta);
 
                 gradingPeriodMeta.setGradingPeriodNum(count % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS + 1);
                 count++;
