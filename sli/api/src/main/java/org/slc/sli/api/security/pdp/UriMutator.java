@@ -84,6 +84,37 @@ public class UriMutator {
         return Pair.of(mutatedPath, mutatedParameters);
     }
 
+    private static Set<String> publicResourcesThatAllowSearch;
+
+    @PostConstruct
+    void init() {
+        publicResourcesThatAllowSearch = new HashSet<String>(
+                Arrays.asList(ResourceNames.EDUCATION_ORGANIZATIONS, ResourceNames.SCHOOLS));
+    }
+
+    private boolean shouldSkipMutationToEnableSearch(List<PathSegment> segments, String queryParameters) {
+        boolean skipMutation = false;
+
+        if (segments.size() < 3) {
+
+            String[] queries = queryParameters.split("&");
+            for (String query : queries) {
+                if (!query.matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
+                    int BASE_RESOURCE_INDEX = 1;
+                    if (segments.size() >= 2 && publicResourcesThatAllowSearch.contains(segments.get(BASE_RESOURCE_INDEX).getPath())) {
+                        skipMutation = true;
+                        break;
+                    } else {
+                        debug("Search request /{}?{}", segments.get(BASE_RESOURCE_INDEX).getPath(), queryParameters);
+                    }
+                }
+            }
+
+        }
+        return skipMutation;
+    }
+
+
     /**
      * Mutates the API call (not to a base entity) to a more-specific (and generally more
      * constrained) URI.
