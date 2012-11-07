@@ -16,7 +16,27 @@
 
 package org.slc.sli.api.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,10 +102,10 @@ public class BasicService implements EntityService {
     private Repository<Entity> repo;
     private static final boolean ENABLE_CONTEXT_RESOLVING = true;
     private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
-            Arrays.asList(
-                    EntityNames.STUDENT,
-                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
-            )
+//            Arrays.asList(
+//                    EntityNames.STUDENT,
+//                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
+//            )
     );
 
     @Autowired

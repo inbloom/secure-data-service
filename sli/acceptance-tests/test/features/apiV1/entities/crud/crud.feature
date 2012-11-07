@@ -395,12 +395,12 @@ Examples:
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
      And format "application/vnd.slc+json"
     And my contextual access is defined by table:
-    |Context                | Ids                                |
-    |schools	                |92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
-    |educationOrganizations	|92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
-    |staff	                  |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |teachers               |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
+    | Context                | Ids                                                                          |
+    | schools	             | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"

@@ -33,7 +33,7 @@ public class TelephoneGenerator {
 	private static final Logger log = Logger.getLogger(TelephoneGenerator.class);
 	//public String filename = "database/address/city_US.csv";
 	//private List<String> areaCode = new ArrayList<String>();
-	Random generator = new Random();
+	Random generator = new Random(31);
 
 	public Telephone getTelephone() throws Exception {
 		String oneAreaCode;

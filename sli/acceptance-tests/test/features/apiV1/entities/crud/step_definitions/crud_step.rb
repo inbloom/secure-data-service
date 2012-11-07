@@ -184,7 +184,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -243,9 +243,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "studentGradebookEntry" => {
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
     "letterGradeEarned" => "A",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
     "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
-    "studentSectionAssociationId" => "49b277c3-4639-42c2-88ef-0f59dd5acba2",
+    "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes"
@@ -421,7 +421,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
-      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
       "beginDate" => "2012-05-01"
     },
     "teacherSchoolAssociation" => {

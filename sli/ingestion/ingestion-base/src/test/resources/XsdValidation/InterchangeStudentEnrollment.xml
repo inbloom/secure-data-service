@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100">
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2011-2012</SchoolYear>
+    <EntryDate>2011-09-01</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+    <GraduationPlanReference ref="gpr1">
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>CAP0</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+</InterchangeStudentEnrollment>

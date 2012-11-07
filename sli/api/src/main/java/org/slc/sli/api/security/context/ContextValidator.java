@@ -73,7 +73,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator genVal = null;
         IContextValidator studentVal = null;
         IContextValidator subEntityVal = null;
-        //Make GenericContextValidator last, since we want to use that as a last resort
+        // Make GenericContextValidator last, since we want to use that as a last resort
         for (IContextValidator validator : validators) {
             if (validator instanceof GenericContextValidator) {
                 genVal = validator;
@@ -84,11 +84,11 @@ public class ContextValidator implements ApplicationContextAware {
             }
         }
 
-        //move generic validator to end
+        // move generic validator to end
         validators.remove(genVal);
         validators.add(genVal);
 
-        //temporarily disable teacher-student validator
+        // temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
         validators.remove(subEntityVal);
@@ -102,7 +102,7 @@ public class ContextValidator implements ApplicationContextAware {
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
 
         List<PathSegment> segs = request.getPathSegments();
-        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();
             }
@@ -147,7 +147,6 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
             Set<String> idsToValidate = new HashSet<String>();
-
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
             int found = 0;
             for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
@@ -161,7 +160,8 @@ public class ContextValidator implements ApplicationContextAware {
             }
 
             if (found != ids.size()) {
-                debug("Invalid reference, an entity does not exist. collection: {} ids: {}", def.getStoredCollectionName(), ids);
+                debug("Invalid reference, an entity does not exist. collection: {} ids: {}",
+                        def.getStoredCollectionName(), ids);
                 throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
             }
 
@@ -173,20 +173,12 @@ public class ContextValidator implements ApplicationContextAware {
         }
     }
 
-
-    private boolean exists(Set<String> ids, String collectionName) {
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        long count = repo.count(collectionName, query);
-        return count == ids.size();
-    }
-
     private void validateUserHasAccessToEndpoint(ContainerRequest request, SLIPrincipal principal) {
-        //TODO replace stub
+        // TODO replace stub
         // make data driven from v1_resource
-        // each resource will have an accessibleBy key with an array value, listing each of the user types that can accesses the resource
+        // each resource will have an accessibleBy key with an array value, listing each of the user
+        // types that can accesses the resource
         // example accessibleBy: ['teacher', 'staff']
-
     }
 
     /**
@@ -201,7 +193,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new String[] { validator.getClass().toString(), toType });
+                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }
