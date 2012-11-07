@@ -129,7 +129,7 @@ $entityData = {
         "studentRecordAccess" => true
     },
     "staffEducationOrganizationAssociation" => {
-        "staffReference" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "staffReference" => "04f708bc-928b-420d-a440-f1592a5d1073",
         "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
         "staffClassification" => "Counselor",
         "beginDate" => "2011-01-13"

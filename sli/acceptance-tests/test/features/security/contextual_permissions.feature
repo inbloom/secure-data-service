@@ -67,10 +67,10 @@ When I make an API call to get list of teachers from the school <OtherSchool>
 Then I should receive a return code of <Code> 
 Examples: 
 | Realm | Username   | Password       | School                      | OtherSchool                 | Code | 
-| "IL"  | "jdoe"     | "jdoe1234"     | "Fry High School"           | "Parker-Dust Middle School" | 200  |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  | 200  |
-| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  | 200  |
-| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" | 200  |
+| "IL"  | "jdoe"     | "jdoe1234"     | "Fry High School"           | "Parker-Dust Middle School" | 404  |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  | 404  |
+| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  | 404  |
+| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" | 404  |
  
 Scenario Outline: Authenticated Educator makes API call to get Teacher in own School 
 Given I am logged in using <Username> <Password> to realm <Realm> 
