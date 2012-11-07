@@ -132,7 +132,6 @@ function isJavaReady {
       if [ -n ${SEARCH_INDEXER_LOG_PATH:=""} ]; then
          SEARCH_INDEXER_LOG="${SEARCH_INDEXER_LOG_PATH}/${SEARCH_INDEXER_LOG}"
       fi
-echo ${SEARCH_INDEXER_LOG}
       return 1
    fi
    return 1
