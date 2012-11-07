@@ -38,8 +38,6 @@ public class OplogConverter {
     public static final String OPERATOR_ADD_TO_SET = "$addToSet";
     public static final String OPERATOR_EACH = "$each";
 
-    public static final String INDEX = "_index";
-
     /**
      * Convert OpLog entry to Entity for Insert
      * 
@@ -65,7 +63,7 @@ public class OplogConverter {
         // merge data into entity json (id, type, metadata.tenantId, body)
         Map<String, Object> entityMap = new HashMap<String, Object>();
         entityMap.put("_id", id);
-        entityMap.put(INDEX, meta.getIndex());
+        entityMap.put("_index", meta.getIndex());
         entityMap.put("type", meta.getType());
 
         // convert to index entity object

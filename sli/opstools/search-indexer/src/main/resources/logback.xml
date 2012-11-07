@@ -19,7 +19,6 @@
 	</appender>
 		
 	<root level="${sli.search.indexer.log.level}">
-		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 	</root>
 </configuration>
