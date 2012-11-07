@@ -118,6 +118,10 @@ Then /^I should receive a collection link named "([^"]*)"$/ do |arg1|
   step "in an entity, I should receive a link named \"#{arg1}\""
 end
 
+And /^I should receive zero entities$/ do
+  assert(@result.empty?, "Expected zero entities, recieved #{@result.size()}")
+end
+
 When /^I navigate to GET the link named "(.*?)" with "(.*?)" of "(.*?)"$/ do |linkName, key, value|
   @id_link.each do |link|
     if link[key]==value
