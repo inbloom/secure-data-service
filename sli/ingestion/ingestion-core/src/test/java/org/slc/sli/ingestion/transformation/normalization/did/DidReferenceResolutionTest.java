@@ -9,6 +9,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class DidReferenceResolutionTest {
         checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
     }
 
+    @Ignore
     @Test
     public void shouldResolveLearningStandardDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/learningStandardReference.json");

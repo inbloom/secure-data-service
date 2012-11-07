@@ -51,7 +51,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
     public static final String LO_CONTENT_STANDARD_NAME_PATH = "learningObjectiveId." + CONTENT_STANDARD_NAME;
-    public static final String LS_ID_CODE_PATH = "learningStandardId." + ID_CODE;
+    public static final String LS_ID_CODE_PATH = ID_CODE;
     public static final String LS_CONTENT_STANDARD_NAME_PATH = "learningStandardId." + CONTENT_STANDARD_NAME;
     public static final String LEARNING_OBJ_REFS = "learningObjectiveRefs";
     public static final String LEARNING_STD_REFS = "learningStandardRefs";
@@ -194,6 +194,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                 } else {
                     String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
                     String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
+
                     if (idCode != null) {
                         Map<String, Object> ref = new HashMap<String, Object>();
                         ref.put(ID_CODE, idCode);
