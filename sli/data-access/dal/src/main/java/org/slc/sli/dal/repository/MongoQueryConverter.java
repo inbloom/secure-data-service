@@ -348,8 +348,12 @@ public class MongoQueryConverter {
             }
 
             if (neutralQuery.getExcludeFields() != null) {
-                for (String excludeField : neutralQuery.getExcludeFields()) {
-                    mongoQuery.fields().exclude(MONGO_BODY + excludeField);
+                if (neutralQuery.getIncludeFields() == null || neutralQuery.getIncludeFields().isEmpty()) {
+                    for (String excludeField : neutralQuery.getExcludeFields()) {
+                        mongoQuery.fields().exclude(MONGO_BODY + excludeField);
+                    }
+                } else {
+                    LOG.debug("Attempting to add include & exclude fields to query, not allowed!");
                 }
             }
 
