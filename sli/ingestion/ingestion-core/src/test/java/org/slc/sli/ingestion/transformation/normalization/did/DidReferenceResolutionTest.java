@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.transformation.normalization.did;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
@@ -42,44 +41,25 @@ public class DidReferenceResolutionTest {
 
 	private static final String TENANT_ID = "tenant_id";
 
-	@Test
-	public void shouldResolveStaffDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/staffReference.json");
-		ErrorReport errorReport = new TestErrorReport();
+    @Test
+    public void resolvesEdOrgRefDidInDisciplineIncidentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/disciplineIncident.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testSchoolId");
+        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+    }
 
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("staffUniqueStateId", "jjackson");
-
-		checkId(entity, "StaffReference", naturalKeys, "staff");
-	}
-
-	@Test
-	public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/programReference.json");
-		ErrorReport errorReport = new TestErrorReport();
-
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("programId", "program ID");
-
-		checkId(entity, "ProgramReference", naturalKeys, "program");
-	}
-
-	@Test
-	public void shouldResolveCalendarDateDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/calendarDateReference.json");
-		ErrorReport errorReport = new TestErrorReport();
-
-		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("date", "2011-03-04");
-
-		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
-	}
+    @Test
+    public void resolvesEdOrgRefDidInTeacherSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/teacherSchoolAssociation.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("stateOrganizationId", "testSchoolId");
+        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+    }
 
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
@@ -88,23 +68,14 @@ public class DidReferenceResolutionTest {
 	}
 
 	// validate reference resolution
-	@SuppressWarnings("unchecked")
 	private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName) throws JsonParseException, JsonMappingException, IOException {
 		String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
 		Map<String, Object> body = entity.getBody();
 		Assert.assertNotNull(body.get(referenceField));
-
-		Object resolvedRef = body.get(referenceField);
-		if (resolvedRef instanceof List) {
-			List<Object> refs = (List<Object>) resolvedRef;
-			Assert.assertEquals(1, refs.size());
-			Assert.assertEquals(expectedDid, refs.get(0));
-		} else {
-			Assert.assertEquals(expectedDid, resolvedRef);
-		}
+		Assert.assertEquals(expectedDid, body.get(referenceField));
 	}
 
-	// load a sample NeutralRecordEntity from a json file
+	//load a sample NeutralRecordEntity from a json file
 	private Entity loadEntity(String fname) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Resource jsonFile = new ClassPathResource(fname);
