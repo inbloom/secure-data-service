@@ -89,8 +89,8 @@ public class BasicService implements EntityService {
     private Right readRight;
     private Right writeRight; // this is possibly the worst named variable ever
 
-    private static final boolean ENABLE_CONTEXT_RESOLVING = true;
-    private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
+    private static final boolean ENABLE_CONTEXT_RESOLVING = false;
+    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
 //            Arrays.asList(
 //                    EntityNames.STUDENT,
 //                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
