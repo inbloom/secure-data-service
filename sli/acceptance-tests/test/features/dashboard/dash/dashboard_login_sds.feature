@@ -182,7 +182,7 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
 
-@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
