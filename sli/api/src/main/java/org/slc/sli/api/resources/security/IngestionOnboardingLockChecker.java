@@ -31,17 +31,19 @@ import org.slc.sli.domain.Repository;
  * Remove this once ingestion is fixed to be able to run concurrent jobs
  */
 @Component
-public class IngestionTenantLockChecker {
+public class IngestionOnboardingLockChecker {
     private final Repository<Entity> repo;
 
     @Autowired
-    public IngestionTenantLockChecker(@Qualifier("validationRepo") Repository<Entity> repo) {
+    public IngestionOnboardingLockChecker(@Qualifier("validationRepo") Repository<Entity> repo) {
         super();
         this.repo = repo;
     }
 
     public boolean ingestionLocked(String tenantId) {
-        return repo.findOne("tenantJobLock", new NeutralQuery(new NeutralCriteria("_id", "=", tenantId))) != null;
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", "=", false));
+        return repo.findOne("tenant", query) != null;
     }
 
 }
