@@ -25,15 +25,10 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -69,63 +64,44 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SessionIdentityType", propOrder = {
-    "stateOrganizationIdOrEducationOrgIdentificationCode",
-    "sessionName",
-    "schoolYear",
-    "term"
+ "educationalOrgReference", "sessionName"
 })
 public class SessionIdentityType {
 
-    @XmlElements({
-        @XmlElement(name = "StateOrganizationId", type = String.class),
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    @XmlElement(name = "EducationalOrgReference")
+    protected EducationalOrgReferenceType educationalOrgReference;
     @XmlElement(name = "SessionName")
     protected String sessionName;
-    @XmlElement(name = "SchoolYear")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String schoolYear;
-    @XmlElement(name = "Term")
-    protected TermType term;
 
     /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
+     * Gets the value of the educationalOrgReference property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link EducationOrgIdentificationCode }
-     * 
+     * @return
+     *         possible object is {@link String }
      * 
      */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
 
     /**
+     * Sets the value of the educationalOrgReference property.
+     * 
+     * @param value
+     *            allowed object is {@link EducationalOrgReferenceType }
+     * 
+     */
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
+    }
+
+
+        /**
      * Gets the value of the sessionName property.
      * 
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is {@link String }
+     * 
      */
     public String getSessionName() {
         return sessionName;
@@ -135,60 +111,13 @@ public class SessionIdentityType {
      * Sets the value of the sessionName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setSessionName(String value) {
         this.sessionName = value;
     }
 
-    /**
-     * Gets the value of the schoolYear property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSchoolYear() {
-        return schoolYear;
-    }
 
-    /**
-     * Sets the value of the schoolYear property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSchoolYear(String value) {
-        this.schoolYear = value;
-    }
-
-    /**
-     * Gets the value of the term property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TermType }
-     *     
-     */
-    public TermType getTerm() {
-        return term;
-    }
-
-    /**
-     * Sets the value of the term property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TermType }
-     *     
-     */
-    public void setTerm(TermType value) {
-        this.term = value;
-    }
 
 }

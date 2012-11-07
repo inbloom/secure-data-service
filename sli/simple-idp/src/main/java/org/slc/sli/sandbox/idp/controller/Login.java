@@ -133,11 +133,14 @@ public class Login {
         if (user != null){
             if(isSandboxImpersonationEnabled){
                 if(isAdminRealm(realm)){
-                    LOG.debug("Sandbox Admin Login request with existing session, skipping authentication");
+                    LOG.debug("Sandbox Admin Login request with existing session (" + user.getUserId() + ") skipping authentication");
                     return handleNoAuthRequired(user, requestInfo);
+                }else if(requestInfo.isForceAuthn() || user.getImpersonationUser()==null){
+                    LOG.debug("Sandbox Impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication, going to impersonation");
+                    return buildImpersonationModelAndView(realm, encodedSamlRequest, "");
                 }else{
-                    LOG.debug("Sandbox Impersonation Login request with existing session, skipping authentication, going to impersonation");
-                    return  buildImpersonationModelAndView(realm, encodedSamlRequest, "");
+                    LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
+                    return handleNoAuthRequired(user.getImpersonationUser(), requestInfo);
                 }
             }else if (!requestInfo.isForceAuthn()) {
                 LOG.debug("Login request with existing session, skipping authentication");
@@ -352,7 +355,8 @@ public class Login {
         }
         impersonationUser.getAttributes().put("tenant", tenant);
 
-
+        user.setImpersonationUser(impersonationUser);
+        
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         SamlAssertion samlAssertion = samlService.buildAssertion(impersonationUser.getUserId(), impersonationUser.getRoles(),
                 impersonationUser.getAttributes(), requestInfo);

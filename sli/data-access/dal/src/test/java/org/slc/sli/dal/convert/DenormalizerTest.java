@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class DenormalizerTest {
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
         when(failCR.get("result")).thenReturn(null);
-        when(studentCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(true))).thenReturn(
+        when(studentCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(true), eq(WriteConcern.SAFE))).thenReturn(
                 success);
         when(template.getCollection("student")).thenReturn(studentCollection);
 
@@ -105,7 +106,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true));
+                }), eq(false), eq(true), eq(WriteConcern.SAFE));
     }
 
     @Test
@@ -143,7 +144,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true));
+                }), eq(false), eq(true), eq(WriteConcern.SAFE));
 
         verify(studentCollection).update(eq(BasicDBObjectBuilder.start("_id", STUDENT1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -168,7 +169,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true));
+                }), eq(false), eq(true), eq(WriteConcern.SAFE));
     }
 
     @Test

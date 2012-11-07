@@ -4,11 +4,11 @@ Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 
-    Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent Math assessment
-    Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SLI"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "IL"
+   Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent Math assessment
+     Given I am a valid SEA/LEA end user <Username> with password <Password>
+        And I have a Role attribute returned from the "SLI"
+        And the role attribute equals <AnyDefaultSLIRole>
+        And I am authenticated on "IL"
 
      Given format "application/json"
      When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>"
@@ -20,13 +20,6 @@ Background: None
       Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 
-#     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-#        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
-#        And filter by "offset" = "0"
-#        And I submit the sorting and pagination request
-#      Then I should have a list of "assessment" entities
-#        And I should have an entity with ID "<'Math Assessment' ID>"
-
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
         And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
@@ -35,7 +28,7 @@ Background: None
         And "gradeLevelAssessed" should be "Eighth grade"
 
      When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
-    Then I should have a list of 28 "student" entities
+      Then I should have a list of 28 "student" entities
         And I should have an entity with ID "<'Preston Muchow' ID>"
         And I should have an entity with ID "<'Mayme Borc' ID>"
         And I should have an entity with ID "<'Malcolm Costillo' ID>"
@@ -65,13 +58,12 @@ Background: None
         And I should have an entity with ID "<'Damon Iskra' ID>"
         And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
 
-     When I navigate to URI "/<ASSESSMENT URI>/<'Math Assessment' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
+     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
-#        And filter by "limit" = "1"
         And I submit the sorting and pagination request
-      Then I should have a list of "studentAssessmentAssociation" entities
+        Then I should have a list of "studentAssessmentAssociation" entities
         And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
@@ -84,6 +76,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
     Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
     Given I am a valid SEA/LEA end user <Username> with password <Password>
@@ -152,7 +145,7 @@ Examples:
         And the field "assessmentPeriodDescriptor.endDate" should be "2011-02-01"
         And there are "0" "assessmentPerformanceLevel"
 
-     When I navigate to URI "/<ASSESSMENT URI>/<'SAT' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
+     When I navigate to URI "/<STUDENT URI>/<'Matt Sollars' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
@@ -174,6 +167,7 @@ Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
+| "linda.kim"     | "linda.kim1234"     | "Educator"         |
 
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
@@ -187,7 +181,7 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
     When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
     Then I should receive a return code of 403
 
-    When I navigate to GET "/<STUDENT SECTION ASSOC URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT URI>"
+    When I navigate to GET "/<SECTION URI>/<'Track and Field - Sec 6s10' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
     Then I should receive a return code of 403
 
     When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      

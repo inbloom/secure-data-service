@@ -19,9 +19,14 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
-import javax.xml.bind.JAXBElement;
-
-import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
+import org.slc.sli.test.edfi.entities.DisciplineIncident;
+import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
+import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.IncidentLocationType;
+import org.slc.sli.test.edfi.entities.ObjectFactory;
 
 public class DisciplineGenerator {
 
@@ -29,14 +34,20 @@ public class DisciplineGenerator {
             String stateOrEdOrgId) {
         DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
         diit.setIncidentIdentifier(discId);
-        diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrEdOrgId);
+
+        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        edOrgIdentity.setStateOrganizationId(stateOrEdOrgId);
+        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+        edOrgRef.setEducationalOrgIdentity(edOrgIdentity);
+
+        diit.setEducationalOrgReference(edOrgRef);
         DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
         dirt.setDisciplineIncidentIdentity(diit);
         return dirt;
     }
 
     public DisciplineIncident generate(String incidentId, String delimiter) {
-        Random random = new Random();
+        Random random = new Random(31);
 
         DisciplineIncident discIncident = new DisciplineIncident();
 

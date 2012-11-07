@@ -46,7 +46,7 @@ h1 {
 		<input type="hidden" id="realmId" name="realmId" value ="${adminRealm}"/>
 		
 		<div class="box">
-			<h1>Administering my Sandbox</h1>
+			<h1>Administer My Sandbox</h1>
 			<p>Administering your sandbox allows you to ingest test data, register applications, and manage accounts on your sandbox.</p>
 			<div class="buttonDiv">
 				<input type="submit" value="Next" id="adminLink" class="btn btn-primary"/>
@@ -62,7 +62,7 @@ h1 {
 		</c:if>
 		<input type="hidden" id="realmId" name="realmId" value ="${sandboxRealm}"/>
 		<div class="box boxRight">
-			<h1>Test Applications in my Sandbox</h1>
+			<h1>Test Applications in My Sandbox</h1>
 			<p>The sandbox gives you a safe place to test your applications while you are developing them.</p>
 			<div class="buttonDiv">
 				<input type="submit" id="sandboxLink" value="Next" class="btn btn-primary"/>

@@ -23,7 +23,8 @@
          }
       },
       {
-         "fieldPath":"body.sessionId",
+         "fieldPath":"body.SessionReference",
+         "deprecated" : true,
          "ref":
          {
             "entityType":"session",
@@ -35,21 +36,21 @@
                      "path":"body.schoolYear",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.schoolYear"
+                         "valueSource":"body.SessionReference.SessionIdentity.schoolYear"
                      }]
                   },
                   {
                      "path":"body.term",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.term"
+                         "valueSource":"body.SessionReference.SessionIdentity.term"
                      }]
                   },
                   {
                      "path":"body.sessionName",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.sessionName"
+                         "valueSource":"body.SessionReference.SessionIdentity.sessionName"
                      }]
                   },
                   {
@@ -146,6 +147,28 @@
                   ]
               ]
           }
-       }
+      },
+      {
+        "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "program",
+            "isRefList" : true,
+            "refObjectPath" : "body.ProgramReference",
+            "choiceOfFields" :
+            [
+              [
+                {
+                    "path" : "body.programId",
+                    "values" :
+                    [{
+                        "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+                    }]
+                }
+              ]
+            ]
+        }
+      }
    ]
 }

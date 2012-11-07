@@ -32,7 +32,7 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
 		
 		info("Validating {}'s access to staffEducationOrganizationAssoc: [{}]",SecurityUtil.getSLIPrincipal().getName(),ids);
 		
-		Set<String> lineage = this.getStaffEdorgLineage();
+		Set<String> lineage = this.getStaffEdOrgLineage();
 		
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id","in",ids,false));
 		nq.addCriteria(new NeutralCriteria("body.educationOrganizationReference", "in", lineage,false));

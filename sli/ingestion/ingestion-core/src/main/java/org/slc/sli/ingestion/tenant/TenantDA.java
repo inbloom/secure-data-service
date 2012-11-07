@@ -57,9 +57,22 @@ public interface TenantDA {
     void setTenantReadyFlag(String tenantId);
 
     /**
+     * Locks ingestion for this tenant until onboarding is complete.
+     *
+     * @param tenantId
+     * @return whether the lock was acquired
+     */
+    boolean updateAndAquireOnboardingLock(String tenantId);
+
+    /**
      * Remove tenant with invalid characters in the landing zone path from the tenant collection
      *
      * @param lzPath
      */
     void removeInvalidTenant(String lzPath);
+
+     /*
+     * @return a map of landing zone paths to the list of files to preload on them
+     */
+    Map<String, List<String>> getPreloadFiles();
 }
