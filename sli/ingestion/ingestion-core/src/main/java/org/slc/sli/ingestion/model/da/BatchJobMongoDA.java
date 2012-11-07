@@ -159,68 +159,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean attemptTentantLockForJob(String tenantId, String batchJobId) {
-
-        LOG.info("Attempting to lock tenant [" + tenantId + "] + for job [" + batchJobId + "]");
-        if (tenantId != null && batchJobId != null) {
-
-            try {
-                final BasicDBObject tenantLock = new BasicDBObject();
-                tenantLock.put("_id", tenantId);
-                tenantLock.put("batchJobId", batchJobId);
-                RetryMongoCommand retry = new RetryMongoCommand() {
-
-                    @Override
-                    public Object execute() {
-                        TenantContext.setIsSystemCall(true);
-                        sliMongo.getCollection(TENANT_JOB_LOCK_COLLECTION).insert(tenantLock, WriteConcern.SAFE);
-                        return null;
-                    }
-
-                };
-                retry.executeOperation(numberOfRetries);
-                return true;
-            } catch (MongoException me) {
-                if (me.getCode() == DUP_KEY_CODE) {
-                    LOG.debug("Cannot obtain lock for tenant: {}", tenantId);
-                    return false;
-                }
-            }
-
-        } else {
-            throw new IllegalArgumentException(
-                    "Must specify a valid tenant id and batch job id for which to attempt lock.");
-        }
-        return false;
-    }
-
-    @Override
-    public void releaseTenantLockForJob(String tenantId, String batchJobId) {
-        if (tenantId != null && batchJobId != null) {
-
-            final Query tenantLockQuery = new Query();
-            tenantLockQuery.addCriteria(Criteria.where("_id").is(tenantId));
-            tenantLockQuery.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-
-            RetryMongoCommand retry = new RetryMongoCommand() {
-
-                @Override
-                public Object execute() {
-                    TenantContext.setIsSystemCall(true);
-                    sliMongo.remove(tenantLockQuery, TENANT_JOB_LOCK_COLLECTION);
-                    return null;
-                }
-
-            };
-            retry.executeOperation(numberOfRetries);
-
-        } else {
-            throw new IllegalArgumentException(
-                    "Must specify a valid tenant id and batch job id for which to attempt lock release.");
-        }
-    }
-
-    @Override
     public boolean createTransformationLatch(String jobId, String recordType, int count) {
         try {
 

@@ -51,7 +51,7 @@ public class CourseGenerator {
 
     private static final Logger log = Logger.getLogger(CourseGenerator.class);
     private static String file_course = "database/course/course.csv";
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
     private List<Course> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;
@@ -291,13 +291,13 @@ public class CourseGenerator {
         return clone;
     }
 
-    public Course getCourse(String courseId, String schoolId) {
+    public Course getCourse(String courseId, String schoolId, String uniqueCourseId) {
         Course course = null;
         course = clone(courses.get((counter++)%courses.size()));
 
         // courseCount--;
         course.setId(courseId);
-        course.setUniqueCourseId(courseId);
+        course.setUniqueCourseId(uniqueCourseId);
         CourseCode cc = new CourseCode();
         cc.setID(courseId);
         // cc.setID(course.getId() + courseCount);
@@ -340,13 +340,13 @@ public class CourseGenerator {
         return crt;
     }
 
-    public static Course generateLowFi(String id, String schoolId) throws Exception {
+    public static Course generateLowFi(String id, String schoolId, String uniqueCourseId) throws Exception {
 
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
 
-        course.setUniqueCourseId(id);
+        course.setUniqueCourseId(uniqueCourseId);
 
         CourseCode CourseCode = new CourseCode();
         CourseCode.setID(id);

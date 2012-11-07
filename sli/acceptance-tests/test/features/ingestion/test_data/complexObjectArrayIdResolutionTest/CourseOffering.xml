@@ -11,10 +11,12 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2010 Daybreak Central High</SessionName>
-                <SchoolYear>2010-2011</SchoolYear>
-                <Term>Fall Semester</Term>
             </SessionIdentity>
         </SessionReference>
         <CourseReference>
@@ -36,10 +38,12 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2010 Daybreak Central High</SessionName>
-                <SchoolYear>2010-2011</SchoolYear>
-                <Term>Fall Semester</Term>
             </SessionIdentity>
         </SessionReference>
         <CourseReference>

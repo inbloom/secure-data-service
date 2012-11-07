@@ -69,11 +69,9 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
     Then I should have a list of 1 "assessment" entities
         And I should have an entity with ID "<'SAT READING' ID>"
 
-    When I navigate to "getStudentAssessments" with URI "/v1/studentAssessments" to filter
-        And filter by administrationDate is between "2011-01-01" and "2011-06-31"
-        And filter by studentId is <'Matt Sollars' ID>
-    Then I should find a ScoreResult is 2060
-        #And I should find a performanceLevelDescriptors is "At or Above Benchmark"
+    When I navigate to "getStudentAssessments" with URI "/v1/students/<'Matt Sollars' ID>/studentAssessments" and filter by administrationDate is between "2011-01-01" and "2011-06-31"
+    Then I should have a list of 1 "studentAssessmentAssociation" entities
+        And I should have an entity with ID "<'Matt Sollars Assessment' ID>"
 
 	Examples:
 	| Username     | Password        | RC  | Role       | EdOrg                      |

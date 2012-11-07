@@ -141,7 +141,7 @@ $entityData = {
         "endDate" => "2012-12-31"
     },
     "studentAssessmentAssociation" => {
-        "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
         "assessmentId" => "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
         "administrationDate" => "2011-10-01",
         "administrationEndDate" => "2012-01-01",
@@ -179,7 +179,7 @@ $entityData = {
     },
     "studentSectionAssociation" => {
         "studentId" => "0636ffd6-ad7d-4401-8de9-40538cf696c8",
-        "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e",
+        "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e_id",
         "repeatIdentifier" => "Repeated, counted in grade point average",
         "beginDate" => "2011-12-01",
         "endDate" => "2012-01-01",

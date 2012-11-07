@@ -34,12 +34,12 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "jpratt"               | "jpratt1234"               | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | ">="     | "true"             | 0                 | "boolean" |
     | "jpratt"               | "jpratt1234"               | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | "!="     | "true"             | 4                 | "boolean" |
     | "jpratt"               | "jpratt1234"               | "studentSchoolAssociations/students" | "46c2e439-f800-4aaf-901c-8cf3299658cc" | "economicDisadvantaged" | "="      | "true"             | 0                 | "boolean" |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | "<="     | "3.65"             | 1                 | "double"  |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | ">"      | "3.65"             | 1                 | "double"  |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | "<"      | "3.65"             | 0                 | "double"  |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | ">="     | "3.65"             | 2                 | "double"  |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | "!="     | "3.65"             | 1                 | "double"  |
-    | "jpratt"               | "jpratt1234"               | "reportCards"                        | ""                                     | "gpaCumulative"         | "="      | "3.65"             | 1                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | "<="     | "3.65"             | 1                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | ">"      | "3.65"             | 1                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | "<"      | "3.65"             | 0                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | ">="     | "3.65"             | 2                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | "!="     | "3.65"             | 1                 | "double"  |
+    | "jpratt"               | "jpratt1234"               | "reportCards"                        | "46c2e439-f800-4aaf-901c-8cf3299658cc,9d970849-0116-499d-b8f3-2255aeb69552" | "gpaCumulative"         | "="      | "3.65"             | 1                 | "double"  |
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "sequenceOfCourse"      | "<="     | "5"                | 2                 | "integer" |
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "sequenceOfCourse"      | ">"      | "0"                | 2                 | "integer" |
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "sequenceOfCourse"      | "<"      | "5"                | 2                 | "integer" |
@@ -79,7 +79,7 @@ Scenario Outline: Query subdoc
   And I should see a sorted list with "<offset>" offset and "<limit>" limit sorted by "<sort by>"
   Examples:
     | username       | password         | resource name                                                                  | sort by   | sort order | offset | limit |
-    | "jstevenson"   | "jstevenson1234" | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | studentId | descending | 10     | 10    |
-    | "jstevenson"   | "jstevenson1234" | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
-    | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e/studentSectionAssociations" | studentId | descending | 10     | 10    |
-    | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
+    | "jstevenson"   | "jstevenson1234" | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda_id/studentSectionAssociations" | studentId | descending | 10     | 10    |
+    | "jstevenson"   | "jstevenson1234" | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda_id/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
+    | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | descending | 10     | 10    |
+    | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | ascending  | 0      | 20    |

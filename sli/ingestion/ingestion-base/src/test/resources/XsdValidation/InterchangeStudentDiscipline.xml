@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100">
+    <StudentDisciplineIncidentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu79</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference ref="CAP0-D0-HSch0-i0">
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>CAP0-D0-HSch0-i0</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StudentParticipationCode>Victim</StudentParticipationCode>
+    </StudentDisciplineIncidentAssociation>
+</InterchangeStudentDiscipline>

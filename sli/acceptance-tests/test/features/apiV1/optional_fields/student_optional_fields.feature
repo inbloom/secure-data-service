@@ -4,11 +4,9 @@
 Feature: As an SLI application, I want to be able to apply optional fields to student entities.
   This means I want to be able to expand endpoints by applying optional fields to the url.
 
-  Background: Nothing yet
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+  Scenario Outline: Applying optional fields - attendances, assessments, gradebook
+    Given I am logged in using "<username>" "<password>" to realm "IL"
     And format "application/vnd.slc+json"
-
-  Scenario: Applying optional fields - attendances, assessments, gradebook
     Given optional field "assessments"
     And optional field "gradebook"
     And parameter "limit" is "0"
@@ -44,8 +42,14 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "dateAssigned" is "2012-01-31" in it
     And I should see "gradebookEntryType" is "Quiz" in it
     And I should see "entityType" is "gradebookEntry" in it
+    Examples:
+      | username               | password            |
+      | linda.kim              | linda.kim1234       |
+      | rrogers                | rrogers1234         |
 
-  Scenario: Applying optional fields - transcript - studentSectionAssociations
+  Scenario Outline: Applying optional fields - transcript - studentSectionAssociations
+    Given I am logged in using "<username>" "<password>" to realm "IL"
+    And format "application/vnd.slc+json"
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
@@ -67,8 +71,14 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     When I go back up one level
     Then inside "courses"
     And I should see "courseDescription" is "Intro to Russian" in it
+    Examples:
+      | username               | password            |
+      | linda.kim              | linda.kim1234       |
+      | rrogers                | rrogers1234         |
 
-  Scenario: Applying optional fields - transcript - courseTranscripts
+  Scenario Outline: Applying optional fields - transcript - courseTranscripts
+    Given I am logged in using "<username>" "<password>" to realm "IL"
+    And format "application/vnd.slc+json"
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
@@ -78,4 +88,8 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And inside "transcript"
     And I should find "1" "courseTranscripts" in it
     And I should see "finalLetterGradeEarned" is "B" in one of them
+    Examples:
+      | username               | password            |
+      | linda.kim              | linda.kim1234       |
+      | rrogers                | rrogers1234         |
     

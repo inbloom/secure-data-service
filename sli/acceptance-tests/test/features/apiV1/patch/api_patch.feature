@@ -24,7 +24,7 @@ Background: Logged in as IT Admin James Stevenson
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 200
     And "beginDate" should be "1998-08-14"
-    And "studentId" should be "5738d251-dd0b-4734-9ea6-417ac9320a15"
+    And "studentId" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
     When I change the field "beginDate" to "2012-01-01"
     And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 204

@@ -1,0 +1,13 @@
+{
+	"recordType":"cohort",
+	"attributes":
+	{
+		"ProgramReference":
+		{
+			"ProgramIdentity":
+			{
+				"ProgramId":"program ID"
+			}
+		}
+	}
+}

@@ -16,10 +16,6 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -27,6 +23,10 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Filters the entity by a given date
@@ -66,7 +66,7 @@ public class NodeDateFilter extends NodeFilter {
     }
     
     @Override
-    public List<Entity> filterEntities(List<Entity> toResolve, String referenceField) {
+    public List<Entity> filterEntities(List<Entity> toResolve, String unusedReferenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         List<Entity> returnEntityList = new ArrayList<Entity>();

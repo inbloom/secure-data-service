@@ -89,9 +89,9 @@ public class StaffProgramAssociationEntityTest {
         Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("StaffIdentity");
         assertEquals("Expected different staff unique state id", "linda.kim", staffInnerMap1.get("StaffUniqueStateId"));
 
-        Map<String, Object> programOuterMap1 = (Map<String, Object>) attributes.get("programReference");
-        Map<String, Object> programInnerMap1 = (Map<String, Object>) programOuterMap1.get("programIdentity");
-        assertEquals("Expected different program id", "ACC-TEST-PROG-1", programInnerMap1.get("programId"));
+        Map<String, Object> programOuterMap1 = (Map<String, Object>) attributes.get("ProgramReference");
+        Map<String, Object> programInnerMap1 = (Map<String, Object>) programOuterMap1.get("ProgramIdentity");
+        assertEquals("Expected different program id", "ACC-TEST-PROG-1", programInnerMap1.get("ProgramId"));
 
         assertEquals("Expected different begin date", "2011-01-01", attributes.get("beginDate"));
         assertEquals("Expected different end date", "2012-02-15", attributes.get("endDate"));

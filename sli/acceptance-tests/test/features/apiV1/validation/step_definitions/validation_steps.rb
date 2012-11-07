@@ -28,7 +28,7 @@ Transform /^<(.+)>$/ do |template|
   id = "737dd4c1-86bd-4892-b9e0-0f24f76210be" if template == "'Jones' ID"
   id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe" if template == "'Christoff' ID"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "'South Daybreak Elementary' ID"
-  id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "'Valid Section' ID"
+  id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "'Valid Section' ID"
   id = "thisisaninvalididsoitshouldreturn404" if template == "'Invalid Section' ID"
   id = @newId                                 if template == "NEWLY CREATED ENTITY ID"
   id
@@ -440,7 +440,7 @@ $validationTestData = {
         "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380",
         "letterGradeEarned" => "A",
         "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388",
-        "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+        "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
         "numericGradeEarned" => 11,
         "dateFulfilled" => "2012-01-31",
         "diagnosticStatement" => "Validation Test Diag. Stmt."
