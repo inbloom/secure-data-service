@@ -13,8 +13,10 @@ When I hit the Application Registration Tool URL
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
-Then I can see the on-boarded states/districts
-Then I check the Districts
+  Then I can see the on-boarded states
+When I select a state
+  Then I see all of the Districts
+  Then I check the Districts
 When I click on Save
 Then the "Testing App" is enabled for Districts
 
@@ -34,10 +36,12 @@ When I hit the Application Registration Tool URL
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
-Then I can see the on-boarded states/districts
-Then I uncheck the Districts
+Then I can see the on-boarded states
+When I select a state
+  Then I see all of the Districts
+  Then I uncheck the Districts
 When I click on Save
-Then the "Testing App" is enabled for Districts
+  Then the "Testing App" is enabled for Districts
 
 Scenario: District Admin no longers see apps disabled for their district 
 Given I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
@@ -56,8 +60,10 @@ When I hit the Application Registration Tool URL
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
-Then I can see the on-boarded states/districts
-Then I check the Districts
+  Then I can see the on-boarded states
+When I select a state
+  Then I see all of the Districts
+  Then I check the Districts
 When I click on Save
 Then the "Testing App" is enabled for Districts
 Then I log out

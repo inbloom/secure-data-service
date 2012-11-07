@@ -31,7 +31,21 @@ Then /^I see the list of \(only\) my applications$/ do
 end
 
 Then /^I can see the on\-boarded states\/districts$/ do
-  assert(@driver.find_elements(:css, 'input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
+  assert(@driver.find_elements(:css, 'div#enable-menu div#lea-menu input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
+end
+
+Then /^I can see the on\-boarded states$/ do
+  assert(@driver.find_elements(:css, 'div#enable-menu div#state-menu select option').count > 1, "At least one state should exist")
+end
+
+When /^I select a state$/ do
+  select = @driver.find_element(:css, 'div#enable-menu div#state-menu select')
+  select.find_element(:xpath, "//option[contains(text(),'Illinois')]").click
+end
+
+Then /^I see all of the Districts$/ do
+  lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu ul li')
+  assert(lis.count > 1, "One district should exist")
 end
 
 Then /^I check the Districts$/ do

@@ -86,7 +86,7 @@
       <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
   <% end %>
 </div>
-
+<% if !@sea.nil? %>
 <div id="enable-menu" class="well">
 <h3>Enable the districts you would like to use your application</h3>
 <div id="state-menu">
@@ -99,6 +99,7 @@
 <div id="lea-menu">
   <p>Please select a state first...</p>
 </div>
+<% end %>
 <div class="clear"></div>
 </div>
 
