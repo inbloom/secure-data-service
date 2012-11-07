@@ -18,11 +18,15 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
+import com.sun.jersey.spi.container.ContainerRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
@@ -68,7 +72,9 @@ public class UriMutator {
         String mutatedParameters = queryParameters;
 
         if (segments.size() < 3) {
-            mutatedPath = mutateBaseUri(segments.get(1).getPath(), user);
+            if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
+                mutatedPath = mutateBaseUri(segments.get(1).getPath(), user);
+            }
         } else {
             Pair<String, String> mutated = mutateUriAsNecessary(segments, queryParameters, user);
             mutatedPath = mutated.getLeft();

@@ -16,15 +16,20 @@
 
 package org.slc.sli.api.security.pdp;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.constants.ResourceNames;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -66,18 +71,6 @@ public class EndpointMutator {
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
-
-        // TODO: Need to clean up this hack before turning on the path based context resolvers
-        /* (Temporarily) Allow root calls with query parameters through */
-        if (segments.size() < 3 && parameters != null) {
-            String[] queries = request.getRequestUri().getQuery().split("&");
-            for (String query : queries) {
-                if (!query
-                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
-                    return;
-                }
-            }
-        }
 
         if (usingV1Api(segments)) {
             request.getProperties().put(REQUESTED_PATH, request.getPath());
@@ -130,4 +123,7 @@ public class EndpointMutator {
     protected boolean usingV1Api(List<PathSegment> segments) {
         return segments.get(0).getPath().equals(PathConstants.V1);
     }
+
+
+
 }
