@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,6 @@ public class XsdValidatorTest {
     private XsdValidator xsdValidator;
 
     @Test
-    @Ignore
     public void testValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
@@ -59,7 +57,6 @@ public class XsdValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testInValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
