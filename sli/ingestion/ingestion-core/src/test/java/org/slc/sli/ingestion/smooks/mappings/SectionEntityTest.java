@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.smooks.mappings;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -449,8 +451,13 @@ public class SectionEntityTest {
         Assert.assertEquals("LocalCourseCode0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("courseOfferingReference")).get("courseOfferingIdentity")).get("localCourseCode"));
 
-        Assert.assertEquals("StateOrganizationId1", ((Map<String, Object>) ((Map<String, Object>) entity
-                .get("schoolReference")).get("educationalOrgIdentity")).get("stateOrganizationId"));
+        @SuppressWarnings("unchecked")
+        Map<String, Object> schoolRef = (Map<String, Object>) entity.get("SchoolReference");
+        assertNotNull(schoolRef);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> schoolEdOrgId = (Map<String, Object>) schoolRef.get("EducationalOrgIdentity");
+        assertNotNull(schoolEdOrgId);
+        assertEquals("StateOrganizationId1", schoolEdOrgId.get("StateOrganizationId"));
 
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("SessionReference")).get("SessionIdentity")).get("SessionName"));
