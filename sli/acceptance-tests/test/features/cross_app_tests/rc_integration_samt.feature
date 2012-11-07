@@ -27,14 +27,12 @@ Feature:  RC Integration SAMT Tests
     And I can select "SEA Administrator" from a choice of "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
     And I can also check "Ingestion User" Role
     And I can update the "Tenant" field to "RCTestTenant"
-    #And I can update the "EdOrg" field to "RCTestEdOrg"
     And I can update the "EdOrg" field to "STANDARD-SEA"
 
     When I click button "Save"
     Then I am redirected to the "Admin Account Management" page
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "RCTestTenant"
-    #And the newly created user has "EdOrg" updated to "RCTestEdOrg"
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
     
     And I switch to the iframe

@@ -83,3 +83,44 @@ Scenario Outline: Query subdoc
     | "jstevenson"   | "jstevenson1234" | "/v1/sections/1d345e41-f1c7-41b2-9cc4-9898c82faeda_id/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
     | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | descending | 10     | 10    |
     | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
+
+  Scenario Outline: Include fields
+    Given I am logged in using <username> <password> to realm "IL"
+    And format "application/json;charset=utf-8"
+    And parameter "includeFields" is "stateOrganizationId"
+    When I navigate to GET "/v1/schools/6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    Then in the response body I should see the following fields only:
+      | id                  |
+      | links               |
+      | entityType          |
+      | stateOrganizationId | 
+    Examples:
+      | username       | password         |
+      | "jstevenson"   | "jstevenson1234" |
+      | "linda.kim"    | "linda.kim1234"  |
+
+  Scenario Outline: Exclude fields
+    Given I am logged in using <username> <password> to realm "IL"
+    And format "application/json;charset=utf-8"
+    And parameter "excludeFields" is "stateOrganizationId"
+    When I navigate to GET "/v1/schools/6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    Then in the response body I should not see field "stateOrganizationId"
+    Examples:
+      | username       | password         |
+      | "jstevenson"   | "jstevenson1234" |
+      | "linda.kim"    | "linda.kim1234"  |
+
+  Scenario Outline: Include & Exclude fields combination
+    Given I am logged in using <username> <password> to realm "IL"
+    And format "application/json;charset=utf-8"
+    And parameter "excludeFields" is "links"
+    And parameter "includeFields" is "stateOrganizationId"
+    When I navigate to GET "/v1/schools/6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    Then in the response body I should see the following fields only:
+      | id                  |
+      | entityType          |
+      | stateOrganizationId | 
+    Examples:
+      | username       | password         |
+      | "jstevenson"   | "jstevenson1234" |
+      | "linda.kim"    | "linda.kim1234"  |
