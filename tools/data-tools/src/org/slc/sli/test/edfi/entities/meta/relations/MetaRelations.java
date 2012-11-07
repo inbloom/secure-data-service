@@ -160,7 +160,7 @@ public final class MetaRelations {
 
     public static final Map<String, SuperSectionMeta> SUPERSECTION_MAP = new TreeMap<String, SuperSectionMeta>();
 
-    public static final String SEA_PREFIX = "CAP";
+    public static final String SEA_PREFIX = "C";
     public static final String FIRST_TEACHER_ID = "lroslin";
 
     public static final boolean RUN_FLAG = true;
@@ -200,6 +200,7 @@ public final class MetaRelations {
                      catch (Exception e) {
                          System.out.println("The config properties file can not be closed!");
                          e.printStackTrace();
+
                      }
               }
         }
@@ -326,6 +327,7 @@ public final class MetaRelations {
         }
 
          System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+
         }catch(Exception e)
         {
             System.out.println("Can not find the attributes in the properties file");
@@ -615,6 +617,7 @@ public final class MetaRelations {
 
         }
         return graduationPlanForSchoolMap;
+
     }
 
     /**
@@ -883,6 +886,7 @@ public final class MetaRelations {
           }
 
           return programMapForLEA;
+
     }
 
 
@@ -1019,6 +1023,7 @@ public final class MetaRelations {
         SuperSectionMeta supperSectionMeta;
 
         for (SectionMeta sectionMeta : sectionsForSchool.values()) {
+
 
             //Step2 start a loop, add students to superSection 1:STUDENTS_PER_SECTION relationship
             // TODO students should not belong to simultaneous sections
