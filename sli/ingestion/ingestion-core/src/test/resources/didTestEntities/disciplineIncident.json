@@ -1,0 +1,13 @@
+{
+"recordType":"disciplineIncident",
+"attributes":
+{
+	"SchoolReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}
