@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<InterchangeStudentCohort xmlns="http://ed-fi.org/0100">
+  <StudentCohortAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>CAP0-D0-HSch0-stu72</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <CohortReference ref="CAP0-D0-HS0-0-p-ch">
+      <CohortIdentity>
+        <CohortIdentifier>CAP0-D0-HS0-0-p-ch</CohortIdentifier>
+        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2011-03-04</BeginDate>
+    <EndDate>2012-03-04</EndDate>
+  </StudentCohortAssociation>
+</InterchangeStudentCohort>

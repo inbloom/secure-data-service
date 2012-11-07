@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -99,11 +100,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     LOG.error("Unable to map '" + SLI_STUDENT_REFERENCE + "' in " + entity.getType() + ". Expected a String.");
                 }
             } else if (EntityNames.EDUCATION_ORGANIZATION.equals(entity.getType())
-            		|| "educationServiceCenter".equals(entity.getType())
-            		|| "stateEducationAgency".equals(entity.getType())
-            		|| "localEducationAgency".equals(entity.getType())
-            		|| "school".equals(entity.getType())
-            		) {
+            		|| EdfiEntity.EDUCATION_SERVICE_CENTER.getEntityName().equals(entity.getType())
+            		|| EdfiEntity.STATE_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
+            		|| EdfiEntity.LOCAL_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
+            		|| EdfiEntity.SCHOOL.getEntityName().equals(entity.getType())
+            		)
+            {
             	//This should catch EducationServiceCenter, StateEducationAgency, LocalEducationAgency, and School
                 Object ref = entity.getBody().remove(EDFI_PROGRAM_REFERENCE);
                 if (ref instanceof List<?>) {

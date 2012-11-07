@@ -26,7 +26,7 @@ import org.slc.sli.test.edfi.entities.Location;
 
 public class LocationGenerator {
 	private static final Logger log = Logger.getLogger(LocationGenerator.class);
-	private Random rand = new Random(); 
+	private Random rand = new Random(31);
 
 	private int getRand()
 	{

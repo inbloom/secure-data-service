@@ -9,7 +9,11 @@
         </StudentReference>
         <SessionReference>
             <SessionIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2010 Daybreak Central High</SessionName>
             </SessionIdentity>
         </SessionReference>

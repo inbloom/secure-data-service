@@ -48,12 +48,14 @@ public class TransitiveStaffToTeacherValidatorTest {
 
     Entity staff1 = null; //associated with lea1
     Entity staff2 = null; //associated with school1
-    Entity teacher1 = null; //associated with school1
+    Entity teacher1 = null; //associated with school1 and school2
     
     Entity teacher2 = null; //not associated
     Entity teacher3 = null; //associated with school1
     Entity lea1 = null;
+    Entity lea2 = null;
     Entity school1 = null;
+    Entity school2 = null;
     
     private void setupCurrentUser(Entity staff) {
         // Set up the principal
@@ -88,11 +90,20 @@ public class TransitiveStaffToTeacherValidatorTest {
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         lea1 = repo.create("educationOrganization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        lea2 = repo.create("educationOrganization", body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school1 = repo.create("educationOrganization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("School"));
+        body.put("parentEducationAgencyReference", lea2.getEntityId());
+        school2 = repo.create("educationOrganization", body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea1.getEntityId());
@@ -107,6 +118,11 @@ public class TransitiveStaffToTeacherValidatorTest {
 
         body = new HashMap<String, Object>();
         body.put("schoolId", school1.getEntityId());
+        body.put("teacherId", teacher1.getEntityId());
+        repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, body);
+        
+        body = new HashMap<String, Object>();
+        body.put("schoolId", school2.getEntityId());
         body.put("teacherId", teacher1.getEntityId());
         repo.create(EntityNames.TEACHER_SCHOOL_ASSOCIATION, body);
         

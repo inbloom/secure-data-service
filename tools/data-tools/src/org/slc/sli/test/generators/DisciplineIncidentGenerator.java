@@ -41,7 +41,7 @@ import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 public class DisciplineIncidentGenerator {
     private static final Logger log = Logger.getLogger(DisciplineIncidentGenerator.class);
 
-    static Random rand = new Random();
+    static Random rand = new Random(31);
     private static String date = "2011-03-04";
     private static String time = "09:00:00";
 

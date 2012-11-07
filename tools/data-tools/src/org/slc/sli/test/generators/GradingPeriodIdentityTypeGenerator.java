@@ -26,7 +26,7 @@ import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 
 public class GradingPeriodIdentityTypeGenerator {
-    Random generator = new Random();
+    Random generator = new Random(31);
 
     public GradingPeriodIdentityType getGradingPeriodIdentityType(List<String> StateOrgnizationId,
             String EducationOrgIdentificationCode) {

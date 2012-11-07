@@ -25,7 +25,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentAssessmentItemGenerator {
     private boolean optional;
-    private Random random = new Random();
+    private Random random = new Random(31);
 
     private AssessmentItemResultType[] airts = AssessmentItemResultType.values();
 
