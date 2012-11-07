@@ -5,67 +5,71 @@ Feature: Secure URI paths based on user type
 Scenario Outline: Staff making calls to disallowed URI paths and being rewritten
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And my contextual access is defined by table:
-    |Context  | Ids                                |
-    |schools  |b1bd3db6-d020-4651-b1b8-a8dba688d9e1|
+    | Context  | Ids                                  |
+    | schools  | b1bd3db6-d020-4651-b1b8-a8dba688d9e1 |
      When I call <Called Path> using ID <ID>
      Then I should receive a return code of 200
      And the executed URI should be <Rewritten Path>
+
 Examples:
-	| Called Path                          | ID | Rewritten Path |
-	|"/courses/@id/courseTranscripts"      | "" |"/schools/@context/studentSchoolAssociations/students/courseTranscripts?courseId=@id"|
-	|"/gradingPeriods/@id/reportCards"     | "" |"/schools/@context/studentSchoolAssociations/students/reportCards?gradingPeriod=@id"|
-	|"/gradingPeriods/@id/grades"          | "" |"/schools/@context/studentSchoolAssociations/students/grades?gradingPeriodId=@id"|
-    |"/sessions/@id/studentAcademicRecords"| "" |"/schools/@context/studentSchoolAssociations/students/studentAcademicRecords?sessionId=@id"|
-    |"/sessions/@id/sections"              | "" |"/schools/@context/sections?sessionId=@id"|
-    |"/assessments/@id/studentAssessments" | "" |"/schools/@context/studentSchoolAssociaitons/students/studentAssessments?assessmentId=@id"|
-    |"/courseOfferings/@id/sections"       | "" |"/schools/@context/sections?courseOfferingId=@id"|
+	| Called Path                            | ID                                     | Rewritten Path                                                                              |
+	| "/courses/@id/courseTranscripts"       | "0002f3f2-cf56-425a-ba24-56f805331743" | "/schools/@context/studentSchoolAssociations/students/courseTranscripts?courseId=@id"       |
+	| "/gradingPeriods/@id/reportCards"      | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/studentSchoolAssociations/students/reportCards?gradingPeriod=@id"        |
+	| "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/studentSchoolAssociations/students/grades?gradingPeriodId=@id"           |
+    | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/studentSchoolAssociations/students/studentAcademicRecords?sessionId=@id" |
+    | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/sections?sessionId=@id"                                                  |
+    | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a" | "/schools/@context/studentSchoolAssociaitons/students/studentAssessments?assessmentId=@id"  |
+    | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306" | "/schools/@context/sections?courseOfferingId=@id"                                           |
+
 
 Scenario Outline: Teacher making calls to disallowed URI paths and being rewritten
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     And my contextual access is defined by table:
-    |Context  | Ids                                |
-    |teachers |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
+    | Context  | Ids                                                                          |
+    | teachers | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     When I call <Called Path> using ID <ID>
     Then I should receive a return code of 200
     And the executed URI should be <Rewritten Path>
+    
 Examples:
-	| Called Path                          | ID | Rewritten Path |
-	|"/courses/@id/courseTranscripts"      | "" |"/sections/@context/studentSectionAssociations/students/courseTranscripts?courseId=@id"|
-	|"/gradingPeriods/@id/reportCards"     | "" |"/sections/@context/studentSectionAssociations/students/reportCards?gradingPeriod=@id"|
-	|"/gradingPeriods/@id/grades"          | "" |"/sections/@context/studentSectionAssociations/students/grades?gradingPeriodId=@id"|
-    |"/sessions/@id/studentAcademicRecords"| "" |"/sections/@context/studentSectionAssociations/students/studentAcademicRecords?sessionId=@id"|
-    |"/sessions/@id/sections"              | "" |"/teachers/@context/teacherSectionAssociations/sections?sessionId=@id"|
-    |"/assessments/@id/studentAssessments" | "" |"/sections/@context/studentSectionAssociaitons/students/studentAssessments?assessmentId=@id"|
-    |"/courseOfferings/@id/sections"       | "" |"/teachers/@context/teacherSectionAssociations/sections?courseOfferingId=@id"|
+	| Called Path                           | ID                                     | Rewritten Path                                                                                |
+	| "/courses/@id/courseTranscripts"      | "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" | "/sections/@context/studentSectionAssociations/students/courseTranscripts?courseId=@id"       |
+	| "/gradingPeriods/@id/reportCards"     | "8940897f-0e4b-4e88-9aa3-30cf040c0ebf" | "/sections/@context/studentSectionAssociations/students/reportCards?gradingPeriod=@id"        |
+	| "/gradingPeriods/@id/grades"          | "8940897f-0e4b-4e88-9aa3-30cf040c0ebf" | "/sections/@context/studentSectionAssociations/students/grades?gradingPeriodId=@id"           |
+    | "/sessions/@id/studentAcademicRecords"| "0410354d-dbcb-0214-250a-404401060c93" | "/sections/@context/studentSectionAssociations/students/studentAcademicRecords?sessionId=@id" |
+    | "/sessions/@id/sections"              | "0410354d-dbcb-0214-250a-404401060c93" | "/teachers/@context/teacherSectionAssociations/sections?sessionId=@id"                        |
+    | "/assessments/@id/studentAssessments" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" | "/sections/@context/studentSectionAssociaitons/students/studentAssessments?assessmentId=@id"  |
+    | "/courseOfferings/@id/sections"       | "88ddb0c4-1787-4ed8-884e-96aa774e6d42" | "/teachers/@context/teacherSectionAssociations/sections?courseOfferingId=@id"                 |
+
 
 Scenario Outline: Teacher making calls to disallowed URI paths speficic to teachers and being rewritten
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     And my contextual access is defined by table:
-    |Context  | Ids                                |
-    |teachers |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
+    | Context  | Ids                                                                          |
+    | teachers | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | sections | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     When I call <Called Path> using ID <ID>
     Then I should receive a return code of 200
     And the executed URI should be <Rewritten Path>
 Examples:
 	| Called Path                                                                       | ID | Rewritten Path |
-    |"/schools/@id/teacherSchoolAssociations/teachers/teacherSectionAssociations"       | "" |"/teachers/@context/teacherSectionAssociations"|
-    |"/schools/@id/studentSchoolAssociations"                                           | "" |"/sections/@context/studentSectionAssociaitons/students/studentSchoolAssociations?schoolId=@id"|
-    |"/schools/@id/studentSchoolAssociations/students"                                  | "" |"/sections/@context/studentSectionAssociaitons/students/"|
-    |"/schools/@id/studentSchoolAssociations/students/attendances"                      | "" |"/sections/@context/studentSectionAssociaitons/students/attendances"|
-    |"/schools/@id/studentSchoolAssociations/students/courseTranscripts"                | "" |"/sections/@context/studentSectionAssociaitons/students/courseTranscripts"|
-    |"/schools/@id/studentSchoolAssociations/students/reportCards"                      | "" |"/sections/@context/studentSectionAssociaitons/students/reportCards"|
-    |"/schools/@id/studentSchoolAssociations/students/studentAcademicRecords"           | "" |"/sections/@context/studentSectionAssociaitons/students/studentAcademicRecords"|
-    |"/schools/@id/studentSchoolAssociations/students/studentAssessments"               | "" |"/sections/@context/studentSectionAssociaitons/students/studentAssessments"|
-    |"/schools/@id/studentSchoolAssociations/students/studentGradebookEntries"          | "" |"/sections/@context/studentSectionAssociaitons/students/studentGradebookEntries"|
-    |"/schools/@id/studentSchoolAssociations/students/studentParentAssociations"        | "" |"/sections/@context/studentSectionAssociaitons/students/studentParentAssociations"|
-    |"/schools/@id/studentSchoolAssociations/students/studentParentAssociations/parents"| "" |"/sections/@context/studentSectionAssociaitons/students/studentParentAssociations/parents"|
-    |"/schools/@id/sections"                                                            | "" |"/teachers/@context/teacherSectionAssociations/sections?schoolId=@id"|
-    |"/schools/@id/sections/gradebookEntries"                                           | "" |"/teachers/@context/teacherSectionAssociations/sections/gradebookEntries"|
-    |"/schools/@id/sections/studentSectionAssociations"                                 | "" |"/sections/@context/studentSectionAssociaitons"|
-    |"/schools/@id/sections/studentSectionAssociations/grades"                          | "" |"/sections/@context/studentSectionAssociaitons/grades"|
-    |"/schools/@id/sections/studentSectionAssociations/studentCompetencies"             | "" |"/sections/@context/studentSectionAssociaitons/studentCompetencies"|
+    |"/schools/@id/teacherSchoolAssociations/teachers/teacherSectionAssociations"       | "92d6d5a0-852c-45f4-907a-912752831772" |"/teachers/@context/teacherSectionAssociations"|
+    |"/schools/@id/studentSchoolAssociations"                                           | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentSchoolAssociations?schoolId=@id"|
+    |"/schools/@id/studentSchoolAssociations/students"                                  | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/"|
+    |"/schools/@id/studentSchoolAssociations/students/attendances"                      | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/attendances"|
+    |"/schools/@id/studentSchoolAssociations/students/courseTranscripts"                | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/courseTranscripts"|
+    |"/schools/@id/studentSchoolAssociations/students/reportCards"                      | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/reportCards"|
+    |"/schools/@id/studentSchoolAssociations/students/studentAcademicRecords"           | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentAcademicRecords"|
+    |"/schools/@id/studentSchoolAssociations/students/studentAssessments"               | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentAssessments"|
+    |"/schools/@id/studentSchoolAssociations/students/studentGradebookEntries"          | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentGradebookEntries"|
+    |"/schools/@id/studentSchoolAssociations/students/studentParentAssociations"        | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentParentAssociations"|
+    |"/schools/@id/studentSchoolAssociations/students/studentParentAssociations/parents"| "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/students/studentParentAssociations/parents"|
+    |"/schools/@id/sections"                                                            | "92d6d5a0-852c-45f4-907a-912752831772" |"/teachers/@context/teacherSectionAssociations/sections?schoolId=@id"|
+    |"/schools/@id/sections/gradebookEntries"                                           | "92d6d5a0-852c-45f4-907a-912752831772" |"/teachers/@context/teacherSectionAssociations/sections/gradebookEntries"|
+    |"/schools/@id/sections/studentSectionAssociations"                                 | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons"|
+    |"/schools/@id/sections/studentSectionAssociations/grades"                          | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/grades"|
+    |"/schools/@id/sections/studentSectionAssociations/studentCompetencies"             | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociaitons/studentCompetencies"|
  
 @wip
 Scenario Outline: Staff making calls to URIs through transitive relationships and being denied
@@ -157,7 +161,7 @@ Examples:
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"|""|""|
 
 Scenario Outline: Denied Paths
-	Given I am logged in using "cgray" "cgray1234" to realm "IL"
+	Given I am logged in using "manthony" "manthony1234" to realm "IL"
 	When I call <Allowed Path> using ID <ID>
 	Then I should receive a return code of 200
 	When I call <Denied Path> using ID <ID>
@@ -169,7 +173,8 @@ Scenario Outline: Denied Paths
 	Then I should receive a return code of 404
 
 Examples:
-	| Allowed Path          | Denied Path                                  | ID |
-	|"/courses/@id"         |"/courses/@id/courseTranscripts/students"     |""|
-    |"/assessments/@id"     |"/assessments/@id/studentAssessments/students"|""|
-	|"/programs/@id"        |"/programs/@id/cohorts"                       |""|
+	| Allowed Path           | Denied Path                                    | ID |
+	| "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
+    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
+	| "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec" |
+	
