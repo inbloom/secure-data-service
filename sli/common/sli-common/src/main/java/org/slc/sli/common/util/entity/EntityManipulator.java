@@ -38,7 +38,7 @@ public class EntityManipulator {
      */
     public static void removeFields(final Map<String, Object> toRemoveFrom, final List<String> toRemoveList) {
         if (toRemoveList == null || toRemoveList.isEmpty()) return;
-        if (toRemoveFrom == null) throw new NullPointerException("toRemoveFrom");
+        if (toRemoveFrom == null) return;
 
         for (final String toStrip : toRemoveList) {
             removeField(toRemoveFrom, toStrip);
