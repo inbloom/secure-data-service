@@ -30,7 +30,7 @@ public class AcademicWeekGenerator {
     private String beginDate = null;
     private String endDate = null;
 
-    Random generator = new Random();
+    Random generator = new Random(31);
 
     public AcademicWeek getAcademicWeek (String ID) {
         AcademicWeek aw = new AcademicWeek();
@@ -42,7 +42,7 @@ public class AcademicWeekGenerator {
         aw.setWeekIdentifier("AdcademicWeek");
         aw.setBeginDate(beginDate);
         aw.setEndDate(endDate);
-        int roll = 45 + (int) (Math.random() * (150 - 45));
+        int roll = 45 + (int) (generator.nextDouble() * (150 - 45));
         aw.setTotalInstructionalDays(roll);
 
         return aw;

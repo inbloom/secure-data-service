@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class TenantPopulator implements ResourceLoaderAware {
 
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
+    public static final String INDEXING_SCRIPT = "tenantDB_indexes.js";
 
     /**
      * Add a specified tenantRecord to the tenant collection.
@@ -93,10 +95,38 @@ public class TenantPopulator implements ResourceLoaderAware {
             createParentLzDirectory();
             List<TenantRecord> tenants = constructDefaultTenantCollection(hostName);
             for (TenantRecord tenant : tenants) {
+                indexTenantDb(tenant.getTenantId());
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
             log.error("Exception encountered populating default tenants:", e);
+        }
+    }
+
+    /**
+     * Run indexing script for the specified tenant's database.
+     *
+     * @param tenantId
+     *        The database name of a corresponding tenant.
+     *
+     */
+    private void indexTenantDb(String tenantId) {
+        try {
+            // Create a thread to run the indexing javascript.
+            log.info("Indexing default tenant database {}...", tenantId);
+            URL resourceFile = Thread.currentThread().getContextClassLoader().getResource(INDEXING_SCRIPT);
+            String resourceFilePath = (new File(resourceFile.getFile())).getPath();
+            ProcessBuilder pb = new ProcessBuilder("mongo", tenantId, resourceFilePath);
+            Process p = pb.start();
+//            CmdStreamGobbler errorGobbler = new CmdStreamGobbler(pr.getErrorStream(), "ERROR");
+//            errorGobbler.start();
+            if (p.waitFor() != 0) {
+                log.error("Error encountered indexing default tenant database " + tenantId);
+            } else {
+                log.info("Completed indexing default tenant database {}.", tenantId);
+            }
+        } catch (Exception e) {
+            log.error("Error encountered indexing default tenant database " + tenantId, e);
         }
     }
 

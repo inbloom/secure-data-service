@@ -63,7 +63,7 @@ public class StudentGradeRelations {
     public static List<GradeBookEntryMeta> GRADE_BOOK_ENTRY_METAS     = new ArrayList<GradeBookEntryMeta>();
     public static List<ReportCardMeta> REPORT_CARD_META               = new ArrayList<ReportCardMeta>();
     
-    public static final Random RAND                                   = new Random();
+    public static final Random RAND                                   = new Random(31);
     private static List<SectionMeta> SECTIONS                         = null;
     private static final int GRADING_PERIOD_START_YEAR                = 2011;
     private static final int GRADING_PERIOD_MAX_START_YEAR            = 2030;

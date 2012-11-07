@@ -23,7 +23,7 @@ import org.slc.sli.test.edfi.entities.BirthData;
 
 public class BirthDataGenerator {
 
-    Random random = new Random();
+    Random random = new Random(31);
 
     public BirthData generate(int age) {
         BirthData bd = new BirthData();
