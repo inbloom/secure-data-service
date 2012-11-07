@@ -20,7 +20,7 @@
 
   <jb:bean beanId="studentProgramAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="studentId" data="attributes StudentReference" />
-    <jb:value property="programId" data="attributes programId" />
+    <jb:value property="programId" data="attributes ProgramReference" />
     <jb:wiring property="services" beanIdRef="StudentProgramAssociation_ServicesArray" />
     <jb:value property="beginDate" data="attributes BeginDate" />
     <jb:value property="endDate" data="attributes EndDate" />

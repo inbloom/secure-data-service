@@ -32,7 +32,7 @@ end
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # students
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085"    if human_readable_id == "'MARVIN MILLER'"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if human_readable_id == "'MARVIN MILLER'"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15"    if human_readable_id == "'MATT SOLLARS'"
   id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6"    if human_readable_id == "'CARMEN ORTIZ JR'"
   id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe"    if human_readable_id == "'CHARLA CHRISTOFF'"

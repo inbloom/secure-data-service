@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-
-	<StudentGradebookEntry>
+<?xml version="1.0" ?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+    <StudentGradebookEntry>
         <DateFulfilled>2013-01-01</DateFulfilled>
         <LetterGradeEarned>A</LetterGradeEarned>
         <NumericGradeEarned>95</NumericGradeEarned>
@@ -12,25 +10,25 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_1" />
+        <StudentSectionAssociationReference ref="SSA_1"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 1</GradebookEntryType>
                 <DateAssigned>2012-05-08</DateAssigned>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-02-02</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
@@ -40,25 +38,25 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_2" />
+        <StudentSectionAssociationReference ref="SSA_2"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 2</GradebookEntryType>
                 <DateAssigned>2012-05-08</DateAssigned>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Baker School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Baker School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-03-03</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
@@ -68,7 +66,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_101" />
+        <StudentSectionAssociationReference ref="SSA_101"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 3</GradebookEntryType>
@@ -76,18 +74,18 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Charlie School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-04-04</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
@@ -97,7 +95,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_3" />
+        <StudentSectionAssociationReference ref="SSA_3"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 17</GradebookEntryType>
@@ -105,18 +103,18 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-05-05</DateFulfilled>
         <LetterGradeEarned>F</LetterGradeEarned>
         <NumericGradeEarned>55</NumericGradeEarned>
@@ -126,7 +124,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_102" />
+        <StudentSectionAssociationReference ref="SSA_102"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 4</GradebookEntryType>
@@ -134,18 +132,18 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Charlie School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-06-06</DateFulfilled>
         <LetterGradeEarned>D</LetterGradeEarned>
         <NumericGradeEarned>65</NumericGradeEarned>
@@ -155,7 +153,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_4" />
+        <StudentSectionAssociationReference ref="SSA_4"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 18</GradebookEntryType>
@@ -163,18 +161,18 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Baker School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Baker School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-07-07</DateFulfilled>
         <LetterGradeEarned>C</LetterGradeEarned>
         <NumericGradeEarned>75</NumericGradeEarned>
@@ -184,7 +182,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_103" />
+        <StudentSectionAssociationReference ref="SSA_103"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 19</GradebookEntryType>
@@ -192,18 +190,18 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Charlie School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-	<StudentGradebookEntry>
+    <StudentGradebookEntry>
         <DateFulfilled>2013-08-08</DateFulfilled>
         <LetterGradeEarned>B</LetterGradeEarned>
         <NumericGradeEarned>85</NumericGradeEarned>
@@ -213,7 +211,7 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_104" />
+        <StudentSectionAssociationReference ref="SSA_104"/>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 20</GradebookEntryType>
@@ -221,23 +219,22 @@
                 <Description>Herman must write a story about his pet Spot</Description>
                 <SectionReference>
                     <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                        <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Charlie School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
                     </SectionIdentity>
                 </SectionReference>
             </GradebookEntryIdentity>
         </GradebookEntryReference>
     </StudentGradebookEntry>
-
-	<GradebookEntry id="GE_1">
-		<GradebookEntryType>funeral homework 1</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+    <GradebookEntry id="GE_1">
+        <GradebookEntryType>funeral homework 1</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard1</IdentificationCode>
@@ -253,28 +250,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_1" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_2">
-		<GradebookEntryType>funeral homework 2</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_1"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_2">
+        <GradebookEntryType>funeral homework 2</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_101</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective2</IdentificationCode>
@@ -283,28 +280,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_2" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_3">
-		<GradebookEntryType>funeral homework 3</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_2"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_3">
+        <GradebookEntryType>funeral homework 3</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard2</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_101</IdentificationCode>
@@ -313,28 +310,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_3" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_4">
-		<GradebookEntryType>funeral homework 4</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_3"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_4">
+        <GradebookEntryType>funeral homework 4</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard3</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective3</IdentificationCode>
@@ -343,28 +340,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_4" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_5">
-		<GradebookEntryType>funeral homework 5</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_4"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_5">
+        <GradebookEntryType>funeral homework 5</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard4</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective4</IdentificationCode>
@@ -373,28 +370,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Dog School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_101" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_6">
-		<GradebookEntryType>funeral homework 6</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_101"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_6">
+        <GradebookEntryType>funeral homework 6</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_102</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_102</IdentificationCode>
@@ -403,28 +400,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Echo School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_5" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_7">
-		<GradebookEntryType>funeral homework 7</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_5"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_7">
+        <GradebookEntryType>funeral homework 7</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_103</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective5</IdentificationCode>
@@ -433,28 +430,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_6" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_8">
-		<GradebookEntryType>funeral homework 8</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_6"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_8">
+        <GradebookEntryType>funeral homework 8</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_104</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective6</IdentificationCode>
@@ -463,28 +460,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Foxtrot School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Foxtrot School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_102" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_9">
-		<GradebookEntryType>funeral homework 9</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_102"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_9">
+        <GradebookEntryType>funeral homework 9</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard5</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_103</IdentificationCode>
@@ -493,28 +490,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_7" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_10">
-		<GradebookEntryType>funeral homework 10</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_7"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_10">
+        <GradebookEntryType>funeral homework 10</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard6</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_104</IdentificationCode>
@@ -523,28 +520,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_103" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_11">
-		<GradebookEntryType>funeral homework 11</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_103"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_11">
+        <GradebookEntryType>funeral homework 11</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard7</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective7</IdentificationCode>
@@ -553,28 +550,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_104" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_12">
-		<GradebookEntryType>funeral homework 12</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_104"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_12">
+        <GradebookEntryType>funeral homework 12</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_105</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_105</IdentificationCode>
@@ -583,28 +580,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_8" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_13">
-		<GradebookEntryType>funeral homework 13</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_8"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_13">
+        <GradebookEntryType>funeral homework 13</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_106</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_106</IdentificationCode>
@@ -613,28 +610,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_105" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_14">
-		<GradebookEntryType>funeral homework 14</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_105"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_14">
+        <GradebookEntryType>funeral homework 14</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_107</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective8</IdentificationCode>
@@ -643,28 +640,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_106" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_15">
-		<GradebookEntryType>funeral homework 15</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_106"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_15">
+        <GradebookEntryType>funeral homework 15</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard8</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_107</IdentificationCode>
@@ -673,28 +670,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_107" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_16">
-		<GradebookEntryType>funeral homework 16</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_107"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_16">
+        <GradebookEntryType>funeral homework 16</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_108</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_108</IdentificationCode>
@@ -703,28 +700,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_108" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_101">
-		<GradebookEntryType>funeral homework 17</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_108"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_101">
+        <GradebookEntryType>funeral homework 17</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard1</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective1</IdentificationCode>
@@ -733,28 +730,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_1" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_102">
-		<GradebookEntryType>funeral homework 18</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_1"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_102">
+        <GradebookEntryType>funeral homework 18</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>LS_101</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective2</IdentificationCode>
@@ -763,28 +760,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_2" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_103">
-		<GradebookEntryType>funeral homework 19</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_2"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_103">
+        <GradebookEntryType>funeral homework 19</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard2</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>LO_101</IdentificationCode>
@@ -793,28 +790,28 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-        <GradingPeriodReference ref="GP_3" />
-	</GradebookEntry>
-	<GradebookEntry id="GE_104">
-		<GradebookEntryType>funeral homework 20</GradebookEntryType>
-		<DateAssigned>2012-05-08</DateAssigned>
-		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
+        <GradingPeriodReference ref="GP_3"/>
+    </GradebookEntry>
+    <GradebookEntry id="GE_104">
+        <GradebookEntryType>funeral homework 20</GradebookEntryType>
+        <DateAssigned>2012-05-08</DateAssigned>
+        <Description>Herman must write a story about his pet Spot</Description>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId>
                     <IdentificationCode>Standard3</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>
-		<LearningObjectiveReference>
+        <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <LearningObjectiveId ContentStandardName="Common Core">
                     <IdentificationCode>Objective3</IdentificationCode>
@@ -823,481 +820,474 @@
         </LearningObjectiveReference>
         <SectionReference>
             <SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
-		<GradingPeriodReference ref="GP_4" />
-	</GradebookEntry>
-
-	<CompetencyLevelDescriptor id="CL_1">
-		<CodeValue>Barely Competent 1</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_2">
-		<CodeValue>Barely Competent 2</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_3">
-		<CodeValue>Barely Competent 3</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_4">
-		<CodeValue>Barely Competent 4</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_5">
-		<CodeValue>Barely Competent 5</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-	<CompetencyLevelDescriptor id="CL_6">
-		<CodeValue>Barely Competent 6</CodeValue>
-		<Description>Herman tends to throw tantrums</Description>
-		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-	</CompetencyLevelDescriptor>
-
-	<StudentSectionAssociationReference id="SSA_1">
-		<StudentSectionAssociationIdentity>
-			<StudentIdentity>
-				<StudentUniqueStateId>100000101</StudentUniqueStateId>
-				<StudentIdentificationCode>
-					<IdentificationCode>Mockingbird School</IdentificationCode>
-					<IdentificationSystem>District</IdentificationSystem>
-					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
-				</StudentIdentificationCode>
-				<Name>
-					<FirstName>Herman</FirstName>
-					<MiddleName>G</MiddleName>
-					<LastSurname>Munster</LastSurname>
-				</Name>
-				<OtherName>Flathead</OtherName>
-				<BirthDate>1901-10-31</BirthDate>
-				<Sex>Male</Sex>
-				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-				<Race>Mixed</Race>
-			</StudentIdentity>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>1000001</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
-			</SectionIdentity>
-		</StudentSectionAssociationIdentity>
-	</StudentSectionAssociationReference>
-	<StudentSectionAssociationReference id="SSA_2">
-		<StudentSectionAssociationIdentity>
-			<StudentIdentity>
-				<StudentUniqueStateId>100000001</StudentUniqueStateId>
-				<StudentIdentificationCode>
-					<IdentificationCode>Mockingbird School</IdentificationCode>
-					<IdentificationSystem>District</IdentificationSystem>
-					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
-				</StudentIdentificationCode>
-				<Name>
-					<FirstName>Herman</FirstName>
-					<MiddleName>G</MiddleName>
-					<LastSurname>Munster</LastSurname>
-				</Name>
-				<OtherName>Flathead</OtherName>
-				<BirthDate>1901-10-31</BirthDate>
-				<Sex>Male</Sex>
-				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-				<Race>Mixed</Race>
-			</StudentIdentity>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>1000002</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
-			</SectionIdentity>
-		</StudentSectionAssociationIdentity>
-	</StudentSectionAssociationReference>
-	<StudentSectionAssociationReference id="SSA_3">
-		<StudentSectionAssociationIdentity>
-			<StudentIdentity>
-				<StudentUniqueStateId>100000002</StudentUniqueStateId>
-				<StudentIdentificationCode>
-					<IdentificationCode>Mockingbird School</IdentificationCode>
-					<IdentificationSystem>District</IdentificationSystem>
-					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
-				</StudentIdentificationCode>
-				<Name>
-					<FirstName>Herman</FirstName>
-					<MiddleName>G</MiddleName>
-					<LastSurname>Munster</LastSurname>
-				</Name>
-				<OtherName>Flathead</OtherName>
-				<BirthDate>1901-10-31</BirthDate>
-				<Sex>Male</Sex>
-				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-				<Race>Mixed</Race>
-			</StudentIdentity>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>1000001</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-			</SectionIdentity>
-		</StudentSectionAssociationIdentity>
-	</StudentSectionAssociationReference>
-	<StudentSectionAssociationReference id="SSA_4">
-		<StudentSectionAssociationIdentity>
-			<StudentIdentity>
-				<StudentUniqueStateId>100000003</StudentUniqueStateId>
-				<StudentIdentificationCode>
-					<IdentificationCode>Mockingbird School</IdentificationCode>
-					<IdentificationSystem>District</IdentificationSystem>
-					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
-				</StudentIdentificationCode>
-				<Name>
-					<FirstName>Herman</FirstName>
-					<MiddleName>G</MiddleName>
-					<LastSurname>Munster</LastSurname>
-				</Name>
-				<OtherName>Flathead</OtherName>
-				<BirthDate>1901-10-31</BirthDate>
-				<Sex>Male</Sex>
-				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-				<Race>Mixed</Race>
-			</StudentIdentity>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>1000002</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
-			</SectionIdentity>
-		</StudentSectionAssociationIdentity>
-	</StudentSectionAssociationReference>
-
-	<LearningStandardReference id="LS_1">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard1</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_2">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard101</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_3">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard2</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_4">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard3</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_5">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard4</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_6">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard102</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_7">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard5</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-	<LearningStandardReference id="LS_8">
-		<LearningStandardIdentity>
-			<LearningStandardId>
-				<IdentificationCode>Standard6</IdentificationCode>
-				<ContentStandardName>Common Core</ContentStandardName>
-			</LearningStandardId>
-		</LearningStandardIdentity>
-	</LearningStandardReference>
-
-	<LearningObjectiveReference id="LO_1">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective1</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_2">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective2</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_3">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective101</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_4">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective3</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_5">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective4</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_6">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective5</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_7">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Objective102</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-	<LearningObjectiveReference id="LO_8">
-		<LearningObjectiveIdentity>
-			<LearningObjectiveId ContentStandardName="Common Core">
-				<IdentificationCode>Mockingbird School</IdentificationCode>
-			</LearningObjectiveId>
-		</LearningObjectiveIdentity>
-	</LearningObjectiveReference>
-
-	<SectionReference id="S_1">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>Lizard Husbandry</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_2">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_3">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_4">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_5">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_6">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_7">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-	<SectionReference id="S_8">
-		<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-			<StateOrganizationId>100002</StateOrganizationId>
-			</EducationalOrgIdentity>
-			</EducationalOrgReference>
-			<UniqueSectionCode>Sec 923</UniqueSectionCode>
-		</SectionIdentity>
-	</SectionReference>
-
-	<GradingPeriodReference id="GP_1">
-		<GradingPeriodIdentity>
-			<GradingPeriod>First Trimester</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_2">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Second Trimester</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_3">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Third Trimester</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_4">
-		<GradingPeriodIdentity>
-			<GradingPeriod>First Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_5">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Second Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_6">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Third Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_7">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_8">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-	<GradingPeriodReference id="GP_9">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
-			<SchoolYear>2012-2013</SchoolYear>
-			<StateOrganizationId>Transylvania</StateOrganizationId>
-			<EducationOrgIdentificationCode>
-				<ID>20/272/G/1.00/1 of 1</ID>
-				<IdentificationSystem>DUNS</IdentificationSystem>
-			</EducationOrgIdentificationCode>
-		</GradingPeriodIdentity>
-	</GradingPeriodReference>
-
-	    <LearningObjective>
-		<LearningObjectiveId ContentStandardName="Content Standard Name">
+        <GradingPeriodReference ref="GP_4"/>
+    </GradebookEntry>
+    <CompetencyLevelDescriptor id="CL_1">
+        <CodeValue>Barely Competent 1</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_2">
+        <CodeValue>Barely Competent 2</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_3">
+        <CodeValue>Barely Competent 3</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_4">
+        <CodeValue>Barely Competent 4</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_5">
+        <CodeValue>Barely Competent 5</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor id="CL_6">
+        <CodeValue>Barely Competent 6</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <StudentSectionAssociationReference id="SSA_1">
+        <StudentSectionAssociationIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000101</StudentUniqueStateId>
+                <StudentIdentificationCode>
+                    <IdentificationCode>Mockingbird School</IdentificationCode>
+                    <IdentificationSystem>District</IdentificationSystem>
+                    <AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+                </StudentIdentificationCode>
+                <Name>
+                    <FirstName>Herman</FirstName>
+                    <MiddleName>G</MiddleName>
+                    <LastSurname>Munster</LastSurname>
+                </Name>
+                <OtherName>Flathead</OtherName>
+                <BirthDate>1901-10-31</BirthDate>
+                <Sex>Male</Sex>
+                <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+                <Race>Mixed</Race>
+            </StudentIdentity>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000001</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+            </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <StudentSectionAssociationReference id="SSA_2">
+        <StudentSectionAssociationIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000001</StudentUniqueStateId>
+                <StudentIdentificationCode>
+                    <IdentificationCode>Mockingbird School</IdentificationCode>
+                    <IdentificationSystem>District</IdentificationSystem>
+                    <AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+                </StudentIdentificationCode>
+                <Name>
+                    <FirstName>Herman</FirstName>
+                    <MiddleName>G</MiddleName>
+                    <LastSurname>Munster</LastSurname>
+                </Name>
+                <OtherName>Flathead</OtherName>
+                <BirthDate>1901-10-31</BirthDate>
+                <Sex>Male</Sex>
+                <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+                <Race>Mixed</Race>
+            </StudentIdentity>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000002</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+            </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <StudentSectionAssociationReference id="SSA_3">
+        <StudentSectionAssociationIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000002</StudentUniqueStateId>
+                <StudentIdentificationCode>
+                    <IdentificationCode>Mockingbird School</IdentificationCode>
+                    <IdentificationSystem>District</IdentificationSystem>
+                    <AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+                </StudentIdentificationCode>
+                <Name>
+                    <FirstName>Herman</FirstName>
+                    <MiddleName>G</MiddleName>
+                    <LastSurname>Munster</LastSurname>
+                </Name>
+                <OtherName>Flathead</OtherName>
+                <BirthDate>1901-10-31</BirthDate>
+                <Sex>Male</Sex>
+                <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+                <Race>Mixed</Race>
+            </StudentIdentity>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000001</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+            </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <StudentSectionAssociationReference id="SSA_4">
+        <StudentSectionAssociationIdentity>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000003</StudentUniqueStateId>
+                <StudentIdentificationCode>
+                    <IdentificationCode>Mockingbird School</IdentificationCode>
+                    <IdentificationSystem>District</IdentificationSystem>
+                    <AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+                </StudentIdentificationCode>
+                <Name>
+                    <FirstName>Herman</FirstName>
+                    <MiddleName>G</MiddleName>
+                    <LastSurname>Munster</LastSurname>
+                </Name>
+                <OtherName>Flathead</OtherName>
+                <BirthDate>1901-10-31</BirthDate>
+                <Sex>Male</Sex>
+                <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+                <Race>Mixed</Race>
+            </StudentIdentity>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1000002</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+            </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+    <LearningStandardReference id="LS_1">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard1</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_2">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard101</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_3">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard2</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_4">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard3</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_5">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard4</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_6">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard102</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_7">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard5</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningStandardReference id="LS_8">
+        <LearningStandardIdentity>
+            <LearningStandardId>
+                <IdentificationCode>Standard6</IdentificationCode>
+                <ContentStandardName>Common Core</ContentStandardName>
+            </LearningStandardId>
+        </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningObjectiveReference id="LO_1">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective1</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_2">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective2</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_3">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective101</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_4">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective3</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_5">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective4</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_6">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective5</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_7">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Objective102</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference id="LO_8">
+        <LearningObjectiveIdentity>
+            <LearningObjectiveId ContentStandardName="Common Core">
+                <IdentificationCode>Mockingbird School</IdentificationCode>
+            </LearningObjectiveId>
+        </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <SectionReference id="S_1">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Lizard Husbandry</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_2">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_3">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_4">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_5">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_6">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_7">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <SectionReference id="S_8">
+        <SectionIdentity>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>100002</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>Sec 923</UniqueSectionCode>
+        </SectionIdentity>
+    </SectionReference>
+    <GradingPeriodReference id="GP_1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_2">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Second Trimester</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_3">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Third Trimester</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_4">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_5">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Second Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_6">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Third Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_7">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_8">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference id="GP_9">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+            <SchoolYear>2012-2013</SchoolYear>
+            <StateOrganizationId>Transylvania</StateOrganizationId>
+            <EducationOrgIdentificationCode>
+                <ID>20/272/G/1.00/1 of 1</ID>
+                <IdentificationSystem>DUNS</IdentificationSystem>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Content Standard Name">
             <IdentificationCode>lobj1</IdentificationCode>
         </LearningObjectiveId>
         <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
         <Description>Learning Objective Description</Description>
         <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
         <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
-		<LearningStandardReference>
+        <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId ContentStandardName="lstd0Name">
                     <IdentificationCode>lstd0</IdentificationCode>
@@ -1305,5 +1295,4 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>
-
 </InterchangeStudentGrade>

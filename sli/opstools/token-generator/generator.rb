@@ -1,7 +1,8 @@
 require 'mongo'
 require 'optparse'
 require 'securerandom'
-
+require 'digest/sha1'
+require 'date'
 #Hold the command line options
 options = {}
 
@@ -54,8 +55,11 @@ class PKFactory
     row
   end
 end
+hashed=Digest::SHA1.hexdigest options[:tenant]
 hp = options[:mongo].split(':')
 db = Mongo::Connection.new(hp[0], hp[1])
+puts "dbname is #{hashed}"
+staffDb = db.db(hashed,:pl=>PKFactory.new)
 db = db.db('sli', :pk => PKFactory.new)
 
 #Get the realm
@@ -65,7 +69,7 @@ abort "Unable to locate #{options[:realm]} realm" if realm.nil?
 app = db['application'].find_one({'body.client_id' => options[:application]})
 abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
-user = db[:staff].find_one({"metaData.tenantId" => options[:tenant], "body.staffUniqueStateId" => options[:user]})
+user = staffDb[:staff].find_one({"body.staffUniqueStateId" => options[:user]})
 abort "Unable to locate user: #{options[:user]}" if user.nil?
 
 #Create a userSession
@@ -101,6 +105,7 @@ body[:principal] = principal
 body[:appSession] = appSessions
 userSession[:body] = body
 userSession[:metaData] = {}
+userSession[:metaData][:created]=Date.today.strftime("%Y-%m-%d")
 db[:userSession].insert(userSession)
 
 puts "Your new long-lived session token is #{appSession[:token]}"

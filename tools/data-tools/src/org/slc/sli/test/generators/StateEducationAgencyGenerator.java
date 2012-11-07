@@ -45,27 +45,14 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.setOperationalStatus(OperationalStatusType.ACTIVE);
 
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
-        if(MetaRelations.StateEducationAgency_Ref)
-        {
-        	int  counter =0;
-        	for (String pid:seaMeta.programs.keySet()){
-        		ProgramMeta pm = seaMeta.programs.get(pid); 
-        		Ref programRef = new Ref(pm.id);
-        		ProgramReferenceType prt = new ProgramReferenceType();
-        		prt.setRef(programRef);
-        		stateEducationAgency.getProgramReference().add(prt);
-			}
-		} else {
-			for (String pid : seaMeta.programs.keySet()) {
-				ProgramMeta pm = seaMeta.programs.get(pid);
-				ProgramIdentityType pit = new ProgramIdentityType();
-				pit.setProgramId(pm.id);
-				ProgramReferenceType prt = new ProgramReferenceType();
-				prt.setProgramIdentity(pit);
-				stateEducationAgency.getProgramReference().add(prt);
-			}
-       }
-       
+		for (String pid : seaMeta.programs.keySet()) {
+			ProgramMeta pm = seaMeta.programs.get(pid);
+			ProgramIdentityType pit = new ProgramIdentityType();
+			pit.setProgramId(pm.id);
+			ProgramReferenceType prt = new ProgramReferenceType();
+			prt.setProgramIdentity(pit);
+			stateEducationAgency.getProgramReference().add(prt);
+		}
     
         return stateEducationAgency;
     }

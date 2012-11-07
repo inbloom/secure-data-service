@@ -17,6 +17,8 @@
 package org.slc.sli.dal.convert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,15 +66,11 @@ public class SubDocAccessor {
     private final INaturalKeyExtractor naturalKeyExtractor;
 
     public SubDocAccessor(MongoTemplate template, UUIDGeneratorStrategy didGenerator,
-                          INaturalKeyExtractor naturalKeyExtractor) {
+            INaturalKeyExtractor naturalKeyExtractor) {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
-        // // this will store student assessment associations under the student documents in the
-        // // assessments field
-        // store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId",
-        // "_id")
-        // .register();
+
         for (String entityType : EmbeddedDocumentRelations.getSubDocuments()) {
             String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
@@ -227,9 +225,11 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+                    .ok();
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError()
+                    .ok();
             return result;
         }
 
@@ -306,8 +306,9 @@ public class SubDocAccessor {
             subEntities.add(entity);
             TenantContext.setIsSystemCall(false);
 
-            return template.getCollection(collection).update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE)
-                    .getLastError().ok();
+            return template.getCollection(collection)
+                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+                    .ok();
         }
 
         private boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
@@ -331,13 +332,10 @@ public class SubDocAccessor {
 
         public Entity findById(String id) {
             LOG.debug("the subDoc id is: {}", id);
-            Query subDocQuery = new Query(Criteria.where(subField + "." + "_id").is(id));
-            Query parentQuery = subDocQuery;
-            if (!id.equals(getParentId(id))) {
-                parentQuery = new Query(Criteria.where("_id").is(getParentId(id)));
-            }
-            List<Entity> entities = findSubDocs(parentQuery.getQueryObject(), subDocQuery.getQueryObject(),
-                    new Query().getQueryObject());
+            Query subDocQuery = new Query(Criteria.where("_id").is(id));
+
+            DBObject parentQueryDBObject = toSubDocQuery(subDocQuery, true);
+            List<Entity> entities = findSubDocs(parentQueryDBObject, null, new Query().getQueryObject());
             if (entities != null && entities.size() == 1) {
                 return entities.get(0);
             }
@@ -346,9 +344,8 @@ public class SubDocAccessor {
         }
 
         public List<Entity> findAll(Query originalQuery) {
-            DBObject subDocQueryDBObject = toSubDocQuery(originalQuery, false);
             DBObject parentQueryDBObject = toSubDocQuery(originalQuery, true);
-            List<Entity> entities = findSubDocs(parentQueryDBObject, subDocQueryDBObject, getLimitQuery(originalQuery));
+            List<Entity> entities = findSubDocs(parentQueryDBObject, null, getLimitQuery(originalQuery));
             return entities;
         }
 
@@ -367,6 +364,10 @@ public class SubDocAccessor {
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject originalOrQueryDBObject : originalOrQueryDBObjects) {
                         DBObject orQueryDBObject = appendSubField(originalOrQueryDBObject, isParentQuery);
+                        if (orQueryDBObject.get("_id") != null) {
+                            addId(queryDBObject, orQueryDBObject.get("_id"));
+                            orQueryDBObject.removeField("_id");
+                        }
                         orQueryDBObjects.add(orQueryDBObject);
                     }
                     queryDBObject.put(key, orQueryDBObjects);
@@ -408,29 +409,51 @@ public class SubDocAccessor {
                 if (!key.startsWith("$")) {
                     String newKey = key;
                     Object newValue = originalDBObject.get(key);
-
-                    if (isParentQuery && key.equals("_id") && getId(newValue) != null
+                    String updatedKey = key.replace("body.", "");
+                    if (key.equals("_id") && getId(newValue) != null
                             && !getId(newValue).equals(getParentId(getId(newValue)))) {
                         // use parent id for id query
                         newDBObject.put(newKey, getParentId(getId(newValue)));
                     }
-                    if (isParentQuery && lookup.containsKey(key.replace("body.", ""))) {
-                        newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
+                    if (lookup.containsKey(updatedKey)) {
+
+                        if (newDBObject.get(updatedKey) != null) {
+                            Object idList = newDBObject.get(updatedKey);
+                            Set<String> combined = new HashSet<String>();
+                            combined.addAll(extractIdSet(idList));
+                            combined.addAll(extractIdSet(newValue));
+                            newDBObject.put(lookup.get(updatedKey), new BasicDBObject("$in", combined));
+                        } else {
+                            newDBObject.put(lookup.get(key.replace("body.", "")), newValue);
+                        }
                     } else {
                         // for other query, append the subfield to original key
                         newKey = subField + "." + key;
                         newDBObject.put(newKey, newValue);
                     }
+
                 } else if (key.equals("$or") || key.equals("$and")) {
                     List<DBObject> dbObjects = (List<DBObject>) originalDBObject.get(key);
                     List<DBObject> orQueryDBObjects = new ArrayList<DBObject>();
                     for (DBObject dbObject : dbObjects) {
-                        orQueryDBObjects.add(toSubDocQuery(dbObject, isParentQuery));
+                        DBObject subQuery = toSubDocQuery(dbObject, isParentQuery);
+                        if (subQuery.get("_id") != null) {
+                            addId(newDBObject, subQuery.get("_id"));
+                            subQuery.removeField("_id");
+                        }
+                        orQueryDBObjects.add(subQuery);
                     }
                     newDBObject.put(key, orQueryDBObjects);
                 }
             }
             return newDBObject;
+        }
+
+        private void addId(DBObject newDBObject, Object id) {
+            Set<String> combined = new HashSet<String>();
+            combined.addAll(extractIdSet(newDBObject));
+            combined.addAll(extractIdSet(id));
+            newDBObject.put("_id", new BasicDBObject("$in", combined));
         }
 
         // retrieve the a single id from DBObject value for "_id" field
@@ -463,24 +486,56 @@ public class SubDocAccessor {
                     limitQuerySB.append(",{$limit:" + limitQuery.get("$limit") + "}");
                 }
             }
-
             simplifyParentQuery(parentQuery);
 
-            String queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + parentQuery.toString()
-                    + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},{$match:"
-                    + subDocQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            DBObject idQuery = null;
+            if (parentQuery.containsField("_id")) {
+                idQuery = new Query().getQueryObject();
+                Object idFinalList = parentQuery.get("_id");
+                if (idFinalList instanceof List) {
+                    idQuery.put("_id", new BasicDBObject("$in", idFinalList));
+                } else {
+                    idQuery.put("_id", idFinalList);
+                }
+                parentQuery.removeField("_id");
+            }
+
+            String queryCommand;
+            if (idQuery != null) {
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$match : " + idQuery.toString()
+                        + "},{$project : {\"" + subField + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"},"
+                        + "{$match : " + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            } else {
+                queryCommand = "{aggregate : \"" + collection + "\", pipeline:[{$project : {\"" + subField
+                        + "\":1,\"_id\":0 } },{$unwind: \"$" + subField + "\"}," + "{$match : "
+                        + parentQuery.toString() + "}" + limitQuerySB.toString() + "]}";
+            }
             LOG.debug("the aggregate query command is: {}", queryCommand);
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
             List<DBObject> subDocs = (List<DBObject>) result.get("result");
             List<Entity> entities = new ArrayList<Entity>();
+
             if (subDocs != null && subDocs.size() > 0) {
                 for (DBObject dbObject : subDocs) {
                     entities.add(convertDBObjectToSubDoc(((DBObject) dbObject.get(subField))));
                 }
             }
             return entities;
+        }
+
+        @SuppressWarnings("unchecked")
+        private Set<String> extractIdSet(final Object obj) {
+            if (obj instanceof DBObject) {
+                Object dbObj = ((DBObject) obj).get("$in");
+                if (dbObj instanceof List) {
+                    return new HashSet<String>((List<String>) dbObj);
+                }
+            } else if (obj instanceof String) {
+                return new HashSet<String>(Arrays.asList((String) obj));
+            }
+            return Collections.emptySet();
         }
 
         @SuppressWarnings("unchecked")
@@ -497,7 +552,18 @@ public class SubDocAccessor {
                         if (childInQuery instanceof DBObject && ((DBObject) childInQuery).containsField("$in")) {
                             Object inList = ((DBObject) childInQuery).get("$in");
                             try {
-                                parentSet.addAll(getParentIds(inList));
+                                Object id = query.get("_id");
+                                if (id != null && id instanceof String) {
+                                    String singleId = (String) id;
+                                    if (getParentIds(inList).contains(singleId)) {
+                                        parentSet.add(singleId);
+                                    } else {
+                                        // No union of constraining criteria --> return
+                                        return;
+                                    }
+                                } else {
+                                    parentSet.addAll(getParentIds(inList));
+                                }
                             } catch (InvalidIdException e) {
                                 // IDs aren't valid, we can't simplify the query
                                 return;
@@ -573,6 +639,7 @@ public class SubDocAccessor {
             }
         }
 
+        @SuppressWarnings("serial")
         private class InvalidIdException extends Exception {
             public InvalidIdException(String s) {
                 super(s);

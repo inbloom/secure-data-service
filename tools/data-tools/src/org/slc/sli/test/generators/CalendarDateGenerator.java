@@ -17,24 +17,18 @@
 
 package org.slc.sli.test.generators;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.CalendarDate;
 import org.slc.sli.test.edfi.entities.CalendarEventType;
 
 
 
 public class CalendarDateGenerator {
-    static Random generator = new Random();
+	static private Random generator = new Random(31);
+	static private int dateCount  = 0;
 
-    public static CalendarDate getCalendarDate(String id, int dateCount) {
-        CalendarDate cd = new CalendarDate();
-        
-        cd.setId(id);
+    public static String generatDate() {
 
-//        cd.setDate("2011-03-04");
         int day = ((dateCount) % 28) + 1;
         int month = (((dateCount) / 28) % 12) + 1;
         int year = (((dateCount) / 28) / 12) + 2011;
@@ -55,18 +49,15 @@ public class CalendarDateGenerator {
         
         String yearString = "" + year;
         
-        cd.setDate(yearString+"-"+monthString+"-"+dayString);
+        dateCount++;
         
-//        cd.setCalendarEvent(getCalendarEventType());
-        cd.setCalendarEvent(getCalendarEventType(dateCount%8+1));
-
-        return cd;
+        return yearString + "-" + monthString + "-" + dayString;
     }
 
     
 
-    public static CalendarEventType getCalendarEventType(int roll) {
-//        int roll = generator.nextInt(8) + 1;
+    public static CalendarEventType getCalendarEventType() {
+    	int roll = generator.nextInt(8) + 1;
         switch (roll) {
             case 1: return CalendarEventType.EMERGENCY_DAY;
             case 2: return CalendarEventType.HOLIDAY;
@@ -79,21 +70,5 @@ public class CalendarDateGenerator {
             default: return CalendarEventType.WEATHER_DAY;
         }
     }
-
-
-    public static void main (String args[]) {
-//        CalendarDateGenerator cdg = new CalendarDateGenerator ();
-//        for (int i = 0; i < 10; i++) {
-//            CalendarDate cd = cdg.getCalendarDate();
-//            System.out.println("Date = " + cd.getDate());
-//            System.out.println("CalendarEventType = " + cd.getCalendarEvent());
-//        }
-    }
-
-
-	public static Calendar generateLowFi() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

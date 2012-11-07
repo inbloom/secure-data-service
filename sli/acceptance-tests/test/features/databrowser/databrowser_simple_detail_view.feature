@@ -71,9 +71,9 @@ And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 And I have navigated to the "GetStaffCohortAssociations" page of the Data Browser
-When I click on the row containing "b4e31b1a-8e55-8803-722c-14d8087c0712"
+When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f"
 Then the row expands below listing the rest of the attributes for the item
-When I click on the row containing "b4e31b1a-8e55-8803-722c-14d8087c0712"
+When I click on the row containing "b408635d-8fd5-11e1-86ec-0021701f543f"
 Then the row collapses hiding the additional attributes
 
 Scenario Outline: Entity Detail View

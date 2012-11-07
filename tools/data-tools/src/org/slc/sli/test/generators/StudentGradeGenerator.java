@@ -17,7 +17,6 @@
 package org.slc.sli.test.generators;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,7 +72,7 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 
 public class StudentGradeGenerator {
 
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
     private static String thisDay, oneYearAgo, oneYearHence;
     private static int idCount = 0;
 
@@ -195,7 +194,7 @@ public class StudentGradeGenerator {
 
         Grade grade = new Grade();
         grade.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        grade.setNumericGradeEarned(new BigInteger("3"));
+        grade.setNumericGradeEarned(3);
         grade.setDiagnosticStatement("Grade Exam Taken");
         grade.setGradeType(GradeType.EXAM);
         grade.setPerformanceBaseConversion(PerformanceBaseType.BASIC);
@@ -330,7 +329,7 @@ public class StudentGradeGenerator {
         StudentGradebookEntry sgbe = new StudentGradebookEntry();
         sgbe.setDateFulfilled(thisDay);
         sgbe.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
-        sgbe.setNumericGradeEarned(BigInteger.ONE);
+        sgbe.setNumericGradeEarned(1);
 
         CompetencyLevelDescriptorType cld = new CompetencyLevelDescriptorType();
         sgbe.setCompetencyLevel(cld);
