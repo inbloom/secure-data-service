@@ -81,11 +81,12 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |staffCohortAssociations                |b41338da-8fd5-11e1-86ec-0021701f543f|b4e31b1a-8e55-8803-722c-14d8087c0712|
  	    |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|2e2c3dd7-d8d6-4966-82dc-cdc598aa7d2c|
  	    |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|9bfab47d-8fd5-11e1-86ec-0021701f5432|
- 	    |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115|87fb8da5-e1aa-a6d9-efc7-b0eb091cd695|
+ 	    |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115|5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id|
  	    |studentCohortAssociations              |b40ca923-8fd5-11e1-86ec-0021701f543f|b40d6c75-8fd5-11e1-86ec-0021701f543f|
  	    |studentDisciplineIncidentAssociations  |20120613-8d5a-c796-76e3-d77d5d497e6c|3792acf6-8d5a-c796-76e3-d77d5d497e6c|
  	    |studentParentAssociations              |dd69083f-a053-4819-a3cd-a162cdc627d7|c5aa1969-492a-5150-8479-71bfc4d57f1e|
  	    |studentProgramAssociations             |b3f63ae6-8fd5-11e1-86ec-0021701f543f|b3f4db53-8fd5-11e1-86ec-0021701f543f|
  	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
  	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
- 	    |teacherSectionAssociations             |29d58f86-5fab-4926-a9e2-e4076fe27bb3|32b86a2a-e55c-4689-aedf-4b676f3da3fc|
+ 	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
+ 	    
