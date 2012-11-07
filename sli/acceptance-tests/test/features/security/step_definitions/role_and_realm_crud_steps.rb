@@ -27,11 +27,13 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id = "4cfcbe8d-832d-40f2-a9ba-0a6f1daf3741" if arg1 == "Fake Realm"
   id = "45b03fa0-1bad-4606-a936-09ab71af37fe" if arg1 == "Another Fake Realm"
   if arg1 == "Sandbox"
+    disable_NOTABLESCAN
     conn = Mongo::Connection.new('localhost')
     db = conn.db('sli')
     coll = db.collection('realm')
     sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "SandboxIDP"})
     id = sandboxRealm["_id"]
+    enable_NOTABLESCAN
   end
   id
 end
