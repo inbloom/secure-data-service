@@ -40,16 +40,16 @@ API_DB_NAME = convertTenantIdToDbName(DB_NAME);
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  id = "students"                               if human_readable_id == "STUDENT URI"
-  id = "sections"                               if human_readable_id == "SECTION URI"
-  id = "schools"                                if human_readable_id == "SCHOOL URI"
-  id = "studentSchoolAssociations"              if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
-  id = "studentSectionAssociations"             if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"   if human_readable_id == "English Sec 6"
-  id = "45831a9d-772e-45b3-9024-fa76ca4fe558"   if human_readable_id == "English Sec 7"
-  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "South Daybreak Elementary ID"
+  id = "students"                                if human_readable_id == "STUDENT URI"
+  id = "sections"                                if human_readable_id == "SECTION URI"
+  id = "schools"                                 if human_readable_id == "SCHOOL URI"
+  id = "studentSchoolAssociations"               if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
+  id = "studentSectionAssociations"              if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "English Sec 6"
+  id = "45831a9d-772e-45b3-9024-fa76ca4fe558"    if human_readable_id == "English Sec 7"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"    if human_readable_id == "South Daybreak Elementary ID"
 
-  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
+  id = @newId                                    if human_readable_id == "NEWLY CREATED ENTITY ID"
 
   #return the translated value
   id

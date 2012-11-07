@@ -24,7 +24,7 @@ import org.slc.sli.test.edfi.entities.CalendarEventType;
 
 
 public class CalendarDateGenerator {
-	static private Random generator = new Random();
+	static private Random generator = new Random(31);
 	static private int dateCount  = 0;
 
     public static String generatDate() {

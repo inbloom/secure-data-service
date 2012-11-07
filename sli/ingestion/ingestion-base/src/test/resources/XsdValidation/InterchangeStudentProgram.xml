@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeStudentProgram xmlns="http://ed-fi.org/0100">
+    
+    <StudentProgramAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu72</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ProgramReference ref="CAP0-D0-HSch0-prg0">
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <Services/>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <ReasonExited>No longer receiving special education</ReasonExited>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentProgramAssociation>
+</InterchangeStudentProgram>

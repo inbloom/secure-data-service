@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+  <AssessmentItem>
+    <IdentificationCode>asit0</IdentificationCode>
+    <ItemCategory>Analytic</ItemCategory>
+    <MaxRawScore>100</MaxRawScore>
+    <CorrectResponse>CorrectResponse</CorrectResponse>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <LearningStandardId ContentStandardName="lstd1Name">
+          <IdentificationCode>lstd1</IdentificationCode>
+        </LearningStandardId>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+    <Nomenclature>Nomenclature</Nomenclature>
+  </AssessmentItem>
+  <Assessment>
+    <AssessmentTitle>as0Title</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="School">
+      <ID>as0</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Achievement test</AssessmentCategory>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Adult Education</LowestGradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>pld1</CodeValue>
+        <PerformanceLevelMet>true</PerformanceLevelMet>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>0</MinimumScore>
+      <MaximumScore>100</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>ACT</ContentStandard>
+    <AssessmentForm>ThisAssessmentForm</AssessmentForm>
+    <Version>1</Version>
+    <RevisionDate>2012-03-24</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+      <CodeValue>apd0</CodeValue>
+    </AssessmentPeriod>
+    <ObjectiveAssessmentReference ref="objas0">
+      <ObjectiveAssessmentIdentity>
+        <ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode AssigningOrganizationCode="AssigningOrganizationCode" IdentificationSystem="Federal">
+          <ID>asf0</ID>
+        </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+</InterchangeAssessmentMetadata>

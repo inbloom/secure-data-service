@@ -119,43 +119,4 @@ public class TenantProcessorTest {
             landingZone.delete();
         }
     }
-
-    @Test
-    public void testInvalidLZPath() throws Exception {
-        String lzPath = "/ingestion-server/inbound/Ten?nant";
-        List<String> newPaths = new ArrayList<String>();
-        newPaths.add(lzPath);
-
-        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(newPaths);
-        List<Route> routes = new ArrayList<Route>();
-        when(mockedCamelContext.getRoutes()).thenReturn(routes);
-
-        Exchange exchange = new DefaultExchange(mockedCamelContext);
-
-        tenantProcessor.process(exchange);
-
-        Mockito.verify(mockedTenantDA, Mockito.times(1)).removeInvalidTenant(Mockito.anyString());
-        Mockito.verify(mockedCamelContext, Mockito.times(0)).addRoutes(Mockito.any(RouteBuilder.class));
-
-    }
-
-    @Test
-    public void testValidLZPath() throws Exception {
-        String lzPath = "/ingestion-server/inbound/Te*^n.n#@nt";
-        List<String> newPaths = new ArrayList<String>();
-        newPaths.add(lzPath);
-
-        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(newPaths);
-        List<Route> routes = new ArrayList<Route>();
-        when(mockedCamelContext.getRoutes()).thenReturn(routes);
-
-        Exchange exchange = new DefaultExchange(mockedCamelContext);
-
-        tenantProcessor.process(exchange);
-
-        Mockito.verify(mockedTenantDA, Mockito.times(0)).removeInvalidTenant(Mockito.anyString());
-        Mockito.verify(mockedCamelContext, Mockito.times(1)).addRoutes(Mockito.any(RouteBuilder.class));
-
-    }
-
 }

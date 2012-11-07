@@ -43,7 +43,7 @@ import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 public class DisciplineActionGenerator {
     private static final Logger log = Logger.getLogger(DisciplineActionGenerator.class);
 
-    static Random rand = new Random();
+    static Random rand = new Random(31);
     private static String date = "2011-03-04";
 
     /**
@@ -281,7 +281,7 @@ public class DisciplineActionGenerator {
         DisciplineAction disciplineAction = new DisciplineAction();
 
         try {
-            Random random = new Random();
+            Random random = new Random(31);
 
             String studentId = disciplineId.split(delimiter)[0];
             String schoolId = disciplineId.split(delimiter)[1];
