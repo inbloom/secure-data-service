@@ -21,6 +21,7 @@ limitations under the License.
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../selectors/step_definitions/selectors.rb'
 require 'test/unit'
 
 Before do
@@ -64,4 +65,8 @@ And /^I should see a sorted list with "([^"]*)" offset and "([^"]*)" limit sorte
   expected = @sorted_result[(offset.to_i)..(offset.to_i + limit.to_i - 1)]
   actual = @result.collect {|x| x[sortBy]}
   assert_equal(expected, actual)
+end
+
+Then /^in the response body I should not see field "(.*?)"$/ do |field|
+  assert(!(@result.has_key? field))
 end

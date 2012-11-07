@@ -125,6 +125,7 @@ public class ZipFileProcessor implements Processor {
             setExchangeHeaders(exchange, errorReport, newJob);
 
             setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
+            zipFile.delete();
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, exception);
