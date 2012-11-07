@@ -347,16 +347,6 @@ public class MongoQueryConverter {
                 }
             }
 
-            if (neutralQuery.getExcludeFields() != null) {
-                if (neutralQuery.getIncludeFields() == null || neutralQuery.getIncludeFields().isEmpty()) {
-                    for (String excludeField : neutralQuery.getExcludeFields()) {
-                        mongoQuery.fields().exclude(MONGO_BODY + excludeField);
-                    }
-                } else {
-                    LOG.debug("Attempting to add include & exclude fields to query, not allowed!");
-                }
-            }
-
             // offset
             if (neutralQuery.getOffset() > 0) {
                 mongoQuery.skip(neutralQuery.getOffset());
