@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-public class TransitiveStaffToTeacherValidator extends AbstractContextValidator {
+public class StaffToTeacherValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
