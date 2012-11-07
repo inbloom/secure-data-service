@@ -52,7 +52,8 @@ public abstract class JMSBase {
 
     private static final String STOMP_URL = "stomp://localhost:61613";
     private static final String JMS_URL = "tcp://localhost:61616";
-
+    private static final long MAX_RECONNECT_DELAY_MILLIS = 10000;
+    
     enum MessageType {
         QUEUE, TOPIC;
     }
@@ -78,7 +79,7 @@ public abstract class JMSBase {
             this.brokerURI = JMS_URL;
 
         } else {
-            this.brokerURI = this.mqURL;
+            this.brokerURI = "failover:(" + this.mqURL + ")?maxReconnectDelay=" + MAX_RECONNECT_DELAY_MILLIS;
         }
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.brokerURI);
