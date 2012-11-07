@@ -143,9 +143,9 @@ public class XsdValidatorTest {
         String invalidGradingPeriodRefMessage = String.format(REF_ERROR_FORMAT, "GradingPeriodReference");
         Assert.assertTrue("Should see warning for gradingPeriod reference", faultListContainsWarningMessage(faults, invalidGradingPeriodRefMessage));
 
-        // Check calendarDate reference - TODO update to assertTrue once id-ref for calendarDate has been removed
+        // Check calendarDate reference
         String invalidCalendarDateRefMessage = String.format(REF_ERROR_FORMAT, "CalendarDateReference");
-        Assert.assertFalse("Should see warning for calendarDate reference", faultListContainsWarningMessage(faults, invalidCalendarDateRefMessage));
+        Assert.assertTrue("Should see warning for calendarDate reference", faultListContainsWarningMessage(faults, invalidCalendarDateRefMessage));
 
         // Check academicWeek reference
         String invalidAcademicWeekRefMessage = String.format(REF_ERROR_FORMAT, "AcademicWeekReference");
