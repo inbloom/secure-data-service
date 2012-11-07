@@ -35,10 +35,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   # General
   id = @newId                                        if human_readable_id == "NEW ID"
   # Student
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085"        if human_readable_id == "MARVIN MILLER"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"     if human_readable_id == "MARVIN MILLER"
   id = "067198fd6da91e1aa8d67e28e850f224d6851713_id" if human_readable_id == "INGESTED MATT SOLLARS"
   # Section
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"        if human_readable_id == "8TH GRADE ENGLISH SEC 6"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id"     if human_readable_id == "8TH GRADE ENGLISH SEC 6"
   id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
   # Program
   id = "9b8c3aab-8fd5-11e1-86ec-0021701f543f"        if human_readable_id == "ACC TEST PROG 2"
@@ -110,15 +110,15 @@ end
 
 $entity_data = {
   "studentSectionAssociation" => {
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
-    "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e",
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
+    "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e_id",
     "repeatIdentifier" => "Repeated, counted in grade point average",
     "beginDate" => "2011-12-01",
     "endDate" => "2012-01-01",
     "homeroomIndicator" => true
   },
   "studentProgramAssociation" => {
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
     "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
     "beginDate" => "2012-01-12",
     "endDate" => "2012-05-01",
@@ -126,18 +126,18 @@ $entity_data = {
     "educationOrganizationId" =>"ec2e4218-6483-4e9c-8954-0aecccfd4731"
   },
   "studentAcademicRecord" => {
-      "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+      "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
       "sessionId" => "62101257-592f-4cbe-bcd5-b8cd24a06f73"
     },
     "studentCohortAssociation" => {
            "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f",
-           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085",
+           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085_id",
            "endDate" => "2020-01-15",
            "beginDate" => "2011-04-01"
         },
   "attendance" => {
     "entityType" => "attendance",
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
     "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",

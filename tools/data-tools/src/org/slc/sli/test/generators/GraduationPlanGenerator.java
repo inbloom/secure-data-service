@@ -34,7 +34,7 @@ import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.GraduationPlanType;
 
 public class GraduationPlanGenerator {
-    private static Random random = new Random();
+    private static Random random = new Random(31);
     private AcademicSubjectType[] subjectTypes = AcademicSubjectType.values();
     private GradeLevelType[] gradeLevels = GradeLevelType.values();
     private CourseCodeSystemType[] courseCodeSystemTypes = CourseCodeSystemType.values();

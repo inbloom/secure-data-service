@@ -131,7 +131,7 @@ public class StudentDisciplineAssociationGenerator {
     	StudentDisciplineIncidentAssociation studentDisciplineAssociation = new StudentDisciplineIncidentAssociation();
 
     	try {
-            Random random = new Random();
+            Random random = new Random(31);
             
             String studentId = studentDisciplineId.split(delimiter)[0];
             String discId = studentDisciplineId.split(delimiter)[2];

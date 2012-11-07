@@ -23,7 +23,7 @@ import org.slc.sli.test.edfi.entities.ElectronicMail;
 import org.slc.sli.test.edfi.entities.ElectronicMailAddressType;
 
 public class ElectronicMailGenerator {
-    private Random random = new Random();
+    private Random random = new Random(31);
     private ElectronicMailAddressType[] emailAddressTypes = ElectronicMailAddressType.values();
 
     public ElectronicMail generate(String user) {

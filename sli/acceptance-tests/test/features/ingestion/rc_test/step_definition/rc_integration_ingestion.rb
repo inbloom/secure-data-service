@@ -184,7 +184,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
   assert(!tenants.empty?, "Cannot find the tenant \"RCTestTenant\" in mongo")
 
   tenants[0]["body"]["landingZone"].each do |lz|
-    if lz["educationOrganization"] == "RCTestEdOrg"
+    if lz["educationOrganization"] == "STANDARD-SEA"
       @landing_zone_path = lz["path"]
       if (@landing_zone_path =~ /\/$/).nil?
         @landing_zone_path += "/"
