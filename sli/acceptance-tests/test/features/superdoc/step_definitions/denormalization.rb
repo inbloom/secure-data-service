@@ -131,7 +131,7 @@ $entity_data = {
     },
     "studentCohortAssociation" => {
            "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f",
-           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085",
+           "studentId" =>"74cf790e-84c4-4322-84b8-fca7206f1085_id",
            "endDate" => "2020-01-15",
            "beginDate" => "2011-04-01"
         },

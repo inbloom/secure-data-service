@@ -421,7 +421,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
-      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
       "beginDate" => "2012-05-01"
     },
     "teacherSchoolAssociation" => {
