@@ -347,12 +347,6 @@ public class MongoQueryConverter {
                 }
             }
 
-            if (neutralQuery.getExcludeFields() != null) {
-                for (String excludeField : neutralQuery.getExcludeFields()) {
-                    mongoQuery.fields().exclude(MONGO_BODY + excludeField);
-                }
-            }
-
             // offset
             if (neutralQuery.getOffset() > 0) {
                 mongoQuery.skip(neutralQuery.getOffset());
