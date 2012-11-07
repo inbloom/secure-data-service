@@ -24,6 +24,7 @@ require 'socket'
 require 'net/sftp'
 require 'net/http'
 require 'rest-client'
+require 'rbconfig'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -53,6 +54,8 @@ INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # STEPS: BEFORE
@@ -1331,6 +1334,8 @@ def scpFileToLandingZone(filename)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1352,6 +1357,8 @@ def scpFileToLandingZoneWithNewName(filename, dest_file_name)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1371,6 +1378,8 @@ def scpFileToParallelLandingZone(lz, filename)
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
   end
+
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
 
   assert(true, "File Not Uploaded")
 end
