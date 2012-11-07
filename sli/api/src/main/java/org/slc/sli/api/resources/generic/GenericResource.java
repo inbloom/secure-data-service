@@ -15,7 +15,9 @@
  */
 package org.slc.sli.api.resources.generic;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -87,32 +89,31 @@ public abstract class GenericResource {
         public ServiceResponse run(Resource resource);
     }
 
-	/**
-	 * Runs the first four path segments as a separate call to fetch ids to
-	 * inject into Subsequent call for URI rewrites
-	 *
-	 * @param uriInfo
-	 * @param template
-	 * @return
-	 */
+    /**
+     * Runs the first four path segments as a separate call to fetch ids to
+     * inject into Subsequent call for URI rewrites
+     *
+     * @param uriInfo
+     * @param template
+     * @return
+     */
     protected String locateIds(UriInfo uriInfo, ResourceTemplate template) {
         String id = uriInfo.getPathSegments().get(2).getPath();
         Resource resource = resourceHelper.getResourceName(uriInfo, template);
         Resource base = resourceHelper.getBaseName(uriInfo, template);
-        Resource association = resourceHelper.getAssociationName(uriInfo,
-			template);
+        Resource association = resourceHelper.getAssociationName(uriInfo, template);
 
-        ServiceResponse resp = resourceService.getEntities(base, id,
-				association, resource, URI.create(uriInfo.getRequestUri().getPath()));
+        ServiceResponse resp = resourceService.getEntities(base, id, association, resource,
+                URI.create(uriInfo.getRequestUri().getPath()));
 
         StringBuilder ids = new StringBuilder();
 
-        for (Iterator<EntityBody> i = resp.getEntityBodyList().iterator(); i.hasNext(); ) {
-        	EntityBody eb = i.next();
-        	ids.append(eb.get("id"));
-        	if (i.hasNext()) {
-        		ids.append(",");
-        	}
+        for (Iterator<EntityBody> i = resp.getEntityBodyList().iterator(); i.hasNext();) {
+            EntityBody eb = i.next();
+            ids.append(eb.get("id"));
+            if (i.hasNext()) {
+                ids.append(",");
+            }
         }
 
         return ids.toString();
@@ -124,13 +125,29 @@ public abstract class GenericResource {
 
         for (int i : indices) {
             result.add(segments.get(i).getPath());
-	    }
+        }
 
         return result;
     }
 
-
-
-
-
+    /**
+     * Encodes the decoded query parameter string.
+     *
+     * @param decoded
+     *            String representing decoded query parameters.
+     * @return String representing encoded query parameters.
+     */
+    protected String getEncodedQueryParameters(String decoded) {
+        String queryString = null;
+        if (decoded == null) {
+            queryString = "";
+        } else {
+            try {
+                queryString = "?" + URLEncoder.encode(decoded, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                error("unsupported encoding exception when parsing query parameters: {}", e);
+            }
+        }
+        return queryString;
+    }
 }

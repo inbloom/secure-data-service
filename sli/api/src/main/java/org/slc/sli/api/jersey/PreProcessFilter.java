@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.pdp.BaseEndpointMutator;
+import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
@@ -63,7 +63,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private MongoStat mongoStat;
 
     @Resource
-    private BaseEndpointMutator baseEndpointMutator;
+    private EndpointMutator mutator;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
@@ -74,7 +74,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
-        baseEndpointMutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
+        mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         contextValidator.validateContextToUri(request, principal);
         return request;
     }

@@ -30,7 +30,7 @@ public class GradingPeriodGenerator {
     
     private String beginDate = null;
     private String endDate = null;
-    Random generator = new Random();
+    Random generator = new Random(31);
 
     public GradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
@@ -46,7 +46,8 @@ public class GradingPeriodGenerator {
         endDate = "2012-03-" + inTwoDigits(gradePeriodType);
         gp.setBeginDate(beginDate);
         gp.setEndDate(endDate);
-        int roll = 45 + (int) (Math.random() * (150 - 45));
+        Random random = new Random(31);
+        int roll = 45 + (int) (random.nextDouble() * (150 - 45));
         gp.setTotalInstructionalDays(roll);
 
         return gp;

@@ -29,6 +29,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -528,5 +529,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         return findByQuery(collectionName, query);
+    }
+
+    @Override
+    public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+        FindAndModifyOptions options = new FindAndModifyOptions();
+        return template.findAndModify(query, update, options, getRecordClass(), collectionName);
     }
 }

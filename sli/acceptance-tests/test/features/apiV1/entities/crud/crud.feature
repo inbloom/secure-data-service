@@ -213,7 +213,7 @@ Examples:
 | Entity Type             | Entity Resource URI       | Code | Count | Rewrite URI|
 | "assessment"            | "assessments"             |  200 | 17    |/assessments|
 | "attendance"            | "attendances"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/attendances|
-| "cohort"                | "cohorts"                 |  200 | 3     |/staff/@ids/staffCohortAssociations/cohorts|
+| "cohort"                | "cohorts"                 |  200 | 2     |/staff/@ids/staffCohortAssociations/cohorts|
 | "course"                | "courses"                 |  200 | 0     |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       |  200 | 2     |/staff/@ids/disciplineActions|
 | "disciplineIncident"    | "disciplineIncidents"     |  200 | 0     |/staff/@ids/disciplineIncidents|
@@ -395,12 +395,12 @@ Examples:
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
      And format "application/vnd.slc+json"
     And my contextual access is defined by table:
-    |Context                | Ids                                |
-    |schools	                |92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
-    |educationOrganizations	|92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe|
-    |staff	                  |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |teachers               |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
-    |sections |15ab6363-5509-470c-8b59-4f289c224107,47b5adbf-6fd0-4f07-ba5e-39612da2e234|
+    | Context                | Ids                                                                          |
+    | schools	             | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | educationOrganizations | 92d6d5a0-852c-45f4-907a-912752831772,6756e2b9-aba1-4336-80b8-4a5dde3c63fe    |
+    | staff	                 | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | teachers               | e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b                                         |
+    | sections               | 15ab6363-5509-470c-8b59-4f289c224107_id,47b5adbf-6fd0-4f07-ba5e-39612da2e234 |
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
@@ -425,7 +425,7 @@ Examples:
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/schools/@ids|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 1     |/educationOrganizations/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
 | "staff"                 | "staff"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
@@ -433,7 +433,7 @@ Examples:
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
-| "gradingPeriod"         | "gradingPeriods"          | 1     |/schools/@ids/sessions/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
 | "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
 
 	@DE1825 

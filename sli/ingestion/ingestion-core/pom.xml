@@ -361,23 +361,6 @@
       <resource>
         <directory>${basedir}/src/main/resources</directory>
       </resource>
-
-      <resource>
-        <directory>../../config/indexes/</directory>
-        <targetPath>../classes</targetPath>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/tenantDB_indexes.js</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>../../config/shards/</directory>
-        <targetPath>../classes</targetPath>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/sli-shard-presplit.js</include>
-        </includes>
-      </resource>
     </resources>
   </build>
 

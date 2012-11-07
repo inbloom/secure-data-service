@@ -79,10 +79,7 @@ public class CohortGenerator {
 
         // construct and add the program reference
         ProgramIdentityType pi = new ProgramIdentityType();
-//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
-        pi.setStateOrganizationId(schoolId);
-//        pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setProgramIdentity(pi);
 
@@ -141,15 +138,7 @@ public class CohortGenerator {
 
         // construct and add the program reference
         ProgramIdentityType pi = new ProgramIdentityType();
-//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
-//        pi.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(schoolIds);
-        for (String schoolId : schoolIds) {
-            EducationOrgIdentificationCode educationOrgIdentificationCode = new EducationOrgIdentificationCode();
-            educationOrgIdentificationCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-            educationOrgIdentificationCode.setID(schoolId);
-            pi.getEducationOrgIdentificationCode().add(educationOrgIdentificationCode);
-        }
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setProgramIdentity(pi);
 
@@ -177,7 +166,7 @@ public class CohortGenerator {
     }
 
     public static void main (String args[]) throws Exception {
-        Random r = new Random ();
+        Random r = new Random (31);
         List<String> StateOrganizationIds = new ArrayList<String>();
 
         for (int j = 0; j < 5; j++) {

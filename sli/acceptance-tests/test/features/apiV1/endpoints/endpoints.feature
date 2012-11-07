@@ -2,9 +2,11 @@
 
 Feature: As a user of the SLC API I would like to see various endpoints exist.
 
-Background: Nothing yet
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     Scenario Outline: Check that the urls requested do actually exist
+        Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+        When I navigate to <url> with <id>
+        Then I should receive a valid return code
+        Given I am logged in using "cgray" "cgray1234" to realm "IL"
         When I navigate to <url> with <id>
         Then I should receive a valid return code
     Examples:
