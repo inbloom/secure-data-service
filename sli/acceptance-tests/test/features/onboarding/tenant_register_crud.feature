@@ -22,12 +22,6 @@ Scenario: Deny creation when specifying invalid fields
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
-    And I should see following map of indexes in the corresponding collections:
-     | collectionName                             | index                                                                |
-     | section                                    | body.schoolId_1                                                      |
-     | student                                    | body.studentUniqueStateId_1                                          |
-     | teacherSchoolAssociation                   | body.schoolId_1                                                      |
-
     When I navigate to GET "/tenants?tenantId=Midgar"
     Then I should receive a return code of 200
     And I should receive a UUID

@@ -132,7 +132,7 @@ end
 
 Then /^I should make the unique identifier not unique$/ do
   @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
-  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Shared Learning Infrastructure"
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Shared Learning Collaborative"
 end
 
 Then /^I should make the display name not unique$/ do

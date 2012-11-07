@@ -392,4 +392,8 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
         return repo.patch(type, collectionName, id, newValues);
     }
 
+    @Override
+    public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
 }

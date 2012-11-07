@@ -147,4 +147,9 @@ public class NeutralRecordEntity implements Entity {
     public Map<String,List<Entity>> getEmbeddedData() {
         return new HashMap<String, List<Entity>>();
     }
+
+    @Override
+    public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+        return new HashMap<String, List<Map<String, Object>>>();
+    }
 }

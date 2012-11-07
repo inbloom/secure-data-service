@@ -23,7 +23,8 @@
         }
     },
     {
-        "fieldPath" : "body.studentId",
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "student",
@@ -35,7 +36,7 @@
 		           	    "path" : "body.studentUniqueStateId",
 		                "values" :
 		                [{
-			                "valueSource" : "body.studentId"
+			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
 		                }]
 		            }
 	            ]

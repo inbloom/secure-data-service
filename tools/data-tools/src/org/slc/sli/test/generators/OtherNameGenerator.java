@@ -32,7 +32,7 @@ import org.slc.sli.test.edfi.entities.PersonalTitlePrefixType;
 
 public class OtherNameGenerator {
     private static final Logger log = Logger.getLogger(OtherNameGenerator.class);
-    private Random rand = new Random();
+    private Random rand = new Random(31);
     private String familyName_US       = "database/name/familyName_US.csv";
     private String givenName_female_US = "database/name/givenName_female_US.csv";
     private String givenName_male_US   = "database/name/givenName_male_US.csv";

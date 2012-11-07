@@ -68,6 +68,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
     // cache for complex types
     private Map<String, XmlSchemaComplexType> complexTypes;
+
     // cache for reference types
     private Map<String, XmlSchemaComplexType> referenceTypes;
 
@@ -153,7 +154,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
         // extract and cache the reference types from the complexTypes
         cacheReferenceTypes();
 
-        removeParentTypesFromCache();
+        extractBaseTypesFromCache();
 
         refSourceCache = new HashMap<String, DidRefSource>();
 
@@ -213,7 +214,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         // Iterate XML Schema items
         for (Entry<String, XmlSchemaComplexType> refType : referenceTypes.entrySet()) {
-            DidRefConfig refConfig = extractRefConfig(refType.getValue(), "");
+            DidRefConfig refConfig = extractRefConfig(refType.getValue());
             if (refConfig != null) {
                 refConfigs.put(refConfig.getEntityType(), refConfig);
             }
@@ -291,22 +292,21 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Remove parent types from the complexTypes cache.
      * We are only interested in the leaf node extended types.
      */
-    private void removeParentTypesFromCache() {
+    private void extractBaseTypesFromCache() {
         // find all the parent types
-        Set<String> parentTypeSet = new HashSet<String>();
+        Set<String> baseTypeSet = new HashSet<String>();
 
         for (XmlSchemaComplexType complexType : complexTypes.values()) {
             // this needs to also respect restriction
             String baseName = extractBaseTypeName(complexType);
             if (baseName != null) {
-                parentTypeSet.add(baseName);
+                baseTypeSet.add(baseName);
             }
         }
 
-        // remove all the parentTypes from cache
-        for (String parentType : parentTypeSet) {
-            complexTypes.remove(parentType);
-            referenceTypes.remove(parentType);
+        // remove all the baseTypes from reference Cache
+        for (String baseType : baseTypeSet) {
+            referenceTypes.remove(baseType);
         }
     }
 
@@ -329,26 +329,15 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * by traversing through all baseSchemas looking for ReferenceType
      */
     private boolean isReferenceType(XmlSchemaComplexType complexType) {
-        boolean isRef = false;
 
         String baseName = extractBaseTypeName(complexType);
-        while (baseName != null) {
-            if (baseName.equals(REFERENCE_TYPE)) {
-                isRef = true;
-                baseName = null;
-            } else if (complexTypes.containsKey(baseName)) {
-                XmlSchemaComplexType baseType = complexTypes.get(baseName);
-                if (baseType != null) {
-                    baseName = extractBaseTypeName(baseType);
-                } else {
-                    baseName = null;
-                }
-            } else {
-                baseName = null;
-            }
+
+
+        if (complexType.getName().contains(REFERENCE_TYPE)) {
+            return true;
         }
 
-        return isRef;
+        return false;
     }
 
     /**
@@ -396,7 +385,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     /**
      * Extract refConfig for a refType
      */
-    private DidRefConfig extractRefConfig(XmlSchemaComplexType refType, String baseXPath) {
+    private DidRefConfig extractRefConfig(XmlSchemaComplexType refType) {
         // get the identityType out of the refType
         DidRefConfig refConfig = null;
 
@@ -412,14 +401,14 @@ public class DidSchemaParser implements ResourceLoaderAware {
             if (identityTypeElement != null) {
                 XmlSchemaComplexType identityType = null;
                 identityType = complexTypes.get(identityTypeElement.getSchemaTypeName().getLocalPart());
-                baseXPath = baseXPath + identityTypeElement.getName() + ".";
+                String baseXPath = identityTypeElement.getName() + ".";
 
                 // need this to recursively extract refConfigs
                 refConfig = new DidRefConfig();
                 refConfig.setEntityType(refSource.getEntityType());
 
                 // parse the reference type
-                parseParticleForRefConfig(extractParticle(identityType), refConfig, baseXPath);
+                parseParticleForRefConfig(extractParticle(identityType), refConfig, baseXPath, false);
 
             } else {
                 LOG.error("Failed to extract IdentityType for referenceType " + refType.getName());
@@ -438,6 +427,17 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         List<DidRefSource> refSources = new ArrayList<DidRefSource>();
         parseParticleForRef(extractParticle(complexType), refSources, false);
+
+        //parse base type as well if it has one - we only ever need to go
+        if (complexType.getBaseSchemaTypeName() != null) {
+        	String baseTypeName =  complexType.getBaseSchemaTypeName().getLocalPart();
+        	XmlSchemaComplexType baseType = complexTypes.get(baseTypeName);
+        	if (baseType != null) {
+        		parseParticleForRef(extractParticle(baseType), refSources, false);
+        	} else {
+        		LOG.error("Failed to parse base entity type " + baseTypeName + " - could not find complex type");
+        	}
+        }
 
         // if any DidRefSources were found for this complex type, create a DidEntityConfig
         if (refSources.size() > 0) {
@@ -478,7 +478,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      * Recursively parse through an XmlSchemaPatricle to the elements
      * filling in the refConfig data, including nested refConfigs
      */
-    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath) {
+    private void parseParticleForRefConfig(XmlSchemaParticle particle, DidRefConfig refConfig, String baseXPath, boolean isOptional) {
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 XmlSchemaElement element = (XmlSchemaElement) particle;
@@ -495,14 +495,19 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
                     QName elementType = element.getSchemaTypeName();
 
+                    if (element.getMinOccurs() == 0) {
+                        isOptional = true;
+                    }
+
+                    keyfield.setOptional(isOptional);
+
                     // check whether we have a nested Ref and create
                     if (elementType != null && referenceTypes.containsKey(elementType.getLocalPart())) {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
-                        DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType, xPath + ".");
+                        DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType);
                         keyfield.setRefConfig(nestedRefConfig);
-                    } else {
-                        keyfield.setValueSource(xPath);
                     }
+                    keyfield.setValueSource(xPath);
 
                     refConfig.getKeyFields().add(keyfield);
 
@@ -513,17 +518,20 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
                     XmlSchemaObject item = schemaSequence.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath);
+                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath, isOptional);
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
                 XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
                 XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
 
+                //treat fields within a choice as being optional
+                isOptional = true;
+
                 for (int i = 0; i < choices.getCount(); i++) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
                     if (item instanceof XmlSchemaParticle) {
-                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath);
+                        parseParticleForRefConfig((XmlSchemaParticle) item, refConfig, baseXPath, isOptional);
                     }
                 }
             }
@@ -546,7 +554,9 @@ public class DidSchemaParser implements ResourceLoaderAware {
             }
         } else {
             XmlSchemaAnnotation annotation = refSchema.getAnnotation();
-            if (annotation != null) {
+            if (annotation == null) {
+                LOG.debug("Annotation missing from refSchema: {}", refSchema.getName());
+            } else {
                 refSource = parseAnnotationForRef(annotation);
                 refSourceCache.put(schemaName, refSource);
             }
@@ -608,15 +618,18 @@ public class DidSchemaParser implements ResourceLoaderAware {
      */
     private XmlSchemaAppInfo getAppInfo(XmlSchemaAnnotation annotation) {
         XmlSchemaAppInfo appInfo = null;
-        XmlSchemaObjectCollection items = annotation.getItems();
 
-        for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+        if (annotation != null) {
+        	XmlSchemaObjectCollection items = annotation.getItems();
 
-            XmlSchemaObject item = items.getItem(annotationIdx);
-            if (item instanceof XmlSchemaAppInfo) {
-                appInfo = (XmlSchemaAppInfo) item;
-                break;
-            }
+        	for (int annotationIdx = 0; annotationIdx < items.getCount(); annotationIdx++) {
+
+        		XmlSchemaObject item = items.getItem(annotationIdx);
+        		if (item instanceof XmlSchemaAppInfo) {
+        			appInfo = (XmlSchemaAppInfo) item;
+        			break;
+        		}
+        	}
         }
 
         return appInfo;

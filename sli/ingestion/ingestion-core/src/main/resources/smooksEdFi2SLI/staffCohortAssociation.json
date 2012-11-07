@@ -2,7 +2,8 @@
     "keyFields" : ["body.staffId","body.cohortId", "body.beginDate"],
     "references" :
     [{
-        "fieldPath" : "body.staffId",
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "staff",
@@ -14,7 +15,7 @@
                         "path" : "body.staffUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
                         }]
                     }
                 ]

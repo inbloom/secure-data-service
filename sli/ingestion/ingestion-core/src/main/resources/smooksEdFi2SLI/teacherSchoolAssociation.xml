@@ -18,19 +18,33 @@
     <jb:wiring property="body" beanIdRef="teacherSchoolAssociationBody" />
   </jb:bean>
 
-  <jb:bean beanId="teacherSchoolAssociationBody"   class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="teacherId"                  data="attributes teacherId" />
-    <jb:value property="schoolId"                   data="attributes SchoolReference" />
-    <jb:value property="programAssignment"          data="attributes programAssignment" />
-    <jb:wiring property="instructionalGradeLevels"  beanIdRef="instructionalGradeLevelsArray" />
-    <jb:wiring property="academicSubjects"          beanIdRef="academicSubjectsArray" />
+
+  <jb:bean beanId="teacherSchoolAssociationBody" class="java.util.HashMap" createOnElement="attributes">
+    <!-- TeacherReference -->
+    <jb:value property="teacherId" data="attributes TeacherReference" />
+    
+    <!-- SchoolReference -->
+    <jb:value property="schoolId" data="attributes SchoolReference" />
+
+    <!-- ProgramAssignment -->
+    <jb:value property="programAssignment" data="attributes programAssignment" />
+
+    <!-- InstructionGradeLevels -->
+    <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
+
+    <!-- AcademicSubjects -->
+    <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
+    
+  </jb:bean>
+  
+  <!--Gradelevels -->
+  <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:value data="instructionalGradeLevels element" />
+  </jb:bean>
+  
+  <!--AcademicSubjects -->
+  <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:value data="academicSubjects element" />
   </jb:bean>
 
-   <jb:bean beanId="instructionalGradeLevelsArray" class="java.util.ArrayList" createOnElement="attributes instructionalGradeLevels">
-      <jb:value data="attributes instructionalGradeLevels element" />
-   </jb:bean>
-
-   <jb:bean beanId="academicSubjectsArray" class="java.util.ArrayList" createOnElement="attributes academicSubjects">
-      <jb:value data="attributes academicSubjects element" />
-   </jb:bean>
 </smooks-resource-list>

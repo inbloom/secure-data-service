@@ -29,16 +29,17 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -235,11 +236,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         String tenantId = TenantContext.getTenantId();
-        if (tenantId != null && !isTenantAgnostic(collectionName)) {
-            if (metaData.get("tenantId") == null) {
-                metaData.put("tenantId", tenantId);
-            }
-        }
 
         if (id != null && collectionName.equals("educationOrganization")) {
             if (metaData.containsKey("edOrgs")) {
@@ -311,6 +307,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(records);
+            }
+            if(denormalizer.isCached(collectionName)) {
+                denormalizer.addToCache(results,collectionName);
             }
 
             return results;
@@ -530,5 +529,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         return findByQuery(collectionName, query);
+    }
+
+    @Override
+    public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+        FindAndModifyOptions options = new FindAndModifyOptions();
+        return template.findAndModify(query, update, options, getRecordClass(), collectionName);
     }
 }

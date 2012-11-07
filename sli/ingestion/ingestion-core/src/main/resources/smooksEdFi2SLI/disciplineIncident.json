@@ -2,7 +2,8 @@
     "keyFields" : [ "body.incidentIdentifier", "body.schoolId"],
 	"references" :
 	[{
-        "fieldPath" : "body.staffId",
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "staff",
@@ -12,10 +13,10 @@
 	            [
 		            { 
 		           	    "path" : "body.staffUniqueStateId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
-		                }]
+                        "values" :
+                        [{
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
+                        }]
 		            }
 	            ]
 	        ]

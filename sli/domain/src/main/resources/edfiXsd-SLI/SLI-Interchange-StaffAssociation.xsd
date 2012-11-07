@@ -14,12 +14,12 @@
 				<xs:element name="StaffEducationOrgEmploymentAssociation" type="StaffEducationOrgEmploymentAssociation"/>
 				<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
 				<xs:element name="Teacher" type="Teacher"/>
-				<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociationExtension"/>
+				<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 				<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
 				<xs:element name="LeaveEvent" type="LeaveEvent"/>
 				<xs:element name="OpenStaffPosition" type="OpenStaffPosition"/>
 				<xs:element name="CredentialFieldDescriptor" type="CredentialFieldDescriptor"/>
-				<xs:element name="StaffProgramAssociation" type="StaffProgramAssociation"/>
+				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

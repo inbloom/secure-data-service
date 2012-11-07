@@ -17,19 +17,15 @@
 
 package org.slc.sli.test.generators;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import org.slc.sli.test.edfi.entities.DisciplineAction;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
-import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentParticipationCodeType;
@@ -61,7 +57,7 @@ public class StudentDisciplineAssociationGenerator {
         
         for (String studentId : studentIds) {
 //            list.add(generateLowFi(studentId, disciplineIncidentId));
-        	StudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId);
+            StudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId, meta.schoolId);
         	QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
             JAXBElement<StudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<StudentDisciplineIncidentAssociation>(qName,StudentDisciplineIncidentAssociation.class,retVal);
             iWriter.marshal(jaxbElement);
@@ -78,7 +74,8 @@ public class StudentDisciplineAssociationGenerator {
      * 
      * @return <code>StudentDisciplineIncidentAssociation</code>
      */
-    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, String disciplineIncidentId) {
+    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, String disciplineIncidentId,
+            String schoolId) {
 
         StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
         
@@ -92,12 +89,10 @@ public class StudentDisciplineAssociationGenerator {
         assoc.setStudentReference(srt);
         
         // construct and add the disciplineIncident Reference       
-        ReferenceType dir = new ReferenceType();
-        DisciplineIncident di = new DisciplineIncident();
-        di.setId(disciplineIncidentId);
-//        dir.setId(disciplineIncidentId);
-        dir.setRef(di);
-        assoc.setDisciplineIncidentReference(dir);
+        DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(disciplineIncidentId,
+                schoolId);
+
+        assoc.setDisciplineIncidentReference(dirt);
 
         return assoc;
     }
@@ -110,7 +105,8 @@ public class StudentDisciplineAssociationGenerator {
      * 
      * @return <code>StudentDisciplineIncidentAssociation</code>
      */
-    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, DisciplineIncident disciplineIncident) {
+    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId,
+            DisciplineIncident disciplineIncident, String schoolId) {
 
         StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
         
@@ -124,10 +120,9 @@ public class StudentDisciplineAssociationGenerator {
         assoc.setStudentReference(srt);
         
         // construct and add the disciplineIncident Reference       
-        ReferenceType dir = new ReferenceType();
-        dir.setRef(disciplineIncident);
-        dir.setId(disciplineIncident.getIncidentIdentifier());
-        assoc.setDisciplineIncidentReference(dir);
+        DisciplineIncidentReferenceType dirt = DisciplineIncidentGenerator.generateReference(
+                disciplineIncident.getIncidentIdentifier(), schoolId);
+        assoc.setDisciplineIncidentReference(dirt);
 
         return assoc;
     }
@@ -136,7 +131,7 @@ public class StudentDisciplineAssociationGenerator {
     	StudentDisciplineIncidentAssociation studentDisciplineAssociation = new StudentDisciplineIncidentAssociation();
 
     	try {
-            Random random = new Random();
+            Random random = new Random(31);
             
             String studentId = studentDisciplineId.split(delimiter)[0];
             String discId = studentDisciplineId.split(delimiter)[2];

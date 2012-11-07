@@ -42,7 +42,8 @@ public class DidSchemaParserTest {
     private static final String SECTION_KEY_FIELD = "uniqueSectionCode";
     private static final String SECTION_SCHOOL_KEYFIELD = "schoolId";
     private static final String SCHOOL_KEYFIELD = "stateOrganizationId";
-
+    private static final String BASE_ENTITY_TYPE = "baseEntity";
+    private static final String EXTENDED_ENTITY_TYPE = "extendedEntity";
 
     @Before
     public void setup() {
@@ -108,7 +109,8 @@ public class DidSchemaParserTest {
 
         Assert.assertEquals(SECTION_SCHOOL_KEYFIELD, schoolId.getKeyFieldName());
         Assert.assertNotNull("schoolId should have a nested DID", schoolId.getRefConfig());
-        Assert.assertNull("schoolId should not have a value source", schoolId.getValueSource());
+        Assert.assertNotNull("schoolId should  have a value source", schoolId.getValueSource());
+        Assert.assertNotNull("SectionIdentity.EducationalOrgReference", schoolId.getValueSource());
 
         DidRefConfig nestedRefConfig = schoolId.getRefConfig();
         Assert.assertEquals(EDORG_TYPE, nestedRefConfig.getEntityType());
@@ -118,7 +120,7 @@ public class DidSchemaParserTest {
         KeyFieldDef stateOrgId = nestedRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(stateOrgId);
         Assert.assertEquals(SCHOOL_KEYFIELD, stateOrgId.getKeyFieldName());
-        Assert.assertEquals("SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId", stateOrgId.getValueSource());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", stateOrgId.getValueSource());
         Assert.assertNull("nested stateOrgId should not contain a nested reference", stateOrgId.getRefConfig());
     }
 
@@ -212,4 +214,104 @@ public class DidSchemaParserTest {
         Assert.assertEquals(true, refSourceB.isOptional());
         Assert.assertEquals("body.OptionalSchoolRefB", refSourceB.getSourceRefPath());
     }
+
+    @Test
+    public void shouldExtractEntityConfigsWithOptionalKeyFields() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/OptionalKeyField-Extension.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
+
+        Assert.assertEquals("Should extract 1 ref config", 1, refConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
+
+        //test the entityConfig for StudentSectionAssociation
+        DidRefConfig edOrgConfig = refConfigs.get(EDORG_TYPE);
+        Assert.assertNotNull(edOrgConfig);
+        Assert.assertNotNull(edOrgConfig.getKeyFields());
+
+        List<KeyFieldDef> keyFields = edOrgConfig.getKeyFields();
+        Assert.assertEquals("entity config should contain 1 keyfield", 1, keyFields.size());
+
+        Assert.assertNotNull(keyFields.get(0));
+        KeyFieldDef keyField = keyFields.get(0);
+        Assert.assertEquals("stateOrganizationId", keyField.getKeyFieldName());
+        Assert.assertTrue(keyField.isOptional());
+    }
+
+    @Test
+    public void shouldExtractEntityConfigsWithChoiceKeyFields() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/OptionalChoiceKeyField-Extension.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidRefConfig> refConfigs = didSchemaParser.getRefConfigs();
+
+        Assert.assertEquals("Should extract 1 ref config", 1, refConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(refConfigs.containsKey(EDORG_TYPE));
+
+        //test the entityConfig for StudentSectionAssociation
+        DidRefConfig edOrgConfig = refConfigs.get(EDORG_TYPE);
+        Assert.assertNotNull(edOrgConfig);
+        Assert.assertNotNull(edOrgConfig.getKeyFields());
+
+        List<KeyFieldDef> keyFields = edOrgConfig.getKeyFields();
+        Assert.assertEquals("entity config should contain 2 keyfield", 2, keyFields.size());
+
+        //order doesn't matter so put them into a map
+        Map<String, KeyFieldDef> keyFieldMap = new HashMap<String, KeyFieldDef>();
+        for (KeyFieldDef keyField : keyFields) {
+            keyFieldMap.put(keyField.getKeyFieldName(), keyField);
+        }
+
+        Assert.assertTrue(keyFieldMap.containsKey("keyFieldA"));
+        Assert.assertTrue(keyFieldMap.containsKey("keyFieldB"));
+
+        Assert.assertNotNull(keyFieldMap.get("keyFieldA"));
+        KeyFieldDef keyFieldA = keyFieldMap.get("keyFieldA");
+        Assert.assertEquals("keyFieldA", keyFieldA.getKeyFieldName());
+        Assert.assertTrue(keyFieldA.isOptional());
+
+        Assert.assertNotNull(keyFieldMap.get("keyFieldB"));
+        KeyFieldDef keyFieldB = keyFieldMap.get("keyFieldB");
+        Assert.assertEquals("keyFieldB", keyFieldB.getKeyFieldName());
+        Assert.assertTrue(keyFieldB.isOptional());
+    }
+
+    @Test
+    public void shouldExtractEntityConfigsWithRefsInBaseType() {
+        //change to the OptionalRef xsd
+        didSchemaParser.setExtensionXsdLocation("classpath:test-schema/RefInBaseEntity.xsd");
+        didSchemaParser.setup();
+
+        Map<String, DidEntityConfig> entityConfigs = didSchemaParser.getEntityConfigs();
+
+        Assert.assertEquals("Should extract 2 entity configs for the base and extended type", 2, entityConfigs.size());
+
+        //check the entity configs extracted are for the correct types
+        Assert.assertTrue(entityConfigs.containsKey(BASE_ENTITY_TYPE));
+        Assert.assertTrue(entityConfigs.containsKey(EXTENDED_ENTITY_TYPE));
+
+
+        /*
+        //test the entityConfig for StudentSectionAssociation
+        DidEntityConfig gbeConfig = entityConfigs.get(OPTIONAL_REF_TYPE);
+        Assert.assertNotNull(gbeConfig);
+        Assert.assertNotNull(gbeConfig.getReferenceSources());
+
+        List<DidRefSource> refSources = gbeConfig.getReferenceSources();
+        Assert.assertEquals("entity config should contain a single DidRefSource (edOrg)", 1, refSources.size());
+        DidRefSource refSource = refSources.get(0);
+        Assert.assertNotNull(refSource);
+        Assert.assertEquals(EDORG_TYPE, refSource.getEntityType());
+        Assert.assertEquals(true, refSource.isOptional());
+        Assert.assertEquals("body.OptionalSchoolRef", refSource.getSourceRefPath());
+        */
+    }
+
 }
