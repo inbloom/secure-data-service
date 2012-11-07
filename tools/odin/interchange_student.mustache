@@ -2,32 +2,7 @@
 <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
 
-  {{#students}}
-    <Student>
-      <StudentUniqueStateId>{{id}}</StudentUniqueStateId>
-      <Name>
-        <FirstName>{{firstName}}</FirstName>
-        <LastSurname>{{lastName}}</LastSurname>
-      </Name>
-      <Sex>{{sex}}</Sex>
-      <BirthData>
-        <BirthDate>{{birthYear}}-{{birthDay}}</BirthDate>
-      </BirthData>
-      <Address AddressType="Home">
-          <StreetNumberName>{{address}}</StreetNumberName>
-          <City>{{city}}</City>
-          <StateAbbreviation>{{state}}</StateAbbreviation>
-          <PostalCode>{{postalCode}}</PostalCode>
-      </Address>
-      <ElectronicMail EmailAddressType="Home/Personal">
-        <EmailAddress>{{email}}</EmailAddress>
-      </ElectronicMail>
-      <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
-      <Race/>
-      <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
-      <SchoolFoodServicesEligibility>{{schoolFood}}</SchoolFoodServicesEligibility>
-      <LimitedEnglishProficiency>{{limitedEnglish}}</LimitedEnglishProficiency>
-      <Section504Disabilities/>
-    </Student>
-  {{/students}}
+{{#students}}
+{{#gen_student}}{{.}}{{/gen_student}}
+{{/students}}
 </InterchangeStudentParent>

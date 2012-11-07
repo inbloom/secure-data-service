@@ -25,12 +25,20 @@ class InterchangeStudent < Mustache
   end
 
   def students
-    (0..@count).each.map{|i| Student.new(i)}
+    #(0..@count).each.map{|i| Student.new(i)}
+    (0..@count).to_a
+  end
+
+  def gen_student
+    lambda do |id|
+      student = Student.new id
+      student.render
+    end
   end
 
 end
 
-class Student 
+class Student < Mustache
 
   def choose(options)
     options[@rand.rand(options.size) - 1]

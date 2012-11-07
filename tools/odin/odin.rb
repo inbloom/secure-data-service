@@ -23,6 +23,8 @@ if ARGV.count < 1
 else
   studentCount = ARGV[0]
   interchange = InterchangeStudent.new studentCount.to_i
-  puts interchange.render
+  File.open("output.xml", 'w') do |f|
+    f.write(interchange.render)
+  end
 end
 
