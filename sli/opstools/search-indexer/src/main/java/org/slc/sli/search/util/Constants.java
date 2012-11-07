@@ -22,4 +22,6 @@ public class Constants {
     public static final String DEFAULT_INBOX_DIR = DEFAULT_DATA_DIR + "/inbox";
     public static final String DEFAULT_TMP_DIR = DEFAULT_DATA_DIR + "/tmp";
     
+    public static final String _DOT = ".";
+    public static final String DOT_REGEX = "[" + _DOT + "]";
 }

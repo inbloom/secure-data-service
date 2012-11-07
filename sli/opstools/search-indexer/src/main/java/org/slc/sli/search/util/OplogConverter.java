@@ -118,7 +118,7 @@ public class OplogConverter {
         // TODO: need to test
         Map<String, Object> sets = (Map<String, Object>) o.get(OPERATOR_ADD_TO_SET);
         for (String setField : sets.keySet()) {
-            List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(setField);
+            DotPath fieldChain = new DotPath(setField);
             Object obj = NestedMapUtil.get(fieldChain, entityMap);
             Object setValue = sets.get(setField);
             // Map<String,Object> setValueMap = convertFromJasonToMap(setV);
@@ -133,16 +133,14 @@ public class OplogConverter {
     private static void mergeSet(Map<String, Object> o, Map<String, Object> entityMap) {
         Map<String, Object> updates = (Map<String, Object>) o.get(OPERATOR_SET);
         for (String updateField : updates.keySet()) {
-            List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(updateField);
-            NestedMapUtil.put(fieldChain, updates.get(updateField), entityMap);
+            NestedMapUtil.put(new DotPath(updateField), updates.get(updateField), entityMap);
         }
     }
 
     private static void mergePush(Map<String, Object> o, Map<String, Object> entityMap, Map<String, Object> push) {
         // TODO: does it work?
         for (String pushField : push.keySet()) {
-            List<String> fieldChain = NestedMapUtil.getPathLinkFromDotNotation(pushField);
-            push(fieldChain, convertAsList(push.get(pushField)), entityMap);
+            push(new DotPath(pushField), convertAsList(push.get(pushField)), entityMap);
         }
     }
 
@@ -174,7 +172,7 @@ public class OplogConverter {
         return list;
     }
 
-    private static void push(List<String> fieldChain, List<Object> addingObject, Map<String, Object> entityMap) {
+    private static void push(DotPath fieldChain, List<Object> addingObject, Map<String, Object> entityMap) {
         Object obj = NestedMapUtil.get(fieldChain, entityMap);
         if (obj != null && obj.getClass().isArray()) {
             List<Object> list = new ArrayList<Object>();
@@ -184,13 +182,7 @@ public class OplogConverter {
         } else if (obj == null) {
             NestedMapUtil.put(fieldChain, addingObject, entityMap);
         } else {
-            StringBuilder sb = new StringBuilder();
-            for (String field : fieldChain) {
-                if (sb.length() != 0)
-                    sb.append(".");
-                sb.append(field);
-            }
-            throw new IllegalArgumentException("The object is not an array: " + sb.toString());
+            throw new IllegalArgumentException("The object is not an array: " + fieldChain.toString());
         }
     }
 

@@ -18,14 +18,13 @@ package org.slc.sli.search.config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.slc.sli.search.util.NestedMapUtil;
+import org.slc.sli.search.util.DotPath;
 
 /**
  * Config holder entity
@@ -39,29 +38,44 @@ public final class IndexConfig {
     // fields of the collections
     private List<String> fields;
     // rename to fields
-    private Map<String, String> rename;
+    private Map<DotPath, DotPath> rename;
     
     // append to map
-    private Map<String, Object> append;
+    private Map<DotPath, Append> append;
     
-    private Map<String, Object> filterCondition;
+    private Map<DotPath, Object> condition;
     
     private Map<String, Object> mapping;
-    
-    @JsonIgnore
-    private Map<List<String>, List<String>> renameMap;
-    
-    @JsonIgnore
-    private Map<List<String>, Object> appendMap;
-    
-    @JsonIgnore
-    private Map<List<String>, Object> filtersMap;
     
     @JsonIgnore
     private List<String> flattenedFields;
     
     @JsonIgnore
     private String collectionName;
+    
+    public static class Append {
+        private DotPath subdoc;
+        private String field;
+        private String value;
+        private Map<DotPath, Object> condition;
+        
+        public DotPath getSubdoc() {
+            return subdoc;
+        }
+        public String getField() {
+            return field;
+        }
+        public String getValue() {
+            return value;
+        }
+        public Map<DotPath, Object> getCondition() {
+            return condition;
+        }
+        @Override
+        public String toString() {
+            return "Append [subdoc=" + subdoc + ", field=" + field + ", value=" + value + ", filterCondition=" + condition + "]";
+        }
+    }
     
     /**
      * list of entity names that depends on this entity as the parent doc
@@ -77,21 +91,21 @@ public final class IndexConfig {
         return fields;
     }
     
-    public Map<List<String>, List<String>> getRename() {
-        return renameMap;
+    public Map<DotPath, DotPath> getRename() {
+        return rename;
     }
     
 
-    public Map<List<String>, Object> getAppend() {
-        return this.appendMap;
+    public Map<DotPath, Append> getAppend() {
+        return this.append;
     }
     
     public String getIndexType() {
         return indexType == null ? collectionName : indexType;
     }
     
-    public Map<List<String>, Object> getFilterCondition() {
-        return filtersMap;
+    public Map<DotPath, Object> getCondition() {
+        return condition;
     }
     
     public List<String> getFlattendedFields() {
@@ -127,33 +141,9 @@ public final class IndexConfig {
         Set<String> fieldSet = new HashSet<String>(this.fields);
         fieldSet.addAll(REQUIRED_FIELDS);
         this.fields = new ArrayList<String>(fieldSet);
-        if (rename != null) {
-            List<String> fieldChainFrom, fieldChainTo;
-            Map<List<String>, List<String>> renameMap = new HashMap<List<String>, List<String>>();
-            for (Map.Entry<String, String> entry : rename.entrySet()) {
-                fieldChainFrom = NestedMapUtil.getPathLinkFromDotNotation(entry.getKey());
-                fieldChainTo = NestedMapUtil.getPathLinkFromDotNotation(entry.getValue());
-                renameMap.put(fieldChainFrom, fieldChainTo);
-            }
-            this.renameMap = Collections.unmodifiableMap(renameMap);
-        }
-        if (append != null) {
-            Map<List<String>, Object> appendMap = new HashMap<List<String>, Object>();
-            for (Map.Entry<String, Object> entry : append.entrySet()) {
-                appendMap.put(NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
-            }
-            this.appendMap = Collections.unmodifiableMap(appendMap);
-        }
-        if (filterCondition != null) {
-            Map<List<String>, Object> filterMap = new HashMap<List<String>, Object>();
-            for (Map.Entry<String, Object> entry : filterCondition.entrySet()) {
-                filterMap.put(NestedMapUtil.getPathLinkFromDotNotation(entry.getKey()), entry.getValue());
-            }
-            this.filtersMap = Collections.unmodifiableMap(filterMap);
-        }
         Set<String> flattenedFields = new HashSet<String>();
         for (String field: fields)
-            flattenedFields.addAll(NestedMapUtil.getPathLinkFromDotNotation(field));
+            flattenedFields.addAll(DotPath.to(new DotPath(field)));
         this.flattenedFields = Collections.unmodifiableList(new ArrayList<String>(flattenedFields));
     }
 }

@@ -10,11 +10,8 @@
       "schools.exitWithdrawDate",
       "schools._id"
     ],
-    "rename": {
-      "schools.$._id": "body.context.schoolId"
-    },
-    "filterCondition": {
-      "schools.exitWithdrawDate": null
+    "append": {
+      "body.context.schoolId" : {"subdoc": "schools", "field":"_id", "condition": {"exitWithdrawDate" : null}}
     },
     "mapping": {
       "student": {
@@ -41,7 +38,7 @@
       "body.subjectArea"
     ],
     "append": {
-      "body.context.schoolId" : "ALL"
+      "body.context.schoolId" : {"value": "ALL"}
     },
     "mapping": {
       "learningStandard": {

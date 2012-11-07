@@ -224,7 +224,7 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
     public void createIndex(String index) {
         if (executeHead(getIndexUri(), index) != HttpStatus.OK) {
             logger.info("Creating new index " + index);
-            executePost(getIndexUri() + "/{index}", null, index);
+            executePost(getIndexUri(), null, index);
         }
     }
     

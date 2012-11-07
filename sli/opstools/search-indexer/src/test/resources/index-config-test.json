@@ -41,9 +41,21 @@
       "body.name"
     ],
     "rename" : {"body.name" : "_id", "body.b": "body.metaData.contextId"},
-    "filterCondition":{"test.filter": null},
+    "condition":{"test.filter": null, "test.array.filter": null},
     "append": {
-      "body.append" : "ALL"
+      "body.append" : {"value": "ALL"}
+    }
+  },
+  "test1": {
+    "indexType": "student",
+    "fields": [],
+    "condition":{"test.array.filter": null}
+  },
+  "test2": {
+    "indexType": "student",
+    "fields": ["array.id", "array.filter"],
+     "append": {
+      "body.test" : {"subdoc": "array", "field":"id", "condition": {"filter" : null}}
     }
   }
 }

@@ -9,14 +9,14 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import com.mongodb.DBCollection;
-
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.mongodb.DBCollection;
 
 public class OplogConverterTest {
     private ObjectMapper mapper = null;
@@ -28,14 +28,14 @@ public class OplogConverterTest {
 
     @Test
     public void testSet() throws JsonParseException, JsonMappingException, IOException {
-        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("body.principal.realm"),
+        Object obj = NestedMapUtil.get(new DotPath("body.principal.realm"),
                 getEntity("setOplog"));
         Assert.assertEquals("2012dd-a4121e59-243a-11e2-beb4-3c07546832b4", obj);
     }
 
     // @Test
     public void testPull() throws JsonParseException, JsonMappingException, IOException {
-        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("schools"), getEntity("pullOplog"));
+        Object obj = NestedMapUtil.get(new DotPath("schools"), getEntity("pullOplog"));
         Assert.assertTrue(obj instanceof List);
         @SuppressWarnings("unchecked")
         List<Object> list = (List<Object>) obj;
@@ -44,7 +44,7 @@ public class OplogConverterTest {
 
     @Test
     public void testAddToSetEach() throws JsonParseException, JsonMappingException, IOException {
-        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("metaData.edOrgs"),
+        Object obj = NestedMapUtil.get(new DotPath("metaData.edOrgs"),
                 getEntity("addToSetEachOplog"));
         Assert.assertTrue(obj instanceof List);
         @SuppressWarnings("unchecked")
@@ -58,7 +58,7 @@ public class OplogConverterTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testPushAll() throws JsonParseException, JsonMappingException, IOException {
-        Object obj = NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("schools"), getEntity("pushAllOplog"));
+        Object obj = NestedMapUtil.get(new DotPath("schools"), getEntity("pushAllOplog"));
         Assert.assertTrue(obj instanceof List);
         List list = (List) obj;
         Assert.assertEquals(2, list.size());

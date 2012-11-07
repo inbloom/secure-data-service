@@ -22,7 +22,6 @@ import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
-import org.slc.sli.search.transform.impl.GenericFilter;
 import org.slc.sli.search.transform.impl.GenericTransformer;
 import org.slc.sli.search.util.IndexEntityUtil;
 import org.slc.sli.search.util.SearchIndexerException;
@@ -35,7 +34,6 @@ public class IndexEntityConverter {
     private EntityEncryption entityEncryption;
     private IndexConfigStore indexConfigStore;
     private final GenericTransformer transformer = new GenericTransformer();
-    private final GenericFilter filter = new GenericFilter();
     // decrypt records flag
     private boolean decrypt = true;
     
@@ -66,7 +64,7 @@ public class IndexEntityConverter {
             IndexConfig config = indexConfigStore.getConfig(type);
             
             // filter out
-            if (!filter.matchesCondition(config, entityMap))
+            if (!transformer.isMatch(config, entityMap))
                 return null;
             
             // transform the entities

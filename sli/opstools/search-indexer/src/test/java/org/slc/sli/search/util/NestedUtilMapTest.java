@@ -30,8 +30,8 @@ public class NestedUtilMapTest {
     public void testFlatMap() {
         Map<String, Object> testMap = new HashMap<String, Object>();
         
-        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.levl2"), 1, testMap);
-        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.name"), "my name", testMap);
+        NestedMapUtil.put(new DotPath("test.levl1.levl2"), 1, testMap);
+        NestedMapUtil.put(new DotPath("test.levl1.name"), "my name", testMap);
         Map<String, Object> map = (Map<String, Object>) ((Map<String, Object>)testMap.get("test")).get("levl1");
         Assert.assertEquals(1, map.get("levl2"));
         Assert.assertEquals("my name", map.get("name"));
@@ -52,10 +52,10 @@ public class NestedUtilMapTest {
         Map<String, Object> testMap2 = new HashMap<String, Object>();
         testMap2.put("id", "2xy");
         
-        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.levl2"), 1, testMap);
-        NestedMapUtil.put(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.array"), Arrays.asList(testMap1, testMap2), testMap);
+        NestedMapUtil.put(new DotPath("test.levl1.levl2"), 1, testMap);
+        NestedMapUtil.put(new DotPath("test.levl1.array"), Arrays.asList(testMap1, testMap2), testMap);
       
-        Assert.assertEquals(1111, NestedMapUtil.get(NestedMapUtil.getPathLinkFromDotNotation("test.levl1.array.$.id"), testMap));
+        Assert.assertEquals(1111, NestedMapUtil.get(new DotPath("test.levl1.array.$.id"), testMap));
     }
     
 }
