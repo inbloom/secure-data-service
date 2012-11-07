@@ -27,7 +27,10 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 When /^I call "(.*?)" using ID "(.*?)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  @id = arg2
+  uri = arg1.gsub("@id", @id)
+  restHttpGet(uri,"application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^the executed URI should be "(.*?)"$/ do |arg1|
@@ -37,7 +40,7 @@ Then /^the executed URI should be "(.*?)"$/ do |arg1|
   actual = @headers["x-executedpath"][0]
 
   #First, make sure the paths of the URIs are the same
-  expectedPath = expected.gsub("@ids", "[^/]+")
+  expectedPath = expected.gsub("@context", "[^/]+")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
@@ -51,5 +54,12 @@ Then /^the executed URI should be "(.*?)"$/ do |arg1|
     expectedIds.each do |id|
       assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
     end
+  end
+  
+  if expectedPath.include?("?")
+    queryId = actual.match(/?[^=]*=(.+)/)[1]
+    assert(queryId == @id, "Query Parameter did not match, expected #{@id} but was #{queryId}")
+  else
+    assert(!actual.include?("?"), "Expected no query parameters but found one: #{actual}")
   end
 end
