@@ -1084,8 +1084,8 @@ public class BasicService implements EntityService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
-        if( principal.getEntity().getType().equals(EntityNames.STAFF) ) {
-            if (VALIDATOR_ENTITIES.contains(defn.getType()) ) {
+        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            if (VALIDATOR_ENTITIES.contains(defn.getType())) {
                 useResolvers = false;
             } else {
                 useResolvers = ENABLE_CONTEXT_RESOLVING;
