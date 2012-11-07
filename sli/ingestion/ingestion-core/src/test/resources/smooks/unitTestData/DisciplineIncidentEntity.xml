@@ -33,14 +33,7 @@
       <CaseNumber>Case Number 1</CaseNumber>
       <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>State Organization Id 1</StateOrganizationId>
-          <StateOrganizationId>State Organization Id 2</StateOrganizationId>
-          <EducationOrgIdentificationCode IdentificationSystem="Test Contractor">
-          	<ID>Identifier 1</ID>
-          </EducationOrgIdentificationCode>
-          <EducationOrgIdentificationCode IdentificationSystem="District">
-          	<ID>Identifier 2</ID>
-          </EducationOrgIdentificationCode>
+          <StateOrganizationId>State Organization Id</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <StaffReference>

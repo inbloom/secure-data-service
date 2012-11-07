@@ -25,7 +25,7 @@
         <jb:value property="cohortType" data="attributes cohortType" />
         <jb:value property="cohortScope" data="attributes cohortScope" />
         <jb:value property="academicSubject" data="attributes academicSubject" />
-        <jb:value property="educationOrgId" data="attributes educationOrgId" />
+        <jb:value property="educationOrgId" data="attributes EducationOrgReference" />
         <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
     </jb:bean>
 

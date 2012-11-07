@@ -84,7 +84,7 @@
     },
     {
       "path": "/courseTranscripts",
-      "doc": "Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$StudentTranscriptAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/courseTranscripts. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/courseTranscripts. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
+      "doc": "Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$CourseTranscript$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/courseTranscripts. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/courseTranscripts. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/courses" },
         { "path": "/{id}/students" }
@@ -226,7 +226,7 @@
     },
     {
       "path": "/studentAcademicRecords",
-      "doc": "Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAcademicRecords. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAcademicRecords. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
+      "doc": "Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use CourseTranscriptResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAcademicRecords. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAcademicRecords. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
     },
     {
       "path": "/learningObjectives",

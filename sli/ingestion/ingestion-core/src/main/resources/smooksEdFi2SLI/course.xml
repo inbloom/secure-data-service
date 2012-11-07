@@ -35,7 +35,7 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
         <jb:wiring property="minimumAvailableCredit" beanIdRef="MinimumAvailableCreditType" />
         <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
         <jb:value property="careerPathway" data="attributes careerPathway" />
-        <jb:value property="schoolId" data="attributes schoolId" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
         <jb:value property="uniqueCourseId" data="attributes uniqueCourseId" />
     </jb:bean>
 

@@ -64,6 +64,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
 
+    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
+    private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
+
     private int numAttendancesIngested = 0;
 
     private Map<Object, NeutralRecord> attendances;
@@ -239,7 +242,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+                query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID, NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
@@ -283,7 +286,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
         attendanceAttributes.put("studentId", studentId);
-        attendanceAttributes.put("schoolId", schoolId);
+        attendanceAttributes.put("schoolId", createEdfiSchoolReference(schoolId));
         attendanceAttributes.put("schoolYearAttendance", daily);
 
         record.setAttributes(attendanceAttributes);
@@ -704,6 +707,17 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             }
         }
         return res;
+    }
+
+    /**
+     * create a school reference that can be resolved by the deterministic ID resolver
+     */
+    private static Map<String, Object> createEdfiSchoolReference(String schoolId) {
+        Map<String, Object> schoolReferenceObj = new HashMap<String, Object>();
+        Map<String, Object> idObj = new HashMap<String, Object>();
+        idObj.put(STATE_ORGANIZATION_ID, schoolId);
+        schoolReferenceObj.put(EDUCATIONAL_ORG_ID, idObj);
+        return schoolReferenceObj;
     }
 
     /**

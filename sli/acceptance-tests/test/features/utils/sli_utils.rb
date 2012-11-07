@@ -295,131 +295,18 @@ def makeHeaders(verb,sessionId,format)
   return headers
 end
 
-##############################################################################
-##############################################################################
-###### Indexing ##############################################################
-
-def createIndexesOnDb(db_connection,db_name)
-
-  @db = db_connection[db_name]
-  ensureIndexes(@db)
-
-end
-
-def ensureIndexes(db)
-
-  @collection = @db["assessment"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["attendance"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["course"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["educationOrganization"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["gradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["parent"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["school"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["section"]
-  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.courseId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-
-  @collection = @db["session"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["staff"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["staffEducationOrganizationAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["student"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["studentAssessmentAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["studentParentAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentSchoolAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentSectionAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['body.sectionId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentGradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["studentTranscriptAssociation"]
-  @collection.save( {'body' => {'courseId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.studentId', 1], ['body.courseId', 1]])
-  @collection.remove( {'body' => {'courseId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["teacher"]
-  @collection.save({ 'metaData' => {'externalId' => " "} })
-  @collection.ensure_index([['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " "} })
-
-  @collection = @db["teacherSectionAssociation"]
-  @collection.save( {'body' => {'teacherId' => " ", 'sectionId' => " "}} )
-  @collection.ensure_index([ ['body.teacherId', 1], ['body.sectionId', 1]])
-  @collection.remove( {'body' => {'teacherId' => " ", 'sectionId' => " "}} )
-
-end
-
 
 ##############################################################################
 ##############################################################################
 ###### After hook(s) #########################################################
+
+Before do
+  enable_NOTABLESCAN()
+end
+
+at_exit do
+  disable_NOTABLESCAN()
+end
 
 After do |scenario|
   Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']

@@ -4070,13 +4070,13 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="studentTranscriptAssociation">
+	<xs:complexType name="courseTranscript">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
 			<xs:appinfo>
-				<sli:CollectionType>studentTranscriptAssociation</sli:CollectionType>
+				<sli:CollectionType>courseTranscript</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                 <sli:schemaVersion>1</sli:schemaVersion>
             </xs:appinfo>
