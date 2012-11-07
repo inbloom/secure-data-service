@@ -435,6 +435,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      *            The StateOrganizationid for the school
      * @return The Id of the Parent Education Organization
      */
+    @SuppressWarnings("unchecked")
     private String getParentEdOrg(String schoolId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
@@ -446,11 +447,24 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         String parentEducationAgency = null;
         if (queriedSchool.iterator().hasNext()) {
             NeutralRecord record = queriedSchool.iterator().next();
-            parentEducationAgency = (String) record.getAttributes().get("parentEducationAgencyReference");
+            Map<String, Object> edorgReference = (Map<String, Object>) record.getAttributes().get("LocalEducationAgencyReference");
+            if (edorgReference != null) {
+                Map<String, Object> edorgIdentity = (Map<String, Object>) edorgReference.get(EDUCATIONAL_ORG_ID);
+                if (edorgIdentity != null) {
+                    parentEducationAgency = (String) (edorgIdentity.get(STATE_ORGANIZATION_ID));
+                }
+            }
         } else {
             Entity school = getSliSchool(schoolId);
             if (school != null) {
-                parentEducationAgency = (String) school.getBody().get("parentEducationAgencyReference");
+                String parentEducationAgencyID = (String) school.getBody().get("parentEducationAgencyReference");
+                if (parentEducationAgencyID != null) {
+                    // look up the state edorg id of parent from SLI using its _id. Since the child is in sli, the parent must be as well.
+                    NeutralQuery parentQuery = new NeutralQuery(0);
+                    parentQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, parentEducationAgencyID));
+                    Entity parent = getMongoEntityRepository().findOne(EntityNames.EDUCATION_ORGANIZATION, parentQuery);
+                    parentEducationAgency = (String) parent.getBody().get("stateOrganizationId");
+                }
             }
         }
 
