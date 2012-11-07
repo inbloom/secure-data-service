@@ -1078,12 +1078,21 @@ public class BasicService implements EntityService {
     }
 
     private boolean useContextResolver() {
+
+        boolean useResolvers = true;
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        if (VALIDATOR_ENTITIES.contains(defn.getType()) && principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            return false;
+
+        if( principal.getEntity().getType().equals(EntityNames.STAFF) ) {
+            if (VALIDATOR_ENTITIES.contains(defn.getType()) ) {
+                useResolvers = false;
+            } else {
+                useResolvers = ENABLE_CONTEXT_RESOLVING;
+            }
         }
-        return ENABLE_CONTEXT_RESOLVING;
+
+        return useResolvers;
     }
 
     /**
