@@ -29,6 +29,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -286,6 +287,31 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return records;
+        } if (subDocs.isArrayConsolidated(collectionName)) {
+            List<Entity> results = new ArrayList<Entity>();
+            
+            for (Entity entity : records) {
+                
+                if (entity.getBody().get("schoolYear").equals("2009-2010")) {
+                    System.out.print("");
+                }
+                
+                try {
+                    results.add(super.insert(entity, collectionName));
+                } catch (DuplicateKeyException dke) {
+                    subDocs.arrayConsolidate(entity, collectionName);
+                }
+            }
+
+            if (denormalizer.isDenormalizedDoc(collectionName)) {
+                denormalizer.denormalization(collectionName).insert(results);
+            }
+            if(denormalizer.isCached(collectionName)) {
+                denormalizer.addToCache(results, collectionName);
+            }
+
+            return results;
+            
         } else {
             List<Entity> persist = new ArrayList<Entity>();
 

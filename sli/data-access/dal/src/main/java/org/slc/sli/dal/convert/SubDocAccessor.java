@@ -30,6 +30,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
@@ -40,6 +41,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import org.slc.sli.common.domain.ArrayConsolidation;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -645,5 +647,80 @@ public class SubDocAccessor {
 
     public Location subDoc(String docType) {
         return locations.get(docType);
+    }
+    
+    public boolean isArrayConsolidated(String docType) {
+        return EmbeddedDocumentRelations.consolidatesArrayData(docType);
+    }
+
+    /**
+     * Builds a pull request for all entries in the entity's array based on their primary keys.
+     * 
+     * For example, when inserting attendance, builds a pull request for any attendance events
+     * for dates that are about to be (re) inserted.
+     * 
+     * 
+     * @param entity
+     * @param collectionName
+     * @return
+     */
+    private DBObject buildArrayPullObject(Entity entity, String collectionName) {
+        ArrayConsolidation arrayConsolidation = EmbeddedDocumentRelations.getArrayConsolidationRules(collectionName);
+        
+        String arrayPkFieldName = arrayConsolidation.getArrayPkFieldName();
+        List<String> pks = new ArrayList<String>();
+        Object o = entity.getBody().get(arrayConsolidation.getArrayPath());
+        
+        if (o instanceof List<?>) {
+            List<?> array = (List<?>) o;
+            
+            for (Object obj : array) {
+                if (obj instanceof Map<?, ?>) {
+                    Map<?, ?> map = (Map<?, ?>) obj;
+                    Object tempObject = map.get(arrayPkFieldName);
+                    pks.add(tempObject.toString());
+                }
+            }
+        }
+        
+        Query duplicatesQuery = new Query(Criteria.where(arrayPkFieldName).in(pks));
+        Update update = new Update().pull(arrayConsolidation.getArrayPath(), duplicatesQuery.getQueryObject());
+        
+        return update.getUpdateObject();
+    }
+    
+
+    private DBObject buildArrayPushObject(Entity entity, String collectionName) {
+        ArrayConsolidation arrayConsolidation = EmbeddedDocumentRelations.getArrayConsolidationRules(collectionName);
+        
+        String fieldName = arrayConsolidation.getArrayPath();
+        Object o = entity.getBody().get(fieldName);
+        Update update = new Update();
+        if (o instanceof List<?>) {
+            List<?> list = (List<?>) o;
+            update.pushAll("body." + arrayConsolidation.getArrayPath(), list.toArray());
+        }
+        
+        return update.getUpdateObject();
+    }
+
+    
+    
+    public Entity arrayConsolidate(Entity entity, String collectionName) {
+        
+        boolean result = true;
+        TenantContext.setIsSystemCall(false);
+        
+        Query parentQuery = new Query().addCriteria(Criteria.where("_id").is(entity.getEntityId()));
+        DBCollection dbCollection = template.getCollection(collectionName);
+
+        result &= dbCollection
+                .update(parentQuery.getQueryObject(), this.buildArrayPullObject(entity, collectionName), false, false, WriteConcern.SAFE).getLastError()
+                .ok();
+        result &= dbCollection
+                .update(parentQuery.getQueryObject(), this.buildArrayPushObject(entity, collectionName), true, false, WriteConcern.SAFE).getLastError()
+                .ok();
+        
+        return entity;
     }
 }

@@ -46,6 +46,7 @@
       <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="EventDate" type="xs:date" />
+          <xs:element name="SchoolYear" type="SchoolYearType" />
           <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0" />
           <xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType" />
           <xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0" />
@@ -54,7 +55,7 @@
           <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0" />
         </xs:sequence>
-      </xs:restriction>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SLC-AttendanceEventExtension">
@@ -65,9 +66,8 @@
         </xs:appinfo>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="SLC-AttendanceEventRestriction">
+      <xs:extension base="SLC-AttendanceEvent">
         <xs:sequence>
-          <xs:element name="SchoolYear" type="SchoolYearType" />
           <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>

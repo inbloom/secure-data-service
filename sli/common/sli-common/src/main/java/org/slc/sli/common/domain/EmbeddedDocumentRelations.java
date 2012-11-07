@@ -39,6 +39,7 @@ public class EmbeddedDocumentRelations {
     private static Set<String> denormalizationByEntityAndKey;
     private static final Map<String,String> DENORMALIZATION_CACHED_ENTITY;
     private static final Map<String,Map<String,String>>CACHED_REFERENCE_KEY;
+    private static final Map<String, ArrayConsolidation> ARRAY_CONSOLIDATIONS;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
@@ -94,6 +95,11 @@ public class EmbeddedDocumentRelations {
         Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
         referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
         CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
+        
+        Map<String, ArrayConsolidation> arrayConsolidations = new HashMap<String, ArrayConsolidation>();
+        arrayConsolidations.put("attendance", new ArrayConsolidation("attendanceEvent", "date"));
+        ARRAY_CONSOLIDATIONS = Collections.unmodifiableMap(arrayConsolidations);
+        
     };
 
     private static String stringifyEntityAndField(String entity, String field) {
@@ -182,6 +188,14 @@ public class EmbeddedDocumentRelations {
 
         return DENORMALIZATIONS.get(entityType);
     }
+    
+    public static boolean consolidatesArrayData(String entityType) {
+        return ARRAY_CONSOLIDATIONS.containsKey(entityType);
+    }
+    
+    public static ArrayConsolidation getArrayConsolidationRules(String entityType) {
+        return ARRAY_CONSOLIDATIONS.get(entityType);
+    }
 
     private static class Parent {
 
@@ -201,7 +215,8 @@ public class EmbeddedDocumentRelations {
             return parentReferenceFieldName;
         }
     }
-
+    
+    
     protected static class Denormalization {
 
         private String denormalizeToEntity;
