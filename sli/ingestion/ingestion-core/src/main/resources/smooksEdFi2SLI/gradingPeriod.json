@@ -3,11 +3,12 @@
     "references" :
             [
                 {
-                    "fieldPath" : "body.calendarDateReference",
+                    "fieldPath" : "body.CalendarDateReference",
+                    "deprecated" : true,
                     "ref" : {
                         "entityType" : "calendarDate",
                         "isRefList" : true,
-                        "refObjectPath" : "body.calendarDateReference",
+                        "refObjectPath" : "body.CalendarDateReference",
                         "choiceOfFields" :
                                 [
                                     [
@@ -15,14 +16,7 @@
                                             "path" : "body.date",
                                             "values" :
                                                     [
-                                                        { "valueSource" : "body.calendarDateReference.date" }
-                                                    ]
-                                        },
-                                        {
-                                            "path" : "body.calendarEvent",
-                                            "values" :
-                                                    [
-                                                        { "valueSource" : "body.calendarDateReference.calendarEvent" }
+                                                        { "valueSource" : "body.CalendarDateReference.date" }
                                                     ]
                                         }
                                     ]

@@ -29,20 +29,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
+import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
+import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
+import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
@@ -62,22 +64,31 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
-    ControlFileProcessor ctlFileProcessor;
+    private LandingZoneProcessor landingZoneProcessor;
 
     @Autowired
-    EdFiProcessor edFiProcessor;
+    private ZipFileProcessor zipFileProcessor;
 
     @Autowired
-    ConcurrentEdFiProcessor concurrentEdFiProcessor;
+    private ControlFilePreProcessor controlFilePreProcessor;
 
     @Autowired
-    PurgeProcessor purgeProcessor;
+    private ControlFileProcessor ctlFileProcessor;
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
+
+    @Autowired
+    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
+
+    @Autowired
+    private PurgeProcessor purgeProcessor;
 
     @Autowired(required = true)
-    PersistenceProcessor persistenceProcessor;
+    private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    TransformationProcessor transformationProcessor;
+    private TransformationProcessor transformationProcessor;
 
     @Autowired
     private XmlFileProcessor xmlFileProcessor;
@@ -92,19 +103,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
-    JobReportingProcessor jobReportingProcessor;
+    private JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-    LandingZoneManager landingZoneManager;
+    private CamelContext camelContext;
 
     @Autowired
-    CamelContext camelContext;
+    private TenantProcessor tenantProcessor;
 
     @Autowired
-    private final TenantProcessor tenantProcessor;
-
-    @Autowired
-    private final TenantPopulator tenantPopulator;
+    private TenantPopulator tenantPopulator;
 
     @Autowired
     private NodeInfo nodeInfo;
@@ -124,11 +132,18 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private String workItemConsumers;
 
+    @Value("${sli.ingestion.queue.landingZone.queueURI}")
+    private String landingZoneQueue;
+
+    @Value("${sli.ingestion.queue.landingZone.concurrentConsumers}")
+    private String landingZoneConsumers;
+
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
 
     @Value("${sli.ingestion.queue.maestro.consumerQueueURI}")
     private String maestroConsumerQueue;
+
     @Value("${sli.ingestion.queue.maestro.concurrentConsumers}")
     private String maestroConsumers;
 
@@ -150,23 +165,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 
-    private final int concurrentConsumers;
-    private final boolean loadDefaultTenants;
-    private final String tenantPollingRepeatInterval;
+    @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
+    private String tenantPollingRepeatInterval;
+
+    @Value("${sli.ingestion.tenant.loadDefaultTenants}")
+    private boolean loadDefaultTenants;
 
     @Autowired
-    public IngestionRouteBuilder(TenantProcessor tenantProcessor, TenantPopulator tenantPopulator,
-            @Value("${sli.ingestion.queue.workItem.queueURI}") String workItemQueue,
-            @Value("${sli.ingestion.queue.workItem.concurrentConsumers}") int concurrentConsumers,
-            @Value("${sli.ingestion.tenant.loadDefaultTenants}") boolean loadDefaultTenants,
-            @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}") String tenantPollingRepeatInterval) {
+    public IngestionRouteBuilder(TenantProcessor tenantProcessor) {
         super();
-        this.tenantProcessor = tenantProcessor;
-        this.tenantPopulator = tenantPopulator;
-        this.workItemQueue = workItemQueue;
-        this.concurrentConsumers = concurrentConsumers;
-        this.loadDefaultTenants = loadDefaultTenants;
-        this.tenantPollingRepeatInterval = tenantPollingRepeatInterval;
     }
 
     @Override
@@ -178,6 +185,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             LOG.error("Indexes could not be verified, check the index file configurations are set");
         }
 
+        String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String maestroConsumerQueueUri = maestroConsumerQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
@@ -194,12 +202,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 tenantPopulator.populateDefaultTenants();
             }
 
+            buildLzDropFileRoute(landingZoneQueueUri, workItemQueueUri);
+
             buildExtractionRoutes(workItemQueueUri);
 
             buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
 
             configureTenantPollingTimerRoute();
-            tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
+
             this.addRoutesToCamelContext(camelContext);
         }
 
@@ -212,6 +222,47 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         }
 
         from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
+    }
+
+    /**
+     * The TransformPersist route will handle transformation of staged NeutralRecords and persist
+     * SLI entities to mongodb.
+     *
+     * @param pitNodeQueueUri
+     */
+    private void buildLzDropFileRoute(String landingZoneQueueUri, String workItemQueueUri) {
+
+        // routeId: lzDropFile
+        from(landingZoneQueueUri).routeId("lzDropFile")
+            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.").process(landingZoneProcessor)
+            .choice().when(header("hasErrors").isEqualTo(true))
+                .to("direct:stop")
+            .otherwise()
+                .to("direct:processLzFile");
+
+        // routeId: processLzFile
+        from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
+            .choice().when(body().endsWith(".ctl"))
+                .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
+                .process(controlFilePreProcessor)
+                .choice().when(header("hasErrors").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .to(workItemQueueUri).endChoice()
+            .when(body().endsWith(".zip"))
+                .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
+                .process(zipFileProcessor)
+                .choice().when(header("hasErrors").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                    .process(controlFilePreProcessor)
+                        .choice().when(header("hasErrors").isEqualTo(true))
+                            .to("direct:stop")
+                        .otherwise()
+                            .to(workItemQueueUri).endChoice().endChoice()
+            .otherwise()
+                .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");
     }
 
     /**
@@ -343,13 +394,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .to(maestroQueueUri).otherwise().process(persistenceProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri);
-    }
-
-    /**
-     * Access the workItemQueueUri.
-     */
-    public String getWorkItemQueueUri() {
-        return workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
     }
 
     public void configureTenantPollingTimerRoute() {

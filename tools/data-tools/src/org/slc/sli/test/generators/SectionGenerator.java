@@ -38,7 +38,7 @@ import org.slc.sli.test.edfi.entities.TermType;
 public class SectionGenerator {
     public static Section generate(String sectionCode, int sequenceOfCourse, String schoolId) {
         Section s = new Section();
-        Random r = new Random();
+        Random r = new Random(31);
         // String sectionCode = UUID.randomUUID().toString();
 
         s.setUniqueSectionCode(sectionCode);

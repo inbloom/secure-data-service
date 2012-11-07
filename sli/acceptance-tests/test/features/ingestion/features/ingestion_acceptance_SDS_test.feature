@@ -22,6 +22,7 @@
 @RALLY_US4080
 @RALLY_US4116
 @RALLY_DE1934
+@RALLY_US4391
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -403,14 +404,14 @@ And I check to find if record is in collection:
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
    And I check to find if record is in collection:
      #check to make sure we're actually resolving references
-     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |   
-	 | cohort                       | 1 | body.programId.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
-	 | educationOrganization        | 2 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
-	 | educationOrganization        | 1 | body.programReference.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
-	 | section                      | 1 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
-	 | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
-	 | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
-	 | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
+     | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+     | cohort                       | 1 | body.programId.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+     | educationOrganization        | 2 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+     | educationOrganization        | 1 | body.programReference.0 | 983dd657325009aefa88a234fa18bdb1e11c82a8_id | string |
+     | section                      | 1 | body.programReference.0 | a50802f02c7e771d979f7d5b3870c500014e6803_id | string |
+     | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
+     | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
+     | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
@@ -505,6 +506,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.beginDate                           | 2012-03-05                           |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.gradingPeriod | Fifth Six Weeks                      |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.schoolId      | 352e8570bd1116d11a72755b987902440045d346_id |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.calendarDateReference		        | 085e5a5fcc6c175e66eed7b8edcc2ed1b3b38ba0_id |
 # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |

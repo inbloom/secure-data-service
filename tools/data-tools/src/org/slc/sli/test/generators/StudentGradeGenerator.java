@@ -72,7 +72,7 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 
 public class StudentGradeGenerator {
 
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
     private static String thisDay, oneYearAgo, oneYearHence;
     private static int idCount = 0;
 
