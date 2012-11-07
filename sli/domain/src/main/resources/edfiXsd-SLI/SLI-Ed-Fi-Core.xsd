@@ -171,38 +171,70 @@
   </xs:complexType>
 
   <!-- Change ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType -->
-  <xs:complexType name="SLC-ObjectiveAssessmentRestriction">
-    <xs:complexContent>
-      <xs:restriction base="ObjectiveAssessment">
-        <xs:sequence>
-          <xs:element name="IdentificationCode" type="IdentificationCode" />
-          <xs:element name="MaxRawScore" type="xs:int" minOccurs="0" />
-          <xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="PercentOfAssessment" type="percent" minOccurs="0" />
-          <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
-          <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SLC-ObjectiveAssessmentExtension">
-    <xs:annotation>
-      <xs:documentation/>
-        <xs:appinfo>
-          <sli:recordType>objectiveAssessment</sli:recordType>
-        </xs:appinfo>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="SLC-ObjectiveAssessmentRestriction">
-        <xs:sequence>
-          <xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
+  <xs:complexType name="SLC-ObjectiveAssessment">
+		<xs:annotation>
+			<xs:documentation>This entity represents subtests that assess specific learning objectives.
+			</xs:documentation>
+			<xs:appinfo>
+          		<sli:recordType>objectiveAssessment</sli:recordType>
+        	</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="IdentificationCode" type="IdentificationCode">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxRawScore" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The maximum raw score achievable across all assessment items that are correct and scored at the maximum.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
+   1. Specification of performance level by min and max score
+   2. Specification of performance level by cut score - min only
+   3. Specification of performance level without any mapping to scores</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PercentOfAssessment" type="percent" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The percent of the assessment that tests this objective.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reflects the specific nomenclature used for this level of ObjectiveAssessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References individual test items, if appropriate</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>References the learning objective(s) the Objective Assessment tests.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Learning Standard tested by this objective assessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Lower level objectives or sub-objectives that are assessed and scored.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  
   <xs:complexType name="SLC-LearningStandardReferenceType">
     <xs:annotation>
       <xs:documentation />
