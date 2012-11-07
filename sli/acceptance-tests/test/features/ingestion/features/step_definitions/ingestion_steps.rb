@@ -1070,13 +1070,7 @@ Given /^the tenant database does not exist/ do
   puts "Dropping database:" + @ingestion_db_name
   @conn.drop_database(@ingestion_db_name)
   @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
-  @existingTenant = @tenantColl.find("body.dbName" => @ingestion_db_name, "body.tenantIsReady" => {"$exists" => false})
-  @count = @existingTenant.to_a.count()
-  if @count == 0
-    puts "Could not remove tenantIsReady flag"
-  else
-    puts "tenantIsReady flag was removed"
-  end
+
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
