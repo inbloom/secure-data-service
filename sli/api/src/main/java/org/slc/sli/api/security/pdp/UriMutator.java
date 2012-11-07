@@ -829,7 +829,7 @@ public class UriMutator {
         }
 
         if (builder.length() > 0) {
-            return builder.substring(0, builder.length() - 1);
+            return builder.substring(0, builder.length() - 2);
         }
         return "";
     }
