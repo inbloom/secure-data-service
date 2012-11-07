@@ -413,6 +413,7 @@ default:
         sli.search.indexer.queue.password: manager
         sli.search.indexer.queue.name: search_events
         sli.search.indexer.broker.embedded: true
+        sli.search.indexer.env: local
 
 acceptance-tests:
     api:

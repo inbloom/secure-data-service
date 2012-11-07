@@ -136,7 +136,11 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
                                 public void run() {
-                                    admin.reloadAll();
+                                    try {
+                                        admin.reloadAll();
+                                    } catch (Throwable t) {
+                                        logger.error("Error detected in Remote Command Service...", t);
+                                    }
                                 }
                             }, 0, TimeUnit.SECONDS);
                         }
@@ -153,7 +157,11 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                             final Admin admin = this.admin;
                             scheduledService.schedule(new Runnable() {
                                 public void run() {
-                                    admin.reconcileAll();
+                                    try {
+                                        admin.reconcileAll();
+                                    } catch (Throwable t) {
+                                        logger.error("Error detected in Remote Command Service...", t);
+                                    }
                                 }
                             }, 0, TimeUnit.SECONDS);
                         }
@@ -247,7 +255,8 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 options = Collections.emptyList();
             } else {
                 // Removes the element at the specified position in this list (optional operation)
-                // This prevents throwing exception by removing an element when a List is created from an array.
+                // This prevents throwing exception by removing an element when a List is created
+                // from an array.
                 options = new ArrayList<String>(Arrays.asList(commandLine));
                 if (!options.isEmpty())
                     options.remove(0);

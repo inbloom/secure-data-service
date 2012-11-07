@@ -128,9 +128,14 @@ function isJavaReady {
       if [ -n ${DEFAULT_MIN_MEMORY:=""} ]; then
          SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -Xms${DEFAULT_MIN_MEMORY}"
       fi
-      SEARCH_INDEXER_LOG_PATH=`grep sli.search.indexer.log.path ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
-      if [ -n ${SEARCH_INDEXER_LOG_PATH:=""} ]; then
-         SEARCH_INDEXER_LOG="${SEARCH_INDEXER_LOG_PATH}/${SEARCH_INDEXER_LOG}"
+      SEARCH_INDEXER_LOG_ENV=`grep sli.search.indexer.env ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
+      if [ ${SEARCH_INDEXER_LOG_ENV:=""} == "local" ]; then
+         SEARCH_INDEXER_LOG="/dev/null"
+      else
+         SEARCH_INDEXER_LOG_PATH=`grep sli.search.indexer.log.path ${CHECK_SLI_CONF}|cut -d '=' -f2|sed 's/ *$//g'|sed 's/^ *//g'`
+         if [ -n ${SEARCH_INDEXER_LOG_PATH:=""} ]; then
+            SEARCH_INDEXER_LOG="${SEARCH_INDEXER_LOG_PATH}/${SEARCH_INDEXER_LOG}"
+         fi
       fi
       return 1
    fi
@@ -180,10 +185,10 @@ function run {
       prepareJava
       if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
          echo java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}
-         nohup java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS} > ${SEARCH_INDEXER_LOG} 2>&1 &
+         nohup java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
       else
          echo java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}
-         nohup java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS} > ${SEARCH_INDEXER_LOG} 2>&1 &
+         nohup java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS} >> ${SEARCH_INDEXER_LOG} 2>&1 &
       fi
    fi
 }

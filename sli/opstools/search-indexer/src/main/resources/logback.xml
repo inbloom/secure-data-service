@@ -20,5 +20,11 @@
 		
 	<root level="${sli.search.indexer.log.level}">
 		<appender-ref ref="FILE"/>
+		<if condition='"${sli.search.indexer.env}" == "local"'>
+			<then>
+				<appender-ref ref="STDOUT"/>
+			</then>
+		</if>
 	</root>
+
 </configuration>
