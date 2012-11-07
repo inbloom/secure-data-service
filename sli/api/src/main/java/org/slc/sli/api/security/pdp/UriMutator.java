@@ -18,6 +18,7 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -97,7 +98,7 @@ public class UriMutator {
 
         if (segments.size() < 3) {
 
-            String[] queries = queryParameters.split("&");
+            String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
             for (String query : queries) {
                 if (!query.matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
                     int BASE_RESOURCE_INDEX = 1;
