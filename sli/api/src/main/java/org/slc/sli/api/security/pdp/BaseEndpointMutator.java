@@ -39,7 +39,7 @@ public class BaseEndpointMutator {
 
 	public void mutateURI(Authentication auth, ContainerRequest request) {
 
-		if (request.getMethod() == "POST") {
+		if (request.getMethod().equals("POST")) {
 			return;
 		}
 

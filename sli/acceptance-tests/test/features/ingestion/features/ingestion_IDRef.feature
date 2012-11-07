@@ -2,12 +2,14 @@
 @RALLY_US2189
 @RALLY_US2286
 @RALLY_DE563
+@joetest
 Feature: Ingestion IDRef Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+@wip
 Scenario: Post a zip file containing studentGradebookEntry with ID References job: Clean Database
 Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -33,12 +35,12 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                 |   9     |
      | course                       |   6     |
      | educationOrganization        |   8     |
-     | gradebookEntry               |  18     |
+     | gradebookEntry               |  20     |
      | gradingPeriod                |  10     |
      | learningObjective            |   6     |
      | learningStandard             |   6     |
      | session                      |  10     |
-     | section                      |  12     |
+     | section                      |  14     |
      | student                      |  11     |
      | courseOffering               |   3     |
      | competencyLevelDescriptor    |   8     |

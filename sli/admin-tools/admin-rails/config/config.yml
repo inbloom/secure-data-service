@@ -11,7 +11,7 @@ common: &common
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
-    admin_realm: Shared Learning Infrastructure
+    admin_realm: Shared Learning Collaborative
     reset_password_lifespan: 86400
     app_dev_documentation_link: http://dev.slcedu.org/getting-started
 
@@ -26,7 +26,7 @@ ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
+    ldap_pass: 59bdc807a0b83b9ad8bab0e5ba8a6ed5
 
 email_mon: &email_mon
     email_sender_name: SLC Administrator
@@ -58,6 +58,8 @@ development:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
 
 local-acceptance-tests:
     <<: *common
@@ -74,6 +76,8 @@ local-acceptance-tests:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 development_sb:
     <<: *common
@@ -89,6 +93,8 @@ development_sb:
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 team:
     <<: *common
@@ -105,6 +111,8 @@ team:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 team_sb:
     <<: *common
@@ -120,6 +128,8 @@ team_sb:
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 test:
     <<: *common
@@ -133,6 +143,8 @@ test:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
     
 production:
     <<: *common
@@ -149,4 +161,6 @@ production:
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
+    encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
 

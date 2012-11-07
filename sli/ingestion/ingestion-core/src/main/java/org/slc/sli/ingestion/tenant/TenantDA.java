@@ -41,4 +41,30 @@ public interface TenantDA {
      */
     Map<String, List<String>> getPreloadFiles(String ingestionServer);
 
+    /**
+     * Checks if the database for the given tenantId is ready for data.
+     *
+     * @param tenantId
+     * @return <code>true</code> if tenant is marked as ready for data.
+     */
+    boolean tenantDbIsReady(String tenantId);
+
+    /**
+     * Flag that the database for the given tenantId is ready for data.
+     *
+     * @param tenantId
+     */
+    void setTenantReadyFlag(String tenantId);
+
+    /**
+     * Remove tenant with invalid characters in the landing zone path from the tenant collection
+     *
+     * @param lzPath
+     */
+    void removeInvalidTenant(String lzPath);
+
+     /*
+     * @return a map of landing zone paths to the list of files to preload on them
+     */
+    Map<String, List<String>> getPreloadFiles();
 }

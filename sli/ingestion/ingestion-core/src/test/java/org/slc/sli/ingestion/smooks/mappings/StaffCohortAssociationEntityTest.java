@@ -89,12 +89,12 @@ public class StaffCohortAssociationEntityTest {
         assertEquals("Expected different endDate", "2011-01-01", attributes.get("endDate"));
         assertEquals("Expected different studentRecordAccess", Boolean.TRUE, attributes.get("studentRecordAccess"));
 
-        Map<String, Object> staffReference = (Map<String, Object>) attributes.get("staffReference");
+        Map<String, Object> staffReference = (Map<String, Object>) attributes.get("StaffReference");
         assertNotNull("Expected non-null staffReference map", staffReference);
 
-        Map<String, Object> staffMap = (Map<String, Object>) staffReference.get("staffIdentity");
+        Map<String, Object> staffMap = (Map<String, Object>) staffReference.get("StaffIdentity");
         assertNotNull("Expected non-null staff identity map", staffMap);
-        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffMap.get("staffUniqueStateId"));
+        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffMap.get("StaffUniqueStateId"));
 
         Map<String, Object> cohortReference = (Map<String, Object>) attributes.get("cohortReference");
         assertNotNull("Expected non-null list of cohortReferences", cohortReference);

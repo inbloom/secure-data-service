@@ -33,6 +33,7 @@ Transform /^<(.+)>$/ do |template|
   id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "MARVIN MILLER ID"
   id = "a03d1325-c70f-4132-aa1c-54ebd2692a75" if template == "CHEROKEE STUART ID"
   id = "11111111-1111-1111-1111-111111111111" if template == "INVALID ID"
+  id = "8e3fafa4-31be-4b3d-8349-e8ef41327b65" if template == "INACCESSABLE ID" #Nicholas Berks
   id = @student_ids_list                      if template == "STUDENT IDs LIST"
   id
 end
@@ -56,4 +57,8 @@ end
 
 Then /^the response at position (\d)+ should include the information (.+)$/ do |position, string|
   assert(@result[convert(position)].to_s.include?(string), "Can't find the specified string \"#{string}\" at position #{position}")
+end
+
+Then /^I should see a total of (\d+) entities$/ do |arg1|
+  assert(@result.size == convert(arg1), "Expected to see #{arg1} entities, actual number #{@result.size}")
 end

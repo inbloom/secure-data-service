@@ -63,6 +63,11 @@
     <Telephone InstitutionTelephoneNumberType="Main">
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <GradesOffered>
       <GradeLevel>Kindergarten</GradeLevel>
       <GradeLevel>First grade</GradeLevel>

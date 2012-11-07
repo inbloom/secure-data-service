@@ -29,7 +29,7 @@ import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentObjectiveAssessmentGenerator {
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random(31);
 
     private boolean optional;
 
@@ -45,11 +45,12 @@ public class StudentObjectiveAssessmentGenerator {
 
         soa.setId(Id);
 
-        int numberOfScoreResults = 1 + RANDOM.nextInt(5);
+        Random random = new Random(31);
+        int numberOfScoreResults = 1 + random.nextInt(5);
         for (int i = 0; i < numberOfScoreResults; i++) {
             ScoreResult sr = new ScoreResult();
-            sr.setAssessmentReportingMethod(armts[RANDOM.nextInt(armts.length)]);
-            sr.setResult("result " + RANDOM.nextInt());
+            sr.setAssessmentReportingMethod(armts[random.nextInt(armts.length)]);
+            sr.setResult("result " + random.nextInt());
             soa.getScoreResults().add(sr);
         }
 
@@ -67,10 +68,11 @@ public class StudentObjectiveAssessmentGenerator {
 
     public static StudentObjectiveAssessment generateLowFi(StudentAssessment studentAssessment) {
         StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
+        Random random = new Random(31);
 
         // score results
         ScoreResult scoreResult = new ScoreResult();
-        scoreResult.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[RANDOM
+        scoreResult.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[random
                 .nextInt(AssessmentReportingMethodType.values().length)]);
         scoreResult.setResult("score result");
         soa.getScoreResults().add(scoreResult);

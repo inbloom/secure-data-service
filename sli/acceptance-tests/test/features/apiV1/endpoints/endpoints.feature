@@ -2,9 +2,11 @@
 
 Feature: As a user of the SLC API I would like to see various endpoints exist.
 
-Background: Nothing yet
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     Scenario Outline: Check that the urls requested do actually exist
+        Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+        When I navigate to <url> with <id>
+        Then I should receive a valid return code
+        Given I am logged in using "cgray" "cgray1234" to realm "IL"
         When I navigate to <url> with <id>
         Then I should receive a valid return code
     Examples:
@@ -18,5 +20,5 @@ Background: Nothing yet
         | "/staff/#{id}/disciplineIncidents/studentDisciplineIncidentAssociations"| "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineIncidents"                                      | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
         | "/staff/#{id}/disciplineActions"                                        | "85585b27-5368-4f10-a331-3abcaf3a3f4c" |
-        | "/sections/#{id}/gradebookEntries"                                      | "d17be230-640c-4d41-a10e-b54ec7a90168" |
+        | "/sections/#{id}/gradebookEntries"                                      | "47b5adbf-6fd0-4f07-ba5e-39612da2e234" |
 

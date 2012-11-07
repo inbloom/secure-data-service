@@ -28,6 +28,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -58,6 +61,10 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     private static final String FROM_ENTITY = "teacher";
     private static final String TO_ENTITY = "student";
+    private static final String COHORT_REF = "cohort";
+
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -108,7 +115,13 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         List<String> sectionIds = getTeachersSectionIds(principal);
 
-        Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ParameterConstants.ID, sectionIds);
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(0);
+        query.setOffset(0);
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, sectionIds));
+        query.setEmbeddedFields(Arrays.asList(EntityNames.STUDENT_SECTION_ASSOCIATION));
+
+        Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, query);
 
         List<Entity> studentSectionAssociations = new ArrayList<Entity>();
         for (Entity section : sections) {
@@ -192,15 +205,24 @@ public class TeacherStudentResolver implements EntityContextResolver {
         }
 
         // cohort -> studentCohortAssociation
-        Iterable<Entity> studentCohortAssociations = helper.getReferenceEntities(EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID, cohortIds);
+        Iterable<Entity> studentList =
+                helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, COHORT_REF, cohortIds);
 
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
-        for (Entity assoc : studentCohortAssociations) {
-            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
-                studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
+        for (Entity student : studentList) {
+            List<Map<String, Object>> cohortList = student.getDenormalizedData().get(COHORT_REF);
+            for ( Map<String, Object> cohort : cohortList) {
+                String endDate = (String) cohort.get(ParameterConstants.END_DATE);
+                String cohortRefId = (String)cohort.get("_id");
+                if ((cohortIds.contains(cohortRefId)) &&
+                        (endDate == null || endDate.isEmpty() ||
+                        dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate))) {
+                    studentIds.add(student.getEntityId());
+                    break;
+                }
             }
+
         }
 
         List<String> returnIds = new ArrayList<String>();

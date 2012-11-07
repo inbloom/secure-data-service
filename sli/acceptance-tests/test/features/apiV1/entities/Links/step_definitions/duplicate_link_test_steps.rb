@@ -48,23 +48,29 @@ end
 
 Then /^I should not have any duplicate links/ do
 
-  linkHash = Hash.new
+  if @result.kind_of?(Array) 
+    @result.each do |res|
+      find_duplicate res
+    end
+  else
+    find_duplicate @result
+  end
+end
 
-  @result.each do |res|
-    linkList = res["links"]
-    notFound = true
-    linkHash.clear
-     linkList.each do |link|
-        rel = link["rel"]
-        href = link["href"]
-        if linkHash[rel].nil?
-           linkHash[rel] = href
-        else
-          notFound = false
-        end
-        assert(notFound,"Response contains duplicate link for " + rel +"With links "+ href +"And "+ linkHash[rel])
-      end
+def find_duplicate(res)
+  linkHash = Hash.new
+  linkList = res["links"]
+  notFound = true
+  linkHash.clear
+  linkList.each do |link|
+    rel = link["rel"]
+    href = link["href"]
+    if linkHash[rel].nil?
+      linkHash[rel] = href
+    else
+      notFound = false
+    end
+    assert(notFound,"Response contains duplicate link for " + rel +"With links "+ href +"And "+ linkHash[rel])
   end
 
 end
-

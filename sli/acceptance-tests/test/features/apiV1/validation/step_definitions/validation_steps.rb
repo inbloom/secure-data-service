@@ -26,6 +26,7 @@ Transform /^<(.+)>$/ do |template|
   id = template
   id = @newId.to_s                            if template == "'Previous School' ID"
   id = "737dd4c1-86bd-4892-b9e0-0f24f76210be" if template == "'Jones' ID"
+  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe" if template == "'Christoff' ID"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "'South Daybreak Elementary' ID"
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "'Valid Section' ID"
   id = "thisisaninvalididsoitshouldreturn404" if template == "'Invalid Section' ID"
@@ -71,7 +72,9 @@ end
 
 Given /^I create a valid base level school object$/ do
   if defined? @result
-    oldParentId = @result["parentEducationAgencyReference"]
+    oldParentId = @result["parentEducationAgencyReference"] 
+  else
+    oldParentId = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   end
   @result = CreateEntityHash.createBaseSchoolRandomId()
 
@@ -504,9 +507,9 @@ $validationTestData = {
         "gradeType" => "Final"
     },
     "studentCompetency" => {
-        "competencyLevel" => [{
+        "competencyLevel" => {
                                   "description" => "really hard competency"
-                              }],
+                              },
         "diagnosticStatement" => "Validation Test Diag. Stmt."
     },
     "reportCard" => {

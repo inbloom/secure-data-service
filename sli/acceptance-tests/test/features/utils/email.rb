@@ -16,30 +16,33 @@ limitations under the License.
 
 =end
 
-# TODO: refactor check_email and check_email_rc because they are very similar.
-def check_email(subject_substring = nil, content_substring, email)
-  imap_host = PropLoader.getProps['email_imap_host']
-  imap_port = PropLoader.getProps['email_imap_port']
-  imap_user = PropLoader.getProps['email_imap_registration_user']
-  imap_password = PropLoader.getProps['email_imap_registration_pass']
+def check_email(config = {})
+  imap_host = config[:imap_host] || PropLoader.getProps['email_imap_host']
+  imap_port = config[:imap_port] || PropLoader.getProps['email_imap_port']
+  imap_username = config[:imap_username] || PropLoader.getProps['email_imap_registration_user']
+  imap_password = config[:imap_password] || PropLoader.getProps['email_imap_registration_pass']
+  content_substring = config[:content_substring]
+  subject_substring = config[:subject_substring]
+  initial_wait_time = config[:initial_wait_time] || 1
+  retry_attempts = config[:retry_attempts] || 30
+  retry_wait_time = config[:retry_wait_time] || 1
+
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-  imap.authenticate('LOGIN', imap_user, imap_password)
+  puts "username = #{imap_username}, password = #{imap_password}"
+  imap.login(imap_username, imap_password)
   imap.examine('INBOX')
-  not_so_distant_past = Date.today.prev_day.prev_day
-  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
-  imap.disconnect
+  past = Date.today.prev_day.prev_day
+  past_date = "#{past.day}-#{Date::ABBR_MONTHNAMES[past.month]}-#{past.year}"
+  messages_before = imap.search(['SINCE', past_date])
 
   yield
 
-  retry_attempts = 30
+  sleep initial_wait_time
   retry_attempts.times do
-    sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.authenticate('LOGIN', imap_user, imap_password)
+    sleep retry_wait_time
     imap.examine('INBOX')
 
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
+    messages_after = imap.search(['SINCE', past_date])
     messages_new = messages_after - messages_before
     messages_before = messages_after
     unless(messages_new.empty?)
@@ -53,49 +56,7 @@ def check_email(subject_substring = nil, content_substring, email)
         end
       end
     end
-    imap.disconnect
   end
-  fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
-end
-
-EMAIL_PASSWORD = 'liferaywgen'
-def check_email_rc(subject_substring = nil, content_substring, email)
-  imap_host = 'imap.gmail.com'
-  imap_port = 993
-  imap_user = email
-  imap_password = EMAIL_PASSWORD
-  imap = Net::IMAP.new(imap_host, imap_port, true)
-  imap.login(imap_user, imap_password)
-  imap.examine('INBOX')
-  not_so_distant_past = Date.today.prev_day.prev_day
-  not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
-  messages_before = imap.search(['SINCE', not_so_distant_past_imap_date])
   imap.disconnect
-
-  yield
-
-  retry_attempts = 30
-  retry_attempts.times do
-    sleep 1
-    imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
-    imap.login(imap_user, imap_password)
-    imap.examine('INBOX')
-
-    messages_after = imap.search(['SINCE', not_so_distant_past_imap_date])
-    messages_new = messages_after - messages_before
-    messages_before = messages_after
-    unless(messages_new.empty?)
-      messages = imap.fetch(messages_new, ["BODY[HEADER.FIELDS (SUBJECT)]", "BODY[TEXT]"])
-      messages.each do |message|
-        content = message.attr["BODY[TEXT]"]
-        subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-        if((content_substring.nil? || (!content.nil? && content.include?(content_substring))) &&
-            (subject_substring.nil? || (!subject.nil? && subject.include?(subject_substring))))
-          return content
-        end
-      end
-    end
-    imap.disconnect
-  end
   fail("timed out getting email with subject substring = #{subject_substring}, content substring = #{content_substring}")
 end

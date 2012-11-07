@@ -24,6 +24,7 @@ import java.util.Set;
 
 import com.mongodb.DBCollection;
 
+import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
+        neutralQuery.setIncludeFieldString("*");
         return findAll(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -153,6 +155,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         paths.put(BATCH_JOB_ID, jobId);
         NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setIncludeFieldString("*");
         Query query = this.queryConverter.convert(collectionName, neutralQuery);
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
     }
@@ -167,6 +170,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        neutralQuery.setIncludeFieldString("*");
         return findOne(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -175,6 +179,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        neutralQuery.setIncludeFieldString("*");
         return count(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
 
@@ -216,6 +221,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+        query.setIncludeFieldString("*");
         updateFirst(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
 
@@ -266,5 +272,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     protected Iterable<NeutralRecord> findAllAcrossTenants(String collectionName, Query mongoQuery) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public NeutralRecord findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
     }
 }

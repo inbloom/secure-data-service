@@ -44,7 +44,7 @@ public class ParentGenerator {
     static {
         try {
 //            p = new Parent();
-            random = new Random();
+            random = new Random(31);
             nameGenerator = new NameGenerator();
             ag = new AddressGenerator(StateAbbreviationType.NY);
         } catch (Exception e) {
@@ -128,7 +128,7 @@ public class ParentGenerator {
 
     public static Parent generate(String parentId, boolean isMale) {
         Parent p = new Parent();
-        Random random = new Random();
+        Random random = new Random(31);
 
         p.setParentUniqueStateId(parentId);
         p.setSex(isMale ? SexType.MALE : SexType.FEMALE);

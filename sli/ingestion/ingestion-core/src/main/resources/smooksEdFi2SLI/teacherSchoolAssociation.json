@@ -22,7 +22,9 @@
         }
     },
     {
-        "fieldPath" : "body.teacherId","ref" :
+        "fieldPath" : "body.TeacherReference",
+        "deprecated" : true,
+        "ref" :
         {
             "entityType" : "staff",
             "givesContext" : ["edOrgs"],
@@ -33,7 +35,7 @@
                         "path" : "body.staffUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.teacherId"
+                            "valueSource" : "body.TeacherReference.StaffIdentity.StaffUniqueStateId"
                         }]
                     }
                 ]

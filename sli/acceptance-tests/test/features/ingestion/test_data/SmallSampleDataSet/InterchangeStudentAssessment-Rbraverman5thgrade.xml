@@ -26,9 +26,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 5 2009 State Reading</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 5 2009 State Reading</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>
@@ -58,9 +59,10 @@
       </StudentReference>
       <AssessmentReference>
            <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 5 2009 State Math</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentTitle>Grade 5 2009 State Math</AssessmentTitle>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
            </AssessmentIdentity>
       </AssessmentReference>
    </StudentAssessment>

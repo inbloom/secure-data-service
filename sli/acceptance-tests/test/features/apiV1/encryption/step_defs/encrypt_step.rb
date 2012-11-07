@@ -93,7 +93,14 @@ Given /^parameter "([^"]*)" matches via regex "([^"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=~" "#{value}"}
 end
 
-
+When /^I have a valid school association for the student$/ do
+  @fields = {
+    "studentId" => @newId,
+    "schoolId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "entryDate" => "2012-11-02",
+    "entryGradeLevel" => "Eighth grade"
+  }
+end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
@@ -267,7 +274,7 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
       object = object[f]
     end
   end
-  object.should_not == value
+  object.should_not =~ /#{value}/i
 end
 
 Then /^all students should have "([^\"]*)" equal to "([^\"]*)"$/ do |field, value|
