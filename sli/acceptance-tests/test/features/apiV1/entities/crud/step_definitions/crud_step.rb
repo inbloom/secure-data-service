@@ -449,7 +449,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "staffProgramAssociation" => {
       "programId" => @newId,
-      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
     }
   }

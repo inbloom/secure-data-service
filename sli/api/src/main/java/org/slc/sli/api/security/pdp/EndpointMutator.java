@@ -16,20 +16,15 @@
 
 package org.slc.sli.api.security.pdp;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.constants.ResourceNames;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -123,7 +118,5 @@ public class EndpointMutator {
     protected boolean usingV1Api(List<PathSegment> segments) {
         return segments.get(0).getPath().equals(PathConstants.V1);
     }
-
-
 
 }
