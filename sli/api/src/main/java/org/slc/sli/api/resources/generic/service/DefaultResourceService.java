@@ -289,17 +289,18 @@ public class DefaultResourceService implements ResourceService {
         //To avoid that case, if we do have duplicate keys, set the value for that
         //criteria to the intersection of the two critiera values
         boolean skipIn = false;
-        for (NeutralCriteria criteria : apiQuery.getCriteria()) {
-            if (criteria.getKey().equals(associationKey)) {
+        for (NeutralCriteria crit : apiQuery.getCriteria()) {
+            if (crit.getKey().equals(associationKey) 
+                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                 skipIn = true;
                 Set valueSet = new HashSet();
-                if (criteria.getValue() instanceof Collection) {
-                    valueSet.addAll((Collection) criteria.getValue());
+                if (crit.getValue() instanceof Collection) {
+                    valueSet.addAll((Collection) crit.getValue());
                 } else {
-                    valueSet.add(criteria.getValue());
+                    valueSet.add(crit.getValue());
                 }
                 valueSet.retainAll(valueList);
-                criteria.setValue(valueSet);
+                crit.setValue(valueSet);
             }
         }
 
