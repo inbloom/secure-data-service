@@ -1059,7 +1059,7 @@
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
     <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
-    <jb:wiring beanIdRef="SLC-ObjectiveAssessment_Attributes_SLC-LearningObjectiveReferenceTypeArray" property="LearningObjectiveReference"/>
+    <jb:wiring beanIdRef="SLC-ObjectiveAssessment_Attributes_SLC-LearningObjectiveReferenceTypeArray" property="learningObjectives"/>
   </jb:bean>
 
   <jb:bean beanId="SLC-ObjectiveAssessment_Attributes_SLC-LearningObjectiveReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">

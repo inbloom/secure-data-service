@@ -1,0 +1,10 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "learningObjectives",
+            "optional" : true,
+            "sourceRefPath": "body.objectiveAssessment.LearningObjectiveReference"
+        }
+    ]
+}
