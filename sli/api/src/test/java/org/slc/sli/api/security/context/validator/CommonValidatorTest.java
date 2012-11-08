@@ -63,7 +63,6 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
         ignored.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
         ignored.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPE);
-        ignored.add(EntityNames.GRADUATION_PLAN);
         ignored.add(EntityNames.OBJECTIVE_ASSESSMENT);
         ignored.add(EntityNames.REALM);
         ignored.add(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT);
