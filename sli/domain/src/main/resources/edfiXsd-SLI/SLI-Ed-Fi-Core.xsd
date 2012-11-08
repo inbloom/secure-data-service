@@ -239,7 +239,7 @@
     <xs:annotation>
       <xs:documentation />
       <xs:appinfo>
-        <sli:applyKeyFields>false</sli:applyKeyFields>
+        <sli:applyKeyFields>true</sli:applyKeyFields>
         <sli:refType>learningStandard</sli:refType>
       </xs:appinfo>
     </xs:annotation>
