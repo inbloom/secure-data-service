@@ -27,6 +27,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -240,7 +242,7 @@ public class LoginTest {
     }
     
     @Test
-    public void testSandboxImpersonationLogin() throws AuthenticationException {
+    public void testSandboxImpersonationLogin() throws Exception {
         loginController.setSandboxImpersonationEnabled(true);
         
         Request reqInfo = Mockito.mock(Request.class);
@@ -290,7 +292,7 @@ public class LoginTest {
     }
     
     @Test
-    public void testSandboxImpersonationLoginWithNoTenant() throws AuthenticationException {
+    public void testSandboxImpersonationLoginWithNoTenant() throws Exception {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn(null);
@@ -317,7 +319,7 @@ public class LoginTest {
     }
     
     @Test
-    public void testImpersonationLoginWithoutRoles() throws AuthenticationException {
+    public void testImpersonationLoginWithoutRoles() throws Exception {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn(null);
@@ -342,7 +344,7 @@ public class LoginTest {
     }
     
     @Test
-    public void testSandboxImpersonationDatasetUserLogin() throws AuthenticationException {
+    public void testSandboxImpersonationDatasetUserLogin() throws Exception {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn(null);
@@ -369,4 +371,11 @@ public class LoginTest {
         assertEquals("post", mov.getViewName());
     }
 
+    @Test(expected=IllegalStateException.class)
+    public void testImpersonationInProdMode() throws IllegalStateException {
+        loginController.setSandboxImpersonationEnabled(false);
+        
+        loginController.impersonate(null, null, null, null, null, null, null, false, httpSession, null);
+
+    }
 }
