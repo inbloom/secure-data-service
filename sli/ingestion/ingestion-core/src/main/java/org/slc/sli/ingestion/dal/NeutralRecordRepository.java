@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -186,8 +187,20 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public Set<String> getStagedCollectionsForJob() {
-        return getCollectionNames();
+        Set<String> collectionNamesForJob = new HashSet<String>();
+            LOG.info("Checking staged collection counts");
+            Query query = new Query().limit(0);
+            query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
 
+            for (String currentCollection : getCollectionNames()) {
+                long count = countByQuery(currentCollection, query);
+                if (count > 0) {
+                    collectionNamesForJob.add(currentCollection);
+                }
+                LOG.debug("Count for collection: {} ==> {} [query: {}]",
+                        new Object[] { currentCollection, count, query });
+            }
+        return collectionNamesForJob;
     }
 
     public void deleteStagedRecordsForJob(String batchJobId) {
