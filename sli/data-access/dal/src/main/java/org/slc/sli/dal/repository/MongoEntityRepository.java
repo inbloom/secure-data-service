@@ -287,15 +287,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return records;
-        } if (subDocs.isArrayConsolidated(collectionName)) {
+        } else if (subDocs.isArrayConsolidated(collectionName)) {
             List<Entity> results = new ArrayList<Entity>();
             
             for (Entity entity : records) {
-                
-                if (entity.getBody().get("schoolYear").equals("2009-2010")) {
-                    System.out.print("");
-                }
-                
                 try {
                     results.add(super.insert(entity, collectionName));
                 } catch (DuplicateKeyException dke) {
@@ -306,7 +301,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(results);
             }
-            if(denormalizer.isCached(collectionName)) {
+            if (denormalizer.isCached(collectionName)) {
                 denormalizer.addToCache(results, collectionName);
             }
 
@@ -334,8 +329,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(results);
             }
-            if(denormalizer.isCached(collectionName)) {
-                denormalizer.addToCache(results,collectionName);
+            if (denormalizer.isCached(collectionName)) {
+                denormalizer.addToCache(results, collectionName);
             }
 
             return results;
