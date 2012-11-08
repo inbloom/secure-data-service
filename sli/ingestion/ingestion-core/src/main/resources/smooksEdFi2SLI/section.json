@@ -83,7 +83,7 @@
       },
       {
           "fieldPath" : "body.CourseOfferingReference",
-          "deprecated" : false,
+          "deprecated" : true,
           "ref" : 
           {
               "entityType" : "courseOffering",

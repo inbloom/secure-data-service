@@ -56,7 +56,6 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-
 	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
 
@@ -76,7 +75,6 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-
 	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
 
@@ -95,24 +93,31 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "CohortReference", naturalKeys, "cohort");
 	}
 
+	@Test
 	public void shouldResolveCourseOfferingDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
 	    Entity entity = loadEntity("didTestEntities/courseOfferingReference.json");
 	    ErrorReport errorReport = new TestErrorReport();
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-	    didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
-		Map<String, Object> naturalKeys = new HashMap<String, Object>();
-		naturalKeys.put("localCourseCode", "localCourseCode");
-		Map<String, String> sessionEdOrgNaturalKeys = new HashMap<String, String>();
-		sessionEdOrgNaturalKeys.put("stateOrganizationId", "state organization id 1");
-		Map<String, Object> sessionNaturalKeys = new HashMap<String, Object>();
-		sessionNaturalKeys.put("schoolId", sessionEdOrgNaturalKeys);
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 1");
+		String sessionEdOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+		sessionNaturalKeys.put("schoolId", sessionEdOrgDid);
 		sessionNaturalKeys.put("sessionName", "session name");
-		naturalKeys.put("sessionId", sessionNaturalKeys);
-		Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
-		edOrgNaturalKeys.put("stateOrganizationId", "state organization id 2");
-		naturalKeys.put("schoolId", edOrgNaturalKeys);
+		String sessionDid = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
 
-		//checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
+		edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 2");
+		String edOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("localCourseCode", "local course code");
+		naturalKeys.put("schoolId", edOrgDid);
+		naturalKeys.put("sessionId", sessionDid);
+
+		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
 	}
 
 	// generate the expected deterministic ids to validate against

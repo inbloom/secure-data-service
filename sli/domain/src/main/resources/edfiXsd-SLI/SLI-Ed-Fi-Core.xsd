@@ -3232,10 +3232,10 @@ Special education students
 	<xs:complexType name="SLC-CourseOfferingReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for course offerings during interchange. Use XML IDREF to reference a course offering record that is included in the interchange</xs:documentation>
-            <!-- xs:appinfo>
+            <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
                 <sli:refType>courseOffering</sli:refType>
-            </xs:appinfo -->
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="CourseOfferingIdentity" type="SLC-CourseOfferingIdentityType">
@@ -3253,9 +3253,9 @@ Special education students
 			<xs:element name="LocalCourseCode" type="LocalCourseCode">
 				<xs:annotation>
 					<xs:documentation>The local code assigned by the School that identifies the course offering provided for the instruction of students.</xs:documentation>
-                    <!-- xs:appinfo>
+                    <xs:appinfo>
                         <sli:keyFieldName>localCourseCode</sli:keyFieldName>
-                    </xs:appinfo -->
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
             <xs:element name="SessionReference" type="SLC-SessionReferenceType">
@@ -3263,17 +3263,17 @@ Special education students
                     <xs:documentation>
                     	The Session associated with the CourseOffering.
                     </xs:documentation>
-                    <!-- xs:appinfo>
+                    <xs:appinfo>
                         <sli:keyFieldName>sessionId</sli:keyFieldName>
-                    </xs:appinfo -->
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
 				<xs:annotation>
 					<xs:documentation>The Education Organization that is associated with the CourseOffering.</xs:documentation>
-                    <!-- xs:appinfo>
+                    <xs:appinfo>
                         <sli:keyFieldName>schoolId</sli:keyFieldName>
-                    </xs:appinfo -->
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
