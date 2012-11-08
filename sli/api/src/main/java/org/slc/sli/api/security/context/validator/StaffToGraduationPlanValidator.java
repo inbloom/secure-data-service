@@ -25,7 +25,7 @@ public class StaffToGraduationPlanValidator extends AbstractContextValidator {
          * This is done by checking sizes of the input set and
          * the return from the database
          * 
-         * Restriction for edorg lineage is added since competency objectives
+         * Restriction for edorg lineage is added since graduation plans
          * can exist at higher edorgs
          */
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", graduationIds));
