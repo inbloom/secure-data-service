@@ -37,6 +37,7 @@ def allLeaAllowApp(appName)
 end
 
 def allLeaAllowAppForTenant(appName, tenantName)
+  disable_NOTABLESCAN()
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
@@ -65,6 +66,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
       puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
     end
   end
+  enable_NOTABLESCAN()
 end
 
 def convertTenantIdToDbName(tenantId)
@@ -97,12 +99,14 @@ end
 def enable_NOTABLESCAN()
   if ENV["TOGGLE_TABLESCANS"]
     puts "Turning --notablescan flag ON!  (indexes must hit queries)"
-    @admindb = Mongo::Connection.new.db('admin')
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
     cmd = Hash.new
     cmd['setParameter'] = 1
     cmd['notablescan'] = true
-    @admindb.command(cmd)
-    @admindb.get_last_error()
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
   end
 end
 
@@ -112,11 +116,13 @@ end
 def disable_NOTABLESCAN()
   if ENV["TOGGLE_TABLESCANS"]
     puts "Turning --notablescan flag OFF."
-    @admindb = Mongo::Connection.new.db('admin')
+    adminconn = Mongo::Connection.new
+    admindb = adminconn.db('admin')
     cmd = Hash.new
     cmd['setParameter'] = 1
     cmd['notablescan'] = false
-    @admindb.command(cmd)
-    @admindb.get_last_error()
+    admindb.command(cmd)
+    admindb.get_last_error()
+    adminconn.close
   end
 end

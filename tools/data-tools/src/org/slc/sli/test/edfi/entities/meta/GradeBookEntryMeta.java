@@ -25,6 +25,8 @@ public class GradeBookEntryMeta {
     List<String> learningObjectiveIds;
     GradingPeriodMeta gradingPeriod;
     SectionMeta section;
+    String gradebookEntryType;
+    String dateAssigned;
 
     public void setLearningObjectiveIds(List<String> learningObjectiveIds) {
         this.learningObjectiveIds = learningObjectiveIds;
@@ -58,5 +60,20 @@ public class GradeBookEntryMeta {
         this.section = section;
     }
 
+    public String getGradebookEntryType() {
+        return gradebookEntryType;
+    }
+
+    public void setGradebookEntryType(String gradebookEntryType) {
+        this.gradebookEntryType = gradebookEntryType;
+    }
+
+    public String getDateAssigned() {
+        return dateAssigned;
+    }
+
+    public void setDateAssigned(String dateAssigned) {
+        this.dateAssigned = dateAssigned;
+    }
      
 }

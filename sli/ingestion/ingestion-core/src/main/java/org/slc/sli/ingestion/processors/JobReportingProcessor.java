@@ -472,7 +472,6 @@ public class JobReportingProcessor implements Processor {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
-            batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
             batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
             broadcastFlushStats(exchange, workNote);
             cleanUpLZ(job);

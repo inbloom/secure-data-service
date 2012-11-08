@@ -63,12 +63,14 @@ public class StudentGradeRelations {
     public static List<GradeBookEntryMeta> GRADE_BOOK_ENTRY_METAS     = new ArrayList<GradeBookEntryMeta>();
     public static List<ReportCardMeta> REPORT_CARD_META               = new ArrayList<ReportCardMeta>();
     
-    public static final Random RAND                                   = new Random();
+    public static final Random RAND                                   = new Random(31);
     private static List<SectionMeta> SECTIONS                         = null;
     private static final int GRADING_PERIOD_START_YEAR                = 2011;
     private static final int GRADING_PERIOD_MAX_START_YEAR            = 2030;
     private static final int GRADING_PERIOD_INTERVAL                  = GRADING_PERIOD_MAX_START_YEAR - GRADING_PERIOD_START_YEAR;
-    
+
+    private static int uniquer = 0;
+
     public static void buildGradeBookEntriesMeta(){
         for(int i = 0; i < GRADEBOOK_ENTRIES; i++){
             GradeBookEntryMeta gbeMeta = new GradeBookEntryMeta();
@@ -90,6 +92,8 @@ public class StudentGradeRelations {
             gbeMeta.setLearningObjectiveIds(gradeBookEntryObjectives);
             gbeMeta.setId("GBE_" + i);
             gbeMeta.setSection(getRandomSection());
+            gbeMeta.setGradebookEntryType("homework" + uniquer++); //keep them unique
+            gbeMeta.setDateAssigned("2011-09-29");
         }
     }
     

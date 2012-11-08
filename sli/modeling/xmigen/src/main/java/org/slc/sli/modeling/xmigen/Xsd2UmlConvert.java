@@ -88,6 +88,7 @@ import org.w3c.dom.NodeList;
  */
 final class Xsd2UmlConvert {
     
+    
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
     
     public Xsd2UmlConvert() {
@@ -702,11 +703,8 @@ final class Xsd2UmlConvert {
                 }, schemaType.getQName(), annotations(schemaType, config));
             } else if (schemaObject instanceof XmlSchemaElement) {
                 // These are the top-level elements.
-                final XmlSchemaElement element = (XmlSchemaElement) schemaObject;
-                if (element.getSchemaTypeName() == null) {
-                } else {
-                    
-                }
+                // Do nothing to allow other branches to not handle the top-level elements. 
+                
             } else if (schemaObject instanceof XmlSchemaInclude) {
                 final XmlSchemaInclude includedSchema = (XmlSchemaInclude) schemaObject;
                 final XmlSchema embeddedSchema = includedSchema.getSchema();

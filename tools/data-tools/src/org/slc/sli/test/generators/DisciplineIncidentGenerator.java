@@ -19,15 +19,13 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
-import javax.xml.bind.JAXBElement;
-
 import org.apache.log4j.Logger;
-import org.slc.sli.test.edfi.entities.BehaviorCategoryType;
 import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
+import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
+import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.SecondaryBehavior;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
@@ -43,7 +41,7 @@ import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 public class DisciplineIncidentGenerator {
     private static final Logger log = Logger.getLogger(DisciplineIncidentGenerator.class);
 
-    static Random rand = new Random();
+    static Random rand = new Random(31);
     private static String date = "2011-03-04";
     private static String time = "09:00:00";
 
@@ -60,6 +58,27 @@ public class DisciplineIncidentGenerator {
         String staffId = meta.staffId;
 
         return generateLowFi(disciplineIncidentId, schoolId, staffId);
+    }
+
+    /**
+     * Generates a DisciplineIncidentReferenceType
+     * 
+     * @param disciplineIncidentId
+     * @param schoolId
+     * @return
+     */
+    public static DisciplineIncidentReferenceType generateReference(String disciplineIncidentId, String schoolId) {
+        DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
+        DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
+        dirt.setDisciplineIncidentIdentity(diit);
+        diit.setIncidentIdentifier(disciplineIncidentId);
+        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        edOrgIdentity.setStateOrganizationId(schoolId);
+        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+        edOrgRef.setEducationalOrgIdentity(edOrgIdentity);
+        diit.setEducationalOrgReference(edOrgRef);
+
+        return dirt;
     }
 
     /**

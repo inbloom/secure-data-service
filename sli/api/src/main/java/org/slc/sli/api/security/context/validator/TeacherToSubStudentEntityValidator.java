@@ -35,9 +35,16 @@ import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates a teacher accessing a set of entities that are directly associated to a student.
- * Currently supported entities are: attendance, course transcript, discipline action, student
- * academic record, student assessment association, student discipline incident association,
- * student grade book entry, student section association, and student school association.
+ * Currently supported entities are:
+ * attendance,
+ * course transcript,
+ * discipline action,
+ * student academic record,
+ * student assessment association,
+ * student discipline incident association,
+ * student grade book entry,
+ * student section association,
+ * student school association.
  *
  * @author shalka
  */
@@ -48,7 +55,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
-    private TeacherToStudentValidator teacherToStudentValidator;
+    private TeacherToStudentValidator validator;
 
     /**
      * Determines if the entity type is a sub-entity of student.
@@ -65,9 +72,8 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         Set<String> students = new HashSet<String>();
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL,
-                new ArrayList<String>(ids)));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));
         Iterable<Entity> entities = repo.findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {
@@ -90,17 +96,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             return false;
         }
 
-        return teacherToStudentValidator.validate(EntityNames.STUDENT, students);
-    }
-
-    private boolean isSubEntityOfStudent(String type) {
-        return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
-                || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
-                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
-                || EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(type)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(type);
+        return validator.validate(EntityNames.STUDENT, students);
     }
 
     /**
@@ -120,6 +116,6 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      *            Teacher To Student Validator.
      */
     public void setTeacherToStudentValidator(TeacherToStudentValidator teacherToStudentValidator) {
-        this.teacherToStudentValidator = teacherToStudentValidator;
+        this.validator = teacherToStudentValidator;
     }
 }

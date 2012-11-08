@@ -55,25 +55,6 @@ public interface BatchJobDAO {
     void saveBatchJobStage(String batchJobId, Stage stage);
 
     List<Stage> getBatchJobStages(String batchJobId);
-
-    /**
-     * Try to acquire a lock on the provided tenant, on behalf of the provided job id.
-     *
-     * @param tenantId
-     * @param batchJobId
-     *
-     * @return true if lock was acquired. false otherwise.
-     */
-    boolean attemptTentantLockForJob(String tenantId, String batchJobId);
-
-    /**
-     * Release lock (if present) for the given tenant if it is held by a job with the provided id.
-     *
-     * @param tenantId
-     * @param batchJobId
-     */
-    void releaseTenantLockForJob(String tenantId, String batchJobId);
-
     /**
      * Populate a shared-resource data structure that can be used to synchronize processing
      *

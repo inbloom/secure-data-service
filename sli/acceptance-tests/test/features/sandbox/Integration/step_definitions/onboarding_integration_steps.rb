@@ -34,6 +34,7 @@ SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Before do
+  disable_NOTABLESCAN()
    extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(convertTenantIdToDbName('mreynolds'))
@@ -41,6 +42,7 @@ Before do
    @sandboxdb_name = convertTenantIdToDbName('devldapuser@slidev.org')
    @sandboxdb = Mongo::Connection.new.db(@sandboxdb_name)
    @slidb = Mongo::Connection.new.db("sli")
+   enable_NOTABLESCAN()
 end
 
 After do |scenario|
@@ -139,11 +141,11 @@ end
 When /^the developer click "([^"]*)"$/ do |button|
   if(button == "Accept")
     if(@prod)
-      @email_content = check_email("Shared Learning Collaborative Developer Account - Email Confirmation", nil, PropLoader.getProps['email_imap_registration_user']) do
+      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Account - Email Confirmation"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     else
-      @email_content = check_email("Shared Learning Collaborative Developer Sandbox Account", nil, PropLoader.getProps['email_imap_registration_user']) do
+      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Sandbox Account"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     end
@@ -164,8 +166,7 @@ end
 
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
-    approval_email_subject = "Welcome to the SLC Developer Sandbox"
-    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+    @email_content = check_email({:subject_substring => "Welcome to the SLC Developer Sandbox"}) do
       sleep(2)
       url = getVerificationLink()
       puts url
@@ -240,18 +241,23 @@ When /^clicks on "([^"]*)"$/ do |arg1|
 end
 
 Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
+  disable_NOTABLESCAN()
  edOrg_coll=@db["educationOrganization"]
  edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+ enable_NOTABLESCAN()
 end
 
 Then /^an "([^"]*)" is saved to sandbox mongo$/ do |arg1|
+  disable_NOTABLESCAN()
  edOrg_coll=@sandboxdb["educationOrganization"]
  edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
  assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
+ enable_NOTABLESCAN()
 end
 
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
+  disable_NOTABLESCAN()
   app_collection=@slidb["application"]
   results=app_collection.find({"body.bootstrap"=>true})
    results.each do |application|
@@ -264,7 +270,7 @@ Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "
     end
     assert(found,"#{arg1} is not added in the application table")
     end
-
+enable_NOTABLESCAN()
 end
 
 Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
@@ -272,6 +278,7 @@ Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |a
 end
 
 Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenantId, landing_zone_path|
+  disable_NOTABLESCAN()
   tenant_coll=@slidb["tenant"]
   count=tenant_coll.find().count
   assert(count==1,"tenant entry is not added to mongo")
@@ -286,6 +293,7 @@ Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenan
     end
   end
   assert(found,"landing zone path:#{landing_zone_path} is not added to mongo")
+  enable_NOTABLESCAN()
 end
 
 Then /^the "([^"]*)" is saved in Ldap$/ do |arg1|
@@ -311,6 +319,7 @@ end
 
 
 And /^the sandbox db should have the following map of indexes in the corresponding collections:$/ do |table|
+  disable_NOTABLESCAN()
   @result = "true"
 
   table.hashes.map do |row|
@@ -327,6 +336,7 @@ And /^the sandbox db should have the following map of indexes in the correspondi
   end
 
   assert(@result == "true", "Some indexes were not created successfully.")
+  enable_NOTABLESCAN()
 
 end
 
@@ -356,7 +366,7 @@ end
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   if(@prod)
     approval_email_subject = "Welcome to the Shared Learning Collaborative"
-    @email_content = check_email(approval_email_subject, nil, PropLoader.getProps['email_imap_registration_user']) do
+    @email_content = check_email({:subject_substring => approval_email_subject}) do
       @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
       @driver.switch_to().alert().accept()
     end
@@ -473,17 +483,23 @@ def assertText(text)
 end
 
 def clear_edOrg
+  disable_NOTABLESCAN()
    edOrg_coll=@db["educationOrganization"]
    edOrg_coll.remove()
+   enable_NOTABLESCAN()
 end
 
 def clear_tenant
+  disable_NOTABLESCAN()
    tenant_coll=@slidb["tenant"]
    tenant_coll.remove()
+   enable_NOTABLESCAN()
 end
 
 def clear_users
+  disable_NOTABLESCAN()
   @ldap.delete_user(PropLoader.getProps['user_registration_email'])
+  enable_NOTABLESCAN()
 end
 
 def sha256(to_hash)

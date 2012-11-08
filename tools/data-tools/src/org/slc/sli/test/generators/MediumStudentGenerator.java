@@ -58,7 +58,7 @@ public class MediumStudentGenerator {
 		  try {
 			  nameGenerator = new NameGenerator();
 			  ag = new AddressGenerator(StateAbbreviationType.NY);
-			  random = new Random();
+			  random = new Random(31);
 		  } catch (Exception e) {
 			  e.printStackTrace();
 		  }

@@ -389,49 +389,6 @@ public class BatchJobMongoDATest {
         return errors;
     }
 
-    @Test
-    public void testExceptionAttemptTentantLockForJobRetry() {
-        DBCollection collection = Mockito.mock(DBCollection.class);
-        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
-        MongoException exception = Mockito.mock(MongoException.class);
-        MongoException duplicateKey = Mockito.mock(MongoException.DuplicateKey.class);
-
-        Mockito.when(collection
-                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception, exception, duplicateKey);
-
-        Mockito.when(exception.getCode()).thenReturn(11222);
-        Mockito.when(duplicateKey.getCode()).thenReturn(11000);
-
-        Assert.assertFalse(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
-
-        Mockito.verify(collection, times(3)).insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class));
-   }
-
-    @Test
-    public void testExceptionAttemptTentantLockForJob() {
-        DBCollection collection = Mockito.mock(DBCollection.class);
-        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
-        MongoException exception = Mockito.mock(MongoException.class);
-        Mockito.when(collection
-                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenThrow(exception);
-
-        Mockito.when(exception.getCode()).thenReturn(11000);
-
-        Assert.assertFalse(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
-   }
-
-    @Test
-    public void testAttemptTentantLockForJob() {
-        DBCollection collection = Mockito.mock(DBCollection.class);
-        Mockito.when(mockMongoTemplate.getCollection("tenantJobLock")).thenReturn(collection);
-
-        Mockito.when(collection
-                .insert(Mockito.any(DBObject.class), Mockito.any(WriteConcern.class))).thenReturn(null);
-
-
-        Assert.assertTrue(mockBatchJobMongoDA.attemptTentantLockForJob(BATCHJOBID , "student"));
-   }
-
     private void assertOnErrorIterableValues(Error error, int iterationCount) {
 
         assertEquals(error.getBatchJobId(), BATCHJOBID);

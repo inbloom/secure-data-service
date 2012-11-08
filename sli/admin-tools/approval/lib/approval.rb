@@ -254,6 +254,23 @@ module ApprovalEngine
     def ApprovalEngine.get_user_count_ignore_states
       return get_users.length
     end
+    
+    #return the count of application developers
+    def ApprovalEngine.get_developer_count
+      get_group_count(ROLE_APPLICATION_DEVELOPER)
+    end
+    
+    #return the count of sandbox administrator
+    def ApprovalEngine.get_sandbox_admin_count
+      get_group_count(ROLE_SANDBOX_ADMINISTRATOR)
+    end
+    
+    #return the count of ingestion user
+    def ApprovalEngine.get_ingestion_user_count
+      get_group_count(ROLE_INGESTION_USER)
+    end
+    
+    
 
     # Returns an individual user via their email address or nil if the user does not exist.
     def ApprovalEngine.get_user(email_address)
@@ -300,6 +317,15 @@ module ApprovalEngine
     # Private methods
     #############################################################
     private 
+    
+    def ApprovalEngine.get_group_count(groupid)
+      count = 0
+      group_found = @@storage.get_group(groupid)
+      if group_found
+       count = group_found['memberUid'].length 
+      end
+      count
+    end
 
     def ApprovalEngine.set_roles(email_address)
         @@roles.each do |role|

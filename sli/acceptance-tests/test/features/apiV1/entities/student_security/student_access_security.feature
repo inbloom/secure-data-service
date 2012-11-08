@@ -318,13 +318,13 @@ Examples:
 
 | "staff1"  | "student47"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
-| "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
+| "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | school-staff can't see student in another school outside tenant |
 | "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
 | "staff6"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
-| "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
+| "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | district-staff can't see student in another school outside tenant |
 | "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
 | "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
-| "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
+| "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 404        | state-staff can't see student in another school outside tenant |
 
 | "staff11" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
 | "staff12" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
@@ -335,13 +335,13 @@ Examples:
 
 | "staff1"  | "student47"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
-| "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
+| "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | school-staff can't see student in another school outside tenant |
 | "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
 | "staff6"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
-| "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
+| "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 404        | district-staff can't see student in another school outside tenant |
 | "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
 | "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
-| "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
+| "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 404        | state-staff can't see student in another school outside tenant |
 
 @smoke
 Scenario Outline: Staff accessing lists of students at differing levels

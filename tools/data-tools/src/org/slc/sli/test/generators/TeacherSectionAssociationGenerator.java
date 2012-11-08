@@ -30,7 +30,7 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSectionAssociationGenerator {
-    private Random r = new Random();
+    private Random r = new Random(31);
 
     public TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
 
