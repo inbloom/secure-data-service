@@ -41,12 +41,6 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -66,6 +60,11 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -84,9 +83,8 @@ public class JobReportingProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
-    private static final int ERRORS_RESULT_LIMIT = 100;
-
-    private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor", "TransformationProcessor", "WorkNoteSplitter");
+    private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor",
+            "TransformationProcessor", "WorkNoteSplitter");
 
     public static final String ORCHESTRATION_STAGES_NAME = "OrchestrationStages";
 
@@ -165,7 +163,7 @@ public class JobReportingProcessor implements Processor {
                     stageDesc = stageChunk.getStageDesc();
                 }
 
-//                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
+                // Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
                 Stage stageBrief = stageBriefMap.get(stageName);
                 if (stageBrief != null) {
                     if (stageBrief.getStartTimestamp() != null
@@ -176,19 +174,22 @@ public class JobReportingProcessor implements Processor {
                             && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
                         stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
                     }
-//                    stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
-                    stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime() - stageBrief.getStartTimestamp().getTime());
+                    // stageBrief.setElapsedTime(stageBrief.getElapsedTime() +
+                    // stageChunk.getElapsedTime());
+                    stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime()
+                            - stageBrief.getStartTimestamp().getTime());
 
                 } else {
-//                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(), stageChunk.getStatus(),
-//                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
-                    stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(), stageChunk.getStartTimestamp(),
-                            stageChunk.getStopTimestamp(), null);
+                    // stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(),
+                    // stageChunk.getStatus(),
+                    // stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
+                    stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(),
+                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
                     stageBrief.setProcessingInformation("");
 
-//                    stageBriefMap.put(stageChunk.getStageName(), stageBrief);
+                    // stageBriefMap.put(stageChunk.getStageName(), stageBrief);
                     stageBriefMap.put(stageName, stageBrief);
                 }
             }
@@ -261,130 +262,76 @@ public class JobReportingProcessor implements Processor {
     private boolean writeErrorAndWarningReports(NewBatchJob job) {
         boolean hasErrors = false;
 
-        Map<String, PrintWriter> resourceToErrorMap = new HashMap<String, PrintWriter>();
-        Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
-
-
-
-        try {
-            Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
-            LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
-
-            Map<String, Integer> resourceToErrorCount = new HashMap<String, Integer>();
-            Map<String, Integer> resourceToWarningCount = new HashMap<String, Integer>();
-
-            for (Error error : errors) {
-                String externalResourceId = error.getResourceId();
-
-                PrintWriter errorWriter = null;
-                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-
-                    if (resourceToErrorCount.get(externalResourceId) == null
-                            || resourceToErrorCount.get(externalResourceId) < errorsCountPerInterchange) {
-                        if (resourceToErrorCount.get(externalResourceId) == null) {
-                            resourceToErrorCount.put(externalResourceId, 1);
-                        } else {
-                            resourceToErrorCount.put(externalResourceId,
-                                    resourceToErrorCount
-                                    .get(externalResourceId) + 1);
-                        }
-
-
-                        hasErrors = true;
-                        errorWriter = getErrorWriter("error", job.getId(),
-                                externalResourceId, resourceToErrorMap,
-                                landingZone);
-
-                        if (errorWriter != null) {
-                            writeErrorLine(errorWriter, error.getErrorDetail());
-                        } else {
-                            LOG.error(
-                                    "Unable to write to error file for: {} {}",
-                                    job.getId(), externalResourceId);
-                        }
-                    }
-                } else if (FaultType.TYPE_WARNING.getName().equals(
-                        error.getSeverity())) {
-
-                    if (resourceToWarningCount.get(externalResourceId) == null || resourceToWarningCount.get(externalResourceId) < warningsCountPerInterchange) {
-
-                        if (resourceToWarningCount.get(externalResourceId) == null) {
-                            resourceToWarningCount.put(externalResourceId, 1);
-                        } else {
-                            resourceToWarningCount.put(externalResourceId,
-                                    resourceToWarningCount
-                                    .get(externalResourceId) + 1);
-                        }
-
-                        errorWriter = getErrorWriter("warn", job.getId(),
-                                externalResourceId, resourceToWarningMap,
-                                landingZone);
-
-                        if (errorWriter != null) {
-                            writeWarningLine(errorWriter,
-                                    error.getErrorDetail());
-                        } else {
-                            LOG.error(
-                                    "Unable to write to warning file for: {} {}",
-                                    job.getId(), externalResourceId);
-                        }
-                    }
-                }
-
-            }
-
-        } catch (IOException e) {
-            LOG.error("Unable to write error file for: {}", job.getId(), e);
-        } finally {
-            for (PrintWriter writer : resourceToErrorMap.values()) {
-                writer.close();
-            }
-            for (PrintWriter writer : resourceToWarningMap.values()) {
-                writer.close();
-            }
+        LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
+        for (ResourceEntry resource : job.getResourceEntries()) {
+            String resourceId = resource.getResourceId();
+            hasErrors |= writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR, "error", errorsCountPerInterchange);
+            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, "warn", warningsCountPerInterchange);
         }
+
         return hasErrors;
     }
 
+    private boolean writeErrors(NewBatchJob job, LandingZone landingZone, String externalResourceId,
+            FaultType severity, String fileType, int errorsCountLimit) {
+        Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), externalResourceId, severity,
+                errorsCountLimit);
+        if (errors.iterator().hasNext()) {
+            PrintWriter errorWriter = null;
+            try {
+                errorWriter = getErrorWriter(fileType, job.getId(), externalResourceId, landingZone);
+                if (errorWriter != null) {
+                    for (Error error : errors) {
+                        writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
+                    }
+                } else {
+                    LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                }
+            } catch (IOException e) {
+                LOG.error("Unable to write error file for: {}", job.getId(), e);
+            } finally {
+                if (errorWriter != null) {
+                    errorWriter.close();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
-            Map<String, PrintWriter> externalFileResourceToErrorMap, LandingZone landingZone) throws IOException {
+            LandingZone landingZone) throws IOException {
 
         // writer for job and stage level (non-resource specific) errors and warnings
         if (externalResourceId == null) {
             externalResourceId = JOB_STAGE_RESOURCE_ID;
         }
 
-        PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
+        String errorFileName = null;
 
-        if (writer == null) {
-            String errorFileName = null;
-
-            if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
-                errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
-            } else {
-                errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
-            }
-            writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
-            externalFileResourceToErrorMap.put(externalResourceId, writer);
-            return writer;
+        if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
+            errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
+        } else {
+            errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
         }
-
+        PrintWriter writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
         return writer;
+
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
         List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
         if (edfiMetrics != null) {
-            for (Metrics metric:edfiMetrics) {
+            for (Metrics metric : edfiMetrics) {
                 Map<String, Long> duplicates = metric.getDuplicateCounts();
 
                 if (duplicates != null) {
                     String resource = metric.getResourceId();
-                    for (String entity: duplicates.keySet()) {
+                    for (String entity : duplicates.keySet()) {
                         Long count = duplicates.get(entity);
-                                if (count > 0) {
-                                    writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
-                                }
+                        if (count > 0) {
+                            writeInfoLine(jobReportWriter, resource + " " + entity + " " + count + " deltas!");
+                        }
                     }
                 }
             }
@@ -492,12 +439,8 @@ public class JobReportingProcessor implements Processor {
         writeSecurityLog(LogLevelType.TYPE_INFO, string);
     }
 
-    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "ERROR", string);
-    }
-
-    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "WARN", string);
+    private void writeErrorLine(PrintWriter jobReportWriter, String severity, String string) {
+        writeLine(jobReportWriter, severity, string);
     }
 
     private void writeLine(PrintWriter jobReportWriter, String type, String text) {

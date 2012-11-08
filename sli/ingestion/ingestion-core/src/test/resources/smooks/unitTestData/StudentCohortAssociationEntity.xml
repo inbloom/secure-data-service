@@ -11,7 +11,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>IL</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+    		<StateOrganizationId>IL</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-01-01</BeginDate>
