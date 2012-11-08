@@ -285,7 +285,7 @@ public class SearchResourceService {
         // filter rule:
         // first, token must be at least 1 tokens
         String[] tokens = queryString.split("\\s+");
-        if (tokens == null || tokens.length < 2) {
+        if (tokens == null || tokens.length < 1 || queryString.length() < 2) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
         // append wildcard '*' to each token
