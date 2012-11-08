@@ -1070,6 +1070,7 @@ Given /^the tenant database does not exist/ do
   puts "Dropping database:" + @ingestion_db_name
   @conn.drop_database(@ingestion_db_name)
   @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
+
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
