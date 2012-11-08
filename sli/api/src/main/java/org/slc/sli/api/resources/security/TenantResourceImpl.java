@@ -46,7 +46,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slc.sli.api.util.MongoCommander;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -78,8 +77,6 @@ import org.slc.sli.domain.enums.Right;
 @Path("tenants")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
-
-    public static final String INDEX_SCRIPT = "tenantDB_indexes.js";
 
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
@@ -244,10 +241,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             if (isSandbox) {
                 roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
-            String returnVal = tenantService.create(newTenant);
-            MongoCommander.exec(getDatabaseName(tenantId), INDEX_SCRIPT, " ");
 
-            return returnVal;
+            return tenantService.create(newTenant);
         } else {
             String existingTenantId = existingIds.get(0);
             // combine lzs from existing tenant and new tenant entry, overwriting with values of new
