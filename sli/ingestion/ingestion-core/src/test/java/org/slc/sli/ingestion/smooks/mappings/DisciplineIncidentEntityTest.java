@@ -83,11 +83,6 @@ public class DisciplineIncidentEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        //@@@ debug
-        for(String k : attributes.keySet()) {
-	    System.out.println (k + ": " + attributes.get(k));
-	}
-
         assertEquals("Expected different number of attributes", 14, attributes.size());
 
         assertEquals("Expected different id", "whack-a-mole", attributes.get("id"));

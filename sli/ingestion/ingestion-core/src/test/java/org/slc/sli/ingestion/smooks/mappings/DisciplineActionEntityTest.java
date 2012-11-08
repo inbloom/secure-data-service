@@ -84,7 +84,8 @@ public class DisciplineActionEntityTest {
         assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        assertEquals("Expected different number of attributes", 14, attributes.size());
+
+        assertEquals("Expected different number of attributes", 13, attributes.size());
 
         assertEquals("Expected different disciplineActionIdentifier", "cap0-lea0-sch1-da0", attributes.get("disciplineActionIdentifier"));
         assertEquals("Expected different disciplineDate", "2011-03-04", attributes.get("disciplineDate"));
@@ -92,37 +93,37 @@ public class DisciplineActionEntityTest {
         assertEquals("Expected different actualDisciplineActionLength", 64, attributes.get("actualDisciplineActionLength"));
         assertEquals("Expected different disciplineActionLengthDifferenceReason", "Term Modified By Mutual Agreement", attributes.get("disciplineActionLengthDifferenceReason"));
 
-        List<Map<String, Object>> studentReferences = (List<Map<String, Object>>) attributes.get("studentReference");
+        List<Map<String, Object>> studentReferences = (List<Map<String, Object>>) attributes.get("StudentReference");
         assertNotNull("Expected non-null list of studentReferences", studentReferences);
         assertEquals("Expected 2 student references", 2, studentReferences.size());
 
         Map<String, Object> studentOuterMap1 = studentReferences.get(0);
-        Map<String, Object> studentInnerMap1 = (Map<String, Object>) studentOuterMap1.get("studentIdentity");
-        assertEquals("Expected different studentUniqueStateId", "900000016", studentInnerMap1.get("studentUniqueStateId"));
+        Map<String, Object> studentInnerMap1 = (Map<String, Object>) studentOuterMap1.get("StudentIdentity");
+        assertEquals("Expected different studentUniqueStateId", "900000016", studentInnerMap1.get("StudentUniqueStateId"));
 
         Map<String, Object> studentOuterMap2 = studentReferences.get(1);
-        Map<String, Object> studentInnerMap2 = (Map<String, Object>) studentOuterMap2.get("studentIdentity");
-        assertEquals("Expected different studentUniqueStateId", "100000017", studentInnerMap2.get("studentUniqueStateId"));
+        Map<String, Object> studentInnerMap2 = (Map<String, Object>) studentOuterMap2.get("StudentIdentity");
+        assertEquals("Expected different studentUniqueStateId", "100000017", studentInnerMap2.get("StudentUniqueStateId"));
 
-        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
+        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("StaffReference");
         assertNotNull("Expected non-null list of staffReferences", staffReferences);
         assertEquals("Expected 2 staff references", 2, staffReferences.size());
 
         Map<String, Object> staffOuterMap1 = staffReferences.get(0);
-        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
-        assertEquals("Expected different staffUniqueStateId", "cgray", staffInnerMap1.get("staffUniqueStateId"));
+        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("StaffIdentity");
+        assertEquals("Expected different staffUniqueStateId", "cgray", staffInnerMap1.get("StaffUniqueStateId"));
 
         Map<String, Object> staffOuterMap2 = staffReferences.get(1);
-        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
-        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap2.get("staffUniqueStateId"));
+        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("StaffIdentity");
+        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap2.get("StaffUniqueStateId"));
 
-        List<Map<String, Object>> disciplineIncidentReferences = (List<Map<String, Object>>) attributes.get("disciplineIncidentReference");
+        List<Map<String, Object>> disciplineIncidentReferences = (List<Map<String, Object>>) attributes.get("DisciplineIncidentReference");
         assertNotNull("Expected non-null list of disciplineIncidentReferences", disciplineIncidentReferences);
         assertEquals("Expected 1 disciplineIncidentReferences", 1, disciplineIncidentReferences.size());
 
         Map<String, Object> disciplineOuterMap1 = disciplineIncidentReferences.get(0);
-        Map<String, Object> disciplineInnerMap1 = (Map<String, Object>) disciplineOuterMap1.get("disciplineIncidentIdentity");
-        assertEquals("Expected different discipline incidentIdentifier", "di-10001", disciplineInnerMap1.get("incidentIdentifier"));
+        Map<String, Object> disciplineInnerMap1 = (Map<String, Object>) disciplineOuterMap1.get("DisciplineIncidentIdentity");
+        assertEquals("Expected different discipline incidentIdentifier", "di-10001", disciplineInnerMap1.get("IncidentIdentifier"));
 
         Map<String, Object> responsibilitySchoolReference = (Map<String, Object>) attributes.get("ResponsibilitySchoolReference");
         Map<String, Object> responsibilitySchooIdentity = (Map<String, Object>) responsibilitySchoolReference.get("EducationalOrgIdentity");
