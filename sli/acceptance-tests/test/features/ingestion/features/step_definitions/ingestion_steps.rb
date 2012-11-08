@@ -1066,17 +1066,11 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @lzs_to_remove.push(lz_key)
 end
 
-Given /^the tenant database does not exist/ do
-  puts "Dropping database:" + @ingestion_db_name
-  @conn.drop_database(@ingestion_db_name)
-  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
-  @existingTenant = @tenantColl.find("body.dbName" => @ingestion_db_name, "body.tenantIsReady" => {"$exists" => false})
-  @count = @existingTenant.to_a.count()
-  if @count == 0
-    puts "Could not remove tenantIsReady flag"
-  else
-    puts "tenantIsReady flag was removed"
-  end
+Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
+  puts "Dropping database for:" + tenantToDrop
+  @conn.drop_database(convertTenantIdToDbName(tenantToDrop))
+  @tenantColl.update({"body.tenantId" => tenantToDrop}, {"$unset" => {"body.tenantIsReady" => 1}})
+
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
