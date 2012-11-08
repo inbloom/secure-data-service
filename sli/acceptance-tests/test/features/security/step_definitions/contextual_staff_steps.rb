@@ -31,7 +31,7 @@ Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/teachers/edce823c-ee28-4840-ae3d-74d9e9976dc5" if path == "Mark Anthony"
   id = "/v1/teachers/a060273b-3e65-4e5f-b5d1-45226f584c5d" if path == "Dale Reiss"
   id = "/v1/students/92d1a002-2695-4fb8-a0d6-4ef655d29e48" if path == "Malcolm Haehn NY"
-  id = "/v1/students/5738d251-dd0b-4734-9ea6-417ac9320a15" if path == "Matt Sollars"
+  id = "/v1/students/5738d251-dd0b-4734-9ea6-417ac9320a15_id" if path == "Matt Sollars"
   id = "/v1/students/85ff53e3-2779-4dc7-bc31-59c405f3a49e" if path == "Larissa Marney"
   id = "/v1/students/eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if path == "Lavern Chaney"
   id = "/v1/students/0cff1537-95e6-440b-ba2f-3003a2ecd7ed" if path == "Brandon Suzuki"

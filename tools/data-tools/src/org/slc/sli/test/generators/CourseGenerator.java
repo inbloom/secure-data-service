@@ -51,7 +51,7 @@ public class CourseGenerator {
 
     private static final Logger log = Logger.getLogger(CourseGenerator.class);
     private static String file_course = "database/course/course.csv";
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
     private List<Course> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;

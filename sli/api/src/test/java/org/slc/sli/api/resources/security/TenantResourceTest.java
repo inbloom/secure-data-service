@@ -35,9 +35,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -53,20 +62,12 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing a tenant
- * 
+ *
  * @author srichards
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -95,7 +96,7 @@ public class TenantResourceTest {
 
     @Before
     public void setup() throws Exception {
-        
+
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
@@ -393,7 +394,7 @@ public class TenantResourceTest {
         assertEquals(Arrays.asList("small"), preload.get("files"));
         assertEquals("ready", preload.get("status"));
     }
-    
+
     @Test
     public void testPreloadNoAuthorization() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
@@ -404,13 +405,13 @@ public class TenantResourceTest {
         when(secUtil.getTenantId()).thenReturn(TENANT_1);
         Response r = tenantResource.preload(id, "small", uriInfo);
         assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-        
+
         // test production environment will get forbidden response
         injector.setDeveloperContext();
         tenantResource.setSandboxEnabled(false);
         r = tenantResource.preload(id, "small", uriInfo);
         assertEquals(Status.FORBIDDEN.getStatusCode(), r.getStatus());
-        
+
         // test tenant mismatch will get forbidden response
         injector.setDeveloperContext();
         tenantResource.setSandboxEnabled(true);
@@ -427,11 +428,13 @@ public class TenantResourceTest {
         Map<String, Object> entity = repo.findById("tenant", id).getBody();
         @SuppressWarnings("unchecked")
         Repository<Entity> mockRepo = mock(Repository.class);
-        IngestionTenantLockChecker lockChecker = new IngestionTenantLockChecker(mockRepo);
+        IngestionOnboardingLockChecker lockChecker = new IngestionOnboardingLockChecker(mockRepo);
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", entity.get("tenantId")));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", "=", false));
         when(
-                mockRepo.findOne("tenantJobLock",
-                        new NeutralQuery(new NeutralCriteria("_id", "=", (String) entity.get("tenantId")))))
-                .thenReturn(new MongoEntity("tenantJobLock", new HashMap<String, Object>()));
+                mockRepo.findOne("tenant",query))
+                .thenReturn(new MongoEntity("tenant", new HashMap<String, Object>()));
         tenantResource.setLockChecker(lockChecker);
         // try {
         tenantResource.setSandboxEnabled(true);

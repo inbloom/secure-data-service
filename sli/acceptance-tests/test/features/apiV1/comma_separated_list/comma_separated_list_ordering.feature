@@ -2,11 +2,11 @@
 Feature: As an SLI application, I want to return the right order of entities.
   That means when I do a GET on comma-separated entities, the order of the entities should be preserved.
 
-  Background: Logged in a Linda Kim
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    And format "application/json"
+  Background: Format is JSON
+    Given format "application/json"
 
   Scenario Outline: Doing a GET request on 3 comma-separated, all valid student IDs
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     Given the order of students I want is <STUDENT IDs ORDER>
     When I navigate to GET "/v1/students/<STUDENT IDs LIST>"
     Then I should receive a return code of 200
@@ -24,6 +24,7 @@ Feature: As an SLI application, I want to return the right order of entities.
     | <MARVIN MILLER ID>,<MATT SOLLARS ID>,<CARMEN ORTIZ ID>    | <MARVIN MILLER ID> | <MATT SOLLARS ID>  | <CARMEN ORTIZ ID>  |
 
   Scenario Outline: Doing a GET request on 3 comma-separated, some invalid student IDs, some I cannot see
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     Given the order of students I want is <STUDENT IDs ORDER>
     When I navigate to GET "/v1/students/<STUDENT IDs LIST>"
     Then I should receive a return code of <CODE>
@@ -38,3 +39,54 @@ Feature: As an SLI application, I want to return the right order of entities.
     | <INVALID ID>,<MARVIN MILLER ID>,<MARVIN MILLER ID>        | 404  |
     | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
     | <MARVIN MILLER ID>,<INVALID ID>,<INACCESSABLE ID>         | 404  |
+
+ Scenario Outline: Validate CSL for each endpoint
+ 	    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+ 	    When I navigate to GET "/v1/<ENDPOINT>/<ID1>"
+ 	    Then I should receive a return code of 200
+ 	    When I navigate to GET "/v1/<ENDPOINT>/<ID2>"
+ 	    Then I should receive a return code of 200
+ 	    When I navigate to GET "/v1/<ENDPOINT>/<ID1>,<ID2>"
+ 	    Then I should receive a return code of 200
+ 	    And I should see a total of 2 entities
+ 	    Examples:
+ 	    | ENDPOINT                  | ID1                                | ID2                                |
+ 	    |assessments                |dd916592-7d7e-5d27-a87d-dfc7fcb12346|dd916592-7d3e-4f27-a8ac-bec5f4b757f6|
+ 	    |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|4beb72d4-0f76-4071-92b4-61982dba7a7b|
+ 	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f|b408d88e-8fd5-11e1-86ec-0021701f543f|
+ 	    |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|43ee8275-de7b-4a02-8ecb-21d25a45db36|
+ 	    |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|9e26de6c-225b-9f67-9201-8113ad50a03b|
+ 	    |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
+ 	    |educationOrganizations     |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb|92d6d5a0-852c-45f4-907a-912752831772|
+ 	    |gradebookEntries           |20120613-56b6-4d17-847b-2997b7227686|008fd89d-88a2-43aa-8af1-74ac16a29380|
+ 	    |grades                     |708c4e08-9942-11e1-a8a9-68a86d21d918|ef42e2a2-9942-11e1-a8a9-68a86d21d918|
+ 	    |gradingPeriods             |ef72b883-90fa-40fa-afc2-4cb1ae17623b|b40a7eb5-dd74-4666-a5b9-5c3f4425f130|
+ 	    |learningObjectives         |df9165f2-653e-df27-a86c-bfc5f4b7577d|df9165f2-65fe-de27-a82c-bfc5f4b7577c|
+ 	    |learningStandards          |dd9165f2-65fe-7d27-a8ec-bdc5f77757f7|dd9165f2-65be-6e27-a8ac-bec5f4a757ba|
+ 	    |parents                    |eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d|38ba6ea7-7e73-47db-99e7-d0956f83d7e9|
+ 	    |programs                   |9b8cafdc-8fd5-11e1-86ec-0021701f543f|9b8c3aab-8fd5-11e1-86ec-0021701f543f|
+ 	    |reportCards                |cf0ca1c6-a9db-4180-bf23-8276c4e2624c|8770da5b-dca5-4ced-bf3b-5fa17bc0001d|
+ 	    |schools                    |a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb|92d6d5a0-852c-45f4-907a-912752831772|
+ 	    |sections                   |a00c740c-8753-4190-90ad-9fc026a65d53|14c68439-62c1-461a-a178-ad8ac9404f95|
+ 	    |staff                      |e59d9991-9d8f-48ab-8790-59df9bcf9bc7|cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4|
+ 	    |students                   |766519bf-31f2-4140-97ec-295297bc045e|fb71442f-1023-4c55-a675-92ad8c393c82|
+ 	    |studentAcademicRecords     |56afc8d4-6c91-48f9-8a11-de527c1131b7|16afc8d4-6c91-48f9-8a51-de527c1131b7|
+ 	    |studentGradebookEntries    |2713b97a-5632-44a5-8e04-031074bcb326|0f5e6f78-5434-f906-e51b-d63ef970ef8f|
+ 	    |studentCompetencies        |b57643e4-9acf-11e1-89a7-68a86d21d918|3a2ea9f8-9acf-11e1-add5-68a86d83461b|
+ 	    #|studentCompetencyObjectives|_id|_id|
+ 	    |teachers                   |bcfcc33f-f4a6-488f-baee-b92fbd062e8d|e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|
+ 	    # Associations
+ 	    |courseOfferings                        |01ba881f-ae39-4b76-920e-42bc7e8769d7|33ca7b78-737c-448c-8f68-4eb7e6aea415|
+ 	    |courseTranscripts                      |f11a2a30-d4fd-4400-ae18-353c00d581a2|36aeeabf-ee9b-46e6-8039-13320bf12346|
+ 	    |staffCohortAssociations                |b41338da-8fd5-11e1-86ec-0021701f543f|b4e31b1a-8e55-8803-722c-14d8087c0712|
+ 	    |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|2e2c3dd7-d8d6-4966-82dc-cdc598aa7d2c|
+ 	    |staffProgramAssociations               |9bf7591b-8fd5-11e1-86ec-0021701f543f|9bfab47d-8fd5-11e1-86ec-0021701f5432|
+ 	    |studentAssessments                     |e5e13e61-01aa-066b-efe0-710f7a011115|5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id|
+ 	    |studentCohortAssociations              |b40ca923-8fd5-11e1-86ec-0021701f543f|b40d6c75-8fd5-11e1-86ec-0021701f543f|
+ 	    |studentDisciplineIncidentAssociations  |20120613-8d5a-c796-76e3-d77d5d497e6c|3792acf6-8d5a-c796-76e3-d77d5d497e6c|
+ 	    |studentParentAssociations              |dd69083f-a053-4819-a3cd-a162cdc627d7|c5aa1969-492a-5150-8479-71bfc4d57f1e|
+ 	    |studentProgramAssociations             |b3f63ae6-8fd5-11e1-86ec-0021701f543f|b3f4db53-8fd5-11e1-86ec-0021701f543f|
+ 	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
+ 	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
+ 	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
+ 	    

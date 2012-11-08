@@ -29,6 +29,11 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -37,10 +42,6 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -213,7 +214,7 @@ public class SectionEntityTest {
         Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("SessionReference"));
-        //Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("ProgramReference"));
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
@@ -454,7 +455,7 @@ public class SectionEntityTest {
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity
                 .get("SessionReference")).get("SessionIdentity")).get("SessionName"));
 
-/*        List<String> programReferenceList = (List<String>) entity.get("programReference");
+/*        List<String> programReferenceList = (List<String>) entity.get("ProgramReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("ProgramId0", programReferenceList.get(0));
 */    }

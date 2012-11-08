@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.BasicDBObject;
-import org.springframework.data.mongodb.core.query.Query;
+import com.mongodb.DBObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +48,7 @@ import org.slc.sli.domain.Repository;
 public class TenantMongoDA implements TenantDA {
     protected static final Logger LOG = LoggerFactory.getLogger(TenantDA.class);
 
+    private static final String TENANT = "tenant";
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
     public static final String TENANT_ID = "tenantId";
@@ -192,6 +195,7 @@ public class TenantMongoDA implements TenantDA {
 
         // checking for indexes ensures that the scripts were capable of running
         TenantContext.setTenantId(tenantId);
+        TenantContext.setIsSystemCall(false);
         boolean isIndexed = entityRepository.count("system.indexes", new Query()) > 0;
 
         if (isIndexed) {
@@ -215,17 +219,36 @@ public class TenantMongoDA implements TenantDA {
     @Override
     public void setTenantReadyFlag(String tenantId) {
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
         Update update = new Update();
         update.set(TENANT_READY_FIELD, true);
 
         try {
             TenantContext.setIsSystemCall(true);
-            entityRepository.doUpdate("tenant", query, update);
+            entityRepository.doUpdate(TENANT, query, update);
         } finally {
             TenantContext.setIsSystemCall(false);
         }
+    }
+
+    @Override
+    public boolean updateAndAquireOnboardingLock(String tenantId) {
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", "exists", false));
+        
+        Update update = new Update();
+        update.set(TENANT_READY_FIELD, false);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            return entityRepository.findAndUpdate(TENANT, query, update) == null ? false : true;
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
+
     }
 
     @Override

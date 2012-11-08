@@ -1565,7 +1565,7 @@
     <jb:wiring beanIdRef="SLC-Session_Attributes_SLC-GradingPeriodReferenceTypeArray" property="GradingPeriodReference"/>
     <jb:wiring beanIdRef="SLC-Session_Attributes_SLC-EducationalOrgReferenceType" property="EducationOrganizationReference"/>
   </jb:bean>
-
+ 
   <jb:bean beanId="SLC-Session_Attributes_SLC-GradingPeriodReferenceTypeArray" class="java.util.ArrayList" createOnElement="Session">
     <jb:wiring beanIdRef="SLC-Session_Attributes_SLC-GradingPeriodReferenceType"/>
   </jb:bean>
@@ -2893,15 +2893,7 @@
     <!-- EducationOrgReference reference type -->
     <jb:wiring property="educationOrgReference" beanIdRef="Cohort_EducationOrgReference" />
     <!-- ProgramReference - array of reference type -->
-    <jb:wiring property="programReferences" beanIdRef="cohort_programReferenceTypeArray" />
-
-    <!-- ProgramId: placeholder for reference resolution -->
-    <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
-  </jb:bean>
-
-  <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/Cohort">
-    <jb:wiring beanIdRef="Cohort_ProgramReference" />
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceTypeArray" property="ProgramReference"/>
   </jb:bean>
 
   <!-- Cohort supporting objects: EducationOrgReference -->
@@ -2934,16 +2926,14 @@
   </jb:bean>
 
   <!-- Cohort supporting objects: ProgramReference -->
-  <jb:bean beanId="Cohort_ProgramReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
-    <jb:wiring property="ProgramIdentity" beanIdRef="Cohort_ProgramReference_ProgramIdentity" />
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="Cohort">
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceType"/>
   </jb:bean>
-  <jb:bean beanId="Cohort_ProgramReference_ProgramIdentity"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
-    <jb:value property="ProgramId"
-        data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
+    <jb:wiring beanIdRef="SLC-Cohort_Attributes_SLC-ProgramReferenceType_SLC-ProgramIdentityType" property="ProgramIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Cohort_Attributes_SLC-ProgramReferenceType_SLC-ProgramIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
+    <jb:value data="Cohort/ProgramReference/ProgramIdentity/ProgramId" property="ProgramId"/>
   </jb:bean>
   <!-- End Cohort Mapping -->
 
@@ -3550,7 +3540,18 @@
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
         <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
-        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_reference_array" />
+        <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" property="CalendarDateReference"/>
+                
+  </jb:bean>
+
+  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+    <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+    <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" property="CalendarDateIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceType_SLC-CalendarDateIdentityType" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference/CalendarDateIdentity">
+    <jb:value data="GradingPeriod/CalendarDateReference/CalendarDateIdentity/Date" property="Date"/>
   </jb:bean>
 
   <jb:bean beanId="gradingPeriod_gradingPeriodIdentity" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
@@ -3582,15 +3583,6 @@
     <jb:value property="identificationSystem" data="EducationOrgIdentificationCode/@IdentificationSystem" />
   </jb:bean>
 
-  <jb:bean beanId="calendarDateReference_reference_array" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
-        <jb:wiring beanIdRef="calendarDateReference_reference" />
-  </jb:bean>
-
-  <jb:bean beanId="calendarDateReference_reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
-        <jb:value property="date" data="CalendarDateReference/CalendarDateIdentity/CalendarDate" />
-        <jb:value property="calendarEvent" data="CalendarDateReference/CalendarDateIdentity/CalendarEvent" />
-  </jb:bean>
-
   <!-- End gradingPeriod mapping -->
 
   <!-- Start calendarDate mapping -->
@@ -3602,7 +3594,6 @@
 
   <jb:bean beanId="calendarDateAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
-        <jb:value property="calendarDateId" data="InterchangeEducationOrgCalendar/CalendarDate/@id" />
         <jb:value property="date" data="Date" />
         <jb:value property="calendarEvent" data="CalendarEvent" />
   </jb:bean>
