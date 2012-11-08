@@ -73,7 +73,6 @@ public class TenantProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         try {
-            // updateLzRoutes();
 
             createNewLandingZones();
 
@@ -198,8 +197,8 @@ public class TenantProcessor implements Processor {
             preloadedFile.createNewFile();
             FileUtils.copyInputStreamToFile(sampleFile, preloadedFile);
 
-            // Send a message to ingestion.landingZone queue to invoke ingestion.
             sendMessageToLzQueue(preloadedFile.getPath());
+
         } catch (IOException e) {
             LOG.error("Error creating sample file in landingZone" + landingZoneDir.getAbsolutePath(), e);
             result = false;
@@ -227,6 +226,11 @@ public class TenantProcessor implements Processor {
     private void sendMessageToLzQueue(String filePathname) {
         // Create a new process to invoke the ruby script to send the message.
         try {
+            /*
+             * The logic to send this message is also present in following ruby script. Any changes
+             * here should also be made to the script.
+             * sli/opstools/ingestion_trigger/publish_file_uploaded.rb
+             */
             ProducerTemplate template = new DefaultProducerTemplate(camelContext);
             template.start();
             template.sendBodyAndHeader(landingZoneQueueUri, "Sample lzfile message", "filePath", filePathname);
