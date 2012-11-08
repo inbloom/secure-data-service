@@ -27,6 +27,7 @@ db["realm"].ensureIndex({"body.idp.id":1});  //oauth login
 db["realm"].ensureIndex({"body.tenantId":1,"body.edOrg":1});  //login? saml fedaration
 db["realm"].ensureIndex({"body.edOrg":1});  //create custom role for a realm
 db["realm"].ensureIndex({"body.uniqueIdentifier":1});  //unique identifier for a realm
+db["realm"].ensureIndex({"body.name":1});
 
 db["securityEvent"].ensureIndex({"body.targetEdOrg":1,"body.roles":1});
 

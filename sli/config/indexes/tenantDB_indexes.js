@@ -242,4 +242,3 @@ db["reportCard"].ensureIndex({"body.gpaCumulative":1});
 
 //US4365
 db["student"].ensureIndex({"cohort._id" : 1});
-
