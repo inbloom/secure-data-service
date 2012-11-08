@@ -22,6 +22,11 @@ import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
@@ -38,10 +43,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Zip file handler.
@@ -93,7 +94,6 @@ public class ZipFileProcessor implements Processor {
             File zipFile = exchange.getIn().getBody(File.class);
 
             newJob = createNewBatchJob(zipFile);
-            newJob.setZipFileName(zipFile.getName());
             TenantContext.setTenantId(newJob.getTenantId());
 
             batchJobId = newJob.getId();

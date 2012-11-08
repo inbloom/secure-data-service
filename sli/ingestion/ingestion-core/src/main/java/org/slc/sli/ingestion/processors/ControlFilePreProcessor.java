@@ -126,7 +126,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             controlFileName = fileForControlFile.getName();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
-            newBatchJob.setControlFileName(controlFileName);
+            createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
@@ -237,7 +237,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
-        createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
         TenantContext.setTenantId(newBatchJob.getTenantId());
         // determine whether to override the tenantId property with a LZ derived value
@@ -302,11 +301,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         return newJob;
     }
 
-    private void createResourceEntryAndAddToJob(ControlFile cf, NewBatchJob newJob) {
+    private void createResourceEntryAndAddToJob(File cf, NewBatchJob newJob) {
         ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(cf.getFileName());
-        resourceEntry.setExternallyUploadedResourceId(cf.getFileName());
-        resourceEntry.setResourceName(newJob.getSourceId() + cf.getFileName());
+        resourceEntry.setResourceId(cf.getName());
+        resourceEntry.setExternallyUploadedResourceId(cf.getName());
+        resourceEntry.setResourceName(newJob.getSourceId() + cf.getName());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
         resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
         newJob.getResourceEntries().add(resourceEntry);

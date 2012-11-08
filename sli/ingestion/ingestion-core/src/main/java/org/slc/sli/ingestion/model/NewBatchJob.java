@@ -26,6 +26,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
@@ -33,8 +36,6 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for ingestion jobs.
@@ -66,17 +67,11 @@ public class NewBatchJob implements Job {
 
     private Date jobStopTimestamp;
 
-    private String zipFileName;
-
-    private String controlFileName;
-
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
-        this.zipFileName = null;
-        this.controlFileName = null;
         initStartTime();
     }
 
@@ -85,8 +80,6 @@ public class NewBatchJob implements Job {
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
-        this.zipFileName = null;
-        this.controlFileName = null;
         initStartTime();
     }
 
@@ -112,8 +105,6 @@ public class NewBatchJob implements Job {
         if (resourceEntries != null) {
             this.resourceEntries = resourceEntries;
         }
-        this.zipFileName = null;
-        this.controlFileName = null;
 
         initStartTime();
     }
@@ -249,22 +240,6 @@ public class NewBatchJob implements Job {
 
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
-    }
-
-    public String getControlFileName() {
-        return controlFileName;
-    }
-
-    public String getZipFileName() {
-        return zipFileName;
-    }
-
-    public void setControlFileName(String controlFileName) {
-        this.controlFileName = controlFileName;
-    }
-
-    public void setZipFileName(String zipFileName) {
-        this.zipFileName = zipFileName;
     }
 
     public synchronized void addResourceEntry(ResourceEntry resourceEntry) {

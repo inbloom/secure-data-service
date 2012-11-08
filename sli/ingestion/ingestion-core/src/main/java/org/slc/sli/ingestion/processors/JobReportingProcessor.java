@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,7 +50,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -84,8 +82,6 @@ public class JobReportingProcessor implements Processor {
     public static final String JOB_STAGE_RESOURCE_ID = "job";
 
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
-
-    private static final int ERRORS_RESULT_LIMIT = 100000;
 
     private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor",
             "TransformationProcessor", "WorkNoteSplitter");
@@ -267,28 +263,19 @@ public class JobReportingProcessor implements Processor {
         boolean hasErrors = false;
 
         LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
-        List<String> resourceIds = new LinkedList<String>();
-        if (job.getZipFileName() != null) {
-            resourceIds.add(job.getZipFileName());
-        }
-        if (job.getControlFileName() != null) {
-            resourceIds.add(job.getControlFileName());
-        }
-        for (IngestionFileEntry file : job.getFiles()) {
-            resourceIds.add(file.getFileName());
-        }
-        for (String resourceId : resourceIds) {
-            hasErrors |= writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR, "error");
-            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, "warn");
+        for (ResourceEntry resource : job.getResourceEntries()) {
+            String resourceId = resource.getResourceId();
+            hasErrors |= writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR, "error", errorsCountPerInterchange);
+            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, "warn", warningsCountPerInterchange);
         }
 
         return hasErrors;
     }
 
     private boolean writeErrors(NewBatchJob job, LandingZone landingZone, String externalResourceId,
-            FaultType severity, String fileType) {
+            FaultType severity, String fileType, int errorsCountLimit) {
         Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), externalResourceId, severity,
-                errorsCountPerInterchange);
+                errorsCountLimit);
         if (errors.iterator().hasNext()) {
             PrintWriter errorWriter = null;
             try {
