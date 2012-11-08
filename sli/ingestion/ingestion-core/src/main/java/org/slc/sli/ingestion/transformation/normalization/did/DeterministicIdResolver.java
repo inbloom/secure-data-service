@@ -250,7 +250,7 @@ public class DeterministicIdResolver {
 
         for (KeyFieldDef keyFieldDef : didRefConfig.getKeyFields()) {
             // populate naturalKeys
-            String value = null;
+            Object value = null;
             if (keyFieldDef.getRefConfig() != null) {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
@@ -275,14 +275,13 @@ public class DeterministicIdResolver {
                 }
 
             } else {
-            	Object o = getProperty(reference, keyFieldDef.getValueSource());
-            	value = (o == null ? "" : o.toString());
+            	value = getProperty(reference, keyFieldDef.getValueSource());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
             // don't add null or empty keys to the naturalKeys map
             if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
-                naturalKeys.put(fieldName, value == null ? "" : value);
+                naturalKeys.put(fieldName, value == null ? "" : value.toString());
             }
         }
 
