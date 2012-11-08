@@ -442,6 +442,7 @@ public class UriMutator {
      */
     public Pair<String, String> mutateBaseUri(String resource, String queryParameters, Entity user) {
         boolean success = true;
+        boolean isMutated = false;
         String mutatedPath = null;
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
@@ -451,11 +452,11 @@ public class UriMutator {
                 int INDEX_OF_QUERY_VALUE = 10;
                 mutatedPath = "/" + ResourceNames.STUDENTS + "/" + query.substring(INDEX_OF_QUERY_VALUE) + "/" + resource;
                 mutatedParameters = queryParameters.replaceFirst(query, "");
-                success = true;
+                isMutated = true;
             }
         }
 
-        if (!success && isTeacher(user)) {
+        if (!isMutated && isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
@@ -646,7 +647,7 @@ public class UriMutator {
             } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
                 mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
             }
-        } else if (!success && isStaff(user)) {
+        } else if (!isMutated && isStaff(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
