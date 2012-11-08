@@ -237,6 +237,39 @@ public class DidReferenceResolutionTest {
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
+	@Test
+	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
+
+		ErrorReport errorReport = new TestErrorReport();
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+		naturalKeys.put("educationOrgId", edOrgDID);
+
+		checkId(entity, "CohortReference", naturalKeys, "cohort");
+	}
+
+	@Test
+	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
+
+		ErrorReport errorReport = new TestErrorReport();
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+		naturalKeys.put("educationOrgId", edOrgDID);
+
+		checkId(entity, "CohortReference", naturalKeys, "cohort");
+	}
+
+
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
 		NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);

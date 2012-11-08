@@ -849,6 +849,18 @@ Given /^the following collections are completely empty in batch job datastore$/ 
   enable_NOTABLESCAN()
 end
 
+When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => false}})
+end
+
+Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
@@ -1054,10 +1066,11 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @lzs_to_remove.push(lz_key)
 end
 
-Given /^the tenant database does not exist/ do
-  puts "Dropping database:" + @ingestion_db_name
-  @conn.drop_database(@ingestion_db_name)
-  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
+Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
+  puts "Dropping database for:" + tenantToDrop
+  @conn.drop_database(convertTenantIdToDbName(tenantToDrop))
+  @tenantColl.update({"body.tenantId" => tenantToDrop}, {"$unset" => {"body.tenantIsReady" => 1}})
+
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|

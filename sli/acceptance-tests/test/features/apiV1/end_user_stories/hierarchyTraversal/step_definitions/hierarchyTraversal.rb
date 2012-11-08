@@ -34,10 +34,10 @@ Transform /^<([^>]*)>$/ do |human_readable_id|
   guid = "c549e272-9a7b-4c02-aff7-b105ed76c904" if human_readable_id == "'SESSION' ID"
   guid = "88ddb0c4-1787-4ed8-884e-96aa774e6d42" if human_readable_id == "'SESSION-COURSE-ASSOCIATION' ID"
   guid = "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" if human_readable_id == "'COURSE' ID"
-  guid = "15ab6363-5509-470c-8b59-4f289c224107" if human_readable_id == "'SECTION' ID"
-  guid = "32b86a2a-e55c-4689-aedf-4b676f3da3fc" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
+  guid = "15ab6363-5509-470c-8b59-4f289c224107_id" if human_readable_id == "'SECTION' ID"
+  guid = "15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
   guid = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if human_readable_id == "'TEACHER' ID"
-  guid = "76ac366b-ee0d-4db9-b820-ac5bc83e53ac" if human_readable_id == "'STUDENT-SECTION' ID"
+  guid = "15ab6363-5509-470c-8b59-4f289c224107_id76ac366b-ee0d-4db9-b820-ac5bc83e53ac_id" if human_readable_id == "'STUDENT-SECTION' ID"
   guid = "0f0d9bac-0081-4900-af7c-d17915e02378" if human_readable_id == "'STUDENT' ID"
   guid
 end

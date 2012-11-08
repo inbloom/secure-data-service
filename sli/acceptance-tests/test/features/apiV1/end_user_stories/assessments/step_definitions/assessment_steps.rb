@@ -36,9 +36,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   
   #sections
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"       if human_readable_id == "'8th Grade English - Sec 6' ID"
-  id = "58c9ef19-c172-4798-8e6e-c73e68ffb5a3"       if human_readable_id == "'Algebra II' ID"
-  id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id11b75359-811d-4234-8ef2-ce14dd472a7c" if human_readable_id == "'Track and Field - Sec 6s10' ID"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "'8th Grade English - Sec 6' ID"
+  id = "58c9ef19-c172-4798-8e6e-c73e68ffb5a3"    if human_readable_id == "'Algebra II' ID"
+  id = "baffb6f7-6d30-4341-b29e-0e1cd73ea2bf_id" if human_readable_id == "'Track and Field - Sec 6s10' ID"
   
   #students
   id = "0636ffd6-ad7d-4401-8de9-40538cf696c8" if human_readable_id == "'Preston Muchow' ID"
@@ -47,7 +47,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "891faebe-bc84-4e0c-b7f3-195637cd981e" if human_readable_id == "'Tomasa Cleaveland' ID"
   id = "ffee781b-22b1-4015-81ff-3289ceb2c113" if human_readable_id == "'Merry Mccanse' ID"
   id = "5dd72fa0-98fe-4017-ab32-0bd33dc03a81" if human_readable_id == "'Samantha Scorzelli' ID"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if human_readable_id == "'Matt Sollars' ID"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'Matt Sollars' ID"
   id = "32932b97-d466-4d3c-9ebe-d58af010a87c" if human_readable_id == "'Dominic Brisendine' ID"
   id = "6f60028a-f57a-4c3d-895f-e34a63abc175" if human_readable_id == "'Lashawn Taite' ID"
   id = "4f81fd4c-c7c5-403e-af91-6a2a91f3ad04" if human_readable_id == "'Oralia Merryweather' ID"
@@ -77,8 +77,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #assessments
   id = "67ce204b-9999-4a11-bfea-000000004682"       if human_readable_id == "'Math Assessment' ID"
   id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"       if human_readable_id == "'SAT' ID"
-  id = "87fb8da5-e1aa-a6d9-efc7-b0eb091cd695"       if human_readable_id == "'Most Recent SAT Student Assessment Association' ID"
-  id = "e5e13e61-01aa-066b-efe0-710f7a0e8755"       if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if human_readable_id == "'Most Recent SAT Student Assessment Association' ID"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id" if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"
   id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"       if human_readable_id == "'Grade 2 MOY READ2' ID"
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY READ2' ID"

@@ -29,8 +29,8 @@ include REXML
 
 Transform /^<(.+)>$/ do |template|
   id = template
-  id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "LINDA KIM SECTION ID"
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "MARVIN MILLER STUDENT ID"
+  id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "LINDA KIM SECTION ID"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if template == "MARVIN MILLER STUDENT ID"
   id = @newId                                 if template == "NEWLY CREATED ENTITY ID"
   id = "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"  if template == "SCHOOL ENTITY TO BE UPDATED"
   id

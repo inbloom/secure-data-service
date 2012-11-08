@@ -62,7 +62,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-01-01</BeginDate>
@@ -76,7 +80,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2012-01-15</BeginDate>
@@ -90,7 +98,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-02-01</BeginDate>
@@ -105,7 +117,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-03-01</BeginDate>
@@ -119,7 +135,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-03-15</BeginDate>
@@ -133,7 +153,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-04-01</BeginDate>
@@ -149,7 +173,11 @@
   <CohortReference>
     <CohortIdentity>
       <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
     </CohortIdentity>
   </CohortReference>
     <BeginDate>2011-01-01</BeginDate>
@@ -165,7 +193,11 @@
   <CohortReference>
     <CohortIdentity>
       <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
     </CohortIdentity>
   </CohortReference>
     <BeginDate>2010-01-15</BeginDate>
@@ -180,7 +212,11 @@
   <CohortReference>
     <CohortIdentity>
       <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
     </CohortIdentity>
   </CohortReference>
     <BeginDate>2011-07-01</BeginDate>
