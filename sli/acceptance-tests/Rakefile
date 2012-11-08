@@ -1188,12 +1188,12 @@ task :importUnifiedData => [:realmInit] do
   setMultipleFixtureFiles(testHash)
 end
 
-desc: "Turn on notablescan flag"
+desc "Turn on notablescan flag"
 task :turnOnNOTABLESCAN do
   enable_NOTABLESCAN
 end
 
-desc: "Turn off notablescan flag"
+desc "Turn off notablescan flag"
 task :turnOffNOTABLESCAN do
   disable_NOTABLESCAN
 end
