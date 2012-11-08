@@ -113,11 +113,9 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         String rootEntity = segs.get(1).getPath();
-        if (rootEntity.equals(EntityNames.SEARCH)) {
-            return;
-        }
+
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (def == null) {
+        if (def == null || def.skipContextValidation()) {
             return;
         }
         /**

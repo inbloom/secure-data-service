@@ -131,5 +131,11 @@ public class MockBasicService implements EntityService {
         return null;
     }
 
+    @Override
+    public boolean collectionExists(String collection) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 
 }

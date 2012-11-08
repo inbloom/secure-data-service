@@ -19,8 +19,12 @@ package org.slc.sli.dal.repository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
@@ -35,6 +39,10 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.cache.CacheBuilder;
+import org.elasticsearch.common.cache.CacheLoader;
+import org.elasticsearch.common.cache.LoadingCache;
+import org.elasticsearch.common.collect.Iterators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +81,18 @@ public class ElasticSearchRepository implements Repository<Entity> {
     // transport client is used for a query builder. The actual connection is over http.
     private Client esClient;
 
+    private LoadingCache<String, Boolean> availableTypesCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(10, TimeUnit.MINUTES)
+            .build(
+                new CacheLoader<String, Boolean>() {
+                  @Override
+                  public Boolean load(String key) {
+                      // not overly efficient but will do for this small cache
+                      // TODO: check for type will be available in ES .20
+                      return ReadConverter.fromMappingJson(queryForMapping()).contains(key);
+                  }
+            });
+
     private Client getClient() {
         return esClient;
     }
@@ -97,7 +117,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        return EntityConverter.fromSearchJson(queryForSearch(getQuery(neutralQuery, false)));
+        return ReadConverter.fromSearchJson(queryForSearch(getQuery(neutralQuery, false)));
     }
 
     /**
@@ -118,7 +138,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         // make the REST call
         try {
-            return searchTemplate.exchange(url, method, entity, String.class, getIndex());
+            return searchTemplate.exchange(url, method, entity, String.class, params);
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
             throw rce;
@@ -151,6 +171,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
         return query(esUri + "/{tenantId}/_search", HttpMethod.POST, query, new Object[] {getIndex()});
     }
 
+    private HttpEntity<String> queryForMapping() {
+        return query(esUri + "/{tenantId}/_mapping", HttpMethod.GET, null, new Object[] {getIndex()});
+    }
+
     public void setSearchUrl(String esUrl) {
         this.esUri = esUrl;
     }
@@ -167,70 +191,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
         this.esPassword = esPassword;
     }
 
-    /**
-     * Simple adapter for SearchHits to Entity
-     *
-     */
-    static final class SearchHitEntity implements Entity {
-        private Map<String, Object> body;
-        private Map<String, Object> metaData;
-        private String type;
-        private String id;
-
-        SearchHitEntity(String id, String type, Map<String, Object> body, Map<String, Object> metaData) {
-            this.id = id;
-            this.type = type;
-            this.body = body;
-            this.body.put("type", type);
-            this.metaData = metaData;
-        }
-
-        @Override
-        public String getType() {
-            return this.type;
-        }
-
-        @Override
-        public String getEntityId() {
-            return this.id;
-        }
-
-        @Override
-        public Map<String, Object> getBody() {
-            return this.body;
-        }
-
-        @Override
-        public Map<String, Object> getMetaData() {
-            return metaData;
-        }
-
-        @Override
-        public CalculatedData<Map<String, Integer>> getAggregates() {
-            return null;
-        }
-
-        @Override
-        public CalculatedData<String> getCalculatedValues() {
-            return null;
-        }
-
-        @Override
-        public String getStagedEntityId() {
-            return null;
-        }
-
-        @Override
-        public Map<String, List<Entity>> getEmbeddedData() {
-            return null;
-        }
-
-        @Override
-        public Map<String, List<Map<String, Object>>> getDenormalizedData() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-    }
 
     // Unimplemented methods
 
@@ -271,7 +231,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        return EntityConverter.fromCountJson(queryForSearch(getQuery(neutralQuery, true)));
+        return ReadConverter.fromCountJson(queryForSearch(getQuery(neutralQuery, true)));
     }
 
     @Override
@@ -301,7 +261,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public boolean collectionExists(String collection) {
-        throw new UnsupportedOperationException("ElasticSearchRepository.collectionExists not implemented");
+        try {
+            return availableTypesCache.get(collection) == Boolean.TRUE;
+        } catch (ExecutionException e) {
+            LOG.error("Unable to check for existing types", e);
+        }
+        return false;
     }
 
     @Override
@@ -359,7 +324,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
         throw new UnsupportedOperationException("ElasticSearchRepository.updateMulti not implemented");
     }
 
-    public static class EntityConverter {
+    public static class ReadConverter {
 
         private static JsonNode getHitsNode(HttpEntity<String> response) throws JsonProcessingException, IOException {
             return objectMapper.readTree(response.getBody()).get("hits");
@@ -425,7 +390,82 @@ public class ElasticSearchRepository implements Repository<Entity> {
             return 0;
         }
 
+        static Set<String> fromMappingJson(HttpEntity<String> response) {
+            try {
+                Set<String> set = new HashSet<String>();
+                Iterators.addAll(set, objectMapper.readTree(response.getBody()).getElements().next().getFieldNames());
+                return set;
+            } catch (Throwable t) {
+                LOG.error("Unable to get mappings from search engine", t);
+            }
+            return null;
+        }
+    }
 
+
+    /**
+     * Simple adapter for SearchHits to Entity
+     *
+     */
+    static final class SearchHitEntity implements Entity {
+        private Map<String, Object> body;
+        private Map<String, Object> metaData;
+        private String type;
+        private String id;
+
+        SearchHitEntity(String id, String type, Map<String, Object> body, Map<String, Object> metaData) {
+            this.id = id;
+            this.type = type;
+            this.body = body;
+            this.body.put("type", type);
+            this.metaData = metaData;
+        }
+
+        @Override
+        public String getType() {
+            return this.type;
+        }
+
+        @Override
+        public String getEntityId() {
+            return this.id;
+        }
+
+        @Override
+        public Map<String, Object> getBody() {
+            return this.body;
+        }
+
+        @Override
+        public Map<String, Object> getMetaData() {
+            return metaData;
+        }
+
+        @Override
+        public CalculatedData<Map<String, Integer>> getAggregates() {
+            return null;
+        }
+
+        @Override
+        public CalculatedData<String> getCalculatedValues() {
+            return null;
+        }
+
+        @Override
+        public String getStagedEntityId() {
+            return null;
+        }
+
+        @Override
+        public Map<String, List<Entity>> getEmbeddedData() {
+            return null;
+        }
+
+        @Override
+        public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
 }

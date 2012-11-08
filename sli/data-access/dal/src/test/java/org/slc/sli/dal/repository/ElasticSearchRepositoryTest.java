@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.dal.repository.ElasticSearchRepository.EntityConverter;
+import org.slc.sli.dal.repository.ElasticSearchRepository.ReadConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -63,7 +63,7 @@ public class ElasticSearchRepositoryTest {
         //System.out.println(hitNode);
 
         // call method
-        Entity hit = EntityConverter.fromSingleSearchJson(hitNode);
+        Entity hit = ReadConverter.fromSingleSearchJson(hitNode);
 
         // check result
         assertNotNull(hit);

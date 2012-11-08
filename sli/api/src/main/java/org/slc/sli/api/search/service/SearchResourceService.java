@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -53,7 +55,8 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
-import org.slc.sli.api.service.ResourceNotFoundException;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -90,9 +93,20 @@ public class SearchResourceService {
     @Autowired
     private ContextValidator contextValidator;
 
+    private EntityDefinition searchEntityDefinition;
+
     // keep parameters for ElasticSearch
     // "q" is the query parameter in the url (i.e. /api/rest/v1/search?q=Matt)
     private static final List<String> whiteListParameters = Arrays.asList(new String[] { "q" });
+
+    @PostConstruct
+    public void init() {
+        searchEntityDefinition = resourceHelper.getEntityDefinition(EntityNames.SEARCH);
+    }
+
+    protected EntityService getService() {
+        return searchEntityDefinition.getService();
+    }
 
     /**
      * Main entry point for retrieving search results
@@ -102,19 +116,17 @@ public class SearchResourceService {
      * @return
      */
     public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
-
-        final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         List<EntityBody> finalEntities = Collections.emptyList();
         // set up query criteria, make query
         ApiQuery apiQuery = prepareQuery(resource, resourcesToSearch, queryUri);
-        long count = definition.getService().count(apiQuery);
+        long count = getService().count(apiQuery);
         if (count >= maxUnfilteredSearchResultCount) {
             throw new ResponseTooLargeException();
         }
         if (count == 0) {
             return new ServiceResponse(finalEntities, 0);
         }
-        finalEntities = retrieveResults(definition, apiQuery);
+        finalEntities = retrieveResults(apiQuery);
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -125,7 +137,7 @@ public class SearchResourceService {
      * @param apiQuery
      * @return
      */
-    public List<EntityBody> retrieveResults(EntityDefinition definition, ApiQuery apiQuery) {
+    public List<EntityBody> retrieveResults(ApiQuery apiQuery) {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
@@ -152,7 +164,7 @@ public class SearchResourceService {
         while (finalEntities.size() < totalLimit) {
 
             // call BasicService to query the elastic search repo
-            entityBodies = (List<EntityBody>) definition.getService().list(apiQuery);
+            entityBodies = (List<EntityBody>) getService().list(apiQuery);
 
             // filter results through security context
 
@@ -181,12 +193,12 @@ public class SearchResourceService {
      * @param queryUri
      * @return
      */
-    public ApiQuery prepareQuery(Resource resource, String resourcesToSearch, URI queryUri) {
+    public ApiQuery prepareQuery(Resource resource, String entities, URI queryUri) {
         ApiQuery apiQuery = new ApiQuery(queryUri);
         filterCriteria(apiQuery);
         addSecurityContext(apiQuery);
-        if (resourcesToSearch != null) {
-            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resource,resourcesToSearch)));
+        if (entities != null) {
+            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resource, entities)));
         }
         return apiQuery;
     }
@@ -196,17 +208,17 @@ public class SearchResourceService {
      * @param resourceNames
      * @return
      */
-    private String getEntityTypes(Resource resource, String resourceNames) {
+    private Collection<String> getEntityTypes(Resource resource, String resourceNames) {
         List<String> entityTypes = new ArrayList<String>();
         EntityDefinition def;
         for (String resourceName : resourceNames.split(",")) {
             def = resourceHelper.getEntityDefinition(resourceName);
-            if (def == null) {
-                throw new ResourceNotFoundException(resource.getNamespace(), resourceName);
+            if (def == null || !searchEntityDefinition.getService().collectionExists(def.getType())) {
+                throw new EntityNotFoundException(resourceName);
             }
             entityTypes.add(def.getType());
         }
-        return StringUtils.join(entityTypes, ',');
+        return entityTypes;
     }
 
     /**

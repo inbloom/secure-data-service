@@ -50,16 +50,23 @@ public class EntityDefinition {
     private NeutralSchema schema;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
     private final boolean supportsAggregates;
+    private final boolean skipContextValidation;
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
+        this(type, resourceName, collectionName, service, supportsAggregates, false);
+    }
+
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates,
+            boolean skipContextValidation) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
         this.referencingEntities = new LinkedList<EntityDefinition>();
         this.supportsAggregates = supportsAggregates;
+        this.skipContextValidation = skipContextValidation;
     }
-    
+
     public boolean hasArrayField(String fieldName) {
         try {
             return (this.schema.getFields().get(fieldName).getSchemaType() == NeutralSchemaType.LIST);
@@ -189,5 +196,14 @@ public class EntityDefinition {
      */
     public boolean supportsAggregates() {
         return supportsAggregates;
+    }
+
+    /**
+     * Skip pre-filter context validation for this entity.
+     *
+     * @return
+     */
+    public boolean skipContextValidation() {
+        return skipContextValidation;
     }
 }

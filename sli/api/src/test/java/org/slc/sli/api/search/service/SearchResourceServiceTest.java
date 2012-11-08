@@ -49,14 +49,16 @@ import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.enums.Right;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class,
+    DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class })
 public class SearchResourceServiceTest {
 
     @Autowired
@@ -126,6 +128,7 @@ public class SearchResourceServiceTest {
         principal.setEdOrgId("fake");
         principal.setTenantId("IL");
         principal.setEntity(entity);
+        TenantContext.setTenantId("IL");
 
         Collection<GrantedAuthority> auths = new LinkedList<GrantedAuthority>();
         auths.add(Right.FULL_ACCESS);
@@ -220,9 +223,10 @@ public class SearchResourceServiceTest {
         MockBasicService mockService = new MockBasicService();
         mockService.setNumToReturn(numSearchHits);
         Mockito.when(mockDef.getService()).thenReturn(mockService);
+        Mockito.when(rs.getService()).thenReturn(mockService);
         Mockito.doReturn(getResults(filterNum)).when(rs).filterResultsBySecurity(Mockito.isA(List.class));
-        ApiQuery apiQuery = rs.prepareQuery(new Resource("a", "b"), null, queryUri);
-        List<EntityBody> results = rs.retrieveResults(mockDef, apiQuery);
+        ApiQuery apiQuery = rs.prepareQuery(new Resource("v1", "student"), null, queryUri);
+        List<EntityBody> results = rs.retrieveResults(apiQuery);
         Assert.assertEquals(numResults, results.size());
     }
 
