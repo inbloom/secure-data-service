@@ -41,7 +41,7 @@ import org.slc.sli.test.edfi.entities.WeaponItemType;
  */
 public class GeneratorUtils
 {
-    static Random generator = new Random();
+    static Random generator = new Random(31);
 
     /**
      * Randomly generate a ProgramType.

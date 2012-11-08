@@ -36,7 +36,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     private final String batchJobId;
     private final BatchJobStageType stage;
-    private final String resourceId;
+    private volatile String resourceId;
     private final BatchJobDAO batchJobDAO;
 
     private volatile boolean hasErrors;
@@ -91,6 +91,10 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     public String getResourceId() {
         return resourceId;
+    }
+
+    public void setResourceId (String resourceId) {
+        this.resourceId = resourceId;
     }
 
     public void setHasErrors(boolean hasErrors) {

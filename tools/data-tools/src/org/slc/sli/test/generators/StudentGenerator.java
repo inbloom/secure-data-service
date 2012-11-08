@@ -115,7 +115,7 @@ public class StudentGenerator {
 
     public Student generate(String studentId) {
         Student s = new Student();
-        Random random = new Random();
+        Random random = new Random(31);
 
         // Set required student fields first
 

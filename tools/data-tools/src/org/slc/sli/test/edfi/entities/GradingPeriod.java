@@ -68,7 +68,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradingPeriod", propOrder = {
+@XmlType(name = "SLC-GradingPeriod", propOrder = {
     "gradingPeriodIdentity",
     "beginDate",
     "endDate",
@@ -93,7 +93,7 @@ public class GradingPeriod
     @XmlElement(name = "TotalInstructionalDays")
     protected int totalInstructionalDays;
     @XmlElement(name = "CalendarDateReference", required = true)
-    protected List<ReferenceType> calendarDateReference;
+    protected List<CalendarDateReferenceType> calendarDateReference;
 
     /**
      * Gets the value of the gradingPeriod property.
@@ -205,9 +205,9 @@ public class GradingPeriod
      * 
      * 
      */
-    public List<ReferenceType> getCalendarDateReference() {
+    public List<CalendarDateReferenceType> getCalendarDateReference() {
         if (calendarDateReference == null) {
-            calendarDateReference = new ArrayList<ReferenceType>();
+            calendarDateReference = new ArrayList<CalendarDateReferenceType>();
         }
         return this.calendarDateReference;
     }
