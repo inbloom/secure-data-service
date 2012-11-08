@@ -27,7 +27,7 @@ require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
 
-UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # TEST SETUP FUNCTIONS
