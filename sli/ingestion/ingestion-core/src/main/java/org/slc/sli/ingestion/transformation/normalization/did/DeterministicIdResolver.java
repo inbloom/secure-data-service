@@ -116,13 +116,13 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        DidEntityConfig configFromParser = didSchemaParser.getEntityConfigs().get(entityType);
-        DidEntityConfig configByHand = didConfigReader.getDidEntityConfiguration(entityType);
+        DidEntityConfig configFromParser = didSchemaParser == null ? null : didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configByHand = didConfigReader == null ? null : didConfigReader.getDidEntityConfiguration(entityType);
         DidEntityConfig retVal = new DidEntityConfig();
-        if (configFromParser != null) {
+        if (configFromParser != null && configFromParser.getReferenceSources() != null) {
             retVal.getReferenceSources().addAll(configFromParser.getReferenceSources());
         }
-        if (configByHand != null) {
+        if (configByHand != null && configByHand.getReferenceSources() != null) {
             retVal.getReferenceSources().addAll(configByHand.getReferenceSources());
         }
         return retVal;
