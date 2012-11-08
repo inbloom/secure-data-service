@@ -61,6 +61,9 @@ public class DeterministicIdResolver {
     private DidSchemaParser didSchemaParser;
 
 	@Autowired
+    private DidEntityConfigReader didConfigReader;
+
+    @Autowired
     private SchemaRepository schemaRepository;
 
     @Autowired
@@ -111,7 +114,15 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        return didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configFromParser = didSchemaParser.getEntityConfigs().get(entityType);
+        if (configFromParser != null) {
+            return configFromParser;
+        }
+        DidEntityConfig configByHand = didConfigReader.getDidEntityConfiguration(entityType);
+        if (configByHand != null) {
+            return configByHand;
+        }
+        return null;
     }
 
     private DidRefConfig getRefConfig(String refType) {
