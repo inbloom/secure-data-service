@@ -93,6 +93,7 @@ public class StaffToSubStudentEntityValidatorTest {
 
     @After
     public void tearDown() {
+        Mockito.reset(mockRepo);
         mockRepo = null;
         staffToStudentValidator = null;
         studentIds.clear();

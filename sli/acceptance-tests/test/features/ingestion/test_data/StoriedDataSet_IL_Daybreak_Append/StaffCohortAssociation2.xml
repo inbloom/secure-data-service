@@ -10,7 +10,11 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+    		<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
     <BeginDate>2011-07-01</BeginDate>
@@ -25,10 +29,15 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+    		<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
 	  </CohortIdentity>
 	</CohortReference>
     <BeginDate>2012-02-15</BeginDate>
 	<StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
 </InterchangeStudentCohort>
+

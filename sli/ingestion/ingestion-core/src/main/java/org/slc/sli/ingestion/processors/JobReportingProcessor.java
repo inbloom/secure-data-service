@@ -84,8 +84,6 @@ public class JobReportingProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
-    private static final int ERRORS_RESULT_LIMIT = 100;
-
     private static final List<String> ORCHESTRATION_STAGES_LIST = Arrays.asList("PersistenceProcessor",
             "TransformationProcessor", "WorkNoteSplitter");
 
@@ -265,103 +263,62 @@ public class JobReportingProcessor implements Processor {
     private boolean writeErrorAndWarningReports(NewBatchJob job) {
         boolean hasErrors = false;
 
-        Map<String, PrintWriter> resourceToErrorMap = new HashMap<String, PrintWriter>();
-        Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
 
-        try {
-            Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
-            LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
-
-            Map<String, Integer> resourceToErrorCount = new HashMap<String, Integer>();
-            Map<String, Integer> resourceToWarningCount = new HashMap<String, Integer>();
-
-            for (Error error : errors) {
-                String externalResourceId = error.getResourceId();
-
-                PrintWriter errorWriter = null;
-                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-
-                    if (resourceToErrorCount.get(externalResourceId) == null
-                            || resourceToErrorCount.get(externalResourceId) < errorsCountPerInterchange) {
-                        if (resourceToErrorCount.get(externalResourceId) == null) {
-                            resourceToErrorCount.put(externalResourceId, 1);
-                        } else {
-                            resourceToErrorCount.put(externalResourceId,
-                                    resourceToErrorCount.get(externalResourceId) + 1);
-                        }
-
-                        hasErrors = true;
-                        errorWriter = getErrorWriter("error", job.getId(), externalResourceId, resourceToErrorMap,
-                                landingZone);
-
-                        if (errorWriter != null) {
-                            writeErrorLine(errorWriter, error.getErrorDetail());
-                        } else {
-                            LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
-                        }
-                    }
-                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-
-                    if (resourceToWarningCount.get(externalResourceId) == null
-                            || resourceToWarningCount.get(externalResourceId) < warningsCountPerInterchange) {
-
-                        if (resourceToWarningCount.get(externalResourceId) == null) {
-                            resourceToWarningCount.put(externalResourceId, 1);
-                        } else {
-                            resourceToWarningCount.put(externalResourceId,
-                                    resourceToWarningCount.get(externalResourceId) + 1);
-                        }
-
-                        errorWriter = getErrorWriter("warn", job.getId(), externalResourceId, resourceToWarningMap,
-                                landingZone);
-
-                        if (errorWriter != null) {
-                            writeWarningLine(errorWriter, error.getErrorDetail());
-                        } else {
-                            LOG.error("Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
-                        }
-                    }
-                }
-
-            }
-
-        } catch (IOException e) {
-            LOG.error("Unable to write error file for: {}", job.getId(), e);
-        } finally {
-            for (PrintWriter writer : resourceToErrorMap.values()) {
-                writer.close();
-            }
-            for (PrintWriter writer : resourceToWarningMap.values()) {
-                writer.close();
-            }
+        LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
+        for (ResourceEntry resource : job.getResourceEntries()) {
+            String resourceId = resource.getResourceId();
+            hasErrors |= writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR, "error", errorsCountPerInterchange);
+            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, "warn", warningsCountPerInterchange);
         }
+
         return hasErrors;
     }
 
+    private boolean writeErrors(NewBatchJob job, LandingZone landingZone, String externalResourceId,
+            FaultType severity, String fileType, int errorsCountLimit) {
+        Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), externalResourceId, severity,
+                errorsCountLimit);
+        if (errors.iterator().hasNext()) {
+            PrintWriter errorWriter = null;
+            try {
+                errorWriter = getErrorWriter(fileType, job.getId(), externalResourceId, landingZone);
+                if (errorWriter != null) {
+                    for (Error error : errors) {
+                        writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
+                    }
+                } else {
+                    LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                }
+            } catch (IOException e) {
+                LOG.error("Unable to write error file for: {}", job.getId(), e);
+            } finally {
+                if (errorWriter != null) {
+                    errorWriter.close();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
-            Map<String, PrintWriter> externalFileResourceToErrorMap, LandingZone landingZone) throws IOException {
+            LandingZone landingZone) throws IOException {
 
         // writer for job and stage level (non-resource specific) errors and warnings
         if (externalResourceId == null) {
             externalResourceId = JOB_STAGE_RESOURCE_ID;
         }
 
-        PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
+        String errorFileName = null;
 
-        if (writer == null) {
-            String errorFileName = null;
-
-            if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
-                errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
-            } else {
-                errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
-            }
-            writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
-            externalFileResourceToErrorMap.put(externalResourceId, writer);
-            return writer;
+        if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
+            errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
+        } else {
+            errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
         }
-
+        PrintWriter writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
         return writer;
+
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
@@ -484,12 +441,8 @@ public class JobReportingProcessor implements Processor {
         writeSecurityLog(LogLevelType.TYPE_INFO, string);
     }
 
-    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "ERROR", string);
-    }
-
-    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "WARN", string);
+    private void writeErrorLine(PrintWriter jobReportWriter, String severity, String string) {
+        writeLine(jobReportWriter, severity, string);
     }
 
     private void writeLine(PrintWriter jobReportWriter, String type, String text) {
@@ -521,7 +474,6 @@ public class JobReportingProcessor implements Processor {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
-            batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
             batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
             broadcastFlushStats(exchange, workNote);
             cleanUpLZ(job);

@@ -24,8 +24,9 @@ It is meant to be executed by ProFTPD using the mod_exec module hooked on the co
 The 'stomp' rubygem is required to issue the trigger command via ActiveMQ stomp protocol.
 Configuration of this script is necessary based on the deployment environment (see below, "Configure based on deployment")
 
-example invocation:
+example invocations:
 ruby publish_file_uploaded.rb STOR /home/ingestion/tenant/file.zip
+ruby publish_file_uploaded.rb STOR /home/ingestion/tenant/file.zip local.slidev.org
 
 =end
 
@@ -34,20 +35,26 @@ require "stomp"
 
 #   Configure based on deployment
 ########################################
-ACTIVEMQ_HOST = "localhost"
 ACTIVEMQ_PORT = 61613
 ACTIVEMQ_QUEUE = "ingestion.landingZone"
 ########################################
+DEFAULT_ACTIVEMQ_HOST = "localhost"
 
 operation = ARGV[0]
 if operation == "STOR"
 
   path = ARGV[1]
 
-  client = Stomp::Client.new "", "", ACTIVEMQ_HOST, ACTIVEMQ_PORT, false
+  active_mq_host = DEFAULT_ACTIVEMQ_HOST
+  unless ARGV[2].nil?
+  	# use specified host, if provided
+  	active_mq_host = ARGV[2]
+  end
+
+  client = Stomp::Client.new "", "", active_mq_host, ACTIVEMQ_PORT, false
 
   client.publish ACTIVEMQ_QUEUE, "File upload completed.", { :persistent => true, :filePath => path }
 
-  puts "Sent message to queue: #{ACTIVEMQ_QUEUE} file has been uploaded: #{path}"
+  puts "Sent message to queue #{ACTIVEMQ_QUEUE} on #{active_mq_host}: file has been uploaded: #{path}"
   client.close
 end

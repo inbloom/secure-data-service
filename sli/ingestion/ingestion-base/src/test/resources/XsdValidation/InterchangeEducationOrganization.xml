@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+    <LocalEducationAgency id="CAP0-D0">
+        <StateOrganizationId>CAP0-D0</StateOrganizationId>
+        <NameOfInstitution>CAP0-D0</NameOfInstitution>
+        <ShortNameOfInstitution>CAP0-D0</ShortNameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <Address AddressType="Home">
+            <StreetNumberName>streetNumberName</StreetNumberName>
+            <ApartmentRoomSuiteNumber>7C</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>BuildingSiteNumber</BuildingSiteNumber>
+            <City>City</City>
+            <StateAbbreviation>AK</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <NameOfCounty>County</NameOfCounty>
+            <CountyFIPSCode>99999</CountyFIPSCode>
+            <Latitude>1111</Latitude>
+            <Longitude>22222</Longitude>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2011-03-04</EndDate>
+        </Address>
+        <OperationalStatus>Active</OperationalStatus>
+        <LEACategory>Charter</LEACategory>
+        <StateEducationAgencyReference ref="CAP0">
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+        </StateEducationAgencyReference>
+    </LocalEducationAgency>
+    <School id="CAP0-D0-HSch0">
+        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="Federal">
+            <ID>CAP0-D0-HSch0</ID>
+        </EducationOrgIdentificationCode>
+        <NameOfInstitution>CAP0-D0-HSch0</NameOfInstitution>
+        <ShortNameOfInstitution>CAP0-D0-HS0</ShortNameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <Address AddressType="Home">
+            <StreetNumberName>streetNumberName</StreetNumberName>
+            <ApartmentRoomSuiteNumber>7C</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>BuildingSiteNumber</BuildingSiteNumber>
+            <City>City</City>
+            <StateAbbreviation>AK</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <NameOfCounty>County</NameOfCounty>
+            <CountyFIPSCode>99999</CountyFIPSCode>
+            <Latitude>1111</Latitude>
+            <Longitude>22222</Longitude>
+            <BeginDate>2011-03-04</BeginDate>
+            <EndDate>2011-03-04</EndDate>
+        </Address>
+        <WebSite>http://www.CAP0-D0-HS0School.edu</WebSite>
+        <OperationalStatus>Active</OperationalStatus>
+        <GradesOffered>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Early Education</GradeLevel>
+            <GradeLevel>Eighth grade</GradeLevel>
+            <GradeLevel>Eleventh grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Grade 13</GradeLevel>
+            <GradeLevel>Infant/toddler</GradeLevel>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>Ninth grade</GradeLevel>
+            <GradeLevel>Other</GradeLevel>
+            <GradeLevel>Postsecondary</GradeLevel>
+            <GradeLevel>Preschool/Prekindergarten</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Seventh grade</GradeLevel>
+            <GradeLevel>Sixth grade</GradeLevel>
+            <GradeLevel>Tenth grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Transitional Kindergarten</GradeLevel>
+            <GradeLevel>Twelfth grade</GradeLevel>
+            <GradeLevel>Ungraded</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary/Secondary School</SchoolCategory>
+            <SchoolCategory>Elementary School</SchoolCategory>
+            <SchoolCategory>High School</SchoolCategory>
+            <SchoolCategory>Middle School</SchoolCategory>
+            <SchoolCategory>Junior High School</SchoolCategory>
+            <SchoolCategory>SecondarySchool</SchoolCategory>
+            <SchoolCategory>Ungraded</SchoolCategory>
+            <SchoolCategory>Adult School</SchoolCategory>
+            <SchoolCategory>Infant/toddler School</SchoolCategory>
+            <SchoolCategory>Preschool/early childhood</SchoolCategory>
+            <SchoolCategory>Primary School</SchoolCategory>
+            <SchoolCategory>Intermediate School</SchoolCategory>
+        </SchoolCategories>
+        <SchoolType>Regular</SchoolType>
+        <CharterStatus>Open Enrollment</CharterStatus>
+        <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+        <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+        <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+        <LocalEducationAgencyReference ref="CAP0-D0">
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
+    </School>
+</InterchangeEducationOrganization>
