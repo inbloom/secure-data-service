@@ -77,6 +77,10 @@
 
 h4 { display: inline-block; }
 
-#searchResultsSection { display: none; }
+#searchResultsSection, #schoolSelectionError { display: none; }
 
-#schoolSelectSection { width: 500px; }
+#schoolSelectSection { width: 500px;  margin-bottom: 20px; }
+
+#schoolSelectionError { font-size: 13px; color: #f00;}
+
+.menuBox a { font-size: 13px; }

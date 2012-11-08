@@ -39,6 +39,7 @@
 
             <div id="schoolSelectSection">
                 <h4>Select School:</h4>
+
                 <input type='hidden' value='' id ='schoolSelect' />
                 <div class="btn-toolbar menuBox">
                     <div class="btn-group" id="schoolSelectMenu">
@@ -53,6 +54,7 @@
                        <button type="submit" class="btn" id="search_btn_go">Go</button>
                     </div>
                 </div>
+                <div id="schoolSelectionError">Please select school from the dropdown.</div>
             </div>
 
             <div id="searchResultsSection">

@@ -24,7 +24,7 @@ SLC.namespace('SLC.searchResults', (function () {
 	
 		var dataModel = SLC.dataProxy.getData("studentSearchResults"),
 			no_result_string,
-			schoolId,
+			schoolId = "",
 			util = SLC.util;
 			
 		 no_result_string = '<h4>I\'m sorry, we do not have results that match your search.</h4><p>There may be a quick fix:</p><ul><li>Are the names spelled correctly?</li><li>Are the names capitalized?</li><li>Is appropriate punctuation included?</li></ul><p>Please check these items and try again.</p><p>OR</p><p>Return to the <a href="#">previous page</a>.</p>';
@@ -84,6 +84,7 @@ SLC.namespace('SLC.searchResults', (function () {
 		function setup() {
 			var i;
 
+			// get school id from query strings
 			schoolId = getParameterByName("schoolId");
 
 			getSchoolList();
@@ -127,7 +128,8 @@ SLC.namespace('SLC.searchResults', (function () {
 			var postPageNum = dataModel.searchPageNum,
 				postPageSize = dataModel.searchPageSize,
 				psSelect,
-				params;
+				params,
+				schoolIdParam;
 				
 			if (id === "searchPrevBtn") {
 				postPageNum -= 1;
@@ -141,9 +143,11 @@ SLC.namespace('SLC.searchResults', (function () {
 				}
 			}
 
+			// if no dropdown option selected, then it will take school id from query string.
+			// If school id from query string is not available, then it will take empty string.
+			schoolIdParam = $("#schoolSelect").val() || schoolId;
 
-			
-			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&schoolId=' + $("#schoolSelect").val() + '&pageNumber=' + postPageNum +
+			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&schoolId=' + schoolIdParam + '&pageNumber=' + postPageNum +
 			'&pageSize=' + postPageSize;
 			
 			SLC.util.goToLayout('studentSearch', null, params);
@@ -162,7 +166,14 @@ SLC.namespace('SLC.searchResults', (function () {
 		});
 
 		$("#search_btn_go").live("click", function () {
-			gotoURL(this.id);
+			if ($("#schoolSelect").val() === "" || $("#schoolSelect").val() === undefined) {
+				$("#schoolSelectionError").show();
+				return false;
+			}
+			else {
+				$("#schoolSelectionError").hide();
+				gotoURL(this.id);
+			}
 		});
 
 
