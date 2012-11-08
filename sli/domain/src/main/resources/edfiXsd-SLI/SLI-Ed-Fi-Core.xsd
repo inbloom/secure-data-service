@@ -3404,55 +3404,5 @@ Prose
 		</xs:complexContent>
 	</xs:complexType>
 	
-	<xs:complexType name="SLC-LearningObjective">
-		<xs:annotation>
-			<xs:documentation>This entity represents identified learning objectives for courses in specific grades.</xs:documentation>
-			<xs:appinfo>
-                <sli:recordType>learningObjective</sli:recordType>
-            </xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="LearningObjectiveId" type="LearningStandardId" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The Identifier for the specific learning objective in the context of a standard (e.g., 111.15.3.1.A)</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Objective" type="Objective">
-						<xs:annotation>
-							<xs:documentation>The designated title of the learning objective.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Description" type="Description" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The description of the learning objective.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="AcademicSubject" type="AcademicSubjectType">
-						<xs:annotation>
-							<xs:documentation>The description of the content or subject area (e.g., arts, mathematics, reading, stenography, or a foreign language) of an assessment.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ObjectiveGradeLevel" type="GradeLevelType">
-						<xs:annotation>
-							<xs:documentation>The grade level for which the learning objective is targeted,</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Learning standard(s) included in this objective.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Lower level learning objectives, or sub-objectives.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 
 </xs:schema>
