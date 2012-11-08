@@ -275,7 +275,8 @@ public class DeterministicIdResolver {
                 }
 
             } else {
-                value = (String) getProperty(reference, keyFieldDef.getValueSource());
+            	Object o = getProperty(reference, keyFieldDef.getValueSource());
+            	value = (o == null ? "" : o.toString());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
