@@ -41,7 +41,7 @@ Then I add a cookie for linda.kim
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
 
-@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -140,7 +140,7 @@ And the search results include:
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
 
-@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -260,7 +260,7 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "Sunset Central High School"
 Then I don't see a course selection
 
-@integration @RALLY_US200  @RALLY_US147 @RALLY_US198
+@wip @search @integration @RALLY_US200  @RALLY_US147 @RALLY_US198
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
