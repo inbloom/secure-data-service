@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
+
+import java.util.List;
 
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -50,5 +51,16 @@ public interface Handler<T, O> {
      * @return object defined in concrete implementation
      */
     O handle(T item, ErrorReport errorReport);
+
+    /**
+     * Handle the provided items.
+     *
+     * @param items
+     *            list of items to be handled.
+     * @param errorReport
+     *            an ErrorReport implementation in which errors can be tracked
+     * @return list of objects defined in concrete implementation
+     */
+    List<O> handle(List<T> items, ErrorReport errorReport);
 
 }

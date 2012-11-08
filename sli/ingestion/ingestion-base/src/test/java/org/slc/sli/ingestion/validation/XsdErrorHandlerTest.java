@@ -43,7 +43,7 @@ import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validation-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdErrorHandlerTest {
 
     @Autowired

@@ -87,8 +87,7 @@ public class BatchJobTest {
     @Test
     public void testCreateDefault() throws InterruptedException {
 
-
-        // Generate dates before and after the BatchJob is instantiated,
+        // generate dates before and after the BatchJob is instantiated,
         // so we can verify its creationDate is accurate.
         Job job = BatchJob.createDefault();
 

@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validation-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ControlFileValidatorTest {
 
     @Autowired

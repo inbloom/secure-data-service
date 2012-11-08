@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.IngestionTest;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validation-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ZipFileValidatorTest {
 
     @Autowired

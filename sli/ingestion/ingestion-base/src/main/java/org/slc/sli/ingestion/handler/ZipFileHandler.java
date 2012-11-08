@@ -19,7 +19,9 @@ package org.slc.sli.ingestion.handler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +73,11 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+    
+        @Override
+    protected List<File> doHandling(List<File> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+        throw new NotImplementedException("Processing of multiple zip files is not currently supported.");
     }
 
 }

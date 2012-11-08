@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,6 +118,7 @@ public class ZipFileUtil {
     public static File findCtlFile(File dir) throws IOException {
 
         FilenameFilter filter = new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 // if the file extension is .ctl return true, else false
                 return name.endsWith(".ctl");
