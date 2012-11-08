@@ -16,7 +16,7 @@ Scenario: Post an empty zip file should fail
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "emptyFile.zip" is completed in database
   And I should see "File student.xml: Empty file" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
@@ -30,7 +30,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
@@ -50,7 +50,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "firstRecordHasIncorrectAttribute.zip" is completed in database
   And I should see "An entity is missing one or more required natural key fields" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   1" in the resulting error log file
@@ -68,7 +68,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "secondRecordHasIncorrectAttribute.zip" is completed in database
   And I should see "An entity is missing one or more required natural key fields" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
   And I should see "     Instance   2" in the resulting error log file
@@ -87,7 +87,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "firstRecordHasMoreAttributes.zip" is completed in database
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
@@ -129,7 +129,7 @@ Scenario: Post a zip file where the the edfi input is malformed XML
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "malformedXML.zip" is completed in database
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
@@ -143,7 +143,7 @@ Scenario: Post a zip file where the the edfi input has no records
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "noRecord.zip" is completed in database
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
@@ -158,7 +158,7 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
   And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
@@ -178,7 +178,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
   And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
@@ -197,7 +197,7 @@ Scenario: Post a minimal zip file as a payload of the ingestion job: No Valid Fi
 Given I post "NoValidFilesInCtlFile.zip" file as the payload of the ingestion job
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "NoValidFilesInCtlFile.zip" is completed in database
  Then I should see following map of entry counts in the corresponding batch job db collections:
      | collectionName              | count |
 	| error                       | 1     |
@@ -213,7 +213,7 @@ Scenario: Post a Zip File containing a control file with directory pathnames
         | student                                 |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "DirPathnameInCtlFile.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | session                                 | 0         |
@@ -230,7 +230,7 @@ Scenario: Post a Zip File containing a control file and a subfolder with XML fil
         | student                                 |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "ZipContainsSubfolder.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | session                                 | 0         |
@@ -246,7 +246,7 @@ Scenario: Post a Zip File containing a control file with invalid record type
         | student                                 |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "InvalidRecordType.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
@@ -260,7 +260,7 @@ Scenario: Post a Zip File containing a control file with extra file item entry
         | student                                 |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "ExtraCtlFileEntry.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
@@ -274,7 +274,7 @@ Scenario: Post a Zip File containing a control file with checksum error
         | student                                 |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "ChecksumError.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
@@ -285,7 +285,7 @@ Scenario: Post a zip file with bad control file
   Given I post "BadCtlFile.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "BadCtlFile.zip" is completed in database
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 
 Scenario: Post an zip file where the control file has extra properties
