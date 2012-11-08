@@ -36,6 +36,21 @@
             <div class="panel-header">
             </div>
 			<@includePanelModel panelId="studentSearchResults"/>
+                    <h4>Select School:</h4>
+                    <input type='hidden' value='' id ='schoolSelect' />
+                    <div class="btn-toolbar">
+                        <div class="btn-group"  id="schoolSelectMenu">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
+                                <span class='optionText'> </span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                           <button type="submit" class="btn" id="search_btn_go">Go</button>
+                        </div>
+                    </div>
         	Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.
 
             <div class="panel-content">

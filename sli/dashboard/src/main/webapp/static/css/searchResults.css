@@ -67,3 +67,12 @@
 #noSearchResultsDiv a:hover {
 	text-decoration: underline;
 }
+
+
+/* Temp style fix for Dashboard Search */
+
+#schoolSelectMenu { display: inline-block; }
+
+.btn-group { width: 48%; }
+
+h4 { display: inline-block; }

@@ -281,7 +281,7 @@ SLC.namespace('SLC.util', (function () {
 		function getLayoutLink(name, id, queryString) {
 			return contextRootPath + "/s/l/" + name + ((id) ? ("/" + id) : "") + ((queryString) ? ('?' + queryString) : '');
 		}
-		
+
 		function goToLayout(name, id, queryString) {
 			location.href = getLayoutLink(name, id, queryString);
 		}
