@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.transformation.normalization.did;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
@@ -56,16 +55,16 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-	public void shouldResolveCalendarDateDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/calendarDateReference.json");
+	public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/programReference.json");
 		ErrorReport errorReport = new TestErrorReport();
 
 		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
 		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("date", "2011-03-04");
+		naturalKeys.put("programId", "program ID");
 
-		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+		checkId(entity, "ProgramReference", naturalKeys, "program");
 	}
 
 	// generate the expected deterministic ids to validate against
@@ -75,20 +74,11 @@ public class DidReferenceResolutionTest {
 	}
 
 	// validate reference resolution
-	@SuppressWarnings("unchecked")
 	private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName) throws JsonParseException, JsonMappingException, IOException {
 		String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
 		Map<String, Object> body = entity.getBody();
 		Assert.assertNotNull(body.get(referenceField));
-
-		Object resolvedRef = body.get(referenceField);
-		if (resolvedRef instanceof List) {
-			List<Object> refs = (List<Object>) resolvedRef;
-			Assert.assertEquals(1, refs.size());
-			Assert.assertEquals(expectedDid, refs.get(0));
-		} else {
-			Assert.assertEquals(expectedDid, resolvedRef);
-		}
+		Assert.assertEquals(expectedDid, body.get(referenceField));
 	}
 
 	//load a sample NeutralRecordEntity from a json file
