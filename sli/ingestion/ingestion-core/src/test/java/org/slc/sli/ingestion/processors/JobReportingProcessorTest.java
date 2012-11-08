@@ -33,6 +33,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -117,6 +118,7 @@ public class JobReportingProcessorTest {
         tmpDir.delete();
     }
 
+    @Ignore
     @Test
     public void testProcess() throws Exception {
 
