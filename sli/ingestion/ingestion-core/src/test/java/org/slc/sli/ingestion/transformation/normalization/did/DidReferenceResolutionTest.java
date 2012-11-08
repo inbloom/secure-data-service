@@ -42,7 +42,6 @@ public class DidReferenceResolutionTest {
 
 	private static final String TENANT_ID = "tenant_id";
 
-    @Ignore
     @Test
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/attendanceEvent.json");
@@ -50,7 +49,7 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
-        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
+        checkId(entity, "schoolId", naturalKeys, "educationOrganization");
     }
 
     @Test
@@ -123,8 +122,8 @@ public class DidReferenceResolutionTest {
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void resolvesEdOrgRefDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -134,8 +133,8 @@ public class DidReferenceResolutionTest {
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void resolvesEdOrgRefDidInStudentProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -195,8 +194,8 @@ public class DidReferenceResolutionTest {
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void resolvesLEAEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -206,8 +205,8 @@ public class DidReferenceResolutionTest {
         checkId(entity, "LocalEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void resolvesEducationServiceCenterEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/localEducationAgency.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -227,8 +226,8 @@ public class DidReferenceResolutionTest {
         checkId(entity, "StateEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void resolvesEdOrgRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/staffEducationOrgAssignmentAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
