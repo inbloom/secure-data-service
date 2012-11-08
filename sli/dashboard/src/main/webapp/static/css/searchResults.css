@@ -76,3 +76,7 @@
 .btn-group { width: 48%; }
 
 h4 { display: inline-block; }
+
+#searchResultsSection { display: none; }
+
+#schoolSelectSection { width: 500px; }

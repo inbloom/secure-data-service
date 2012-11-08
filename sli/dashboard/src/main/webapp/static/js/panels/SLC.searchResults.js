@@ -24,10 +24,23 @@ SLC.namespace('SLC.searchResults', (function () {
 	
 		var dataModel = SLC.dataProxy.getData("studentSearchResults"),
 			no_result_string,
+			schoolId,
 			util = SLC.util;
 			
 		 no_result_string = '<h4>I\'m sorry, we do not have results that match your search.</h4><p>There may be a quick fix:</p><ul><li>Are the names spelled correctly?</li><li>Are the names capitalized?</li><li>Is appropriate punctuation included?</li></ul><p>Please check these items and try again.</p><p>OR</p><p>Return to the <a href="#">previous page</a>.</p>';
-		
+
+		function getParameterByName(name)
+		{
+			name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+			var regexS = "[\\?&]" + name + "=([^&#]*)";
+			var regex = new RegExp(regexS);
+			var results = regex.exec(window.location.search);
+			if(results == null)
+				return "";
+			else
+				return decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
 		function noSearchResults() {
 			document.getElementById("searchPgnDiv").style.visibility = "hidden";
 		    document.getElementById("noSearchResultsDiv").innerHTML = no_result_string;
@@ -40,16 +53,16 @@ SLC.namespace('SLC.searchResults', (function () {
 					select =  "",
 					autoSelectOption = -1,
 					titleKey = "nameOfInstitution",
+					id = "id",
 					options;
 
 				for (var index = 0; index < instHierarchy.length; index++) {
-					//var edOrgIndex = $.jgrid.htmlEncode(instHierarchy[index]["name"]);
 					options = instHierarchy[index].schools;
 
 					for (var i = 0; i < options.length; i++) {
 						var selected = i === autoSelectOption ? "selected" : "";
 						select += "    <li class=\"" + selected + "\"><a href=\"javascript:;\">" +$.jgrid.htmlEncode(options[i][titleKey])+"</a>" +
-							"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
+							"<input type='hidden' value='"+ options[i][id] + "' class ='selectionValue' /></li>";
 					}
 				}
 
@@ -60,7 +73,7 @@ SLC.namespace('SLC.searchResults', (function () {
 				$("#schoolSelectMenu .dropdown-menu li").click( function() {
 					$("#schoolSelectMenu .selected").removeClass("selected");
 					$("#schoolSelectMenu").find(".optionText").html($(this).find("a").html());
-					$("#schoolSelect").val($(this).find("#selectionValue").val());
+					$("#schoolSelect").val($(this).find(".selectionValue").val());
 					$(this).addClass("selected");
 				});
 			});
@@ -70,6 +83,8 @@ SLC.namespace('SLC.searchResults', (function () {
 		
 		function setup() {
 			var i;
+
+			schoolId = getParameterByName("schoolId");
 
 			getSchoolList();
 			
@@ -99,6 +114,13 @@ SLC.namespace('SLC.searchResults', (function () {
 				// also, special no results text should be displayed
 				noSearchResults();
 			}
+
+			if (schoolId !== "") {
+				$("#searchResultsSection").show();
+			}
+			else {
+				$("#searchResultsSection").hide();
+			}
 		}
 		
 		function gotoURL(id) {
@@ -118,8 +140,10 @@ SLC.namespace('SLC.searchResults', (function () {
 					postPageSize = psSelect.options[psSelect.selectedIndex].value;
 				}
 			}
+
+
 			
-			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&pageNumber=' + postPageNum +
+			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&schoolId=' + $("#schoolSelect").val() + '&pageNumber=' + postPageNum +
 			'&pageSize=' + postPageSize;
 			
 			SLC.util.goToLayout('studentSearch', null, params);

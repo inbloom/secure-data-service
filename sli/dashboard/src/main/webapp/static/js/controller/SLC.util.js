@@ -319,11 +319,18 @@ SLC.namespace('SLC.util', (function () {
 			  if (!firstName || firstName === "First Name") {
 			    firstName = '';
 			  }
+
 			  var lastName = $('#dbrd_inp_search_lastName').val();
 			  if (!lastName || lastName === "Last Name") {
 			    lastName = '';
 			  }
-			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
+
+			  var schoolId = $('#dbrd_inp_search_schoolid').val();
+			  if (!schoolId || schoolId === undefined) {
+			    	schoolId = '';
+			  }
+
+			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName + '&schoolId=' + schoolId);
 			  return false;
 			});
 		});
