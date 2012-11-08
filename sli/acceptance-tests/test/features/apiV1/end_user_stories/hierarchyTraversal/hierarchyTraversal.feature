@@ -93,7 +93,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
     Then I should receive a return code of 200
         And I should receive a collection link named "getSections"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>/sections"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"
@@ -195,7 +195,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
     Then I should receive a return code of 200
         And I should receive a collection link named "getSections"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>/sections"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"
