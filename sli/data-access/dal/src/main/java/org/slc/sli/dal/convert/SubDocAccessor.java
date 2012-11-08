@@ -684,7 +684,7 @@ public class SubDocAccessor {
         }
         
         Query duplicatesQuery = new Query(Criteria.where(arrayPkFieldName).in(pks));
-        Update update = new Update().pull(arrayConsolidation.getArrayPath(), duplicatesQuery.getQueryObject());
+        Update update = new Update().pull("body." + arrayConsolidation.getArrayPath(), duplicatesQuery.getQueryObject());
         
         return update.getUpdateObject();
     }

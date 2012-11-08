@@ -178,13 +178,30 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         String collectionName = getCollectionName(entities.get(0));
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
-        for (SimpleEntity entity : entities) {
-            if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, errorReport);
-            } else {
-                preMatchEntity(memory, entityConfig, errorReport, entity);
+        
+        if (collectionName.equals("attendance")) {
+            for (SimpleEntity entity : entities) {
+                try {
+                    preMatchEntity(memory, entityConfig, errorReport, entity);
+                    validator.validate(entity);
+                    addTimestamps(entity);
+                    queued.add(entity);
+                } catch (EntityValidationException e) {
+                    reportErrors(e.getValidationErrors(), entity, errorReport);
+                    failed.add(entity);
+                }
+            }
+            memory.clear();
+        } else {
+            for (SimpleEntity entity : entities) {
+                if (entity.getEntityId() != null) {
+                    update(collectionName, entity, failed, errorReport);
+                } else {
+                    preMatchEntity(memory, entityConfig, errorReport, entity);
+                }
             }
         }
+        
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
@@ -217,6 +234,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         return failed;
     }
+    
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
