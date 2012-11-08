@@ -451,7 +451,7 @@ public class UriMutator {
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
         String[] queries = queryParameters.split("&");
-        if (!isMutated && queryParameters.matches("(studentId|schoolId|staffReference|teacherId)=.+")) {
+        if (!isMutated && queryParameters.matches("^studentId=.+")) {
             for (String query : queries) {
                 if (query.matches("^studentId=.+")) {
                     int INDEX_OF_QUERY_VALUE = 10;
@@ -461,37 +461,48 @@ public class UriMutator {
                     isMutated = true;
                 }
             }
-            if (!isMutated) {
-                for (String query : queries) {
-                    if (query.matches("^schoolId=.+")) {
-                        int INDEX_OF_QUERY_VALUE = 9;
-                        String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                        mutatedPath = "/" + ResourceNames.SCHOOLS + "/" + ids + "/" + resource;
-                        mutatedParameters = queryParameters.replaceFirst(query, "");
-                        isMutated = true;
-                    }
+        }
+        if (!isMutated && queryParameters.matches("^schoolId=.+")) {
+            for (String query : queries) {
+                if (query.matches("^schoolId=.+")) {
+                    int INDEX_OF_QUERY_VALUE = 9;
+                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
+                    mutatedPath = "/" + ResourceNames.SCHOOLS + "/" + ids + "/" + resource;
+                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    isMutated = true;
                 }
             }
-            if (!isMutated) {
-                for (String query : queries) {
-                    if (query.matches("^staffReference=.+")) {
-                        int INDEX_OF_QUERY_VALUE = 15;
-                        String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                        mutatedPath = "/" + ResourceNames.STAFF + "/" + ids + "/" + resource;
-                        mutatedParameters = queryParameters.replaceFirst(query, "");
-                        isMutated = true;
-                    }
+        }
+        if (!isMutated && queryParameters.matches("^staffReference=.+")) {
+            for (String query : queries) {
+                if (query.matches("^staffReference=.+")) {
+                    int INDEX_OF_QUERY_VALUE = 15;
+                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
+                    mutatedPath = "/" + ResourceNames.STAFF + "/" + ids + "/" + resource;
+                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    isMutated = true;
                 }
             }
-            if (!isMutated) {
-                for (String query : queries) {
-                    if (query.matches("^teacherId=.+")) {
-                        int INDEX_OF_QUERY_VALUE = 10;
-                        String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                        mutatedPath = "/" + ResourceNames.TEACHERS + "/" + ids + "/" + resource;
-                        mutatedParameters = queryParameters.replaceFirst(query, "");
-                        isMutated = true;
-                    }
+        }
+        if (!isMutated && queryParameters.matches("^teacherId=.+")) {
+            for (String query : queries) {
+                if (query.matches("^teacherId=.+")) {
+                    int INDEX_OF_QUERY_VALUE = 10;
+                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
+                    mutatedPath = "/" + ResourceNames.TEACHERS + "/" + ids + "/" + resource;
+                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    isMutated = true;
+                }
+            }
+        }
+        if (!isMutated && queryParameters.matches("^studentSectionAssociationId=.+")) {
+            for (String query : queries) {
+                if (query.matches("^studentSectionAssociationId=.+")) {
+                    int INDEX_OF_QUERY_VALUE = 28;
+                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
+                    mutatedPath = "/" + ResourceNames.STUDENT_SECTION_ASSOCIATIONS + "/" + ids + "/" + resource;
+                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    isMutated = true;
                 }
             }
         }
