@@ -74,7 +74,7 @@ public class EndpointMutator {
             String newParameters = mutated.getRight();
 
             if (newPath != null) {
-                if (newParameters != null) {
+                if (newParameters != null && !newParameters.isEmpty()) {
                     info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, newPath,
                             newParameters });
                     request.setUris(request.getBaseUri(),

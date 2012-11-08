@@ -445,7 +445,17 @@ public class UriMutator {
         String mutatedPath = null;
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
-        if (isTeacher(user)) {
+        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
+        for (String query : queries) {
+            if (query.matches("^studentId=.+")) {
+                int INDEX_OF_QUERY_VALUE = 10;
+                mutatedPath = "/" + ResourceNames.STUDENTS + "/" + query.substring(INDEX_OF_QUERY_VALUE) + "/" + resource;
+                mutatedParameters = queryParameters.replaceFirst(query, "");
+                success = true;
+            }
+        }
+
+        if (!success && isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
@@ -636,7 +646,7 @@ public class UriMutator {
             } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
                 mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
             }
-        } else if (isStaff(user)) {
+        } else if (!success && isStaff(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
