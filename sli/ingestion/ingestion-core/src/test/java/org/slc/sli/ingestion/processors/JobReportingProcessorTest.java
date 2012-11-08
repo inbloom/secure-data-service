@@ -146,6 +146,9 @@ public class JobReportingProcessorTest {
         Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
+        Mockito.when(
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
+                        Matchers.eq(FaultType.TYPE_WARNING), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         NeutralRecordRepository mockedNeutralRecordRepository = Mockito.mock(NeutralRecordRepository.class);
         Mockito.when(mockedNeutralRecordMongoAccess.getRecordRepository()).thenReturn(mockedNeutralRecordRepository);
