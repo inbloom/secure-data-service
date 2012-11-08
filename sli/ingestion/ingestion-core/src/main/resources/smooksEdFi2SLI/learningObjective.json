@@ -38,6 +38,7 @@
     },
     {
             "fieldPath" : "body.learningStandards",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "learningStandard",

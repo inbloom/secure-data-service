@@ -42,7 +42,7 @@ import org.slc.sli.test.edfi.entitiesR1.TeacherSectionAssociation;
 
 
 public class SectionGenerator {
-	static Random generator = new Random();
+	static Random generator = new Random(31);
 	private static int idCount = 0;
 	private static final String[] GRADES = {"A", "B", "C", "D", "E", "F"};
 	private static String thisDay, oneYearAgo, oneYearHence;

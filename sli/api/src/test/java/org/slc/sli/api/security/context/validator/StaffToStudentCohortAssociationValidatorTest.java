@@ -28,7 +28,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -50,6 +53,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToStudentCohortAssociationValidatorTest {
     
     @Autowired
+    @InjectMocks
     private StaffToStudentCohortAssociationValidator validator;
     
     @Autowired
@@ -61,7 +65,10 @@ public class StaffToStudentCohortAssociationValidatorTest {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
+    @Mock
     private StaffToStudentValidator mockStudentValidator;
+    
+    @Mock
     private StaffToCohortValidator mockCohortValidator;
 
     Set<String> cohortIds;
@@ -82,8 +89,7 @@ public class StaffToStudentCohortAssociationValidatorTest {
         
         mockStudentValidator = Mockito.mock(StaffToStudentValidator.class);
         mockCohortValidator = Mockito.mock(StaffToCohortValidator.class);
-        validator.setCohortValidator(mockCohortValidator);
-        validator.setStudentValidator(mockStudentValidator);
+        MockitoAnnotations.initMocks(this);
 
     }
     
@@ -98,7 +104,7 @@ public class StaffToStudentCohortAssociationValidatorTest {
     @Test
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, false));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }
@@ -136,17 +142,4 @@ public class StaffToStudentCohortAssociationValidatorTest {
         }
         assertFalse(validator.validate(null, cohortIds));
     }
-    
-    @Test
-    public void testCanNotValidateAssociationWithoutCohortAccess() {
-        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.any(Set.class))).thenReturn(
-                false);
-        for (int i = 0; i < 10; ++i) {
-            cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
-        }
-        assertFalse(validator.validate(null, cohortIds));
-    }
-    
 }

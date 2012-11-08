@@ -15,6 +15,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -33,6 +38,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Baker School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -51,6 +61,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Charlie School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Charlie School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -79,6 +94,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Dog School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Dog School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -107,6 +127,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Echo School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Echo School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -135,6 +160,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Foxtrot School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Foxtrot School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -163,6 +193,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -181,6 +216,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Baker School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Baker School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -209,7 +249,12 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
-                <SessionName>Spring 2012 Charlie School</SessionName>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Spring 2012 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
     </Section>
@@ -237,6 +282,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Dog School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Dog School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -265,6 +315,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Echo School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Echo School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -293,6 +348,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Foxtrot School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Foxtrot School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -321,6 +381,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -349,6 +414,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Spring 2012 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -377,6 +447,11 @@
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
             </SessionIdentity>
         </SessionReference>
@@ -396,10 +471,12 @@
         </CourseReference>
         <SessionReference>
             <SessionIdentity>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
-                <StateOrganizationId>Able School</StateOrganizationId>
             </SessionIdentity>
         </SessionReference>
         <SchoolReference>
@@ -423,10 +500,12 @@
         </CourseReference>
         <SessionReference>
             <SessionIdentity>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
-                <StateOrganizationId>Able School</StateOrganizationId>
             </SessionIdentity>
         </SessionReference>
         <SchoolReference>
@@ -450,10 +529,12 @@
         </CourseReference>
         <SessionReference>
             <SessionIdentity>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
                 <SessionName>Fall 2011 Able School</SessionName>
-                <StateOrganizationId>Able School</StateOrganizationId>
             </SessionIdentity>
         </SessionReference>
         <SchoolReference>

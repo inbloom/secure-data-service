@@ -29,7 +29,7 @@ import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
 
 public class LearningStandardGenerator {
 
-    private static Random random = new Random();
+    private static Random random = new Random(31);
 
     public static LearningStandard generateLowFi(String learningStandardCode) {
         LearningStandard ls = new LearningStandard();
@@ -56,12 +56,8 @@ public class LearningStandardGenerator {
 
     public static LearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
 
-        LearningStandardId lsid = new LearningStandardId();
-        lsid.setContentStandardName(learningStandardCode + "Name");
-        lsid.setIdentificationCode(learningStandardCode);
-
         LearningStandardIdentityType lsit = new LearningStandardIdentityType();
-        lsit.setLearningStandardId(lsid);
+        lsit.setLearningStandardId(learningStandardCode);
 
         LearningStandardReferenceType lsrt = new LearningStandardReferenceType();
         lsrt.setLearningStandardIdentity(lsit);

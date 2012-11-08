@@ -21,6 +21,7 @@ limitations under the License.
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../selectors/step_definitions/selectors.rb'
 require 'test/unit'
 
 Before do
@@ -42,7 +43,11 @@ When /^I query "([^"]*)" of "([^"]*)" to demonstrate "([^"]*)"$/ do |resource_na
   if school_id == ""
     step "I navigate to GET \"/<#{resource_name}>\""
   else
-    step "I navigate to GET \"/<schools/#{school_id}/#{resource_name}>\""
+    if (resource_name == "reportCards")
+      step "I navigate to GET \"/<schools/#{school_id}/studentSchoolAssociations/students/#{resource_name}>\""
+    else
+      step "I navigate to GET \"/<schools/#{school_id}/#{resource_name}>\""
+    end
   end
 end
 
@@ -60,4 +65,8 @@ And /^I should see a sorted list with "([^"]*)" offset and "([^"]*)" limit sorte
   expected = @sorted_result[(offset.to_i)..(offset.to_i + limit.to_i - 1)]
   actual = @result.collect {|x| x[sortBy]}
   assert_equal(expected, actual)
+end
+
+Then /^in the response body I should not see field "(.*?)"$/ do |field|
+  assert(!(@result.has_key? field))
 end

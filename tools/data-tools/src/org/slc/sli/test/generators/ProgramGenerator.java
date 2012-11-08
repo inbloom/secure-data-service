@@ -32,7 +32,7 @@ public class ProgramGenerator {
 
     private static final Logger log = Logger.getLogger(ProgramGenerator.class);
     
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
 
     // Descriptor for program services. 
     public enum ServiceDescriptor {

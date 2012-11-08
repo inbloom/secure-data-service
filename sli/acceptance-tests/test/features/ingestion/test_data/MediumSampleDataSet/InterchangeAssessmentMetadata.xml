@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" ?>
 <InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
     <LearningStandard id="lstd0">
         <LearningStandardId ContentStandardName="lstd0Name">
@@ -40,9 +40,7 @@
         <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>
@@ -53,9 +51,7 @@
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd1Name">
-                    <IdentificationCode>lstd1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -67,9 +63,7 @@
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -81,9 +75,7 @@
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -95,9 +87,7 @@
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -109,9 +99,7 @@
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd2Name">
-                    <IdentificationCode>lstd2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -142,9 +130,7 @@
         <Nomenclature>Nomenclature</Nomenclature>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd1Name">
-                    <IdentificationCode>lstd1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </ObjectiveAssessment>

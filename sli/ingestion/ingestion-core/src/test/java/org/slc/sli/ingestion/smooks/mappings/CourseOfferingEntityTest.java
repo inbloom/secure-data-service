@@ -27,13 +27,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for CourseOffering entity.
@@ -117,35 +116,18 @@ public class CourseOfferingEntityTest {
         Map<String, Object> sessionIdentity = sessionReference.get("SessionIdentity");
         assertNotNull("Expected non-null SessionIdentity", sessionIdentity);
         assertEquals("Expected different SessionName", "Session Name", sessionIdentity.get("SessionName"));
-        assertEquals("Expected different SchoolYear", "School Year", sessionIdentity.get("SchoolYear"));
-        assertEquals("Expected different Term", "My Term", sessionIdentity.get("Term"));
 
         @SuppressWarnings("unchecked")
-        List<String> stateOrganizationIds = (List<String>) sessionIdentity.get("StateOrganizationId");
-        assertNotNull("Expected non-null StateOrganizationIds", stateOrganizationIds);
-        assertEquals("Expected two StateOrganizationIds", 2, stateOrganizationIds.size());
+        Map<String, Object> edOrgReference = (Map<String, Object>) sessionIdentity.get("EducationalOrgReference");
+        assertNotNull("Expected non-null EducationalOrgReference", edOrgReference);
 
-        String stateOrganizationId = stateOrganizationIds.get(0);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> edOrgIdentity = (Map<String, Object>) edOrgReference.get("EducationalOrgIdentity");
+        assertNotNull("Expected non-null EducationalOrgIdentity", edOrgIdentity);
+
+        String stateOrganizationId = (String) edOrgIdentity.get("StateOrganizationId");
         assertNotNull("Expected non-null StateOrganizationId", stateOrganizationId);
         assertEquals("Expected different StateOrganizationId", "Session Reference State Organization Id 1", stateOrganizationId);
-
-        stateOrganizationId = stateOrganizationIds.get(1);
-        assertNotNull("Expected non-null StateOrganizationId", stateOrganizationId);
-        assertEquals("Expected different StateOrganizationId", "Session Reference State Organization Id 2", stateOrganizationId);
-
-        educationOrgIdentificationCodes = (List<Map<String, String>>) sessionIdentity.get("EducationOrgIdentificationCode");
-        assertNotNull("Expected non-null EducationOrgIdentificationCodes", educationOrgIdentificationCodes);
-        assertEquals("Expected two EducationOrgIdentificationCodes", 2, educationOrgIdentificationCodes.size());
-
-        educationOrgIdentificationCode = educationOrgIdentificationCodes.get(0);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
-        assertEquals("Expected different IdentificationSystem", "Session Reference Identification System 1", educationOrgIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different ID", "Session Reference ID 1", educationOrgIdentificationCode.get("ID"));
-
-        educationOrgIdentificationCode = educationOrgIdentificationCodes.get(1);
-        assertNotNull("Expected non-null EducationOrgIdentificationCode", educationOrgIdentificationCode);
-        assertEquals("Expected different IdentificationSystem", "Session Reference Identification System 2", educationOrgIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different ID", "Session Reference ID 2", educationOrgIdentificationCode.get("ID"));
 
         /* CourseReference
         @SuppressWarnings("unchecked")

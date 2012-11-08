@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,20 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
+import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
+import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,19 +56,6 @@ import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 
 /**
  * Manages SLI User/app sessions
@@ -275,6 +277,26 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         for (Map<String, Object> session : sessions) {
                             if (session.get("token").equals(accessToken)) {
 
+								// Log that the long lived session is being used
+								Date createdOn;
+								if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
+									String date = (String) sessionEntity.getMetaData().get("created");
+
+									if (date.contains("T")) {
+										date = date.substring(0, date.indexOf("T"));
+									}
+									createdOn = DateTimeUtil.parseDateTime(date).toDate();
+
+								} else {
+									createdOn = (Date) sessionEntity.getMetaData().get("created");
+								}
+								Long hl = (Long) sessionEntity.getBody().get("hardLogout");
+
+								if (hl - createdOn.getTime() > this.hardLogout) {
+									info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
+								}
+								// ****
+                                
                                 ClientToken token = new ClientToken((String) session.get("clientId"), null , null);
 
                                 // Spring doesn't provide a setter for the approved field (used by
