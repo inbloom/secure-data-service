@@ -70,36 +70,48 @@ Examples:
     |"/schools/@id/sections/studentSectionAssociations/grades"                          | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/grades"|
     |"/schools/@id/sections/studentSectionAssociations/studentCompetencies"             | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/studentCompetencies"|
  
-@wip
+ @wip
 Scenario Outline: Staff making calls to URIs through transitive relationships and being denied
 
-	Given something
-	When something
-	Then something
+    Given I am logged in using "akopel" "akopel1234" to realm "IL"
+    When I call <Base Path> using ID <Direct ID>
+    Then I should receive a return code of 200
+    When I call <Extended Path> using ID <Direct ID>
+    Then I should receive a return code of 200
+    When I call <Base Path> using ID <Transitive ID>
+    Then I should receive a return code of 200
+    When I call <Extended Path> using ID <Transitive ID>
+    Then I should receive a return code of 403
 Examples:
-	| Base Path                   | Extended Path                                                              | Direct ID | Transitive ID |
-	|"/staff/@id"                 |"/staff/{id}/disciplineActions"                                             |""|""|
-	|"/staff/@id"                 |"/staff/{id}/disciplineIncidents"                                           |""|""|
-	|"/staff/@id"                 |"/staff/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"     |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations"                                       |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations/cohorts"                               |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffCohortAssociations/cohorts/studentCohortAssociations"     |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffEducationOrgAssignmentAssociations"                       |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations"|""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations"                                      |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations/programs"                             |""|""|
-	|"/staff/@id"                 |"/staff/{id}/staffProgramAssociations/programs/studentProgramAssociations"  |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/staffEducationOrgAssignmentAssociations"      |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/staffEducationOrgAssignmentAssociations/staff"|""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/graduationPlans"                              |""|""|
-	|"/educationOrganizations/@id"|"/educationOrganizations/{id}/cohorts"                                      |""|""|
+	| Base Path                   | Extended Path                                                             | Direct ID                            | Transitive ID |
+	|"/staff/@id"                 |"/staff/@id/disciplineActions"                                             |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/disciplineIncidents"                                           |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/disciplineIncidents/studentDisciplineIncidentAssociations"     |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffCohortAssociations"                                       |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffCohortAssociations/cohorts"                               |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffCohortAssociations/cohorts/studentCohortAssociations"     |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffEducationOrgAssignmentAssociations"                       |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffEducationOrgAssignmentAssociations/educationOrganizations"|"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffProgramAssociations"                                      |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffProgramAssociations/programs"                             |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/staff/@id"                 |"/staff/@id/staffProgramAssociations/programs/studentProgramAssociations"  |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
+	|"/educationOrganizations/@id"|"/educationOrganizations/@id/staffEducationOrgAssignmentAssociations"      |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
+	|"/educationOrganizations/@id"|"/educationOrganizations/@id/staffEducationOrgAssignmentAssociations/staff"|"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
+	|"/educationOrganizations/@id"|"/educationOrganizations/@id/graduationPlans"                              |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
+	|"/educationOrganizations/@id"|"/educationOrganizations/@id/cohorts"                                      |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 
 @wip
 Scenario Outline: Teacher making calls to URIs through transitive relationships and being denied
 
-	Given something
-	When something
-	Then something
+    Given I am logged in using "rbraverman" "rbraverman1234" to realm "IL"
+    When I call <Base Path> using ID <Direct ID>
+    Then I should receive a return code of 200
+    When I call <Extended Path> using ID <Direct ID>
+    Then I should receive a return code of 200
+    When I call <Base Path> using ID <Transitive ID>
+    Then I should receive a return code of 200
+    When I call <Extended Path> using ID <Transitive ID>
+    Then I should receive a return code of 403
 Examples:
 	| Base Path                   | Extended Path                                                              | Direct ID | Transitive ID |
 	|"/staff/@id"                 |"/staff/{id}/disciplineActions"                                             |""|""|
