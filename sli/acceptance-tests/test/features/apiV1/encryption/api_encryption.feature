@@ -14,7 +14,9 @@ Scenario: Student data created via the API should be encrypted - Staff IT Admin
     When I navigate to POST "/<STUDENT URI>"
     Then I should receive a return code of 201
         And I should receive an ID for the newly created entity
-    When I navigate to GET "/<STUDENT URI>/<NEWLY CREATED ENTITY ID>"
+    When I have a valid school association for the student
+        And I navigate to POST "/<STUDENT SCHOOL ASSOCIATION URI>"
+        And I navigate to GET "/<STUDENT URI>/<NEWLY CREATED ENTITY ID>"
     Then the "name" should be "Rhonda" "Shannon" "Delgado"
         And the "birthDate" should be "2006-07-02"
         And the "sex" should be "Female"

@@ -26,15 +26,6 @@ import java.util.Set;
 
 import javax.ws.rs.core.PathSegment;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -44,9 +35,18 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
 import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -86,7 +86,7 @@ public class ContextValidator implements ApplicationContextAware {
         //move generic validator to end
         validators.remove(genVal);
         validators.add(genVal);
-
+        
         //temporarily disable teacher-student validator
         // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
@@ -106,7 +106,7 @@ public class ContextValidator implements ApplicationContextAware {
                 i.remove();
             }
         }
-
+        
         if (segs.size() < 3) {
             return;
         }
@@ -137,27 +137,38 @@ public class ContextValidator implements ApplicationContextAware {
         validateContextToEntities(def, ids, isTransitive);
     }
 
-    public void validateContextToEntities(EntityDefinition def, Collection<String> entityIds, boolean isTransitive) {
-
-        //exists call requires a Set to function correctly, so convert to Set if necessary
-        Set<String> idSet = null;
-        if (entityIds instanceof Set) {
-            idSet = (Set<String>) entityIds;
-        } else {
-            idSet = new HashSet<String>(entityIds);
-        }
+    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
+        
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            if (!validator.validate(def.getType(), idSet)) {
-                if (!exists(idSet, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entityIds);
+            Set<String> idsToValidate = new HashSet<String>();
+
+            NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            int found = 0;
+            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+                found++;
+                if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                        && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                    debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                } else {
+                    idsToValidate.add(ent.getEntityId());
                 }
-                throw new AccessDeniedException("Cannot access entities " + entityIds);
+            }
+
+            if (found != ids.size()) {
+                debug("Invalid reference, an entity does not exist. collection: {} ids: {}", def.getStoredCollectionName(), ids);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+            }
+
+            if (!idsToValidate.isEmpty()) {
+                if (!validator.validate(def.getType(), idsToValidate)) {
+                    throw new AccessDeniedException("Cannot access entities " + ids);
+                }
             }
         }
     }
 
-
+    
     private boolean exists(Set<String> ids, String collectionName) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
@@ -174,7 +185,7 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-     *
+     * 
      * @param toType
      * @param isTransitive
      * @return
@@ -185,7 +196,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                info("Using {} to validate {}", new String[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }

@@ -117,6 +117,7 @@ GEM
       statsample-bivariate-extension (> 0)
     statsample-bivariate-extension (1.1.0)
       distribution (~> 0.6)
+    stomp (1.2.6)
     text-table (1.2.2)
     treetop (1.4.10)
       polyglot
@@ -147,4 +148,5 @@ DEPENDENCIES
   rumbster
   selenium-webdriver
   statsample
+  stomp
   uuidtools

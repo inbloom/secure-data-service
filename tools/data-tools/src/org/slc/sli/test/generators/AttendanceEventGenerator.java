@@ -33,7 +33,7 @@ public class AttendanceEventGenerator {
 
     private static final boolean INCLUDE_OPTIONAL_DATA = false;
 
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random(31);
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
     private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
     
@@ -65,11 +65,13 @@ public class AttendanceEventGenerator {
     }
 
     public static AttendanceEventType getAttendanceEventType() {
-        return AttendanceEventType.values()[RANDOM.nextInt(AttendanceEventType.values().length)];
+        Random random = new Random(31);
+        return AttendanceEventType.values()[random.nextInt(AttendanceEventType.values().length)];
     }
 
     public static AttendanceEventCategoryType getAttendanceEventCategoryType() {
-    	int index = RANDOM.nextInt(AttendanceEventCategoryType.values().length);
+        Random random = new Random(31);
+    	int index = random.nextInt(AttendanceEventCategoryType.values().length);
     	if (index == 1)
     		index = index + 1;
     	
@@ -81,8 +83,9 @@ public class AttendanceEventGenerator {
 
     
     public static AttendanceEventCategoryType getAttendanceEventCategoryTypeMedFi() {
-    	
-    	int roll = RANDOM.nextInt(100);
+
+        Random seededRandom = new Random(31);
+    	int roll = seededRandom.nextInt(100);
 		
 		switch (roll) {
 		case 1 :
