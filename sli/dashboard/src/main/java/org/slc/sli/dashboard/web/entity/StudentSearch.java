@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.web.entity;
 
 import javax.validation.constraints.Pattern;
@@ -22,9 +21,9 @@ import javax.validation.constraints.Size;
 
 /**
  * Validatable student search form
- *
+ * 
  * @author agrebneva
- *
+ * 
  */
 public class StudentSearch implements PagedEntity {
     @Size(max = 100, message = "Cannot exceed max size")
@@ -35,8 +34,20 @@ public class StudentSearch implements PagedEntity {
     @Pattern(regexp = "[a-zA-Z0-9-' ]*")
     private String lastName;
 
+    // TODO: @Pattern for uuid
+    private String schoolId;
+
     private int pageNo = PagedEntity.DEFAULT_PAGE_NO;
     private int pageSize = PagedEntity.DEFAULT_PAGE_SIZE;
+
+    public StudentSearch() {
+    }
+
+    public StudentSearch(String firstName, String lastName, String schoolId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.schoolId = schoolId;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -54,16 +65,17 @@ public class StudentSearch implements PagedEntity {
         this.lastName = lastName;
     }
 
-    public StudentSearch() {
+    public String getSchoolId() {
+        return schoolId;
     }
 
-    public StudentSearch(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId;
     }
 
     public String[] get() {
-        return new String[] { firstName, lastName, String.valueOf(pageNo), String.valueOf(pageSize) };
+        return new String[] { this.firstName, this.lastName, String.valueOf(this.pageNo),
+                String.valueOf(this.pageSize), this.schoolId };
     }
 
     @Override
