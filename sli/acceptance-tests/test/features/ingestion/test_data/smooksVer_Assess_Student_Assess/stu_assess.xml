@@ -42,11 +42,11 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentIdentificationCode
-          IdentificationSystem="Test Contractor">
-          <ID>Grade 8 2011 StateTest Writing</ID>
-        </AssessmentIdentificationCode>
-      </AssessmentIdentity>
+        <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+        <AcademicSubject>Writing</AcademicSubject>
+        <GradeLevelAssessed>Eighth grade </GradeLevelAssessed>
+        <Version>1</Version>
+       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
   
