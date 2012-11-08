@@ -13,10 +13,26 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>

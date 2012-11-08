@@ -1186,6 +1186,7 @@ team:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.queue.landingZone.host: localhost
         sli.ingestion.queue.landingZone.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.landingZone.keystorePassword: Y0d@kn0ws
 
