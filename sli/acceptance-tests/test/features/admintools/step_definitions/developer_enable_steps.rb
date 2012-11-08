@@ -35,16 +35,16 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I can see the on\-boarded states$/ do
-  assert(@driver.find_elements(:css, 'div#enable-menu div#state-menu select option').count > 1, "At least one state should exist")
+  assert(@driver.find_elements(:css, 'div#state-menu select option').count > 1, "At least one state should exist")
 end
 
 When /^I select a state$/ do
-  select = @driver.find_element(:css, 'div#enable-menu div#state-menu select')
+  select = @driver.find_element(:css, 'div#state-menu select')
   select.find_element(:xpath, "//option[contains(text(),'Illinois')]").click
 end
 
 Then /^I see all of the Districts$/ do
-  lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu ul li')
+  lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu table tbody tr')
   assert(lis.count > 1, "One district should exist")
 end
 

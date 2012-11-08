@@ -223,7 +223,7 @@ class AppsController < ApplicationController
       @results.push temp
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}
-    render :partial => "lea_list", :locals => {:results => @results}
+    render :partial => "lea_list", :locals => {:results => @results, :sea => params[:state]}
   end
 
   private

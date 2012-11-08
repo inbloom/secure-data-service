@@ -1,9 +1,19 @@
-<ul class="unstyled clear">
-  <% results.each do |lea| %>
-    <li id="<%= lea["id"]%>">
+<span class="district-text">Districts in <%= sea %></span>
+<div class="enable-disable"><a id="enable-all" href="#">Enable All</a> | <a id="disable-all" href="#">Disable All</a></div>
+
+
+<table class="table-striped table">
+  <thead>
+  </thead>
+  <tbody>
+    <% results.each do |lea| %>
+    <tr id="<%= lea["id"]%>">
+      <td>
       <label class="checkbox inline">
       <input type="checkbox"><%=lea["name"]%></input>
       </label>
-      </li>
-  <% end %>
-</ul>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

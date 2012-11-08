@@ -10,20 +10,20 @@ jQuery ->
         return false if selected.val() == ""
         $.get("/lea?state=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
-            $("#lea-menu ul").trigger("change")
+            $("#lea-menu table").trigger("change")
         )
     false
 jQuery ->
-    $("#lea-menu ul").live 'change', ->
+    $("#lea-menu table").live 'change', ->
         #Populate the LI classes with enabled stuff
         edorgs = getEdorgs()
         jQuery.each(edorgs, (index, item) ->
-            $("#lea-menu ul").find("li##{item} input").attr('checked', true)
+            $("tr##{item} td label input").attr('checked', true)
         )
 
 jQuery ->
-  $("#lea-menu ul li input").live 'change', ->
-    id = $(@).parent().parent().attr('id')
+  $("#lea-menu table tbody tr td label input").live 'change', ->
+    id = $(@).parent().parent().parent().attr('id')
     edorgs = getEdorgs()
     if $(@).is(':checked')
       #Add the input
@@ -34,11 +34,11 @@ jQuery ->
         #Remove the input
         $("input#app_authorized_ed_orgs[value=#{id}]").remove()
 jQuery ->
-    $("div.enable-disable a#enable-all").click ->
-        $("#lea-menu ul li input:not(:checked)").click()
+    $("div.enable-disable a#enable-all").live 'click', ->
+        $("#lea-menu table").find("input:not(:checked)").click()
         false
-    $("div.enable-disable a#disable-all").click ->
-        $("#lea-menu ul li input:checked").click()
+    $("div.enable-disable a#disable-all").live 'click', ->
+        $("#lea-menu table").find("input:checked").click()
         false
 jQuery ->
   $("#applications tr:odd").addClass("odd")

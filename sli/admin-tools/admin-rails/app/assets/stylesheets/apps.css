@@ -10,4 +10,5 @@ ul.select-list li a {width:100%; display:block;}
 ul.select-list li a:link, a:visited {text-decoration: none;} 
 ul.select-list li a:hover {background-color: #888;color: #000;} 
 div.clear {clear: both;}
-
+span.district-text {font-weight: bold; color: #7B7B7E;}
+div.enable-disable {font-size: 70%;}
