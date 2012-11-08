@@ -231,10 +231,18 @@ public class NeutralQuery {
         return this;
     }
 
+    /**
+     * @deprecated Exclude fields should be handled in code.
+     * @see org.slc.sli.common.util.entity.EntityManipulator#removeFields(java.util.Map, java.util.List)
+     */
     public List<String> getExcludeFields() {
         return excludeFields;
     }
 
+    /**
+     * @deprecated Exclude fields should be handled in code.
+     * @see org.slc.sli.common.util.entity.EntityManipulator#removeFields(java.util.Map, java.util.List)
+     */
     public NeutralQuery setExcludeFields(List<String> excludeFields) {
         this.excludeFields = excludeFields;
         return this;
