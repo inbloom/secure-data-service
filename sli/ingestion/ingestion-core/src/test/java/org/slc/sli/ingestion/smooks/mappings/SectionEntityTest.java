@@ -29,11 +29,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -42,6 +37,10 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -152,20 +151,13 @@ public class SectionEntityTest {
             + "               </EducationOrgIdentificationCode>                                                "
             + "           </EducationalOrgIdentity>                                                            "
             + "       </SchoolReference>                                                                       "
-            + "       <SessionReference id=\"ID007\" ref=\"ID003\">                                                                       "
+            + "       <SessionReference >                                                                       "
             + "           <SessionIdentity>                                                                    "
-            + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
-            + "                   <ID>ID6</ID>                                                                 "
-            + "               </EducationOrgIdentificationCode>                                                "
-            + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
-            + "                   <ID>ID7</ID>                                                                 "
-            + "               </EducationOrgIdentificationCode>                                                "
-            + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
-            + "                   <ID>ID8</ID>                                                                 "
-            + "               </EducationOrgIdentificationCode>                                                "
-            + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
-            + "                   <ID>ID9</ID>                                                                 "
-            + "               </EducationOrgIdentificationCode>                                                "
+            + "               <EducationalOrgReference>                                                         "
+            + "                 <EducationalOrgIdentity>                                                              "
+            + "                     <StateOrganizationId>StateOrganizationId1</StateOrganizationId>                       "
+            + "                 </EducationalOrgIdentity>                                                    "
+            + "               </EducationalOrgReference>                                                    "
             + "               <SessionName>SessionName0</SessionName>                                          "
             + "           </SessionIdentity>                                                                   "
             + "       </SessionReference>                                                                      "
@@ -214,12 +206,13 @@ public class SectionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 validXmlTestData, recordLevelDeltaEnabledEntityNames);
         neutralRecord.setAttributeField("courseOfferingId", "1bce2323211dfds");
+        neutralRecord.setAttributeField("SessionReference", "430982345345_id");
         neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
         SimpleEntity entity = EntityTestUtils.smooksGetSingleSimpleEntity(edFiToSliConfig, neutralRecord);
 
         Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
-        Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("SessionReference"));
         //Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
 
         Entity e = mock(Entity.class);
@@ -459,7 +452,7 @@ public class SectionEntityTest {
                 .get("schoolReference")).get("educationalOrgIdentity")).get("stateOrganizationId"));
 
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity
-                .get("sessionReference")).get("sessionIdentity")).get("sessionName"));
+                .get("SessionReference")).get("SessionIdentity")).get("SessionName"));
 
 /*        List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
