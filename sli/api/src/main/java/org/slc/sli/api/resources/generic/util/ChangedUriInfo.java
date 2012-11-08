@@ -25,14 +25,17 @@ import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+/**
+ * Class for storing changes to requested uri.
+ */
 public class ChangedUriInfo implements UriInfo {
 
 	private URI uri;
 	private UriBuilder baseUriBuilder;
 
-	public ChangedUriInfo(String uri, UriBuilder builder) {
-		this.uri = URI.create(uri);
-		this.baseUriBuilder = builder;
+    public ChangedUriInfo(String uri, UriBuilder builder) {
+        this.uri = URI.create(uri);
+	    this.baseUriBuilder = builder;
 	}
 
 	@Override

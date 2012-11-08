@@ -30,6 +30,7 @@ Given /^I was redirected to the realmchooser page$/ do
 end
 
 Given /^I selected the realm "([^"]*)"$/ do |arg1|
+  sleep 1
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
   select.select_by(:text, arg1)
   @driver.find_element(:id, "go").click

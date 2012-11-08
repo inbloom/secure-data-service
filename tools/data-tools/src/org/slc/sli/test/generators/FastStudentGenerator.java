@@ -69,7 +69,7 @@ public class FastStudentGenerator {
 
     public static Student generateMediumFi(String studentId) throws Exception {
         NameGenerator nameGenerator = new NameGenerator(); //to be research?
-        Random random = new Random();
+        Random random = new Random(31);
 
         Student student = new Student();
 
@@ -148,7 +148,7 @@ public class FastStudentGenerator {
     
     public static Student generateLowFi(String studentId) {
 
-        Random random = new Random();
+        Random random = new Random(31);
 
         Student student = new Student();
 

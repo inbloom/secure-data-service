@@ -24,6 +24,7 @@ require 'socket'
 require 'net/sftp'
 require 'net/http'
 require 'rest-client'
+require 'rbconfig'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -53,6 +54,8 @@ INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # STEPS: BEFORE
@@ -846,6 +849,18 @@ Given /^the following collections are completely empty in batch job datastore$/ 
   enable_NOTABLESCAN()
 end
 
+When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => false}})
+end
+
+Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
@@ -1055,6 +1070,7 @@ Given /^the tenant database does not exist/ do
   puts "Dropping database:" + @ingestion_db_name
   @conn.drop_database(@ingestion_db_name)
   @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
+
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1331,6 +1347,8 @@ def scpFileToLandingZone(filename)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1352,6 +1370,8 @@ def scpFileToLandingZoneWithNewName(filename, dest_file_name)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1371,6 +1391,8 @@ def scpFileToParallelLandingZone(lz, filename)
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
   end
+
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
 
   assert(true, "File Not Uploaded")
 end

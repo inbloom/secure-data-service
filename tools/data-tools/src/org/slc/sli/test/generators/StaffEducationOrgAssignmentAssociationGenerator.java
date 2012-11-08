@@ -27,7 +27,7 @@ import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.StaffEducationOrgAssignmentAssociationMeta;
 
 public class StaffEducationOrgAssignmentAssociationGenerator {
-    private static Random random = new Random();
+    private static Random random = new Random(31);
     private static StaffClassificationType[] staffClassifications = StaffClassificationType.values();
 
     public static StaffEducationOrgAssignmentAssociation generate(StaffEducationOrgAssignmentAssociationMeta meta) {
