@@ -86,8 +86,12 @@ public class PostProcessFilter implements ContainerResponseFilter {
         printElapsed(request);
         expireCache();
 
+        String queryString = "";
+        if (null != request.getRequestUri().getQuery()) {
+        	queryString = "?" + request.getRequestUri().getQuery();
+        }
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
-        response.getHttpHeaders().add("X-ExecutedPath", request.getPath());
+        response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);
 
 //        Map<String,Object> body = (Map<String, Object>) response.getEntity();
 //        body.put("requestedPath", request.getProperties().get("requestedPath"));
