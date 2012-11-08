@@ -277,6 +277,7 @@ Met standard
     <xs:annotation>
       <xs:documentation/>
         <xs:appinfo>
+          <sli:applyKeyFields>true</sli:applyKeyFields>
           <sli:recordType>staffCohortAssociation</sli:recordType>
         </xs:appinfo>
     </xs:annotation>
@@ -284,7 +285,7 @@ Met standard
       <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="StaffReference" type="SLC-StaffReferenceType" />
-          <xs:element name="CohortReference" type="CohortReferenceType" />
+          <xs:element name="CohortReference" type="SLC-CohortReferenceType" />
           <xs:element name="BeginDate" type="xs:date" />
           <xs:element name="EndDate" type="xs:date" minOccurs="0" />
           <xs:element name="StudentRecordAccess" type="xs:boolean" minOccurs="0" />
@@ -518,7 +519,7 @@ Other</xs:documentation>
             <xs:extension base="ComplexObjectType">
                 <xs:sequence>
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
-                    <xs:element name="CohortReference" type="CohortReferenceType" />
+                    <xs:element name="CohortReference" type="SLC-CohortReferenceType" />
                     <xs:element name="BeginDate" type="xs:date" />
                     <xs:element name="EndDate" type="xs:date" minOccurs="0" />
                 </xs:sequence>
@@ -526,6 +527,54 @@ Other</xs:documentation>
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="SLC-CohortReferenceType">
+      <xs:annotation>
+        <xs:documentation>Provides alternative references for cohorts during interchange. Use XML IDREF to reference a course record that is included in the interchange
+        </xs:documentation>
+        <xs:appinfo>
+            <sli:applyKeyFields>true</sli:applyKeyFields>
+            <sli:refType>cohort</sli:refType>
+        </xs:appinfo>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="ReferenceType">
+          <xs:sequence>
+            <xs:element name="CohortIdentity" type="SLC-CohortIdentityType">
+              <xs:annotation>
+                <xs:documentation>Provide user information to lookup and link to an existing cohort record in the receiving system.  </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SLC-CohortIdentityType">
+      <xs:annotation>
+        <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of cohorts.</xs:documentation>
+        <xs:appinfo>
+          <sli:applyKeyFields>true</sli:applyKeyFields>
+        </xs:appinfo>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="CohortIdentifier" type="CohortIdentifier">
+          <xs:annotation>
+            <xs:documentation>The name or ID for the cohort.</xs:documentation>
+            <xs:appinfo>
+                <sli:keyFieldName>cohortId</sli:keyFieldName>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
+          <xs:annotation>
+            <xs:documentation>The identifier for the educationOrganization.</xs:documentation>
+            <xs:appinfo>
+                <sli:keyFieldName>educationOrgId</sli:keyFieldName>
+            </xs:appinfo>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
 
     <xs:complexType name="SLC-StudentAssessment">
         <xs:annotation>

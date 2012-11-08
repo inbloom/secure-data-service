@@ -6,7 +6,7 @@ Given I am using local data store
 
 Scenario: First ingestion for a new tenant
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the tenant database does not exist
+    And the tenant database for "Midgar" does not exist
     And I post "tenant.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "tenant.zip" is completed in database
@@ -50,7 +50,7 @@ Then I should see following map of indexes in the corresponding collections:
 
 Scenario: The tenant is locked while the database is spinning up
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    And the tenant database does not exist
+    And the tenant database for "Midgar" does not exist
     And I post "tenant.zip" file as the payload of the ingestion job
 When the tenant with tenantId "Midgar" is locked
     And zip file is scp to ingestion landing zone
