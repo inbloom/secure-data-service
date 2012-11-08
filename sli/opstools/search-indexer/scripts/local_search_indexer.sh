@@ -26,6 +26,12 @@ SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
 
 SEARCH_INDEXER_LOG="search-indexer.log"
 
+
+#Color
+BRed='\e[1;31m'
+BGreen='\e[1;32m'
+Color_off='\e[0m'
+
 function readOption {
    if [ ${1:0:2} == "-D" ]; then
       PROPERTY=`echo ${1:2} |cut -d'=' -f1`
@@ -79,9 +85,9 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
+      echo -e "${BGreen}Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]${Color_off}"
       if [ ! -f ${CHECK_SLI_CONF} ]; then
-         echo "File does not exit '${CHECK_SLI_CONF}'"
+         echo -e "${BRed}File does not exit '${CHECK_SLI_CONF}'${Color_off}"
          return 0
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF}"
@@ -94,28 +100,33 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
+      echo -e "${BGreen}Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]${Color_off}"
       if [ ${CHECK_KEYSTORE} == 0 ]; then
          CHECK_KEYSTORE=${DEFAULT_CHECK_KEYSTORE}
       fi
-      echo "Reading default keyStore [${DEFAULT_CHECK_KEYSTORE}]"
+      echo -e "${BGreen}Reading default keyStore [${DEFAULT_CHECK_KEYSTORE}]${Color_off}"
       for FILE_LOCATION in "${CHECK_SLI_CONF}" "${CHECK_KEYSTORE}"
       do
          if [ ! -f ${FILE_LOCATION} ]; then
-            echo "File does not exit: '${FILE_LOCATION}'"
+            echo -e "${BRed}File does not exit: '${FILE_LOCATION}'${Color_off}"
             return 0
          fi
       done
       if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
          if [ ! -f ${DEFAULT_SEARCH_INDEXER_JAR} ];then
-            echo "Please specify search_indexer.tar.gz"
+            echo -e "${BRed}Please specify search_indexer.tar.gz${Color_off}"
             return 0;
          fi
       else
          if [ ! -f ${CHECK_SEARCH_INDEXER_TAR} ]; then
-            echo "File [${CHECK_SEARCH_INDEXER_TAR}] does not exist"
+            echo -e "${BRed}File [${CHECK_SEARCH_INDEXER_TAR}] does not exist${Color_off}"
             return 0
          fi
+      fi
+      INDEXER_LOCK=`dirname ${DEFAULT_SEARCH_INDEXER_JAR}`/data/indexer.lock
+      if [ -f ${INDEXER_LOCK} ]; then
+         echo -e "${BRed}Lock file still exist [${INDEXER_LOCK}]${Color_off}"
+         return 0
       fi
       SEARCH_INDEXER_OPT="${SEARCH_INDEXER_OPT} -D${SLI_CONF}=${CHECK_SLI_CONF} -D${SLI_ENCRYPTION_KEYSTORE}=${CHECK_KEYSTORE}"
       if [ -z ${SYSTEM_PROPERTIES_LOCK_DIR:=""} ]; then
@@ -169,17 +180,17 @@ function run {
       show_help
    elif [ ${RUN_STOP} == 1 ]; then
       if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-         echo "Stopping.... accessing port ${REMOTE_COMMAND_PORT}"
+         echo -e "${BGreen}Stopping.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
          echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
       else
-         echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+         echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
       fi
    elif [ ${RUN_EXTRACT} == 1 ]; then
       if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-         echo "Extracting.... accessing port ${REMOTE_COMMAND_PORT}"
+         echo -e "${BGreen}Extracting.... accessing port ${REMOTE_COMMAND_PORT}${Color_off}"
          echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
       else
-         echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+         echo -e "${BRed}Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}${Color_off}"
       fi
    elif [ ${RUN_START} == 1 ]; then
       prepareJava
