@@ -9,7 +9,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the tenant database does not exist
     And I post "tenant.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-  	And a batch job log has been created
+  And a batch job for file "tenant.zip" is completed in database
 Then I should see following map of indexes in the corresponding collections:
      | collectionName                             | index                       |
      | section                                    | body.schoolId_1             |
@@ -54,7 +54,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "tenant.zip" file as the payload of the ingestion job
 When the tenant with tenantId "Midgar" is locked
     And zip file is scp to ingestion landing zone
-    And a batch job log has been created
+    And a batch job for file "tenant.zip" is completed in database
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "INFO  Processed 0 records." in the resulting batch job file
     And I should see "ERROR  The tenant is currently being onboarded. Please try ingestion in a few minutes when it has completed." in the resulting error log file
