@@ -221,7 +221,7 @@ public class SearchResourceServiceTest {
         mockService.setNumToReturn(numSearchHits);
         Mockito.when(mockDef.getService()).thenReturn(mockService);
         Mockito.doReturn(getResults(filterNum)).when(rs).filterResultsBySecurity(Mockito.isA(List.class));
-        ApiQuery apiQuery = rs.prepareQuery(null, queryUri);
+        ApiQuery apiQuery = rs.prepareQuery(new Resource("a", "b"), null, queryUri);
         List<EntityBody> results = rs.retrieveResults(mockDef, apiQuery);
         Assert.assertEquals(numResults, results.size());
     }

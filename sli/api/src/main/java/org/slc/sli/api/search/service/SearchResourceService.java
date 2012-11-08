@@ -53,6 +53,7 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
+import org.slc.sli.api.service.ResourceNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -105,7 +106,7 @@ public class SearchResourceService {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
         List<EntityBody> finalEntities = Collections.emptyList();
         // set up query criteria, make query
-        ApiQuery apiQuery = prepareQuery(resourcesToSearch, queryUri);
+        ApiQuery apiQuery = prepareQuery(resource, resourcesToSearch, queryUri);
         long count = definition.getService().count(apiQuery);
         if (count >= maxUnfilteredSearchResultCount) {
             throw new ResponseTooLargeException();
@@ -180,12 +181,12 @@ public class SearchResourceService {
      * @param queryUri
      * @return
      */
-    public ApiQuery prepareQuery(String resourcesToSearch, URI queryUri) {
+    public ApiQuery prepareQuery(Resource resource, String resourcesToSearch, URI queryUri) {
         ApiQuery apiQuery = new ApiQuery(queryUri);
         filterCriteria(apiQuery);
         addSecurityContext(apiQuery);
         if (resourcesToSearch != null) {
-            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resourcesToSearch)));
+            apiQuery.addCriteria(new NeutralCriteria("_type", NeutralCriteria.CRITERIA_IN, getEntityTypes(resource,resourcesToSearch)));
         }
         return apiQuery;
     }
@@ -195,14 +196,15 @@ public class SearchResourceService {
      * @param resourceNames
      * @return
      */
-    private String getEntityTypes(String resourceNames) {
+    private String getEntityTypes(Resource resource, String resourceNames) {
         List<String> entityTypes = new ArrayList<String>();
         EntityDefinition def;
         for (String resourceName : resourceNames.split(",")) {
             def = resourceHelper.getEntityDefinition(resourceName);
-            if (def != null) {
-                entityTypes.add(def.getType());
+            if (def == null) {
+                throw new ResourceNotFoundException(resource.getNamespace(), resourceName);
             }
+            entityTypes.add(def.getType());
         }
         return StringUtils.join(entityTypes, ',');
     }

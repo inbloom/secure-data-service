@@ -75,7 +75,7 @@ public class ElasticSearchQueryConverter {
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
                 if (Q.equals(criteria.getKey())) {
-                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true);
+                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
                 }
                 return QueryBuilders.termsQuery(criteria.getKey(), getTermTokens(criteria.getValue()));
             }
