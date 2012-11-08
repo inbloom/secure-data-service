@@ -1,33 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework.data</groupId>
-	<artifactId>mongo-performance</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
-	<packaging>jar</packaging>
+  <groupId>zip-streaming</groupId>
+  <artifactId>zip-streaming</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-	<name>mongo-performance</name>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
-		
-		<spring.version>3.1.1.RELEASE</spring.version>
-		<spring.data.mongo.version>1.0.1.RELEASE</spring.data.mongo.version>
-		<commons.lang.version>3.0.1</commons.lang.version>
-		<maven.assembly.version>2.2-beta-5</maven.assembly.version>
-		
-		<!--
-		<mongo.version>2.7.1</mongo.version>
-		
-		
-		<spring.version>3.0.6.RELEASE</spring.version>
-		<spring.data.mongo.version>1.0.0.M4</spring.data.mongo.version>
-		-->
-		
-		<slf4j.version>1.6.1</slf4j.version>
-	</properties>
+  <name>zip-streaming</name>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>3.1.1.RELEASE</spring.version>
+	<commons.lang.version>3.0.1</commons.lang.version>
+	<maven.assembly.version>2.2-beta-5</maven.assembly.version>
+	<slf4j.version>1.6.1</slf4j.version>
+	
+	<!-- Apache Versions -->
+	<commons.cli.version>1.2</commons.cli.version>
+	<commons.lang.version>3.0.1</commons.lang.version>
+	<commons.io.version>2.1</commons.io.version>
+	<commons.codec.version>1.6</commons.codec.version>
+	<commons.schema.version>1.4.7</commons.schema.version>
+    <commons.beanutils.version>1.8.3</commons.beanutils.version>
+    <commons.collections.version>3.2.1</commons.collections.version>
+  </properties>
 
 	<repositories>
 		<repository>
@@ -49,6 +46,36 @@
             <artifactId>commons-lang3</artifactId>
 			<version>${commons.lang.version}</version>
         </dependency>
+        
+        
+	    <!-- Apache Commons IO dependency -->
+	    <dependency>
+	      <groupId>commons-io</groupId>
+	      <artifactId>commons-io</artifactId>
+	      <version>${commons.io.version}</version>
+	    </dependency>
+	
+	    <!-- Apache Commons Codec dependency -->
+	    <dependency>
+	      <groupId>commons-codec</groupId>
+	      <artifactId>commons-codec</artifactId>
+	      <version>${commons.codec.version}</version>
+	    </dependency>
+	
+		    <!-- Apache Commons Codec dependency -->
+	    <dependency>
+	      <groupId>commons-lang</groupId>
+	      <artifactId>commons-lang</artifactId>
+		  <version>2.4</version>
+	    </dependency>
+	
+	    <!-- Apache Commons Compress dependency -->
+	    <dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-compress</artifactId>
+		  <version>1.4</version>
+	    </dependency>
+        
         
 		<dependency>
 			<groupId>junit</groupId>
@@ -116,40 +143,9 @@
 			<artifactId>cglib</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>${spring.data.mongo.version}</version>
-			
-			<!-- 
-			<exclusions>
-				<exclusion>
-					<groupId>org.mongodb</groupId>
-					<artifactId>mongo-java-driver</artifactId>
-				</exclusion>
-			</exclusions>
-			-->
-			
-		</dependency>
-		
-		<!-- 
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.persistence</groupId>
-					<artifactId>persistence-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		 -->
 	</dependencies>
 
 	<build>
-	
-	
 	<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -160,32 +156,11 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.mongo.performance.App</mainClass>
+							<mainClass>org.dataprocessingzipstreaming.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -213,7 +188,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.1.1</version>
 				<configuration>
-					<mainClass>org.mongo.performance.App</mainClass>
+					<mainClass>org.dataprocessing.zipstreaming.App</mainClass>
 				</configuration>
 			</plugin>
 			<!-- IDE -->
@@ -251,47 +226,6 @@
 					<downloadSources>true</downloadSources>
 					<dependenciesAsLibraries>true</dependenciesAsLibraries>
 				</configuration>
-			</plugin>
-			
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven.assembly.version}</version>
-				<configuration>
-					<finalName>MongoPerformanceTester</finalName>
-					<descriptors>
-						<descriptor>assembly/zip.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
