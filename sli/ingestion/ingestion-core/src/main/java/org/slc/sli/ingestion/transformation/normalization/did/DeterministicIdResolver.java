@@ -60,7 +60,7 @@ public class DeterministicIdResolver {
 
     private DidSchemaParser didSchemaParser;
 
-	@Autowired
+    @Autowired
     private SchemaRepository schemaRepository;
 
     @Autowired
@@ -230,8 +230,7 @@ public class DeterministicIdResolver {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
                 + ": Reference to " + referenceType
-                + " is incomplete because the following reference field is not resolved: "
-                + sourceRefPath;
+                + " is incomplete because the following reference field is not resolved: " + sourceRefPath;
 
         errorReport.error(errorMessage, this);
     }
@@ -280,11 +279,10 @@ public class DeterministicIdResolver {
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
-            // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null) {
-                continue;
+            // don't add null or empty keys to the naturalKeys map
+            if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
+                naturalKeys.put(fieldName, value == null ? "" : value);
             }
-            naturalKeys.put(fieldName, value);
         }
 
         // no natural keys found
@@ -306,11 +304,11 @@ public class DeterministicIdResolver {
     }
 
     public DidSchemaParser getDidSchemaParser() {
-		return didSchemaParser;
-	}
+        return didSchemaParser;
+    }
 
-	public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
-		this.didSchemaParser = didSchemaParser;
-	}
+    public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
+        this.didSchemaParser = didSchemaParser;
+    }
 
 }
