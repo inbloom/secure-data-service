@@ -1,0 +1,34 @@
+{
+	"recordType":"section",
+	"attributes":
+	{
+		"CourseOfferingReference":
+		{
+			"CourseOfferingIdentity":
+			{
+				"LocalCourseCode":"local course code",
+				"SessionReference":
+				{
+					"SessionIdentity":
+					{
+						"EducationOrganizationReference":
+						{
+							"EducationalOrgIdentity":
+							{
+								"StateOrganizationId":"state organization id 1"
+							}
+						}
+					},
+					"SessionName":"session name"
+				},
+				"SchoolReference":
+				{
+					"EducationalOrgIdentity":
+					{
+						"StateOrganizationId":"state organization id 2"
+					}
+				}
+			}
+		}
+	}
+}

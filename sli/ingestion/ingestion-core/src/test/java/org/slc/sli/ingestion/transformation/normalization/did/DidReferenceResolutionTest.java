@@ -67,6 +67,27 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "ProgramReference", naturalKeys, "program");
 	}
 
+	public void shouldResolveCourseOfferingDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/courseOfferingReference.json");
+		ErrorReport errorReport = new TestErrorReport();
+
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, Object> naturalKeys = new HashMap<String, Object>();
+		naturalKeys.put("localCourseCode", "localCourseCode");
+		Map<String, String> sessionEdOrgNaturalKeys = new HashMap<String, String>();
+		sessionEdOrgNaturalKeys.put("stateOrganizationId", "state organization id 1");
+		Map<String, Object> sessionNaturalKeys = new HashMap<String, Object>();
+		sessionNaturalKeys.put("schoolId", sessionEdOrgNaturalKeys);
+		sessionNaturalKeys.put("sessionName", "session name");
+		naturalKeys.put("sessionId", sessionNaturalKeys);
+		Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
+		edOrgNaturalKeys.put("stateOrganizationId", "state organization id 2");
+		naturalKeys.put("schoolId", edOrgNaturalKeys);
+
+		//checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
+	}
+
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
 		NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);
