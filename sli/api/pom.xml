@@ -320,7 +320,7 @@
             </resource>
 
             <resource>
-                <directory>../../config/indexes/</directory>
+                <directory>../config/indexes/</directory>
                 <targetPath>../classes</targetPath>
                 <filtering>true</filtering>
                 <includes>
@@ -328,7 +328,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>../../config/shards/</directory>
+                <directory>../config/shards/</directory>
                 <targetPath>../classes</targetPath>
                 <filtering>true</filtering>
                 <includes>
