@@ -135,7 +135,7 @@ public class UriMutator {
     private Pair<String, String> mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
             throws ResponseTooLargeException {
         String mutatedPath = null;
-        String mutatedParameters = queryParameters == null ? queryParameters : "";
+        String mutatedParameters = queryParameters != null ? queryParameters : "";
 
         List<String> stringifiedSegments = stringifyPathSegments(segments);
         if (isTeacher(user)) {
