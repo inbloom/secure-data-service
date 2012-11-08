@@ -441,12 +441,16 @@ public class UriMutator {
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public Pair<String, String> mutateBaseUri(String resource, String queryParameters, Entity user) {
+        if (queryParameters == null) {
+            queryParameters = "";
+        }
+
         boolean success = true;
         boolean isMutated = false;
         String mutatedPath = null;
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
-        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
+        String[] queries = queryParameters.split("&");
         if (!isMutated && queryParameters.matches("(studentId|schoolId|staffReference|teacherId)=.+")) {
             for (String query : queries) {
                 if (query.matches("^studentId=.+")) {
