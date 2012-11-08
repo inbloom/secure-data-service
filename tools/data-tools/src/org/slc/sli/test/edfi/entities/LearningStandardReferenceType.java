@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningStandardReferenceType", propOrder = {
+@XmlType(name = "SLC-LearningStandardReferenceType", propOrder = {
     "learningStandardIdentity"
 })
 public class LearningStandardReferenceType
@@ -68,7 +68,7 @@ public class LearningStandardReferenceType
      * 
      * @return
      *     possible object is
-     *     {@link LearningStandardIdentityType }
+     *     {@link SLC-LearningStandardIdentityType }
      *     
      */
     public LearningStandardIdentityType getLearningStandardIdentity() {
@@ -80,7 +80,7 @@ public class LearningStandardReferenceType
      * 
      * @param value
      *     allowed object is
-     *     {@link LearningStandardIdentityType }
+     *     {@link SLC-LearningStandardIdentityType }
      *     
      */
     public void setLearningStandardIdentity(LearningStandardIdentityType value) {
