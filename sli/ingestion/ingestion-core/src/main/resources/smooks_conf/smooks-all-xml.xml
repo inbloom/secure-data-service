@@ -1808,7 +1808,7 @@
   </jb:bean>
   <jb:bean beanId="SLC-StudentAssessment_Attributes_SLC-AssessmentReferenceType_SLC-AssessmentIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity">
     <jb:value data="StudentAssessment/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" property="GradeLevelAssessed"/>
-    <jb:value data="StudentAssessment/AssessmentReference/AssessmentIdentity/Version" property="Version"/>
+    <jb:value data="StudentAssessment/AssessmentReference/AssessmentIdentity/Version" property="Version" decoder="Integer"/>
     <jb:value data="StudentAssessment/AssessmentReference/AssessmentIdentity/AcademicSubject" property="AcademicSubject"/>
     <jb:value data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentTitle" property="AssessmentTitle"/>
   </jb:bean>
