@@ -26,6 +26,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 
 /**
  * @author unavani
@@ -35,19 +36,23 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  */
 public final class SliDeltaManager {
 
+	// @Autowired
+    private static DeterministicUUIDGeneratorStrategy dIdStrategy = new DeterministicUUIDGeneratorStrategy();
 
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
 
-        String recordId = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId());
-
+        String recordId = n.generateRecordId(dIdStrategy);
+        String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId());
+        		
         RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
         if (record == null) {
-            RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId);
-            n.addMetaData("rhId", recordHash._id);
+            RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId, recordHashValues);
+            n.addMetaData("rhId", recordId);
+            n.addMetaData("rhHash", recordHash.hash);
             n.addMetaData("rhTenantId", recordHash.tenantId);
-            n.addMetaData("rhTimeStamp", recordHash.timestamp);
+            n.addMetaData("rhTimeStamp", recordHash.created);
         }
-        return (record != null);
+        return (record != null && record.hash == recordHashValues);
     }
 
     public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
@@ -63,11 +68,13 @@ public final class SliDeltaManager {
         return formatter.toString();
     }
 
-    public static RecordHash createRecordHash(String tenantId, String recordId) {
+    public static RecordHash createRecordHash(String tenantId, String recordId, String hashValues) {
         RecordHash rh = new RecordHash();
         rh._id = recordId;
+        rh.hash = hashValues;
         rh.tenantId = tenantId;
-        rh.timestamp = "" + System.currentTimeMillis();
+        rh.created = "" + System.currentTimeMillis();
+        rh.updated = rh.created;
         return rh;
     }
 }

@@ -39,6 +39,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
@@ -469,15 +470,33 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void upsertRecordHash(String tenantId, String recordId) {
-
-        // record was not found
-        RecordHash rh = new RecordHash();
-        rh._id = recordId;
-        rh.tenantId = tenantId;
-        rh.timestamp = "" + System.currentTimeMillis();
+    public boolean findAndUpsertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
+        RecordHash rh = this.findRecordHash(tenantId, recordId);
+        if (rh == null) {
+            // record was not found
+            rh = new RecordHash();
+            rh._id = recordId;
+            rh.hash = newHashValues;
+            rh.tenantId = tenantId;
+            rh.created = "" + System.currentTimeMillis();
+            rh.updated = rh.created;
+            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+            return false;
+        }
+		// If hash matches, don't touch the database at all
+		if ( rh.hash == newHashValues )
+			return true;
+		// If hash does not match, update the hash as well as version and update time
+		rh.hash = newHashValues;
+		rh.updated = "" + System.currentTimeMillis();
+        rh.version += 1;
+        // Detect tenant collision - should never occur since tenantId is in the hash
+        if ( rh.tenantId != tenantId )
+        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + recordId + "'");
         this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-   }
+
+        return true;
+    }
 
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {

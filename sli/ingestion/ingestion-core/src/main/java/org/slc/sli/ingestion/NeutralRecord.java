@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 
 /**
  * Container format to store any type of Ingestion data generically.
@@ -154,6 +155,19 @@ public class NeutralRecord {
         this.recordId = recordId;
     }
 
+    /**
+     * @param strategy
+     *            the Id generator strategy
+     * @return
+     * 			  the generated ID
+     */
+    public String generateRecordId(UUIDGeneratorStrategy strategy) {
+    	if (this.recordId == null)
+    		this.recordId = strategy.generateId();
+        return this.recordId;
+    }
+
+    
     /**
      * @param localId
      *            the localId to set

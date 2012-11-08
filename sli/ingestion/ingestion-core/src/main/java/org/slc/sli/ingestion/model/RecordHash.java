@@ -23,19 +23,30 @@ import org.springframework.data.mongodb.core.index.Indexed;
  *
  * @author unavani
  *
+ * A RecordHash is calculated per entity, based on its fields in "neutral record" form,
+ * early in the ingestion process -- prior to transformation -- to allow skipping of
+ * processing records seen with the exact same content on the most recent upload.
+ *
  */
 public class RecordHash {
 
-    public String _id;
-
-    public String timestamp;
-
+	// These are the fields persisted in the MongoDB recordHash collection
+	
+    public String _id;			// Deterministic ID = function(natural key) = a (mostly) stable ID
+    public String hash;			// Record hash = SHA-1(neutral record attributes + tenant ID)
+    public String created;		// Unix time stamp of creation, never updated.
+    public String updated;		// Unix time stamp of update, absent for first version
+    public int version;			// Number of times updated after create (== zero-origin version number), absent for first version
+    
     @Indexed
-    public String tenantId;
+    public String tenantId;		// Tenant ID, for purge purposes, will be un-needed when record hash store is moved to tenant Db
 
     public RecordHash() {
         this._id = "";
-        this.timestamp = "";
+        this.hash = "";
+        this.created = "";
+        this.updated = "";
+        this.version = 0;
         this.tenantId = "";
     }
 

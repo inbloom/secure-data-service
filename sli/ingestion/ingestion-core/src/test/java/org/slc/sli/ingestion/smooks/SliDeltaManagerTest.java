@@ -54,13 +54,13 @@ public class SliDeltaManagerTest {
         record.getAttributes().put("key3", "value3");
         RecordHash hash = new RecordHash();
         hash._id       = "id";
-        hash.timestamp = "timestamp";
+        hash.created = "timestamp";
         hash.tenantId  = "tenantId";
         TenantContext.setTenantId("tenantId");
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(null);
         Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA));
         String fId = (String)record.getMetaData().get("rhId");
-        String fTenantId = (String)record.getMetaData().get("rhId");
+        String fTenantId = (String)record.getMetaData().get("rhTenantId");
 
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(hash);
         Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA));

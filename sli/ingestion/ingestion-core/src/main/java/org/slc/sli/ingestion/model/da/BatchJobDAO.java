@@ -27,6 +27,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 
+import org.springframework.dao.DataAccessResourceFailureException;
+
 /**
  * Data access object for batch job data.
  *
@@ -100,7 +102,7 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    void upsertRecordHash(String tenantId, String recordId);
+    boolean findAndUpsertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException;
 
     void removeRecordHashByTenant(String tenantId);
 

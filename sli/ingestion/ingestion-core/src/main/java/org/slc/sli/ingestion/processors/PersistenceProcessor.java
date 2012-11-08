@@ -29,6 +29,7 @@ import java.util.Set;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -82,6 +83,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
+    
+    @Autowired
+    private static DeterministicUUIDGeneratorStrategy dIdStrategy;
 
     private EdFi2SLITransformer transformer;
 
@@ -551,10 +555,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-     private void upsertRecordHash(NeutralRecord nr){
-            if (nr.getMetaDataByName("rhId") != null) {
-                batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
-                        nr.getMetaDataByName("rhId").toString());
+     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
+            if (nr.getMetaDataByName("rhHash") != null) {
+                batchJobDAO.findAndUpsertRecordHash(
+                		nr.getMetaDataByName("rhTenantId").toString(),
+                		nr.generateRecordId(dIdStrategy),
+                        nr.getMetaDataByName("rhHash").toString());
             }
         }
 

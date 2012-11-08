@@ -126,7 +126,13 @@
   <!-- StateEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
     <jb:expression property="recordType">'stateEducationAgency'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="stateEducationOrganizationMetaData" />
     <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationOrganizationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'stateOrganizationId'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap"
