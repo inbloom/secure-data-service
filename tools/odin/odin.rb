@@ -21,10 +21,17 @@ require './student.rb'
 if ARGV.count < 1
   puts "missing number of students"
 else
-  studentCount = ARGV[0]
-  interchange = InterchangeStudent.new studentCount.to_i
+  studentCount = ARGV[0].to_i
   File.open("output.xml", 'w') do |f|
-    f.write(interchange.render)
+    f.write('
+      <?xml version="1.0"?>
+      <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+        xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd ">
+      ')
+    (0..studentCount).to_a.each{|id|
+      student = Student.new id
+      f.write(student.render)
+    }
+    f.write('</InterchangeStudentParent>')
   end
 end
-
