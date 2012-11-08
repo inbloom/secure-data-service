@@ -1,31 +1,37 @@
 {
     "keyFields" : ["metaData.externalId"],
-    
+
     "subEntities" : { "body.objectiveAssessments?" : "objectiveAssessment"},
-    
+
     "references" : [{
-        "fieldPath" : "body.learningObjectives",
+        "fieldPath" : "body.LearningObjectiveReference",
+        "deprecated" : true,
         "ref" : {
             "entityType" : "learningObjective",
             "isRefList" : true,
-            "refObjectPath" : "body.learningObjectives",
+            "refObjectPath" : "body.LearningObjectiveReference",
             "optional" : true,
             "choiceOfFields" :
                 [
                     [{
-                        "path" : "body.learningObjectiveId",
-                        "values" :
-                            [{
-                                "valueSource" : 
-                                        "body.learningObjectives.learningObjectiveId"
-                            }]
-                    }],
-                    [{
                         "path" : "body.objective",
                         "values" :
                             [{
-                                "valueSource" : 
-                                        "body.learningObjectives.objective"
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.Objective"
+                            }]
+                    },
+                    {
+                        "path" : "body.academicSubject",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject"
+                            }]
+                    },
+                    {
+                        "path" : "body.objectiveGradeLevel",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel"
                             }]
                     }]
                 ]

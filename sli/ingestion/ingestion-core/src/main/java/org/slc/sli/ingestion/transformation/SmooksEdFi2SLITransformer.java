@@ -29,18 +29,19 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.validation.ErrorReport;
+
 /**
  * EdFi to SLI transformer based on Smooks
- * 
+ *
  * @author okrook
- * 
+ *
  */
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
@@ -50,6 +51,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private final String EDFI_STUDENT_REFERENCE = "StudentReference";
     private final String SLI_STUDENT_REFERENCE = "studentId";
+
+    private final String EDFI_LEARNING_OBJECTIVE_REFERENCE = "LearningObjectiveReference";
+    private final String SLI_LEARNING_OBJECTIVE_REFERENCE = "learningObjectives";
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -96,6 +100,20 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     LOG.error("Unable to map 'studentId' in studentAssessmentAssociation. Expected a String.");
                 }
             }
+//            else if (EntityNames.ASSESSMENT.equals(entity.getType())) {
+//                // Because the studentAssessmentAssociation goes through a Combiner
+//                // during the first Smooks translation. It would be quite complicated
+//                // to use Smooks mapping for the second Smooks translation.
+//                // All that needs doing is renaming the references from Ed-Fi names
+//                // to SLI names.
+//                Object ref = entity.getBody().remove(EDFI_LEARNING_OBJECTIVE_REFERENCE);
+//                if (ref instanceof List) {
+//                    List learningObjectives = (List) ref;
+//                    entity.getBody().put(SLI_LEARNING_OBJECTIVE_REFERENCE, learningObjectives);
+//                } else {
+//                    LOG.error("Unable to map 'learningObjectives' in objectiveAssessment. Expected a List.");
+//                }
+//            }
 
             return Arrays.asList(entity);
         }

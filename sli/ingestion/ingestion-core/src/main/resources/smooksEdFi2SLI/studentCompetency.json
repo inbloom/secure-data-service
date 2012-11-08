@@ -4,6 +4,7 @@
     [
         {
             "fieldPath" : "body.LearningObjectiveReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "learningObjective",
