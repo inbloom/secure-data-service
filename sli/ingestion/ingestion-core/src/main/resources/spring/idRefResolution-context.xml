@@ -132,11 +132,6 @@
           value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.ftl" />
     <!-- end of Interchange MasterSchedule -->
 
-    <!-- Interchange StudentCohort -->
-    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference"
-          value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
-    <!-- end of Interchange StudentCohort -->
-
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference"
            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.ftl" />
 
@@ -227,8 +222,6 @@
     <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="freeMarkerExtendedReferenceResolver" />
-
-    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference" value-ref="freeMarkerExtendedReferenceResolver" />
 

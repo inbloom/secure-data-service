@@ -23,7 +23,8 @@
         }
     },
     {
-        "fieldPath" : "body.cohortId",
+        "fieldPath" : "body.CohortReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "cohort",
@@ -34,7 +35,7 @@
                         "path" : "body.cohortIdentifier",
                         "values" :
                         [{
-                            "valueSource" : "body.cohortId.CohortIdentity.CohortIdentifier"
+                            "valueSource" : "body.CohortReference.CohortIdentity.CohortIdentifier"
                         }]
                     },
                     {
@@ -51,7 +52,7 @@
                                             "path" : "body.stateOrganizationId",
                                             "values":
                                             [
-                                                {"valueSource": "body.cohortId.CohortIdentity.StateOrganizationId"}
+                                                {"valueSource": "body.CohortReference.CohortIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"}
                                             ]
                                         }
                                     ]]

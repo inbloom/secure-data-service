@@ -179,7 +179,6 @@ public class CohortGenerator {
             String programId = Integer.toString(Math.abs(r.nextInt()));
             Cohort c = generateLowFi(cohortIdentifier,programId,StateOrganizationIds);
 
-            int lsize =  c.getProgramReference().size();
             for (int k = 0; k < 5; k++) {
                 log.info("Counter ====================== " + j  +
                         " ============= stateOrgId = " + c.getEducationOrgReference()
@@ -188,14 +187,8 @@ public class CohortGenerator {
             }
 
             log.info("List Program Reference = " +
-            c.getProgramReference().size() + ",\n" +
-                    "ProgramId = " + c.getProgramReference().get(0).getProgramIdentity().getProgramId()+ ",\n" +
-                    "ProgramType = " + c.getProgramReference().get(0).getProgramIdentity().getProgramType() );
-            for (int n = 0; n < 5; n ++) {
-                log.info("IdentificationCode = " + c.getProgramReference().get(0)
-                        .getProgramIdentity().getEducationOrgIdentificationCode()
-                        .get(n));
-            }
+                    c.getProgramReference().size() + ",\n" +
+                    "ProgramId = " + c.getProgramReference().get(0).getProgramIdentity().getProgramId());
 
             log.info(
                     "stateOrgId = " + c.getEducationOrgReference().getEducationalOrgIdentity()
