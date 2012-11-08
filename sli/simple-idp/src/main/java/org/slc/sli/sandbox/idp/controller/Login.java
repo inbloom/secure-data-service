@@ -314,8 +314,12 @@ public class Login {
             @RequestParam(value = "userList", required = false) String datasetUser,
             @RequestParam(value = "manualConfig", required = false) boolean manualConfig,
             HttpSession httpSession,
-            HttpServletRequest request) {
+            HttpServletRequest request) throws IllegalStateException {
         
+        if (!isSandboxImpersonationEnabled){
+            LOG.info("Attempted impersonation login when not in sandbox mode");
+            throw new IllegalStateException("Impersonation not allowed.");
+        }
         if (manualConfig && customRoles != null) {
             List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
             if (roles != null) {
