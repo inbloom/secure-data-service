@@ -21,7 +21,11 @@
             <EndDate>2011-03-04</EndDate>
         </Address>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-prgCAP0_0"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-prgCAP0_0</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
     </StateEducationAgency>
     <EducationServiceCenter id="CAP0-Esc0">
         <StateOrganizationId>CAP0-Esc0</StateOrganizationId>
@@ -161,10 +165,22 @@
             <EndDate>2011-03-04</EndDate>
         </Address>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-prgCAP0-D0_0"/>
-        <ProgramReference ref="CAP0-D0-prgCAP0-D0_1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-prgCAP0-D0_0</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-prgCAP0-D0_1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <LEACategory>Charter</LEACategory>
-        <StateEducationAgencyReference ref="CAP0"/>
+        <StateEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+        </StateEducationAgencyReference>
     </LocalEducationAgency>
     <School id="CAP0-D0-HSch0">
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
@@ -192,7 +208,11 @@
         </Address>
         <WebSite>http://www.CAP0-D0-HS0School.edu</WebSite>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-HSch0-prg1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch0-prg1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <GradesOffered>
             <GradeLevel>Adult Education</GradeLevel>
             <GradeLevel>Early Education</GradeLevel>
@@ -236,7 +256,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch1">
         <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
@@ -264,7 +288,11 @@
         </Address>
         <WebSite>http://www.CAP0-D0-HS1School.edu</WebSite>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-HSch1-prg1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch1-prg1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <GradesOffered>
             <GradeLevel>Adult Education</GradeLevel>
             <GradeLevel>Early Education</GradeLevel>
@@ -308,7 +336,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch2">
         <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
@@ -336,7 +368,11 @@
         </Address>
         <WebSite>http://www.CAP0-D0-HS2School.edu</WebSite>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-HSch2-prg1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch2-prg1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <GradesOffered>
             <GradeLevel>Adult Education</GradeLevel>
             <GradeLevel>Early Education</GradeLevel>
@@ -380,7 +416,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch3">
         <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
@@ -408,7 +448,11 @@
         </Address>
         <WebSite>http://www.CAP0-D0-HS3School.edu</WebSite>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-HSch3-prg1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch3-prg1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <GradesOffered>
             <GradeLevel>Adult Education</GradeLevel>
             <GradeLevel>Early Education</GradeLevel>
@@ -452,7 +496,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <School id="CAP0-D0-HSch4">
         <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
@@ -480,7 +528,11 @@
         </Address>
         <WebSite>http://www.CAP0-D0-HS4School.edu</WebSite>
         <OperationalStatus>Active</OperationalStatus>
-        <ProgramReference ref="CAP0-D0-HSch4-prg1"/>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>CAP0-D0-HSch4-prg1</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
         <GradesOffered>
             <GradeLevel>Adult Education</GradeLevel>
             <GradeLevel>Early Education</GradeLevel>
@@ -524,7 +576,11 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference ref="CAP0-D0"/>
+        <LocalEducationAgencyReference>
+        	<EducationalOrgIdentity>
+        		<StateOrganizationId>CAP0-D0</StateOrganizationId>
+        	</EducationalOrgIdentity>
+         </LocalEducationAgencyReference>
     </School>
     <Course id="CAP0-D0-HSch0-cse0">
         <CourseTitle>CAP0-D0-HSch0-cse0</CourseTitle>

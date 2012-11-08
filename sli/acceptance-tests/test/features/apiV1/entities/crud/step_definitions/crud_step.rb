@@ -184,7 +184,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -243,9 +243,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "studentGradebookEntry" => {
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
     "letterGradeEarned" => "A",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
     "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
-    "studentSectionAssociationId" => "49b277c3-4639-42c2-88ef-0f59dd5acba2",
+    "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes"
@@ -412,9 +412,16 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "positionTitle" => "Hall monitor",
       "staffClassification" => "School Administrative Support Staff"
     },
+    "staffEducationOrganizationAssociation2" => {
+      "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "staffReference" => @newId,
+      "beginDate" => "2000-01-01",
+      "positionTitle" => "Hall monitor",
+      "staffClassification" => "School Administrative Support Staff"
+    },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
-      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
       "beginDate" => "2012-05-01"
     },
     "teacherSchoolAssociation" => {
@@ -423,6 +430,27 @@ When /^I create an association of type "([^"]*)"$/ do |type|
       "teacherId" => @newId,
       "instructionalGradeLevels" => ["First grade"],
       "academicSubjects" => ["Composite"]
+    },
+    "teacherSchoolAssociation2" => {
+      "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+      "programAssignment" => "Regular Education",
+      "teacherId" => @newId,
+      "instructionalGradeLevels" => ["First grade"],
+      "academicSubjects" => ["Composite"]
+    },
+    "studentParentAssociation2" => {
+      "parentId" => @newId,
+      "studentId" => "737dd4c1-86bd-4892-b9e0-0f24f76210be",
+      "livesWith" => true,
+      "primaryContactStatus" => true,
+      "relation" => "Father",
+      "contactPriority" => 0,
+      "emergencyContactStatus" => true
+    },
+    "staffProgramAssociation" => {
+      "programId" => @newId,
+      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "beginDate" => "2012-01-01"
     }
   }
   @fields = @assocData[type]
@@ -438,8 +466,12 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "studentProgramAssociation" => "studentProgramAssociations",
     "studentSectionAssociation" => "studentSectionAssociations",
     "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffEducationOrganizationAssociation2" => "staffEducationOrgAssignmentAssociations",
     "studentSectionAssociation2" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations"
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSchoolAssociation2" => "teacherSchoolAssociations",
+    "studentParentAssociation2" => "studentParentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
     step "I navigate to POST \"/#{@assocUrl[type]}\""

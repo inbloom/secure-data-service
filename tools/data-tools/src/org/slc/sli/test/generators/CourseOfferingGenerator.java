@@ -22,7 +22,6 @@ import org.slc.sli.test.edfi.entities.CourseOffering;
 import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 
@@ -39,14 +38,19 @@ public class CourseOfferingGenerator {
         eort.setEducationalOrgIdentity(eoit);
         courseOffering.setSchoolReference(eort);
 
-        SessionIdentityType sit = new SessionIdentityType();
-        sit.setSessionName(courseOfferingMeta.sessionMeta.id);
-        SessionReferenceType srt = new SessionReferenceType();
-        srt.setSessionIdentity(sit);
+        SessionReferenceType srt = SessionGenerator.getSessionReferenceType(courseOfferingMeta.schoolId.id,
+                courseOfferingMeta.sessionMeta.id);
+
         courseOffering.setSessionReference(srt);
 
         CourseIdentityType cit = new CourseIdentityType();
-        cit.getCourseCode().addAll(courseOfferingMeta.courseMeta.courseCodes);
+        EducationalOrgIdentityType eoit2 = new EducationalOrgIdentityType();
+        eoit2.setStateOrganizationId(courseOfferingMeta.courseMeta.schoolId);
+        EducationalOrgReferenceType eort2 = new EducationalOrgReferenceType();
+        eort2.setEducationalOrgIdentity(eoit2);
+        courseOffering.setSchoolReference(eort2);
+        cit.setEducationalOrgReference(eort2);
+        cit.setUniqueCourseId(courseOfferingMeta.courseMeta.uniqueCourseId);
         CourseReferenceType crt = new CourseReferenceType();
         crt.setCourseIdentity(cit);
         courseOffering.setCourseReference(crt);

@@ -34,6 +34,7 @@ public class NeutralQuery {
 
     private List<String> includeFields;
     private List<String> excludeFields;
+    private List<String> embeddedFields;
     private int offset;
     private int limit;
     private String sortBy;
@@ -48,6 +49,14 @@ public class NeutralQuery {
      *  A list of all criteria that make up this query
      */
     private List<NeutralQuery> orQueries;
+
+    public List<String> getEmbeddedFields() {
+        return embeddedFields;
+    }
+
+    public void setEmbeddedFields(List<String> embeddedFields) {
+        this.embeddedFields = embeddedFields;
+    }
 
     /**
      * Sort order enumeration
@@ -86,6 +95,7 @@ public class NeutralQuery {
         this.queryCriteria = new ArrayList<NeutralCriteria>(otherNeutralQuery.queryCriteria);
 
         this.orQueries = new ArrayList<NeutralQuery>(otherNeutralQuery.orQueries);
+        this.embeddedFields = otherNeutralQuery.embeddedFields;
     }
 
 
@@ -221,10 +231,18 @@ public class NeutralQuery {
         return this;
     }
 
+    /**
+     * @deprecated Exclude fields should be handled in code.
+     * @see org.slc.sli.common.util.entity.EntityManipulator#removeFields(java.util.Map, java.util.List)
+     */
     public List<String> getExcludeFields() {
         return excludeFields;
     }
 
+    /**
+     * @deprecated Exclude fields should be handled in code.
+     * @see org.slc.sli.common.util.entity.EntityManipulator#removeFields(java.util.Map, java.util.List)
+     */
     public NeutralQuery setExcludeFields(List<String> excludeFields) {
         this.excludeFields = excludeFields;
         return this;
@@ -277,6 +295,11 @@ public class NeutralQuery {
 
     public NeutralQuery setExcludeFieldString(String newExcludeFields) {
         this.excludeFields = Arrays.asList(newExcludeFields.split(","));
+        return this;
+    }
+
+    public NeutralQuery setEmbeddedFieldString(String newEmbeddedFields) {
+        this.embeddedFields = Arrays.asList(newEmbeddedFields.split(","));
         return this;
     }
 

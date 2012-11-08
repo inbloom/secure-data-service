@@ -74,7 +74,7 @@ public class RealmInitializer {
     protected static final String REALM_RESOURCE = "realm";
 
     //This is what we use to look up the existing admin realm.  If this changes, we might end up with extra realms
-    public static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
+    public static final String ADMIN_REALM_ID = "Shared Learning Collaborative";
 
     @PostConstruct
     public void bootstrap() {

@@ -174,15 +174,15 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      */
     private boolean isAssociationExpired(Entity entity) {
         boolean expired = false;
-        if (entity.getType().equals("studentSchoolAssociation") && entity.getBody().containsKey("exitWithdrawDate")) {
+        if (entity.getType().equals("studentSchoolAssociation") && entity.getBody().containsKey("ExitWithdrawDate")) {
             try {
-                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody().get("exitWithdrawDate"));
+                DateTime exitWithdrawDate = DateTime.parse((String) entity.getBody().get("ExitWithdrawDate"));
                 if (exitWithdrawDate.isBefore(DateTime.now().minusDays(Integer.valueOf(gracePeriod)))) {
                     expired = true;
                 }
             } catch (Exception e) {
                 LOG.warn(
-                        "Error parsing exitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.",
+                        "Error parsing ExitWithdrawDate for student: {} at school: {} --> continuing as if date was absent.",
                         new Object[] { entity.getBody().get("studentId"), entity.getBody().get("schoolId") });
             }
         }

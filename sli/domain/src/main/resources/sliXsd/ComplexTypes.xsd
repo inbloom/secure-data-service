@@ -5953,6 +5953,14 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="gradingPeriodId" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the grading period for the grade.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -7519,7 +7527,6 @@
 					<xs:documentation>The description of the competency level.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 					</xs:appinfo>
 				</xs:annotation>

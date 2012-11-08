@@ -49,4 +49,4 @@ Scenario: Delete a school and confirm deletion of related entities, associations
     When I navigate to GET "/<TEACHER SECTION ASSOCIATION URI>/<TEACHER SECTION ASSOCIATION ID>"
     Then I should receive a return code of 404
     When I navigate to GET "/<TEACHER URI>/<TEACHER ID>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403 

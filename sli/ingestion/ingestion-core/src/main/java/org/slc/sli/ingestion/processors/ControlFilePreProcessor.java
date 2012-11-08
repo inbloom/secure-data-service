@@ -37,7 +37,6 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -57,7 +56,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +84,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private Validator<Job> jobValidator;
 
     @Autowired
     private TenantDA tenantDA;
@@ -130,12 +125,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (jobValidator.isValid(newBatchJob, errorReport)) {
+            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
                 /* tenant job lock has been acquired */
 
                 // FIXME: Move to appropriate processor (maybe its own)
-                boolean dbIsReady = ensureTenantDbIsReady(newBatchJob.getTenantId());
 
                 controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
@@ -179,21 +173,31 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     protected boolean ensureTenantDbIsReady(String tenantId) {
 
         if (tenantDA.tenantDbIsReady(tenantId)) {
+
             LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
             return true;
+
         } else {
+
             LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
+            boolean onboardingLockIsAcquired = tenantDA.updateAndAquireOnboardingLock(tenantId);
+            boolean isNowReady = false;
 
-            runDbSpinUpScripts(tenantId);
+            if (onboardingLockIsAcquired) {
 
-            boolean isNowReady = tenantDA.tenantDbIsReady(tenantId);
-            LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                runDbSpinUpScripts(tenantId);
+
+                isNowReady = tenantDA.tenantDbIsReady(tenantId);
+                LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+            }
 
             return isNowReady;
+
         }
     }
 
     private void runDbSpinUpScripts(String tenantId) {
+
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 

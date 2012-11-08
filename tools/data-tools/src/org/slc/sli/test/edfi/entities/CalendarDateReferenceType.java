@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CalendarDateReferenceType", propOrder = {
+@XmlType(name = "SLC-CalendarDateReferenceType", propOrder = {
     "calendarDateIdentity"
 })
 public class CalendarDateReferenceType

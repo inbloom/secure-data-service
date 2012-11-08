@@ -19,6 +19,7 @@ package org.slc.sli.test.generators.interchange;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 import javax.xml.stream.XMLStreamException;
 
 import org.slc.sli.test.edfi.entities.AssessmentItem;
@@ -119,12 +120,13 @@ public class InterchangeStudentAssessmentGenerator {
             InterchangeWriter<InterchangeStudentAssessment> writer) {
         long startTime = System.currentTimeMillis();
         long count = 0;
+        Random random = new Random(31);
         
         // Don't generate any student objective assessments if the inverse probability is negative
         if (AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT >= 0) {
-            
+
             for (StudentAssessment studentAssessment : studentAssessmentMetas) {
-                if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT) == 0) {
+                if ((int) (random.nextDouble() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT) == 0) {
                     StudentObjectiveAssessment studentObjectiveAssessment;
                     
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {

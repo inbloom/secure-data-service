@@ -18,8 +18,13 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import javax.ws.rs.core.PathSegment;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 
@@ -31,6 +36,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.GenericContextValidator;
@@ -38,6 +44,7 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
 import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -66,7 +73,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator genVal = null;
         IContextValidator studentVal = null;
         IContextValidator subEntityVal = null;
-        //Make GenericContextValidator last, since we want to use that as a last resort
+        // Make GenericContextValidator last, since we want to use that as a last resort
         for (IContextValidator validator : validators) {
             if (validator instanceof GenericContextValidator) {
                 genVal = validator;
@@ -77,10 +84,12 @@ public class ContextValidator implements ApplicationContextAware {
             }
         }
 
-        //move generic validator to end
-        //temporarily disable teacher-student validator
-        // temporarily disable teacher-sub-student entity validator
+        // move generic validator to end
         validators.remove(genVal);
+        validators.add(genVal);
+
+        // temporarily disable teacher-student validator
+        // temporarily disable teacher-sub-student entity validator
         validators.remove(studentVal);
         validators.remove(subEntityVal);
     }
@@ -92,70 +101,102 @@ public class ContextValidator implements ApplicationContextAware {
 
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
 
-        if (request.getPathSegments().size() < 3) {
+        List<PathSegment> segs = request.getPathSegments();
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
+            if (i.next().getPath().isEmpty()) {
+                i.remove();
+            }
+        }
+
+        if (segs.size() < 3) {
             return;
         }
 
-        String rootEntity = request.getPathSegments().get(1).getPath();
+        String rootEntity = segs.get(1).getPath();
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
         if (def == null) {
             return;
         }
-        String entityName = def.getType();
+        /**
+         * If we are v1/entity/id and the entity is "public" don't validate
+         */
+        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
+            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                info("Not validating access to public entity and it's custom data");
+                return;
+            }
+        }
 
         /*
          * e.g.
-         * through - /v1/staff/<ID>/disciplineActions
-         * !through - /v1/staff/<ID>
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
          */
-        boolean through = request.getPathSegments().size() > 3;
-        IContextValidator validator = findValidator(entityName, through);
+        boolean isTransitive = segs.size() < 4;
+        String idsString = segs.get(2).getPath();
+        Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
+        validateContextToEntities(def, ids, isTransitive);
+    }
+
+    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
+
+        IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            String idsString = request.getPathSegments().get(2).getPath();
-            List<String> ids = Arrays.asList(idsString.split(","));
-            if (!validator.validate(entityName, new HashSet<String>(ids))) {
-                if (!exists(ids, def.getStoredCollectionName())) {
-                    throw new EntityNotFoundException("Could not locate " + entityName + "with ids " + idsString);
+            Set<String> idsToValidate = new HashSet<String>();
+            NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            int found = 0;
+            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+                found++;
+                if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                        && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                    debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+                } else {
+                    idsToValidate.add(ent.getEntityId());
                 }
-                throw new AccessDeniedException("Cannot access entities " + idsString);
+            }
+
+            if (found != ids.size()) {
+                debug("Invalid reference, an entity does not exist. collection: {} ids: {}",
+                        def.getStoredCollectionName(), ids);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+            }
+
+            if (!idsToValidate.isEmpty()) {
+                if (!validator.validate(def.getType(), idsToValidate)) {
+                    throw new AccessDeniedException("Cannot access entities " + ids);
+                }
             }
         }
     }
 
-    private boolean exists(List<String> ids, String collectionName) {
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        long count = repo.count(collectionName, query);
-        return count == ids.size();
-    }
-
     private void validateUserHasAccessToEndpoint(ContainerRequest request, SLIPrincipal principal) {
-        //TODO replace stub
+        // TODO replace stub
         // make data driven from v1_resource
-        // each resource will have an accessibleBy key with an array value, listing each of the user types that can accesses the resource
+        // each resource will have an accessibleBy key with an array value, listing each of the user
+        // types that can accesses the resource
         // example accessibleBy: ['teacher', 'staff']
-
     }
 
     /**
      *
      * @param toType
-     * @param through
+     * @param isTransitive
      * @return
      * @throws IllegalStateException
      */
-    private IContextValidator findValidator(String toType, boolean through) throws IllegalStateException {
+    private IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
-            if (validator.canValidate(toType, through)) {
+            if (validator.canValidate(toType, isTransitive)) {
+                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }
         }
 
         if (found == null) {
-            warn("No {} validator to {}.", through ? "THROUGH": "TO", toType);
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
         }
 
         return found;

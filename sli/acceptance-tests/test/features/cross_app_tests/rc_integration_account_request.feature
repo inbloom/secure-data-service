@@ -9,7 +9,7 @@ Scenario: As an app developer I request a production account
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
-  And I fill out the field "Email" as "testdev.wgen@gmail.com"
+  And I fill out the field "Email" as "<DEVELOPER_EMAIL>"
   And I fill out the field "Password" as "test1234"
   And I fill out the field "Confirmation" as "test1234"
   Then my password is shown as a series of dots
@@ -28,8 +28,7 @@ Scenario: As an app developer I want to verify my registration email
 Scenario: As an SLC Operator I want to approve the app developer account
   Given I have an open web browser
   And I navigate to the Portal home page
-  #When I select the "Shared Learning Collaborative" realm 
-  When I select the "Shared Learning Infrastructure" realm
+  When I select the "Shared Learning Collaborative" realm 
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page

@@ -29,7 +29,7 @@ class CustomRolesController < ApplicationController
     else
       message = (APP_CONFIG["is_sandbox"] ? "No custom roles exist.  First create a landing zone in the Provizion Landing Zone tool." :
                                             "No custom roles exist.  First create a realm in the Realm Management tool.")
-      flash[:notice] = message
+      flash.now[:notice] = message
       respond_to do |format|
         format.html # index.html.erb
       end
@@ -61,7 +61,13 @@ class CustomRolesController < ApplicationController
          format.json { render json: @custom_roles, status: :created, location: @custom_roles }
        else
          #errorJson = JSON.parse(errorMsg)
-         flash[:error] = errorMsg
+         if /ValidationError.*groupTitle/.match(errorMsg)
+           flash[:error] = "Group name contains invalid characters."
+         elsif /ValidationError.*names/.match(errorMsg)
+           flash[:error] = "Role name contains invalid characters."
+         else
+           flash[:error] = "Changes could not be saved."
+         end
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	

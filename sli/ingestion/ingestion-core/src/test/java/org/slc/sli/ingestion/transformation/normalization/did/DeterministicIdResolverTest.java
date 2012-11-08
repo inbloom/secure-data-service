@@ -31,6 +31,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -45,16 +49,13 @@ import org.slc.sli.ingestion.transformation.normalization.Ref;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Unit tests for DeterministicIdResolver
- * 
+ *
  * @author jtully
  * @author vmcglaughlin
- * 
+ *
  */
 public class DeterministicIdResolverTest {
 
@@ -310,9 +311,7 @@ public class DeterministicIdResolverTest {
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
         Mockito.when(didGenerator.generateId(Mockito.eq(ndk))).thenReturn(DID_VALUE);
         Mockito.when(didGenerator.generateId(Mockito.eq(nestedNdk))).thenReturn(NESTED_DID_VALUE);
-        System.out.println(entity.getBody());
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
-        System.out.println(entity.getBody());
 
         Object resolvedId = entity.getBody().get(REF_FIELD);
         Assert.assertEquals(DID_VALUE, resolvedId);
@@ -331,6 +330,7 @@ public class DeterministicIdResolverTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("schoolId", "");
         naturalKeys.put("sessionName", "Spring 2011 East Daybreak Junior High");
+        naturalKeys.put("schoolId", "");
         String tenantId = TENANT;
         NaturalKeyDescriptor sessionNKD = new NaturalKeyDescriptor(naturalKeys, tenantId, "session", null);
         Mockito.when(didGenerator.generateId(Mockito.eq(sessionNKD))).thenReturn("sessionDID");
@@ -346,9 +346,7 @@ public class DeterministicIdResolverTest {
         mockEntityConfig(entityConfig, "studentTranscriptAssociation");
         Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
 
-        System.out.println(entity.getBody());
         didResolver.resolveInternalIds(entity, TENANT, errorReport);
-        System.out.println(entity.getBody());
 
         Object resolvedId = entity.getBody().get("StudentAcademicRecordReference");
         Assert.assertEquals("studentAcademicRecordDID", resolvedId);
@@ -526,10 +524,9 @@ public class DeterministicIdResolverTest {
         return entity;
     }
 
+    @SuppressWarnings("unused")
     private Entity createOptionalNestedSourceEntity() {
-
         Map<String, Object> refObject = new HashMap<String, Object>();
-
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put(REF_FIELD, refObject);
 

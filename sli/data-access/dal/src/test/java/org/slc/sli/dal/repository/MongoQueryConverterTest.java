@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,19 +109,6 @@ public class MongoQueryConverterTest {
         assertNotNull("Should not be null", obj);
         assertEquals("Should match", 1, obj.get("body.populationServed"));
         assertEquals("Should match", 1, obj.get("body.uniqueSectionCode"));
-    }
-
-    @Test
-    public void testExcludeFieldConvert() {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setExcludeFieldString("populationServed,uniqueSectionCode");
-
-        Query query = mongoQueryConverter.convert("section", neutralQuery);
-        assertNotNull("Should not be null", query);
-        DBObject obj = query.getFieldsObject();
-        assertNotNull("Should not be null", obj);
-        assertEquals("Should match", 0, obj.get("body.populationServed"));
-        assertEquals("Should match", 0, obj.get("body.uniqueSectionCode"));
     }
 
     @Test
@@ -320,6 +308,50 @@ public class MongoQueryConverterTest {
         assertNotNull("Should not be null", obj);
         assertNotNull("Should not be null", obj.get("$or"));
         assertTrue(((BasicBSONList) obj.get("$or")).size() == 1);
+    }
+
+    @Test
+    public void testEmptyIncludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("body"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+    }
+
+    @Test
+    public void testEmbeddedFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setEmbeddedFields(Arrays.asList("studentSectionAssociation", "teacherSectionAssociation"));
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("studentSectionAssociation"));
+        assertEquals("Should match", 1, obj.get("teacherSectionAssociation"));
+        assertEquals("Should match", 1, obj.get("body"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+    }
+
+    @Test
+    public void testNonEmptyIncludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setIncludeFieldString("name");
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("body.name"));
+        assertEquals("Should match", 1, obj.get("type"));
+        assertEquals("Should match", 1, obj.get("metaData"));
+        assertNull("Should be null", obj.get("body"));
     }
 
 

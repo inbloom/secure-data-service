@@ -21,10 +21,22 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -33,6 +45,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
@@ -48,15 +61,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -86,6 +90,12 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     private static final boolean ENABLE_CONTEXT_RESOLVING = true;
+    private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
+//            Arrays.asList(
+//                    EntityNames.STUDENT,
+//                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
+//            )
+    );
 
     @Autowired
     @Qualifier("validationRepo")
@@ -93,6 +103,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private ContextResolverStore contextResolverStore;
+
+    @Autowired
+    private ContextValidator contextValidator;
 
     @Autowired
     private SchemaDataProvider provider;
@@ -128,7 +141,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
@@ -149,7 +162,7 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
         }
@@ -336,7 +349,7 @@ public class BasicService implements EntityService {
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
             }
 
-            if (ENABLE_CONTEXT_RESOLVING) {
+            if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(defn.getType());
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
             }
@@ -363,7 +376,7 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         Collection<Entity> entities;
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
             NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
             localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
@@ -515,49 +528,59 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
-            String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
+            EntityDefinition def = definitionStore.lookupByEntityType(entityType);
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(MAX_RESULT_SIZE);
-            if (ENABLE_CONTEXT_RESOLVING) {
+            if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(entityType);
                 neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
-            }
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-            int found = 0;
-            if (entities != null) {
-                for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
-                    found++;
-                }
-            }
-
-            if (found != ids.size()) {
-
-                // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
-                // So found won't include any orphaned entities that the user created.
-                // We do an additional query of the referenced fields without any additional
-                // security criteria
-                // and check the isOrphaned and createdBy on each of those
-                neutralQuery = new NeutralQuery();
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(MAX_RESULT_SIZE);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-                String userId = user.getEntity().getEntityId();
-                for (Entity ent : repo.findAll(collectionName, neutralQuery)) {
-
-                    if (userId.equals(ent.getMetaData().get("createdBy"))
-                            && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                Iterable<Entity> entities = repo.findAll(def.getStoredCollectionName(), neutralQuery);
+                int found = 0;
+                if (entities != null) {
+                    for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
                         found++;
                     }
                 }
+
                 if (found != ids.size()) {
-                    debug("{} in {} is not accessible", value, collectionName);
+
+                    // Here's the deal - we want to avoid having to index based on createdBy/isOrphan
+                    // So found won't include any orphaned entities that the user created.
+                    // We do an additional query of the referenced fields without any additional
+                    // security criteria
+                    // and check the isOrphaned and createdBy on each of those
+                    neutralQuery = new NeutralQuery();
+                    neutralQuery.setOffset(0);
+                    neutralQuery.setLimit(MAX_RESULT_SIZE);
+                    neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+                    String userId = user.getEntity().getEntityId();
+                    for (Entity ent : repo.findAll(def.getStoredCollectionName(), neutralQuery)) {
+
+                        if (userId.equals(ent.getMetaData().get("createdBy"))
+                                && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                            found++;
+                        }
+                    }
+                    if (found != ids.size()) {
+                        debug("{} in {} is not accessible", value, def.getStoredCollectionName());
+                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    }
+                }
+            } else {
+                try {
+                    contextValidator.validateContextToEntities(def, ids, false);
+                } catch (AccessDeniedException e) {
+                    debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
+                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                } catch (EntityNotFoundException e) {
+                    debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
                 }
             }
@@ -766,7 +789,7 @@ public class BasicService implements EntityService {
     private SecurityCriteria findAccessible(String toType) {
         SecurityCriteria securityCriteria = new SecurityCriteria();
 
-        if (ENABLE_CONTEXT_RESOLVING) {
+        if (useContextResolver()) {
             try {
                 securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
             } catch (NumberFormatException e) {
@@ -1052,6 +1075,15 @@ public class BasicService implements EntityService {
             debug("Updating metadData with edOrg ids");
             metaData.put("edOrgs", lineage);
         }
+    }
+
+    private boolean useContextResolver() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        if (VALIDATOR_ENTITIES.contains(defn.getType()) && principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            return false;
+        }
+        return ENABLE_CONTEXT_RESOLVING;
     }
 
     /**

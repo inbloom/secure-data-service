@@ -8,10 +8,10 @@ Feature: As an SLI application, I want to be able to traverse from education org
     I want to be able to start at a very high level and be able to access relevant students
 
 Background:
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     Given format "application/vnd.slc+json"
 
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getFeederEducationOrganizations"
@@ -61,6 +61,7 @@ Scenario: Traverse from parent education organization through child education or
         And "highestLevelOfEducationCompleted" should be "No Degree"
 
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getFeederEducationOrganizations"
@@ -92,7 +93,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
     Then I should receive a return code of 200
         And I should receive a collection link named "getSections"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>/sections"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"
@@ -109,5 +110,105 @@ Scenario: Traverse from parent education organization through child education or
         And the "name" should be "Daniela" "" "Cusimana"
         And "economicDisadvantaged" should be "false"
         And "schoolFoodServicesEligibility" should be "Full price"
+        And "limitedEnglishProficiency" should be "NotLimited"
+
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
+    Then I should receive a return code of 200
+        And I should receive a link named "getFeederEducationOrganizations"
+    When I navigate to GET the link named "getFeederEducationOrganizations"
+    Then I should receive a return code of 200
+        And I should receive a link named "getFeederSchools"
+    When I navigate to GET the link named "getFeederSchools" with "id" of "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772" 
+    Then I should receive a return code of 200
+       And I should receive a link named "getSessions"
+    When I navigate to GET the link named "getSessions"
+    Then I should receive a return code of 200
+         And in an entity, I should receive a link named "self" 
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourse"
+    When I navigate to GET the link named "getCourse" 
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
+    Then I should receive a return code of 200
+        And I should receive a collection link named "getSections"
+    When I navigate to GET the link named "getSections"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getTeacherSectionAssociations"
+    When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET "/v1/teacherSectionAssociations/<'TEACHER-SECTION-ASSOCIATION' ID>"
+    Then I should receive a return code of 200
+        And I should receive a link named "getTeacher" with URI "/v1/teachers/<'TEACHER' ID>"
+    When I navigate to GET "/v1/teachers/<'TEACHER' ID>"
+    Then I should receive a return code of 200
+        And the "name" should be "Charles" "" "Gray"
+        And "sex" should be "Male"
+        And "highestLevelOfEducationCompleted" should be "No Degree"
+
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
+    Given I am logged in using "cgray" "cgray1234" to realm "IL"
+    When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
+    Then I should receive a return code of 200
+        And I should receive a link named "getFeederEducationOrganizations"
+    When I navigate to GET the link named "getFeederEducationOrganizations"
+    Then I should receive a return code of 200
+        And I should receive a link named "getFeederSchools"
+    When I navigate to GET the link named "getFeederSchools" with "id" of "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772"
+    Then I should receive a return code of 200
+         And I should receive a link named "getSessions"
+    When I navigate to GET the link named "getSessions"
+    Then I should receive a return code of 200
+         And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET the link named "getCourseOfferings"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET the link named "self"
+    Then I should receive a return code of 200
+        And I should receive a link named "getCourse"
+    When I navigate to GET the link named "getCourse"
+    Then I should receive a return code of 200
+
+        And I should receive a link named "getCourseOfferings"
+    When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
+    Then I should receive a return code of 200
+        And I should receive a collection link named "getSections"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET "/v1/sections/<'SECTION' ID>"
+    Then I should receive a return code of 200
+        And I should receive a link named "getStudentSectionAssociations"
+    When I navigate to GET "/v1/sections/<'SECTION' ID>/studentSectionAssociations"
+    Then I should receive a return code of 200
+        And in an entity, I should receive a link named "self"
+    When I navigate to GET "/v1/studentSectionAssociations/<'STUDENT-SECTION' ID>"
+    Then I should receive a return code of 200
+        And I should receive a link named "getStudent"
+    When I navigate to GET "/v1/students/<'STUDENT' ID>"
+    Then I should receive a return code of 200
+        And the "name" should be "Daniela" "" "Cusimana"
         And "limitedEnglishProficiency" should be "NotLimited"
 

@@ -35,7 +35,7 @@ public class StaffGenerator {
     static NameGenerator ng;
     static TelephoneGenerator tg;
     static ElectronicMailGenerator emg;
-    static Random random = new Random();
+    static Random random = new Random(31);
     static boolean optional = true;
     static RaceItemType[] raceItemTypes = RaceItemType.values();
     static LevelOfEducationType[] levelOfEducationTypes = LevelOfEducationType.values();

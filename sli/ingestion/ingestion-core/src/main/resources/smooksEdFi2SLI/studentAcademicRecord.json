@@ -3,7 +3,8 @@
     "references" :
     [
         {
-            "fieldPath" : "body.studentId",
+            "fieldPath" : "body.StudentReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "student",
@@ -15,7 +16,7 @@
                             "path" : "body.studentUniqueStateId",
                             "values" :
                             [{
-                                "valueSource" : "body.studentId"
+                                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
                             }]
                         }
                     ]
@@ -23,7 +24,8 @@
             }
         },
         {
-            "fieldPath" : "body.sessionId",
+            "fieldPath" : "body.SessionReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "session",
@@ -44,6 +46,7 @@
         },
         {
             "fieldPath" : "body.reportCards",
+            "deprecated" : true,
             "ref" : {
                 "entityType" : "reportCard",
                 "isRefList" : true,
