@@ -46,8 +46,7 @@
         { 
           "path": "/{id}/courseTranscripts",
           "doc": "This URI, /courses/{id}/courseTranscripts, has been marked for deprecation. <Reason>. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/courseTranscripts (for teachers) or /schools/{ids}/studentSchoolAssociations/students/courseTranscripts (for staff) instead. These URIs are used internally instead of /courses/{id}/courseTranscripts, and will still be available after the deprecation period ends." 
-        },
-        { "path": "/{id}/courseTranscripts/students" }
+        }
       ]
     },
     {
@@ -139,7 +138,6 @@
           "path": "/{id}/studentAssessments", 
           "doc": "This URI, /assessments/{id}/studentAssessments, has been marked for deprecation. <Reason>. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/studentAssessments (for teachers) or /schools/{ids}/studentSchoolAssociations/students/studentAssessments (for staff) instead. These URIs are used internally instead of /assessments/{id}/studentAssessments, and will still be available after the deprecation period ends." 
         },
-        { "path": "/{id}/studentAssessments/students" },
         { "path": "/{id}/learningStandards" },
         { "path": "/{id}/learningObjectives" }
       ]
