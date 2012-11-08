@@ -237,39 +237,41 @@ public class DidReferenceResolutionTest {
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
-	@Test
-	@Ignore
-	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
-
-		ErrorReport errorReport = new TestErrorReport();
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
-		naturalKeys.put("educationOrgId", edOrgDID);
-
-		checkId(entity, "CohortReference", naturalKeys, "cohort");
-	}
-
-	@Test
-	@Ignore
-	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
-
-		ErrorReport errorReport = new TestErrorReport();
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
-
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
-		naturalKeys.put("educationOrgId", edOrgDID);
-
-		checkId(entity, "CohortReference", naturalKeys, "cohort");
-	}
+    @Test
+    public void shouldResolveStaffDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+            Entity entity = loadEntity("didTestEntities/staffReference.json");
+            ErrorReport errorReport = new TestErrorReport();
+            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            naturalKeys.put("staffUniqueStateId", "jjackson");
+            checkId(entity, "StaffReference", naturalKeys, "staff");
+    }
+    @Test
+    public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
+            Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
+            ErrorReport errorReport = new TestErrorReport();
+            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+            Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+            edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+            String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+            naturalKeys.put("educationOrgId", edOrgDID);
+            checkId(entity, "CohortReference", naturalKeys, "cohort");
+    }
+    @Test
+    public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+            Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
+            ErrorReport errorReport = new TestErrorReport();
+            didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+            Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+            edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+            String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+            naturalKeys.put("educationOrgId", edOrgDID);
+            checkId(entity, "CohortReference", naturalKeys, "cohort");
+    }
 
 
 	// generate the expected deterministic ids to validate against
