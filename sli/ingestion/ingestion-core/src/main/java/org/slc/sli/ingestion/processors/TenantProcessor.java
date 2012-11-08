@@ -35,7 +35,6 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,8 +70,6 @@ public class TenantProcessor implements Processor {
     public static final String TENANT_POLL_SUCCESS = "SUCCESS";
     public static final String TENANT_POLL_FAILURE = "FAILURE";
 
-    private static final String INVALID_CHARACTERS = "?";
-
     @Override
     public void process(Exchange exchange) throws Exception {
         try {
@@ -99,15 +96,8 @@ public class TenantProcessor implements Processor {
             LOG.debug("TenantProcessor: Localhost is {}", getHostname());
             for (String currLzPath : lzPaths) {
 
-                if (isValidDirName(currLzPath)) {
+                createDirIfNotExists(currLzPath);
 
-                    createDirIfNotExists(currLzPath);
-
-                } else {
-                    LOG.info("Lz path is invalid, removing from from tenant collection: {}", currLzPath);
-
-                    tenantDA.removeInvalidTenant(currLzPath);
-                }
             }
         } catch (UnknownHostException e) {
             LOG.error("TenantProcessor", e);
@@ -134,22 +124,6 @@ public class TenantProcessor implements Processor {
         }
 
         return true;
-    }
-
-    /**
-     * Check if the inboundDir name contains any invalid characters
-     *
-     * @param inboundDir
-     *            : directory name to be checked
-     * @return : true if directory name doesn't contain any invalid character.
-     */
-    private boolean isValidDirName(String inboundDir) {
-        boolean res = StringUtils.containsNone(inboundDir, INVALID_CHARACTERS);
-        if (!res) {
-            LOG.error("TenantProcessor: Landing zone {} contains invalid characters", inboundDir);
-        }
-
-        return res;
     }
 
     /**
@@ -269,12 +243,12 @@ public class TenantProcessor implements Processor {
      */
     boolean doPreloads() {
 
-            Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles();
-            boolean result = true;
-            for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
-                result &= preLoad(entry.getKey(), entry.getValue());
-            }
-            return result;
+        Map<String, List<String>> preloadMap = tenantDA.getPreloadFiles();
+        boolean result = true;
+        for (Entry<String, List<String>> entry : preloadMap.entrySet()) {
+            result &= preLoad(entry.getKey(), entry.getValue());
+        }
+        return result;
     }
 
     Map<String, List<String>> getDataSetLookup() {
