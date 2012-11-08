@@ -5,7 +5,7 @@ dt {width: 250px;}
 ul.clear {list-style: none;}
 dl.dl-horizontal dd:after {content: "\0000a0";}
 ul.select-list {margin-left: 0px; padding-left:0px;}
-div#enable-menu {width: 40%;}
+div#enable-menu {width: 50%;}
 ul.select-list li a {width:100%; display:block;} 
 ul.select-list li a:link, a:visited {text-decoration: none;} 
 ul.select-list li a:hover {background-color: #888;color: #000;} 

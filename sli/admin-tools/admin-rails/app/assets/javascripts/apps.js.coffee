@@ -4,6 +4,10 @@ getEdorgs = ->
     edorgs.push $(@).val()
   edorgs
 
+
+onChange =(newPageValue) ->
+    alert(newPageValue)
+  
 jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
@@ -16,6 +20,7 @@ jQuery ->
 jQuery ->
     $("#lea-menu table").live 'change', ->
         #Populate the LI classes with enabled stuff
+        count = $(@).find('tr').size()
         edorgs = getEdorgs()
         jQuery.each(edorgs, (index, item) ->
             $("tr##{item} td label input").attr('checked', true)

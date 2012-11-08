@@ -217,10 +217,15 @@ class AppsController < ApplicationController
   def get_local_edorgs
     state = params[:state]
     @results = []
+    count = 0
     local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "limit" => 0})
-    local.each do |lea|
-      temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
-      @results.push temp
+    until local.count == 0
+      count += local.count
+      local.each do |lea|
+        temp = {"name" => lea.nameOfInstitution, "id" => lea.id}
+        @results.push temp
+      end
+      local = EducationOrganization.find(:all, :params => {"organizationCategories" => "Local Education Agency", "address.stateAbbreviation" => state, "offset" => count, "limit" => 0})
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}
     render :partial => "lea_list", :locals => {:results => @results, :sea => params[:state]}
