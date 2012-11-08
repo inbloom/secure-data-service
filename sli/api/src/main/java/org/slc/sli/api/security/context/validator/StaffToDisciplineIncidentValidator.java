@@ -35,13 +35,18 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
     private StaffToSubStudentEntityValidator subStudentValidator;
     
     @Autowired
-    private StaffToSchoolValidator schoolValidator;
+    private StaffToEdOrgValidator schoolValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStaff() && EntityNames.DISCIPLINE_INCIDENT.equals(entityType);
     }
     
+    /**
+     * Can see the Discipline incidents of the students beneath you with student discipline incident
+     * associations
+     * and you can see the ones that are in the edorg heirarchy beneath you
+     */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
@@ -95,7 +100,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      * @param schoolValidator
      *            the schoolValidator to set
      */
-    public void setSchoolValidator(StaffToSchoolValidator schoolValidator) {
+    public void setSchoolValidator(StaffToEdOrgValidator schoolValidator) {
         this.schoolValidator = schoolValidator;
     }
 }

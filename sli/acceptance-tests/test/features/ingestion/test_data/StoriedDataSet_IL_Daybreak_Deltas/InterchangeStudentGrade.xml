@@ -1,59 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" ?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-	<!-- GradebookEntry objects for linda.kim's class -->
-	<GradebookEntry id="GBE-8th_Grade_English-1">
-		<GradebookEntryType>Assignment</GradebookEntryType>
-		<DateAssigned>2011-09-27</DateAssigned>
-		<SectionReference>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-			</SectionIdentity>
-		</SectionReference>
-	</GradebookEntry>
-	<!-- StudentGradebookEntry objects for each kid and each GradebookEntry in linda.kim's class -->
-	<StudentGradebookEntry>
-		<DateFulfilled>2011-10-05</DateFulfilled>
-		<LetterGradeEarned>Q</LetterGradeEarned>
-		<StudentSectionAssociationReference>
-			<StudentSectionAssociationIdentity>
-				<StudentIdentity>
-					<StudentUniqueStateId>800000025</StudentUniqueStateId>
-				</StudentIdentity>
-				<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-					<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-				</SectionIdentity>
-			</StudentSectionAssociationIdentity>
-		</StudentSectionAssociationReference>
-		<GradebookEntryReference>
-			<GradebookEntryIdentity>
-				<GradebookEntryType>Assignment</GradebookEntryType>
-				<DateAssigned>2011-09-27</DateAssigned>
-				<SectionReference>
-					<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-						<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-					</SectionIdentity>
-				</SectionReference>
-			</GradebookEntryIdentity>
-		</GradebookEntryReference>
-	</StudentGradebookEntry>
-	
-	<!--
+    <!-- GradebookEntry objects for linda.kim's class -->
+    <GradebookEntry id="GBE-8th_Grade_English-1">
+        <GradebookEntryType>Assignment</GradebookEntryType>
+        <DateAssigned>2011-09-27</DateAssigned>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </GradebookEntry>
+    <!-- StudentGradebookEntry objects for each kid and each GradebookEntry in linda.kim's class -->
+    <StudentGradebookEntry>
+        <DateFulfilled>2011-10-05</DateFulfilled>
+        <LetterGradeEarned>Q</LetterGradeEarned>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentIdentity>
+                    <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                </StudentIdentity>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                </SectionIdentity>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>Assignment</GradebookEntryType>
+                <DateAssigned>2011-09-27</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
+    </StudentGradebookEntry>
+    <!--
 	There is no appopriate studentCompetency field to update that is not a key field
  	<StudentCompetency id="SC-GR3-800000025-1">
 		<LearningObjectiveReference>
@@ -81,60 +80,60 @@
 				</SectionIdentity>
 			</StudentSectionAssociationIdentity>
 		</StudentSectionAssociationReference>
-	</StudentCompetency>
-	-->
-	<Grade id="GR-GR3-800000025-1">
-		<LetterGradeEarned>U</LetterGradeEarned>
-		<GradeType>Mid-Term Grade</GradeType>
-		<StudentSectionAssociationReference>
-			<StudentSectionAssociationIdentity>
-				<StudentIdentity>
-					<StudentUniqueStateId>800000025</StudentUniqueStateId>
-				</StudentIdentity>
-				<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-					<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
-				</SectionIdentity>
-			</StudentSectionAssociationIdentity>
-		</StudentSectionAssociationReference>
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>First Six Weeks</GradingPeriod>
-				<BeginDate>2010-08-23</BeginDate>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-	</Grade>
-	<ReportCard>
-		<StudentCompetencyReference ref="SC-GR3-800000025-1"/>
-		<GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
-		<GPACumulative>2.7</GPACumulative>
-		<StudentReference>
-			<StudentIdentity>
-				<StudentUniqueStateId>800000025</StudentUniqueStateId>
-			</StudentIdentity>
-		</StudentReference>
-		<!-- id does not exist in this file-->
-		<!-- GradingPeriodReference ref="GRDP_20070527"/-->
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>End of Year</GradingPeriod>
-				<BeginDate>2011-05-27</BeginDate>
-				<SchoolYear>2010-2011</SchoolYear>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-	</ReportCard>
+	</StudentCompetency>-->
+    <Grade id="GR-GR3-800000025-1">
+        <LetterGradeEarned>
+            U</LetterGradeEarned>
+        <GradeType>Mid-Term Grade</GradeType>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentIdentity>
+                    <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                </StudentIdentity>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+                </SectionIdentity>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2010-08-23</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Grade>
+    <ReportCard>
+        <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
+        <GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
+        <GPACumulative>2.7</GPACumulative>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>800000025</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <!-- id does not exist in this file-->
+        <!-- GradingPeriodReference ref="GRDP_20070527"/-->
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-05-27</BeginDate>
+                <SchoolYear>2010-2011</SchoolYear>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </ReportCard>
 </InterchangeStudentGrade>

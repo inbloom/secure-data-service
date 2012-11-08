@@ -34,7 +34,7 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 
 		info("Validating {}'s access to Programs: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
 
-		Set<String> lineage = this.getStaffEdorgLineage();
+		Set<String> lineage = this.getStaffEdOrgLineage();
 
 		// Fetch programs of your edorgs
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", lineage, false));

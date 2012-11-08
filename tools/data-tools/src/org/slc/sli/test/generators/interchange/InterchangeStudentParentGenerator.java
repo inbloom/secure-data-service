@@ -21,21 +21,15 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 
 import org.slc.sli.test.edfi.entities.InterchangeStudentParent;
 import org.slc.sli.test.edfi.entities.Parent;
-import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.Student;
 import org.slc.sli.test.edfi.entities.StudentParentAssociation;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.generators.MediumStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
@@ -89,10 +83,6 @@ public class InterchangeStudentParentGenerator {
             generateParents(iWriter, MetaRelations.PARENT_MAP.values());
             //Why duplicate calls?
             //generateParents(iWriter, MetaRelations.PARENT_MAP.values());
-
-            generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
-
-
 
             generateParentStudentAssoc(iWriter, MetaRelations.STUDENT_PARENT_MAP.values());
         }

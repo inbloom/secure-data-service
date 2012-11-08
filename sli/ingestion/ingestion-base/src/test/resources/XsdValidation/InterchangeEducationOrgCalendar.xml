@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100">
+    <Session>
+        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-01</BeginDate>
+        <EndDate>2012-06-01</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="gradingPeriodRef">
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <CalendarDateReference ref="CAP0-D0-HSch0-ses0-0"/>
+        <AcademicWeekReference ref="awr1">
+            <AcademicWeekIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <WeekIdentifier>Week 1</WeekIdentifier>
+            </AcademicWeekIdentity>
+        </AcademicWeekReference>
+    </Session>
+</InterchangeEducationOrgCalendar>

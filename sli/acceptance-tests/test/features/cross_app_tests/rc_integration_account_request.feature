@@ -9,7 +9,7 @@ Scenario: As an app developer I request a production account
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
-  And I fill out the field "Email" as "testdev.wgen@gmail.com"
+  And I fill out the field "Email" as "<DEVELOPER_EMAIL>"
   And I fill out the field "Password" as "test1234"
   And I fill out the field "Confirmation" as "test1234"
   Then my password is shown as a series of dots

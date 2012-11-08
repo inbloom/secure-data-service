@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100">
+  <StudentParentAssociation>
+    <StudentReference ref="REF-CAP0-D0-HSch0-stu0" refResolved="true">
+      <StudentIdentity>
+        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ParentReference ref="CAP0-D0-HSch0-stu0-dad0" refResolved="true">
+      <ParentIdentity>
+        <ParentUniqueStateId>CAP0-D0-HSch0-stu0-dad0</ParentUniqueStateId>
+      </ParentIdentity>
+    </ParentReference>
+    <Relation>Father</Relation>
+    <PrimaryContactStatus>true</PrimaryContactStatus>
+    <LivesWith>true</LivesWith>
+    <EmergencyContactStatus>true</EmergencyContactStatus>
+    <ContactPriority>1</ContactPriority>
+  </StudentParentAssociation>
+</InterchangeStudentParent>
+

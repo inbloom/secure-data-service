@@ -135,3 +135,9 @@ end
 Then /^I should see my rights include "(.*?)"$/ do |arg1|
   assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
+
+When /^I navigate to the Sample App I should see the name "(.*?)" on the page$/ do |arg1|
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
+end
+  

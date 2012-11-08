@@ -8,18 +8,22 @@ Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page  
+When I submit the credentials  "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Realm Management"
+
 And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
-And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
+#And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
+#And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
+And I enter "<CI_IDP_Redirect_URL" in the IDP URL field
+And I enter "<CI_IDP_Redirect_URL" in the Redirect Endpoint field
+
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
@@ -45,7 +49,7 @@ Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page    
+When I submit the credentials  "<DEVELOPER_EMAIL>" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -57,7 +61,7 @@ And I have clicked to the button New
 And I am redirected to a new application page
 When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
-And I entered the name "0.o" into the field titled "Version"
+And I entered the name "0.0" into the field titled "Version"
 And I entered the name "McDerp" into the field titled "Vendor"
 And I make my app an installed app
 #And I have entered data into the other required fields except for the shared secret and the app id which are read-only
@@ -80,7 +84,7 @@ And I have clicked to the button New
 And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
-And I entered the name "1.o" into the field titled "Version"
+And I entered the name "1.0" into the field titled "Version"
 And I entered the name "McDerp" into the field titled "Vendor"
 And I entered the name "http://localhost" into the field titled "Application_URL"
 And I entered the name "http://localhost/redirect" into the field titled "Redirect_URI"
@@ -97,13 +101,14 @@ Scenario:  LEA approves Dashboard, Databrowser and Dev App
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page    
+When I submit the credentials  "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Authorization"
 Then I am redirected to the Admin Application Authorization Tool
+
 #Authorize the Dashboard
 And I switch to the iframe
 And I see an application "SLC Dashboards" in the table
@@ -117,6 +122,7 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+
 #Authorize the Databrowser
 And I see an application "SLC Data Browser" in the table
 And in Status it says "Not Approved"
@@ -131,6 +137,7 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+
 #Authorize the New Installed App
 And I see an application "NotTheAppYoureLookingFor" in the table
 And in Status it says "Not Approved"
@@ -145,6 +152,7 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+
 #Authorized the new Web-App
 And I see an application "Schlemiel" in the table
 And in Status it says "Not Approved"

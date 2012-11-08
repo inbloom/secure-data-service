@@ -61,7 +61,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                              | count |
      | assessment                                  | 1 |
      | attendance                                  | 500 |
-     | calendarDate                                | 6 |
+     | calendarDate                                | 20 |
      | cohort                                      | 20 |
      | competencyLevelDescriptor                   | 0 |
      | course                                      | 50 |
