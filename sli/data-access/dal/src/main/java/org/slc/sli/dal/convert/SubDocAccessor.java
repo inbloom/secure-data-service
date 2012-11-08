@@ -72,11 +72,7 @@ public class SubDocAccessor {
         this.template = template;
         this.didGenerator = didGenerator;
         this.naturalKeyExtractor = naturalKeyExtractor;
-        // // this will store student assessment associations under the student documents in the
-        // // assessments field
-        // store("studentAssessmentAssociation").within("student").as("assessments").mapping("studentId",
-        // "_id")
-        // .register();
+
         for (String entityType : EmbeddedDocumentRelations.getSubDocuments()) {
             String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
@@ -558,7 +554,18 @@ public class SubDocAccessor {
                         if (childInQuery instanceof DBObject && ((DBObject) childInQuery).containsField("$in")) {
                             Object inList = ((DBObject) childInQuery).get("$in");
                             try {
-                                parentSet.addAll(getParentIds(inList));
+                                Object id = query.get("_id");
+                                if (id != null && id instanceof String) {
+                                    String singleId = (String) id;
+                                    if (getParentIds(inList).contains(singleId)) {
+                                        parentSet.add(singleId);
+                                    } else {
+                                        // No union of constraining criteria --> return
+                                        return;
+                                    }
+                                } else {
+                                    parentSet.addAll(getParentIds(inList));
+                                }
                             } catch (InvalidIdException e) {
                                 // IDs aren't valid, we can't simplify the query
                                 return;
@@ -634,6 +641,7 @@ public class SubDocAccessor {
             }
         }
 
+        @SuppressWarnings("serial")
         private class InvalidIdException extends Exception {
             public InvalidIdException(String s) {
                 super(s);

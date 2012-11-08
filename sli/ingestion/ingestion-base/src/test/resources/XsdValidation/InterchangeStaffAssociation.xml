@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
+  <TeacherSchoolAssociation>
+    <TeacherReference ref="CAP0-D0-HSch0-teacher1">
+      <StaffIdentity>
+        <StaffUniqueStateId>CAP0-D0-HSch0-teacher1</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Early Education</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>CAP0-D0-HSch0-teacher1</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference ref="CAP0-D0-HS0-1-0-sec0">
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>CAP0-D0-HS0-1-0-sec0</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Teacher of Record</ClassroomPosition>
+  </TeacherSectionAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference ref="CAP0-staff0">
+      <StaffIdentity>
+        <StaffUniqueStateId>CAP0-staff0</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>CAP0</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Specialist/Consultant</StaffClassification>
+    <BeginDate>2012-01-01</BeginDate>
+  </StaffEducationOrgAssignmentAssociation>
+</InterchangeStaffAssociation>

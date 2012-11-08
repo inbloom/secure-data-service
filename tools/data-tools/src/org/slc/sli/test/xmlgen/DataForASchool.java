@@ -48,7 +48,7 @@ import org.slc.sli.test.xmlgen.internals.*;
 
 public class DataForASchool {
     private String prefix = "a";
-    private Random random = new Random();
+    private Random random = new Random(31);
     private static final int numStudents = 10;
     private static final int numBehaviors = 3;
     private static final int numDisciplines = 3;
@@ -215,7 +215,7 @@ public class DataForASchool {
 	}
 
     public void prepareTeacherSchoolAssociation() {
-        Random random = new Random();
+        Random random = new Random(31);
         for (String teacherId : teachers) {
             TeacherSchoolAssociationInternal tsa = new TeacherSchoolAssociationInternal();
             tsa.teacherId = teacherId;
@@ -242,7 +242,7 @@ public class DataForASchool {
     }
 
     public void prepareTeacherSectionAssociation() {
-        Random r = new Random();
+        Random r = new Random(31);
         for(String teacher : teachers) {
             TeacherSectionAssociationInternal tsai = new TeacherSectionAssociationInternal();
             tsai.teacherId = teacher;

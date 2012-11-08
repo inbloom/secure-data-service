@@ -166,7 +166,7 @@ public class CohortGenerator {
     }
 
     public static void main (String args[]) throws Exception {
-        Random r = new Random ();
+        Random r = new Random (31);
         List<String> StateOrganizationIds = new ArrayList<String>();
 
         for (int j = 0; j < 5; j++) {

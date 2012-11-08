@@ -36,6 +36,19 @@ h1 {
 </style>
 
 <body>
+	<div class="container">
+      <div class="hero-unit">
+      	<div class="row">
+      		<div class="span2">
+      			<img src="<c:url value="/resources/slc.png"/>" alt="SLC Logo"/>
+      		</div><!-- end span2 -->
+      		<div class="span8">
+      			<h1>Shared Learning Collaborative</h1>
+      			<h2>Application Developer Sandbox</h2>
+      		</div><!-- end span7 -->
+      	</div><!-- end row -->
+      </div><!-- end hero-unit -->
+      
 	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/api/oauth/sso" name="adminRealmForm" id="adminRealmForm">
 		<input type="hidden" name="redirect_uri" value="${fn:escapeXml(redirect_uri)}" />
@@ -69,5 +82,7 @@ h1 {
 			</div>
 		</div>
 	</form:form>
+	</div>
+    
 </body>
 </html>

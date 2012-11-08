@@ -18,7 +18,7 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | session                     |
      | attendance                  |
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "DailyAttendance.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 94    |
@@ -96,7 +96,7 @@ Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the in
      | session                     |
      | attendance                  |
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "DailyAttendanceInheritedSession.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | student                     | 1     |
