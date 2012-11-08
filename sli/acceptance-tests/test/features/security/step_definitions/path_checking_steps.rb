@@ -29,11 +29,12 @@ end
 When /^I call "(.*?)" using ID "(.*?)"$/ do |arg1, arg2|
   @id = arg2
   uri = arg1.gsub("@id", @id)
-  restHttpGet(uri,"application/json")
+  step "I navigate to GET \"/v1#{uri}\""
+  #restHttpGet("/v1#{uri}","application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^the executed URI should be "(.*?)"$/ do |arg1|
+Then /^the executed URI should be "(.*?)"$/ do |expectedUri|
   version = "v1"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
@@ -41,6 +42,8 @@ Then /^the executed URI should be "(.*?)"$/ do |arg1|
 
   #First, make sure the paths of the URIs are the same
   expectedPath = expected.gsub("@context", "[^/]+")
+  expectedPath = expectedPath.gsub("@id", @id) if expectedPath.include?("@id")
+  expectedPath = expectedPath.gsub("\?", "\\\?")
   assert(actual.match(expectedPath), "Rewriten URI path didn't match, expected:#{expectedPath}, actual:#{actual}")
 
   #Then, validate the list of ids are the same
@@ -54,12 +57,5 @@ Then /^the executed URI should be "(.*?)"$/ do |arg1|
     expectedIds.each do |id|
       assert(actualIds.include?(id),"Infered Context IDs not equal: expected:#{expectedIds.inspect}, actual:#{actualIds.inspect}")
     end
-  end
-  
-  if expectedPath.include?("?")
-    queryId = actual.match(/?[^=]*=(.+)/)[1]
-    assert(queryId == @id, "Query Parameter did not match, expected #{@id} but was #{queryId}")
-  else
-    assert(!actual.include?("?"), "Expected no query parameters but found one: #{actual}")
   end
 end
