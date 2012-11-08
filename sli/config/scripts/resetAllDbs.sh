@@ -20,4 +20,4 @@ echo "[MONGO] indexing database: chaos_mokey_org"; mongo 4ab064f9f39d1b1a82f4280
 echo "[MONGO] indexing database: fakedev_zork_net"; mongo 15723708b106ebe7f018885fe62ea14fc6cf36c3 ../indexes/tenantDB_indexes.js --quiet
 echo "[MONGO] indexing database: developer-email@slidev.org"; mongo e4b96dfb6c102e5cd98859ff4e92710cd6efded2 ../indexes/tenantDB_indexes.js --quiet
 echo "[MONGO] indexing database: sandboxadministrator@slidev.org"; mongo 40b558db2acdbbe0d12e9e4dc84380b178d16017 ../indexes/tenantDB_indexes.js --quiet
-
+echo "[MONGO] indexing database: anothersandboxdeveloper@slidev.org"; mongo ba2ef910d2258a0b23b27ed6f3d53c30b3d090a0 ../indexes/tenantDB_indexes.js --quiet
