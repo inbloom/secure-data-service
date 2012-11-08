@@ -112,19 +112,6 @@ public class MongoQueryConverterTest {
     }
 
     @Test
-    public void testExcludeFieldConvert() {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setExcludeFieldString("populationServed,uniqueSectionCode");
-
-        Query query = mongoQueryConverter.convert("section", neutralQuery);
-        assertNotNull("Should not be null", query);
-        DBObject obj = query.getFieldsObject();
-        assertNotNull("Should not be null", obj);
-        assertEquals("Should match", 0, obj.get("body.populationServed"));
-        assertEquals("Should match", 0, obj.get("body.uniqueSectionCode"));
-    }
-
-    @Test
     public void testOffsetAndLimitConvert() {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(10);

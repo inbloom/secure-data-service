@@ -75,7 +75,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSchoolAssociation              |
         | teacherSectionAssociation             |
   When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -747,7 +747,7 @@ Scenario: Post a zip file containing all data for Illinois Sunset as a payload o
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
    And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-   And a batch job log has been created
+  And a batch job for file "StoriedDataSet_IL_Sunset.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
@@ -1166,7 +1166,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
         | studentAcademicRecord               |
         | graduationPlan                      |
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "StoriedDataSet_NY.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 0     |
@@ -1854,7 +1854,7 @@ Scenario: Post an append zip file containing append data for Illinois Daybreak a
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "StoriedDataSet_IL_Daybreak_Append.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "StoriedDataSet_IL_Daybreak_Append.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                       | count |
      | assessment                           | 23    |
@@ -2767,7 +2767,7 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
     When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
-    And a batch job log has been created
+    And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | gradebookEntry              | 13    |
