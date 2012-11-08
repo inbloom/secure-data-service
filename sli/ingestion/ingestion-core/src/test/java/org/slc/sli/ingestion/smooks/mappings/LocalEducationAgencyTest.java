@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -209,7 +210,14 @@ public class LocalEducationAgencyTest {
         assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0).get("programId"));
         assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1).get("programId"));
 */
-        assertEquals("SEA123", neutralRecord.getAttributes().get("parentEducationAgencyReference"));
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> seaRef = (Map<String, Object>) neutralRecord.getAttributes().get("StateEducationAgencyReference");
+        assertNotNull(seaRef);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> seaEdOrgId = (Map<String, Object>) seaRef.get("EducationalOrgIdentity");
+        assertNotNull(seaEdOrgId);
+        assertEquals("SEA123", seaEdOrgId.get("StateOrganizationId"));
     }
 
 }

@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -52,6 +53,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * @author vmcglaughlin
  *
  */
+@Component
 public class DeterministicIdResolver {
 
     @Autowired
@@ -60,7 +62,10 @@ public class DeterministicIdResolver {
 
     private DidSchemaParser didSchemaParser;
 
-	@Autowired
+    @Autowired
+    private DidEntityConfigReader didConfigReader;
+
+    @Autowired
     private SchemaRepository schemaRepository;
 
     @Autowired
@@ -111,7 +116,16 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        return didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configFromParser = didSchemaParser == null ? null : didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configByHand = didConfigReader == null ? null : didConfigReader.getDidEntityConfiguration(entityType);
+        DidEntityConfig retVal = new DidEntityConfig();
+        if (configFromParser != null && configFromParser.getReferenceSources() != null) {
+            retVal.getReferenceSources().addAll(configFromParser.getReferenceSources());
+        }
+        if (configByHand != null && configByHand.getReferenceSources() != null) {
+            retVal.getReferenceSources().addAll(configByHand.getReferenceSources());
+        }
+        return retVal;
     }
 
     private DidRefConfig getRefConfig(String refType) {

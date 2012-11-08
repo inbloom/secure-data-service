@@ -24,9 +24,10 @@
     },
     {
         "fieldPath" : "body.schoolId",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "school",
+	        "entityType" : "educationOrganization",
 	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
