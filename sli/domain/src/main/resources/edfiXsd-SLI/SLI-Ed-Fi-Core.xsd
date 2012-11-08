@@ -91,7 +91,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
+  
   <!-- Change StudentAssessmentItem.StudentAssessmentReference to SLC-StudentAssessmentReferenceType, change StudentObjectiveAssessmentReference to SLC-StudentAssessmentReferenceType -->
 	<xs:complexType name="SLC-StudentAssessmentItem">
 		<xs:annotation>
@@ -427,7 +427,7 @@ Other</xs:documentation>
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType, Change SectionReference to SLC type -->
+  <!-- Change type of Assessment.ObjectiveAssessmentReference to ObjectiveAssessmentReferenceType, Change SectionReference to SLC type,Change Assessment.AssessmentItemReference to AssessmentItemReferenceType -->
   <xs:complexType name="SLC-Assessment">
     <xs:annotation>
       <xs:documentation/>
@@ -452,7 +452,7 @@ Other</xs:documentation>
           <xs:element name="MaxRawScore" type="xs:int" minOccurs="0" />
           <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
           <xs:element name="AssessmentPeriod" type="AssessmentPeriodDescriptorType" minOccurs="0" />
-          <xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0" />
           <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0" maxOccurs="unbounded" />
@@ -629,7 +629,7 @@ Other</xs:documentation>
                     <xs:element name="GradeLevelWhenAssessed" type="GradeLevelType" minOccurs="0" />
                     <xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded" />
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-                    <xs:element name="AssessmentReference" type="AssessmentReferenceType" />
+                    <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -2092,7 +2092,7 @@ Withdrawn
 			<xs:documentation/>
 		    <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:refType>objectiveAssessment</sli:refType>
+                <sli:refType>assessment</sli:refType>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

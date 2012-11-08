@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -53,7 +52,6 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * @author vmcglaughlin
  *
  */
-@Component
 public class DeterministicIdResolver {
 
     @Autowired
@@ -244,8 +242,7 @@ public class DeterministicIdResolver {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
                 + ": Reference to " + referenceType
-                + " is incomplete because the following reference field is not resolved: "
-                + sourceRefPath;
+                + " is incomplete because the following reference field is not resolved: " + sourceRefPath;
 
         errorReport.error(errorMessage, this);
     }
@@ -265,7 +262,7 @@ public class DeterministicIdResolver {
 
         for (KeyFieldDef keyFieldDef : didRefConfig.getKeyFields()) {
             // populate naturalKeys
-            String value = null;
+            Object value = null;
             if (keyFieldDef.getRefConfig() != null) {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
@@ -290,15 +287,14 @@ public class DeterministicIdResolver {
                 }
 
             } else {
-                value = (String) getProperty(reference, keyFieldDef.getValueSource());
+            	value = getProperty(reference, keyFieldDef.getValueSource());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
-            // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null) {
-                continue;
+            // don't add null or empty keys to the naturalKeys map
+            if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
+                naturalKeys.put(fieldName, value == null ? "" : value.toString());
             }
-            naturalKeys.put(fieldName, value);
         }
 
         // no natural keys found
@@ -320,11 +316,11 @@ public class DeterministicIdResolver {
     }
 
     public DidSchemaParser getDidSchemaParser() {
-		return didSchemaParser;
-	}
+        return didSchemaParser;
+    }
 
-	public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
-		this.didSchemaParser = didSchemaParser;
-	}
+    public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
+        this.didSchemaParser = didSchemaParser;
+    }
 
 }
