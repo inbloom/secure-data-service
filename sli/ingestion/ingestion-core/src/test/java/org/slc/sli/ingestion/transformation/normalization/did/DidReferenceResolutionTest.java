@@ -238,6 +238,7 @@ public class DidReferenceResolutionTest {
     }
 
 	@Test
+	@Ignore
 	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
 
@@ -254,6 +255,7 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
+	@Ignore
 	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
 
