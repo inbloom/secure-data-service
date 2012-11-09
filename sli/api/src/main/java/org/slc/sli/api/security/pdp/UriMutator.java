@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -457,7 +458,7 @@ public class UriMutator {
                     int INDEX_OF_QUERY_VALUE = 10;
                     String ids = query.substring(INDEX_OF_QUERY_VALUE);
                     mutatedPath = "/" + ResourceNames.STUDENTS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
                     isMutated = true;
                 }
             }
@@ -468,7 +469,7 @@ public class UriMutator {
                     int INDEX_OF_QUERY_VALUE = 9;
                     String ids = query.substring(INDEX_OF_QUERY_VALUE);
                     mutatedPath = "/" + ResourceNames.SCHOOLS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
                     isMutated = true;
                 }
             }
@@ -479,7 +480,7 @@ public class UriMutator {
                     int INDEX_OF_QUERY_VALUE = 15;
                     String ids = query.substring(INDEX_OF_QUERY_VALUE);
                     mutatedPath = "/" + ResourceNames.STAFF + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
                     isMutated = true;
                 }
             }
@@ -490,7 +491,7 @@ public class UriMutator {
                     int INDEX_OF_QUERY_VALUE = 10;
                     String ids = query.substring(INDEX_OF_QUERY_VALUE);
                     mutatedPath = "/" + ResourceNames.TEACHERS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
                     isMutated = true;
                 }
             }
@@ -501,7 +502,7 @@ public class UriMutator {
                     int INDEX_OF_QUERY_VALUE = 28;
                     String ids = query.substring(INDEX_OF_QUERY_VALUE);
                     mutatedPath = "/" + ResourceNames.STUDENT_SECTION_ASSOCIATIONS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(query, "");
+                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
                     isMutated = true;
                 }
             }
