@@ -53,9 +53,7 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>
@@ -110,9 +108,7 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>
@@ -167,9 +163,7 @@
     </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
     </EducationOrganizationReference>
 </GraduationPlan>

@@ -191,9 +191,9 @@ public class XsdValidatorTest {
         String invalidCourseRefMessage = String.format(REF_ERROR_FORMAT, "CourseReference");
         Assert.assertTrue("Should see warning for course reference", faultListContainsWarningMessage(faults, invalidCourseRefMessage));
 
-        // Check courseOffering reference - TODO update to assertTrue once id-ref for courseOffering has been removed
+        // Check courseOffering reference
         String invalidCourseOfferingRefMessage = String.format(REF_ERROR_FORMAT, "CourseOfferingReference");
-        Assert.assertFalse("Should see warning for courseOffering reference", faultListContainsWarningMessage(faults, invalidCourseOfferingRefMessage));
+        Assert.assertTrue("Should see warning for courseOffering reference", faultListContainsWarningMessage(faults, invalidCourseOfferingRefMessage));
     }
 
     @Test
@@ -215,9 +215,9 @@ public class XsdValidatorTest {
         String invalidStudentAssessmentRefMessage = String.format(REF_ERROR_FORMAT, "StudentAssessmentReference");
         Assert.assertTrue("Should see warning for studentAssessment reference", faultListContainsWarningMessage(faults, invalidStudentAssessmentRefMessage));
 
-        // Check assessmentItem reference - TODO update to assertTrue once id-ref for assessmentItem has been removed
+        // Check assessmentItem reference
         String invalidAssessmentItemRefMessage = String.format(REF_ERROR_FORMAT, "AssessmentItemReference");
-        Assert.assertFalse("Should see warning for courseOffering reference", faultListContainsWarningMessage(faults, invalidAssessmentItemRefMessage));
+        Assert.assertTrue("Should see warning for assessmentItem reference", faultListContainsWarningMessage(faults, invalidAssessmentItemRefMessage));
     }
 
     @Test
@@ -327,9 +327,9 @@ public class XsdValidatorTest {
         List<Fault> faults = faultsReport.getFaults();
         Assert.assertFalse(faults.isEmpty());
 
-        // Check cohort reference - TODO update to assertTrue once id-ref for cohort has been removed
+        // Check cohort reference
         String invalidRefMessage = String.format(REF_ERROR_FORMAT, "CohortReference");
-        Assert.assertFalse("Should see warning for cohort reference", faultListContainsWarningMessage(faults, invalidRefMessage));
+        Assert.assertTrue("Should see warning for cohort reference", faultListContainsWarningMessage(faults, invalidRefMessage));
     }
 
     private boolean faultListContainsWarningMessage(List<Fault> faults, String message) {

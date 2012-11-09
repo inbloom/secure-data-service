@@ -6,7 +6,26 @@
         <EducationalEnvironment>Classroom</EducationalEnvironment>
         <MediumOfInstruction>Independent study</MediumOfInstruction>
         <PopulationServed>Regular Students</PopulationServed>
-        <CourseOfferingReference ref="CO_1"/>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
         <LocationReference ref="LR_1"/>
         <SchoolReference>
             <EducationalOrgIdentity>
@@ -30,7 +49,26 @@
         <EducationalEnvironment>Classroom</EducationalEnvironment>
         <MediumOfInstruction>Independent study</MediumOfInstruction>
         <PopulationServed>Regular Students</PopulationServed>
-        <CourseOfferingReference ref="CO_2"/>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>8th Grade English</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>Baker School</StateOrganizationId>
@@ -53,7 +91,26 @@
         <EducationalEnvironment>Classroom</EducationalEnvironment>
         <MediumOfInstruction>Independent study</MediumOfInstruction>
         <PopulationServed>Regular Students</PopulationServed>
-        <CourseOfferingReference ref="CO_1"/>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>Charlie School</StateOrganizationId>
@@ -79,12 +136,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -112,12 +178,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -145,12 +220,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -178,12 +262,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Spring Semester</Term>
-                <SchoolYear>2010-2011</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Spring 2012 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -208,7 +301,26 @@
         <EducationalEnvironment>Classroom</EducationalEnvironment>
         <MediumOfInstruction>Independent study</MediumOfInstruction>
         <PopulationServed>Regular Students</PopulationServed>
-        <CourseOfferingReference ref="CO_3"/>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>Club/Team</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
         <SchoolReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>Baker School</StateOrganizationId>
@@ -234,12 +346,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Club/Team</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Club/Team</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -267,12 +388,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Club/Team</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Club/Team</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -300,12 +430,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -333,12 +472,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Club/Team</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Club/Team</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -366,12 +514,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>8th Grade English</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>8th Grade English</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -399,12 +556,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Club/Team</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Club/Team</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -432,12 +598,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>1st Grade Homeroom</ID>
-                </CourseCode>
-                <Term>Fall Semester</Term>
-                <SchoolYear>2011-2012</SchoolYear>
-                <StateOrganizationId>Able School</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Able School</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Able School</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Able School</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>

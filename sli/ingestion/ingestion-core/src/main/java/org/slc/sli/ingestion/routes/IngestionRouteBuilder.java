@@ -171,6 +171,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
+    // Spring's dependency management can confuse camel due to some circular dependencies. Removing
+    // this constructor, even if it doesn't look like it will change things, may affect loading
+    // order and cause ingestion to fail to start on certain JVMs
+    @Autowired
+    public IngestionRouteBuilder(TenantProcessor tenantProcessor) {
+        super();
+    }
+
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());

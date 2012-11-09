@@ -325,7 +325,7 @@ public class AttendanceTransformerTest {
         NeutralQuery query1 = new NeutralQuery(1);
         query1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         query1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-        query1.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+        query1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
         query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
         Mockito.verify(repository, Mockito.times(1))
@@ -339,7 +339,7 @@ public class AttendanceTransformerTest {
         NeutralQuery query2 = new NeutralQuery(1);
         query2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         query2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId2"));
-        query2.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
+        query2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
         query2.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
         Mockito.verify(repository, Mockito.times(1))

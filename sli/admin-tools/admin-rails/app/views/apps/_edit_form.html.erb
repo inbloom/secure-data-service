@@ -81,50 +81,30 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-
-
-  <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
-  <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% isNew = @district_hierarchy == nil %>
-  
-  <% if !isNew and !app.pending? and !app.allowed_for_all_edorgs %>
-  <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
-    <h3>Enable</h2>
-    <h6>Choose the states or Districts you would like to have access to your application.</h6>
-    <div class="links">
-    <%= link_to "Enable All", "#", :id => "enable-all"%> |
-    <%= link_to "Disable All", "#", :id => "disable-all" %>
-    </div>
-  <% @district_hierarchy = {} if isNew or app.pending? %>
-  <ul class="clear">
-  <% @district_hierarchy.keys.each do |district| %>
-    <li>
-      <% if !app.authorized_ed_orgs.nil? %>
-        <%= check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"])) %>
-      <% else %>
-         <%= check_box_tag(check_box_name, district["id"]) %>
-      <%end%>
-
-         <%= district["name"] %>
-         <ul class="clear">
-    <% @district_hierarchy[district].each do |child_district| %>
-            <li>
-            <%=
-                if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
-                else
-                    check_box_tag(check_box_name, child_district["id"])
-                end
-            %>
-            <%= child_district["name"] %>
-            </li>
-    <% end %>
-      </ul>
-    </li>
-    <% end %>
-    </ul>
+<div id="ed_orgs" class = "field">
+  <% app.authorized_ed_orgs.each do |role| %>
+      <%= f.hidden_field :authorized_ed_orgs, :multiple => true, :value => role %>
   <% end %>
-  </div>
+</div>
+<% if !@sea.nil? %>
+<h3>Enable the districts you would like to use your application</h3>
+<div id="state-menu">
+  <label class="inline">Select a state
+  <% state_array = @sea.map { |state| [state["name"], state["state"]]} %>
+  <%= select_tag(:state_select, options_for_select(state_array), :prompt => 'Please select a state') %>
+  </label>
+</div>
+<div id="enable-menu" class="well">
+
+<div id = "lea-menu">
+  <p>Please select a state first...</p>
+</div>
+<% end %>
+
+<div class="clear"></div>
+</div>
+
+
 <div class = "actions">
 	<%= f.submit "Save", :disable_with => 'Submitting...', :class => "btn" %>
 	<%= link_to "Cancel", :back %>
