@@ -23,10 +23,10 @@ import java.util.Formatter;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 
 /**
  * @author unavani
@@ -36,14 +36,11 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
  */
 public final class SliDeltaManager {
 
-	// @Autowired
-    private static DeterministicUUIDGeneratorStrategy dIdStrategy = new DeterministicUUIDGeneratorStrategy();
-
-    public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO) {
+    public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO, DeterministicUUIDGeneratorStrategy dIdStrategy) {
 
         String recordId = n.generateRecordId(dIdStrategy);
         String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId());
-        		
+
         RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
         if (record == null) {
             RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId, recordHashValues);
@@ -77,4 +74,5 @@ public final class SliDeltaManager {
         rh.updated = rh.created;
         return rh;
     }
+
 }

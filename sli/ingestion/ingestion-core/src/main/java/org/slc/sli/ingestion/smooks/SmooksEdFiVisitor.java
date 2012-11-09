@@ -37,6 +37,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -73,6 +74,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private BatchJobDAO batchJobDAO;
     private Set<String> recordLevelDeltaEnabledEntities;
+    private DeterministicUUIDGeneratorStrategy dIdStrategy;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -112,7 +114,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO)) {
+
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {
@@ -211,6 +214,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
         this.recordLevelDeltaEnabledEntities = entities;
+    }
+
+    public void setDidGeneratorStrategy(DeterministicUUIDGeneratorStrategy didGeneratorStrategy) {
+        this.dIdStrategy = didGeneratorStrategy;
     }
 
     /* we are not using the below visitor hooks */

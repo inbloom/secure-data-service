@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -51,6 +52,9 @@ public class SliSmooksFactory {
 
     @Autowired
     public BatchJobDAO batchJobDAO;
+
+    @Autowired
+    public DeterministicUUIDGeneratorStrategy dIdStrategy;
 
     @Value("${sli.ingestion.recordLevelDeltaEntities}")
     private String recordLevelDeltaEnabledEntityNames;
@@ -83,6 +87,7 @@ public class SliSmooksFactory {
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDidGeneratorStrategy(dIdStrategy);
 
             HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
             recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
@@ -110,4 +115,9 @@ public class SliSmooksFactory {
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
     }
+
+    public void setdIdStrategy(DeterministicUUIDGeneratorStrategy dIdStrategy) {
+        this.dIdStrategy = dIdStrategy;
+    }
+
 }

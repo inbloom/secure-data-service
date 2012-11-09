@@ -188,6 +188,8 @@
     </property>
   </bean>
 
+  <bean id="deterministicUUIDGeneratorStrategy" class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
+
   <bean id="sliSmooksFactory" class="org.slc.sli.ingestion.smooks.SliSmooksFactory">
     <property name="sliSmooksConfigMap">
       <ref bean="smooksConfigMap" />
@@ -195,6 +197,7 @@
     <property name="beanId" value="${smooks.config.bean.id}" />
     <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
     <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
   </bean>
 
 </beans>

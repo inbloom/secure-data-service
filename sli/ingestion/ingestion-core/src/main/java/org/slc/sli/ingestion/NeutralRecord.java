@@ -37,7 +37,11 @@ package org.slc.sli.ingestion;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+
+import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 
 /**
@@ -162,12 +166,37 @@ public class NeutralRecord {
      * 			  the generated ID
      */
     public String generateRecordId(UUIDGeneratorStrategy strategy) {
-    	if (this.recordId == null)
-    		this.recordId = strategy.generateId();
+        if (this.recordId == null) {
+
+            // US4439 TODO: This is POC code and needs to be cleaned up and put where it makes most sense
+
+            // This could be skipped, but we may be using a different DID than current used in persistence processor when Ed-Fi and SLI schema don't align
+            String sliEntityType = MapUtils.getString(metaData, "sliEntityType");
+            if (sliEntityType == null) {
+                // If an explicit sliEntityName isn't provided via smooks config, use the neutralRecord recordType
+                sliEntityType = recordType;
+            }
+
+            // Determine the neutralrecord key fields from smooks config - temporary solution until annotations are added identifying key fields in SLI-Ed-Fi.xsd
+            // that can be mapped deterministically to the neutralrecord fields
+            Map<String, String> naturalKeys = new HashMap<String, String>();
+            // TODO: Add handling for compound natural key field names - comma delimited list?
+            String keyValueFieldName = MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames");
+            String keyValue = MapUtils.getString(attributes, keyValueFieldName);
+            naturalKeys.put(keyValueFieldName, keyValue);
+
+            NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, TenantContext.getTenantId(), sliEntityType, null);
+            this.recordId = strategy.generateId(nkd);
+            System.out.println("Generated DID " + recordId);
+
+            // US4439 TODO end
+
+        }
+
         return this.recordId;
     }
 
-    
+
     /**
      * @param localId
      *            the localId to set

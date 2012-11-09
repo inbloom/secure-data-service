@@ -133,6 +133,7 @@
   <jb:bean beanId="stateEducationOrganizationMetaData" class="java.util.HashMap"
     createOnElement="InterchangeEducationOrganization/StateEducationAgency">
     <jb:expression property="neutralRecordKeyValueFieldNames">'stateOrganizationId'</jb:expression>
+    <jb:expression property="sliEntityType">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap"
