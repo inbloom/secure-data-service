@@ -32,9 +32,6 @@ import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
@@ -42,7 +39,11 @@ import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.OplogConverter.Meta;
 import org.slc.sli.search.util.SearchIndexerException;
-import org.slc.sli.search.util.amq.JMSQueueConsumer;
+import org.slc.sli.search.util.amq.ActiveMQConnection;
+import org.slc.sli.search.util.amq.ActiveMQConnection.MessageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Listens to ActiveMQ for Sarje messages. Filters the message and passes
@@ -61,16 +62,12 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private JMSQueueConsumer activeMQConsumer;
+    private ActiveMQConnection activeMQConnection;
 
     public void init() {
         listen();
     }
 
-    public void destroy() throws Exception {
-        this.activeMQConsumer.destroy();
-
-    }
 
     /*
      * (non-Javadoc)
@@ -79,7 +76,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      */
     public void listen() {
         try {
-            this.activeMQConsumer.getConsumer().setMessageListener(new MessageListener() {
+            this.activeMQConnection.getConsumer(MessageType.QUEUE).setMessageListener(new MessageListener() {
                 public void onMessage(Message message) {
                     process(message);
                 }
@@ -198,8 +195,8 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         this.mapper = mapper;
     }
 
-    public void setActiveMQConsumer(JMSQueueConsumer activeMQConsumer) {
-        this.activeMQConsumer = activeMQConsumer;
+    public void setActiveMQConnection(ActiveMQConnection activeMQConnection) {
+        this.activeMQConnection = activeMQConnection;
     }
 
     public String getHealth() {

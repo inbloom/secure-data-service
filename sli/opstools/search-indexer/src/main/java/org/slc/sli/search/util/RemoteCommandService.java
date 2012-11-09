@@ -55,7 +55,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
     private Admin admin;
 
     // thread executor
-    private static final ScheduledExecutorService scheduledService = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduledService = Executors.newSingleThreadScheduledExecutor();
 
     /**
      * initial method run by Spring init-method
