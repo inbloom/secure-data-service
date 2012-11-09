@@ -23,9 +23,9 @@ import java.util.Map;
 
 /**
  * Entity converter for OpLog
- * 
+ *
  * @author tosako
- * 
+ *
  */
 
 @SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ public class OplogConverter {
 
     /**
      * Convert OpLog entry to Entity for Insert
-     * 
+     *
      * @param oplogEntry
      * @return
      */
@@ -50,7 +50,7 @@ public class OplogConverter {
 
     /**
      * Convert OpLog entry to Entity for Update
-     * 
+     *
      * @param oplogEntry
      * @return
      */
@@ -72,7 +72,7 @@ public class OplogConverter {
 
     /**
      * Convert OpLog entry to Entity for Delete
-     * 
+     *
      * @param oplogEntry
      * @param type
      * @return
@@ -162,11 +162,12 @@ public class OplogConverter {
     }
 
     private static List<Object> filterObject(Object obj, List<Object> list) {
-        if (list.isEmpty() || obj == null)
+        if (list.isEmpty() || obj == null) {
             return list;
-        if (!obj.getClass().isArray())
+        }
+        if (!obj.getClass().isArray()) {
             list.clear();
-        else {
+        } else {
             list.removeAll(Arrays.asList(obj));
         }
         return list;
@@ -197,14 +198,14 @@ public class OplogConverter {
     public static boolean isDelete(Map<String, Object> oplog) {
         return "d".equals(oplog.get("op"));
     }
-    
+
     // TODO : is there a better way to make the json valid?
     public static String preProcess(String entityStr) {
 
         // handle ISODates and NumberLong
-        entityStr = entityStr.replaceAll("ISODate\\((\".*?\")\\)", "$1");
-        entityStr = entityStr.replaceAll("NumberLong\\((.*?)\\)", "$1");
-        return entityStr;
+        String conv = entityStr.replaceAll("ISODate\\((\".*?\")\\)", "$1");
+        conv = conv.replaceAll("NumberLong\\((.*?)\\)", "$1");
+        return conv;
     }
 
     public static class Meta {

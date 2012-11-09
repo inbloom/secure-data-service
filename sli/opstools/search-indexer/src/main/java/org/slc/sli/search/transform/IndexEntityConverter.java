@@ -28,7 +28,7 @@ import org.slc.sli.search.util.SearchIndexerException;
 
 /**
  * IndexEntityConverter handles conversion of IndexEntity to and from entity
- * 
+ *
  */
 public class IndexEntityConverter {
     private EntityEncryption entityEncryption;
@@ -36,16 +36,16 @@ public class IndexEntityConverter {
     private final GenericTransformer transformer = new GenericTransformer();
     // decrypt records flag
     private boolean decrypt = true;
-    
+
     public IndexEntity fromEntityJson(String index, String entity) {
         return fromEntityJson(index, Action.INDEX, entity);
     }
-    
+
     public IndexEntity fromEntityJson(String index, Action action, String entity) {
         Map<String, Object> entityMap = IndexEntityUtil.getEntity(entity);
         return fromEntity(index, action, entityMap);
     }
-    
+
     @SuppressWarnings("unchecked")
     public IndexEntity fromEntity(String index, Action action, Map<String, Object> entityMap) {
         try {
@@ -62,31 +62,32 @@ public class IndexEntityConverter {
             // get tenantId
             String indexName = (index == null) ? ((String)metaData.get("tenantId")).toLowerCase() : index.toLowerCase();
             IndexConfig config = indexConfigStore.getConfig(type);
-            
+
             // filter out
-            if (!transformer.isMatch(config, entityMap))
+            if (!transformer.isMatch(config, entityMap)) {
                 return null;
-            
+            }
+
             // transform the entities
             transformer.transform(config, entityMap);
-            
+
             String id = (String)entityMap.get("_id");
             String indexType = config.getIndexType() == null ? type : config.getIndexType();
-            action = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
-            return new IndexEntity(action, indexName, indexType, id, (Map<String, Object>)entityMap.get("body"));
-            
+            Action finalAction = config.isChildDoc() ?  IndexEntity.Action.UPDATE : action;
+            return new IndexEntity(finalAction, indexName, indexType, id, (Map<String, Object>)entityMap.get("body"));
+
         } catch (Exception e) {
             throw new SearchIndexerException("Unable to convert entity", e);
-        } 
+        }
     }
-    
+
     public void setDecrypt(boolean decrypt) {
         this.decrypt = decrypt;
     }
     public void setEntityEncryption(EntityEncryption entityEncryption) {
         this.entityEncryption = entityEncryption;
     }
-    
+
     public void setIndexConfigStore(IndexConfigStore indexConfigStore) {
         this.indexConfigStore = indexConfigStore;
     }

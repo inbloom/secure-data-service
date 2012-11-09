@@ -7,7 +7,7 @@ import org.slc.sli.search.entity.IndexEntity;
  *
  */
 public interface Indexer extends Process {
-    
-    public abstract void index(IndexEntity entity);
-    
+
+    void index(IndexEntity entity);
+
 }

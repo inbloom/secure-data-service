@@ -27,8 +27,8 @@ public class IndexEntity {
         QUICK_UPDATE("update"),
         INDEX("index"),
         DELETE("delete");
-        
-        String type;
+
+        private final String type;
         Action(String type) {this.type = type;}
         public String getType() {
             return type;
@@ -39,7 +39,7 @@ public class IndexEntity {
     private final String type;
     private final String id;
     private final Map<String, Object> body;
-    
+
     public IndexEntity(Action action, String index, String type, String id, Map<String, Object> body) {
         this.action = action;
         this.index = index;
@@ -47,11 +47,11 @@ public class IndexEntity {
         this.id = id;
         this.body = body;
     }
-    
+
     public IndexEntity(String index, String type, String id, Map<String, Object> body) {
         this(Action.INDEX, index, type, id, body);
     }
-    
+
     public IndexEntity(String index, String type, String id) {
         this(Action.INDEX, index, type, id, null);
     }
@@ -71,15 +71,15 @@ public class IndexEntity {
     public Map<String, Object> getBody() {
         return body;
     }
-    
+
     public String getActionValue() {
         return action.getType();
     }
-    
+
     public Action getAction() {
         return action;
     }
-    
+
     @Override
     public String toString() {
         return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + "}";

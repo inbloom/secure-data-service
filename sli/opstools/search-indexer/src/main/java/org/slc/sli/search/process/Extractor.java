@@ -24,18 +24,18 @@ import org.slc.sli.search.entity.IndexEntity.Action;
  *
  */
 public interface Extractor extends Process {
-    
+
     /**
      * Execute extract
      * @param action - use the provided action to specify what kind of action the indexer should perform for the extract
      */
-    public abstract void execute(Action action);
-    
+    void execute(Action action);
+
     /**
      * Execute for a particular tenant
      * @param tenant
      * @param action
      */
-    public void execute(Tenant tenant, Action action);
-    
+    void execute(Tenant tenant, Action action);
+
 }

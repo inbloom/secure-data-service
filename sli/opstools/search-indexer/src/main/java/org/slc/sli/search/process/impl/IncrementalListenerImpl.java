@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -31,22 +32,24 @@ import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.OplogConverter.Meta;
+import org.slc.sli.search.util.SearchIndexerException;
 import org.slc.sli.search.util.amq.JMSQueueConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Listens to ActiveMQ for Sarje messages. Filters the message and passes
  * data to the Indexer to be indexed in elasticsearch.
- * 
+ *
  * @author dwu
- * 
+ *
  */
 public class IncrementalListenerImpl implements IncrementalLoader {
 
@@ -60,8 +63,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     private JMSQueueConsumer activeMQConsumer;
 
-    public void init() throws Exception {
-
+    public void init() {
         listen();
     }
 
@@ -72,20 +74,24 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.search.process.impl.IncrementalListener#listen()
      */
-    public void listen() throws Exception {
-        this.activeMQConsumer.getConsumer().setMessageListener(new MessageListener() {
-            public void onMessage(Message message) {
-                process(message);
-            }
-        });
+    public void listen() {
+        try {
+            this.activeMQConsumer.getConsumer().setMessageListener(new MessageListener() {
+                public void onMessage(Message message) {
+                    process(message);
+                }
+            });
+        } catch (JMSException jmse) {
+            throw new SearchIndexerException("Unable to listen to oplog queue", jmse);
+        }
     }
 
     /**
      * Process a message from the queue
-     * 
+     *
      * @param opLog
      */
     public void process(Message message) {
@@ -123,7 +129,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     /**
      * Convert oplog message to an IndexEntity, based on the action type (insert, update, delete)
-     * 
+     *
      * @param opLog
      * @return
      * @throws Exception
