@@ -120,6 +120,7 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
 	}
 
+
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
 		NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);

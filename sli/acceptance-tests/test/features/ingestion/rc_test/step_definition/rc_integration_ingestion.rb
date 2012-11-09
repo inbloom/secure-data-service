@@ -27,7 +27,7 @@ require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
 
-UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # TEST SETUP FUNCTIONS
@@ -131,6 +131,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
+      next if File.directory?(file);
       content = File.read(file)
       if content.include?(message)
         return true

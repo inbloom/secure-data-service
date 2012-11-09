@@ -19,9 +19,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>ACT</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 

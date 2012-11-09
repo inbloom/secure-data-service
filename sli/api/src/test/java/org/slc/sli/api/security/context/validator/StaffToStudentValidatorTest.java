@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -180,5 +181,18 @@ public class StaffToStudentValidatorTest {
         String studentId = helper.generateStudentAndStudentSchoolAssociation("-32", "101", NOT_EXPIRED);
         studentIds.add(studentId);
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testIsLhsBeforeRhs() {
+        //Same date, different times
+        DateTime today = new DateTime(2010, 10, 10, 10, 10, 10);
+        DateTime today2 = new DateTime(2010, 10, 10, 12, 12, 12);
+        DateTime old = new DateTime(2000, 1, 1, 1, 1, 1);
+        assertTrue(validator.isLhsBeforeRhs(today, today2));    //dates are equal
+        assertTrue(validator.isLhsBeforeRhs(today2, today));
+        
+        assertTrue(validator.isLhsBeforeRhs(old, today));
+        assertFalse(validator.isLhsBeforeRhs(today, old));
     }
 }
