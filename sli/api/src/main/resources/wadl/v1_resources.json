@@ -261,8 +261,7 @@
         { "path": "/{id}/staffProgramAssociations/staff" },
         { "path": "/{id}/studentProgramAssociations" },
         { "path": "/{id}/studentProgramAssociations/students" },
-        { "path": "/{id}/staffProgramAssociations" },
-        { "path": "/{id}/cohorts" }
+        { "path": "/{id}/staffProgramAssociations" }
       ]
     },
     {
