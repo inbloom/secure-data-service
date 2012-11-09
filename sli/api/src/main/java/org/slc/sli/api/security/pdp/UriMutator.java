@@ -463,7 +463,7 @@ public class UriMutator {
                 }
             }
         }
-        if (!isMutated && queryParameters.matches("^schoolId=.+")) {
+        if (!isMutated && !resource.equals(ResourceNames.ATTENDANCES) && queryParameters.matches("^schoolId=.+")) {
             for (String query : queries) {
                 if (query.matches("^schoolId=.+")) {
                     int INDEX_OF_QUERY_VALUE = 9;
