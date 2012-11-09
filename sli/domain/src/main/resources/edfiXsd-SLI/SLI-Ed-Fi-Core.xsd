@@ -145,7 +145,7 @@ Met standard
 							<xs:documentation>Link of the item scores the objective scores for a student's specific test administration.  Used only if the test has objective level scores.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType">
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType">
 						<xs:annotation>
 							<xs:documentation>The assessment item responded to by the student.</xs:documentation>
 						</xs:annotation>
@@ -154,6 +154,31 @@ Met standard
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+  <xs:complexType name="SLC-AssessmentItemReferenceType">
+    <xs:annotation>
+      <xs:documentation>Provides alternative references for assessment items during interchange. Use XML IDREF to reference a course record that is included in the interchange</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType">
+        <xs:annotation>
+          <xs:documentation>Identity of the assessment item.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SLC-AssessmentItemIdentityType">
+    <xs:annotation>
+      <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of assessment items.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode">
+        <xs:annotation>
+          <xs:documentation>The identification code of the assessment item.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
   <!-- Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType -->
   <xs:complexType name="SLC-StudentObjectiveAssessment">
@@ -252,24 +277,51 @@ Met standard
 	</xs:complexType>
 
   <!-- Make StudentCompetencyObjectiveId required -->
-  <xs:complexType name="SLC-StudentCompetencyObjectiveRestriction">
-    <xs:annotation>
-      <xs:documentation/>
-        <xs:appinfo>
-          <sli:recordType>studentCompetencyObjective</sli:recordType>
-        </xs:appinfo>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:restriction base="StudentCompetencyObjective">
-        <xs:sequence>
-          <xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode" />
-          <xs:element name="Objective" type="Objective" />
-          <xs:element name="Description" type="Description" minOccurs="0" />
-          <xs:element name="ObjectiveGradeLevel" type="GradeLevelType" />
-          <xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" />
-        </xs:sequence>
-      </xs:restriction>
-    </xs:complexContent>
+
+  <xs:complexType name="SLC-StudentCompetencyObjective">
+      <xs:annotation>
+          <xs:documentation>This entity holds additional competencies for student achievement that are not associated
+              with specific learning objectives (e.g., paying attention in class).
+          </xs:documentation>
+          <xs:appinfo>
+              <sli:recordType>studentCompetencyObjective</sli:recordType>
+          </xs:appinfo>
+        </xs:annotation>
+      <xs:complexContent>
+          <xs:extension base="ComplexObjectType">
+              <xs:sequence>
+                  <xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode">
+                      <xs:annotation>
+                          <xs:documentation>The Identifier for the student competency.</xs:documentation>
+                      </xs:annotation>
+                  </xs:element>
+                  <xs:element name="Objective" type="Objective">
+                      <xs:annotation>
+                          <xs:documentation>The designated title of the student competency objective.
+                          </xs:documentation>
+                      </xs:annotation>
+                  </xs:element>
+                  <xs:element name="Description" type="Description" minOccurs="0">
+                      <xs:annotation>
+                          <xs:documentation>The description of the student competency objective.</xs:documentation>
+                      </xs:annotation>
+                  </xs:element>
+                  <xs:element name="ObjectiveGradeLevel" type="GradeLevelType">
+                      <xs:annotation>
+                          <xs:documentation>The grade level for which the competency objective is targeted,
+                          </xs:documentation>
+                      </xs:annotation>
+                  </xs:element>
+                  <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
+                      <xs:annotation>
+                          <xs:documentation>The Education Organization that defines the curriculum and courses offered
+                              - often the LEA or school.
+                          </xs:documentation>
+                      </xs:annotation>
+                  </xs:element>
+              </xs:sequence>
+          </xs:extension>
+      </xs:complexContent>
   </xs:complexType>
 
   <!-- Limit StaffReference and CohortReference to 1 -->
@@ -388,7 +440,7 @@ Other</xs:documentation>
       <xs:extension base="ComplexObjectType">
         <xs:sequence>
           <xs:element name="TeacherReference" type="SLC-StaffReferenceType" />
-          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType" />
           <xs:element name="ProgramAssignment" type="ProgramAssignmentType" />
           <xs:element name="InstructionalGradeLevels" type="GradeLevelsType" />
           <xs:element name="AcademicSubjects" type="AcademicSubjectsType" />
@@ -536,17 +588,13 @@ Other</xs:documentation>
             <sli:refType>cohort</sli:refType>
         </xs:appinfo>
       </xs:annotation>
-      <xs:complexContent>
-        <xs:extension base="ReferenceType">
-          <xs:sequence>
-            <xs:element name="CohortIdentity" type="SLC-CohortIdentityType">
-              <xs:annotation>
-                <xs:documentation>Provide user information to lookup and link to an existing cohort record in the receiving system.  </xs:documentation>
-              </xs:annotation>
-            </xs:element>
-          </xs:sequence>
-        </xs:extension>
-      </xs:complexContent>
+      <xs:sequence>
+        <xs:element name="CohortIdentity" type="SLC-CohortIdentityType">
+          <xs:annotation>
+            <xs:documentation>Provide user information to lookup and link to an existing cohort record in the receiving system.  </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="SLC-CohortIdentityType">
@@ -1474,8 +1522,8 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
                     <xs:element name="StudentReference" type="SLC-StudentReferenceType" maxOccurs="unbounded" />
                     <xs:element name="DisciplineIncidentReference" type="SLC-DisciplineIncidentReferenceType" maxOccurs="unbounded"/>
                     <xs:element name="StaffReference" type="SLC-StaffReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="ResponsibilitySchoolReference" type="EducationalOrgReferenceType"/>
-                    <xs:element name="AssignmentSchoolReference" type="EducationalOrgReferenceType" minOccurs="0"/>
+                    <xs:element name="ResponsibilitySchoolReference" type="SLC-EducationalOrgReferenceType"/>
+                    <xs:element name="AssignmentSchoolReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -2249,7 +2297,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType">
+					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA.</xs:documentation>
 						</xs:annotation>
@@ -2387,7 +2435,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 							<xs:documentation>The descriptive name given to a course of study offered in the school, if different from the CourseTitle. </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The school that offers the course.</xs:documentation>
 						</xs:annotation>
@@ -2453,7 +2501,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
                     <xs:documentation>The staff assigned to the education organization.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType">
+            <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
                 <xs:annotation>
                     <xs:documentation>The educational organization to which the staff memeber provides services</xs:documentation>
                 </xs:annotation>
@@ -2562,7 +2610,7 @@ Representative of visiting school
                             <xs:documentation>The case number assigned to the incident by law enforcement or other organization.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+                    <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
                         <xs:annotation>
                             <xs:documentation>School where incident occurred</xs:documentation>
                         </xs:annotation>
@@ -2672,7 +2720,7 @@ Representative of visiting school
 							<xs:documentation>The academic subject associated with an academic intervention.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrgReference" type="EducationalOrgReferenceType">
+					<xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The education organization associated with and owner of the cohort.</xs:documentation>
 						</xs:annotation>
@@ -2819,7 +2867,7 @@ Representative of visiting school
 							<xs:documentation>The ESC of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The SEA of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>
@@ -2876,7 +2924,7 @@ Representative of visiting school
 							<xs:documentation>The type of education institution as classified by its funding source, for example public or private.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>LEA of which the School is an organizational component.</xs:documentation>
 						</xs:annotation>
@@ -2970,7 +3018,7 @@ Special education students
 							<xs:documentation>The course offering taught in the section.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+					<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType">
 						<xs:annotation>
 							<xs:documentation>The school where the section is taught.</xs:documentation>
 						</xs:annotation>
@@ -3012,6 +3060,180 @@ Special education students
 			<xs:extension base="SLC-EducationOrganization"/>
 		</xs:complexContent>
 	</xs:complexType>
+
+
+
+    <xs:complexType name="SLC-Course">
+        <xs:annotation>
+            <xs:documentation>This entity represents a course.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>course</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="CourseTitle" type="CourseTitle">
+                        <xs:annotation>
+                            <xs:documentation>The descriptive name given to a course of study offered in a school or other institution or organization. In departmentalized classes at the elementary, secondary, and postsecondary levels (and for staff development activities), this refers to the name by which a course is identified (e.g., American History, English III). For elementary and other non-departmentalized classes, it refers to any portion of the instruction for which a grade or report is assigned (e.g., reading, composition, spelling, and language arts).</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="NumberOfParts">
+                        <xs:annotation>
+                            <xs:documentation>The number of parts identified for a course.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:int">
+                                <xs:minInclusive value="1"/>
+                                <xs:maxInclusive value="8"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CourseCode" type="CourseCode" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseLevel" type="CourseLevelType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The course's level of rigor.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseLevelCharacteristics" type="CourseLevelCharacteristicsType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Specification of the specific program or designation associated with the course.  For example: Ap, IB, Dual Credit, CTE. etc.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The grade levels in which the course is offered.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="SubjectArea" type="AcademicSubjectType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The intended major subject area of the course.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseDescription" type="Description" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>A description of the content standards and goals covered in the course. Reference may be made to state or national content standards.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="DateCourseAdopted" type="xs:date" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Date the course was adopted by the education agency.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="HighSchoolCourseRequirement" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An indication that this course may satisfy high school graduation requirements in the course's subject area.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseGPAApplicability" type="CourseGPAApplicabilityType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An indicator of whether or not this course being described is included in the computation of the student’s Grade Point Average, and if so, if it weighted differently from regular courses.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CourseDefinedBy" type="CourseDefinedByType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Specifies whether the course was defined by the SEA, LEA, School, or national organization.  </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="MinimumAvailableCredit" type="Credits" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The minimum amount of credit available to a student who successfully completes the course</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="MaximumAvailableCredit" type="Credits" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The maximum amount of credit available to a student who successfully completes the course</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CareerPathway" type="CareerPathwayType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicates the career cluster or pathway the course is associated with as part of a CTE curriculum.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType">
+                        <xs:annotation>
+                            <xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Learning Standard(s) to be taught by the course.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="LearningObjectiveReference" type="LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Learning Objectives to be mastered in the course.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CompetencyLevels" type="CompetencyLevelDescriptorType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The competency levels defined to rate the student for the course.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="UniqueCourseId" type="SLC-UniqueCourseId" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
+    <xs:complexType name="SLC-GraduationPlan">
+        <xs:annotation>
+            <xs:documentation>This entity represents a Graduation Plan.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>graduationPlan</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="GraduationPlanType">
+                        <xs:annotation>
+                            <xs:documentation>The type of academic plan the student is following for graduation: for example, Minimum, Recommended, Distinguished, or Standard.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="GraduationPlanType"/>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="IndividualPlan" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>An indicator of whether the graduation plan is tailored for an individual.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="TotalCreditsRequired" type="Credits">
+                        <xs:annotation>
+                            <xs:documentation>The total number of credits required for graduation under this plan.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CreditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The total credits required in subject to graduate.  Only those courses identified as a high school course requirement are eligible to meet subject credit requirements.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CreditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>The total credits required to graduation by taking a specific course, or by taking one or more from a set of courses.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>For standard plans defined by an education organization, the reference to the organization defining the plan.  Individualized plans do not require this reference.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
 	<xs:complexType name="SLC-CourseOfferingReferenceType">
 		<xs:annotation>
@@ -3062,5 +3284,6 @@ Special education students
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
 
 </xs:schema>

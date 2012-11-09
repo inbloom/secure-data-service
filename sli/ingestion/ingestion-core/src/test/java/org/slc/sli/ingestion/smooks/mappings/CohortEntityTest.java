@@ -119,13 +119,12 @@ public class CohortEntityTest {
 */
         // Check edOrg references
         @SuppressWarnings("unchecked")
-        Map<String, Map<String, List<Object>>> edOrgReference = (Map<String, Map<String, List<Object>>>) attributes.get("educationOrgReference");
+        Map<String, Object> edOrgReference = (Map<String, Object>) attributes.get("EducationOrgReference");
         assertNotNull("Exepected non-null education organization reference", edOrgReference);
-        Map<String, List<Object>> edOrgIdentity = edOrgReference.get("EducationalOrgIdentity");
+        Map<String, Object> edOrgIdentity = (Map<String, Object>)edOrgReference.get("EducationalOrgIdentity");
         assertNotNull("Exepected non-null education organization identigy", edOrgIdentity);
-        List<Object> stateOrgIds = edOrgIdentity.get("StateOrganizationId");
-        assertEquals("Expected one state org id", 1, stateOrgIds.size());
-        assertEquals("Expected difference state org id", "IL", stateOrgIds.get(0));
+        String stateOrgIds = (String)edOrgIdentity.get("StateOrganizationId");
+        assertEquals("Expected difference state org id", "IL", stateOrgIds);
 
     }
 
