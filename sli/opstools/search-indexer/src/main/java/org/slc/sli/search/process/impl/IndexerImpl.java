@@ -16,8 +16,9 @@
 package org.slc.sli.search.process.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
@@ -66,7 +67,7 @@ public class IndexerImpl implements Indexer {
     
     // this is helpful to avoid adding index mappings for each index operation. The map does not have to be accurate
     // and no harm will be done if re-mapping is issued
-    private final ConcurrentHashMap<String, Boolean> knownIndexesMap = new ConcurrentHashMap<String, Boolean>();
+    private final Map<String, Boolean> knownIndexesMap = new HashMap<String, Boolean>();
     
     public void init() {
         indexRequests = new LinkedBlockingQueue<IndexEntity>(bulkSize * indexerWorkerPoolSize);
@@ -145,20 +146,22 @@ public class IndexerImpl implements Indexer {
      * @param index
      */
     public void addIndexMappingIfNeeded(String index) {
-        if (!knownIndexesMap.containsKey(index)) {
-            logger.info("Updating mappings for " + index);
-            try {
-                connector.createIndex(index);
-                for (IndexConfig config : indexConfigStore.getConfigs()) {
-                    if (!config.isChildDoc()) {
-                        connector.putMapping(index, config.getCollectionName(), IndexEntityUtil.getBodyForIndex(config.getMapping()));
+        synchronized (knownIndexesMap) {
+            if (!knownIndexesMap.containsKey(index)) {
+                logger.info("Updating mappings for " + index);
+                try {
+                    connector.createIndex(index);
+                    for (IndexConfig config : indexConfigStore.getConfigs()) {
+                        if (!config.isChildDoc()) {
+                            connector.putMapping(index, config.getCollectionName(), IndexEntityUtil.getBodyForIndex(config.getMapping()));
+                        }
                     }
+                    
+                } catch (Exception e) {
+                    logger.info("Index " + index + " already exists");
                 }
-                
-            } catch (Exception e) {
-                logger.info("Index " + index + " already exists");
+                knownIndexesMap.put(index, Boolean.TRUE);
             }
-            knownIndexesMap.put(index, Boolean.TRUE);
         }
     }
     

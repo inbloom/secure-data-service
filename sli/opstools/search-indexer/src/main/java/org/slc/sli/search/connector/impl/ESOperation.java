@@ -184,7 +184,9 @@ public class ESOperation extends ESConnector implements SearchEngineConnector {
                 IndexEntity ie;
                 final List<IndexEntity> reindex = new ArrayList<IndexEntity>();
                 for (Map<String, Object> entity : docs) {
-                    if (entity != null && entity.containsKey("exists") && (Boolean)entity.get("exists")) {
+                    if (entity == null)
+                        continue;
+                    if (entity.containsKey("exists") && (Boolean)entity.get("exists")) {
                         orig = (Map<String, Object>) entity.get("_source");
                         try {
                             ie = indexUpdateMap.remove(IndexEntityUtil.getIndexEntity(entity).getId());

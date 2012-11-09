@@ -54,11 +54,18 @@ public final class IndexConfig {
     private String collectionName;
     
     public static class Append {
-        private DotPath subdoc;
-        private String field;
-        private String value;
-        private Map<DotPath, Object> condition;
-        
+        private final DotPath subdoc;
+        private final String field;
+        private final String value;
+        private final Map<DotPath, Object> condition;
+
+        public Append(DotPath subdoc, String field, String value, Map<DotPath, Object> condition) {
+            super();
+            this.subdoc = subdoc;
+            this.field = field;
+            this.value = value;
+            this.condition = condition;
+        }
         public DotPath getSubdoc() {
             return subdoc;
         }
