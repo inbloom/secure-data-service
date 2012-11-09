@@ -4,15 +4,16 @@ getEdorgs = ->
     edorgs.push $(@).val()
   edorgs
   
-
 jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
         return false if selected.val() == ""
         $.get("/lea?state=" + selected.val(), (data) ->
             $("#lea-menu").html(data)
+            $('a#enable-help').tooltip()            
             $("#lea-menu table").trigger("change")
         )
+
     false
 jQuery ->
     $("#lea-menu table").live 'change', ->
