@@ -64,7 +64,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AssessmentIdentityType", propOrder = {
-    "assessmentIdentificationCode",
     "assessmentFamilyTitle",
     "assessmentTitle",
     "assessmentCategory",
@@ -74,8 +73,6 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class AssessmentIdentityType {
 
-    @XmlElement(name = "AssessmentIdentificationCode")
-    protected List<AssessmentIdentificationCode> assessmentIdentificationCode;
     @XmlElement(name = "AssessmentFamilyTitle")
     protected String assessmentFamilyTitle;
     @XmlElement(name = "AssessmentTitle")
@@ -89,34 +86,6 @@ public class AssessmentIdentityType {
     @XmlElement(name = "Version")
     protected Integer version;
 
-    /**
-     * Gets the value of the assessmentIdentificationCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the assessmentIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAssessmentIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AssessmentIdentificationCode }
-     * 
-     * 
-     */
-    public List<AssessmentIdentificationCode> getAssessmentIdentificationCode() {
-        if (assessmentIdentificationCode == null) {
-            assessmentIdentificationCode = new ArrayList<AssessmentIdentificationCode>();
-        }
-        return this.assessmentIdentificationCode;
-    }
 
     /**
      * Gets the value of the assessmentFamilyTitle property.
