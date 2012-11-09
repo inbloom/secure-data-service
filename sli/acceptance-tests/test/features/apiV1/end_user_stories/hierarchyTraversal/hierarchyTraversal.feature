@@ -10,7 +10,7 @@ Feature: As an SLI application, I want to be able to traverse from education org
 Background:
     Given format "application/vnd.slc+json"
 
-Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher as Staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
@@ -44,10 +44,8 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a collection link named "getSections"
     When I navigate to GET the link named "getSections"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self"
-    Then I should receive a return code of 200
-        And I should receive a link named "getTeacherSectionAssociations"
+        And I should receive zero entities
+
     When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
@@ -60,7 +58,7 @@ Scenario: Traverse from parent education organization through child education or
         And "sex" should be "Male"
         And "highestLevelOfEducationCompleted" should be "No Degree"
 
-Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student as Staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
@@ -93,7 +91,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
     Then I should receive a return code of 200
         And I should receive a collection link named "getSections"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>/sections"
+    When I navigate to GET "/v1/schools/92d6d5a0-852c-45f4-907a-912752831772/sections?courseOfferingId=88ddb0c4-1787-4ed8-884e-96aa774e6d42"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"
@@ -112,7 +110,7 @@ Scenario: Traverse from parent education organization through child education or
         And "schoolFoodServicesEligibility" should be "Full price"
         And "limitedEnglishProficiency" should be "NotLimited"
 
-Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher as Teacher
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
@@ -128,7 +126,7 @@ Scenario: Traverse from parent education organization through child education or
        And I should receive a link named "getSessions"
     When I navigate to GET the link named "getSessions"
     Then I should receive a return code of 200
-         And in an entity, I should receive a link named "self" 
+         And in an entity, I should receive a link named "self"
     When I navigate to GET the link named "self"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings"
@@ -138,7 +136,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET the link named "self"
     Then I should receive a return code of 200
         And I should receive a link named "getCourse"
-    When I navigate to GET the link named "getCourse" 
+    When I navigate to GET the link named "getCourse"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings"
     When I navigate to GET the link named "getCourseOfferings"
@@ -146,11 +144,9 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a collection link named "getSections"
     When I navigate to GET the link named "getSections"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self"
-    Then I should receive a return code of 200
-        And I should receive a link named "getTeacherSectionAssociations"
-    When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
+        And I should receive zero entities
+
+  When I navigate to GET "/v1/sections/<'SECTION' ID>/teacherSectionAssociations"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/teacherSectionAssociations/<'TEACHER-SECTION-ASSOCIATION' ID>"
@@ -162,7 +158,7 @@ Scenario: Traverse from parent education organization through child education or
         And "sex" should be "Male"
         And "highestLevelOfEducationCompleted" should be "No Degree"
 
-Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
+Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student as Teacher
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
@@ -195,7 +191,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
     Then I should receive a return code of 200
         And I should receive a collection link named "getSections"
-    When I navigate to GET "/v1/courseOfferings/<'SESSION-COURSE-ASSOCIATION' ID>/sections"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"

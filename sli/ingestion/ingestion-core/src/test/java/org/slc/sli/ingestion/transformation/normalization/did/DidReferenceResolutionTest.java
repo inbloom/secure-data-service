@@ -56,30 +56,70 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-	public void shouldResolveProgramDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/programReference.json");
+	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
+
 		ErrorReport errorReport = new TestErrorReport();
 
 		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("programId", "program ID");
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		checkId(entity, "ProgramReference", naturalKeys, "program");
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+		naturalKeys.put("educationOrgId", edOrgDID);
+
+		checkId(entity, "CohortReference", naturalKeys, "cohort");
 	}
 
 	@Test
-	public void shouldResolveCalendarDateDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
-		Entity entity = loadEntity("didTestEntities/calendarDateReference.json");
+	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
+
 		ErrorReport errorReport = new TestErrorReport();
 
 		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("date", "2011-03-04");
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("educationOrgId", "STANDARD-SEA");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("cohortIdentifier", "ACC-TEST-COH-1");
+		naturalKeys.put("educationOrgId", edOrgDID);
+
+		checkId(entity, "CohortReference", naturalKeys, "cohort");
 	}
+
+	@Test
+	public void shouldResolveCourseOfferingDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+	    Entity entity = loadEntity("didTestEntities/courseOfferingReference.json");
+	    ErrorReport errorReport = new TestErrorReport();
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 1");
+		String sessionEdOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+		sessionNaturalKeys.put("schoolId", sessionEdOrgDid);
+		sessionNaturalKeys.put("sessionName", "session name");
+		String sessionDid = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
+
+		edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 2");
+		String edOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("localCourseCode", "local course code");
+		naturalKeys.put("schoolId", edOrgDid);
+		naturalKeys.put("sessionId", sessionDid);
+
+		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
+	}
+
 
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {

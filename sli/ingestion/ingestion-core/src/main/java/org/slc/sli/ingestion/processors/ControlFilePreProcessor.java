@@ -28,14 +28,6 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -45,7 +37,6 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -65,7 +56,13 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -87,9 +84,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private Validator<Job> jobValidator;
 
     @Autowired
     private TenantDA tenantDA;
@@ -127,23 +121,25 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             controlFileName = fileForControlFile.getName();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
+            createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (jobValidator.isValid(newBatchJob, errorReport)) {
+            if (newBatchJob.getTenantId() != null) {
 
-                /* tenant job lock has been acquired */
+                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                // FIXME: Move to appropriate processor (maybe its own)
-                boolean dbIsReady = ensureTenantDbIsReady(newBatchJob.getTenantId());
+                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                    auditSecurityEvent(controlFile);
 
-                auditSecurityEvent(controlFile);
-
+                } else {
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
             }
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
@@ -179,21 +175,31 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     protected boolean ensureTenantDbIsReady(String tenantId) {
 
         if (tenantDA.tenantDbIsReady(tenantId)) {
+
             LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
             return true;
+
         } else {
+
             LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
+            boolean onboardingLockIsAcquired = tenantDA.updateAndAquireOnboardingLock(tenantId);
+            boolean isNowReady = false;
 
-            runDbSpinUpScripts(tenantId);
+            if (onboardingLockIsAcquired) {
 
-            boolean isNowReady = tenantDA.tenantDbIsReady(tenantId);
-            LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                runDbSpinUpScripts(tenantId);
+
+                isNowReady = tenantDA.tenantDbIsReady(tenantId);
+                LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+            }
 
             return isNowReady;
+
         }
     }
 
     private void runDbSpinUpScripts(String tenantId) {
+
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
@@ -237,15 +243,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
-        createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
-        TenantContext.setTenantId(newBatchJob.getTenantId());
         // determine whether to override the tenantId property with a LZ derived value
         if (deriveTenantId) {
             // derive the tenantId property from the landing zone directory with a mongo lookup
             String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
             newBatchJob.setTenantId(tenantId);
         }
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+
         return controlFile;
     }
 
@@ -302,11 +309,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         return newJob;
     }
 
-    private void createResourceEntryAndAddToJob(ControlFile cf, NewBatchJob newJob) {
+    private void createResourceEntryAndAddToJob(File cf, NewBatchJob newJob) {
         ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(cf.getFileName());
-        resourceEntry.setExternallyUploadedResourceId(cf.getFileName());
-        resourceEntry.setResourceName(newJob.getSourceId() + cf.getFileName());
+        resourceEntry.setResourceId(cf.getName());
+        resourceEntry.setExternallyUploadedResourceId(cf.getName());
+        resourceEntry.setResourceName(newJob.getSourceId() + cf.getName());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
         resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
         newJob.getResourceEntries().add(resourceEntry);

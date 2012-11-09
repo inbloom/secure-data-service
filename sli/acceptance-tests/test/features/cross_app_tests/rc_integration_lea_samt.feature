@@ -31,14 +31,12 @@ Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and
   And I can select "LEA Administrator" from a choice of "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
   And I can also check "Realm Administrator" Role
   And I can also check "Ingestion User" Role
-  #And I can change the EdOrg dropdown to "RCTestEdOrg"
   And I can change the EdOrg dropdown to "IL-DAYBREAK"    
   
   When I click button "Save"
   Then I am redirected to the "Admin Account Management" page
   And the "Success" message is displayed
   And the newly created user has "Tenant" updated to "RCTestTenant"
-  #And the newly created user has "EdOrg" updated to "RCTestEdOrg"
   And the newly created user has "EdOrg" updated to "IL-DAYBREAK"
   And I switch to the iframe
   Then I set my password to "test1234"

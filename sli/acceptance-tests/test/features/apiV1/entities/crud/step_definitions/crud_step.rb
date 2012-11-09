@@ -184,7 +184,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz",
     "dateAssigned" => "2012-02-14",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -243,9 +243,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "studentGradebookEntry" => {
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
     "letterGradeEarned" => "A",
-    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id",
     "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
-    "studentSectionAssociationId" => "49b277c3-4639-42c2-88ef-0f59dd5acba2",
+    "studentSectionAssociationId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda_id49b277c3-4639-42c2-88ef-0f59dd5acba2_id",
     "numericGradeEarned" => 98,
     "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes"
@@ -342,7 +342,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
        "individualPlan" => false,
        "graduationPlanType" => "Minimum",
-       "educationOrganizationId" => "67ce204b-9999-4a11-bfea-000000000009",
+       "educationOrganizationId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
        "totalCreditsRequired" => {
             "creditConversion" => 0,
             "creditType" => "Semester hour credit",
@@ -421,7 +421,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "studentSectionAssociation2" => {
       "studentId" => @newId,
-      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107",
+      "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
       "beginDate" => "2012-05-01"
     },
     "teacherSchoolAssociation" => {
@@ -449,7 +449,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "staffProgramAssociation" => {
       "programId" => @newId,
-      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
     }
   }

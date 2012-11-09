@@ -93,16 +93,18 @@ public class StudentCohortAssociationEntityTest {
         assertNotNull("Expected non-null student identity", studentIdentity);
         assertEquals("Expected different student id", "100000000", studentIdentity.get("StudentUniqueStateId"));
 
-        Map<String, Object> cohortReference = (Map<String, Object>) attributes.get("cohortId");
-        assertNotNull("Expected non-null student reference", studentReference);
+        Map<String, Object> cohortReference = (Map<String, Object>) attributes.get("CohortReference");
+        assertNotNull("Expected non-null cohort reference", cohortReference);
         Map<String, Object> cohortIdentity = (Map<String, Object>) cohortReference.get("CohortIdentity");
         assertNotNull("Expected non-null Cohort identity", cohortIdentity);
         assertEquals("Expected different Cohort id", "ACC-TEST-COH-1", cohortIdentity.get("CohortIdentifier"));
-        List<Object> stateOrgIds = (List<Object>) cohortIdentity.get("StateOrganizationId");
-        assertEquals("Exepcted different number of state org ids", 1, stateOrgIds.size());
-        assertEquals("Expected different state org id", "IL", stateOrgIds.get(0));
 
-
+        Map<String, Object> educationalOrgReference = (Map<String, Object>) cohortIdentity.get("EducationalOrgReference");
+        assertNotNull("Expected non-null educationalOrgReference", educationalOrgReference);
+        Map<String, Object> educationalOrgIdentity = (Map<String, Object>) educationalOrgReference.get("EducationalOrgIdentity");
+        assertNotNull("Expected non-null EducationalOrgIdentity", educationalOrgReference);
+        String stateOrganizationId = (String) educationalOrgIdentity.get("StateOrganizationId");
+        assertEquals ("IL", stateOrganizationId);
     }
 
 }

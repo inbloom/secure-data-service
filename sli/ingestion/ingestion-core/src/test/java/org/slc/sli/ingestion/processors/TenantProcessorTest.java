@@ -27,10 +27,7 @@ import java.util.List;
 
 import com.google.common.io.Files;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
-import org.apache.camel.Route;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -67,9 +64,6 @@ public class TenantProcessorTest {
 
     @Mock
     private TenantDA mockedTenantDA;
-
-    @Mock
-    private CamelContext mockedCamelContext;
 
     @Before
     public void setup() {

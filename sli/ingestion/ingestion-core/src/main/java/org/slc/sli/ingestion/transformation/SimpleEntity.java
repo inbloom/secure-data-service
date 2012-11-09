@@ -34,6 +34,7 @@ public class SimpleEntity implements Entity {
     private Map<String, Object> body;
     private Map<String, Object> metaData;
     private long recordNumber;
+    private String sourceFile;
 
     @Override
     public String getType() {
@@ -86,6 +87,14 @@ public class SimpleEntity implements Entity {
 
     public void setStagedEntityId(String stagedEntityId) {
         this.stagedEntityId = stagedEntityId;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(String sourceFile) {
+        this.sourceFile = sourceFile;
     }
 
     @Override
