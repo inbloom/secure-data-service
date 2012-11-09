@@ -292,9 +292,6 @@ Met standard
                           <xs:documentation>The Education Organization that defines the curriculum and courses offered
                               - often the LEA or school.
                           </xs:documentation>
-                          <xs:appinfo>
-                              <sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
-                          </xs:appinfo>
                       </xs:annotation>
                   </xs:element>
               </xs:sequence>

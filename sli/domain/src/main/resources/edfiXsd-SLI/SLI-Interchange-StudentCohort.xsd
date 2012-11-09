@@ -11,8 +11,6 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="Cohort" type="SLC-Cohort"/>
-				<xs:element name="StudentCohortAssociation" type="StudentCohortAssociation"/>
-				<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
 				<xs:element name="StudentCohortAssociation" type="SLC-StudentCohortAssociation"/>
 				<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
 			</xs:choice>

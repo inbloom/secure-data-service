@@ -156,9 +156,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
         }
 
-        idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
-
         didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
+
+        idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
 
         // propagate context according to configuration
         giveContext(entity, entityConfig, item.getSourceId());
