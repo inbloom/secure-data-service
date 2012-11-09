@@ -131,7 +131,7 @@ public class Assessment
     @XmlElement(name = "AssessmentPeriod")
     protected AssessmentPeriodDescriptorType assessmentPeriod;
     @XmlElement(name = "AssessmentItemReference")
-    protected List<ReferenceType> assessmentItemReference;
+    protected List<AssessmentItemReferenceType> assessmentItemReference;
     @XmlElement(name = "ObjectiveAssessmentReference")
     protected List<ReferenceType> objectiveAssessmentReference;
     @XmlElement(name = "AssessmentFamilyReference")
@@ -507,10 +507,11 @@ public class Assessment
      * 
      * 
      */
-    public List<ReferenceType> getAssessmentItemReference() {
-        if (assessmentItemReference == null) {
-            assessmentItemReference = new ArrayList<ReferenceType>();
+    public List<AssessmentItemReferenceType> getAssessmentItemReference() {
+        if (this.assessmentItemReference == null) {
+            this.assessmentItemReference = new ArrayList<AssessmentItemReferenceType>(); 
         }
+
         return this.assessmentItemReference;
     }
 
@@ -565,6 +566,18 @@ public class Assessment
      */
     public void setAssessmentFamilyReference(AssessmentFamilyReferenceType value) {
         this.assessmentFamilyReference = value;
+    }
+    
+    /**
+     * Sets the value of the assessmentFamilyReference property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AssessmentItemReferenceType }
+     *     
+     */ 
+    public void setAssessmentItemReference(List<AssessmentItemReferenceType> value) {
+        this.assessmentItemReference = value;
     }
 
     /**

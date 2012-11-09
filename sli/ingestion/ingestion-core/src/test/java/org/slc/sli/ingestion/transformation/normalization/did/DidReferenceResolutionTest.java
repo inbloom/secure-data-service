@@ -56,7 +56,6 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-
 	public void shouldResolveCohortDidStaffCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_staff.json");
 
@@ -76,7 +75,6 @@ public class DidReferenceResolutionTest {
 	}
 
 	@Test
-
 	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
 
@@ -93,6 +91,33 @@ public class DidReferenceResolutionTest {
 		naturalKeys.put("educationOrgId", edOrgDID);
 
 		checkId(entity, "CohortReference", naturalKeys, "cohort");
+	}
+
+	@Test
+	public void shouldResolveCourseOfferingDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+	    Entity entity = loadEntity("didTestEntities/courseOfferingReference.json");
+	    ErrorReport errorReport = new TestErrorReport();
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 1");
+		String sessionEdOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> sessionNaturalKeys = new HashMap<String, String>();
+		sessionNaturalKeys.put("schoolId", sessionEdOrgDid);
+		sessionNaturalKeys.put("sessionName", "session name");
+		String sessionDid = generateExpectedDid(sessionNaturalKeys, TENANT_ID, "session", null);
+
+		edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "state organization id 2");
+		String edOrgDid = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("localCourseCode", "local course code");
+		naturalKeys.put("schoolId", edOrgDid);
+		naturalKeys.put("sessionId", sessionDid);
+
+		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
 	}
 
 

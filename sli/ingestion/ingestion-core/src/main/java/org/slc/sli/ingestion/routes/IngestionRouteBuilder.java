@@ -171,11 +171,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
-    @Autowired
-    public IngestionRouteBuilder(TenantProcessor tenantProcessor) {
-        super();
-    }
-
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
@@ -242,14 +237,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: processLzFile
         from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
-            .choice().when(body().endsWith(".ctl"))
+            .choice().when(header("filePath").endsWith(".ctl"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                 .process(controlFilePreProcessor)
                 .choice().when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
                     .to(workItemQueueUri).endChoice()
-            .when(body().endsWith(".zip"))
+            .when(header("filePath").endsWith(".zip"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                 .process(zipFileProcessor)
                 .choice().when(header("hasErrors").isEqualTo(true))

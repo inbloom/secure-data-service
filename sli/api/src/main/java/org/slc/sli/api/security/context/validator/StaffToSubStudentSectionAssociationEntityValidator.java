@@ -40,8 +40,7 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        // TODO does this really have a transitive distinction?
-        return !through && isStaff() && isSubEntityOfStudentSectionAssociation(entityType);
+        return isStaff() && isSubEntityOfStudentSectionAssociation(entityType);
     }
 
     @Override

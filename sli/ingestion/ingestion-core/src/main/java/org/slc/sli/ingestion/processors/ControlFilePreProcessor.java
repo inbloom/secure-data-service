@@ -125,19 +125,21 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
+            if (newBatchJob.getTenantId() != null) {
 
-                /* tenant job lock has been acquired */
+                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                // FIXME: Move to appropriate processor (maybe its own)
+                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                    auditSecurityEvent(controlFile);
 
-                auditSecurityEvent(controlFile);
-
+                } else {
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
             }
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
@@ -242,13 +244,15 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
-        TenantContext.setTenantId(newBatchJob.getTenantId());
         // determine whether to override the tenantId property with a LZ derived value
         if (deriveTenantId) {
             // derive the tenantId property from the landing zone directory with a mongo lookup
             String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
             newBatchJob.setTenantId(tenantId);
         }
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+
         return controlFile;
     }
 
