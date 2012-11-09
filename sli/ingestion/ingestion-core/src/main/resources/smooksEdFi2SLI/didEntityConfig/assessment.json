@@ -5,6 +5,11 @@
             "entityType" : "learningObjective",
             "sourceRefPath": "body.objectiveAssessment.LearningObjectiveReference",
             "optional" : true
+        },
+        {
+            "entityType" : "learningStandard",
+            "sourceRefPath": "body.assessmentItem.LearningStandardReference",
+            "optional" : true
         }
     ]
 }
