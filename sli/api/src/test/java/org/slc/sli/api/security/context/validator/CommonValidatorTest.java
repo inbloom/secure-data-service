@@ -85,17 +85,20 @@ public class CommonValidatorTest {
             if (ignored.contains(entity)) {
                 continue;
             }
+            
+            for (Boolean isTransitive : Arrays.asList(true, false)) {
 
-            int numValidators = 0;
-            for (IContextValidator validator : validators) {
-                if (validator.canValidate(entity, false) || validator.canValidate(entity, true)) {
-                    numValidators++;
+                int numValidators = 0;
+                for (IContextValidator validator : validators) {
+                    if (validator.canValidate(entity, isTransitive)) {
+                        numValidators++;
+                    }
                 }
-            }
-
-            if (numValidators != 1) {
-                messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
-                    + numValidators + "). ");
+    
+                if (numValidators != 1) {
+                    messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
+                        + numValidators + "). ");
+                }
             }
         }
 

@@ -4,6 +4,7 @@
    [
       {
          "fieldPath":"body.schoolId",
+          "deprecated" : true,
          "ref":
          {
             "entityType":"school",
@@ -68,7 +69,7 @@
                                        "path":"body.stateOrganizationId",
                                        "values":
                                        [{
-                                           "valueSource":"body.schoolReference.educationalOrgIdentity.stateOrganizationId"
+                                           "valueSource":"body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
                                        }]
                                     }
                                  ]

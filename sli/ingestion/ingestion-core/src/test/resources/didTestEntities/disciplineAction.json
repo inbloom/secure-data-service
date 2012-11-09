@@ -1,0 +1,20 @@
+{
+"recordType":"disciplineAction",
+"attributes":
+{
+	"ResponsibilitySchoolReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"someResponsibilitySchoolReference"
+		}
+	},
+	"AssignmentSchoolReference":
+    {
+    	"EducationalOrgIdentity":
+    	{
+    		"StateOrganizationId":"someAssignmentSchoolReference"
+    	}
+    }
+}
+}

@@ -580,7 +580,13 @@ public class BasicService implements EntityService {
                 }
             } else {
                 try {
-                    contextValidator.validateContextToEntities(def, ids, false);
+                    boolean useTransitiveResolver = true;
+                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+                        //Transitive resolver for public resources would be too relaxed,
+                        //e.g. letting anyone create any association to any edorg
+                        useTransitiveResolver = false;
+                    }
+                    contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
                 } catch (AccessDeniedException e) {
                     debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                     throw new AccessDeniedException("Invalid reference. No association to referenced entity.");

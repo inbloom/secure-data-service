@@ -12,7 +12,7 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="StudentSchoolAssociation" type="SLC-StudentSchoolAssociation"/>
 				<xs:element name="StudentSectionAssociation" type="SLC-StudentSectionAssociation"/>
-				<xs:element name="GraduationPlan" type="GraduationPlan"/>
+				<xs:element name="GraduationPlan" type="SLC-GraduationPlan"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
