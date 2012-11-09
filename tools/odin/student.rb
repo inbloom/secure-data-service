@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require 'mustache'
+require './baseEntity.rb'
 
 class InterchangeStudent < Mustache
 
@@ -38,7 +39,7 @@ class InterchangeStudent < Mustache
 
 end
 
-class Student < Mustache
+class Student < BaseEntity
 
   def choose(options)
     options[@rand.rand(options.size) - 1]

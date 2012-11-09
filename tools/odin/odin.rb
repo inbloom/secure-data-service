@@ -17,19 +17,23 @@ limitations under the License.
 =end
 
 require './student.rb'
+require 'yaml'
 
 if ARGV.count < 1
   puts "missing number of students"
 else
   studentCount = ARGV[0].to_i
-  File.open("output.xml", 'w') do |f|
-    f.write('
-      <?xml version="1.0"?>
-      <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-        xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd ">
-      ')
+  config = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
+  prng = Random.new(config['seed'])
+  Dir.mkdir('generated') if !Dir.exists?('generated')
+
+  File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
+    f.write('<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd ">
+')
     (0..studentCount).to_a.each{|id|
-      student = Student.new id
+      student = Student.new id, prng
       f.write(student.render)
     }
     f.write('</InterchangeStudentParent>')
