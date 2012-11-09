@@ -81,7 +81,6 @@ function preSplit_hashId(shard_list, tenant){
                        key:{"_id":1} });
 
         if(shardOnly == false) {
-            print("Called");
             //calculate splits and add to the moves array
             var move_strings = [];
             move_strings.push("00");
