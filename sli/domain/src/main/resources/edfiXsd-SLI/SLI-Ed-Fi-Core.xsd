@@ -26,6 +26,9 @@
   <xs:complexType name="SLC-Course">
       <xs:annotation>
           <xs:documentation>This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.</xs:documentation>
+          <xs:appinfo>
+            <sli:recordType>course</sli:recordType>
+          </xs:appinfo>
       </xs:annotation>
       <xs:complexContent>
           <xs:extension base="ComplexObjectType">
