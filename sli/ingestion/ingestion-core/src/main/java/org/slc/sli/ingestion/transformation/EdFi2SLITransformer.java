@@ -21,13 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -49,14 +42,20 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
- *
+ * 
  * @author okrook
- *
+ * 
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
 
@@ -167,7 +166,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     /**
      * Find a matched entity in the data store. If match is found the EntityID gets updated with the
      * ID from the data store.
-     *
+     * 
      * @param entity
      *            Entity to match
      * @param entityConfig
@@ -222,7 +221,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     /**
      * Create entity lookup query from EntityConfig fields
-     *
+     * 
      * @param entity
      *            : the entity to be looked up.
      * @param keyFields
@@ -230,45 +229,39 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            : error reporting
      * @return Look up filter
-     *
+     * 
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
         Query query;
 
-        if (NaturalKeyExtractor.useDeterministicIds()) {
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        } catch (NaturalKeyValidationException e1) {
+            String message = "An entity is missing one or more required natural key fields" + "\n"
+                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber();
 
-            NaturalKeyDescriptor naturalKeyDescriptor;
-            try {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-            } catch (NaturalKeyValidationException e1) {
-                String message = "An entity is missing one or more required natural key fields" + "\n"
-                        + "       Entity     " + entity.getType() + "\n" + "       Instance   "
-                        + entity.getRecordNumber();
-
-                for (String fieldName : e1.getNaturalKeys()) {
-                    message += "\n" + "       Field      " + fieldName;
-                }
-                errorReport.error(message, this);
-                return null;
-            } catch (NoNaturalKeysDefinedException e) {
-                LOG.error(e.getMessage(), e);
-                return null;
+            for (String fieldName : e1.getNaturalKeys()) {
+                message += "\n" + "       Field      " + fieldName;
             }
+            errorReport.error(message, this);
+            return null;
+        } catch (NoNaturalKeysDefinedException e) {
+            LOG.error(e.getMessage(), e);
+            return null;
+        }
 
-            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-                // Okay for embedded entities
-                LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
-                        + "       Instance   " + entity.getRecordNumber());
+        if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+            // Okay for embedded entities
+            LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                    + "       Instance   " + entity.getRecordNumber());
 
-                query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
-            } else {
-                query = new Query();
-                String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
-                query.addCriteria(Criteria.where(ID).is(entityId));
-            }
-        } else {
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+        } else {
+            query = new Query();
+            String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+            query.addCriteria(Criteria.where(ID).is(entityId));
         }
 
         return query;
@@ -308,7 +301,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     @SuppressWarnings("rawtypes")
                     List fieldValues = ((List) fieldValue);
                     int size = fieldValues.size();
-                    //make sure we have exactly the number of desired values
+                    // make sure we have exactly the number of desired values
                     Criteria criteria = Criteria.where(field).size(size);
                     // if there are desired values, make sure we have each individual desired value
                     if (size > 0) {
@@ -319,7 +312,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         criteria = criteria.andOperator(valueCriteria);
                     }
                     query.addCriteria(criteria);
-                    //this will be insufficient if fieldValue can contain duplicates
+                    // this will be insufficient if fieldValue can contain duplicates
                 } else {
                     query.addCriteria(Criteria.where(field).is(fieldValue));
                 }
