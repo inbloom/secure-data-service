@@ -281,31 +281,6 @@ public class StudentGradeGenerator {
         return gbe;
     }
 
-    public static GradingPeriod getGradingPeriod() {
-        GradingPeriod period = new GradingPeriod();
-        period.setBeginDate(oneYearAgo);
-        period.setEndDate(thisDay);
-
-        GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
-        gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-        period.setGradingPeriodIdentity(gpit);
-
-        //period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-
-        period.setTotalInstructionalDays(92);
-        return period;
-    }
-
-    public static GradingPeriodReferenceType getGradingPeriodReferenceType(GradingPeriod period,
-            EducationOrgIdentificationCode edOrg) {
-        GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
-        GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
-        identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
-        identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
-        //identity.setStateOrganizationId(edOrg);
-        ref.setGradingPeriodIdentity(identity);
-        return ref;
-    }
 
     public static StudentGradebookEntry getStudentGradebookEntry(SectionReferenceType section,
             StudentReferenceType student) {

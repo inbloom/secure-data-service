@@ -116,7 +116,7 @@ public final class InterchangeStudentGradeGenerator {
         GradingPeriodIdentityType gradingPeriodItentity = new GradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
         gradingPeriodItentity.setSchoolYear(gpMeta.getBeginData() + "-" + gpMeta.getEndDate());
-        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
         gradingPeriodItentity.setStateOrganizationId(schoolId);
         return gradingPeriodRef;
     }
