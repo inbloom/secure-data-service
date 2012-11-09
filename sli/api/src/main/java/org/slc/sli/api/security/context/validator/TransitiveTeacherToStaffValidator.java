@@ -40,8 +40,8 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     private PagingRepositoryDelegate<Entity> repo;
     
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return through && EntityNames.STAFF.equals(entityType)
+    public boolean canValidate(String entityType, boolean transitive) {
+        return transitive && EntityNames.STAFF.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
     }
     

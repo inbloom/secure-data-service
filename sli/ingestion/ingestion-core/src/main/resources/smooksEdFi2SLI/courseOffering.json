@@ -3,6 +3,7 @@
 	"references" :
 	[{
         "fieldPath" : "body.schoolId",
+        "deprecated" : true,
         "ref" :
         {
 	        "entityType" : "educationOrganization",

@@ -24,5 +24,5 @@ Feature: Subdoc Out of Order
     And a batch job log has been created
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName  | count |
-      | section         | 16    |
+      | section         | 17    |
       | gradebookEntry  | 20    |

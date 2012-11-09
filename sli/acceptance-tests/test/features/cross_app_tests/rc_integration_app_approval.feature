@@ -21,8 +21,8 @@ And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
 #And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
 #And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
-And I enter "<CI_IDP_Redirect_URL" in the IDP URL field
-And I enter "<CI_IDP_Redirect_URL" in the Redirect Endpoint field
+And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
+And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
 
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button

@@ -28,6 +28,14 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -56,13 +64,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -90,6 +91,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
+
+    @Value("${sli.sandbox.enabled}")
+    private boolean isSandboxEnabled;
 
     private MessageSource messageSource;
 
@@ -125,19 +129,21 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
+            if (newBatchJob.getTenantId() != null) {
 
-                /* tenant job lock has been acquired */
+                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                // FIXME: Move to appropriate processor (maybe its own)
+                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                    auditSecurityEvent(controlFile);
 
-                auditSecurityEvent(controlFile);
-
+                } else {
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
             }
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
@@ -204,8 +210,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+        if(!isSandboxEnabled) {
+            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = false;");
+        } else {
+            LOG.info("Running tenant sharding script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = true;");
+        }
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
@@ -242,13 +253,15 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
-        TenantContext.setTenantId(newBatchJob.getTenantId());
         // determine whether to override the tenantId property with a LZ derived value
         if (deriveTenantId) {
             // derive the tenantId property from the landing zone directory with a mongo lookup
             String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
             newBatchJob.setTenantId(tenantId);
         }
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+
         return controlFile;
     }
 

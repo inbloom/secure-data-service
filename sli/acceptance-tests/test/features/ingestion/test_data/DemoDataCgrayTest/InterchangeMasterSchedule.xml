@@ -9,12 +9,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Writing about Government</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing about Government</ID>
-                </CourseCode>
-                <Term>First Trimester</Term>
-                <SchoolYear>2000-2001</SchoolYear>
-                <StateOrganizationId>1</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -42,12 +51,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Writing about Government</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing about Government</ID>
-                </CourseCode>
-                <Term>First Trimester</Term>
-                <SchoolYear>2000-2001</SchoolYear>
-                <StateOrganizationId>1</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -75,12 +93,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>American Literature</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>American Literature</ID>
-                </CourseCode>
-                <Term>First Trimester</Term>
-                <SchoolYear>2000-2001</SchoolYear>
-                <StateOrganizationId>1</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -108,12 +135,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Writing about Government</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing about Government</ID>
-                </CourseCode>
-                <Term>First Trimester</Term>
-                <SchoolYear>2000-2001</SchoolYear>
-                <StateOrganizationId>1</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
@@ -141,12 +177,21 @@
         <CourseOfferingReference>
             <CourseOfferingIdentity>
                 <LocalCourseCode>Writing about Government</LocalCourseCode>
-                <CourseCode IdentificationSystem="CSSC course code">
-                    <ID>Writing about Government</ID>
-                </CourseCode>
-                <Term>First Trimester</Term>
-                <SchoolYear>2000-2001</SchoolYear>
-                <StateOrganizationId>1</StateOrganizationId>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>

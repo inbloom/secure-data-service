@@ -30,7 +30,7 @@
     <jb:wiring property="weapons" beanIdRef="DisciplineIncident_WeaponsArray" />
     <jb:value property="reportedToLawEnforcement" data="attributes ReportedToLawEnforcement" decoder="Boolean" />
     <jb:value property="caseNumber" data="attributes CaseNumber" />
-    <jb:value property="schoolId" data="attributes schoolId" />
+    <jb:value property="schoolId" data="attributes SchoolReference" />
     <jb:value property="staffId" data="attributes StaffReference" />
   </jb:bean>
 

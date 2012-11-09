@@ -1,0 +1,13 @@
+{
+"recordType":"staffEducationOrgAssignmentAssociation",
+"attributes":
+{
+	"EducationOrganizationReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"someEdOrg"
+		}
+	}
+}
+}

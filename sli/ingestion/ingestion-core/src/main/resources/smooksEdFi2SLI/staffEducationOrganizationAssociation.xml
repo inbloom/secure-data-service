@@ -21,7 +21,7 @@
   <jb:bean beanId="staffEducationOrganizationAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="staffReference" data="attributes StaffReference" />
 
-    <jb:value property="educationOrganizationReference" data="attributes educationOrganizationReference" />
+    <jb:value property="educationOrganizationReference" data="attributes EducationOrganizationReference" />
 
     <jb:value property="beginDate" data="attributes beginDate" />
 
