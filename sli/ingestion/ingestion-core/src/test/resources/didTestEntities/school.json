@@ -1,0 +1,13 @@
+{
+"recordType":"school",
+"attributes":
+{
+			"LocalEducationAgencyReference":{
+			"EducationalOrgIdentity":
+            		{
+            			"StateOrganizationId":"someLEAOrganizationID"
+            		}
+            	}
+	}
+}
+}
