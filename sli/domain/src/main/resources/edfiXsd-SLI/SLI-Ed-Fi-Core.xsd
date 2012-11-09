@@ -53,7 +53,7 @@
           <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
           <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0" />
-          <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0" />
+          <xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -140,7 +140,7 @@ Met standard
                             <xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
-					<xs:element name="StudentObjectiveAssessmentReference" type="TEMPORARY-StudentObjectiveAssessmentReferenceType" minOccurs="0">
+					<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Link of the item scores the objective scores for a student's specific test administration.  Used only if the test has objective level scores.</xs:documentation>
 						</xs:annotation>
@@ -225,7 +225,7 @@ Met standard
 								<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="StudentCompetencyObjectiveReference" type="TEMPORARY-StudentCompetencyObjectiveReferenceType">
+						<xs:element name="StudentCompetencyObjectiveReference" type="SLC-StudentCompetencyObjectiveReferenceType">
 							<xs:annotation>
 								<xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
 							</xs:annotation>
@@ -425,7 +425,7 @@ Other</xs:documentation>
           <xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded" />
           <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0" />
-          <xs:element name="SectionReference" type="TEMPORARY-SectionReferenceType" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1899,34 +1899,6 @@ Withdrawn
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="TEMPORARY-StudentCompetencyObjectiveReferenceType">
-		<xs:annotation>
-			<xs:documentation>Provides alternative references for Learning Objective reference during interchange. Use XML IDREF to reference a learning standard record that is included in the interchange</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="StudentCompetencyObjectiveIdentity" type="TEMPORARY-StudentCompetencyObjectiveIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Provide user information to lookup and link to an existing student competency objective record in the receiving system</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="TEMPORARY-StudentCompetencyObjectiveIdentityType">
-		<xs:annotation>
-			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Student Competency Objectives.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StudentCompetencyObjectiveId" type="IdentificationCode">
-				<xs:annotation>
-					<xs:documentation>The Identifier for the student competency.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="SLC-StudentCompetencyObjectiveReferenceType">
 		<xs:annotation>
 			<xs:documentation>Provides alternative references for Learning Objective reference during interchange. Use XML IDREF to reference a learning standard record that is included in the interchange</xs:documentation>
@@ -1959,40 +1931,6 @@ Withdrawn
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="TEMPORARY-StudentObjectiveAssessmentReferenceType">
-		<xs:annotation>
-			<xs:documentation/>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ReferenceType">
-				<xs:sequence>
-					<xs:element name="StudentObjectiveAssessmentIdentity" type="TEMPORARY-StudentObjectiveAssessmentIdentityType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation/>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="TEMPORARY-StudentObjectiveAssessmentIdentityType">
-		<xs:annotation>
-			<xs:documentation/>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType">
-			<!-- TODO: replace with SLC-StudentAssessmentReferenceType -->
-				<xs:annotation>
-					<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType">
-				<xs:annotation>
-					<xs:documentation>Reference to the test objective that is being measured by the objective-level assessment.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="SLC-StudentObjectiveAssessmentReferenceType">
 		<xs:annotation>
 			<xs:documentation/>
