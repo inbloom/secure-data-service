@@ -78,7 +78,8 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/v1/educationOrganizations", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=1", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations?organizationCategories=State+Education+Agency", {"Accept" => "application/json"}, [@ed_org_fixtures["state"]].to_json
-      mock.get "/api/rest/v1/educationOrganizations?address.stateAbbreviation=NC&organizationCategories=Local+Education+Agency", {"Accept" => "application/json"}, [@ed_org_fixtures["local"]].to_json
+      mock.get "/api/rest/v1/educationOrganizations?address.stateAbbreviation=NC&limit=0&organizationCategories=Local+Education+Agency", {"Accept" => "application/json"}, [@ed_org_fixtures["local"]].to_json
+      mock.get "/api/rest/v1/educationOrganizations?address.stateAbbreviation=NC&limit=0&offset=1&organizationCategories=Local+Education+Agency", {"Accept" => "application/json"}, [].to_json
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=2", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json
       mock.head "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json

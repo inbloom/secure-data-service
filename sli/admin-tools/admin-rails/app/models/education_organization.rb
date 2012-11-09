@@ -19,7 +19,6 @@ limitations under the License.
 
 class EducationOrganization < SessionResource
   self.site = APP_CONFIG['api_base'] + "/v1" if APP_CONFIG['api_base'].index("v1") == nil
-  add_response_method :http_response
 
   self.collection_name = "educationOrganizations"
   schema do
