@@ -3012,7 +3012,6 @@ Special education students
 			<xs:extension base="SLC-EducationOrganization"/>
 		</xs:complexContent>
 	</xs:complexType>
-<<<<<<< HEAD
 
 	<xs:complexType name="SLC-CourseOfferingReferenceType">
 		<xs:annotation>
@@ -3064,6 +3063,4 @@ Special education students
 		</xs:sequence>
 	</xs:complexType>
 
-=======
->>>>>>> master
 </xs:schema>
