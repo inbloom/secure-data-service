@@ -131,6 +131,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
+      next if File.directory?(file);
       content = File.read(file)
       if content.include?(message)
         return true
