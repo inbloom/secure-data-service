@@ -12,7 +12,7 @@ Given I post "NoDryRun.zip" file as the payload of the ingestion job
      | collectionName              |
      | student                     |
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "NoDryRun.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName                          | count     |
      | student                                 | 72        |
@@ -24,7 +24,7 @@ Given I post "DryRun.zip" file as the payload of the ingestion job
      | collectionName              |
      | student                     |
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "DryRun.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
      | collectionName                          | count     |
      | student                                 | 0         |

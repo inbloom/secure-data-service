@@ -8,12 +8,9 @@ Scenario Outline: Check targets resolution after reading an assessment by ID
   And format "application/vnd.slc+json"
       When I navigate to GET "/<ASSESSMENT URI>/<SAT ID>"
       Then I should receive a return code of 200
-          And I should receive a link named "getStudents" with URI "/<ASSESSMENT URI>/<SAT ID>/<STUDENT ASSESSMENT ASSOC URI>/<STUDENT URI>"
+      And I should not receive a link named "getStudents" with URI "/<ASSESSMENT URI>/<SAT ID>/<STUDENT ASSESSMENT ASSOC URI>/<STUDENT URI>"
       When I navigate to GET "/<ASSESSMENT URI>/<SAT ID>/<STUDENT ASSESSMENT ASSOC URI>/<STUDENT URI>"
-      Then I should receive a return code of 200
-        And I should have a list of 2 "student" entities
-        And I should have an entity with ID "<Marvin ID>"
-        And I should have an entity with ID "<Matt Sollars ID>"
+      Then I should receive a return code of 404
 Examples:
   |User       |Password       |
   |rrogers    |rrogers1234    |

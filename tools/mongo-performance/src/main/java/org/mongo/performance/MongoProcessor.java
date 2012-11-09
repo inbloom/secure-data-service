@@ -18,7 +18,9 @@ import java.util.concurrent.FutureTask;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,13 +31,13 @@ public class MongoProcessor<T> {
     public int chunkSize;
     public T dataRecord;
     public String operationsEnabled;
-    public String dropCollectionFlag;
     private String indexFilePath;
+    private String profiledCollectionName;
     
     private int totalExecutors;
     private CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
     
-    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, T dataRecord, String operationsEnabled, String dropCollectionFlag, String indexFilePath) {
+    public void run(int executorCount, DataAccessWrapper da, int size, int chunkSize, T dataRecord, String operationsEnabled, String setupOperationFlag, String indexFilePath, String profiledCollectionName) {
         this.da = da;
         this.size = size;
         this.chunkSize = chunkSize;
@@ -43,9 +45,14 @@ public class MongoProcessor<T> {
         this.operationsEnabled = operationsEnabled;
         this.totalExecutors = executorCount;
         this.indexFilePath = indexFilePath;
+        this.profiledCollectionName = profiledCollectionName;
         
-        if ("Y".equals(dropCollectionFlag)) {
-            this.setup("profiledCollection");
+        if ("D".equals(setupOperationFlag)) {
+            this.setup(this.profiledCollectionName);
+        } else if ("R".equals(setupOperationFlag)) {
+            this.clearCollection(this.profiledCollectionName);
+        } else if ("I".equals(setupOperationFlag)) {
+            this.clearAndIndexCollection(this.profiledCollectionName);
         }
         
         List<FutureTask<Boolean>> futureTaskList = processOperationsInFuture(this.totalExecutors);
@@ -60,6 +67,21 @@ public class MongoProcessor<T> {
         }
     }
     
+    private void clearCollection(String profiledCollectionName) {
+        Query query = new Query();
+        
+        da.mongoTemplate.remove(query, profiledCollectionName);
+    }
+    
+    private void clearAndIndexCollection(String profiledCollectionName) {
+        Query query = new Query();
+        da.mongoTemplate.remove(query, profiledCollectionName);
+
+        List<String> indexes = getIndexes();
+        for(int i = 0; i < indexes.size(); i++) {
+            da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on(indexes.get(i), Order.ASCENDING)); 
+        }
+    }
     
     public void writeStatistics() {
         
@@ -102,7 +124,7 @@ public class MongoProcessor<T> {
         this.opCounts = new CopyOnWriteArrayList<Pair<String, Integer>>();
 
         for (int i = 0; i < count; i++) {
-            Callable<Boolean> callable = new MongoCompositeTest(i, size, chunkSize, da, dataRecord, this.opCounts, this.operationsEnabled);
+            Callable<Boolean> callable = new MongoCompositeTest(i, size, chunkSize, da, dataRecord, this.opCounts, this.operationsEnabled, this.profiledCollectionName);
             FutureTask<Boolean> futureTask = MongoExecutor.execute(callable);
             futureTaskList.add(futureTask);
         }
