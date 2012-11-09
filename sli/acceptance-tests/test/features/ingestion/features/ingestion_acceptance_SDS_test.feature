@@ -484,8 +484,8 @@ Scenario: Verify deterministic ids generated: Clean Database
    | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.studentAcademicRecordId            | 1272719cf8247946b9ef689bf1860b27e7df7828_id                                 |
    | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseId                | 28ef7ffd6361d977db1c8f66c461d4597913a16e_id                                 |
    | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseAttemptResult            | Pass                                 |
-   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-   | studentParentAssociation             | 482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
+   | studentParentAssociation             | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+   | studentParentAssociation             | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
    | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |

@@ -174,3 +174,18 @@ Examples:
     | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
     | "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec" |
 	
+Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query params
+#NOTE: This test will need to be reworked if the API is ever made to support multiple ids in query params
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+     When I call <Path> using ID <IDs>
+     Then I should receive a return code of 413
+
+Examples:
+  | Path                                   | IDs                                    |
+  | "/courses/@id/courseTranscripts"       | "0002f3f2-cf56-425a-ba24-56f805331743,2aa3aa59-cd8f-4ac7-811c-48d9618bc114" |
+  | "/gradingPeriods/@id/reportCards"      | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130,ef72b883-90fa-40fa-afc2-4cb1ae17623b" |
+  | "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130,ef72b883-90fa-40fa-afc2-4cb1ae17623b" |
+  | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
+  | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
+  | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a,7b2e6133-4224-4890-ac02-73962eb09645" |
+  | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306,149fa66a-4a9c-4cca-a371-96fae55aaa8f" |
