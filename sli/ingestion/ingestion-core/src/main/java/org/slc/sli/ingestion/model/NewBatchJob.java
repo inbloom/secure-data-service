@@ -190,7 +190,7 @@ public class NewBatchJob implements Job {
     private String deriveTopLevelSourceId(String sourceId) {
         String derivedTopLevelSourceId = sourceId;
 
-        int index = sourceId.indexOf(".done");
+        int index = sourceId.indexOf("unzip");
         if (index != -1) {
             derivedTopLevelSourceId = sourceId.substring(0, index);
         }
