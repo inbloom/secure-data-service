@@ -71,6 +71,7 @@ public class EmbeddedDocumentRelations {
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
+        map.put("studentParentAssociation", new Parent("student", "studentId"));
 
         denormalizationByEntityAndKey = new HashSet<String>();
         for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {

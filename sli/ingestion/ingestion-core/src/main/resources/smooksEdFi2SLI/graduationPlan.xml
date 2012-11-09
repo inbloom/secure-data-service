@@ -29,7 +29,7 @@
         <jb:wiring property="totalCreditsRequired" beanIdRef="GraduationPlan_TotalCreditsRequired" />
         <jb:wiring property="creditsBySubject" beanIdRef="GraduationPlan_CreditsBySubjectArray" />
         <jb:wiring property="creditsByCourse" beanIdRef="GraduationPlan_CreditsByCourseArray" />
-        <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
   <!-- Start TotalCreditsRequired -->

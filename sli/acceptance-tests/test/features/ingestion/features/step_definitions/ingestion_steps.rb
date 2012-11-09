@@ -180,30 +180,6 @@ def ensureBatchJobIndexes(db_connection)
   @collection.remove({ '_id' => " " })
 end
 
-def cloneAllIndexes(db_connection, source_db_name, target_db_name)
-  puts "cloning indexes from #{source_db_name} -> #{target_db_name}"
-  source_db = db_connection[source_db_name]
-
-  source_indexes = source_db["system.indexes"].find()
-  source_indexes.each do |index|
-
-    collection_name = index['ns'][source_db_name.length+1, index['ns'].length]
-
-    index_spec_array  = Array.new
-    index['key'].each do |index_spec|
-      index_component_array = Array.new
-      index_spec.each do |index_component|
-        index_component_array.push(index_component)
-      end
-      index_spec_array.push(index_component_array)
-    end
-
-    target_collection = db_connection[target_db_name][collection_name]
-    #puts "cloning index #{source_db_name} -> #{target_db_name}(#{collection_name}): #{index_spec_array}, name: #{index['name']}"
-    target_collection.ensure_index(index_spec_array, :name => index['name'])
-  end
-end
-
 def initializeTenants()
   @lzs_to_remove  = Array.new
 
@@ -861,6 +837,12 @@ Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
 end
 
+Then /^the tenantIsReady flag for the tenant "(.*?)" is reset$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$unset" => {"body.tenantIsReady" => 1}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
@@ -908,7 +890,6 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   # index the new tenant db
   dbName = convertTenantIdToDbName('Midgar')
-  cloneAllIndexes(@conn, dbName, @ingestion_db_name)
 
   @body = {
     "tenantId" => tenant,
@@ -1069,8 +1050,6 @@ end
 Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
   puts "Dropping database for:" + tenantToDrop
   @conn.drop_database(convertTenantIdToDbName(tenantToDrop))
-  @tenantColl.update({"body.tenantId" => tenantToDrop}, {"$unset" => {"body.tenantIsReady" => 1}})
-
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1489,6 +1468,8 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
+    when "studentParentAssociation"
+      "student"
     when "studentCohortAssociation"
       "cohort"
     when "studentDisciplineIncidentAssociation"
@@ -1547,6 +1528,9 @@ def subdocMatch(subdoc, key, match_value)
         path = keys[i]
         if tmp.is_a? Hash
             tmp = tmp[path]
+            if tmp.is_a? Integer
+                tmp = tmp.to_s()
+            end
             if i == keys.length - 1
                 if match_value.is_a? Array and tmp.is_a? Array
                     @contains = true if (match_value & tmp).size > 0
@@ -2335,10 +2319,12 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[@ingestion_db_name]
+  @db = @conn[INGESTION_DB_NAME]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})
+
+  assert(application.count == 1, "didn't find an application")
 
   application.each do |app|
     numEdorg = app['body']['authorized_ed_orgs'].size

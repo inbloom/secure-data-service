@@ -7,9 +7,10 @@
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
       <!--Interchange StudentAssessmenet -->
+      <!-- 
       <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
-
+ -->
       <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
 
@@ -190,9 +191,7 @@
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
@@ -206,8 +205,9 @@
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="freeMarkerExtendedReferenceResolver" />
-
+<!--
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+-->
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentAssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
