@@ -60,7 +60,7 @@ public class DeterministicIdResolver {
 
     private DidSchemaParser didSchemaParser;
 
-	@Autowired
+    @Autowired
     private DidEntityConfigReader didConfigReader;
 
     @Autowired
@@ -123,7 +123,7 @@ public class DeterministicIdResolver {
         DidEntityConfig entityConfig = didConfigReader.getDidEntityConfiguration(entityType);
 
         if (entityConfig == null) {
-        	entityConfig = didSchemaParser.getEntityConfigs().get(entityType);
+            entityConfig = didSchemaParser.getEntityConfigs().get(entityType);
         }
 
         return entityConfig;
@@ -133,7 +133,7 @@ public class DeterministicIdResolver {
         return didSchemaParser.getRefConfigs().get(refType);
     }
 
-	private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
+    private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
             String tenantId) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
@@ -146,38 +146,38 @@ public class DeterministicIdResolver {
         }
 
         //handle case of references within embedded lists of objects (for assessments)
-        String elementRefPath = sourceRefPath;
         //split source ref path and look for lists in embedded objects
         String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
         String[] pathParts = strippedRefPath.split(PATH_SEPARATOR);
 
         //is there an embedded list of objects?
+        Object embeddedObject = null;
         List<Object> embeddedList = null;
         if (pathParts.length > 1) {
-        	Object embeddedObject = getProperty(entity.getBody(), pathParts[0]);
-        	if (embeddedObject instanceof List) {
-        		embeddedList = (List<Object>) embeddedObject;
-        	}
+            embeddedObject = getProperty(entity.getBody(), pathParts[0]);
+            if (embeddedObject instanceof List) {
+                embeddedList = (List<Object>) embeddedObject;
+            }
         }
 
         if (embeddedList != null) {
-        	for (int objIndex = 0; objIndex < embeddedList.size(); objIndex++) {
-        		//construct indexed x-path string
-        		String indexedRefPath = BODY_PATH + pathParts[0] + ".["
-        				+ Integer.toString(objIndex) + "]." +  pathParts[1];
-        		didRefSource.setSourceRefPath(indexedRefPath);
-        		resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
+            for (int objIndex = 0; objIndex < embeddedList.size(); objIndex++) {
+                //construct indexed x-path string
+                String indexedRefPath = BODY_PATH + pathParts[0] + ".["
+                        + Integer.toString(objIndex) + "]." +  pathParts[1];
+                didRefSource.setSourceRefPath(indexedRefPath);
+                resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
             }
-        } else {
-        	resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
+        } else if (embeddedObject != null) {
+            resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
         }
 
     }
 
     private void resolveReference(DidRefSource didRefSource, DidRefConfig didRefConfig,
-    		Entity entity, String collectionName, String tenantId) throws IdResolutionException {
-    	String sourceRefPath = didRefSource.getSourceRefPath();
-    	Object referenceObject = getProperty(entity, sourceRefPath);
+            Entity entity, String collectionName, String tenantId) throws IdResolutionException {
+        String sourceRefPath = didRefSource.getSourceRefPath();
+        Object referenceObject = getProperty(entity, sourceRefPath);
 
         if (referenceObject == null) {
             // ignore an empty reference if it is optional
@@ -331,7 +331,7 @@ public class DeterministicIdResolver {
             if (fieldName == null || fieldName.isEmpty() || value == null) {
                 continue;
             } else {
-            	//
+                //
             }
             naturalKeys.put(fieldName, value);
         }
@@ -355,11 +355,11 @@ public class DeterministicIdResolver {
     }
 
     public DidSchemaParser getDidSchemaParser() {
-		return didSchemaParser;
-	}
+        return didSchemaParser;
+    }
 
-	public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
-		this.didSchemaParser = didSchemaParser;
-	}
+    public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
+        this.didSchemaParser = didSchemaParser;
+    }
 
 }
