@@ -19,7 +19,7 @@
       <fileNamePattern>${logging.path}/ingestion-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+      <layout class="org.slc.sli.common.util.logging.TenantPatternLayout" />
     </encoder>
 
   </appender>
@@ -48,7 +48,7 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+      <layout class="org.slc.sli.common.util.logging.TenantPatternLayout" />
     </encoder>
   </appender>
 

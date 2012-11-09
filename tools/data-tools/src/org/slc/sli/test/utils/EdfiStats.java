@@ -154,7 +154,11 @@ public class EdfiStats {
         sliCounts.remove("serviceDescriptor"            );
         sliCounts.remove("studentAssessmentItem"        );
         sliCounts.remove("studentObjectiveAssessment"   );
-        
+        sliCounts.remove("studentAssessmentAssociation" );
+        sliCounts.remove("studentSectionAssociation"    );
+        sliCounts.remove("teacherSectionAssociation"    );
+        sliCounts.remove("studentProgramAssociation"    );
+
         PrintWriter js = new PrintWriter(
                 new FileOutputStream(dataDirectory + "/" + "jsExpected.js"));
         js.println("//mongo localhost:27017/sli --eval 'var tenant=\"MegatronIL\";' jsExpected.js");
