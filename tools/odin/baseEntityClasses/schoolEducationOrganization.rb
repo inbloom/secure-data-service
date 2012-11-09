@@ -17,7 +17,21 @@ limitations under the License.
 =end
 
 require 'mustache'
+require_relative './baseEntity.rb'
 
-class BaseEntity < Mustache
-  self.template_path = File.dirname(__FILE__) + "/baseEntityTemplates"
+class SchoolEducationOrganization < BaseEntity
+
+  def initialize(id, leaId, rand)
+    @id = id
+    @leaId = leaId
+    @rand = rand
+  end
+
+  def stateOrgId
+    "school#{@id}"
+  end
+
+  def leaId
+    "lea#{@leaId}"
+  end
 end

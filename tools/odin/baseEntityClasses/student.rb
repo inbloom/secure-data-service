@@ -17,35 +17,11 @@ limitations under the License.
 =end
 
 require 'mustache'
-require './baseEntity.rb'
-
-class InterchangeStudent < Mustache
-
-  def initialize(count)
-    @count = count
-  end
-
-  def students
-    #(0..@count).each.map{|i| Student.new(i)}
-    (0..@count).to_a
-  end
-
-  def gen_student
-    lambda do |id|
-      student = Student.new id
-      student.render
-    end
-  end
-
-end
+require_relative './baseEntity.rb'
 
 class Student < BaseEntity
-
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
-  end
   
-  def initialize(id, rand = Random.new)
+  def initialize(id, rand)
     @id = id
     @rand = rand
   end

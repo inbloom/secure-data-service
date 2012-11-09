@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require_relative "./interchangeGenerator.rb"
-require_relative "../baseEntityClasses/student.rb"
+Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
 
 class StudentParentGenerator < InterchangeGenerator
   def initialize

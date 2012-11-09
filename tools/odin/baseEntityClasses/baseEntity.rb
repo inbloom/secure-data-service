@@ -16,17 +16,13 @@ limitations under the License.
 
 =end
 
-require 'yaml'
-Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
+require 'mustache'
 
-if ARGV.count < 1
-  puts "missing number of students"
-else
-  studentCount = ARGV[0].to_i
-  configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
-  prng = Random.new(configYAML['seed'])
-  Dir.mkdir('generated') if !Dir.exists?('generated')
+class BaseEntity < Mustache
+  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
 
-  StudentParentGenerator.new.write(prng, studentCount, configYAML)
-  EducationOrganizationGenerator.new.write(prng, studentCount, configYAML)
+  def choose(options)
+    options[@rand.rand(options.size) - 1]
+  end
+  
 end
