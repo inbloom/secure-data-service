@@ -16,6 +16,7 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class ElasticSearchQueryConverter {
     public static final String Q = "q";
+    private static final int IN_LIMIT = 1000;
 
     private interface Operator {
         FilterBuilder getFilter(NeutralCriteria criteria);
@@ -77,7 +79,19 @@ public class ElasticSearchQueryConverter {
                 if (Q.equals(criteria.getKey())) {
                     return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
                 }
-                return QueryBuilders.termsQuery(criteria.getKey(), getTermTokens(criteria.getValue()));
+                Object[] terms = getTermTokens(criteria.getValue());
+                if (terms.length > IN_LIMIT) {
+
+                    BoolQueryBuilder bigQuery = QueryBuilders.boolQuery();
+                    int length = terms.length, from = 0, to = Math.min(IN_LIMIT, length);
+                    while (from <= length) {
+                        bigQuery.should(QueryBuilders.termsQuery(criteria.getKey(), Arrays.copyOfRange(terms, from, to)));
+                        from = to + 1; to = Math.min(to + IN_LIMIT, length);
+                    }
+                    return bigQuery.minimumNumberShouldMatch(1);
+                } else {
+                  return QueryBuilders.termsQuery(criteria.getKey(), terms);
+                }
             }
         };
         operationMap.put(NeutralCriteria.CRITERIA_IN, terms);

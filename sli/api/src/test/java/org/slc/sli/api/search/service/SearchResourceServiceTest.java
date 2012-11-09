@@ -45,7 +45,6 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -63,9 +62,6 @@ public class SearchResourceServiceTest {
 
     @Autowired
     SearchResourceService resourceService;
-
-    @Autowired
-    private ResourceHelper resourceHelper;
 
     @Test(expected = HttpClientErrorException.class)
     @Ignore
@@ -114,7 +110,7 @@ public class SearchResourceServiceTest {
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
         Assert.assertEquals(1, criterias.size());
         NeutralCriteria criteria = criterias.get(0);
-        Assert.assertEquals("david* wu*", criteria.getValue());
+        Assert.assertEquals("+david* +wu*", criteria.getValue());
     }
 
     private static void setupAuth(String type) {
