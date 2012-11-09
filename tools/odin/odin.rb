@@ -47,9 +47,26 @@ end
 prng = Random.new(configYAML['seed'])
 Dir.mkdir('generated') if !Dir.exists?('generated')
 
-StudentParentGenerator.new.write(prng, configYAML)
-EducationOrganizationGenerator.new.write(prng, configYAML)
-StudentEnrollmentGenerator.new.write(prng, configYAML)
+time = Time.now
+pids = []
+    
+pids << fork {  StudentParentGenerator.new.write(prng, configYAML)           }
+pids << fork {  EducationOrganizationGenerator.new.write(prng, configYAML)   }
+pids << fork {  StudentEnrollmentGenerator.new.write(prng, configYAML)       }
+Process.waitall
+
+finalTime = Time.now - time
+puts "\t Final time is #{finalTime} secs"
+
+
+
+
 
 genCtlFile
+
+
+
+
+
+
 
