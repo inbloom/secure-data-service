@@ -8,10 +8,6 @@ Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-<<<<<<< Updated upstream
-=======
-#Update the email to be configurable from properties.yml
->>>>>>> Stashed changes
 When I submit the credentials  "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page  
 Then I should be on Portal home page
 Then I should see Admin link
@@ -23,17 +19,11 @@ And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-<<<<<<< Updated upstream
 #And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
 #And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
 And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
 And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
 
-=======
-#Make the urls configurable from the properties.ynl file
-And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
-And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
->>>>>>> Stashed changes
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
@@ -59,12 +49,7 @@ Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-<<<<<<< Updated upstream
 When I submit the credentials  "<DEVELOPER_EMAIL>" "test1234" for the "Simple" login page    
-=======
-# Make the email address configurable to the developer email
-When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page    
->>>>>>> Stashed changes
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin

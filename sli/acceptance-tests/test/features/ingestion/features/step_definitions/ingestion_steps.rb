@@ -837,6 +837,12 @@ Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
   @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
 end
 
+Then /^the tenantIsReady flag for the tenant "(.*?)" is reset$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$unset" => {"body.tenantIsReady" => 1}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
@@ -1044,8 +1050,6 @@ end
 Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
   puts "Dropping database for:" + tenantToDrop
   @conn.drop_database(convertTenantIdToDbName(tenantToDrop))
-  @tenantColl.update({"body.tenantId" => tenantToDrop}, {"$unset" => {"body.tenantIsReady" => 1}})
-
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1464,6 +1468,8 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
+    when "studentParentAssociation"
+      "student"
     when "studentCohortAssociation"
       "cohort"
     else
@@ -1520,6 +1526,9 @@ def subdocMatch(subdoc, key, match_value)
         path = keys[i]
         if tmp.is_a? Hash
             tmp = tmp[path]
+            if tmp.is_a? Integer
+                tmp = tmp.to_s()
+            end
             if i == keys.length - 1
                 if match_value.is_a? Array and tmp.is_a? Array
                     @contains = true if (match_value & tmp).size > 0
@@ -2308,10 +2317,12 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[@ingestion_db_name]
+  @db = @conn[INGESTION_DB_NAME]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})
+
+  assert(application.count == 1, "didn't find an application")
 
   application.each do |app|
     numEdorg = app['body']['authorized_ed_orgs'].size

@@ -748,8 +748,7 @@
     <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
     <!-- CourseOfferingReference -->
-
-    <jb:wiring property="courseOfferingReference" beanIdRef="section_courseOfferingReference" />
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType" property="CourseOfferingReference"/>
 
     <!-- School Reference -->
     <jb:wiring property="schoolReference" beanIdRef="section_schoolReference" />
@@ -764,35 +763,33 @@
   </jb:bean>
 
     <!-- CourseOffering Reference -->
-    <jb:bean beanId="section_courseOfferingReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference">
-        <jb:wiring property="courseOfferingIdentity" beanIdRef="section_courseOfferingIdentity" />
-    </jb:bean>
-    <jb:bean beanId="section_courseOfferingIdentity" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity">
-      <jb:value property="localCourseCode" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
-      <jb:wiring property="courseCode" beanIdRef="Section_CourseOfferingReference_CourseCodeArray" />
-      <jb:value property="schoolYear" data="Section/CourseOfferingReference/CourseOfferingIdentity/SchoolYear" />
-      <jb:value property="term" data="Section/CourseOfferingReference/CourseOfferingIdentity/Term" />
-      <jb:value property="stateOrganizationId" data="Section/CourseOfferingReference/CourseOfferingIdentity/StateOrganizationId" />
-      <jb:wiring property="educationOrgIdentificationCode" beanIdRef="section_courseOfferingReference_EdOrgidentificationCodeList" />
-     </jb:bean>
-
-    <jb:bean beanId="Section_CourseOfferingReference_CourseCodeArray" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity">
-      <jb:wiring beanIdRef="Section_CourseOfferingReference_CourseCode" />
-    </jb:bean>
-      <jb:bean beanId="Section_CourseOfferingReference_CourseCode" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode">
-        <jb:value property="courseCodeID" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/ID" />
-        <jb:value property="courseCodeIdentificationSystem" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/@IdentificationSystem" />
-        <jb:value property="courseCodeAssigningOrganizationCode" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/@AssigningOrganizationCode" />
-      </jb:bean>
-
-    <jb:bean beanId="section_courseOfferingReference_EdOrgidentificationCodeList" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/EducationOrgIdentificationCode">
-      <jb:wiring beanIdRef="section_courseOfferingReference_EdOrgidentificationCode" />
-    </jb:bean>
-
-      <jb:bean beanId="section_courseOfferingReference_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/EducationOrgIdentificationCode">
-        <jb:value property="ID" data="Section/CourseOfferingReference/CourseOfferingIdentity/EducationOrgIdentificationCode/ID" />
-        <jb:value property="identificationSystem" data="Section/CourseOfferingReference/CourseOfferingIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
-      </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType" property="CourseOfferingIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType" property="SessionReference"/>
+    <jb:value data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" property="LocalCourseCode"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="Section/CourseOfferingReference/CourseOfferingIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType" property="SessionIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference/SessionIdentity">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType" property="EducationalOrgReference"/>
+    <jb:value data="Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference/SessionIdentity/SessionName" property="SessionName"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference/SessionIdentity/EducationalOrgReference">
+    <jb:wiring beanIdRef="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" property="EducationalOrgIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="SLC-Section_Attributes_SLC-CourseOfferingReferenceType_SLC-CourseOfferingIdentityType_SLC-SessionReferenceType_SLC-SessionIdentityType_SLC-EducationalOrgReferenceType_SLC-EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference/SessionIdentity/EducationalOrgReference/EducationalOrgIdentity">
+    <jb:value data="Section/CourseOfferingReference/CourseOfferingIdentity/SessionReference/SessionIdentity/EducationalOrgReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
+  </jb:bean>
 
     <!-- School Reference -->
     <jb:bean beanId="section_schoolReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/SchoolReference">
