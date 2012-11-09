@@ -25,13 +25,74 @@ require_relative '../../utils/selenium_common.rb'
 # When /^I hit the Application Registration Tool URL$/ do
 #   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 # end
+Given /^the large list of edorgs is loaded$/ do
+  status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file test/features/admintools/step_definitions/edorgs/edorgs.json")
+  assert(status, "#{$?}")
+end
+
+When /^I select the "(.*?)"$/ do |arg1|
+  select = @driver.find_element(:css, 'div#state-menu select')
+  select.find_element(:xpath, "//option[contains(text(),'#{arg1}')]").click
+end
+
+Then /^I see all of the pages of Districts$/ do
+  assert(@driver.find_elements(:css, 'div#smartpager ul li').count > 1, "Shoudld be more than one page of districts")
+end
+
+When /^I enable the first page of Districts$/ do
+  step "I check the Districts"
+end
+
+Then /^the first page of districts are enabled$/ do
+  visible_count = 0
+  @driver.find_elements(:css, '#lea-table tr').each {|element| visible_count += 1 if element.displayed?}
+  selected_count = 0
+  @driver.find_elements(:css, '#lea-table tr input:checked').each {|element| selected_count += 1 if element.displayed?} 
+  assert(visible_count == selected_count, "#{visible_count} total visible elemens should equal #{selected_count} selected elements")
+end
+
+When /^I click to the last page$/ do
+  button = @driver.find_element(:xpath, '//div[contains(text(), "Last")]')
+  button.click 
+end
+
+When /^I enable the last page of Districts$/ do
+  step 'I check the Districts'
+end
+
+Then /^the last page of districts are enabled$/ do
+  step 'the first page of districts are enabled'
+end
+
+When /^I click on the first page of Districts$/ do
+  button = @driver.find_element(:xpath, '//div[contains(text(), "First")]')
+  button.click 
+end
+
+Given /^I have replaced the edorg data$/ do
+ status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file test/data/Midgar_data/educationOrganization_fixture.json")
+ assert(status, "#{$?}")
+end
 
 Then /^I see the list of \(only\) my applications$/ do
   assert(@driver.find_elements(:xpath, "//tr").count > 0, "Should be more than one application listed")
 end
 
 Then /^I can see the on\-boarded states\/districts$/ do
-  assert(@driver.find_elements(:css, 'input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
+  assert(@driver.find_elements(:css, 'div#enable-menu div#lea-menu input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
+end
+
+Then /^I can see the on\-boarded states$/ do
+  assert(@driver.find_elements(:css, 'div#state-menu select option').count > 1, "At least one state should exist")
+end
+
+When /^I select a state$/ do
+  step 'I select the "Illinois"'
+end
+
+Then /^I see all of the Districts$/ do
+  lis = @driver.find_elements(:css, 'div#enable-menu div#lea-menu table tbody tr')
+  assert(lis.count > 1, "One district should exist")
 end
 
 Then /^I check the Districts$/ do

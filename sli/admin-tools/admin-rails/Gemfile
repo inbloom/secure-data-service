@@ -22,6 +22,8 @@ gem 'rest-client'
 gem 'twitter-bootstrap-rails'
 
 gem 'ruby-recaptcha'
+#Needed for paging
+gem 'activeresource-response'
 
 group :deployment, :integration do
   # Deploy with Capistrano
