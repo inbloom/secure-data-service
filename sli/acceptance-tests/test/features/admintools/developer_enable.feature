@@ -5,6 +5,29 @@ Feature: Developer Enablement
 Background:
 	Given I have an open web browser
 
+    Scenario: Application editing can handle > 50 edorgs at a time.
+        Given the large list of edorgs is loaded
+        Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
+        When I hit the Application Registration Tool URL
+        And I was redirected to the "Simple" IDP Login page
+        And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
+        Then I am redirected to the Application Registration Tool page
+        And I see the list of (only) my applications
+        And I clicked on the button Edit for the application "Testing App"
+        Then I can see the on-boarded states
+        When I select the "Mega State"
+        Then I see all of the pages of Districts
+        When I enable the first page of Districts
+        Then the first page of districts are enabled
+        When I click to the last page
+        And I enable the last page of Districts
+        Then the last page of districts are enabled
+        When I click on the first page of Districts
+        Then the first page of districts are enabled
+        When I click on Save
+        Then the "Testing App" is enabled for Districts
+        Given I have replaced the edorg data
+
 Scenario: App Developer or Vendor enabling application for a District
 Given I am a valid SLI Developer "slcdeveloper" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
