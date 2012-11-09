@@ -34,13 +34,13 @@ FOOTER
   def write(prng, yamlHash)
     File.open("generated/InterchangeEducationOrganization.xml", 'w') do |f|
       f.write(@header)
-      (0..yamlHash['numSEA']-1).to_a.each do |seaId|
+      for seaId in 0..yamlHash['numSEA']-1 do
         sea = SeaEducationOrganization.new seaId, prng
         f.write(sea.render)
-        (0..yamlHash['numLEA']-1).to_a.each do |leaId|
+        for leaId in 0..yamlHash['numLEA']-1 do
           lea = LeaEducationOrganization.new leaId, seaId, prng
           f.write(lea.render)
-          (0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
+          for schoolId in 0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1 do
             school = SchoolEducationOrganization.new schoolId, leaId, prng
             f.write(school.render)
           end

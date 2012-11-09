@@ -34,14 +34,12 @@ FOOTER
   def write(prng, yamlHash)
     File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |f|
       f.write(@header)
-      (0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
-        (schoolId*yamlHash['studentsPerSchool']..((schoolId+1) * yamlHash['studentsPerSchool'])-1).to_a.each do |studentId|
+      for schoolId in 0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1 do
+        for studentId in schoolId*yamlHash['studentsPerSchool']..((schoolId+1) * yamlHash['studentsPerSchool'])-1 do
           ssa = StudentSchoolAssociation.new studentId, schoolId, prng
           f.write(ssa.render)
         end
-        
       end
-      
 
       f.write(@footer)
     end
