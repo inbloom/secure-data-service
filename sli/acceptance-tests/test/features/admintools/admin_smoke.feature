@@ -40,8 +40,10 @@ Given I am a valid SLC developer
 When I authenticate on the Application Registration Tool
 Then I see the list of my registered applications only
 And I clicked on the button Edit for the application "Smoke!"
-Then I can see the on-boarded states/districts
-Then I check the Districts
+Then I can see the on-boarded states
+When I select a state
+  Then I see all of the Districts
+  Then I check the Districts
 When I click on Save
 Then I am redirected to the Application Registration Tool page
 
