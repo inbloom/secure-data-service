@@ -2,7 +2,7 @@
 Feature: As an SLI API, I want to be able to specify the network payload granularity.
   That means I am able to specify the data returned by providing a selector.
 
-  Background: Logged in as an IT admin: Rick Rogers
+  Background: Logged in as an educator: Linda Kim
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/json"
 
@@ -157,6 +157,16 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | teacherSectionAssociations |
     | teachers                   |
     | uniqueSectionCode          |
+    Given selector "(name,studentSectionAssociations:(student))"
+    When I navigate to GET "/v1/students/<LUCRETIA NAGAI STUDENT ID>"
+    Then I should receive a return code of 200
+    And in the response body I should see the following fields only:
+      | entityType                 |
+      | id                         |
+      | links                      |
+      | name                       |
+      | studentSectionAssociations |
+    And in "studentSectionAssociations=>students" I should not see "<CARMEN ORTIZ STUDENT ID>"
 
   Scenario: Applying selectors on 1, 3 and 4 part URIs
     Given selector "(name)"

@@ -28,6 +28,7 @@ Transform /^<(.+)>$/ do |template|
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if template == "MARVIN MILLER STUDENT ID"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if template == "MATT SOLLARS STUDENT ID"
   id = "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b" if template == "CARMEN ORTIZ STUDENT ID"
+  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34" if template == "LUCRETIA NAGAI STUDENT ID"
   id
 end
 
@@ -66,6 +67,13 @@ end
 
 Then /^I should be informed that the selector is invalid$/ do
   assert(@result.to_s.downcase.include?("valid selector"), "'Invalid selector' message is not found in response")
+end
+Then /^in "([^\"]*)" I should not see "([^\"]*)"$/ do |key,id| 
+  @entities_to_check = []
+  get_hash_recursively(@result, key)
+  @entities_to_check.flatten.each do |entity|
+    assert(entity['id'] != id,"User should not have access to different context using selector")
+  end
 end
 
 ###############################################################################
