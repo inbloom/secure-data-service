@@ -414,11 +414,12 @@ default:
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.queue.url : tcp://localhost:61616
+        sli.search.indexer.queue.url : failover:(tcp://localhost:61616)?maxReconnectDelay=10000
         sli.search.indexer.queue.username: system
         sli.search.indexer.queue.password: manager
         sli.search.indexer.queue.name: search_events
         sli.search.indexer.broker.embedded: true
+        sli.search.indexer.broker.embedded.urls: stomp://localhost:61613,tcp://localhost:61616
         sli.search.indexer.env: local
 
 acceptance-tests:

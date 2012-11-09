@@ -81,6 +81,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="mqPswd" value="${sli.search.indexer.queue.password}" />
 		<property name="queue" value="${sli.search.indexer.queue.name}" />
 		<property name="embeddedBroker" value="${sli.search.indexer.broker.embedded:false}" />
+		<property name="embeddedBrokerUrls" value="${sli.search.indexer.broker.embedded.urls}" />
 	</bean>
 	
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl"

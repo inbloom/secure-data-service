@@ -48,15 +48,10 @@ public class ActiveMQConnection {
     private boolean embeddedBroker = false;
     private BrokerService broker = null;
 
-    private static final String STOMP_URL = "stomp://localhost:61613";
-    private static final String JMS_URL = "tcp://localhost:61616";
-    private static final long MAX_RECONNECT_DELAY_MILLIS = 10000;
+    private String[] embeddedBrokerUrls;
 
     public enum MessageType {
         QUEUE, TOPIC;
-    }
-
-    public ActiveMQConnection() {
     }
 
     public void init() throws Exception {
@@ -66,19 +61,23 @@ public class ActiveMQConnection {
             this.broker.setPersistent(false);
             this.broker.setUseJmx(true);
 
-            this.broker.addConnector(STOMP_URL);
-            this.broker.addConnector(JMS_URL);
+            for (String url : embeddedBrokerUrls) {
+                this.broker.addConnector(url);
+                // if url starts with "tcp://", use it as broker URI.
+                if (this.brokerURI == null && url.contains("tcp://")) {
+                    this.brokerURI = url;
+                }
+            }
+
             this.broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
             this.broker.start();
-            // use localhost and port 61616 for embedded broker to access
-            this.brokerURI = JMS_URL;
 
         } else {
-            this.brokerURI = "failover:(" + this.mqURL + ")?maxReconnectDelay=" + MAX_RECONNECT_DELAY_MILLIS;
+            this.brokerURI = this.mqURL;
         }
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.brokerURI);
-        if ((this.mqUsername == null && this.mqPswd == null) || this.embeddedBroker) {
+        if (this.mqUsername == null) {
             this.connection = connectionFactory.createConnection();
         } else {
             this.connection = connectionFactory.createConnection(this.mqUsername, this.mqPswd);
@@ -166,6 +165,10 @@ public class ActiveMQConnection {
 
     public void setEmbeddedBroker(boolean embeddedBroker) {
         this.embeddedBroker = embeddedBroker;
+    }
+
+    public void setEmbeddedBrokerUrls(String[] embeddedBrokerUrls) {
+        this.embeddedBrokerUrls = embeddedBrokerUrls;
     }
 
 }
