@@ -16,16 +16,7 @@ limitations under the License.
 
 =end
 
-require 'yaml'
-Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
+class InterchangeGenerator
+  attr_accessor :header, :footer
 
-if ARGV.count < 1
-  puts "missing number of students"
-else
-  studentCount = ARGV[0].to_i
-  configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
-  prng = Random.new(configYAML['seed'])
-  Dir.mkdir('generated') if !Dir.exists?('generated')
-
-  StudentParentGenerator.new.write(prng, studentCount, configYAML)
 end
