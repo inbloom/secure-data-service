@@ -21,6 +21,11 @@ require_relative './baseEntity.rb'
 
 class Student < BaseEntity
   
+  def addZeroIfSingleDigit(num)
+    s = num < 10 ? "0" + num.to_s : num.to_s
+    s
+  end
+
   def initialize(id, rand)
     @id = id
     @rand = rand
@@ -47,7 +52,7 @@ class Student < BaseEntity
   end
 
   def birthDay
-    @rand.rand(12).to_s + "-" + @rand.rand(28).to_s
+    addZeroIfSingleDigit(1 + @rand.rand(11)) + "-" + addZeroIfSingleDigit(1 + @rand.rand(27))
   end
 
   def address
@@ -79,11 +84,11 @@ class Student < BaseEntity
   end
 
   def schoolFood
-    choose(["Free", "Full Price", "Reduced Price", "Unknown"])
+    choose(['Free', 'Full price', 'Reduced price', 'Unknown'])
   end
 
   def limitedEnglish
-    choose([true, false])
+    choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
   end
 
 end

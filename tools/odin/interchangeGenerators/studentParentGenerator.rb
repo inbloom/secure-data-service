@@ -31,10 +31,10 @@ HEADER
 FOOTER
   end
 
-  def write(prng, students, yamlHash)
+  def write(prng, yamlHash)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
       f.write(@header)
-      (0..students).to_a.each{|id|
+      (0..yamlHash['studentCount']-1).to_a.each{|id|
         student = Student.new id, prng
         f.write(student.render)
       }

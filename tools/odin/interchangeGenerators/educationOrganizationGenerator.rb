@@ -31,7 +31,7 @@ HEADER
 FOOTER
   end
 
-  def write(prng, students, yamlHash)
+  def write(prng, yamlHash)
     File.open("generated/InterchangeEducationOrganization.xml", 'w') do |f|
       f.write(@header)
       (0..yamlHash['numSEA']-1).to_a.each do |seaId|
@@ -40,7 +40,7 @@ FOOTER
         (0..yamlHash['numLEA']-1).to_a.each do |leaId|
           lea = LeaEducationOrganization.new leaId, seaId, prng
           f.write(lea.render)
-          (0..(1.0*students/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
+          (0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
             school = SchoolEducationOrganization.new schoolId, leaId, prng
             f.write(school.render)
           end

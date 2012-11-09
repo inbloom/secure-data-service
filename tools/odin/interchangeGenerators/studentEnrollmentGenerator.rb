@@ -31,10 +31,10 @@ HEADER
 FOOTER
   end
 
-  def write(prng, students, yamlHash)
+  def write(prng, yamlHash)
     File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |f|
       f.write(@header)
-      (0..(1.0*students/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
+      (0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1).to_a.each do |schoolId|
         (schoolId*yamlHash['studentsPerSchool']..((schoolId+1) * yamlHash['studentsPerSchool'])-1).to_a.each do |studentId|
           ssa = StudentSchoolAssociation.new studentId, schoolId, prng
           f.write(ssa.render)
