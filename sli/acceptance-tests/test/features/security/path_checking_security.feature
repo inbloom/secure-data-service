@@ -71,7 +71,7 @@ Examples:
     |"/schools/@id/sections/studentSectionAssociations/studentCompetencies"             | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/studentCompetencies"|
  
  @wip
-Scenario Outline: Staff making calls to URIs through transitive relationships and being denied
+ Scenario Outline: Staff making calls to URIs through transitive relationships and being denied
 
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     When I call <Base Path> using ID <Direct ID>
@@ -155,24 +155,29 @@ Examples:
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents"|""|""|
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"|""|""|
 
-@wip
-Scenario Outline: Denied Paths
+Scenario Outline: Denied Paths for Teacher
 	Given I am logged in using "manthony" "manthony1234" to realm "IL"
 	When I call <Allowed Path> using ID <ID>
 	Then I should receive a return code of 200
 	When I call <Denied Path> using ID <ID>
 	Then I should receive a return code of 404
-	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-	When I call <Allowed Path> using ID <ID>
-	Then I should receive a return code of 200
-	When I call <Denied Path> using ID <ID>
-	Then I should receive a return code of 404
-
 Examples:
     | Allowed Path           | Denied Path                                    | ID |
     | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
     | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
     | "/programs/@id"        | "/programs/@id/cohorts"                        | "f24e5725-c1e4-48db-9f62-381ab434c0ec" |
+	
+Scenario Outline: Denied Paths for Staff
+	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+	When I call <Allowed Path> using ID <ID>
+	Then I should receive a return code of 200
+	When I call <Denied Path> using ID <ID>
+	Then I should receive a return code of 404
+Examples:
+    | Allowed Path           | Denied Path                                    | ID |
+    | "/courses/@id"         | "/courses/@id/courseTranscripts/students"      | "e31f7583-417e-4c42-bd55-0bbe7518edf8" |
+    | "/assessments/@id"     | "/assessments/@id/studentAssessments/students" | "dd916592-7d7e-5d27-a87d-dfc7fcb12346" |
+    | "/programs/@id"        | "/programs/@id/cohorts"                        | "9b8c3aab-8fd5-11e1-86ec-0021701f543f" |
 	
 Scenario Outline: Deny multiple IDs in URI if those IDs are rewritten to query params
 #NOTE: This test will need to be reworked if the API is ever made to support multiple ids in query params
