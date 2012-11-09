@@ -38,7 +38,7 @@
 			<@includePanelModel panelId="studentSearchResults"/>
 
             <div id="schoolSelectSection">
-                <h4>Select School:</h4>
+                <h4>Select a school to search:</h4>
 
                 <input type='hidden' value='' id ='schoolSelect' />
                 <div class="btn-toolbar menuBox">
@@ -54,7 +54,7 @@
                        <button type="submit" class="btn" id="search_btn_go">Go</button>
                     </div>
                 </div>
-                <div id="schoolSelectionError">Please select school from the dropdown.</div>
+                <div id="schoolSelectionError">Please select a school from the dropdown.</div>
             </div>
 
             <div id="searchResultsSection">
