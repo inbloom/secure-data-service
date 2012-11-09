@@ -16,14 +16,16 @@
 package org.slc.sli.search.config;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,6 +44,9 @@ public class IndexConfigStore {
         }
         File config = new File(configFile);
         InputStream is = null; 
+        Map<String, IndexConfig> map = new HashMap<String, IndexConfig>();
+        try {
+        
         if (!configFile.startsWith("/")) {
             is = getClass().getResourceAsStream("/" + configFile);
             if (is == null){
@@ -54,7 +59,7 @@ public class IndexConfigStore {
             }
             is = new FileInputStream(config);
         }
-        Map<String, IndexConfig> map = mapper.readValue(is, new TypeReference<Map<String, IndexConfig>>(){});
+        map = mapper.readValue(is, new TypeReference<Map<String, IndexConfig>>(){});
         IndexConfig indexConfig;
         for (Map.Entry<String, IndexConfig> entry: map.entrySet()) {
             indexConfig = entry.getValue();  
@@ -62,6 +67,9 @@ public class IndexConfigStore {
             if (indexConfig.isChildDoc()) {
                 map.get(indexConfig.getIndexType()).addDependent(entry.getKey());
             }
+        }
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         this.configs = Collections.unmodifiableMap(map);
     }

@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DotPath implements Cloneable {
     private List<String> path;
-    public static DotPath EMPTY = DotPath.from(Collections.unmodifiableList(new ArrayList<String>()));
+    public static final DotPath EMPTY = DotPath.from(Collections.unmodifiableList(new ArrayList<String>()));
     
     public DotPath() {
         this.path = new ArrayList<String>();
