@@ -2105,6 +2105,44 @@ Withdrawn
 		</xs:sequence>
 	</xs:complexType>
 
+    <xs:complexType name="SLC-AssessmentFamilyReferenceType">
+        <xs:annotation>
+            <xs:documentation/>
+            <xs:appinfo>
+                <sli:applyKeyFields>true</sli:applyKeyFields>
+                <sli:refType>assessmentFamily</sli:refType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ReferenceType">
+                <xs:sequence>
+                    <xs:element name="AssessmentFamilyIdentity" type="SLC-AssessmentFamilyIdentityType">
+                        <xs:annotation>
+                            <xs:documentation/>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SLC-AssessmentFamilyIdentityType">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="AssessmentFamilyTitle" type="AssessmentTitle">
+                <xs:annotation>
+                    <xs:documentation>The title or name of the assessment.
+</xs:documentation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>assessmentFamilyTitle</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
 	<xs:complexType name="SLC-AssessmentReferenceType">
 		<xs:annotation>
 			<xs:documentation/>
