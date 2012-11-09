@@ -7592,10 +7592,6 @@
             <xs:element name="learningObjectiveId" type="reference">
                 <xs:annotation>
                     <xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
-                    <xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-                        <sli:ReferenceType>learningObjective</sli:ReferenceType>
-                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element name="studentCompetencyObjectiveId" type="reference">
