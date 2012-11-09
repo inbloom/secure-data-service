@@ -96,9 +96,10 @@
     },
     {
         "fieldPath" : "body.responsibilitySchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
+            "entityType" : "educationOrganization",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
@@ -116,9 +117,10 @@
     },
     {
         "fieldPath" : "body.assignmentSchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
+            "entityType" : "educationOrganization",
             "takesContext" : ["edOrgs"],
             "optional" : "true",
             "choiceOfFields" :
