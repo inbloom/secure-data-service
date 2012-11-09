@@ -25,13 +25,9 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -46,10 +42,9 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType name="StudentCompetencyObjectiveIdentityType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;choice maxOccurs="unbounded">
+ *       &lt;sequence>
  *         &lt;element name="StudentCompetencyObjectiveId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *         &lt;element name="Objective" type="{http://ed-fi.org/0100}Objective"/>
- *       &lt;/choice>
+ *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -59,44 +54,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCompetencyObjectiveIdentityType", propOrder = {
-    "studentCompetencyObjectiveIdOrObjective"
+    "studentCompetencyObjectiveId"
 })
 public class StudentCompetencyObjectiveIdentityType {
 
-    @XmlElementRefs({
-        @XmlElementRef(name = "StudentCompetencyObjectiveId", namespace = "http://ed-fi.org/0100", type = JAXBElement.class),
-        @XmlElementRef(name = "Objective", namespace = "http://ed-fi.org/0100", type = JAXBElement.class)
-    })
-    protected List<JAXBElement<String>> studentCompetencyObjectiveIdOrObjective;
+    @XmlElement(name = "StudentCompetencyObjectiveId")
+    protected String studentCompetencyObjectiveId;
 
     /**
-     * Gets the value of the studentCompetencyObjectiveIdOrObjective property.
+     * Gets the value of the studentCompetencyObjectiveId property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the studentCompetencyObjectiveIdOrObjective property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStudentCompetencyObjectiveIdOrObjective().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<JAXBElement<String>> getStudentCompetencyObjectiveIdOrObjective() {
-        if (studentCompetencyObjectiveIdOrObjective == null) {
-            studentCompetencyObjectiveIdOrObjective = new ArrayList<JAXBElement<String>>();
-        }
-        return this.studentCompetencyObjectiveIdOrObjective;
+    public String getStudentCompetencyObjectiveId() {
+        return studentCompetencyObjectiveId;
+    }
+
+    /**
+     * Sets the value of the studentCompetencyObjectiveId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStudentCompetencyObjectiveId(String value) {
+        this.studentCompetencyObjectiveId = value;
     }
 
 }
