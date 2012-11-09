@@ -3,11 +3,8 @@ getEdorgs = ->
   $('input#app_authorized_ed_orgs').map ->
     edorgs.push $(@).val()
   edorgs
-
-
-onChange =(newPageValue) ->
-    alert(newPageValue)
   
+
 jQuery ->
     $("#state-menu select").change ->
         selected = $(@).find("option:selected")
@@ -25,9 +22,42 @@ jQuery ->
         jQuery.each(edorgs, (index, item) ->
             $("tr##{item} td label input").attr('checked', true)
         )
-
+        $('#smartpager').smartpaginator({ datacontainer:'lea-table', dataelement:'tr', display:'single', totalrecords: count, recordsperpage: 25, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'bootstrap'})
+    # 
+    #     if(count <= items_per_page)
+    #       $('div.pagination').hide()
+    #     else
+    #       pages = count/items_per_page
+    #       if count % items_per_page !=0
+    #         pages += 1
+    #       $('div.pagination li:first').addClass('disabled')
+    #       for page in [1..pages]
+    #         $('div.pagination li:last').before('<li><a href="#">'+page+'</a></li>')
+    #         if page == 1
+    #           $('div.pagination li:first + li').addClass('active')
+    #       $('#lea-table tr:gt('+(items_per_page-1)+')').hide()
+    #     false
+    # 
+    # $('div.pagination li:gt(0):not(:last) a').live 'click', ->
+    #   new_page = parseInt($(@).text())-1
+    #   start_point = new_page * items_per_page
+    #   stop_point = start_point + items_per_page
+    #   #Unhide this page
+    #   $('#lea-table tr').slice(start_point, stop_point).show()
+    #   #Hide everything else
+    #   $('#lea-table tr:lt('+start_point+')').hide()
+    #   $('#lea-table tr:gt('+stop_point+')').hide()
+    #   #Fix the class
+    #   $('div.pagination li.active').removeClass('active')
+    #   $(@).parent().addClass('active')
+    #   false
+    # $('div.pagination li:last a').live 'click', ->
+    #   $(@).prev().find('a').click()
+    # $('div.pagination li:first a').live 'click', ->
+    #   $(@).next().find('a').click()
+    
 jQuery ->
-  $("#lea-menu table tbody tr td label input").live 'change', ->
+  $("#lea-menu input").live 'change', ->
     id = $(@).parent().parent().parent().attr('id')
     edorgs = getEdorgs()
     if $(@).is(':checked')
@@ -38,12 +68,14 @@ jQuery ->
       if index != -1
         #Remove the input
         $("input#app_authorized_ed_orgs[value=#{id}]").remove()
+    false
+  
 jQuery ->
     $("div.enable-disable a#enable-all").live 'click', ->
-        $("#lea-menu table").find("input:not(:checked)").click()
+        $("#lea-menu input:visible:not(:checked)").click()
         false
     $("div.enable-disable a#disable-all").live 'click', ->
-        $("#lea-menu table").find("input:checked").click()
+        $("#lea-menu input:visible:checked").click()
         false
 jQuery ->
   $("#applications tr:odd").addClass("odd")
