@@ -80,48 +80,52 @@ function preSplit_hashId(shard_list, tenant){
         db.runCommand({shardcollection:collection,
                        key:{"_id":1} });
 
-        //calculate splits and add to the moves array
-        var move_strings = [];
-        move_strings.push("00");
-        for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
-            var split_string;
-            if (shard_num == shard_list.length) {
-                split_string = "  ";
-            } else {
-                split_string = (char_offset * shard_num).toString(16);
-            }
-            move_strings.push(split_string);
+        if(shardOnly == false) {
+            print("Called");
+            //calculate splits and add to the moves array
+            var move_strings = [];
+            move_strings.push("00");
+            for (var shard_num = 1; shard_num <= shard_list.length; shard_num++) {
+                var split_string;
+                if (shard_num == shard_list.length) {
+                    split_string = "  ";
+                } else {
+                    split_string = (char_offset * shard_num).toString(16);
+                }
+                move_strings.push(split_string);
 
-            //execute db command
-            db.adminCommand({split:collection,
+                //execute db command
+                db.adminCommand({split:collection,
                              middle:{"_id":split_string}
                             });
-        }
-        //explicitly move chunks to each shard
-        for (var i in move_strings) {
-            //execute db command
-            db.adminCommand({moveChunk:collection,
+            }
+            //explicitly move chunks to each shard
+            for (var i in move_strings) {
+                //execute db command
+                db.adminCommand({moveChunk:collection,
                              find:{"_id":move_strings[i]},
                              to:shard_list[i]
                             });
+            }
+
+            //explicitly add end point at beginning of range
+            var start_split_string = "  ";
+            db.adminCommand({split:collection,
+                middle:{"_id":start_split_string}
+           });
+
+            //explicitly add an end split at 'year + 1 + "a"'
+            //since 'year + "z"' potentially cuts off some records
+            var end_split_string = "||";
+            db.adminCommand({split:collection,
+                middle:{"_id":end_split_string}
+           });
         }
-
-        //explicitly add end point at beginning of range
-        var start_split_string = "  ";
-        db.adminCommand({split:collection,
-            middle:{"_id":start_split_string}
-           });
-
-        //explicitly add an end split at 'year + 1 + "a"'
-        //since 'year + "z"' potentially cuts off some records
-        var end_split_string = "||";
-        db.adminCommand({split:collection,
-            middle:{"_id":end_split_string}
-           });
-
     }
 }
 
 // tenant is passed in when the script is called
-preSplit_hashId(discoverShards(), tenant);
-sh.setBalancerState(false);
+preSplit_hashId(discoverShards(), tenant, shardOnly);
+if(shardOnly == false) {
+    sh.setBalancerState(false);
+}
