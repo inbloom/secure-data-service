@@ -18840,19 +18840,19 @@
     </CourseTranscript>
     <!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
     <StudentCompetency id="SC-GR3-800000025-1">
-        <LearningObjectiveReference>
+        <!-- LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Fluency and Expression</Objective>
                 <AcademicSubject>Reading</AcademicSubject>
                 <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
+        </LearningObjectiveReference -->
         <!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
-        <!--StudentCompetencyObjectiveReference>
+        <StudentCompetencyObjectiveReference>
 		<StudentCompetencyObjectiveIdentity>
 		  <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
 		</StudentCompetencyObjectiveIdentity>
-	  </StudentCompetencyObjectiveReference-->
+	  </StudentCompetencyObjectiveReference>
         <CompetencyLevel>
             <CodeValue>3</CodeValue>
         </CompetencyLevel>
