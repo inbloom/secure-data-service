@@ -42,8 +42,8 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SessionGenerator {
 
-    private String beginDate = "2011-03-04";
-    private String endDate = "2012-03-04";
+    private String beginDate = "2011-03-01";
+    private String endDate = "2012-03-01";
     Random generator = new Random();
 
     public Session sessionGenerator(List<String> stateOrgIds) {
@@ -101,49 +101,7 @@ public class SessionGenerator {
     }
 
     public GradingPeriodType getGradingPeriodType() {
-        int roll = generator.nextInt(20) + 1;
-        switch (roll) {
-            case 1:
-                return GradingPeriodType.END_OF_YEAR;
-            case 2:
-                return GradingPeriodType.FIFTH_SIX_WEEKS;
-            case 3:
-                return GradingPeriodType.FIRST_NINE_WEEKS;
-            case 4:
-                return GradingPeriodType.FIRST_SEMESTER;
-            case 5:
-                return GradingPeriodType.FIRST_SIX_WEEKS;
-            case 6:
-                return GradingPeriodType.FIRST_SUMMER_SESSION;
-            case 7:
-                return GradingPeriodType.FIRST_TRIMESTER;
-            case 8:
-                return GradingPeriodType.FOURTH_NINE_WEEKS;
-            case 9:
-                return GradingPeriodType.FOURTH_SIX_WEEKS;
-            case 10:
-                return GradingPeriodType.SECOND_NINE_WEEKS;
-            case 11:
-                return GradingPeriodType.SECOND_SEMESTER;
-            case 12:
-                return GradingPeriodType.SECOND_SIX_WEEKS;
-            case 13:
-                return GradingPeriodType.SECOND_SUMMER_SESSION;
-            case 14:
-                return GradingPeriodType.SECOND_TRIMESTER;
-            case 15:
-                return GradingPeriodType.SIXTH_SIX_WEEKS;
-            case 16:
-                return GradingPeriodType.SUMMER_SEMESTER;
-            case 17:
-                return GradingPeriodType.THIRD_NINE_WEEKS;
-            case 18:
-                return GradingPeriodType.THIRD_SIX_WEEKS;
-            case 19:
-                return GradingPeriodType.THIRD_SUMMER_SESSION;
-            default:
-                return GradingPeriodType.THIRD_TRIMESTER;
-        }
+        return GradingPeriodType.FIRST_NINE_WEEKS;
     }
 
     public TermType getTermType() {
