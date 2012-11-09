@@ -19,15 +19,16 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Bootstrapping Mongo Performance");
         
-        if (args.length < 6 || args.length > 7) {
+        if (args.length < 7 || args.length > 8) {
             System.out.println("INVALID NUMBER OF INPUTS");
             System.out.println("1. MODE (SAFE / NONE / NORMAL)");
             System.out.println("2. NUMBER OF CONCURRENT PROCESSORS");
             System.out.println("3. NUMBER OF TOTAL RECORDS OPERATED ON BY EACH TYPE OF OPERATION");
             System.out.println("4. CHUNK SIZE (FOR READS / WRITES)");
             System.out.println("5. TYPE OF OPERATIONS (W - WRITE VIA SPRING TEMPLATE / B - BATCHED WRITE VIA SPRING TEMPLATE / D - BATCHED WRITE VIA DRIVER / R - READ / T - BATCHED READ");
-            System.out.println("6. DROP COLLECTION (profiledCollection) PRIOR TO RUN (Y / N).");
+            System.out.println("6. SETUP COLLECTION OPERATIONS (profiledCollection) PRIOR TO RUN (D - DROP COLLECTION + CREATE + INDEX / R - REMOVE DATA / I - REMOVE DATA + INDEX / N - NONE).");
             System.out.println("7. PREFIX OF INPUT JSON FILE NAME.(PLEASE PUT THE JSON FILE UNDER DIR 'resources/JsonFiles/'. ALSO CONFIG THE index.properties FILE UNDER 'resources/indexes/')");
+            System.out.println("8. COLLECTION NAME");
             System.exit(0);
         }
         
@@ -54,25 +55,27 @@ public class App {
         
         String concurrentOperationsEnabled = args[4];
     
-        String dropCollectionFlag = args[5];
+        String setupOperationFlag = args[5];
 
         String [] tmp =  args[6].split("/");
         String temp = tmp[tmp.length-1];
         String [] tmp2 = temp.split("-");
         entityType = tmp2[0];
         
+        String profiledCollectionName = args[7];
+        
         System.out.println("ENTITY TO BE TESTED = "+entityType);
         System.out.println("NUMBER OF PROCESSORS = " + numberOfProcessors);
         System.out.println("NUMBER OF RECORDS = " + numberOfRecords);
         System.out.println("CHUNK SIZE = " + chunkSize);
         System.out.println("TYPES OF CONCURRENT OPERATIONS ENABLED = " + concurrentOperationsEnabled);
-        System.out.println("COLLECTION DROP FLAG = " + dropCollectionFlag);
+        System.out.println("COLLECTION SETUP FLAG = " + setupOperationFlag);
         
         long startTime = System.currentTimeMillis();
         
         MongoProcessor<DBObject> mongoProcessor = context.getBean(MongoProcessor.class);
         
-        mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize,generateRecordJson(args[6]), concurrentOperationsEnabled, dropCollectionFlag, args[6].substring(0, args[6].indexOf('-')) + ".indexes");
+        mongoProcessor.run(numberOfProcessors, da, numberOfRecords / numberOfProcessors, chunkSize,generateRecordJson(args[6]), concurrentOperationsEnabled, setupOperationFlag, args[6].substring(0, args[6].indexOf('-')) + ".indexes", profiledCollectionName);
         
         mongoProcessor.writeStatistics();
         

@@ -70,6 +70,11 @@ email_imap_registration_pass: Y;Gtf@w{
 
 ################# e2e test properties #################################
 
+# For CI environments
+
+email_imap_hostname: mon.slidev.org
+email_imap_portname: 993
+
 #SEA Admin creds
 primary_email_imap_registration_user: e2etestsea
 primary_email_imap_registration_user_email: e2etestsea@slidev.org
