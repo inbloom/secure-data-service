@@ -470,32 +470,26 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean findAndUpsertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
-        RecordHash rh = this.findRecordHash(tenantId, recordId);
-        if (rh == null) {
-            // record was not found
-            rh = new RecordHash();
-            rh._id = recordId;
-            rh.hash = newHashValues;
-            rh.tenantId = tenantId;
-            rh.created = "" + System.currentTimeMillis();
-            rh.updated = rh.created;
-            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-            return false;
-        }
-		// If hash matches, don't touch the database at all
-		if ( rh.hash == newHashValues )
-			return true;
-		// If hash does not match, update the hash as well as version and update time
-		rh.hash = newHashValues;
-		rh.updated = "" + System.currentTimeMillis();
+    public void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
+    
+    	// record was not found
+        RecordHash rh = new RecordHash();
+        rh._id = recordId;
+        rh.hash = newHashValues;
+        rh.tenantId = tenantId;
+        rh.created = "" + System.currentTimeMillis();
+        rh.updated = rh.created;
+        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+    }
+    
+    public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
+        rh.hash = newHashValues;
+        rh.updated = "" + System.currentTimeMillis();
         rh.version += 1;
         // Detect tenant collision - should never occur since tenantId is in the hash
-        if ( rh.tenantId != tenantId )
-        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + recordId + "'");
+        if ( ! rh.tenantId.equals(tenantId) )
+        	throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.tenantId + "', input data has '" + tenantId + "' for entity ID '" + rh._id + "'");
         this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-
-        return true;
     }
 
     @Override

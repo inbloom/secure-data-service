@@ -36,20 +36,27 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  */
 public final class SliDeltaManager {
 
+	/**
+	 * Calculate record ID and values hash for NeutralRecord and save in metadata.
+	 * Return true iff data is unchanged (no updated needed)
+	 * 
+	 * @param n
+	 * @param batchJobDAO
+	 * @param dIdStrategy
+	 * @return
+	 */
     public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO, DeterministicUUIDGeneratorStrategy dIdStrategy) {
 
         String recordId = n.generateRecordId(dIdStrategy);
-        String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + TenantContext.getTenantId());
+        String tenantId = TenantContext.getTenantId();
+        String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);
+        RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
-        RecordHash record = batchJobDAO.findRecordHash(TenantContext.getTenantId(), recordId);
-        if (record == null) {
-            RecordHash recordHash = createRecordHash(TenantContext.getTenantId(), recordId, recordHashValues);
-            n.addMetaData("rhId", recordId);
-            n.addMetaData("rhHash", recordHash.hash);
-            n.addMetaData("rhTenantId", recordHash.tenantId);
-            n.addMetaData("rhTimeStamp", recordHash.created);
-        }
-        return (record != null && record.hash == recordHashValues);
+        n.addMetaData("rhId", recordId);
+        n.addMetaData("rhHash", recordHashValues);
+        n.addMetaData("rhTenantId", tenantId);
+        
+        return (record != null && record.hash.equals(recordHashValues));
     }
 
     public static String createRecordHash(byte[] input, String algorithmName) throws NoSuchAlgorithmException {
