@@ -145,22 +145,20 @@ public class IndexerImpl implements Indexer {
      * @param index
      */
     public void addIndexMappingIfNeeded(String index) {
-        synchronized(knownIndexesMap) {
-            if (!knownIndexesMap.containsKey(index)) {
-                logger.info("Updating mappings for " + index);
-                try {
-                    connector.createIndex(index);
-                    for (IndexConfig config : indexConfigStore.getConfigs()) {
-                        if (!config.isChildDoc()) {
-                            connector.putMapping(index, config.getCollectionName(), IndexEntityUtil.getBodyForIndex(config.getMapping()));
-                        }
+        if (!knownIndexesMap.containsKey(index)) {
+            logger.info("Updating mappings for " + index);
+            try {
+                connector.createIndex(index);
+                for (IndexConfig config : indexConfigStore.getConfigs()) {
+                    if (!config.isChildDoc()) {
+                        connector.putMapping(index, config.getCollectionName(), IndexEntityUtil.getBodyForIndex(config.getMapping()));
                     }
-                    
-                } catch (Exception e) {
-                    logger.info("Index " + index + " already exists");
                 }
-                knownIndexesMap.put(index, Boolean.TRUE);
+                
+            } catch (Exception e) {
+                logger.info("Index " + index + " already exists");
             }
+            knownIndexesMap.put(index, Boolean.TRUE);
         }
     }
     

@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class DotPath {
+public class DotPath implements Cloneable {
     private List<String> path;
     public static DotPath EMPTY = DotPath.from(Collections.unmodifiableList(new ArrayList<String>()));
     
