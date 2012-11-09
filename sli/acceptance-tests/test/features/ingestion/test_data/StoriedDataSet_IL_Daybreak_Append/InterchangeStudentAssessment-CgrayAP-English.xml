@@ -24,9 +24,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -50,9 +50,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -80,9 +80,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -106,9 +106,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -137,9 +137,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -167,9 +167,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -193,9 +193,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -219,9 +219,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -248,9 +248,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -277,9 +277,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
@@ -304,9 +304,9 @@
       </StudentReference> 
       <AssessmentReference> 
            <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
+                <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 

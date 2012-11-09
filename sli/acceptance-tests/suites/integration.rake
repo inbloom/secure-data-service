@@ -65,7 +65,10 @@ end
 
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
-  emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
+  #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
+  emailsToDelete = [(PropLoader.getProps['primary_email_imap_registration_user_email']), 
+                    (PropLoader.getProps['secondary_email_imap_registration_user_email']), 
+                    (PropLoader.getProps['developer_email_imap_registration_user_email'])]
   emailsToDelete.each do |email|
     begin
       cleanUpLdapUser(email)
