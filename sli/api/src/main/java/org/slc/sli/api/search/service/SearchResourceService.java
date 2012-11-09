@@ -301,7 +301,7 @@ public class SearchResourceService {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
         // append wildcard '*' to each token
-        criteria.setValue(StringUtils.join(tokens, "* ") + "*");
+        criteria.setValue("+" + StringUtils.join(tokens, "* +") + "*");
     }
 
     /**
