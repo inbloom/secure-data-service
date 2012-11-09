@@ -67,18 +67,6 @@ public class EndpointMutator {
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
 
-        // TODO: Need to clean up this hack before turning on the path based context resolvers
-        /* (Temporarily) Allow root calls with query parameters through */
-        if (segments.size() < 3 && parameters != null) {
-            String[] queries = request.getRequestUri().getQuery().split("&");
-            for (String query : queries) {
-                if (!query
-                        .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
-                    return;
-                }
-            }
-        }
-
         if (usingV1Api(segments)) {
             request.getProperties().put(REQUESTED_PATH, request.getPath());
             Pair<String, String> mutated = uriMutator.mutate(segments, parameters, user.getEntity());
@@ -86,7 +74,7 @@ public class EndpointMutator {
             String newParameters = mutated.getRight();
 
             if (newPath != null) {
-                if (newParameters != null) {
+                if (newParameters != null && !newParameters.isEmpty()) {
                     info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, newPath,
                             newParameters });
                     request.setUris(request.getBaseUri(),
@@ -130,4 +118,5 @@ public class EndpointMutator {
     protected boolean usingV1Api(List<PathSegment> segments) {
         return segments.get(0).getPath().equals(PathConstants.V1);
     }
+
 }
