@@ -148,7 +148,7 @@ public class AssessmentGenerator {
 
         AssessmentIdentityType ait = new AssessmentIdentityType();
         ait.setAssessmentTitle(assessmentId+"Title");
-        ait.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
+//        ait.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
         ait.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
         ait.setGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
         ait.setVersion(1);
