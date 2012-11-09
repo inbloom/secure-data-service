@@ -31,7 +31,7 @@ import org.apache.activemq.broker.BrokerService;
  * @author Takashi Osako
  * 
  */
-public abstract class JMSBase {
+public class ActiveMQConnection {
 
     private String mqURL;
 
@@ -44,37 +44,32 @@ public abstract class JMSBase {
     private String brokerURI;
     private Session session;
     private Connection connection;
-    private Destination destination;
-    private MessageType messageType;
 
     private boolean embeddedBroker = false;
-    private static BrokerService broker = null;
+    private BrokerService broker = null;
 
     private static final String STOMP_URL = "stomp://localhost:61613";
     private static final String JMS_URL = "tcp://localhost:61616";
     private static final long MAX_RECONNECT_DELAY_MILLIS = 10000;
-    
-    enum MessageType {
+
+    public enum MessageType {
         QUEUE, TOPIC;
     }
 
-    public JMSBase(MessageType messageType) {
-        this.messageType = messageType;
+    public ActiveMQConnection() {
     }
 
     public void init() throws Exception {
         if (this.embeddedBroker) {
             // start embedded broker
-            if (broker == null) {
-                broker = new BrokerService();
-                broker.setPersistent(false);
-                broker.setUseJmx(true);
+            this.broker = new BrokerService();
+            this.broker.setPersistent(false);
+            this.broker.setUseJmx(true);
 
-                broker.addConnector(STOMP_URL);
-                broker.addConnector(JMS_URL);
-                broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
-                broker.start();
-            }
+            this.broker.addConnector(STOMP_URL);
+            this.broker.addConnector(JMS_URL);
+            this.broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
+            this.broker.start();
             // use localhost and port 61616 for embedded broker to access
             this.brokerURI = JMS_URL;
 
@@ -94,25 +89,17 @@ public abstract class JMSBase {
         // set true if it requires acknowledge
         this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-        if (this.messageType == MessageType.QUEUE) {
-            this.destination = session.createQueue(this.queue);
-        } else if (this.messageType == MessageType.TOPIC) {
-            this.destination = this.session.createTopic(this.queue);
-        }
     }
 
     public void destroy() throws Exception {
         if (this.session != null) {
             this.session.close();
-            this.session = null;
         }
         if (this.connection != null) {
             this.connection.close();
-            this.connection = null;
         }
         if (broker != null) {
             broker.stop();
-            broker = null;
         }
     }
 
@@ -122,9 +109,8 @@ public abstract class JMSBase {
      * @return
      * @throws JMSException
      */
-    protected MessageProducer getProducer() throws JMSException {
-        MessageProducer producer = session.createProducer(this.destination);
-        return producer;
+    public MessageProducer getProducer(MessageType messageType) throws JMSException {
+        return session.createProducer(getDestination(messageType));
     }
 
     /**
@@ -133,12 +119,28 @@ public abstract class JMSBase {
      * @return
      * @throws JMSException
      */
-    protected MessageConsumer getConsumer() throws JMSException {
-        MessageConsumer consumer = session.createConsumer(this.destination);
-        return consumer;
+    public MessageConsumer getConsumer(MessageType messageType) throws JMSException {
+        return session.createConsumer(getDestination(messageType));
     }
 
-    protected Session getSession() {
+    /**
+     * create destination by messageType
+     * 
+     * @param messageType
+     * @return
+     * @throws JMSException
+     */
+    private Destination getDestination(MessageType messageType) throws JMSException {
+        Destination destination = null;
+        if (messageType == MessageType.QUEUE) {
+            destination = session.createQueue(this.queue);
+        } else if (messageType == MessageType.TOPIC) {
+            destination = this.session.createTopic(this.queue);
+        }
+        return destination;
+    }
+
+    public Session getSession() {
         return this.session;
     }
 

@@ -17,71 +17,59 @@ package org.slc.sli.search.util;
 
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
 import javax.jms.TextMessage;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.search.util.amq.JMSQueueConsumer;
-import org.slc.sli.search.util.amq.JMSQueueProducer;
+import org.slc.sli.search.util.amq.ActiveMQConnection;
+import org.slc.sli.search.util.amq.ActiveMQConnection.MessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
-public class JMSBaseTest {
-    
+public class ActiveMQConnectionTest {
+
     @Autowired
-    JMSQueueConsumer queueConsumer;
-    
-    @Autowired
-    JMSQueueProducer queueProducer;
-    
+    ActiveMQConnection activeMQConnection;
+
     @Before
     public void init() throws Exception {
-        queueConsumer.setQueue("test");
-        MessageConsumer consumer=queueConsumer.getConsumer();
-        //make sure queue is empty
-        while(consumer.receive(1000)!=null) {
-            System.out.println("out");
-        }
+        activeMQConnection.setQueue("test");
         
-        
-        queueProducer.setQueue("test");
-        queueProducer.send("hello1");
-        queueProducer.send("hello2");
-        queueProducer.send("hello3");
-        queueProducer.send("hello4");
-    }
-    @After
-    public void destory() throws Exception {
-        this.queueProducer.destroy();
-        this.queueConsumer.destroy();
+
+        MessageProducer queueProducer = activeMQConnection.getProducer(MessageType.QUEUE);
+        queueProducer.send(activeMQConnection.getSession().createTextMessage("hello1"));
+        queueProducer.send(activeMQConnection.getSession().createTextMessage("hello2"));
+        queueProducer.send(activeMQConnection.getSession().createTextMessage("hello3"));
+        queueProducer.send(activeMQConnection.getSession().createTextMessage("hello4"));
     }
 
     /**
      * Test JMS
+     * 
      * @throws JMSException
      */
     @Test
     public void testJMS() throws JMSException {
 
-        MessageConsumer consumer=queueConsumer.getConsumer();
-        TextMessage message=(TextMessage) consumer.receive(100);
+        MessageConsumer consumer = activeMQConnection.getConsumer(MessageType.QUEUE);
+        TextMessage message = (TextMessage) consumer.receive(100);
         Assert.assertEquals("hello1", message.getText());
-        message=(TextMessage) consumer.receive(100);
+        message = (TextMessage) consumer.receive(100);
         Assert.assertEquals("hello2", message.getText());
-        message=(TextMessage) consumer.receive(100);
+        message = (TextMessage) consumer.receive(100);
         Assert.assertEquals("hello3", message.getText());
-        message=(TextMessage) consumer.receive(100);
+        message = (TextMessage) consumer.receive(100);
         Assert.assertEquals("hello4", message.getText());
     }
-    
-    public void setQueueConsumer(JMSQueueConsumer queueConsumer) {
-        this.queueConsumer = queueConsumer;
+
+    public void setActiveMQConnection(ActiveMQConnection activeMQConnection) {
+        this.activeMQConnection = activeMQConnection;
     }
 }

@@ -17,22 +17,8 @@
 
 	<context:property-placeholder location="file:${sli.conf}" system-properties-mode="OVERRIDE" />
 
-	<bean id="jMSQueueConsumer" class="org.slc.sli.search.util.amq.JMSQueueConsumer"
-		init-method="init" destroy-method="destroy">
-		<property name="mqURL" value="${sli.search.indexer.queue.url}" />
-		<property name="mqUsername" value="${sli.search.indexer.queue.username}" />
-		<property name="mqPswd" value="${sli.search.indexer.queue.password}" />
-		<property name="queue" value="${sli.search.indexer.queue.name}" />
-		<property name="embeddedBroker" value="${sli.search.indexer.broker.embedded:false}" />
+	<bean id="activeMQConnection" class="org.slc.sli.search.util.amq.ActiveMQConnection" init-method="init" destroy-method="destroy">
+		<property name="embeddedBroker" value="true" />
 	</bean>
-
-    <bean id="jMSQueueProducer" class="org.slc.sli.search.util.amq.JMSQueueProducer"
-        init-method="init" destroy-method="destroy">
-        <property name="mqURL" value="${sli.search.indexer.queue.url}" />
-        <property name="mqUsername" value="${sli.search.indexer.queue.username}" />
-        <property name="mqPswd" value="${sli.search.indexer.queue.password}" />
-        <property name="queue" value="${sli.search.indexer.queue.name}" />
-        <property name="embeddedBroker" value="${sli.search.indexer.broker.embedded:false}" />
-    </bean>
 
 </beans>
