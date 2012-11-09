@@ -90,8 +90,8 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     private Repository<Entity> repo;
-    private static final boolean ENABLE_CONTEXT_RESOLVING = true;
-    private static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
+    private static final boolean ENABLE_CONTEXT_RESOLVING = false;
+    public static final Set<String> VALIDATOR_ENTITIES = new HashSet<String>(
 //            Arrays.asList(
 //                    EntityNames.STUDENT,
 //                    EntityNames.STUDENT_SCHOOL_ASSOCIATION
@@ -1083,12 +1083,21 @@ public class BasicService implements EntityService {
     }
 
     private boolean useContextResolver() {
+
+        boolean useResolvers = true;
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        if (VALIDATOR_ENTITIES.contains(defn.getType()) && principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            return false;
+
+        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
+            if (VALIDATOR_ENTITIES.contains(defn.getType())) {
+                useResolvers = false;
+            } else {
+                useResolvers = ENABLE_CONTEXT_RESOLVING;
+            }
         }
-        return ENABLE_CONTEXT_RESOLVING;
+
+        return useResolvers;
     }
 
     /**

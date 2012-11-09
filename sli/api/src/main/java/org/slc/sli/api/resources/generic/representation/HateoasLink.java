@@ -15,7 +15,8 @@
  */
 package org.slc.sli.api.resources.generic.representation;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
@@ -26,7 +27,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
@@ -45,37 +45,29 @@ public class HateoasLink {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
+    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students",".+/courses/.+/courseStranscripts/students");
+
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
 
-        // for search, entities can have different types. need to look up definition for each.
-        boolean isSearch = resource.equals(ResourceNames.SEARCH);
-
         for (EntityBody entity : entities) {
+            List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
 
-            List<EmbeddedLink> links = null;
-            if (!isSearch) {
-
-                links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
-
-                if (!links.isEmpty()) {
-                    entity.put(ResourceConstants.LINKS, links);
-                }
-
-            } else {
-
-                // only include entity's self link for search results
-                EmbeddedLink link = ResourceUtil.getSelfLinkForEntity(uriInfo, (String) entity.get("id"),
-                        entityDefinitionStore.lookupByEntityType((String) entity.get("type")));
-
-                if (link != null) {
-                    links = new ArrayList<EmbeddedLink>();
-                    links.add(link);
-                    entity.put(ResourceConstants.LINKS, links);
+            Iterator<EmbeddedLink> it = links.iterator();
+            while(it.hasNext()) {
+                EmbeddedLink l = it.next();
+                for(String deny:disallowedLinks) {
+                    if(l.getHref().matches(deny)) {
+                        info("URI: {} matches removed endpoint {}.  Removing",l.getHref(),deny);
+                        it.remove();
+                    }
                 }
             }
 
+            if (!links.isEmpty()) {
+                entity.put(ResourceConstants.LINKS, links);
+            }
         }
 
         return entities;

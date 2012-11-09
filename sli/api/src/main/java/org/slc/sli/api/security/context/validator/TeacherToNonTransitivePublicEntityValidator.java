@@ -16,12 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates the context of a staff member to see the requested set of non-transitive public
@@ -30,21 +31,22 @@ import org.slc.sli.domain.NeutralQuery;
  * @author mabernathy
  */
 @Component
-public class StaffToNonTransitivePublicEntityValidator extends AbstractContextValidator {
+public class TeacherToNonTransitivePublicEntityValidator extends AbstractContextValidator {
 
+	private List<String> entities = Arrays.asList(EntityNames.SCHOOL,EntityNames.EDUCATION_ORGANIZATION);
+	
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return isPublic(entityType) && isStaff();
+        return entities.contains(entityType) && "teacher".equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
 
-        /* Minor guard to prevent calling this on non-public entities */
         if (!this.canValidate(entityType, true)) {
             throw new IllegalArgumentException("This resolver should not have been called for entityType " + entityType);
         }
-
+        
         return true;
     }
 
