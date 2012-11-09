@@ -151,24 +151,21 @@ public class DeterministicIdResolver {
         String[] pathParts = strippedRefPath.split(PATH_SEPARATOR);
 
         //is there an embedded list of objects?
-        Object embeddedObject = null;
-        List<Object> embeddedList = null;
         if (pathParts.length > 1) {
-            embeddedObject = getProperty(entity.getBody(), pathParts[0]);
+            Object embeddedObject = getProperty(entity.getBody(), pathParts[0]);
             if (embeddedObject instanceof List) {
-                embeddedList = (List<Object>) embeddedObject;
+                List<Object> embeddedList = (List<Object>) embeddedObject;
+                for (int objIndex = 0; objIndex < embeddedList.size(); objIndex++) {
+                    //construct indexed x-path string
+                    String indexedRefPath = BODY_PATH + pathParts[0] + ".["
+                            + Integer.toString(objIndex) + "]." +  pathParts[1];
+                    didRefSource.setSourceRefPath(indexedRefPath);
+                    resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
+                }
+            } else if (embeddedObject != null) {
+            	resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
             }
-        }
-
-        if (embeddedList != null) {
-            for (int objIndex = 0; objIndex < embeddedList.size(); objIndex++) {
-                //construct indexed x-path string
-                String indexedRefPath = BODY_PATH + pathParts[0] + ".["
-                        + Integer.toString(objIndex) + "]." +  pathParts[1];
-                didRefSource.setSourceRefPath(indexedRefPath);
-                resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
-            }
-        } else if (embeddedObject != null) {
+        } else {
             resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
         }
 
