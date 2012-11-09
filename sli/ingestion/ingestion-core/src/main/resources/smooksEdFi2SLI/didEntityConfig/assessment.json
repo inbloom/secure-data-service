@@ -2,9 +2,9 @@
     "referenceSources" :
     [
         {
-            "entityType" : "learningObjectives",
-            "optional" : true,
-            "sourceRefPath": "body.objectiveAssessment.LearningObjectiveReference"
+            "entityType" : "learningObjective",
+            "sourceRefPath": "body.objectiveAssessment.LearningObjectiveReference",
+            "optional" : true
         }
     ]
 }

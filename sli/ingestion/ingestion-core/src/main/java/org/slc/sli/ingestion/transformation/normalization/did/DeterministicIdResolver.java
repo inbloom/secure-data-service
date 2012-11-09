@@ -99,6 +99,7 @@ public class DeterministicIdResolver {
         for (DidRefSource didRefSource : entityConfig.getReferenceSources()) {
             try {
                 referenceEntityType = didRefSource.getEntityType();
+
                 sourceRefPath = didRefSource.getSourceRefPath();
                 NeutralSchema schema = schemaRepository.getSchema(referenceEntityType);
                 if (schema != null && schema.getAppInfo() != null) {
@@ -114,16 +115,14 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        DidEntityConfig configFromParser = didSchemaParser.getEntityConfigs().get(entityType);
-        DidEntityConfig configByHand = didConfigReader.getDidEntityConfiguration(entityType);
-        DidEntityConfig retVal = new DidEntityConfig();
-        if (configFromParser != null) {
-            retVal.getReferenceSources().addAll(configFromParser.getReferenceSources());
+        //use the json config if there is one
+        DidEntityConfig entityConfig = didConfigReader.getDidEntityConfiguration(entityType);
+
+        if (entityConfig == null) {
+        	entityConfig = didSchemaParser.getEntityConfigs().get(entityType);
         }
-        if (configByHand != null) {
-            retVal.getReferenceSources().addAll(configByHand.getReferenceSources());
-        }
-        return retVal;
+
+        return entityConfig;
     }
 
     private DidRefConfig getRefConfig(String refType) {
