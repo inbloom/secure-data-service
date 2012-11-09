@@ -23,7 +23,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.MongoException;
+
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -35,7 +45,6 @@ import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
@@ -46,15 +55,6 @@ import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
-
-import com.mongodb.MongoException;
 
 /**
  * Handles the persisting of Entity objects
@@ -109,13 +109,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         try {
             return persist(entity);
         } catch (EntityValidationException ex) {
-            DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-            databaseLoggingErrorReport.setResourceId(entity.getSourceFile());
-            reportErrors(ex.getValidationErrors(), entity, databaseLoggingErrorReport);
+            reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-            databaseLoggingErrorReport.setResourceId(entity.getSourceFile());
-            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), databaseLoggingErrorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), entity.getSourceFile(), errorReport);
         }
         return null;
     }
@@ -169,9 +165,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
-            DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-            databaseLoggingErrorReport.setResourceId(((SimpleEntity) entity).getSourceFile());
-            reportWarnings(e.getCause().getMessage(), collectionName, databaseLoggingErrorReport);
+            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), errorReport);
         }
 
         return res;
@@ -200,9 +194,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 addTimestamps(entity);
                 queued.add(entity);
             } catch (EntityValidationException e) {
-                DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-                databaseLoggingErrorReport.setResourceId(entity.getSourceFile());
-                reportErrors(e.getValidationErrors(), entity, databaseLoggingErrorReport);
+                reportErrors(e.getValidationErrors(), entity, errorReport);
                 failed.add(entity);
             }
         }
@@ -255,7 +247,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } else {
             preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
         }
-
     }
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
@@ -270,9 +261,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 } catch (Exception e) {
                     String errorMessage = "Issue finding key field: " + field + " for entity of type: "
                             + entity.getType() + "\n";
-                    DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-                    databaseLoggingErrorReport.setResourceId(entity.getSourceFile());
-                    databaseLoggingErrorReport.error(errorMessage, this);
+                    errorReport.error(errorMessage, entity.getSourceFile(), this);
                 }
 
                 if (complexField != null) {
@@ -283,9 +272,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     } catch (Exception e) {
                         String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
                                 + "\n";
-                        DatabaseLoggingErrorReport databaseLoggingErrorReport = (DatabaseLoggingErrorReport) errorReport;
-                        databaseLoggingErrorReport.setResourceId(entity.getSourceFile());
-                        databaseLoggingErrorReport.error(errorMessage, this);
+                        errorReport.error(errorMessage, entity.getSourceFile(), this);
                     }
                 }
 
@@ -306,6 +293,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
+
+    /**
+     * Generic error reporting function.
+     *
+     * @param error
+     *            List of errors to report.
+     * @param entity
+     *            Entity reporting errors.
+     * @param errorReport
+     *            Reference to error report logging error messages.
+     */
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
@@ -314,7 +312,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
                     + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
                     + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
-            errorReport.error(message, this);
+            errorReport.error(message, entity.getSourceFile(), this);
         }
     }
 
@@ -328,9 +326,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report to log warning message in.
      */
-    private void reportWarnings(String warningMessage, String type, ErrorReport errorReport) {
+    private void reportWarnings(String warningMessage, String type, String resourceId, ErrorReport errorReport) {
         String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
-        errorReport.warning(assembledMessage, this);
+        errorReport.warning(assembledMessage, resourceId, this);
     }
 
     protected String getFailureMessage(String code, Object... args) {
