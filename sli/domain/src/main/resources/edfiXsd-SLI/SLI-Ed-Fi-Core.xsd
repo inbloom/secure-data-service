@@ -3012,4 +3012,54 @@ Special education students
 			<xs:extension base="SLC-EducationOrganization"/>
 		</xs:complexContent>
 	</xs:complexType>
+	
+	<xs:complexType name="SLC-AssessmentItem">
+		<xs:annotation>
+			<xs:documentation>This entity represents one of many single measures that make up an assessment. </xs:documentation>
+			<xs:appinfo>
+                <sli:recordType>assessmentItem</sli:recordType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+				    <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" />
+					<xs:element name="IdentificationCode" type="IdentificationCode">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ItemCategory" type="ItemCategoryType">
+						<xs:annotation>
+							<xs:documentation>Category or type of the assessment item.  For example:
+Multiple choice
+Analytic
+Prose
+....</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxRawScore" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum raw score achievable is all assessment items are correct and scored at the maximum.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CorrectResponse" type="CorrectResponse">
+						<xs:annotation>
+							<xs:documentation>The correct response for the assessment item.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Learning Standard tested by this item.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reflects the specific nomenclature used for AssessmentItem.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 </xs:schema>
