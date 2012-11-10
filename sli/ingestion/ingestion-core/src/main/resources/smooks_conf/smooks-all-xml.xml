@@ -776,7 +776,7 @@
 
   <jb:bean beanId="sectionMetaData" class="java.util.HashMap"
     createOnElement="InterchangeMasterSchedule/Section">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'schoolReference,uniqueSectionCode'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'SchoolReference,uniqueSectionCode'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">

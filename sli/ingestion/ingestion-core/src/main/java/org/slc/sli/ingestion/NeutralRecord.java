@@ -184,16 +184,16 @@ public class NeutralRecord {
             // TODO: Add handling for compound natural key field names - comma delimited list?
             String keyValueFieldNames = MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames");
             if (keyValueFieldNames == null) {
-                System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for " + recordType);
-                throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for " + recordType);
+                System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+                throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
             }
             StringTokenizer fieldNameTokenizer = new StringTokenizer(keyValueFieldNames, ",");
             while (fieldNameTokenizer.hasMoreElements()) {
                 String fieldName = (String) fieldNameTokenizer.nextElement();
                 String value = MapUtils.getString(attributes, fieldName);
                 if (value == null) {
-                    System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for " + recordType + " is wrong or not mapped properly.");
-                    throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for " + recordType + " is wrong or not mapped properly.");
+                    System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
+                    throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
                 }
                 naturalKeys.put(fieldName, value);
             }
