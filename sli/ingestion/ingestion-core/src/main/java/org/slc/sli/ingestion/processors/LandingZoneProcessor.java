@@ -52,7 +52,7 @@ public class LandingZoneProcessor implements Processor {
             LOG.error("LandingZoneProcessor: {} is not a valid landing zone.", lzDirectoryPathName);
         }
 
-        exchange.getIn().setBody(lzFile.getPath(), String.class);  // To accommodate publish_file_uploaded.rb!
+        exchange.getIn().setBody(lzFile, File.class);
         exchange.getIn().setHeader("hasErrors", !landingZoneIsValid);
 }
 

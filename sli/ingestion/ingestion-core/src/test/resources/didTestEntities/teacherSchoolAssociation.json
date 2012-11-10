@@ -1,0 +1,13 @@
+{
+"recordType":"teacherSchoolAssociation",
+"attributes":
+{
+	"SchoolReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

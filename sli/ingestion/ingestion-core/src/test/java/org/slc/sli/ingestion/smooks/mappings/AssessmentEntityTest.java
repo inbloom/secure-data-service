@@ -28,13 +28,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for Assessment entity
@@ -95,14 +94,14 @@ public class AssessmentEntityTest {
                 + "    <Description>descript</Description>"
                 + "  </AssessmentPeriod>"
                 + "  <AssessmentItemReference>"
-                + "    <AssessmentItem>"
-                + "      <IdentificationCode>TAKSReading3-1</IdentificationCode>"
-                + "    </AssessmentItem>"
+                + "    <AssessmentItemIdentity>"
+                + "      <AssessmentItemIdentificationCode>TAKSReading3-1</AssessmentItemIdentificationCode>"
+                + "    </AssessmentItemIdentity>"
                 + "  </AssessmentItemReference>"
                 + "  <AssessmentItemReference>"
-                + "    <AssessmentItem>"
-                + "      <IdentificationCode>TAKSReading3-2</IdentificationCode>"
-                + "    </AssessmentItem>"
+                + "    <AssessmentItemIdentity>"
+                + "      <AssessmentItemIdentificationCode>TAKSReading3-2</AssessmentItemIdentificationCode>"
+                + "    </AssessmentItemIdentity>"
                 + "  </AssessmentItemReference>"
                 + "  <ObjectiveAssessmentReference>"
                 + "    <ObjectiveAssessmentIdentity>"

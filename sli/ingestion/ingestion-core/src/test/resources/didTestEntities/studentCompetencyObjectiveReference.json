@@ -1,0 +1,13 @@
+{
+	"recordType":"studentCompetency",
+	"attributes":
+	{
+		"StudentCompetencyObjectiveReference":
+		{
+			"StudentCompetencyObjectiveIdentity":
+			{
+				"StudentCompetencyObjectiveId":"student competency objective id"
+			}
+		}
+	}
+}

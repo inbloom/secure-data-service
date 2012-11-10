@@ -53,6 +53,8 @@ SLIAdmin::Application.routes.draw do
   match '/apps/approve', :to => 'apps#approve'
   match '/apps/unregister', :to => 'apps#unregister'
 
+  get 'apps/sea', :to => 'apps#get_state_edorgs'
+  get 'lea', :to => 'apps#get_local_edorgs'
   get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
   get 'change_passwords', :to => 'change_passwords#new'
   get 'forgot_passwords', :to => 'forgot_passwords#reset'

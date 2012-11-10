@@ -1,0 +1,11 @@
+{
+    "referenceSources" :
+        [
+            {
+              "entityType" : "educationOrganization", 
+              "optional" : false,
+              "sourceRefPath": "body.schoolId"
+            }
+
+        ]
+}

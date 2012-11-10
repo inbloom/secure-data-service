@@ -29,8 +29,8 @@
     <!-- jb:wiring property="disciplineIncidentReferenceSchoolId" beanIdRef="disciplineAction_disciplineIncidentReferenceSchoolIdArray" /-->
     <jb:wiring property="disciplineIncidentId" beanIdRef="disciplineAction_disciplineIncidentIdArray" />
     <jb:wiring property="staffId" beanIdRef="disciplineAction_staffIdArray" />
-    <jb:value property="responsibilitySchoolId" data="attributes responsibilitySchoolId" />
-    <jb:value property="assignmentSchoolId" data="attributes assignmentSchoolId" />
+    <jb:value property="responsibilitySchoolId" data="attributes ResponsibilitySchoolReference" />
+    <jb:value property="assignmentSchoolId" data="attributes AssignmentSchoolReference" />
   </jb:bean>
 
   <!-- DisciplineAction wiring for disciplines -->
