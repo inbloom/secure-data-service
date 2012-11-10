@@ -28,6 +28,16 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -52,15 +62,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -84,7 +85,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
-    
+
     @Autowired
     private static DeterministicUUIDGeneratorStrategy dIdStrategy;
 
@@ -102,6 +103,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    private Set<String> recordLvlHashNeutralRecordTypes;
 
     private MessageSource messageSource;
 
@@ -536,6 +539,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
+    public void setRecordLvlHashNeutralRecordTypes(Set<String> recordLvlHashNeutralRecordTypes) {
+        this.recordLvlHashNeutralRecordTypes = recordLvlHashNeutralRecordTypes;
+    }
+
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
         Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
@@ -557,17 +564,21 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
      private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
-    	 String newHashValues = nr.getMetaDataByName("rhHash").toString();
-    	 if (newHashValues == null)
-    	 	return;
-    	 String recordId = nr.generateRecordId(dIdStrategy);
-    	 String tenantId = nr.getMetaDataByName("rhTenantId").toString();
-    	 
-         RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
-         if ( rh == null )
-        	 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
-         else
-        	 batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+        if (recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
+            String newHashValues = nr.getMetaDataByName("rhHash").toString();
+            if (newHashValues == null) {
+                return;
+            }
+            String recordId = nr.generateRecordId(dIdStrategy);
+            String tenantId = nr.getMetaDataByName("rhTenantId").toString();
+
+            RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+            if (rh == null) {
+                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+            } else {
+                batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+            }
+        }
      }
 }
 
