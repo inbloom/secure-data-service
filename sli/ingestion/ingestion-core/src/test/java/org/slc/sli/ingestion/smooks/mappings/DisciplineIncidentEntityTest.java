@@ -172,26 +172,9 @@ public class DisciplineIncidentEntityTest {
         assertNotNull("Expected non-null educational org identity", educationalOrgIdentity);
 
         @SuppressWarnings("unchecked")
-        List<String> stateOrganizationIds = (List<String>) educationalOrgIdentity.get("StateOrganizationId");
-        assertNotNull("Expected non-null state organization ids", stateOrganizationIds);
-        assertEquals("Expected two state organization ids", 2, stateOrganizationIds.size());
-        assertEquals("Expected different state organization id", "State Organization Id 1", stateOrganizationIds.get(0));
-        assertEquals("Expected different state organization id", "State Organization Id 2", stateOrganizationIds.get(1));
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, String>> educationOrgIdentificationCodes = (List<Map<String, String>>) educationalOrgIdentity.get("EducationOrgIdentificationCode");
-        assertNotNull("Expected non-null education org identification codes", educationOrgIdentificationCodes);
-        assertEquals("Expected two education org identification codes", 2, educationOrgIdentificationCodes.size());
-
-        Map<String, String> educationOrgIdentificationCode = educationOrgIdentificationCodes.get(0);
-        assertNotNull("Expected non-null education org identification code", educationOrgIdentificationCode);
-        assertEquals("Expected different identification system", "Test Contractor", educationOrgIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different ID", "Identifier 1", educationOrgIdentificationCode.get("ID"));
-
-        educationOrgIdentificationCode = educationOrgIdentificationCodes.get(1);
-        assertNotNull("Expected non-null education org identification code", educationOrgIdentificationCode);
-        assertEquals("Expected different identification system", "District", educationOrgIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different ID", "Identifier 2", educationOrgIdentificationCode.get("ID"));
+        String stateOrganizationId =(String) educationalOrgIdentity.get("StateOrganizationId");
+        assertNotNull("Expected non-null state organization ids", stateOrganizationId);
+        assertEquals("Expected different state organization id", "State Organization Id", stateOrganizationId);
 
         //staff
         @SuppressWarnings("unchecked")

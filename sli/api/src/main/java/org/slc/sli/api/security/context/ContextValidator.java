@@ -166,6 +166,8 @@ public class ContextValidator implements ApplicationContextAware {
                     throw new AccessDeniedException("Cannot access entities " + ids);
                 }
             }
+        } else {
+            throw new AccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
         }
     }
 

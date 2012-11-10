@@ -50,7 +50,7 @@ public interface BatchJobDAO {
     @Deprecated
     List<Error> findBatchJobErrors(String batchJobId);
 
-    public Iterable<Error> getBatchJobErrors(String jobId, String fileName, FaultType type, int limit);
+    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit);
 
     void saveError(Error error);
 

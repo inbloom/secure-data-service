@@ -102,21 +102,13 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
     @Test
     public void testCanValidateStaffToGrade() throws Exception {
         assertTrue(validator.canValidate(EntityNames.GRADE, false));
-    }
-
-    @Test
-    public void testDeniedStaffToGradeThrough() throws Exception {
-        assertFalse(validator.canValidate(EntityNames.GRADE, true));
+        assertTrue(validator.canValidate(EntityNames.GRADE, true));
     }
 
     @Test
     public void testCanValidateStaffToStudentCompetency() throws Exception {
         assertTrue(validator.canValidate(EntityNames.STUDENT_COMPETENCY, false));
-    }
-
-    @Test
-    public void testDeniedStaffToStudentCompetencyThrough() throws Exception {
-        assertFalse(validator.canValidate(EntityNames.STUDENT_COMPETENCY, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_COMPETENCY, true));
     }
 
     @Test

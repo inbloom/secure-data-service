@@ -342,7 +342,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
        "individualPlan" => false,
        "graduationPlanType" => "Minimum",
-       "educationOrganizationId" => "67ce204b-9999-4a11-bfea-000000000009",
+       "educationOrganizationId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
        "totalCreditsRequired" => {
             "creditConversion" => 0,
             "creditType" => "Semester hour credit",
@@ -449,7 +449,7 @@ When /^I create an association of type "([^"]*)"$/ do |type|
     },
     "staffProgramAssociation" => {
       "programId" => @newId,
-      "staffId" => "85585b27-5368-4f10-a331-3abcaf3a3f4c",
+      "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
       "beginDate" => "2012-01-01"
     }
   }

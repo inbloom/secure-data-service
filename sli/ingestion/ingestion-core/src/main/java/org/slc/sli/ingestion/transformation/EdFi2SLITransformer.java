@@ -307,6 +307,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         String edOrgId = (String) entity.getBody().get("educationOrgId");
 
+        if(edOrgId == null) edOrgId =   (String) entity.getBody().get("EducationOrgReference");
+
         if (edOrgId != null) {
             NeutralQuery query = new NeutralQuery(0);
             query.addCriteria(new NeutralCriteria("metaData.edOrgs", "=", edOrgId, false));

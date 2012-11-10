@@ -1,0 +1,13 @@
+{
+"recordType":"studentSchoolAssociation",
+"attributes":
+{
+	"SchoolReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

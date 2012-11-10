@@ -386,30 +386,116 @@ public class NeutralRecord {
 
     @Override
     public int hashCode() {
-        return this.toString().hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (association ? 1231 : 1237);
+        result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
+        result = prime * result + ((attributesCrc == null) ? 0 : attributesCrc.hashCode());
+        result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
+        result = prime * result + (int) (creationTime ^ (creationTime >>> 32));
+        result = prime * result + ((localId == null) ? 0 : localId.hashCode());
+        result = prime * result + ((localParentIds == null) ? 0 : localParentIds.hashCode());
+        result = prime * result + locationInSourceFile;
+        result = prime * result + ((metaData == null) ? 0 : metaData.hashCode());
+        result = prime * result + ((recordId == null) ? 0 : recordId.hashCode());
+        result = prime * result + ((recordType == null) ? 0 : recordType.hashCode());
+        result = prime * result + ((sourceFile == null) ? 0 : sourceFile.hashCode());
+        result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
+        return result;
     }
 
-    /**
-     * compare neutral records for equality initial version compares JSON
-     * representations
-     *
-     * TODO - replace with version incorporating CRC as basis for comparison
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-
         if (obj == null) {
             return false;
         }
-
         if (getClass() != obj.getClass()) {
             return false;
         }
-
-        return (this.toString().equals(obj.toString()));
+        NeutralRecord other = (NeutralRecord) obj;
+        if (association != other.association) {
+            return false;
+        }
+        if (attributes == null) {
+            if (other.attributes != null) {
+                return false;
+            }
+        } else if (!attributes.equals(other.attributes)) {
+            return false;
+        }
+        if (attributesCrc == null) {
+            if (other.attributesCrc != null) {
+                return false;
+            }
+        } else if (!attributesCrc.equals(other.attributesCrc)) {
+            return false;
+        }
+        if (batchJobId == null) {
+            if (other.batchJobId != null) {
+                return false;
+            }
+        } else if (!batchJobId.equals(other.batchJobId)) {
+            return false;
+        }
+        if (creationTime != other.creationTime) {
+            return false;
+        }
+        if (localId == null) {
+            if (other.localId != null) {
+                return false;
+            }
+        } else if (!localId.equals(other.localId)) {
+            return false;
+        }
+        if (localParentIds == null) {
+            if (other.localParentIds != null) {
+                return false;
+            }
+        } else if (!localParentIds.equals(other.localParentIds)) {
+            return false;
+        }
+        if (locationInSourceFile != other.locationInSourceFile) {
+            return false;
+        }
+        if (metaData == null) {
+            if (other.metaData != null) {
+                return false;
+            }
+        } else if (!metaData.equals(other.metaData)) {
+            return false;
+        }
+        if (recordId == null) {
+            if (other.recordId != null) {
+                return false;
+            }
+        } else if (!recordId.equals(other.recordId)) {
+            return false;
+        }
+        if (recordType == null) {
+            if (other.recordType != null) {
+                return false;
+            }
+        } else if (!recordType.equals(other.recordType)) {
+            return false;
+        }
+        if (sourceFile == null) {
+            if (other.sourceFile != null) {
+                return false;
+            }
+        } else if (!sourceFile.equals(other.sourceFile)) {
+            return false;
+        }
+        if (sourceId == null) {
+            if (other.sourceId != null) {
+                return false;
+            }
+        } else if (!sourceId.equals(other.sourceId)) {
+            return false;
+        }
+        return true;
     }
 
     /**

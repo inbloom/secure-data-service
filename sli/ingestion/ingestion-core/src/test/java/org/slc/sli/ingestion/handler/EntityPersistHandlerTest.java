@@ -36,6 +36,11 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -43,17 +48,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Tests for EntityPersistHandler
@@ -192,9 +191,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testPersistanceExceptionHandling() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        BatchJobMongoDA mockBatchJobDAO = mock(BatchJobMongoDA.class);
-        DatabaseLoggingErrorReport dler = new DatabaseLoggingErrorReport(null, null, null, mockBatchJobDAO);
-        Assert.assertEquals(dler.getResourceId(), null);
+        FaultsReport fr = new FaultsReport();
 
         SimpleEntity studentEntity = createStudentEntity(true);
         SimpleEntity existingStudentEntity = createStudentEntity(true);
@@ -211,10 +208,14 @@ public class EntityPersistHandlerTest {
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(studentEntity, dler);
+        entityPersistHandler.doHandling(studentEntity, fr);
 
-        Assert.assertTrue("Error report should contain errors", dler.hasErrors());
-        Assert.assertEquals(dler.getResourceId(), studentEntity.getSourceFile());
+        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
+        String message = "ERROR: There has been a data validation error when saving an entity\n"
+                + "       Error      REQUIRED_FIELD_MISSING\n" + "       Entity     student\n"
+                + "       Instance   0\n" + "       Field      field\n" + "       Value      null\n"
+                + "       Expected   [String]\n";
+        Assert.assertEquals(message, fr.getFaults().get(0).getMessage());
     }
 
     /**
@@ -263,7 +264,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testUpdateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        ErrorReport fr = new FaultsReport();
+        FaultsReport fr = new FaultsReport();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -350,7 +351,6 @@ public class EntityPersistHandlerTest {
 
         entity.setStagedEntityId(STAGED_STUDENT_UUID);
         entity.setType("student");
-        entity.setSourceFile("InterchangeStudent.xml");
 
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("studentUniqueStateId", STUDENT_ID);

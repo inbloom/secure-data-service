@@ -156,6 +156,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             setExchangeHeaders(exchange, newJob, errorReport);
 
             setExchangeBody(exchange, batchJobId);
+            cf.getFile().delete();
+
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);

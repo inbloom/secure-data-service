@@ -62,6 +62,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
 /**
  * Ingestion Persistence Processor.
@@ -196,12 +197,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-            ErrorReport errorReportForNrEntity = createDbErrorReport(job.getId(), collectionNameAsStaged);
+            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
-            //UN: Added the records to the recordHashStore
+            // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
                 recordHashStore.add(neutralRecord);
             }
@@ -231,7 +232,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             recordStore.add(neutralRecord);
 
                             // queue up for bulk insert
-                            xformedEntity.setSourceFile(neutralRecord.getSourceFile());
                             persist.add(xformedEntity);
 
                         } else {
@@ -256,7 +256,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                            upsertRecordHash(neutralRecord2);
+                        upsertRecordHash(neutralRecord2);
 
                     }
                 } catch (DataAccessResourceFailureException darfe) {
@@ -399,12 +399,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport
-                    .error(MessageSourceHelper
-                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
-                            this);
+            errorReport.error(
+                    MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                    record.getSourceFile(), this);
             return null;
         }
+        transformed.get(0).setSourceFile(record.getSourceFile());
         return transformed.get(0);
     }
 
@@ -563,7 +563,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-     private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
+    private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
         if (recordLvlHashNeutralRecordTypes.contains(nr.getRecordType())) {
             String newHashValues = nr.getMetaDataByName("rhHash").toString();
             if (newHashValues == null) {
@@ -572,6 +572,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             String recordId = nr.generateRecordId(dIdStrategy);
             String tenantId = nr.getMetaDataByName("rhTenantId").toString();
 
+            // Consider DE2002, removing a query per record vs. tracking version
             RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
             if (rh == null) {
                 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
@@ -579,6 +580,5 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
             }
         }
-     }
+    }
 }
-
