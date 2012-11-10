@@ -36,6 +36,7 @@ package org.slc.sli.ingestion;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.commons.collections.MapUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -181,9 +182,21 @@ public class NeutralRecord {
             // that can be mapped deterministically to the neutralrecord fields
             Map<String, String> naturalKeys = new HashMap<String, String>();
             // TODO: Add handling for compound natural key field names - comma delimited list?
-            String keyValueFieldName = MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames");
-            String keyValue = MapUtils.getString(attributes, keyValueFieldName);
-            naturalKeys.put(keyValueFieldName, keyValue);
+            String keyValueFieldNames = MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames");
+            if (keyValueFieldNames == null) {
+                System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for " + recordType);
+                throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for " + recordType);
+            }
+            StringTokenizer fieldNameTokenizer = new StringTokenizer(keyValueFieldNames, ",");
+            while (fieldNameTokenizer.hasMoreElements()) {
+                String fieldName = (String) fieldNameTokenizer.nextElement();
+                String value = MapUtils.getString(attributes, fieldName);
+                if (value == null) {
+                    System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for " + recordType + " is wrong or not mapped properly.");
+                    throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for " + recordType + " is wrong or not mapped properly.");
+                }
+                naturalKeys.put(fieldName, value);
+            }
 
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, TenantContext.getTenantId(), sliEntityType, null);
             this.recordId = strategy.generateId(nkd);
