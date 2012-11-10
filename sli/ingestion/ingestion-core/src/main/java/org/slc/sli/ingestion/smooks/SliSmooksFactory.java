@@ -33,6 +33,7 @@ import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 import scala.actors.threadpool.Arrays;
@@ -51,6 +52,12 @@ public class SliSmooksFactory {
 
     @Autowired
     public BatchJobDAO batchJobDAO;
+
+    @Autowired
+    public DeterministicUUIDGeneratorStrategy dIdStrategy;
+
+    @Autowired
+    public DeterministicIdResolver dIdResolver;
 
     @Value("${sli.ingestion.recordLevelDeltaEntities}")
     private String recordLevelDeltaEnabledEntityNames;
@@ -83,6 +90,8 @@ public class SliSmooksFactory {
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setBatchJobDAO(batchJobDAO);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDidGeneratorStrategy(dIdStrategy);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setDidResolver(dIdResolver);
 
             HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
             recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
@@ -110,4 +119,13 @@ public class SliSmooksFactory {
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
     }
+
+    public void setdIdStrategy(DeterministicUUIDGeneratorStrategy dIdStrategy) {
+        this.dIdStrategy = dIdStrategy;
+    }
+
+    public void setdIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
+    }
+
 }
