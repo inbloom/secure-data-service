@@ -38,10 +38,13 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -75,6 +78,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private BatchJobDAO batchJobDAO;
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
+    private DeterministicIdResolver didResolver;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
@@ -110,6 +114,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+
+            Entity entity = new NeutralRecordEntity(neutralRecord);
+            didResolver.resolveInternalIds(entity, neutralRecord.getSourceId(), errorReport);
 
             if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 queueNeutralRecordForWriting(neutralRecord);
@@ -218,6 +225,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     public void setDidGeneratorStrategy(DeterministicUUIDGeneratorStrategy didGeneratorStrategy) {
         this.dIdStrategy = didGeneratorStrategy;
+    }
+
+    public void setDidResolver(DeterministicIdResolver didResolver) {
+        this.didResolver = didResolver;
     }
 
     /* we are not using the below visitor hooks */

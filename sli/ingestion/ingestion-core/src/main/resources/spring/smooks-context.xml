@@ -198,6 +198,7 @@
     <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
     <property name="batchJobDAO" ref="batchJobMongoDA" />
     <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
   </bean>
 
 </beans>
