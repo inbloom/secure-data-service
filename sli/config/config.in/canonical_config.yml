@@ -219,9 +219,6 @@ default:
         # Number of retries for mongo operations in ingestion
         sli.ingestion.totalRetries: 10
 
-        # Edfi entities for which record-level derived delta is supported; comma-delimited edfi entity names  
-        sli.ingestion.recordLevelDeltaEntities: calendarDate,cohort,competencyLevelDescriptor,course,courseOffering,disciplineAction,disciplineIncident,educationOrganization,grade,gradebookEntry,gradingPeriod,graduationPlan,learningStandard,localEducationAgency,parent,program,reportCard,school,section,session,staff,staffCohortAssociation,staffEducationOrganizationAssociation,staffProgramAssociation,stateEducationAgency,student,studentAcademicRecord,studentCohortAssociation,studentCompetency,studentCompetencyObjective,studentDisciplineIncidentAssociation,studentParentAssociation,studentProgramAssociation,studentSchoolAssociation,studentSectionAssociation,studentGradebookEntry,teacher,teacherSchoolAssociation,teacherSectionAssociation,attendance,learningObjective,courseTranscript
-
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
             medium : [MediumSampleDataSet.zip]

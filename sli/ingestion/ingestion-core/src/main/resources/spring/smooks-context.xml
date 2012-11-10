@@ -2,9 +2,11 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:util="http://www.springframework.org/schema/util"
   xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        ">
 
   <bean id="smooksConfigMap" class="org.springframework.beans.factory.config.MapFactoryBean">
@@ -188,6 +190,52 @@
     </property>
   </bean>
 
+  <!-- SLI-Ed-Fi neutral record types for which record level hash processing is supported -->
+  <util:set id="recordLvlHashNeutralRecordTypes" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>calendarDate</value>
+    <value>cohort</value>
+    <value>competencyLevelDescriptor</value>
+    <value>course</value>
+  <!--     <value>courseOffering</value> -->
+    <value>disciplineAction</value>
+    <value>disciplineIncident</value>
+    <value>educationOrganization</value>
+    <value>grade</value>
+    <value>gradebookEntry</value>
+    <value>gradingPeriod</value>
+    <value>graduationPlan</value>
+    <value>learningStandard</value>
+    <value>localEducationAgency</value>
+    <value>parent</value>
+    <value>program</value>
+    <value>reportCard</value>
+    <value>school</value>
+  <!--     <value>section</value> -->
+    <value>session</value>
+    <value>staff</value>
+    <value>staffCohortAssociation</value>
+    <value>staffEducationOrganizationAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>stateEducationAgency</value>
+    <value>student</value>
+    <value>studentAcademicRecord</value>
+    <value>studentCohortAssociation</value>
+    <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentDisciplineIncidentAssociation</value>
+    <value>studentParentAssociation</value>
+    <value>studentProgramAssociation</value>
+  <!--    <value>studentSchoolAssociation</value>  -->
+    <value>studentSectionAssociation</value>
+    <value>studentGradebookEntry</value>
+    <value>teacher</value>
+    <value>teacherSchoolAssociation</value>
+    <value>teacherSectionAssociation</value>
+    <value>attendance</value>
+    <value>learningObjective</value>
+    <value>courseTranscript</value>
+  </util:set>
+  
   <bean id="deterministicUUIDGeneratorStrategy" class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
 
   <bean id="sliSmooksFactory" class="org.slc.sli.ingestion.smooks.SliSmooksFactory">
@@ -199,6 +247,7 @@
     <property name="batchJobDAO" ref="batchJobMongoDA" />
     <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
     <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
   </bean>
 
 </beans>
