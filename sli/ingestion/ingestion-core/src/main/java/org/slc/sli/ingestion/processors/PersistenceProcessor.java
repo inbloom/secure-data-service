@@ -42,6 +42,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -556,12 +557,17 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
      private void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
-            if (nr.getMetaDataByName("rhHash") != null) {
-                batchJobDAO.findAndUpsertRecordHash(
-                		nr.getMetaDataByName("rhTenantId").toString(),
-                		nr.generateRecordId(dIdStrategy),
-                        nr.getMetaDataByName("rhHash").toString());
-            }
-        }
+    	 String newHashValues = nr.getMetaDataByName("rhHash").toString();
+    	 if (newHashValues == null)
+    	 	return;
+    	 String recordId = nr.generateRecordId(dIdStrategy);
+    	 String tenantId = nr.getMetaDataByName("rhTenantId").toString();
+    	 
+         RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+         if ( rh == null )
+        	 batchJobDAO.insertRecordHash(tenantId, recordId, newHashValues);
+         else
+        	 batchJobDAO.updateRecordHash(tenantId, rh, newHashValues);
+     }
+}
 
-    }

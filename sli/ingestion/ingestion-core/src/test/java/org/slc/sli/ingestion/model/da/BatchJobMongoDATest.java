@@ -426,21 +426,31 @@ public class BatchJobMongoDATest {
         DBAnswer dbAnswer = new DBAnswer();
         doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
         doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
-        // first call to findAndUpsertRecordHash should return false since Record is not in db.
-        Assert.assertFalse(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHashId", "TestRecordHashValues"));
+        
+        // insert a record not in the db
+        String testTenantId = "TestTenant";
+        String testRecordHashId = "TestRecordHashId";
+        
+        // Record should not be in the db
+        RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+        Assert.assertNull(rh);
+        
+        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "TestRecordHashValues");
         String savedTimestamp =  dbAnswer.savedRecordHash.updated;
         String savedId        =  dbAnswer.savedRecordHash._id;
         String savedHash      =  dbAnswer.savedRecordHash.hash;
-        //introduce delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
+        //introduce delay between calls so that recordHash timestamp changes.
         try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
-        // second call to findAndUpsertRecordHash should return true since Record is already in db.
-        Assert.assertTrue(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHashId", "TestRecordHashValuesNew"));
+        // second call to findRecordHash should return non-null since Record is already in db.
+        rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
+        Assert.assertNotNull(rh);
+        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "TestRecordHashValuesNew");
         String updatedTimestamp = dbAnswer.savedRecordHash.updated;
         String updatedId        = dbAnswer.savedRecordHash._id;
         String updatedHash      = dbAnswer.savedRecordHash.hash;
         Assert.assertTrue(savedId.equals(updatedId));
 
-        // The timestamp on the recordHash should have changed after the second call.
+        // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
         Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
     }
 

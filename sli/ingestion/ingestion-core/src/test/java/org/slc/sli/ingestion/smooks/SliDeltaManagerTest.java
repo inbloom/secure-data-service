@@ -73,7 +73,6 @@ public class SliDeltaManagerTest {
         Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA, mockDIdStrategy));
         Assert.assertNotNull(record.getMetaData().get("rhId"));
         Assert.assertNotNull(record.getMetaData().get("rhTenantId"));
-        Assert.assertNotNull(record.getMetaData().get("rhTimeStamp"));
 
         String sId = (String)record.getMetaData().get("rhId");
         String sTenantId = (String)record.getMetaData().get("rhId");
