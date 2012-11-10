@@ -8,7 +8,7 @@
         },
         {
             "entityType" : "learningStandard",
-            "sourceRefPath": "body.assessmentItem.LearningStandardReference",
+            "sourceRefPath": "body.assessmentItem.learningStandards",
             "optional" : true
         }
     ]
