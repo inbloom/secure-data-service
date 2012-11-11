@@ -12,7 +12,11 @@ Scenario: View Matt Sollars
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 When I enter "Garry" into the "firstName" search box
 And I click the search button
-Then "2" results are returned in the page
+# US4437 -  Dashboard Temporary fix
+And I select school "South Daybreak Elementary"
+And I search by clicking on the go button
+Then "1" results are returned in the page
+#Then "2" results are returned in the page
 And I click on student "Garry Kinsel"
 When I click on "Attendance and Discipline" Tab
 And I see the Attendance Calendar

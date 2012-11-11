@@ -12,15 +12,22 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then I should be informed that "1" results are returned
+When I look in the school drop-down
+Then I see these values in the drop-down: "East Daybreak Junior High"
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then "1" results are returned in the page
+#Then I should be informed that "1" results are returned
+#Then "1" results are returned in the page
 And the title of the page is "SLC - Search"
 And the search results has the following entries:
   |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
+
 And I enter "matt" into the "firstName" search box
 And I click the search button
-Then I should be informed that "1" results are returned
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then "1" results are returned in the page
 And the search results has the following entries:
  |Student      |Grade    |School                     |
@@ -33,14 +40,21 @@ When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Sollars" into the "lastName" search box
-And I send the enter key
-Then I should be informed that "1" results are returned
+And I click the search button
+When I look in the school drop-down
+Then I see these values in the drop-down: "East Daybreak Junior High"
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
+#And I send the enter key
+#Then I should be informed that "1" results are returned
 Then "1" results are returned in the page
 And the search results has the following entries:
   |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
 When I enter "sollars" into the "lastName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "1" results are returned
 Then "1" results are returned in the page
 And the search results has the following entries:
@@ -63,6 +77,8 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Tran" into the "lastName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "0" results are returned
 Then "0" results are returned in the page
 
@@ -74,10 +90,14 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter nothing into either field of student search
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "0" results are returned
 Then "0" results are returned in the page
 And I enter "Gerardo" into the "lastName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "0" results are returned
 Then "0" results are returned in the page
 
@@ -89,6 +109,8 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Gerardo" into the "firstName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "3" results are returned
 Then "3" results are returned in the page
 And the search results has the following entries:
@@ -109,6 +131,8 @@ And the search results has the following entries:
 When I enter "Gerardo" into the "firstName" search box
 And I enter "Rounsaville" into the "lastName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then I should be informed that "1" results are returned
 Then "1" results are returned in the page
 And the search results has the following entries:
@@ -123,6 +147,8 @@ When I select "Illinois Sunset School District 4526" and click go
  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
 When I enter "Matt" into the "firstName" search box
 And I click the search button
+And I select school "Sunset Central High School" 
+And I search by clicking on the go button
 Then I should be informed that "53" results are returned
 And "50" results are returned in the page
 And I click on the next page
@@ -134,6 +160,8 @@ And the search results include:
   |Matt Lin           |11       |Sunset Central High School |
 When I enter "Lin" into the "lastName" search box
 And I click the search button
+And I select school "Sunset Central High School" 
+And I search by clicking on the go button
 Then I should be informed that "51" results are returned
 And "50" results are returned in the page
 And I click on the next page
