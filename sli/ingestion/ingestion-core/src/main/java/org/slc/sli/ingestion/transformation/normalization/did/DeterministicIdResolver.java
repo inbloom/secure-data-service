@@ -170,10 +170,10 @@ public class DeterministicIdResolver {
      */
     @SuppressWarnings("unchecked")
 	private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode, String[] pathParts, int level) throws IdResolutionException {
+    	String nextNodeName = pathParts[level];
     	if (level >= pathParts.length-1) {
     		parentNodes.add(curNode);
     	} else {
-    		String nextNodeName = pathParts[level];
     		Object nextNode = curNode.get(nextNodeName);
     		if (nextNode instanceof List) {
     			List<Object> nodeList = (List<Object>) nextNode;

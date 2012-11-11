@@ -50,13 +50,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
 
-    private final String EDFI_STUDENT_REFERENCE = "StudentReference";
-    private final String SLI_STUDENT_REFERENCE = "studentId";
     private final String EDFI_PROGRAM_REFERENCE = "ProgramReference";
     private final String SLC_PROGRAM_REFERENCE = "programReference";
 
-    private final String EDFI_LEARNING_OBJECTIVE_REFERENCE = "LearningObjectiveReference";
-    private final String SLI_LEARNING_OBJECTIVE_REFERENCE = "learningObjectives";
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -89,20 +85,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                 entity.getMetaData().put("externalId", externalId);
             }
 
-            if (EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(entity.getType())) {
-                // Because the studentAssessmentAssociation goes through a Combiner
-                // during the first Smooks translation. It would be quite complicated
-                // to use Smooks mapping for the second Smooks translation.
-                // All that needs doing is renaming the references from Ed-Fi names
-                // to SLI names.
-                Object ref = entity.getBody().remove(EDFI_STUDENT_REFERENCE);
-                if (ref instanceof String) {
-                    String studentId = (String) ref;
-                    entity.getBody().put(SLI_STUDENT_REFERENCE, studentId);
-                } else {
-                    LOG.error("Unable to map '" + SLI_STUDENT_REFERENCE + "' in " + entity.getType() + ". Expected a String.");
-                }
-            } else if (EntityNames.EDUCATION_ORGANIZATION.equals(entity.getType())
+            if (EntityNames.EDUCATION_ORGANIZATION.equals(entity.getType())
                     || EdfiEntity.EDUCATION_SERVICE_CENTER.getEntityName().equals(entity.getType())
                     || EdfiEntity.STATE_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
                     || EdfiEntity.LOCAL_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
@@ -118,20 +101,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     LOG.error("Unable to map '" + SLC_PROGRAM_REFERENCE + "' in " + entity.getType() + ". Expected a List.");
                 }
             }
-//            else if (EntityNames.ASSESSMENT.equals(entity.getType())) {
-//                // Because the studentAssessmentAssociation goes through a Combiner
-//                // during the first Smooks translation. It would be quite complicated
-//                // to use Smooks mapping for the second Smooks translation.
-//                // All that needs doing is renaming the references from Ed-Fi names
-//                // to SLI names.
-//                Object ref = entity.getBody().remove(EDFI_LEARNING_OBJECTIVE_REFERENCE);
-//                if (ref instanceof List) {
-//                    List learningObjectives = (List) ref;
-//                    entity.getBody().put(SLI_LEARNING_OBJECTIVE_REFERENCE, learningObjectives);
-//                } else {
-//                    LOG.error("Unable to map 'learningObjectives' in objectiveAssessment. Expected a List.");
-//                }
-//            }
 
             return Arrays.asList(entity);
         }

@@ -1140,8 +1140,12 @@
     <jb:wiring beanIdRef="assessmentItemLearningStandardRef" />
   </jb:bean>
 
-  <jb:bean beanId="assessmentItemLearningStandardRef" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
-    <jb:value property="identificationCode" data="LearningStandardReference/LearningStandardIdentity/IdentificationCode" />
+<jb:bean beanId="assessmentItemLearningStandardRef" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
+    <jb:wiring property="LearningStandardIdentity" beanIdRef="assessmentItemLearningStandardIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="assessmentItemLearningStandardIdentity" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
+    <jb:value property="IdentificationCode" data="LearningStandardReference/LearningStandardIdentity/IdentificationCode" />
   </jb:bean>
 
   <!-- StudentAssessmentItem -->
@@ -1827,7 +1831,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
+    <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-StudentReferenceType" property="studentId"/>
     <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />

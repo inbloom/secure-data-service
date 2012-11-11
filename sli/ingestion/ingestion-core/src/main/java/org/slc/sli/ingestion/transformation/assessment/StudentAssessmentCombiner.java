@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+
 /**
  * Transformer for StudentAssessmentAssociation entities.
- * 
+ *
  * @author nbrown
  * @author shalka
  */
@@ -126,7 +127,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 studentId = (String) PropertyUtils.getNestedProperty(attributes,
-                        "StudentReference.StudentIdentity.StudentUniqueStateId");
+                        "studentId.StudentIdentity.StudentUniqueStateId");
             } catch (Exception e) {
                 LOG.debug("Unable to get StudentID for StudentAssessment transform");
             }
@@ -203,7 +204,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -259,7 +260,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
