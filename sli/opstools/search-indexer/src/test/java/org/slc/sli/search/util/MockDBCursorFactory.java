@@ -21,18 +21,19 @@ import static org.mockito.Mockito.when;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.LinkedList;
+
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 import org.apache.commons.io.IOUtils;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 
 /**
  * Factory class for Mocking Mongo Template
@@ -45,7 +46,7 @@ public class MockDBCursorFactory {
 
     private MockDBCursorFactory() {
     }
-    
+
     public static DBCursor create(String collection) {
         return (new MockDBCursorFactory()).createDBCursor(collection);
     }
@@ -61,16 +62,19 @@ public class MockDBCursorFactory {
     private DBCursor createDBCursor(String collection) {
         DBCursor cursor = mock(DBCursor.class);
         final LinkedList<DBObject> jsonArray = new LinkedList<DBObject>();
-        
+
         BufferedReader br = null;
         try {
-            File jsonFile = new File(DBCollection.class.getClassLoader().getResource(collection + ".json").getFile());
-            br = new BufferedReader(new FileReader(jsonFile));
-            String line;
-            
-            while ((line = br.readLine()) != null) {
-                DBObject bson = (DBObject) JSON.parse(line);
-                jsonArray.add(bson);
+            URL url = DBCollection.class.getClassLoader().getResource(collection + ".json");
+            if (url != null) {
+                File jsonFile = new File(url.getFile());
+                br = new BufferedReader(new FileReader(jsonFile));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    DBObject bson = (DBObject) JSON.parse(line);
+                    jsonArray.add(bson);
+                }
             }
 
         } catch (Throwable t) {
@@ -78,13 +82,13 @@ public class MockDBCursorFactory {
         } finally {
             IOUtils.closeQuietly(br);
         }
-        
+
         when(cursor.hasNext()).thenAnswer(new Answer<Boolean>() {
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 return !jsonArray.isEmpty();
             }
         });
-        
+
         when(cursor.next()).thenAnswer(new Answer<DBObject>() {
             public DBObject answer(InvocationOnMock invocation) throws Throwable {
                 return jsonArray.remove();
