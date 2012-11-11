@@ -51,6 +51,7 @@ Before do
   
   # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
   # it can go away once there is no lingering bad data anywhere
+  disable_NOTABLESCAN()
   @tenantColl.find().each do |row|
     if row['tenantId'] != nil
       @tenantColl.remove(row)
@@ -61,6 +62,7 @@ Before do
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_2})
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_3})
   @edOrgColl.remove({"body.stateOrganizationId" => UNIQUE_ED_ORG_ID})
+  enable_NOTABLESCAN()
   
 end
 
@@ -141,6 +143,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
 end
 
 And /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  disable_NOTABLESCAN()
   @db   = @conn[@ingestion_db_name]
 
   @result = "true"
@@ -160,6 +163,7 @@ And /^I should see following map of indexes in the corresponding collections:$/ 
   end
 
   assert(@result == "true", "Some indexes were not created successfully.")
+  enable_NOTABLESCAN()
 
 end
 
@@ -234,9 +238,11 @@ When /^I POST a basic tenant with "([^"]*)" set to "([^"]*)"$/ do |property,valu
 end
 
 When /^I POST a provision request with "([^"]*)" set to "([^"]*)"$/ do |property,value|
+  disable_NOTABLESCAN()
   dataObject = getBaseProvisionData
   dataObject[property] = value
   postToProvision(dataObject)
+  enable_NOTABLESCAN()
 end
 
 When /^I POST a basic tenant with landingZone "([^"]*)" set to "([^"]*)"$/ do |property,value|
