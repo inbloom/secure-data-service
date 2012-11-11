@@ -270,12 +270,14 @@ end
 
 
 When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
+  disable_NOTABLESCAN
   if(env=="sandbox")
     @driver.find_element(:id, "custom").click
     @driver.find_element(:id, "custom_ed_org").send_keys edorgName
   end
   @driver.find_element(:id, "provisionButton").click
   @edorgName=edorgName
+  enable_NOTABLESCAN
 end
 
 Then /^I get the success message$/ do
@@ -305,6 +307,7 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
 end
 
 When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
+  disable_NOTABLESCAN
   if sample_data_set.downcase.include? "small"
     sample_data_set="small"
   else
@@ -315,6 +318,7 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
   @edorgName = PRELOAD_EDORG
+  enable_NOTABLESCAN
 end
 
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
