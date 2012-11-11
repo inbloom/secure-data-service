@@ -25,6 +25,7 @@ import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slc.sli.search.process.Admin;
 
 public class RemoteCommandServiceTest {
 
@@ -35,6 +36,24 @@ public class RemoteCommandServiceTest {
     public static void setUpBeforeClass() throws Exception {
         remoteCommandService = new RemoteCommandService();
         remoteCommandService.setPort(port);
+        remoteCommandService.setAdmin(new Admin() {
+
+            public String getHealth() {
+                return null;
+            }
+
+            public void reloadAll() {
+            }
+
+            public void reload(String tenantId) {
+            }
+
+            public void reconcileAll() {
+            }
+
+            public void reconcile(String tenantId) {
+            }
+        });
         remoteCommandService.init();
     }
 
