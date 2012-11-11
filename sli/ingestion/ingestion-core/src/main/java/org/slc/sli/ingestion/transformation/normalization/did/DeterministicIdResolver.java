@@ -149,39 +149,56 @@ public class DeterministicIdResolver {
         //split source ref path and look for lists in embedded objects
         String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
         String[] pathParts = strippedRefPath.split(PATH_SEPARATOR);
+        String refObjName = pathParts[pathParts.length-1];
 
-        //is there an embedded list of objects?
-        if (pathParts.length > 1) {
-            Object embeddedObject = getProperty(entity.getBody(), pathParts[0]);
-            if (embeddedObject instanceof List) {
-                List<Object> embeddedList = (List<Object>) embeddedObject;
-                for (int objIndex = 0; objIndex < embeddedList.size(); objIndex++) {
-                    //construct indexed x-path string
-                    String indexedRefPath = BODY_PATH + pathParts[0] + ".["
-                            + Integer.toString(objIndex) + "]." +  pathParts[1];
-                    didRefSource.setSourceRefPath(indexedRefPath);
-                    resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
-                }
-            } else if (embeddedObject != null) {
-            	resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
-            }
-        } else {
-            resolveReference(didRefSource, didRefConfig, entity, collectionName, tenantId);
+        //get a list of the parentNodes
+        List<Map<String, Object>> parentNodes = new ArrayList<Map<String, Object>>();
+        extractReferenceParentNodes(parentNodes, entity.getBody(), pathParts, 0);
+
+        //resolve and set all the parentNodes
+        for (Map<String, Object> node : parentNodes) {
+        	Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), entity, didRefConfig, collectionName, tenantId);
+        	if (resolvedRef != null) {
+        		node.put(refObjName, resolvedRef);
+        	}
         }
-
     }
 
-    private void resolveReference(DidRefSource didRefSource, DidRefConfig didRefConfig,
-            Entity entity, String collectionName, String tenantId) throws IdResolutionException {
-        String sourceRefPath = didRefSource.getSourceRefPath();
-        Object referenceObject = getProperty(entity, sourceRefPath);
+    /**
+     * Recursive extraction of all parent nodes in the entity that contain the reference
+     * @throws IdResolutionException
+     */
+    @SuppressWarnings("unchecked")
+	private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode, String[] pathParts, int level) throws IdResolutionException {
+    	if (level >= pathParts.length-1) {
+    		parentNodes.add(curNode);
+    	} else {
+    		String nextNodeName = pathParts[level];
+    		Object nextNode = curNode.get(nextNodeName);
+    		if (nextNode instanceof List) {
+    			List<Object> nodeList = (List<Object>) nextNode;
+    			for (Object nodeObj : nodeList) {
+    				if (nodeObj instanceof Map) {
+    					extractReferenceParentNodes(parentNodes, (Map<String, Object>) nodeObj, pathParts, level+1);
+    				}
+    			}
+    		} else if (nextNode instanceof Map) {
+    			extractReferenceParentNodes(parentNodes, (Map<String, Object>) nextNode, pathParts, level+1);
+    		}
+    	}
+    }
+
+    private Object resolveReference(Object referenceObject, boolean isOptional, Entity entity, DidRefConfig didRefConfig,
+    		String collectionName, String tenantId) throws IdResolutionException {
+
+    	String refType = didRefConfig.getEntityType();
 
         if (referenceObject == null) {
             // ignore an empty reference if it is optional
-            if (didRefSource.isOptional()) {
-                return;
+            if (isOptional) {
+                return null;
             } else {
-                throw new IdResolutionException("Entity missing key", sourceRefPath, null);
+                throw new IdResolutionException("Missing required refernece", refType, null);
             }
         }
 
@@ -198,10 +215,10 @@ public class DeterministicIdResolver {
                     uuidList.add(uuid);
                     addContext(entity, uuid, didRefConfig, collectionName);
                 } else {
-                    throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
+                    throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
                 }
             }
-            setProperty(entity, sourceRefPath, uuidList);
+            return uuidList;
         } else if (referenceObject instanceof Map) {
             // handle a single reference object
             @SuppressWarnings("unchecked")
@@ -209,13 +226,13 @@ public class DeterministicIdResolver {
 
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
-                setProperty(entity, sourceRefPath, uuid);
                 addContext(entity, uuid, didRefConfig, collectionName);
+                return uuid;
             } else {
-                throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
+                throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
             }
         } else {
-            throw new IdResolutionException("Unsupported reference object type", sourceRefPath, null);
+            throw new IdResolutionException("Unsupported reference object type", refType, null);
         }
     }
 
