@@ -109,6 +109,8 @@
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Triangles</Objective>
+                <AcademicSubject>Mathematics</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
@@ -170,9 +172,9 @@
         <IdentificationCode>ACT-Reading</IdentificationCode>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>RI-11-13</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>Writing: Informational Text</Objective>
+                <AcademicSubject>ELA</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <ObjectiveAssessmentReference>
@@ -191,6 +193,8 @@
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Writing: Informational Text</Objective>
+                <AcademicSubject>ELA</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
@@ -199,6 +203,8 @@
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
                 <Objective>Writing: Informational Text</Objective>
+                <AcademicSubject>ELA</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </ObjectiveAssessment>
