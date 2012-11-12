@@ -17,8 +17,6 @@ Then I see these values in the drop-down: "East Daybreak Junior High"
 And I select school "East Daybreak Junior High" 
 And I search by clicking on the go button
 Then "1" results are returned in the page
-#Then I should be informed that "1" results are returned
-#Then "1" results are returned in the page
 And the title of the page is "SLC - Search"
 And the search results has the following entries:
   |Student      |Grade    |School                     |
@@ -40,13 +38,11 @@ When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Sollars" into the "lastName" search box
-And I click the search button
+And I send the enter key
 When I look in the school drop-down
 Then I see these values in the drop-down: "East Daybreak Junior High"
 And I select school "East Daybreak Junior High" 
 And I search by clicking on the go button
-#And I send the enter key
-#Then I should be informed that "1" results are returned
 Then "1" results are returned in the page
 And the search results has the following entries:
   |Student      |Grade    |School                     |
