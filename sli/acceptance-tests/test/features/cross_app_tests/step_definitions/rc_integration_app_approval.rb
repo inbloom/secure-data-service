@@ -17,13 +17,13 @@ limitations under the License.
 =end
 
 #portal, which also imports dashboard step def
-Dir["./test/features/liferay/step_definitions/*"].each {|file| require file}
+Dir["./test/features/liferay/step_definitions/*"].each {|file| require file unless file.directory?}
 
 #admin tools
-Dir["./test/features/admintools/step_definitions/*"].each {|file| require file}
+Dir["./test/features/admintools/step_definitions/*"].each {|file| require file unless file.directory?}
 
 #databrowser
-Dir["./test/features/databrowser/step_definitions/*"].each {|file| require file}
+Dir["./test/features/databrowser/step_definitions/*"].each {|file| require file unless file.directory?}
 
 $client_id = nil
 $client_secret = nil
