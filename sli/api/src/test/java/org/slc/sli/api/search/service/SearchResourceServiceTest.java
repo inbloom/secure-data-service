@@ -43,6 +43,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -110,7 +111,15 @@ public class SearchResourceServiceTest {
         List<NeutralCriteria> criterias = apiQuery.getCriteria();
         Assert.assertEquals(1, criterias.size());
         NeutralCriteria criteria = criterias.get(0);
-        Assert.assertEquals("+david* +wu*", criteria.getValue());
+        Assert.assertEquals("david* wu*", criteria.getValue());
+    }
+
+    @Test(expected = PreConditionFailedException.class)
+    public void testSearchLimits() throws URISyntaxException {
+        setupAuth(EntityNames.STAFF);
+        URI queryUri = new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu&offset=0&limit=300");
+        ApiQuery apiQuery = new ApiQuery(queryUri);
+        resourceService.retrieveResults(apiQuery);
     }
 
     private static void setupAuth(String type) {

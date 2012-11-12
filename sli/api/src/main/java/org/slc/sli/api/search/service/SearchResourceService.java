@@ -46,13 +46,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -87,8 +87,11 @@ public class SearchResourceService {
     @Autowired
     private EdOrgHelper edOrgHelper;
 
-    @Value("${sli.search.maxUnfilteredResults:1000}")
+    @Value("${sli.search.maxUnfilteredResults:15000}")
     private long maxUnfilteredSearchResultCount;
+
+    @Value("${sli.search.maxFilteredResults:250}")
+    private long maxFilteredSearchResultCount;
 
     @Autowired
     private ContextValidator contextValidator;
@@ -116,17 +119,8 @@ public class SearchResourceService {
      * @return
      */
     public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
-        List<EntityBody> finalEntities = Collections.emptyList();
         // set up query criteria, make query
-        ApiQuery apiQuery = prepareQuery(resource, resourcesToSearch, queryUri);
-        long count = getService().count(apiQuery);
-        if (count >= maxUnfilteredSearchResultCount) {
-            throw new ResponseTooLargeException();
-        }
-        if (count == 0) {
-            return new ServiceResponse(finalEntities, 0);
-        }
-        finalEntities = retrieveResults(apiQuery);
+        List<EntityBody> finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -141,6 +135,9 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
+        if (limit > maxFilteredSearchResultCount) {
+            throw new PreConditionFailedException("Limit on search is " + maxFilteredSearchResultCount);
+        }
         if (limit == 0) {
             limit = SEARCH_RESULT_LIMIT;
         }
@@ -161,7 +158,7 @@ public class SearchResourceService {
         List<EntityBody> entityBodies = null;
         ArrayList<EntityBody> finalEntities = new ArrayList<EntityBody>();
 
-        while (finalEntities.size() < totalLimit) {
+        while (finalEntities.size() < totalLimit && apiQuery.getOffset() + limitPerQuery < this.maxUnfilteredSearchResultCount ) {
 
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().list(apiQuery);
@@ -301,7 +298,7 @@ public class SearchResourceService {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
         // append wildcard '*' to each token
-        criteria.setValue("+" + StringUtils.join(tokens, "* +") + "*");
+        criteria.setValue(StringUtils.join(tokens, "* ") + "*");
     }
 
     /**
