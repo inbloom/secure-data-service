@@ -27,7 +27,7 @@
         <jb:value property="LEACategory"                          data="attributes LEACategory" />
         <jb:value property="charterStatus"                        data="attributes charterStatus" />
 
-        <jb:value property="localEducationAgencyReference"        data="attributes localEducationAgencyReference" />
+        <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
         <jb:value property="educationServiceCenterReference"      data="attributes educationServiceCenterReference" />
         <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
 
