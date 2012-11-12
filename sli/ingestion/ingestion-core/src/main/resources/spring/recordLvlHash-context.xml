@@ -7,18 +7,18 @@
 
   <!-- SLI-Ed-Fi neutral record types for which record level hash processing is supported -->
   <util:set id="recordLvlHashNeutralRecordTypes" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>calendarDate</value>
-    <value>cohort</value>
+    <value>calendarDate</value>  <!-- no EdOrgId in Ed-Fi yet --> 
+<!--    <value>cohort</value> has EdOrg ref as key field -->
     <value>competencyLevelDescriptor</value>
     <value>course</value>
-    <value>courseOffering</value>
-    <value>disciplineAction</value>
-    <value>disciplineIncident</value>
-    <value>educationOrganization</value>
-    <value>grade</value>
-    <value>gradebookEntry</value>
-    <value>gradingPeriod</value>
-    <value>graduationPlan</value>
+<!--    <value>courseOffering</value> needs DID ref resolution for SchoolReference and SessionReference -->
+<!--    <value>disciplineAction</value> needs DID ref resolution for ResponsibilitySchoolReference --> 
+<!--    <value>disciplineIncident</value> needs DID ref resolution for SchoolReference -->
+<!--    <value>educationOrganization</value> This should probably be removed - no smooks mapping for this -->
+<!--    <value>grade</value> needs DID ref resolution for GradingPeriodReference -->
+<!--    <value>gradebookEntry</value> needs at least DID ref resolution for SectionReference -->
+    <value>gradingPeriod</value> <!-- may work if PropertyUtils.getProperty can find a field name match recursively -->
+<!--    <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>localEducationAgency</value>
     <value>parent</value>
@@ -49,6 +49,7 @@
     <value>attendance</value>
     <value>learningObjective</value>
     <value>courseTranscript</value>
+  -->
   </util:set>
 
 </beans>
