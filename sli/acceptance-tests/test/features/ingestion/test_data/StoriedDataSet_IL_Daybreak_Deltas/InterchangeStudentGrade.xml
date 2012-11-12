@@ -22,9 +22,12 @@
         <LetterGradeEarned>Q</LetterGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -33,6 +36,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -87,9 +92,12 @@
         <GradeType>Mid-Term Grade</GradeType>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -98,6 +106,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>

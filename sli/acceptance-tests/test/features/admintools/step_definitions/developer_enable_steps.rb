@@ -89,7 +89,8 @@ Then /^I can see the on\-boarded states$/ do
 end
 
 When /^I select a state$/ do
-  step 'I select the "Illinois"'
+  options = @driver.find_elements(:css, 'div#state-menu select option')
+  step "I select the \"#{options[1].text}\""
 end
 
 Then /^I see all of the Districts$/ do
