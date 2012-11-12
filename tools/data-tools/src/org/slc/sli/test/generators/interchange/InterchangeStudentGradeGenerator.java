@@ -117,19 +117,7 @@ public final class InterchangeStudentGradeGenerator {
         GradingPeriodReferenceType gradingPeriodRef = new GradingPeriodReferenceType();
         SLCGradingPeriodIdentityType gradingPeriodItentity = new SLCGradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
-        gradingPeriodItentity.setBeginDate(gpMeta.getBeginData());
-        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-
-        // gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        // orignal wrong code
-
-
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.setStateOrganizationId(schoolId);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        eort.setEducationalOrgIdentity(eoit);
-        gradingPeriodItentity.setEducationalOrgReference(eort);
-
+        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
         return gradingPeriodRef;
     }
 
