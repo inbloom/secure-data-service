@@ -348,6 +348,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "creditType" => "Semester hour credit",
             "credit" => 32
        }
+    },
+    "studentCompetencyObjective" => {
+        "objectiveGradeLevel" => "Kindergarten",
+        "objective" => "Phonemic Awareness",
+        "studentCompetencyObjectiveId" => "SCO-K-1",
+        "educationOrganizationId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731"
     }
 }
   @fields = @entityData[arg1]

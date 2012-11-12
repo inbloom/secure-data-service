@@ -71,6 +71,7 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
 end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
+  disable_NOTABLESCAN
   if idpType=="OpenAM"
     @driver.find_element(:id, "IDToken1").send_keys user
     @driver.find_element(:id, "IDToken2").send_keys pass
@@ -90,6 +91,8 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
+  sleep 3 # wait 3 seconds before enabling notablescan flag again
+  enable_NOTABLESCAN
 
 end
 

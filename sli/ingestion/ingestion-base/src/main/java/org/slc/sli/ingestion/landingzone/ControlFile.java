@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.ByteArrayInputStream;
@@ -46,7 +45,6 @@ public class ControlFile implements Serializable {
     private static final long serialVersionUID = 3231739301361458948L;
     private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
-
     protected File file;
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();
@@ -55,7 +53,8 @@ public class ControlFile implements Serializable {
         return parse(file, null, null);
     }
 
-    public static ControlFile parse(File file, LandingZone landingZone, MessageSource messageSource) throws IOException, SubmissionLevelException {
+    public static ControlFile parse(File file, LandingZone landingZone, MessageSource messageSource)
+            throws IOException, SubmissionLevelException {
 
         Scanner scanner = new Scanner(file);
         Pattern fileItemPattern = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
@@ -107,7 +106,7 @@ public class ControlFile implements Serializable {
                     lineNumber += 1;
                     String errorMessage;
                     if (messageSource != null) {
-                         errorMessage = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG16", lineNumber, line);
+                        errorMessage = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG16", lineNumber, line);
                     } else {
                         errorMessage = "Invalid control file entry at line number [" + lineNumber + "] Line:" + line;
                     }
@@ -146,6 +145,10 @@ public class ControlFile implements Serializable {
             return file.getName();
         }
         return null;
+    }
+
+    public File getFile() {
+        return file;
     }
 
 }

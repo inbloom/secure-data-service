@@ -40,7 +40,6 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultType;
@@ -69,7 +68,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
-    private static final String FILE_NAME_FIELD = "resourceId";
+    private static final String RESOURCE_ID_FIELD = "resourceId";
     private static final String SEVERITY_FIELD = "severity";
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
@@ -156,10 +155,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public Iterable<Error> getBatchJobErrors(String jobId, String fileName, FaultType type, int limit) {
+    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit) {
         return batchJobMongoTemplate.find(
                 Query.query(
-                        Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(FILE_NAME_FIELD).is(fileName)
+                        Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(RESOURCE_ID_FIELD).is(resourceId)
                                 .and(SEVERITY_FIELD).is(type.getName())).limit(limit), Error.class,
                 BATCHJOB_ERROR_COLLECTION);
     }
