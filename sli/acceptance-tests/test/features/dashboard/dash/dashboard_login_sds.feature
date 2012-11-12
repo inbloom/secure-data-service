@@ -151,6 +151,19 @@ Then "1" results are returned in the page
  And the search results include:
  |Student          |Grade    |School                     |
  |Rudolph Sennett  |1        |South Daybreak Elementary  |
+When I enter "matt" into the "firstName" search box
+And I click the search button
+# Test the text displayed when user clicks the 'Go' button without selecting the school
+And I search by clicking on the go button
+And I should see "Please select a school from the dropdown." prompt
+When I look in the school drop-down
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
+And I select school "East Daybreak Junior High"
+And I search by clicking on the go button
+Then "1" results are returned in the page
+And the search results include:
+ |Student          |Grade    |School                     |
+ |Matt Sollars     |8        |East Daybreak Junior High  |
 
 @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
  Scenario: Login with State Level IT Admin
@@ -204,6 +217,9 @@ And Student Enrollment History has the following entries:
 
 When I enter "Matt" into the "firstName" search box
 And I click the search button
+# Test the text displayed when user clicks the 'Go' button without selecting the school
+And I search by clicking on the go button
+And I should see "Please select a school from the dropdown." prompt
 And I select school "Sunset Central High School"
 And I search by clicking on the go button
 Then "50" results are returned in the page
@@ -215,7 +231,7 @@ And the search results include:
  |Matt Forker      |11       |Sunset Central High School |
  |Matt Randy       |11       |Sunset Central High School |
  |Matt Zebra       |11       |Sunset Central High School |  
-
+ 
 @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
