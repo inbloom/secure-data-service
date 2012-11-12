@@ -104,15 +104,15 @@ end
 
 $entityData = {
     "courseOffering" => {
-        "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-        "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-        "courseId" => "ddf01d82-9293-49ba-b16e-0fe5b4f4804d",
+        "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
+        "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904",
+        "courseId" => "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
         "localCourseCode" => "LCCGR101",
         "localCourseTitle" => "German 101 - Intro"
     },
     "courseTranscript" => {
         "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
-        "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
+        "courseId" => "5a04c851-d741-4fd7-8bca-62e3f6f7220e",
         "studentAcademicRecordId" => "16afc8d4-6c91-48f9-8a51-de527c1131b7",
         "courseAttemptResult" => "Pass",
         "creditsEarned" => {
@@ -129,19 +129,19 @@ $entityData = {
         "studentRecordAccess" => true
     },
     "staffEducationOrganizationAssociation" => {
-        "staffReference" => "45d6c371-e7f1-4fa8-899a-e9f2309cbe4e",
-        "educationOrganizationReference" => "bd086bae-ee82-4cf2-baf9-221a9407ea07",
+        "staffReference" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
         "staffClassification" => "Counselor",
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {
-        "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
+        "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
         "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2012-01-01",
         "endDate" => "2012-12-31"
     },
     "studentAssessmentAssociation" => {
-        "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
         "assessmentId" => "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
         "administrationDate" => "2011-10-01",
         "administrationEndDate" => "2012-01-01",
@@ -154,18 +154,18 @@ $entityData = {
         "endDate" => "2012-03-29"
     },
     "studentDisciplineIncidentAssociation" => {
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
-        "disciplineIncidentId" => "0e26de79-22ea-5d67-9201-5113ad50a03b",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+        "disciplineIncidentId" => "0e26de79-7efa-5e67-9201-5113ad50a03b",
         "studentParticipationCode" => "Reporter"
     },
     "studentParentAssociation" => {
-        "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
-        "parentId" => "38ba6ea7-7e73-47db-99e7-d0956f83d7e9",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+        "parentId" => "9b8f7237-ce8e-4dff-98cf-66535880987b",
         "livesWith" => true
     },
     "studentProgramAssociation" => {
-        "studentId" => "0636ffd6-ad7d-4401-8de9-40538cf696c8",
-        "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+        "programId" => "9b8cafdc-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2012-01-12",
         "endDate" => "2012-05-01",
         "reasonExited" => "Refused services",
@@ -178,8 +178,10 @@ $entityData = {
         "entryDate" => "2011-09-01"
     },
     "studentSectionAssociation" => {
-        "studentId" => "0636ffd6-ad7d-4401-8de9-40538cf696c8",
-        "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e",
+        "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+        "sectionId" => "47b5adbf-6fd0-4f07-ba5e-39612da2e234",
+#        "studentId" => "0636ffd6-ad7d-4401-8de9-40538cf696c8",
+#        "sectionId" => "ceffbb26-1327-4313-9cfc-1c3afd38122e_id",
         "repeatIdentifier" => "Repeated, counted in grade point average",
         "beginDate" => "2011-12-01",
         "endDate" => "2012-01-01",
@@ -187,7 +189,7 @@ $entityData = {
     },
     "teacherSchoolAssociation" => {
         "teacherId" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
-        "schoolId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f",
+        "schoolId" => "92d6d5a0-852c-45f4-907a-912752831772",
         "programAssignment" => "Regular Education"
     },
     "teacherSectionAssociation" => {

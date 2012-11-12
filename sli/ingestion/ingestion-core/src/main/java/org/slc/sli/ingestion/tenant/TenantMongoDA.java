@@ -25,16 +25,17 @@ import java.util.Map;
 
 import com.mongodb.BasicDBObject;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 
 /**
  * Mongo implementation for access to tenant data.
@@ -43,7 +44,9 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class TenantMongoDA implements TenantDA {
+    protected static final Logger LOG = LoggerFactory.getLogger(TenantDA.class);
 
+    private static final String TENANT = "tenant";
     private static final String LANDING_ZONE_PATH = "landingZone.path";
     private static final String LANDING_ZONE_INGESTION_SERVER = "landingZone.ingestionServer";
     public static final String TENANT_ID = "tenantId";
@@ -58,6 +61,8 @@ public class TenantMongoDA implements TenantDA {
     public static final String TENANT_TYPE = "tenant";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String DESC = "desc";
+    public static final String ALL_STATUS_FIELDS = "body.landingZone.$.preload.status";
+    public static final String STATUS_FIELD = "landingZone.preload.status";
 
     private static final String TENANT_READY_FIELD = "body.tenantIsReady";
 
@@ -128,9 +133,15 @@ public class TenantMongoDA implements TenantDA {
     }
 
     private String findTenantIdByLzPath(String lzPath) {
+        String tenantId = null;
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(LANDING_ZONE_PATH, "=", lzPath));
         Entity entity = entityRepository.findOne(TENANT_COLLECTION, query);
-        return (String) entity.getBody().get(TENANT_ID);
+
+        if (entity != null && entity.getBody() != null && entity.getBody().get(TENANT_ID) != null) {
+            tenantId = entity.getBody().get(TENANT_ID).toString();
+        }
+        return tenantId;
     }
 
     public Repository<Entity> getEntityRepository() {
@@ -188,6 +199,7 @@ public class TenantMongoDA implements TenantDA {
 
         // checking for indexes ensures that the scripts were capable of running
         TenantContext.setTenantId(tenantId);
+        TenantContext.setIsSystemCall(false);
         boolean isIndexed = entityRepository.count("system.indexes", new Query()) > 0;
 
         if (isIndexed) {
@@ -211,23 +223,66 @@ public class TenantMongoDA implements TenantDA {
     @Override
     public void setTenantReadyFlag(String tenantId) {
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", tenantId));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
         Update update = new Update();
         update.set(TENANT_READY_FIELD, true);
 
         try {
             TenantContext.setIsSystemCall(true);
-            entityRepository.doUpdate("tenant", query, update);
+            entityRepository.doUpdate(TENANT, query, update);
         } finally {
             TenantContext.setIsSystemCall(false);
         }
     }
 
     @Override
+    public boolean updateAndAquireOnboardingLock(String tenantId) {
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+        query.addCriteria(new NeutralCriteria("tenantIsReady", "exists", false));
+
+        Update update = new Update();
+        update.set(TENANT_READY_FIELD, false);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            return entityRepository.findAndUpdate(TENANT, query, update) == null ? false : true;
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
+
+    }
+
+    @Override
     public void removeInvalidTenant(String lzPath) {
         BasicDBObject match = new BasicDBObject("body.landingZone.path", lzPath);
         BasicDBObject update = new BasicDBObject("body.landingZone", new BasicDBObject("path", lzPath));
-        entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull",update));
+        entityRepository.getCollection(TENANT_COLLECTION).update(match, new BasicDBObject("$pull", update));
     }
+
+    public Map<String, List<String>> getPreloadFiles() {
+        NeutralQuery preloadReadyTenantQuery = new NeutralQuery().addCriteria(
+                new NeutralCriteria(STATUS_FIELD, "=", "ready")).setIncludeFields(
+                Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH, TENANT_ID));
+        Update update = Update.update(ALL_STATUS_FIELDS, "started");
+
+        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
+        Entity tenant;
+        while ((tenant = entityRepository.findAndUpdate(TENANT_COLLECTION, preloadReadyTenantQuery, update)) != null) {
+            LOG.info("Found new tenant to preload! [" + tenant.getBody().get(TENANT_ID) + "]");
+            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) tenant.getBody().get(LANDING_ZONE);
+            for (Map<String, Object> landingZone : landingZones) {
+                List<String> files = new ArrayList<String>();
+                Map<String, Object> preloadData = (Map<String, Object>) landingZone.get(PRELOAD_DATA);
+                if (preloadData != null) {
+                    files.addAll((Collection<? extends String>) preloadData.get(PRELOAD_FILES));
+                    fileMap.put((String) landingZone.get(PATH), files);
+                }
+            }
+        }
+        return fileMap;
+    }
+
 }

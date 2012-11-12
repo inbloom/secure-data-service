@@ -102,6 +102,31 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private MessageSource messageSource;
 
+    // Paths for id field and ref fields for self-referencing entities (for DE1950)
+    // TODO: make it work for entities with multiple field keys. 
+    // TODO: make it configurable. From schema, maybe.  
+    // represents the configuration of a self-referencing entity schema
+    static class SelfRefEntityConfig {
+        String idPath;              // path to the id field
+        // Exactly one of the following fields can be non-null: 
+        String parentAttributePath; // if parent reference is stored in attribute, path to the parent reference field, 
+        String localParentIdKey;    // if parent reference is stored in localParentId map, key to the parent reference field
+        SelfRefEntityConfig(String i, String p, String k) {
+            idPath = i;
+            parentAttributePath = p;
+            localParentIdKey = k;
+        }
+    }
+    public static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
+    static {
+        SELF_REF_ENTITY_CONFIG = new HashMap<String, SelfRefEntityConfig> ();
+        // learning objective's parent reference is stored in localParentId map. 
+        SELF_REF_ENTITY_CONFIG.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
+        // localEducationAgency's parent reference is stored in a field an attribute
+        SELF_REF_ENTITY_CONFIG.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
+    }
+    // End Self-referencing entity
+    
     /**
      * Camel Exchange process callback method
      *
@@ -195,15 +220,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
-            //UN: Added the records to the recordHashStore
+            // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
                 recordHashStore.add(neutralRecord);
             }
 
             // TODO: make this generic for all self-referencing entities
-            if ("learningObjective".equals(collectionNameAsStaged)) {
+            if (SELF_REF_ENTITY_CONFIG.containsKey(collectionNameAsStaged)) {
 
-                errorReportForCollection = persistLearningObjective(workNote, job, perFileMetrics,
+                errorReportForCollection = persistSelfReferencingEntity(workNote, job, perFileMetrics,
                         errorReportForCollection, errorReportForNrEntity, records);
 
             } else {
@@ -249,7 +274,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                            upsertRecordHash(neutralRecord2);
+                        upsertRecordHash(neutralRecord2);
 
                     }
                 } catch (DataAccessResourceFailureException darfe) {
@@ -271,26 +296,28 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /*
-     * persist learningObjective immediately, rather than bulk (and sort in dependency-honoring
+     * persist self-referencing entities immediately, rather than bulk (and sort in dependency-honoring
      * order) because this
      * entity can have references to entities of the same type.
      * otherwise, id normalization could be attempted while the dependent entity is waiting for
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ErrorReport persistLearningObjective(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
+    private ErrorReport persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
             ErrorReport errorReportForCollection, ErrorReport errorReportForNrEntity, Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
+        String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
         try {
-            sortedNrList = sortLearningObjectivesByDependency(sortedNrList);
+            sortedNrList = sortNrListByDependency(sortedNrList, collectionNameAsStaged);
         } catch (IllegalStateException e) {
-            LOG.error("Illegal state encountered during dependency-sort of learningObjectives", e);
+            LOG.error("Illegal state encountered during dependency-sort of self-referencing neutral records", e);
         }
 
         for (NeutralRecord neutralRecord : sortedNrList) {
-            LOG.info("transforming and persisting learningObjective: {}",
-                    getByPath("learningObjectiveId.identificationCode", neutralRecord.getAttributes()));
+            LOG.info("transforming and persisting {}: {}",
+                    collectionNameAsStaged, 
+                    getByPath(SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged).idPath, neutralRecord.getAttributes()));
 
             errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
             Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
@@ -319,18 +346,20 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Sort LearningObjective records in dependency-honoring order since they are self-referencing.
-     *
+     * Sort records in dependency-honoring order since they are self-referencing.
+     * 
      * @param records
+     * @param collectionName
      * @return
      */
     // TODO: make this generic for all self-referencing entities
-    protected static List<NeutralRecord> sortLearningObjectivesByDependency(List<NeutralRecord> unsortedRecords)
+    protected static List<NeutralRecord> sortNrListByDependency(List<NeutralRecord> unsortedRecords, String collectionNameAsStaged)
             throws IllegalStateException {
 
         List<NeutralRecord> sortedRecords = new ArrayList<NeutralRecord>();
+        
         for (NeutralRecord me : unsortedRecords) {
-            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>());
+            insertMyDependenciesAndMe(me, unsortedRecords, sortedRecords, new HashSet<String>(), collectionNameAsStaged);
         }
         return sortedRecords;
     }
@@ -345,37 +374,46 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     // FIXME: make this algo iterative rather than recursive
     private static void insertMyDependenciesAndMe(NeutralRecord me, List<NeutralRecord> unsortedRecords,
-            List<NeutralRecord> sortedRecords, Set<String> objectiveIdsInStack) throws IllegalStateException {
+            List<NeutralRecord> sortedRecords, Set<String> idsInStack, 
+            String collectionNameAsStaged) throws IllegalStateException {
+        SelfRefEntityConfig selfRefConfig = SELF_REF_ENTITY_CONFIG.get(collectionNameAsStaged);
         if (me != null && !sortedRecords.contains(me)) {
 
-            String myObjectiveId = getByPath("learningObjectiveId.identificationCode", me.getAttributes());
-            objectiveIdsInStack.add(myObjectiveId);
+            String myId = getByPath(selfRefConfig.idPath, me.getAttributes());
+            idsInStack.add(myId);
+
+            // look up parent reference
+            String parentId = null;
+            if (selfRefConfig.parentAttributePath != null) {
+                parentId = getByPath(selfRefConfig.parentAttributePath, me.getAttributes());
+            } else if (selfRefConfig.localParentIdKey != null) {
+                parentId = (String) me.getLocalParentIds().get(selfRefConfig.localParentIdKey);
+            }
 
             // detect cycles
-            String parentObjectiveId = (String) me.getLocalParentIds().get("parentObjectiveId");
-            if (objectiveIdsInStack.contains(parentObjectiveId)) {
+            if (idsInStack.contains(parentId)) {
                 LOG.error(
-                        "cycle detected in learningObjective reference hierarchy. {} references a learningObjective already a part of this dependency hierarchy {}",
-                        myObjectiveId, objectiveIdsInStack);
-                throw new IllegalStateException("cycle detected in learningObjective reference hierarchy.");
+                        "cycle detected in " + collectionNameAsStaged + " reference hierarchy. {} references an entity already a part of this dependency hierarchy {}",
+                        myId, idsInStack);
+                throw new IllegalStateException("cycle detected in " + collectionNameAsStaged + " reference hierarchy.");
             } else {
 
                 // insert my parent
-                NeutralRecord parent = findNeutralRecordByObjectiveId(parentObjectiveId, unsortedRecords);
-                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, objectiveIdsInStack);
+                NeutralRecord parent = findNeutralRecordByIdAttr(parentId, unsortedRecords, selfRefConfig.idPath);
+                insertMyDependenciesAndMe(parent, unsortedRecords, sortedRecords, idsInStack, collectionNameAsStaged);
             }
 
             // insert me
             sortedRecords.add(me);
 
-            objectiveIdsInStack.remove(myObjectiveId);
+            idsInStack.remove(myId);
         }
     }
 
-    private static NeutralRecord findNeutralRecordByObjectiveId(String objectiveId, List<NeutralRecord> records) {
+    private static NeutralRecord findNeutralRecordByIdAttr(String objectiveId, List<NeutralRecord> records, String idPath) {
         if (objectiveId != null) {
             for (NeutralRecord sortedNr : records) {
-                if (objectiveId.equals(getByPath("learningObjectiveId.identificationCode", sortedNr.getAttributes()))) {
+                if (objectiveId.equals(getByPath(idPath, sortedNr.getAttributes()))) {
                     return sortedNr;
                 }
             }
@@ -392,12 +430,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport
-                    .error(MessageSourceHelper
-                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
-                            this);
+            errorReport.error(
+                    MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                    record.getSourceFile(), this);
             return null;
         }
+        transformed.get(0).setSourceFile(record.getSourceFile());
         return transformed.get(0);
     }
 
@@ -552,11 +590,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-     private void upsertRecordHash(NeutralRecord nr){
-            if (nr.getMetaDataByName("rhId") != null) {
-                batchJobDAO.findAndUpsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
-                        nr.getMetaDataByName("rhId").toString());
-            }
+    private void upsertRecordHash(NeutralRecord nr) {
+        if (nr.getMetaDataByName("rhId") != null) {
+            batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(), nr.getMetaDataByName("rhId")
+                    .toString());
         }
-
     }
+
+}

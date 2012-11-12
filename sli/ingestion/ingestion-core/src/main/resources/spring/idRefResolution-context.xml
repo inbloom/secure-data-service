@@ -7,9 +7,10 @@
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
       <!--Interchange StudentAssessmenet -->
+      <!-- 
       <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
-
+ -->
       <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
 
@@ -132,11 +133,6 @@
           value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.ftl" />
     <!-- end of Interchange MasterSchedule -->
 
-    <!-- Interchange StudentCohort -->
-    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference"
-          value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
-    <!-- end of Interchange StudentCohort -->
-
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference"
            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.ftl" />
 
@@ -195,9 +191,7 @@
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
@@ -211,8 +205,9 @@
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="freeMarkerExtendedReferenceResolver" />
-
+<!--
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+-->
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentAssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
@@ -227,8 +222,6 @@
     <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="freeMarkerExtendedReferenceResolver" />
-
-    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference" value-ref="freeMarkerExtendedReferenceResolver" />
 

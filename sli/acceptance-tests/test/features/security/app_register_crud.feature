@@ -20,6 +20,23 @@ Scenario: CRUD operations on Applications
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data
 
+
+Scenario: CRUD on other developer's app
+	Given I am logged in using "developer" "developer1234" to realm "SLI"
+   	When I navigate to POST "/apps"
+	Then I should receive a return code of 201
+     And I should receive an ID for the newly created application
+	When I navigate to GET "/apps/<New App ID>"
+	Then I should receive a return code of 200
+     And I should receive the data for the specified application entry
+	 And it should be "PENDING"
+	When an operator approves the "/apps/<New App ID>" application
+	Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper1234" to realm "SLI"
+    	When I navigate to PUT "/apps/<New App ID>"
+     Then I should receive a return code of 403 
+    	When I navigate to DELETE "/apps/<New App ID>"
+     Then I should receive a return code of 403 
+
 Scenario: Deny creation when specifying invalid fields
 
 	Given I am logged in using "developer" "developer1234" to realm "SLI"

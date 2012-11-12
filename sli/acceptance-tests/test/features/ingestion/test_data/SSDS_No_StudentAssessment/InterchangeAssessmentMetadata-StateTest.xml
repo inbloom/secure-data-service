@@ -48,12 +48,9 @@
     <RevisionDate>2011-03-12</RevisionDate>
     <MaxRawScore>33</MaxRawScore>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest Writing for Grade 8</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
 
@@ -102,12 +99,9 @@
     <RevisionDate>2011-03-12</RevisionDate>
     <MaxRawScore>364</MaxRawScore>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest Reading for Grade 8</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest Reading for Grade 8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
 
@@ -126,12 +120,9 @@
         <ID>StateTest Reading for Grades 3-8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
@@ -142,12 +133,9 @@
         <ID>StateTest Reading for Grade 8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest Reading for Grades 3-8</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
@@ -158,12 +146,9 @@
         <ID>StateTest Writing for Grades 3-8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
@@ -174,12 +159,9 @@
         <ID>StateTest Writing for Grade 8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest Writing for Grades 3-8</ID>
-            </AssessmentFamilyIdentificationCode>
-        </AssessmentFamilyIdentity>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
   <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>

@@ -54,10 +54,7 @@
     <ObjectiveAssessmentReference></ObjectiveAssessmentReference>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode
-          IdentificationSystem="Test Contractor">
-          <ID>StateTest Writing for Grade 8</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
     <SectionReference></SectionReference>
@@ -71,10 +68,7 @@
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest Writing for Grades 3-8</ID>
-            </AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
@@ -87,10 +81,7 @@
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
-            <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                <ID>StateTest</ID>
-            </AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>

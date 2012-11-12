@@ -17,20 +17,20 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import com.mongodb.BasicDBList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.BasicDBList;
 
 /**
  * Validates a staff accessing a set of entities that are directly associated to a student.
@@ -78,11 +78,8 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
                     }
                 } else {
                     Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
-                    if (studentInfo instanceof BasicDBList) {
-                        BasicDBList studentList = (BasicDBList) studentInfo;
-                        for (int i = 0; i < studentList.size(); i++) {
-                            students.add((String) studentList.get(i));
-                        }
+                    if (studentInfo instanceof Collection) {    //e.g. BasicDBList
+                        students.addAll((Collection) studentInfo);
                     } else if (studentInfo instanceof String) {
                         students.add((String) studentInfo);
                     }

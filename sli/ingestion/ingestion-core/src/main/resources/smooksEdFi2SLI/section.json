@@ -4,6 +4,7 @@
    [
       {
          "fieldPath":"body.schoolId",
+          "deprecated" : true,
          "ref":
          {
             "entityType":"school",
@@ -23,7 +24,8 @@
          }
       },
       {
-         "fieldPath":"body.sessionId",
+         "fieldPath":"body.SessionReference",
+         "deprecated" : true,
          "ref":
          {
             "entityType":"session",
@@ -35,21 +37,21 @@
                      "path":"body.schoolYear",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.schoolYear"
+                         "valueSource":"body.SessionReference.SessionIdentity.schoolYear"
                      }]
                   },
                   {
                      "path":"body.term",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.term"
+                         "valueSource":"body.SessionReference.SessionIdentity.term"
                      }]
                   },
                   {
                      "path":"body.sessionName",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.sessionIdentity.sessionName"
+                         "valueSource":"body.SessionReference.SessionIdentity.sessionName"
                      }]
                   },
                   {
@@ -67,7 +69,7 @@
                                        "path":"body.stateOrganizationId",
                                        "values":
                                        [{
-                                           "valueSource":"body.schoolReference.educationalOrgIdentity.stateOrganizationId"
+                                           "valueSource":"body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
                                        }]
                                     }
                                  ]
@@ -81,7 +83,8 @@
          }
       },
       {
-          "fieldPath" : "body.courseOfferingId",
+          "fieldPath" : "body.CourseOfferingReference",
+          "deprecated" : true,
           "ref" : 
           {
               "entityType" : "courseOffering",
@@ -93,7 +96,7 @@
                           "path":"body.localCourseCode",
                           "values" :
                           [{ 
-                                "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.localCourseCode" 
+                                "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.LocalCourseCode" 
                           }]
                       },
                       {
@@ -118,7 +121,7 @@
                                                               "path" : "body.stateOrganizationId",
                                                               "values" :
                                                               [{
-                                                                   "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.stateOrganizationId" 
+                                                                   "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SessionReference.SessionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId" 
                                                               }]
                                                           }
                                                      ]]
@@ -126,17 +129,10 @@
                                             }]
                                          },
                                          {
-                                             "path" : "body.schoolYear",
+                                             "path" : "body.sessionName",
                                              "values" :
                                              [{
-                                                 "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.schoolYear" 
-                                             }]
-                                         },
-                                         {
-                                             "path" : "body.term",
-                                             "values" :
-                                             [{
-                                                 "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.term" 
+                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SessionReference.SessionIdentity.SessionName" 
                                              }]
                                          }
                                    ]]
@@ -146,6 +142,28 @@
                   ]
               ]
           }
-       }
+      },
+      {
+        "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "program",
+            "isRefList" : true,
+            "refObjectPath" : "body.ProgramReference",
+            "choiceOfFields" :
+            [
+              [
+                {
+                    "path" : "body.programId",
+                    "values" :
+                    [{
+                        "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+                    }]
+                }
+              ]
+            ]
+        }
+      }
    ]
 }

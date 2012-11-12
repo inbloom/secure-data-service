@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<Assessment id="ACT-1">
+	<Assessment>
 		<AssessmentTitle>ACT</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
@@ -13,10 +13,26 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
     <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
         <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
@@ -44,10 +60,7 @@
     </ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT-Family</ID>
-				</AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -127,6 +140,13 @@
 	</ObjectiveAssessment>
 	
 	<AssessmentItem id="AssessmentItem-1">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -148,6 +168,13 @@
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-2">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -169,6 +196,13 @@
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-3">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 		<IdentificationCode>AssessmentItem-3</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -183,6 +217,13 @@
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-4">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 		<IdentificationCode>AssessmentItem-4</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>

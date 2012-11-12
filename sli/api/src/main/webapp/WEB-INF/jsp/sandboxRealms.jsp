@@ -36,6 +36,19 @@ h1 {
 </style>
 
 <body>
+	<div class="container">
+      <div class="hero-unit">
+      	<div class="row">
+      		<div class="span2">
+      			<img src="<c:url value="/resources/slc.png"/>" alt="SLC Logo"/>
+      		</div><!-- end span2 -->
+      		<div class="span8">
+      			<h1>Shared Learning Collaborative</h1>
+      			<h2>Application Developer Sandbox</h2>
+      		</div><!-- end span7 -->
+      	</div><!-- end row -->
+      </div><!-- end hero-unit -->
+      
 	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/api/oauth/sso" name="adminRealmForm" id="adminRealmForm">
 		<input type="hidden" name="redirect_uri" value="${fn:escapeXml(redirect_uri)}" />
@@ -46,7 +59,7 @@ h1 {
 		<input type="hidden" id="realmId" name="realmId" value ="${adminRealm}"/>
 		
 		<div class="box">
-			<h1>Administering my Sandbox</h1>
+			<h1>Administer My Sandbox</h1>
 			<p>Administering your sandbox allows you to ingest test data, register applications, and manage accounts on your sandbox.</p>
 			<div class="buttonDiv">
 				<input type="submit" value="Next" id="adminLink" class="btn btn-primary"/>
@@ -62,12 +75,14 @@ h1 {
 		</c:if>
 		<input type="hidden" id="realmId" name="realmId" value ="${sandboxRealm}"/>
 		<div class="box boxRight">
-			<h1>Test Applications in my Sandbox</h1>
+			<h1>Test Applications in My Sandbox</h1>
 			<p>The sandbox gives you a safe place to test your applications while you are developing them.</p>
 			<div class="buttonDiv">
 				<input type="submit" id="sandboxLink" value="Next" class="btn btn-primary"/>
 			</div>
 		</div>
 	</form:form>
+	</div>
+    
 </body>
 </html>

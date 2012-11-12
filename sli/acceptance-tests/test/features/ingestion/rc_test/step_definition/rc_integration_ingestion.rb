@@ -27,6 +27,72 @@ require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
 
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
+
+############################################################
+# TEST SETUP FUNCTIONS
+############################################################
+
+def processPayloadFile(file_name)
+  path_name = file_name[0..-5]
+  file_name = file_name.split('/')[-1] if file_name.include? '/'
+
+  # copy everything into a new directory (to avoid touching git tracked files)
+  path_delim = ""
+  if path_name.include? '/'
+    folders = path_name.split '/'
+    if folders.size > 0
+      folders[0...-1].each { |path| path_delim += path + '/'}
+      path_name = folders[-1]
+    end
+  end
+  zip_dir = @local_file_store_path + "temp-" + path_name + "/"
+  p zip_dir
+  if Dir.exists?(zip_dir)
+    FileUtils.rm_r zip_dir
+  end
+
+  FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
+
+  ctl_template = nil
+  Dir.foreach(zip_dir) do |file|
+    if /.*.ctl$/.match file
+    ctl_template = file
+    end
+  end
+
+  # for each line in the ctl file, recompute the md5 hash
+  new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
+  File.open(zip_dir + ctl_template, "r") do |ctl_file|
+    ctl_file.each_line do |line|
+      if line.chomp.length == 0
+      next
+      end
+      entries = line.chomp.split ","
+      if entries.length < 3
+        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
+      new_ctl_file.puts line.chomp
+      next
+      end
+      payload_file = entries[2]
+      md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
+      if entries[3] != md5.to_s
+        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
+      end
+      # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
+      entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
+      new_ctl_file.puts entries.join ","
+    end
+  end
+  new_ctl_file.close
+  FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
+
+  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
+  FileUtils.rm_r zip_dir
+
+  file_name = @local_file_store_path + path_delim + file_name
+  return file_name
+end
 
 ############################################################
 # REMOTE INGESTION FUNCTIONS
@@ -35,6 +101,8 @@ require_relative '../../../utils/sli_utils.rb'
 def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
   if @local_lz
     FileUtils.cp srcPath, destPath
+    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}"
+    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}")
   else
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
         puts "attempting to remote copy " + srcPath + " to " + destPath
@@ -63,6 +131,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
+      next if File.directory?(file);
       content = File.read(file)
       if content.include?(message)
         return true
@@ -105,7 +174,7 @@ Given /^I am using local data store$/ do
   @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
 end
 
-Given /^I am using default landing zone$/ do 
+Given /^I am using default landing zone$/ do
   @landing_zone_path = "/"
 end
 
@@ -120,7 +189,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
   assert(!tenants.empty?, "Cannot find the tenant \"RCTestTenant\" in mongo")
 
   tenants[0]["body"]["landingZone"].each do |lz|
-    if lz["educationOrganization"] == "RCTestEdOrg"
+    if lz["educationOrganization"] == "STANDARD-SEA"
       @landing_zone_path = lz["path"]
       if (@landing_zone_path =~ /\/$/).nil?
         @landing_zone_path += "/"
@@ -141,7 +210,7 @@ Given /^I use the landingzone user name "(.*?)" and password "(.*?)" on landingz
 end
 
 Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
-  source_path = @local_file_store_path + arg1
+  source_path = processPayloadFile arg1
   dest_path = @landing_zone_path + arg1
   lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
 end

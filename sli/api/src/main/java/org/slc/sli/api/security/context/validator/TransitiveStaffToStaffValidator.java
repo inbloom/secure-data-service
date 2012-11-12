@@ -15,56 +15,55 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
-    @Autowired
-    private StaffToSchoolValidator staffToSchool;
-    
+
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return through && EntityNames.STAFF.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+    public boolean canValidate(String entityType, boolean transitive) {
+        return transitive && EntityNames.STAFF.equals(entityType) && isStaff();
     }
-    
+
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
-        
+        info("Attempting to validate transitively from staff to staff with ids {}", staffIds);
+
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
-        
+
         Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        
+
         Map<String, Set<String>> staffEdorgMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
+        Set<String> edOrgLineage = getStaffEdOrgLineage();
 
         for (Set<String> edorgs : staffEdorgMap.values() ) {
-            if (!staffToSchool.validate(EntityNames.EDUCATION_ORGANIZATION, edorgs)) {
+            //Make sure there's a valid intersection between the schools and edOrgLIneage
+            Set<String> tmpSet = new HashSet<String>(edorgs);
+            tmpSet.retainAll(edOrgLineage);
+            if (tmpSet.size() == 0) {
                 return false;
             }
         }
@@ -72,7 +71,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
             return false;
         }
         return true;
-        
+
     }
 
     private void populateMapFromMongoResponse(
@@ -88,5 +87,5 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
             edorgList.add(edorgId);
         }
     }
-    
+
 }

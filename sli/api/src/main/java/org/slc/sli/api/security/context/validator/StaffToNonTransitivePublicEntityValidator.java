@@ -30,7 +30,7 @@ import org.slc.sli.domain.NeutralQuery;
  * @author mabernathy
  */
 @Component
-public class StaffToNonTransitivePublicEntityValidator extends GenericContextValidator {
+public class StaffToNonTransitivePublicEntityValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -45,16 +45,7 @@ public class StaffToNonTransitivePublicEntityValidator extends GenericContextVal
             throw new IllegalArgumentException("This resolver should not have been called for entityType " + entityType);
         }
 
-        /*
-         * Check if the entities being asked for exist in the repo
-         * This is done by checking sizes of the input set and
-         * the return from the database
-         */
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", entityIds, false));
-
-        long repoCount = getRepo().count(entityType, nq);
-
-        return repoCount == entityIds.size();
+        return true;
     }
 
 }

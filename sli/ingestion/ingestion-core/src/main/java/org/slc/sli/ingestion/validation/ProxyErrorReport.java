@@ -50,6 +50,23 @@ public final class ProxyErrorReport implements ErrorReport {
     }
 
     @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        this.innerErrorReport.fatal(message, resourceId, sender);
+        this.hasErrors = true;
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        this.innerErrorReport.error(message, resourceId, sender);
+        this.hasErrors = true;
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        this.innerErrorReport.warning(message, resourceId, sender);
+    }
+
+    @Override
     public boolean hasErrors() {
         return this.hasErrors;
     }

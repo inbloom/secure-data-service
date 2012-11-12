@@ -180,4 +180,5 @@ public class ParameterConstants {
     public static final String END_DATE = "endDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
     public static final String PARENT_EDUCATION_AGENCY_REFERENCE = "parentEducationAgencyReference";
+    public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
 }

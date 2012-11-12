@@ -1,0 +1,25 @@
+{
+"recordType":"localEducationAgency",
+"attributes":
+{
+			"LocalEducationAgencyReference":{
+			"EducationalOrgIdentity":
+            		{
+            			"StateOrganizationId":"someLEAOrganizationID"
+            		}
+            	},
+            "EducationServiceCenterReference":{
+            		"EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"someEducationServiceCenterID"
+                    }
+                 },
+            "StateEducationAgencyReference":{
+                    "EducationalOrgIdentity":
+                    {
+                        "StateOrganizationId":"someSEAOrganizationID"
+                    }
+                 }
+	}
+}
+}

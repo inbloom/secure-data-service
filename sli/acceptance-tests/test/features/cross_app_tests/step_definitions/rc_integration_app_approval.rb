@@ -17,16 +17,23 @@ limitations under the License.
 =end
 
 #portal, which also imports dashboard step def
-Dir["./test/features/liferay/step_definitions/*"].each {|file| require file}
+Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
 #admin tools
-Dir["./test/features/admintools/step_definitions/*"].each {|file| require file}
+Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file}
 
 #databrowser
-Dir["./test/features/databrowser/step_definitions/*"].each {|file| require file}
+Dir["./test/features/databrowser/step_definitions/*.rb"].each {|file| require file}
 
 $client_id = nil
 $client_secret = nil
+
+Transform /^<([^>]*)>$/ do |human_readable_text|
+ if human_readable_text == "CI_IDP_Redirect_URL"
+   url = PropLoader.getProps["ci_idp_redirect_url"]
+ end
+ url
+end
 
 When /^I make my app an installed app$/ do
   @driver.find_element(:css, 'input[id="app_installed"]').click
@@ -94,4 +101,12 @@ end
 
 Then /^my current url is "(.*?)"$/ do |url|
   assertWithWait("Not in expected URL") {@driver.current_url == url}
+end
+
+Then /^I enter "(.*?)" in the IDP URL field$/ do |url|  
+  @driver.find_element(:name, 'realm[idp][id]').send_keys url
+end
+
+Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end

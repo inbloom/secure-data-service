@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -148,17 +149,6 @@ public class EdOrgHelper {
 		return ids;
 	}
 
-	public List<String> getAllEdOrgs(Entity principal) {
-		List<String> ids = getDirectEdOrgAssociations(principal);
-		NeutralQuery nq = new NeutralQuery();
-		nq.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "in", ids));
-		List<String> childEdorgs = (List<String>) repo.findAllIds(EntityNames.EDUCATION_ORGANIZATION, nq);
-
-		ids.addAll(childEdorgs);
-
-		return ids;
-	}
-
 	/**
 	 * Walks the edorg hierarchy to get all schools
 	 * @param principal
@@ -208,6 +198,26 @@ public class EdOrgHelper {
 
 		return schools;
 	}
+	
+	/**
+	 * Recursively returns the list of all child edorgs
+	 * @param edOrgs
+	 * @return
+	 */
+    public Set<String> getChildEdOrgs(Set<String> edOrgs) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for (Entity child : childrenIds) {
+            children.add(child.getEntityId());
+        }
+        if (!children.isEmpty()) {
+            children.addAll(getChildEdOrgs(children));
+        }
+        return children;
+    }
+
 
 	private Entity getTopLEAOfEdOrg(Entity entity) {
 		Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, (String) entity.getBody().get("parentEducationAgencyReference"));
@@ -231,7 +241,7 @@ public class EdOrgHelper {
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public boolean isLEA(Entity entity) {
 		List<String> category = (List<String>) entity.getBody().get("organizationCategories");

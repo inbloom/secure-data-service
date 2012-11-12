@@ -3,7 +3,8 @@
     "references" :
     [
         {
-            "fieldPath" : "body.studentSectionAssociationId",
+            "fieldPath" : "body.StudentSectionAssociationReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentSectionAssociation",
@@ -64,6 +65,7 @@
             {
                 "entityType" : "gradingPeriod",
                 "refObjectPath" : "body.GradingPeriodReference",
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [

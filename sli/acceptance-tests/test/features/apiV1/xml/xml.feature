@@ -61,6 +61,16 @@ Scenario: Getting response from PUT - Update (school)
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
 
+  Scenario: Getting response from PUT - revert updated school name (school)
+    When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
+    Then I should see "<nameOfInstitution>" is "Updated School Name"
+    When I change the name to "Sunset Central High School"
+    And I PUT the entity to "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
+    Then I should receive an XML document
+    Then I should see "<nameOfInstitution>" is "Sunset Central High School"
+
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"

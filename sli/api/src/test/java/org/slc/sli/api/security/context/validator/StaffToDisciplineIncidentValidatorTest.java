@@ -61,7 +61,7 @@ public class StaffToDisciplineIncidentValidatorTest {
     private StaffToSubStudentEntityValidator mockStudentValidator;
     
     @Autowired
-    private StaffToSchoolValidator mockSchoolValidator;
+    private StaffToEdOrgValidator mockSchoolValidator;
 
     @Autowired PagingRepositoryDelegate<Entity> repo;
     
@@ -81,7 +81,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         
         diIds = new HashSet<String>();
         mockStudentValidator = Mockito.mock(StaffToSubStudentEntityValidator.class);
-        mockSchoolValidator = Mockito.mock(StaffToSchoolValidator.class);
+        mockSchoolValidator = Mockito.mock(StaffToEdOrgValidator.class);
         validator.setSchoolValidator(mockSchoolValidator);
         validator.setSubStudentValidator(mockStudentValidator);
     }

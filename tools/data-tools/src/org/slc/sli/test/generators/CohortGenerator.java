@@ -79,10 +79,7 @@ public class CohortGenerator {
 
         // construct and add the program reference
         ProgramIdentityType pi = new ProgramIdentityType();
-//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
-        pi.setStateOrganizationId(schoolId);
-//        pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setProgramIdentity(pi);
 
@@ -141,15 +138,7 @@ public class CohortGenerator {
 
         // construct and add the program reference
         ProgramIdentityType pi = new ProgramIdentityType();
-//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
-//        pi.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(schoolIds);
-        for (String schoolId : schoolIds) {
-            EducationOrgIdentificationCode educationOrgIdentificationCode = new EducationOrgIdentificationCode();
-            educationOrgIdentificationCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-            educationOrgIdentificationCode.setID(schoolId);
-            pi.getEducationOrgIdentificationCode().add(educationOrgIdentificationCode);
-        }
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setProgramIdentity(pi);
 
@@ -177,7 +166,7 @@ public class CohortGenerator {
     }
 
     public static void main (String args[]) throws Exception {
-        Random r = new Random ();
+        Random r = new Random (31);
         List<String> StateOrganizationIds = new ArrayList<String>();
 
         for (int j = 0; j < 5; j++) {
@@ -190,7 +179,6 @@ public class CohortGenerator {
             String programId = Integer.toString(Math.abs(r.nextInt()));
             Cohort c = generateLowFi(cohortIdentifier,programId,StateOrganizationIds);
 
-            int lsize =  c.getProgramReference().size();
             for (int k = 0; k < 5; k++) {
                 log.info("Counter ====================== " + j  +
                         " ============= stateOrgId = " + c.getEducationOrgReference()
@@ -199,14 +187,8 @@ public class CohortGenerator {
             }
 
             log.info("List Program Reference = " +
-            c.getProgramReference().size() + ",\n" +
-                    "ProgramId = " + c.getProgramReference().get(0).getProgramIdentity().getProgramId()+ ",\n" +
-                    "ProgramType = " + c.getProgramReference().get(0).getProgramIdentity().getProgramType() );
-            for (int n = 0; n < 5; n ++) {
-                log.info("IdentificationCode = " + c.getProgramReference().get(0)
-                        .getProgramIdentity().getEducationOrgIdentificationCode()
-                        .get(n));
-            }
+                    c.getProgramReference().size() + ",\n" +
+                    "ProgramId = " + c.getProgramReference().get(0).getProgramIdentity().getProgramId());
 
             log.info(
                     "stateOrgId = " + c.getEducationOrgReference().getEducationalOrgIdentity()

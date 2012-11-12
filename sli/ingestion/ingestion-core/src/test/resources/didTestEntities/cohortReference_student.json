@@ -1,0 +1,20 @@
+{
+"recordType":"studentCohortAssociation",
+"attributes":
+{
+	"CohortReference":
+	{
+		"CohortIdentity":
+		{
+			"CohortIdentifier":"ACC-TEST-COH-1",
+			"EducationalOrgReference":
+			{
+				"EducationalOrgIdentity":
+				{
+					"StateOrganizationId":"STANDARD-SEA"
+				}
+			}
+		}
+	}
+}
+}

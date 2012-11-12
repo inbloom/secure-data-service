@@ -482,7 +482,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc "Run Smoke Tests"
-task :smokeTests => [:apiSmokeTests, :sifSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
+task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -707,12 +707,12 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:IngestionIndexValidationTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionDbSpinupTest, :ingestionSubdocTests] do
+                         :ingestionSuperDocTests, :ingestionSubdocTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -1183,10 +1183,19 @@ task :importUnifiedData => [:realmInit] do
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
-    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
-    "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
+    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+desc "Turn on notablescan flag"
+task :turnOnNOTABLESCAN do
+  enable_NOTABLESCAN
+end
+
+desc "Turn off notablescan flag"
+task :turnOffNOTABLESCAN do
+  disable_NOTABLESCAN
 end
 
 def addSecurityData()

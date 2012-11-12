@@ -1,151 +1,213 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
-
-
-
-
-  <Section>
-    <UniqueSectionCode>Sec 923</UniqueSectionCode>
-    <SequenceOfCourse>1</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Writing about Government</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Writing about Government</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-
-
-  <Section>
-    <UniqueSectionCode>Sec 144</UniqueSectionCode>
-    <SequenceOfCourse>3</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Writing about Government</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Writing about Government</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-  <Section>
-    <UniqueSectionCode>Sec 145</UniqueSectionCode>
-    <SequenceOfCourse>4</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>American Literature</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>American Literature</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-  <Section>
-    <UniqueSectionCode>Sec 142</UniqueSectionCode>
-    <SequenceOfCourse>1</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Writing about Government</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Writing about Government</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-  <Section>
-    <UniqueSectionCode>Sec 143</UniqueSectionCode>
-    <SequenceOfCourse>2</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Writing about Government</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Writing about Government</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Daybreak Central High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-
+<?xml version="1.0" ?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
+    <Section>
+        <UniqueSectionCode>Sec 923</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>Writing about Government</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>Sec 144</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>Writing about Government</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+        <SequenceOfCourse>4</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>American Literature</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>Sec 142</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>Writing about Government</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>Sec 143</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>Writing about Government</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
 </InterchangeMasterSchedule>

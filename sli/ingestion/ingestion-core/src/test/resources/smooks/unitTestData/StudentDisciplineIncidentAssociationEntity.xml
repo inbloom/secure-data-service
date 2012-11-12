@@ -44,9 +44,14 @@
       </StudentIdentity>
     </StudentReference>
     <DisciplineIncidentReference>
-      <DisciplineIncident>
+      <DisciplineIncidentIdentity>
         <IncidentIdentifier>waterboard</IncidentIdentifier>
-      </DisciplineIncident>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak High School</StateOrganizationId>    
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
     </DisciplineIncidentReference>
     <StudentParticipationCode>Perpetrator</StudentParticipationCode>
       <Behaviors>

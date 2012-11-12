@@ -24,47 +24,74 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
  * staff member can see ALL of the students, and false otherwise.
- *
- * @author mlane
  */
 @Component
 public class StaffToStudentValidator extends AbstractContextValidator {
 
+    @Autowired
+    private StaffToProgramValidator programValidator;
+    
+    @Autowired
+    private StaffToCohortValidator cohortValidator;
+
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STUDENT.equals(entityType) && isStaff();
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.STUDENT.equals(entityType)
+                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
     }
 
     @Override
     public boolean validate(String entityType, Set<String> studentIds) {
+        
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
     private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
+        // TODO need programs/cohorts with studentRecordAccess = true
         boolean isValid = true;
 
         // lookup current staff edOrg associations and get the Ed Org Ids
-        Set<String> staffsEdOrgIds = getStaffsDirectlyAssociatedEdOrgs();
+        Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
 
         // lookup students
         Iterable<Entity> students = getStudentEntitiesFromIds(ids);
 
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
+                NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                        NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+                Set<String> cohorts = new HashSet<String>();
+                Set<String> programs = new HashSet<String>();
+                Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
+                for (Entity spa : spas) {
+                    if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE)) {
+                        continue;
+                    }
+                    programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
+                }
+                Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
+                for (Entity sca : scas) {
+                    if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+                        continue;
+                    }
+                    cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+                }
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                if (!isIntersection(staffsEdOrgIds, studentsEdOrgs) && !isCreatedBy(entity)) {
+                boolean byProgram = programValidator.validate(EntityNames.PROGRAM, programs);
+                boolean byCohort = cohortValidator.validate(EntityNames.COHORT, cohorts);
+                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) || byProgram || byCohort)) {
                     isValid = false;
                     break;
                 }
@@ -85,20 +112,6 @@ public class StaffToStudentValidator extends AbstractContextValidator {
             }
         }
         return isIntersection;
-    }
-
-    private boolean isCreatedBy(Entity studentEntity) {
-        boolean isCreatedBy = false;
-        Map<String, Object> metaData = studentEntity.getMetaData();
-        if (metaData.containsKey("isOrphaned") && metaData.containsKey("createdBy")) {
-            boolean isOrphaned = Boolean.valueOf((String) metaData.get("isOrphaned"));
-            String createdBy = (String) metaData.get("createdBy");
-            String accessingUserId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-            if (isOrphaned && createdBy.equals(accessingUserId)) {
-                isCreatedBy = true;
-            }
-        }
-        return isCreatedBy;
     }
 
     private Set<String> getStudentsEdOrgs(Entity studentEntity) {
@@ -135,20 +148,20 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         return students;
     }
 
-    private Set<String> getStaffsDirectlyAssociatedEdOrgs() {
-        NeutralQuery staffEdOrgAssocQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        staffEdOrgAssocQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_EXISTS, false)));
-        staffEdOrgAssocQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
-                NeutralCriteria.CRITERIA_GTE, getFilterDate())));
-
-        Iterable<Entity> staffEdOrgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
-                staffEdOrgAssocQuery);
-        Set<String> staffEdOrgs = new HashSet<String>();
-        for (Entity entity : staffEdOrgAssociations) {
-            staffEdOrgs.add((String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-        }
-        return staffEdOrgs;
+    /**
+     * @param programValidator
+     *            the programValidator to set
+     */
+    public void setProgramValidator(StaffToProgramValidator programValidator) {
+        this.programValidator = programValidator;
     }
+    
+    /**
+     * @param cohortValidator
+     *            the cohortValidator to set
+     */
+    public void setCohortValidator(StaffToCohortValidator cohortValidator) {
+        this.cohortValidator = cohortValidator;
+    }
+
 }

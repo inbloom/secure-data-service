@@ -17,15 +17,18 @@
 
 package org.slc.sli.test.generators;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.test.DataFidelityType;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.Assessment;
 import org.slc.sli.test.edfi.entities.AssessmentCategoryType;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationCode;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.AssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
+import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentPerformanceLevel;
 import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
@@ -36,7 +39,6 @@ import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentGenerator {
@@ -99,22 +101,29 @@ public class AssessmentGenerator {
         }
 
         // AssessmentItemReference
+        List<AssessmentItemReferenceType> value = new ArrayList<AssessmentItemReferenceType>();
         for (@SuppressWarnings("unused") String assessItemIdString : assessmentMeta.assessmentItemIds) {
-            // TODO: this is only modeled as XML ReferenceType... (AssessmentItem is post-alpha?)
+            AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
+            identity.setAssessmentItemIdentificationCode(assessItemIdString);
+            AssessmentItemReferenceType refType = new AssessmentItemReferenceType();
+            refType.setAssessmentItemIdentity(identity);
+            value.add(refType);
         }
-
-
-			// ObjectiveAssessmentReference
-			for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
-				if (objAssessMap.get(objAssessmentIdString) != null) {
-					ReferenceType objAssessRef = new ReferenceType();
-					objAssessRef
-							.setRef(objAssessMap.get(objAssessmentIdString));
-					assessment.getObjectiveAssessmentReference().add(
-							objAssessRef);
-				}
-			}
-		
+        if (value.size() != 0) {
+            assessment.setAssessmentItemReference(value);
+        }
+        
+        // ObjectiveAssessmentReference
+        for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
+            if (objAssessMap.get(objAssessmentIdString) != null) {
+                ReferenceType objAssessRef = new ReferenceType();
+                objAssessRef
+                .setRef(objAssessMap.get(objAssessmentIdString));
+                assessment.getObjectiveAssessmentReference().add(
+                        objAssessRef);
+            }
+        }
+        
 
         // AssessmentFamilyReference
         if (assessmentMeta.assessmentFamilyId != null) {
@@ -138,7 +147,11 @@ public class AssessmentGenerator {
         aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
 
         AssessmentIdentityType ait = new AssessmentIdentityType();
-        ait.getAssessmentIdentificationCode().add(aic);
+        ait.setAssessmentTitle(assessmentId+"Title");
+//        ait.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
+        ait.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+        ait.setGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
+        ait.setVersion(1);
 
         AssessmentReferenceType art = new AssessmentReferenceType();
         art.setAssessmentIdentity(ait);
