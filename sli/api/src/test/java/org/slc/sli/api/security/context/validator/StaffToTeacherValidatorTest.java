@@ -153,6 +153,12 @@ public class StaffToTeacherValidatorTest {
         setupCurrentUser(staff1);
         assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(teacher2.getEntityId()))));
     }
+    
+    @Test
+    public void testValidAndInvalidTeacherAssociation() {
+        setupCurrentUser(staff1);
+        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher2.getEntityId()))));
+    }
 
     @Test
     public void testValidAssociationThroughSchool() {
