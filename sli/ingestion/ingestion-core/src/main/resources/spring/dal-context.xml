@@ -171,6 +171,7 @@
     <value>staffCohortAssociation,false,creationTime</value>
     <value>staffEducationOrganizationAssociation,false,creationTime</value>
     <value>staffProgramAssociation,false,creationTime</value>
+    <value>stateEducationAgency,false,creationTime</value>
     <value>student,false,creationTime</value>
     <value>studentAcademicRecord,false,creationTime</value>
     <value>studentAssessmentAssociation,false,creationTime</value>
