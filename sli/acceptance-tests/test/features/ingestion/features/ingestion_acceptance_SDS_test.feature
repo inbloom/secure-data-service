@@ -413,7 +413,8 @@ And I check to find if record is in collection:
      | staffProgramAssociation      | 3 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
      | studentAcademicRecord        | 1 | body.reportCards.0 | 0021f99fa3d1b5ff3231a9b75a8bb37e87af210c_id | string |
      | studentProgramAssociation    | 6 | body.programId | a50802f02c7e771d979f7d5b3870c500014e6803_id | string|
-
+     | studentCompetency            | 1 | body.objectiveId.studentCompetencyObjectiveId | 028d7f8e25584d3353c9691e6aab89156029dde8_id | string |
+ 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:

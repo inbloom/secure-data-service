@@ -26,6 +26,8 @@ db["customRole"].ensureIndex({"body.realmId":1});  // create custom role for a r
 db["realm"].ensureIndex({"body.idp.id":1});  //oauth login
 db["realm"].ensureIndex({"body.tenantId":1,"body.edOrg":1});  //login? saml fedaration
 db["realm"].ensureIndex({"body.edOrg":1});  //create custom role for a realm
+db["realm"].ensureIndex({"body.uniqueIdentifier":1});  //unique identifier for a realm
+db["realm"].ensureIndex({"body.name":1});
 
 db["securityEvent"].ensureIndex({"body.targetEdOrg":1,"body.roles":1});
 
@@ -39,3 +41,4 @@ db["userSession"].ensureIndex({"body.appSession.samlId":1});  //saml fedaration
 db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.appSession.token":1});  //api
 db["userSession"].ensureIndex({"body.hardLogout":1,"body.expiration":1});  //api
 db["userSession"].ensureIndex({"body.principal.externalId":1});  //api
+db["userSession"].ensureIndex({"body.appSession.token":1});  //token

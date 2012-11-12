@@ -40,21 +40,38 @@ public class LoggingErrorReport implements ErrorReport {
     public void fatal(String message, Object sender) {
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override
     public void error(String message, Object sender) {
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override
     public void warning(String message, Object sender) {
         logger.warn(message);
+    }
+
+    @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        fatal(message, sender);
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        error(message, sender);
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        warning(message, sender);
     }
 
     @Override

@@ -28,6 +28,16 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -50,15 +60,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
+import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
 /**
  * Ingestion Persistence Processor.
@@ -188,12 +190,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-            ErrorReport errorReportForNrEntity = createDbErrorReport(job.getId(), collectionNameAsStaged);
+            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
-            //UN: Added the records to the recordHashStore
+            // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
                 recordHashStore.add(neutralRecord);
             }
@@ -223,7 +225,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                             recordStore.add(neutralRecord);
 
                             // queue up for bulk insert
-                            xformedEntity.setSourceFile(neutralRecord.getSourceFile());
                             persist.add(xformedEntity);
 
                         } else {
@@ -248,7 +249,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                            upsertRecordHash(neutralRecord2);
+                        upsertRecordHash(neutralRecord2);
 
                     }
                 } catch (DataAccessResourceFailureException darfe) {
@@ -391,12 +392,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport
-                    .error(MessageSourceHelper
-                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
-                            this);
+            errorReport.error(
+                    MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                    record.getSourceFile(), this);
             return null;
         }
+        transformed.get(0).setSourceFile(record.getSourceFile());
         return transformed.get(0);
     }
 
@@ -551,11 +552,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-     private void upsertRecordHash(NeutralRecord nr){
-            if (nr.getMetaDataByName("rhId") != null) {
-                batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
-                        nr.getMetaDataByName("rhId").toString());
-            }
+    private void upsertRecordHash(NeutralRecord nr) {
+        if (nr.getMetaDataByName("rhId") != null) {
+            batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(), nr.getMetaDataByName("rhId")
+                    .toString());
         }
-
     }
+
+}
