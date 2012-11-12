@@ -37,9 +37,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -53,7 +53,7 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("/provision")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class OnboardingResource {
 
     @Autowired
