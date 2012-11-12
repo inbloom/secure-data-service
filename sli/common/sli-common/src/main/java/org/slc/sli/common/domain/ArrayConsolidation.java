@@ -26,11 +26,11 @@ public class ArrayConsolidation {
     }
     
     public String getArrayPath() {
-        return arrayPath;
+        return this.arrayPath;
     }
     
     public String getArrayPkFieldName() {
-        return arrayPkFieldName;
+        return this.arrayPkFieldName;
     }
 }
 
