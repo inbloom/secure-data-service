@@ -30,12 +30,12 @@
     <value>staff</value>
     <value>staffCohortAssociation</value>
     <value>staffEducationOrganizationAssociation</value>
-<!--    <value>staffProgramAssociation</value>
+    <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
-    <value>studentCompetency</value>
+    <!-- value>studentCompetency</value> DID work does not appear to have been completed for this entity -->
     <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentParentAssociation</value>
@@ -46,10 +46,9 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-    <value>attendance</value>
+    <value>attendance</value> <!-- Needs to be excluded from DID resolver due to StudentReference -->
     <value>learningObjective</value>
     <value>courseTranscript</value>
-  -->
   </util:set>
 
 </beans>
