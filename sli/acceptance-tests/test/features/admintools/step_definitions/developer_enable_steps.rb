@@ -81,7 +81,7 @@ Then /^I see the list of \(only\) my applications$/ do
 end
 
 Then /^I can see the on\-boarded states\/districts$/ do
-  assert(@driver.find_elements(:css, 'div#enable-menu div#lea-menu input:enabled[type="checkbox"]').count > 1, "One district should be enabled already")
+  assert(@driver.find_elements(:css, 'div#enable-menu div#lea-menu input[type="checkbox"]').count > 1, "One district should exist already")
 end
 
 Then /^I can see the on\-boarded states$/ do
