@@ -140,7 +140,7 @@ db["teacherSectionAssociation"].ensureIndex({"batchJobId":1,"_id":1});
 //
 // other indexes required for responsiveness of staging database during transformations
 //
-db["assessmentFamily"].ensureIndex({"batchJobId" : 1, "body.AssessmentFamilyIdentificationCode.ID":1});
+db["assessmentFamily"].ensureIndex({"batchJobId" : 1, "body.AssessmentFamilyTitle":1});
 db["assessmentItem"].ensureIndex({"batchJobId" : 1, "body.identificationCode":1});
 db["assessmentItem"].ensureIndex({"batchJobId" : 1, "localId":1});
 db["assessmentPeriodDescriptor"].ensureIndex({"batchJobId" : 1, "body.codeValue":1});
