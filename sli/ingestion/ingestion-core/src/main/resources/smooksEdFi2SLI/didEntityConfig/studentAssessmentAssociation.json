@@ -7,6 +7,11 @@
             "optional" : true
         },
         {
+            "entityType" : "learningObjective",
+            "sourceRefPath": "body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.learningObjectives",
+            "optional" : true
+        },
+        {
             "entityType" : "learningStandard",
             "sourceRefPath": "body.studentAssessmentItems.assessmentItem.learningStandards",
             "optional" : true
