@@ -2991,8 +2991,6 @@ Special education students
 		</xs:complexContent>
 	</xs:complexType>
 
-
-
     <xs:complexType name="SLC-Course">
         <xs:annotation>
             <xs:documentation>This entity represents a course.</xs:documentation>
@@ -3215,5 +3213,25 @@ Special education students
 		</xs:sequence>
 	</xs:complexType>
 
-
+	<xs:complexType name="SLC-AssessmentItem">
+		<xs:annotation>
+			<xs:documentation>This entity represents one of many single measures that make up an assessment. </xs:documentation>
+			<xs:appinfo>
+                <sli:recordType>assessmentItem</sli:recordType>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+				    <xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType" />
+					<xs:element name="IdentificationCode" type="IdentificationCode" />
+					<xs:element name="ItemCategory" type="ItemCategoryType" />
+					<xs:element name="MaxRawScore" type="xs:int" />
+					<xs:element name="CorrectResponse" type="CorrectResponse" />
+					<xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 </xs:schema>

@@ -39,6 +39,7 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -55,7 +56,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Path("aggregation")
 @Component
 @Scope("request")
-@Produces(Resource.JSON_MEDIA_TYPE + ";charset=utf-8")
+@Produces(HypermediaType.JSON + ";charset=utf-8")
 public class AggregateResource {
     final EntityDefinitionStore entityDefs;
 
