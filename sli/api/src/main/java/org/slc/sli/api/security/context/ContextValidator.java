@@ -69,29 +69,6 @@ public class ContextValidator implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         validators = new ArrayList<IContextValidator>();
         validators.addAll(applicationContext.getBeansOfType(IContextValidator.class).values());
-
-        IContextValidator genVal = null;
-        IContextValidator studentVal = null;
-        IContextValidator subEntityVal = null;
-        // Make GenericContextValidator last, since we want to use that as a last resort
-        for (IContextValidator validator : validators) {
-            if (validator instanceof GenericContextValidator) {
-                genVal = validator;
-            } else if (validator instanceof TeacherToStudentValidator) {
-                studentVal = validator;
-            } else if (validator instanceof TeacherToSubStudentEntityValidator) {
-                subEntityVal = validator;
-            }
-        }
-
-        // move generic validator to end
-        validators.remove(genVal);
-        validators.add(genVal);
-
-        // temporarily disable teacher-student validator
-        // temporarily disable teacher-sub-student entity validator
-        validators.remove(studentVal);
-        validators.remove(subEntityVal);
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {

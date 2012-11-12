@@ -286,7 +286,9 @@
         { "path": "/{id}/teacherSchoolAssociations/schools" },
         { "path": "/{id}/disciplineActions" },
         { "path": "/{id}/disciplineIncidents" },
-        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" }
+        { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" },
+        { "path": "/{id}/staffCohortAssociations" },
+        { "path": "/{id}/staffCohortAssociations/cohorts" }
       ]
     },
     {

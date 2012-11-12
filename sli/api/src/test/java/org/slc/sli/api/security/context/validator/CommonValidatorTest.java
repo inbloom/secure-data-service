@@ -51,7 +51,6 @@ public class CommonValidatorTest {
 
     @Before
     public void init() {
-        setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
         validators = context.getBeansOfType(IContextValidator.class).values();
         ignored = new HashSet<String>();
         messages = new LinkedList<String>();
@@ -79,6 +78,42 @@ public class CommonValidatorTest {
 
     @Test
     public void verifyNumberOfStaffValidatorsForEachEntity() throws Exception {
+        setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            // skip entities that don't require staff --> entity validation
+            if (ignored.contains(entity)) {
+                continue;
+            }
+            
+            for (Boolean isTransitive : Arrays.asList(true, false)) {
+
+                int numValidators = 0;
+                for (IContextValidator validator : validators) {
+                    if (validator.canValidate(entity, isTransitive)) {
+                        numValidators++;
+                    }
+                }
+    
+                if (numValidators != 1) {
+                    messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
+                        + numValidators + "). ");
+                }
+            }
+        }
+
+        if (messages.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (String message : messages) {
+                builder.append(message);
+            }
+            Assert.fail(builder.toString());
+        }
+    }
+
+    @Test
+    public void verifyNumberOfTeacherValidatorsForEachEntity() throws Exception {
+        setupCurrentUser(new MongoEntity("teacher", new HashMap<String, Object>()));
         List<String> entities = getEntityNames();
         for (String entity : entities) {
             // skip entities that don't require staff --> entity validation

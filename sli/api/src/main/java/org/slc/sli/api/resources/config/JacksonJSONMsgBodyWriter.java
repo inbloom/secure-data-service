@@ -31,7 +31,7 @@ import javax.ws.rs.ext.Provider;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.Home;
-import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
     
     protected final ObjectMapper om = new ObjectMapper();

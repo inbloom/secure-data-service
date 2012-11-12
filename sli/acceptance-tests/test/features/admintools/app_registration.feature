@@ -184,5 +184,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
 	When I click on the In Progress button
-	  Then I can see the ed-orgs I want to approve for my application
+	  Then I can see the on-boarded states
+  When I select a state
+    Then I see all of the Districts
 

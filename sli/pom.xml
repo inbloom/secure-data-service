@@ -40,7 +40,7 @@
 		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
         <!-- MongoDB Java Driver Version -->
-        <mongodb.java.driver.version>2.9.3</mongodb.java.driver.version>
+        <mongodb.java.driver.version>2.8.0</mongodb.java.driver.version>
 
 		<!-- Java EE Versions -->
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
