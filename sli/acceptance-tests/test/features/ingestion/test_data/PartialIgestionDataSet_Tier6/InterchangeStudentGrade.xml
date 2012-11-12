@@ -22,9 +22,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -33,6 +36,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -55,9 +60,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -66,6 +74,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -82,9 +92,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -93,6 +106,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -109,9 +124,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -120,6 +138,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -136,9 +156,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -147,6 +170,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -163,9 +188,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -174,6 +202,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -190,9 +220,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -201,6 +234,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -217,9 +252,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -228,6 +266,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -244,9 +284,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -255,6 +298,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -271,9 +316,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -282,6 +330,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -298,9 +348,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -309,6 +362,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -325,9 +380,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -336,6 +394,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -352,9 +412,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -363,6 +426,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -379,9 +444,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -390,6 +458,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -406,9 +476,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -417,6 +490,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -433,9 +508,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -444,6 +522,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -460,9 +540,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -471,6 +554,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -487,9 +572,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -498,6 +586,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -514,9 +604,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -525,6 +618,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -541,9 +636,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -552,6 +650,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -568,9 +668,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -579,6 +682,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -595,9 +700,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -606,6 +714,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -622,9 +732,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -633,6 +746,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -649,9 +764,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -660,6 +778,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -676,9 +796,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -687,6 +810,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -703,9 +828,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -714,6 +842,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -730,9 +860,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -741,6 +874,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -749,9 +884,12 @@
         <GradeType>Mid-Term Grade</GradeType>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -760,6 +898,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
@@ -779,9 +919,12 @@
         <GradeType>Final</GradeType>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>800000025</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -790,6 +933,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
@@ -1774,9 +1919,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1785,6 +1933,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1801,9 +1951,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1812,6 +1965,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1828,9 +1983,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1839,6 +1997,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1855,9 +2015,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1866,6 +2029,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1882,9 +2047,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1893,6 +2061,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1909,9 +2079,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1920,6 +2093,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1936,9 +2111,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1947,6 +2125,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1963,9 +2143,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1974,6 +2157,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -1990,9 +2175,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2001,6 +2189,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2017,9 +2207,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2028,6 +2221,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2044,9 +2239,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2055,6 +2253,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2071,9 +2271,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2082,6 +2285,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2098,9 +2303,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2109,6 +2317,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2125,9 +2335,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2136,6 +2349,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2152,9 +2367,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2163,6 +2381,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2179,9 +2399,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2190,6 +2413,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2206,9 +2431,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2217,6 +2445,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2233,9 +2463,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2244,6 +2477,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2260,9 +2495,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2271,6 +2509,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2287,9 +2527,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2298,6 +2541,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2314,9 +2559,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2325,6 +2573,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2341,9 +2591,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2352,6 +2605,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2368,9 +2623,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2379,6 +2637,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2395,9 +2655,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2406,6 +2669,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2422,9 +2687,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2433,6 +2701,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2449,9 +2719,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2460,6 +2733,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2476,9 +2751,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2487,6 +2765,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2503,9 +2783,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2514,6 +2797,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2530,9 +2815,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2541,6 +2829,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2557,9 +2847,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2568,6 +2861,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2584,9 +2879,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2595,6 +2893,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2611,9 +2911,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2622,6 +2925,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
     </StudentCompetency>
@@ -2630,9 +2935,12 @@
         <GradeType>Mid-Term Grade</GradeType>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2641,6 +2949,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>
@@ -2660,9 +2970,12 @@
         <GradeType>Final</GradeType>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2671,6 +2984,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradingPeriodReference>

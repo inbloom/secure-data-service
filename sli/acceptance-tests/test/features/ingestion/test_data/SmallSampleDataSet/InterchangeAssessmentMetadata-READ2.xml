@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+                               xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-<!-- READ 2.0-->
+  <!-- READ 2.0-->
   <Assessment id="READ2-Next-Grade-1-BOY">
     <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -42,9 +42,7 @@
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
@@ -88,9 +86,7 @@
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
@@ -109,14 +105,12 @@
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0</ID>
-         </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
-	</AssessmentFamilyReference>
+    </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  
+
   <AssessmentPeriodDescriptor>
 	<CodeValue>READ2-BOY-2011</CodeValue>
 	<Description>Beginning of Year 2011-2012</Description>

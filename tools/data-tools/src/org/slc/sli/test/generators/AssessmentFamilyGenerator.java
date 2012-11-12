@@ -27,8 +27,6 @@ import org.slc.sli.test.edfi.entities.AssessmentIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentFamilyMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentFamilyGenerator {
 
@@ -65,16 +63,10 @@ public class AssessmentFamilyGenerator {
         return assessFamily;
     }
 
-    public static AssessmentFamilyReferenceType getAssessmentFamilyReferenceType(final String assessmentId) {
+    public static AssessmentFamilyReferenceType getAssessmentFamilyReferenceType(final String assessmentFamilyId) {
         AssessmentFamilyReferenceType familyRef = new AssessmentFamilyReferenceType();
-
         AssessmentFamilyIdentityType identity = new AssessmentFamilyIdentityType();
-
-        AssessmentIdentificationCode idCode = new AssessmentIdentificationCode();
-        idCode.setID(assessmentId);
-        idCode.setIdentificationSystem(AssessmentIdentificationSystemType.FEDERAL);
-        idCode.setAssigningOrganizationCode("AssigningOrganizationCode");
-        identity.getAssessmentFamilyIdentificationCode().add(idCode);
+        identity.setAssessmentFamilyTitle(assessmentFamilyId + "Title");
 
         familyRef.setAssessmentFamilyIdentity(identity);
         return familyRef;
@@ -85,13 +77,6 @@ public class AssessmentFamilyGenerator {
         AssessmentFamilyIdentityType identity = new AssessmentFamilyIdentityType();
         familyRef.setAssessmentFamilyIdentity(identity);
         identity.setAssessmentFamilyTitle(family.getAssessmentFamilyTitle());
-        identity.setVersion(family.getVersion());
-        AssessmentIdentificationCode idCode = new AssessmentIdentificationCode();
-        identity.getAssessmentFamilyIdentificationCode().add(idCode);
-        idCode.setID(family.getAssessmentFamilyIdentificationCode().get(0).getID());
-        idCode.setIdentificationSystem(family.getAssessmentFamilyIdentificationCode().get(0).getIdentificationSystem());
-        idCode.setAssigningOrganizationCode(family.getAssessmentFamilyIdentificationCode().get(0)
-                .getAssigningOrganizationCode());
         return familyRef;
     }
 }

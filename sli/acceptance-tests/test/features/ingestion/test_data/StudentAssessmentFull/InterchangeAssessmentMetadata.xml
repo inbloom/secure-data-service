@@ -21,10 +21,7 @@
 		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT</ID>
-				</AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -39,6 +36,13 @@
 
 	<!-- Assessment Item Section -->
 	<AssessmentItem id="AssessmentItem-1">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>

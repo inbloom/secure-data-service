@@ -42,9 +42,7 @@
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
@@ -88,9 +86,7 @@
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0 Grade 1</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
@@ -109,9 +105,7 @@
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ 2.0</ID>
-         </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
       </AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </AssessmentFamily>

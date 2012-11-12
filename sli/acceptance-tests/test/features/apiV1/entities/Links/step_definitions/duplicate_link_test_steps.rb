@@ -56,6 +56,17 @@ Then /^I should not have any duplicate links/ do
     find_duplicate @result
   end
 end
+Then /^I should not have any link with more than "([^"]*)" parts$/ do |count|
+
+  if @result.kind_of?(Array) 
+    @result.each do |res|
+      count_link_parts(res,count)
+    end
+  else
+    count_link_parts(@result,count)
+  end
+end
+
 
 def find_duplicate(res)
   linkHash = Hash.new
@@ -73,4 +84,12 @@ def find_duplicate(res)
     assert(notFound,"Response contains duplicate link for " + rel +"With links "+ href +"And "+ linkHash[rel])
   end
 
+end
+def count_link_parts(res,count)
+  res["links"].each do |link|
+    href = link["href"]
+    parts = href.count('/')
+    failed = (parts < (count.to_i + 5))
+   assert(failed, "Response contains incorrect Llinks")
+ end
 end

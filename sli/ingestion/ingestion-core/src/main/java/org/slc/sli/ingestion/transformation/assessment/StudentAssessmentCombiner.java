@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-
 /**
  * Transformer for StudentAssessmentAssociation entities.
- *
+ * 
  * @author nbrown
  * @author shalka
  */
@@ -204,7 +203,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     *
+     * 
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -260,7 +259,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     *
+     * 
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -345,7 +344,20 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        /*
+                         * remove the assessmentReference from assessmentItem because current sli
+                         * data
+                         * model does not has this attribute, it will not pass the validation
+                         * when save
+                         * to sli db. The assessmentreference will be used for supporting out of
+                         * order
+                         * ingestion in the future
+                         */
+                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                            assessmentItemAttrs.remove("assessmentReference");
+                        }
+                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
@@ -384,7 +396,20 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        /*
+                         * remove the assessmentReference from assessmentItem because current sli
+                         * data
+                         * model does not has this attribute, it will not pass the validation
+                         * when save
+                         * to sli db. The assessmentreference will be used for supporting out of
+                         * order
+                         * ingestion in the future
+                         */
+                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                            assessmentItemAttrs.remove("assessmentReference");
+                        }
+                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "

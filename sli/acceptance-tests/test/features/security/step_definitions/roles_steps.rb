@@ -103,7 +103,7 @@ Then /^a message is displayed that the "([^"]*)" role does not allow this action
   assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
   
   #Then get the data to see it hasn't changed
-  restHttpGet("/students/0636ffd6-ad7d-4401-8de9-40538cf696c8","application/json")
+  restHttpGet("/v1/students/0636ffd6-ad7d-4401-8de9-40538cf696c8","application/json")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
@@ -116,7 +116,7 @@ Given /^"([^"]*)" is not allowed to view Student data$/ do |arg1|
 end
 
 When /^I make an API call to view a Student's data$/ do
-  student_uri = "/students/0636ffd6-ad7d-4401-8de9-40538cf696c8" 
+  student_uri = "/v1/students/0636ffd6-ad7d-4401-8de9-40538cf696c8" 
   restHttpGet(student_uri,"application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
