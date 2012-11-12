@@ -45,8 +45,8 @@ import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -64,7 +64,7 @@ import org.slc.sli.domain.Repository;
 @Component
 @Scope("request")
 @Path("securityEvent")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecurityEventResource extends DefaultCrudEndpoint {
 
     public static final String          RESOURCE_NAME     = "securityEvent";

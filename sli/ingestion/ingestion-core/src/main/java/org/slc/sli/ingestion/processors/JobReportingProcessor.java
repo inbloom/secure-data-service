@@ -41,6 +41,13 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -60,11 +67,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -89,6 +91,9 @@ public class JobReportingProcessor implements Processor {
     public static final String ORCHESTRATION_STAGES_NAME = "OrchestrationStages";
 
     public static final String ORCHESTRATION_STAGES_DESC = "Transforms and persists records to sli database";
+
+    public static final String ERROR_FILE_TYPE = "error";
+    public static final String WARNING_FILE_TYPE = "warn";
 
     @Value("${sli.ingestion.staging.clearOnCompletion}")
     private String clearOnCompletion;
@@ -174,22 +179,16 @@ public class JobReportingProcessor implements Processor {
                             && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
                         stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
                     }
-                    // stageBrief.setElapsedTime(stageBrief.getElapsedTime() +
-                    // stageChunk.getElapsedTime());
                     stageBrief.setElapsedTime(stageBrief.getStopTimestamp().getTime()
                             - stageBrief.getStartTimestamp().getTime());
 
                 } else {
-                    // stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStageDesc(),
-                    // stageChunk.getStatus(),
-                    // stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief = new Stage(stageName, stageDesc, stageChunk.getStatus(),
                             stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
                     stageBrief.setJobId(stageChunk.getJobId());
                     stageBrief.setElapsedTime(stageChunk.getElapsedTime());
                     stageBrief.setProcessingInformation("");
 
-                    // stageBriefMap.put(stageChunk.getStageName(), stageBrief);
                     stageBriefMap.put(stageName, stageBrief);
                 }
             }
@@ -265,8 +264,13 @@ public class JobReportingProcessor implements Processor {
         LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
         for (ResourceEntry resource : job.getResourceEntries()) {
             String resourceId = resource.getResourceId();
-            hasErrors |= writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR, "error", errorsCountPerInterchange);
-            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, "warn", warningsCountPerInterchange);
+            boolean resourceHasErrors = writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR,
+                    ERROR_FILE_TYPE, errorsCountPerInterchange);
+            if (resourceHasErrors) {
+                hasErrors = true;
+            }
+            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, WARNING_FILE_TYPE,
+                    warningsCountPerInterchange);
         }
 
         return hasErrors;
@@ -290,9 +294,7 @@ public class JobReportingProcessor implements Processor {
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
             } finally {
-                if (errorWriter != null) {
-                    errorWriter.close();
-                }
+                IOUtils.closeQuietly(errorWriter);
             }
             return true;
         }

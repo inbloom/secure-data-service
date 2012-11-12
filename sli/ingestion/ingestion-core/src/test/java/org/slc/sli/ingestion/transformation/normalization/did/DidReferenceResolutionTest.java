@@ -221,7 +221,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    @Ignore
     public void resolvesEdOrgRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/staffEducationOrgAssignmentAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -302,6 +301,18 @@ public class DidReferenceResolutionTest {
 		checkId(entity, "CourseOfferingReference", naturalKeys, "courseOffering");
 	}
 
+	@Test
+	public void shouldResolveStudentCompetencyObjectiveDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/studentCompetencyObjectiveReference.json");
+		ErrorReport errorReport = new TestErrorReport();
+
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
+
+		checkId(entity, "StudentCompetencyObjectiveReference", naturalKeys, "studentCompetencyObjective");
+	}
 
 	// generate the expected deterministic ids to validate against
 	private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {

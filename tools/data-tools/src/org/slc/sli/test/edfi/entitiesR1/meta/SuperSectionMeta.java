@@ -20,14 +20,11 @@ package org.slc.sli.test.edfi.entitiesR1.meta;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slc.sli.test.edfi.entities.meta.CourseMeta;
+import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
-import org.slc.sli.test.edfi.entities.meta.StudentMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.edfi.entitiesR1.Teacher;
 
 public class SuperSectionMeta extends SectionMeta {
 	
@@ -36,10 +33,10 @@ public class SuperSectionMeta extends SectionMeta {
    public final List<String> teacherIds;
     
 
-	public SuperSectionMeta(String id, SchoolMeta schoolMeta, CourseMeta courseMeta, SessionMeta sessionMeta,
+	public SuperSectionMeta(String id, SchoolMeta schoolMeta, CourseOfferingMeta courseOfferingMeta, SessionMeta sessionMeta,
 			ProgramMeta programMeta) {
 		
-		super(id, schoolMeta, courseMeta, sessionMeta, programMeta);
+		super(id, schoolMeta, courseOfferingMeta, sessionMeta, programMeta);
 		
 		
 		 this.studentIds = new ArrayList<String>();

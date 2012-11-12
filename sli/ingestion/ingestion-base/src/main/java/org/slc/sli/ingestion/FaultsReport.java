@@ -54,6 +54,21 @@ public class FaultsReport implements Serializable, ErrorReport {
         this.faults.add(Fault.createWarning(message));
     }
 
+    @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        error(message, sender);
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        error(message, sender);
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        warning(message, sender);
+    }
+
     public List<Fault> getFaults() {
         return Collections.unmodifiableList(this.faults);
     }

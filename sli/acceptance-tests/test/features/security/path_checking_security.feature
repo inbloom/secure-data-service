@@ -70,7 +70,6 @@ Examples:
     |"/schools/@id/sections/studentSectionAssociations/grades"                          | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/grades"|
     |"/schools/@id/sections/studentSectionAssociations/studentCompetencies"             | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/studentCompetencies"|
  
- @wip
  Scenario Outline: Staff making calls to URIs through transitive relationships and being denied
 
     Given I am logged in using "akopel" "akopel1234" to realm "IL"

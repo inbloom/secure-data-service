@@ -40,6 +40,7 @@ import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -49,8 +50,8 @@ import org.slc.sli.domain.Entity;
 @Path("home")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.XML_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE + ";charset=utf-8",
-        Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_LONG_JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_LONG_XML_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8", HypermediaType.XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8",
+    HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_LONG_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_LONG_XML + ";charset=utf-8" })
 @Deprecated
 public class HomeResourceDeprecated {
 
@@ -75,7 +76,7 @@ public class HomeResourceDeprecated {
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {
-
+        
         Home home = null;
 
         // get the entity ID and EntityDefinition for user
