@@ -48,7 +48,6 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
-import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
@@ -112,9 +111,6 @@ public class BasicService implements EntityService {
 
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
-
-    @Autowired
-    private EdOrgContextResolver edOrgContextResolver;
 
     @Autowired
     private BasicDefinitionStore definitionStore;
@@ -464,7 +460,7 @@ public class BasicService implements EntityService {
         }
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[]{
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
@@ -1031,56 +1027,8 @@ public class BasicService implements EntityService {
         metadata.put("createdBy", createdBy);
         metadata.put("isOrphaned", "true");
         metadata.put("tenantId", principal.getTenantId());
-        if (isStaff(principal)) {
-            createEdOrgMetaDataForStaff(principal, metadata);
-        } else if (isTeacher(principal)) {
-            createEdOrgMetaDataForTeacher(principal, metadata);
-        }
 
         return metadata;
-    }
-
-    private boolean isStaff(SLIPrincipal principal) {
-        return principal.getEntity().getType().equals(EntityNames.STAFF);
-    }
-
-    private boolean isTeacher(SLIPrincipal principal) {
-        return principal.getEntity().getType().equals(EntityNames.TEACHER);
-    }
-
-    /**
-     * Add the list of ed orgs a principal entity can see
-     * Needed for staff security
-     *
-     * @param principal
-     * @param metaData
-     */
-    // DE-719 - need to check this one
-    private void createEdOrgMetaDataForStaff(SLIPrincipal principal, Map<String, Object> metaData) {
-        // get all the edorgs this principal can see
-        List<String> edOrgIds = edOrgContextResolver.findAccessible(principal.getEntity());
-
-        if (!edOrgIds.isEmpty()) {
-            debug("Updating metadData with edOrg ids");
-            metaData.put("edOrgs", edOrgIds);
-        }
-    }
-
-    /**
-     * Update the metaData for an entity created by a teacher by adding the current list of edOrgs
-     * on the teacher to the created entity.
-     *
-     * @param principal SLI Principal (contains mongo entity).
-     * @param metaData  HashMap representing metaData of entity to be updated.
-     */
-    private void createEdOrgMetaDataForTeacher(SLIPrincipal principal, Map<String, Object> metaData) {
-        Entity entity = principal.getEntity();
-        if (entity.getMetaData().containsKey("edOrgs")) {
-            @SuppressWarnings("unchecked")
-            List<String> lineage = (List<String>) entity.getMetaData().get("edOrgs");
-            debug("Updating metadData with edOrg ids");
-            metaData.put("edOrgs", lineage);
-        }
     }
 
     private boolean useContextResolver() {
