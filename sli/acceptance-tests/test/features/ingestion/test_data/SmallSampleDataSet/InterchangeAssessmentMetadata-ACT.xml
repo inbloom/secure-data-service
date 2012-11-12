@@ -185,6 +185,13 @@
 
 	<!-- Assessment Item Section -->
 	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -206,6 +213,13 @@
 	</AssessmentItem>
 
 	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -227,6 +241,13 @@
 	</AssessmentItem>
 
 	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-3</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -241,6 +262,13 @@
 	</AssessmentItem>
 
 	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-4</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
