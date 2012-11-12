@@ -25,6 +25,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.translator.URITranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -65,6 +66,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Resource
     private EndpointMutator mutator;
 
+    @Autowired
+    private URITranslator translator;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
@@ -77,6 +81,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         contextValidator.validateContextToUri(request, principal);
+        translator.translate(request);
         return request;
     }
 
