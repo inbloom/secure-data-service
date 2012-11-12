@@ -134,19 +134,19 @@
     <!-- (collection,unique,indexKeys ...) -->
     <!-- creationTime indexes for all collections -->
     <value>assessment,false,creationTime</value>
-    <value>assessment_transformed,false,creationTime</value>
     <value>assessmentFamily,false,creationTime</value>
     <value>assessmentItem,false,creationTime</value>
     <value>assessmentPeriodDescriptor,false,creationTime</value>
+    <value>assessment_transformed,false,creationTime</value>
     <value>attendance,false,creationTime</value>
     <value>attendance_transformed,false,creationTime</value>
     <value>calendarDate,false,creationTime</value>
     <value>cohort,false,creationTime</value>
     <value>competencyLevelDescriptor,false,creationTime</value>
     <value>course,false,creationTime</value>
+    <value>courseOffering,false,creationTime</value>
     <value>courseTranscript,false,creationTime</value>
     <value>courseTranscript_transformed,false,creationTime</value>
-    <value>courseOffering,false,creationTime</value>
     <value>disciplineAction,false,creationTime</value>
     <value>disciplineIncident,false,creationTime</value>
     <value>educationOrganization,false,creationTime</value>
@@ -159,6 +159,7 @@
     <value>learningObjective,false,creationTime</value>
     <value>learningObjective_transformed,false,creationTime</value>
     <value>learningStandard,false,creationTime</value>
+    <value>localEducationAgency,false,creationTime</value>
     <value>objectiveAssessment,false,creationTime</value>
     <value>parent,false,creationTime</value>
     <value>program,false,creationTime</value>
@@ -179,12 +180,12 @@
     <value>studentCompetency,false,creationTime</value>
     <value>studentCompetencyObjective,false,creationTime</value>
     <value>studentDisciplineIncidentAssociation,false,creationTime</value>
+    <value>studentGradebookEntry,false,creationTime</value>
     <value>studentObjectiveAssessment,false,creationTime</value>
     <value>studentParentAssociation,false,creationTime</value>
     <value>studentProgramAssociation,false,creationTime</value>
-    <value>studentSectionAssociation,false,creationTime</value>
-    <value>studentGradebookEntry,false,creationTime</value>
     <value>studentSchoolAssociation,false,creationTime</value>
+    <value>studentSectionAssociation,false,creationTime</value>
     <value>teacher,false,creationTime</value>
     <value>teacherSchoolAssociation,false,creationTime</value>
     <value>teacherSectionAssociation,false,creationTime</value>
