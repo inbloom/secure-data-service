@@ -8,18 +8,18 @@
   <!-- SLI-Ed-Fi neutral record types for which record level hash processing is supported -->
   <util:set id="recordLvlHashNeutralRecordTypes" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>calendarDate</value>  <!-- no EdOrgId in Ed-Fi yet --> 
-<!--    <value>cohort</value> has EdOrg ref as key field -->
+    <value>cohort</value> <!-- has EdOrg ref as key field -->
     <value>competencyLevelDescriptor</value>
     <value>course</value>
-<!--    <value>courseOffering</value> needs DID ref resolution for SchoolReference and SessionReference -->
-<!--    <value>disciplineAction</value> needs DID ref resolution for ResponsibilitySchoolReference --> 
-<!--    <value>disciplineIncident</value> needs DID ref resolution for SchoolReference -->
+    <value>courseOffering</value> <!-- needs DID ref resolution for SchoolReference and SessionReference -->
+    <value>disciplineAction</value> <!-- needs DID ref resolution for ResponsibilitySchoolReference --> 
+    <value>disciplineIncident</value> <!-- needs DID ref resolution for SchoolReference -->
 <!--    <value>educationOrganization</value> This should probably be removed - no smooks mapping for this -->
-<!--    <value>grade</value> needs DID ref resolution for GradingPeriodReference -->
-<!--    <value>gradebookEntry</value> needs at least DID ref resolution for SectionReference -->
+    <value>grade</value> <!-- needs DID ref resolution for GradingPeriodReference -->
+    <value>gradebookEntry</value> <!-- needs at least DID ref resolution for SectionReference -->
     <value>gradingPeriod</value> <!-- may work if PropertyUtils.getProperty can find a field name match recursively -->
-<!--    <value>graduationPlan</value>
-    <value>learningStandard</value>
+    <value>graduationPlan</value>
+    <value>learningStandard</value> <!-- does not include interchange in createOn value, key field name is nested so confirm is found -->
     <value>localEducationAgency</value>
     <value>parent</value>
     <value>program</value>
@@ -30,7 +30,7 @@
     <value>staff</value>
     <value>staffCohortAssociation</value>
     <value>staffEducationOrganizationAssociation</value>
-    <value>staffProgramAssociation</value>
+<!--    <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
