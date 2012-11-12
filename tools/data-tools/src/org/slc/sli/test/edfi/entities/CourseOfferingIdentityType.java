@@ -49,13 +49,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="LocalCourseCode" type="{http://ed-fi.org/0100}LocalCourseCode"/>
- *         &lt;element name="CourseCode" type="{http://ed-fi.org/0100}CourseCode" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="Term" type="{http://ed-fi.org/0100}TermType"/>
- *         &lt;element name="SchoolYear" type="{http://ed-fi.org/0100}SchoolYearType"/>
- *         &lt;choice maxOccurs="unbounded" minOccurs="0">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
+ *         &lt;element name="SessionReference" type="{http://ed-fi.org/0100}SessionReferenceType" minOccurs="0"/>
+ *         &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -67,27 +62,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingIdentityType", propOrder = {
     "localCourseCode",
-    "courseCode",
-    "term",
-    "schoolYear",
-    "stateOrganizationIdOrEducationOrgIdentificationCode"
+    "sessionReference",
+    "educationalOrgReference"
 })
 public class CourseOfferingIdentityType {
 
     @XmlElement(name = "LocalCourseCode", required = true)
     protected String localCourseCode;
-    @XmlElement(name = "CourseCode")
-    protected List<CourseCode> courseCode;
-    @XmlElement(name = "Term", required = true)
-    protected TermType term;
-    @XmlElement(name = "SchoolYear", required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String schoolYear;
-    @XmlElements({
-        @XmlElement(name = "StateOrganizationId", type = String.class),
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    @XmlElement(name = "SessionReference")
+    protected SessionReferenceType sessionReference;
+    @XmlElement(name = "EducationalOrgReference", required = true)
+    protected EducationalOrgReferenceType educationalOrgReference;
 
     /**
      * Gets the value of the localCourseCode property.
@@ -114,110 +99,51 @@ public class CourseOfferingIdentityType {
     }
 
     /**
-     * Gets the value of the courseCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the courseCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCourseCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CourseCode }
-     * 
-     * 
-     */
-    public List<CourseCode> getCourseCode() {
-        if (courseCode == null) {
-            courseCode = new ArrayList<CourseCode>();
-        }
-        return this.courseCode;
-    }
-
-    /**
-     * Gets the value of the term property.
+     * Gets the value of the sessionReference property.
      * 
      * @return
      *     possible object is
-     *     {@link TermType }
+     *     {@link SessionReferenceType }
      *     
      */
-    public TermType getTerm() {
-        return term;
+    public SessionReferenceType getSessionReference() {
+        return sessionReference;
     }
 
     /**
-     * Sets the value of the term property.
+     * Sets the value of the sessionReference property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TermType }
+     *     {@link SessionReferenceType }
      *     
      */
-    public void setTerm(TermType value) {
-        this.term = value;
+    public void setSessionReference(SessionReferenceType value) {
+        this.sessionReference = value;
     }
 
     /**
-     * Gets the value of the schoolYear property.
+     * Gets the value of the educationalOrgReference property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link EducationalOrgReferenceType }
      *     
      */
-    public String getSchoolYear() {
-        return schoolYear;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+        return educationalOrgReference;
     }
 
     /**
-     * Sets the value of the schoolYear property.
+     * Sets the value of the educationalOrgReference property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link EducationalOrgReferenceType }
      *     
      */
-    public void setSchoolYear(String value) {
-        this.schoolYear = value;
-    }
-
-    /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link EducationOrgIdentificationCode }
-     * 
-     * 
-     */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+        this.educationalOrgReference = value;
     }
 
 }

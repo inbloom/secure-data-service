@@ -11,12 +11,16 @@
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "Sample"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I check the Districts
   When I click on Save
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "SDK Sample App (CI)"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I check the Districts
   When I click on Save
 
@@ -52,12 +56,16 @@ Scenario: Application developer disallows sunset access to the sample apps
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "Sample"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I uncheck the Districts
   When I click on Save
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "SDK Sample App (CI)"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I uncheck the Districts
   When I click on Save
 
@@ -77,12 +85,16 @@ Scenario: Application developer allows sunset access to the sample apps
   And I submit the credentials "slcdeveloper" "slcdeveloper1234" for the "Simple" login page
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "Sample"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I check the Districts
   When I click on Save
   Then I am redirected to the Application Registration Tool page
   And I clicked on the button Edit for the application "SDK Sample App (CI)"
-  Then I can see the on-boarded states/districts
+  Then I can see the on-boarded states
+  When I select a state
+  Then I see all of the Districts
   Then I check the Districts
   When I click on Save
 
