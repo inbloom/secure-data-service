@@ -428,6 +428,8 @@ public final class InterchangeStudentGradeGenerator {
 
         int learningObjectiveIdCounter = 0;
 
+    	LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
+    	AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
@@ -456,10 +458,6 @@ public final class InterchangeStudentGradeGenerator {
                     lsi.setIdentificationCode(ID_PREFIX_LO + learningObjectiveIdCounter);
                     loIdentity.getLearningObjectiveIdOrObjective().add(lsi);
                     loRef.setLearningObjectiveIdentity(loIdentity);
-
-                    LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
-
-                    AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
                             null);
@@ -623,23 +621,6 @@ public final class InterchangeStudentGradeGenerator {
             competencyLevelDescriptor.setPerformanceBaseConversion(PerformanceBaseType.ADVANCED);
 
             writer.marshal(competencyLevelDescriptor);
-        }
-    }
-
-    private static void generateLearningObjective(List<ReportCardMeta> reportCardMetas,
-            InterchangeWriter<InterchangeStudentGrade> writer) {
-
-        for (ReportCardMeta reportCardMeta : reportCardMetas) {
-            String reportCardId = reportCardMeta.getId();
-            for (String loId : reportCardMeta.getLearningObjectiveIds()) {
-                LearningObjective lo = new LearningObjective();
-                lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
-                lo.setDescription("Learning Objective Description");
-                lo.setObjective(ID_PREFIX_LO + reportCardId + "_" + loId);
-                lo.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
-
-                writer.marshal(lo);
-            }
         }
     }
 
