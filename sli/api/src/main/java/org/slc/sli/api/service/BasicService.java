@@ -824,9 +824,6 @@ public class BasicService implements EntityService {
                 allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
             }
 
-            if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-                securityField = "metaData.edOrgs";
-            }
             if (resolver instanceof AllowAllEntityContextResolver) {
                 securityCriteria.setSecurityCriteria(null);
             } else {
