@@ -10,7 +10,6 @@
                 "entityType" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.ProgramReference",
-                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

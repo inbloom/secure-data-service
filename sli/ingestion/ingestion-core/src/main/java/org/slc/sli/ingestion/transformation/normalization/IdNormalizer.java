@@ -83,9 +83,6 @@ public class IdNormalizer {
     @Autowired
     private SchemaRepository schemaRepository;
 
-    @Autowired
-    private ContextTaker contextTaker;
-
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig == null) {
@@ -474,28 +471,18 @@ public class IdNormalizer {
         // combine the queries with or
         Query filter = Query.query(new Criteria().orOperator(queryOrList.toArray(new Criteria[queryOrList.size()])));
         List<String> ids = new ArrayList<String>();
+        ids.addAll(checkInCache(collection, tenantId, filter));
 
-        List<String> takesContext = refConfig.getTakesContext();
-        if (takesContext != null) {
-            contextTaker.addContext(entity, takesContext, collection, filter, ids);
-            cache(ids, collection, tenantId, filter);
-        } else {
-            // if takes context is null, query for records normally (check cache first), store on
-            // record
-            // update cache with query results
-            ids.addAll(checkInCache(collection, tenantId, filter));
+        if (CollectionUtils.isEmpty(ids)) {
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
-            if (CollectionUtils.isEmpty(ids)) {
-                @SuppressWarnings("deprecation")
-                Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
-
-                if (foundRecords != null && foundRecords.iterator().hasNext()) {
-                    for (Entity record : foundRecords) {
-                        ids.add(record.getEntityId());
-                    }
+            if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                for (Entity record : foundRecords) {
+                    ids.add(record.getEntityId());
                 }
-                cache(ids, collection, tenantId, filter);
             }
+            cache(ids, collection, tenantId, filter);
         }
 
         // sort because the $or query can produce different results every time

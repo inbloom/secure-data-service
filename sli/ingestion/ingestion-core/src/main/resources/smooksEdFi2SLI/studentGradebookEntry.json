@@ -5,7 +5,6 @@
         "fieldPath" : "body.SectionReference","ref" :
         {
             "entityType" : "section",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -24,7 +23,6 @@
         "fieldPath" : "body.studentId","ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -45,7 +43,6 @@
 	   "ref" :
         {
             "entityType" : "gradebookEntry",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
