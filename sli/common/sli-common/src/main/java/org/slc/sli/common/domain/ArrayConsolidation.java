@@ -15,10 +15,10 @@ package org.slc.sli.common.domain;
 public class ArrayConsolidation {
     
     //path to array whose entries should be consolidated
-    private String arrayPath;
+    private final String arrayPath;
     
     //how to detect a "duplicate" inside the array
-    private String arrayPkFieldName;
+    private final String arrayPkFieldName;
     
     public ArrayConsolidation(String arrayPath, String arrayPkFieldName) {
         this.arrayPath = arrayPath;
@@ -28,14 +28,9 @@ public class ArrayConsolidation {
     public String getArrayPath() {
         return arrayPath;
     }
-    public void setArrayPath(String arrayPath) {
-        this.arrayPath = arrayPath;
-    }
+    
     public String getArrayPkFieldName() {
         return arrayPkFieldName;
-    }
-    public void setArrayPkFieldName(String arrayPkFieldName) {
-        this.arrayPkFieldName = arrayPkFieldName;
     }
 }
 
