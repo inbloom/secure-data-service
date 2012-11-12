@@ -17,7 +17,13 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.List;
+import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Order;
@@ -37,7 +43,11 @@ import org.slc.sli.ingestion.ResourceWriter;
  */
 public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord>, InitializingBean {
 
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordMongoAccess.class);
+
     private NeutralRecordRepository neutralRecordRepository;
+
+    private Set<String> stagingIndexes;
 
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -71,6 +81,10 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     public void setNeutralRecordRepository(NeutralRecordRepository neutralRecordRepository) {
         this.neutralRecordRepository = neutralRecordRepository;
+    }
+
+    public void setStagingIndexes(Set<String> stagingIndexes) {
+        this.stagingIndexes = stagingIndexes;
     }
 
     @Override
@@ -120,5 +134,37 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
         Iterable<NeutralRecord> nr = neutralRecordRepository.findAllByQuery(collectionName, query);
         return nr.iterator().next().getCreationTime();
+    }
+
+    @Override
+    public void ensureIndexes() {
+        LOG.info("Ensuring {} indexes for staging db", stagingIndexes.size());
+
+        int indexOrder = 0; // used to name the indexes
+
+        if (stagingIndexes != null) {
+            // each index is a comma delimited string in the format:
+            // (collection, unique, indexKeys ...)
+            for (String indexEntry : stagingIndexes) {
+                indexOrder++;
+                String[] indexTokens = indexEntry.split(",");
+
+                if (indexTokens.length < 3) {
+                    throw new IllegalArgumentException("Expected at least 3 tokens for index config definition: "
+                            + indexTokens);
+                }
+
+                String collection = indexTokens[0];
+                boolean unique = Boolean.parseBoolean(indexTokens[1]);
+                DBObject keys = new BasicDBObject();
+
+                for (int i = 2; i < indexTokens.length; i++) {
+                    keys.put(indexTokens[i], 1);
+                }
+
+                neutralRecordRepository.getTemplate().getCollection(collection)
+                        .ensureIndex(keys, "is" + indexOrder, unique);
+            }
+        }
     }
 }

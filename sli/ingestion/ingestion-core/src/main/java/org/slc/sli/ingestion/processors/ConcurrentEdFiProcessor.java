@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -47,7 +48,6 @@ import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.MongoCommander;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -73,6 +73,9 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
+
+    @Autowired
+    private NeutralRecordAccess neutralRecordAccess;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -116,8 +119,8 @@ public class ConcurrentEdFiProcessor implements Processor {
         String jobId = TenantContext.getJobId();
         String dbName = BatchJobUtils.jobIdToDbName(jobId);
 
-        LOG.info("Indexing staging db {}  for job {}", dbName, jobId);
-        MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
+        LOG.info("Indexing staging db {} for job {}", dbName, jobId);
+        neutralRecordAccess.ensureIndexes();
     }
 
     private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,

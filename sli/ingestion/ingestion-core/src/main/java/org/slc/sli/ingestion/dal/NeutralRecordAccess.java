@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.dal;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
@@ -36,5 +35,10 @@ public interface NeutralRecordAccess {
     long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity);
 
     void cleanupJob(String batchJobId);
+
+    /**
+     * Ensure that the underyling data store has the appropriate indexes.
+     */
+    void ensureIndexes();
 
 }

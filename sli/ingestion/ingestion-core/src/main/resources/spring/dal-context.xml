@@ -68,10 +68,6 @@
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
 
-  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
-    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
-  </bean>
-
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
 
 
@@ -133,5 +129,146 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
+
+  <util:set id="stagingIndexes" set-class="java.util.HashSet">
+    <!-- (collection,unique,indexKeys ...) -->
+    <value>assessment,false,batchJobId,creationTime</value>
+    <value>assessment_transformed,false,batchJobId,creationTime</value>
+    <value>assessmentFamily,false,batchJobId,creationTime</value>
+    <value>assessmentItem,false,batchJobId,creationTime</value>
+    <value>assessmentPeriodDescriptor,false,batchJobId,creationTime</value>
+    <value>attendance,false,batchJobId,creationTime</value>
+    <value>attendance_transformed,false,batchJobId,creationTime</value>
+    <value>calendarDate,false,batchJobId,creationTime</value>
+    <value>cohort,false,batchJobId,creationTime</value>
+    <value>competencyLevelDescriptor,false,batchJobId,creationTime</value>
+    <value>course,false,batchJobId,creationTime</value>
+    <value>courseTranscript,batchJobId,false,creationTime</value>
+    <value>courseTranscript_transformed,false,batchJobId,creationTime</value>
+    <value>courseOffering,false,batchJobId,creationTime</value>
+    <value>disciplineAction,false,batchJobId,creationTime</value>
+    <value>disciplineIncident,false,batchJobId,creationTime</value>
+    <value>educationOrganization,false,batchJobId,creationTime</value>
+    <value>educationOrganizationAssociation,false,batchJobId,creationTime</value>
+    <value>educationOrganizationSchoolAssociation,false,batchJobId,creationTime</value>
+    <value>grade,false,batchJobId,creationTime</value>
+    <value>gradebookEntry,false,batchJobId,creationTime</value>
+    <value>gradingPeriod,false,batchJobId,creationTime</value>
+    <value>graduationPlan,false,batchJobId,creationTime</value>
+    <value>learningObjective,false,batchJobId,creationTime</value>
+    <value>learningObjective_transformed,false,batchJobId,creationTime</value>
+    <value>learningStandard,false,batchJobId,creationTime</value>
+    <value>objectiveAssessment,false,batchJobId,creationTime</value>
+    <value>parent,false,batchJobId,creationTime</value>
+    <value>program,false,batchJobId,creationTime</value>
+    <value>reportCard,false,batchJobId,creationTime</value>
+    <value>school,false,batchJobId,creationTime</value>
+    <value>section,false,batchJobId,creationTime</value>
+    <value>session,false,batchJobId,creationTime</value>
+    <value>staff,false,batchJobId,creationTime</value>
+    <value>staffCohortAssociation,false,batchJobId,creationTime</value>
+    <value>staffEducationOrganizationAssociation,false,batchJobId,creationTime</value>
+    <value>staffProgramAssociation,false,batchJobId,creationTime</value>
+    <value>student,false,batchJobId,creationTime</value>
+    <value>studentAcademicRecord,false,batchJobId,creationTime</value>
+    <value>studentAssessmentAssociation,false,batchJobId,creationTime</value>
+    <value>studentAssessmentAssociation_transformed,false,batchJobId,creationTime</value>
+    <value>studentAssessmentItem,false,batchJobId,creationTime</value>
+    <value>studentCohortAssociation,false,batchJobId,creationTime</value>
+    <value>studentCompetency,false,batchJobId,creationTime</value>
+    <value>studentCompetencyObjective,false,batchJobId,creationTime</value>
+    <value>studentDisciplineIncidentAssociation,false,batchJobId,creationTime</value>
+    <value>studentObjectiveAssessment,false,batchJobId,creationTime</value>
+    <value>studentParentAssociation,false,batchJobId,creationTime</value>
+    <value>studentProgramAssociation,false,batchJobId,creationTime</value>
+    <value>studentSectionAssociation,false,batchJobId,creationTime</value>
+    <value>studentGradebookEntry,false,batchJobId,creationTime</value>
+    <value>studentSchoolAssociation,false,batchJobId,creationTime</value>
+    <value>teacher,false,batchJobId,creationTime</value>
+    <value>teacherSchoolAssociation,false,batchJobId,creationTime</value>
+    <value>teacherSectionAssociation,false,atchJobId,creationTime</value>
+    <!-- put indexes on shard keys (both in sharded and un-sharded configurations) -->
+    <value>assessment,false,batchJobId,_id</value>
+    <value>assessmentFamily,false,batchJobId,_id</value>
+    <value>assessmentItem,false,batchJobId,_id</value>
+    <value>assessmentPeriodDescriptor,false,batchJobId,_id</value>
+    <value>assessment_transformed,false,batchJobId,_id</value>
+    <value>attendance,false,batchJobId,_id</value>
+    <value>attendance_transformed,true,batchJobId,body.studentId,body.schoolId</value>
+    <value>calendarDate,false,batchJobId,_id</value>
+    <value>cohort,false,batchJobId,_id</value>
+    <value>competencyLevelDescriptor,false,batchJobId,_id</value>
+    <value>course,false,batchJobId,_id</value>
+    <value>courseOffering,false,batchJobId,_id</value>
+    <value>courseTranscript,false,batchJobId,_id</value>
+    <value>courseTranscript_transformed,false,batchJobId,_id</value>
+    <value>disciplineAction,false,batchJobId,_id</value>
+    <value>disciplineIncident,false,batchJobId,_id</value>
+    <value>educationOrganization,false,batchJobId,_id</value>
+    <value>educationOrganizationAssociation,false,batchJobId,_id</value>
+    <value>educationOrganizationSchoolAssociation,false,batchJobId,_id</value>
+    <value>grade,false,batchJobId,_id</value>
+    <value>gradebookEntry,false,batchJobId,_id</value>
+    <value>gradingPeriod,false,batchJobId,_id</value>
+    <value>graduationPlan,false,batchJobId,_id</value>
+    <value>learningObjective,false,batchJobId,_id</value>
+    <value>learningObjective_transformed,false,batchJobId,_id</value>
+    <value>learningStandard,false,batchJobId,_id</value>
+    <value>localEducationAgency,false,batchJobId,_id</value>
+    <value>objectiveAssessment,false,batchJobId,_id</value>
+    <value>parent,false,batchJobId,_id</value>
+    <value>program,false,batchJobId,_id</value>
+    <value>reportCard,false,batchJobId,_id</value>
+    <value>school,false,batchJobId,_id</value>
+    <value>section,false,batchJobId,_id</value>
+    <value>sectionAssessmentAssociation,false,batchJobId,_id</value>
+    <value>sectionSchoolAssociation,false,batchJobId,_id</value>
+    <value>session,false,batchJobId,_id</value>
+    <value>sessionCourseAssociation,false,batchJobId,_id</value>
+    <value>staff,false,batchJobId,_id</value>
+    <value>staffCohortAssociation,false,batchJobId,_id</value>
+    <value>staffEducationOrganizationAssociation,false,batchJobId,_id</value>
+    <value>staffProgramAssociation,false,batchJobId,_id</value>
+    <value>stateEducationAgency,false,batchJobId,_id</value>
+    <value>student,false,batchJobId,_id</value>
+    <value>studentAcademicRecord,false,batchJobId,_id</value>
+    <value>studentAssessmentAssociation,false,batchJobId,_id</value>
+    <value>studentAssessmentAssociation_transformed,false,batchJobId,_id</value>
+    <value>studentAssessmentItem,false,batchJobId,_id</value>
+    <value>studentCohortAssociation,false,batchJobId,_id</value>
+    <value>studentCompetency,false,batchJobId,_id</value>
+    <value>studentCompetencyObjective,false,batchJobId,_id</value>
+    <value>studentDisciplineIncidentAssociation,false,batchJobId,_id</value>
+    <value>studentGradebookEntry,false,batchJobId,_id</value>
+    <value>studentObjectiveAssessment,false,batchJobId,_id</value>
+    <value>studentParentAssociation,false,batchJobId,_id</value>
+    <value>studentProgramAssociation,false,batchJobId,_id</value>
+    <value>studentSchoolAssociation,false,batchJobId,_id</value>
+    <value>studentSectionAssociation,false,batchJobId,_id</value>
+    <value>teacher,false,batchJobId,_id</value>
+    <value>teacherSchoolAssociation,false,batchJobId,_id</value>
+    <value>teacherSectionAssociation,false,batchJobId,_id</value>
+    <!-- other indexes required for responsiveness of staging database during transformations -->
+    <value>assessmentFamily,false,batchJobId,body.AssessmentFamilyIdentificationCode.ID</value>
+    <value>assessmentItem,false,batchJobId,body.identificationCode</value>
+    <value>assessmentItem,false,batchJobId,localId</value>
+    <value>assessmentPeriodDescriptor,false,batchJobId,body.codeValue</value>
+    <value>assessmentPeriodDescriptor,false,batchJobId,body.codeValue</value>
+    <value>disciplineIncident,false,batchJobId,body.id</value>
+    <value>school,false,batchJobId,body.stateOrganizationId</value>
+    <value>session,false,batchJobId,body.schoolId</value>
+    <value>studentAssessmentItem,false,batchJobId,localParentIds.studentResultRef</value>
+    <value>studentAssessmentItem,false,batchJobId,localParentIds.studentAssessmentReference.studentReference.studentUniqueStateId,localParentIds.studentAssessmentReference.administrationDate,localParentIds.studentAssessmentReference.assessmentReference.identificationSystem,localParentIds.studentAssessmentReference.assessmentReference.id
+    </value>
+    <value>studentObjectiveAssessment,false,batchJobId,body.studentAssessmentRef</value>
+    <value>studentObjectiveAssessment,false,batchJobId,body.studentAssessmentReference.studentReference.studentUniqueStateId,body.studentAssessmentReference.administrationDate,body.studentAssessmentReference.assessmentReference.identificationSystem,body.studentAssessmentReference.assessmentReference.id
+    </value>
+    <value>studentSchoolAssociation,false,batchJobId,body.studentId</value>
+  </util:set>
+
+  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
+    <property name="stagingIndexes" ref="stagingIndexes" />
+  </bean>
 
 </beans>

@@ -1449,5 +1449,11 @@ public class BalancedTimestampSplitStrategyTest {
         public void cleanupJob(String batchJobId) {
             // nothing
         }
+
+        @Override
+        public void ensureIndexes() {
+            // TODO Auto-generated method stub
+
+        }
     }
 }

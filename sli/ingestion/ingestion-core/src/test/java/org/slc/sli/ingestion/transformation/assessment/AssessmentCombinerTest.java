@@ -125,7 +125,7 @@ public class AssessmentCombinerTest {
 
         when(repository.findAllByQuery(Mockito.eq("assessment"), Mockito.any(Query.class))).thenReturn(assessments);
         when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class))).thenReturn(families);
-        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(String.class), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
+        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
 
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
