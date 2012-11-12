@@ -40,13 +40,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <pre>
  * &lt;complexType name="CourseOfferingReferenceType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://ed-fi.org/0100}ReferenceType">
  *       &lt;sequence>
- *         &lt;element name="CourseOfferingIdentity" type="{http://ed-fi.org/0100}CourseOfferingIdentityType" minOccurs="0"/>
+ *         &lt;element name="CourseOfferingIdentity" type="{http://ed-fi.org/0100}CourseOfferingIdentityType"/>
  *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
  * 
@@ -57,7 +53,6 @@ import javax.xml.bind.annotation.XmlType;
     "courseOfferingIdentity"
 })
 public class CourseOfferingReferenceType
-    extends ReferenceType
 {
 
     @XmlElement(name = "CourseOfferingIdentity")

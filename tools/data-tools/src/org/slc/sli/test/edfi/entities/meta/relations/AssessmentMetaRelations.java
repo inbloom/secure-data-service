@@ -89,6 +89,7 @@ public class AssessmentMetaRelations {
 
             for (AssessmentItemMeta assessmentItemMeta : aggregateAssessmentItems()) {
                 assessmentMeta.assessmentItemIds.add(assessmentItemMeta.id);
+                assessmentItemMeta.setAssessmentId(assessmentMeta.id);
             }
 
             for (PerformanceLevelDescriptorMeta perfLevelDescMeta : aggregatePerfLevelDesc()) {
@@ -310,6 +311,7 @@ public class AssessmentMetaRelations {
         for (LearningStandardMeta learningStandardMeta : aggregateLearningStandards()) {
             assessmentItemMeta.learningStandardIds.add(learningStandardMeta.id);
         }
+        
         ASSESSMENT_ITEM_MAP.put(assessmentItemMeta.id, assessmentItemMeta);
         return assessmentItemMeta;
     }

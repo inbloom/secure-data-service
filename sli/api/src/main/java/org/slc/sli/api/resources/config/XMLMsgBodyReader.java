@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 /**
  * XML Deserializer
@@ -45,7 +45,7 @@ import org.slc.sli.api.resources.Resource;
  */
 @Provider
 @Component
-@Consumes({ MediaType.APPLICATION_XML + ";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE + ";charset=utf-8" })
+@Consumes({ HypermediaType.XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class XMLMsgBodyReader implements MessageBodyReader<EntityBody> {
 
     @Autowired

@@ -1,12 +1,5 @@
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -22,6 +15,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Abstract class that all context validators must extend.
@@ -198,8 +198,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected boolean isPublic(String type) {
         return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD)
- || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
+                || type.equals(EntityNames.LEARNING_STANDARD);
     }
 
     /**
