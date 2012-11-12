@@ -380,9 +380,9 @@ When /^I click on the In Progress button$/ do
   ed_org = build_edorg("Some State", "developer-email@slidev.org")
   ed_org[:body][:organizationCategories] = ["State Education Agency"]
   @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict")
+  ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict", true)
   @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool")
+  ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool", false)
   @mongo_ids << db.insert(ed_org)
   step 'I clicked on the button Edit for the application "NewApp"'
   db.remove()
@@ -392,17 +392,18 @@ Then /^I can see the ed\-orgs I want to approve for my application$/ do
 end
 
 private
-def build_edorg(name, tenant, parent = nil, stateId = "Waffles")
+def build_edorg(name, tenant, parent = nil, stateId = "Waffles", isLea=true)
   @@mongoid ||= 0
   ed_org = {}
   ed_org[:_id] = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb#{@@mongoid}"
   ed_org[:body] = {}
   ed_org[:metaData] = {}
   ed_org[:metaData][:tenantId] = tenant
+  ed_org[:body][:address] = [{:stateAbbreviation => 'WA'}]
   ed_org[:body][:nameOfInstitution] = name
   ed_org[:body][:parentEducationAgencyReference] = parent
   ed_org[:body][:stateOrganizationId] = stateId
-  ed_org[:body][:organizationCategories] = ["School"]
+  ed_org[:body][:organizationCategories] = isLea ? ["Local Education Agency"] : ["School"]
   @@mongoid += 1
   ed_org
 end
