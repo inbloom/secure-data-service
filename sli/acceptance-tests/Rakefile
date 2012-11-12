@@ -1188,6 +1188,16 @@ task :importUnifiedData => [:realmInit] do
   setMultipleFixtureFiles(testHash)
 end
 
+desc "Turn on notablescan flag"
+task :turnOnNOTABLESCAN do
+  enable_NOTABLESCAN
+end
+
+desc "Turn off notablescan flag"
+task :turnOffNOTABLESCAN do
+  disable_NOTABLESCAN
+end
+
 def addSecurityData()
   sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
 end

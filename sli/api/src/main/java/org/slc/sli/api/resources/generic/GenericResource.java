@@ -143,7 +143,7 @@ public abstract class GenericResource {
             queryString = "";
         } else {
             try {
-                queryString = "?" + URLEncoder.encode(decoded, "UTF-8");
+                queryString = URLEncoder.encode(decoded, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 error("unsupported encoding exception when parsing query parameters: {}", e);
             }

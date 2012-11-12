@@ -56,6 +56,42 @@ public interface ErrorReport {
     void warning(String message, Object sender);
 
     /**
+     * Overloaded callback for validation fatal error reporting.
+     *
+     * @param message
+     *            Validation message
+     * @param resourceId
+     *            New Resource ID to include
+     * @param sender
+     *            Sender of the message
+     */
+    void fatal(String message, String resourceId, Object sender);
+
+    /**
+     * Overloaded callback for validation error reporting.
+     *
+     * @param message
+     *            Validation message
+     * @param resourceId
+     *            New Resource ID to include
+     * @param sender
+     *            Sender of the message
+     */
+    void error(String message, String resourceId, Object sender);
+
+    /**
+     * Overloaded callback for validation warning reporting.
+     *
+     * @param message
+     *            Validation message
+     * @param resourceId
+     *            New Resource ID to include
+     * @param sender
+     *            Sender of the message
+     */
+    void warning(String message, String resourceId, Object sender);
+
+    /**
      * Indicates whether this ErrorReport contains any errors.
      *
      * @return true if errors have been reported
