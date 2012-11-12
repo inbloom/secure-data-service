@@ -19,14 +19,14 @@
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntryBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="studentId" data="attributes studentId" />
+    <jb:value property="studentId" data="attributes StudentReference" />
     <jb:value property="sectionId" data="attributes SectionReference" />
     <jb:value property="gradebookEntryId" data="attributes GradebookEntryReference" />
     <jb:value property="dateFulfilled" data="attributes dateFulfilled" />
     <jb:value property="letterGradeEarned" data="attributes letterGradeEarned" />
     <jb:value property="numericGradeEarned" data="attributes numericGradeEarned" decoder="Integer" />
     <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
-    <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
+    <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
   </jb:bean>
 
 </smooks-resource-list>

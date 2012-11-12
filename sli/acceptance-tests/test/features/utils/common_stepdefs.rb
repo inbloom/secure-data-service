@@ -114,11 +114,33 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, hre
    assert(found, "Link not found rel=#{rel}, href ends with=#{href}")  
 end
 
+Then /^I should not receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
+  assert(@result.has_key?("links"), "Response contains no links")
+  found = false
+  if !rel.nil? && !rel.empty?
+    @result["links"].each do |link|
+      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+        found = true
+      end
+    end
+  else
+    found = true
+  end
+   assert(!found, "Link found rel=#{rel}, href ends with=#{href}")  
+end
+
+
 When /^I PUT the entity to "([^"]*)"$/ do |url|
   data = prepareData(@format, @result)
   restHttpPut(url, data)
   assert(@res != nil, "Response from rest-client PUT is nil '#{@res}'")
   assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil '#{@res.body}'")
+end
+
+When /^I try to PUT the entity to "([^"]*)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil '#{@res}'")
 end
 
 When /^I POST the entity to "([^"]*)"$/ do |url|

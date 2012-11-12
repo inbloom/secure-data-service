@@ -25,12 +25,12 @@
         <jb:value property="cohortType" data="attributes cohortType" />
         <jb:value property="cohortScope" data="attributes cohortScope" />
         <jb:value property="academicSubject" data="attributes academicSubject" />
-        <jb:value property="educationOrgId" data="attributes educationOrgId" />
+        <jb:value property="educationOrgId" data="attributes EducationOrgReference" />
         <jb:wiring property="programId" beanIdRef="cohort_programIdArray" />
     </jb:bean>
 
     <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList" createOnElement="attributes">
-      <jb:value data="attributes programId element" />
+      <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 
 </smooks-resource-list>

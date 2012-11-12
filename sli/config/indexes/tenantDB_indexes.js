@@ -14,21 +14,33 @@
 // limitations under the License.
 //
 
+///////////////////////////////////////////////////////////////////
+// Low cardinality collections
+///////////////////////////////////////////////////////////////////
 
+// approved 10/30 by Tony/Billy
 db["adminDelegation"].ensureIndex({"body.localEdOrgId":1,"body.appApprovalEnabled":1});  // admin rights to users
 
+// approved 10/30 by Tony/Billy
 db["applicationAuthorization"].ensureIndex({"body.appIds":1});  //app auth
+// approved 10/30 by Tony/Billy
 db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});  //app auth
 
+// approved 10/30 by Tony/Billy
 db["customRole"].ensureIndex({"body.realmId":1});  //api-every call
+// approved 10/30 by Tony/Billy
 db["customRole"].ensureIndex({"metaData.tenantId":1,"body.realmId":1});  // create custom role for realm
 
-
-//custom entities
+// approved 10/30 by Tony/Billy
 db["custom_entities"].ensureIndex({"metaData.entityId":1,"metaData.clientId":1});
 
+///////////////////////////////////////////////////////////////////
+// _id indexes for embedded entities
+///////////////////////////////////////////////////////////////////
 
-//_id indexes for embedded entities
+// These should not be needed - we should be able to search on the _id of the container entity
+// Billy is investigating these
+
 //studentProgramAssociation is embedded into program
 db["program"].ensureIndex({"studentProgramAssociation._id":1});
 //studentAssessmentAssociation embedded into student
@@ -40,8 +52,12 @@ db["section"].ensureIndex({"teacherSectionAssociation._id":1});
 //gradebookEntry embedded into section
 db["section"].ensureIndex({"gradebookEntry._id":1});
 
+///////////////////////////////////////////////////////////////////
+// direct references - index on each direct reference
+///////////////////////////////////////////////////////////////////
 
-//direct references - index on each direct reference
+// These indexes will be reviewed as part of US4658
+
 db["attendance"].ensureIndex({"body.schoolId":1});
 db["attendance"].ensureIndex({"body.studentId":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1});
@@ -122,10 +138,12 @@ db["teacherSchoolAssociation"].ensureIndex({"body.teacherId":1});
 db["section"].ensureIndex({"teacherSectionAssociation.body.sectionId":1});
 db["section"].ensureIndex({"teacherSectionAssociation.body.teacherId":1});
 
+///////////////////////////////////////////////////////////////////
+// staff context resolver access - stamped edOrgs
+///////////////////////////////////////////////////////////////////
 
-//staff context resolver access - stamped edOrgs
-//TODO this section can be removed when staff stamper goes away (stamper indexes below)
-//stories US4056, US4466
+// This section can be removed when staff stamper goes away (stamper indexes below)
+//stories US4056, US4466 (Lucky Strike)
 db["assessment"].ensureIndex({"metaData.edOrgs":1});
 db["attendance"].ensureIndex({"metaData.edOrgs":1});
 db["calendarDate"].ensureIndex({"metaData.edOrgs":1});
@@ -175,11 +193,17 @@ db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1});
 db["schoolSessionAssociation"].ensureIndex({"body.sessionId":1});
 
+///////////////////////////////////////////////////////////////////
+// Ingestion
+///////////////////////////////////////////////////////////////////
 
-//profiled - ingestion
-db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});
-db["assessment"].ensureIndex({"body.assessmentPeriodDescriptor.codeValue":1});
-db["assessment"].ensureIndex({"body.assessmentTitle":1,"body.academicSubject":1,"body.gradeLevelAssessed":1});
+// These indexes are all ued by ingestion and should be removed as part of
+// reference resolution work
+// TONY - Need to tie these to reference resolution stories
+
+db["assessment"].ensureIndex({"body.assessmentIdentificationCode":1});  // US4388
+db["assessment"].ensureIndex({"body.assessmentPeriodDescriptor.codeValue":1});  // US4388
+db["assessment"].ensureIndex({"body.assessmentTitle":1,"body.academicSubject":1,"body.gradeLevelAssessed":1});  // US4388
 db["calendarDate"].ensureIndex({"body.date":1,"body.calendarEvent":1});
 db["course"].ensureIndex({"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["disciplineIncident"].ensureIndex({"body.incidentIdentifier":1});
@@ -200,8 +224,12 @@ db["student"].ensureIndex({"body.studentUniqueStateId":1});
 db["studentCompetency"].ensureIndex({"metaData.externalId":1,"metaData.studentUniqueStateId":1,"metaData.uniqueSectionCode":1},{"name":"studentCompetencyId_externalId_stateId_sectionCode"});
 db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId":1});
 
+///////////////////////////////////////////////////////////////////
+// Profiled
+///////////////////////////////////////////////////////////////////
 
-//profiled
+//These indexes will be reviewed as part of US4658
+
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1,"type":1});
 db["educationOrganization"].ensureIndex({"type":1,"body.nameOfInstitution":1});
 db["gradingPeriod"].ensureIndex({"body.beginDate":1,"metaData.edOrgs":1});
@@ -211,3 +239,9 @@ db["staff"].ensureIndex({"type":1});
 
 // TODO: Index to make querying acceptance tests pass - this is really bad!!
 db["reportCard"].ensureIndex({"body.gpaCumulative":1});
+
+//US4365
+db["student"].ensureIndex({"cohort._id" : 1});
+
+// US4602, checked with Billy.
+db["educationOrganization"].ensureIndex({"body.organizationCategories":1});

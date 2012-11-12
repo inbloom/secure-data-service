@@ -37,7 +37,7 @@ Transform /^<.+>$/ do |template|
   id = "891faebe-bc84-4e0c-b7f3-195637cd981e" if template == "<'Tomasa Cleaveland' ID>"
   id = "ffee781b-22b1-4015-81ff-3289ceb2c113" if template == "<'Merry Mccanse' ID>"
   id = "5dd72fa0-98fe-4017-ab32-0bd33dc03a81" if template == "<'Samantha Scorzelli' ID>"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if template == "<'Matt Sollars' ID>"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if template == "<'Matt Sollars' ID>"
   id = "32932b97-d466-4d3c-9ebe-d58af010a87c" if template == "<'Dominic Brisendine' ID>"
   id = "6f60028a-f57a-4c3d-895f-e34a63abc175" if template == "<'Lashawn Taite' ID>"
   id = "4f81fd4c-c7c5-403e-af91-6a2a91f3ad04" if template == "<'Oralia Merryweather' ID>"
@@ -61,31 +61,16 @@ Transform /^<.+>$/ do |template|
   id = "e2d8ba15-953c-4cf7-a593-dbb419014901" if template == "<'Gerardo Rounsaville' ID>"
   id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if template == "<'SAT READING' ID>"
   id = "5b0253d3-eb53-4c81-9e65-2f1f8347facc" if template == "<'French period 5' ID>"
-  id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "<'8th Grade English - Sec 5' ID>"
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e" if template == "<'8th Grade English - Sec 6' ID>"
+  id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "<'8th Grade English - Sec 5' ID>"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if template == "<'8th Grade English - Sec 6' ID>"
   id = "7847b027-687d-46f0-bc1a-36d3c16956aa" if template == "<'Science 7A - Sec 5f10' ID>"
-
-
-
-
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if template == "<'Matt Sollars Assessment' ID>"
   id
 end
-
-# transform /path/<Place Holder Id>
-#Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
-#  uri + Transform(template)
-#end
-
-# transform /path/<Place Holder Id>/targets
-#Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
-#  Transform(uri + template) + "/targets"
-#end
 
 Transform /^([^"]*)\/(<.+>)([^"]*)$/ do |pre_url, template, post_url|
   pre_url + "/" + Transform(template) + Transform(post_url)
 end
-
-
 
 When /^I navigate to "([^"]*)" with URI "([^"]*)"$/ do |rel,href|
   restHttpGet(href)
@@ -95,6 +80,13 @@ end
 When /^I navigate to "([^"]*)" with URI "(\/v1\/teachers\/<[^>]*>)\/teacherSectionAssociations\/sections" and filter by uniqueSectionCode is "([^"]*)"$/ do |rel, href, sectionCode|
   queryParams = "uniqueSectionCode="+sectionCode
   uri = href+"/teacherSectionAssociations/sections?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I navigate to "([^"]*)" with URI "(\/v1\/students\/<[^>]*>)\/studentAssessments" and filter by administrationDate is between "([^"]*)" and "([^"]*)"$/ do |rel, href, date1, date2|
+  queryParams = "administrationDate>"+date1+"&administrationDate<"+date2
+  uri = href+"/studentAssessments?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -245,7 +237,7 @@ Then /^I should find a ScoreResult is (\d+)$/ do |scoreResult|
     dataH=JSON.parse(@res.body)
     found = false
     dataH["scoreResults"].each do |result|
-      if result["result"]==scoreResult
+      if Integer(result["result"])==scoreResult
         found = true
       end
     end

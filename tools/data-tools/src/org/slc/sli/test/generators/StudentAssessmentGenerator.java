@@ -38,7 +38,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentAssessmentGenerator {
     private static final boolean INCLUDE_OPTIONAL_DATA = true;
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random(31);
     private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
 
     public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {

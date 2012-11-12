@@ -13,10 +13,26 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
@@ -168,7 +184,14 @@
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->
-	<AssessmentItem id="AssessmentItem-1">
+	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -189,7 +212,14 @@
 		</LearningStandardReference>
 	</AssessmentItem>
 
-	<AssessmentItem id="AssessmentItem-2">
+	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -210,7 +240,14 @@
 		</LearningStandardReference>
 	</AssessmentItem>
 
-	<AssessmentItem id="AssessmentItem-3">
+	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-3</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
@@ -224,7 +261,14 @@
 		</LearningStandardReference>
 	</AssessmentItem>
 
-	<AssessmentItem id="AssessmentItem-4">
+	<AssessmentItem>
+		<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
 		<IdentificationCode>AssessmentItem-4</IdentificationCode>
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>

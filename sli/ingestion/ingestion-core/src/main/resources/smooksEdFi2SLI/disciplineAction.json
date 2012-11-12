@@ -49,12 +49,13 @@
         }
     },
     {
-        "fieldPath" : "body.disciplineIncidentId",
+        "fieldPath" : "body.DisciplineIncidentReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "disciplineIncident",
             "isRefList" : true,
-            "refObjectPath" : "body.disciplineIncidentReference",
+            "refObjectPath" : "body.DisciplineIncidentReference",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
@@ -63,7 +64,7 @@
                         "path" : "body.incidentIdentifier",
                         "values" :
                         [
-                            {"valueSource" : "body.disciplineIncidentReference.disciplineIncidentIdentity.incidentIdentifier"}
+                            {"valueSource" : "body.DisciplineIncidentReference.DisciplineIncidentIdentity.IncidentIdentifier"}
                         ]
                     },
                     {
@@ -80,7 +81,7 @@
                                 "path" : "body.stateOrganizationId",
                                 "values":
                                 [
-                                {"valueSource": "body.disciplineIncidentReference.disciplineIncidentIdentity.stateOrganizationId"}
+                                {"valueSource": "body.DisciplineIncidentReference.DisciplineIncidentIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"}
                                 ]
                             }
                         ]
@@ -95,9 +96,10 @@
     },
     {
         "fieldPath" : "body.responsibilitySchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
+            "entityType" : "educationOrganization",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
@@ -115,9 +117,10 @@
     },
     {
         "fieldPath" : "body.assignmentSchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
+            "entityType" : "educationOrganization",
             "takesContext" : ["edOrgs"],
             "optional" : "true",
             "choiceOfFields" :

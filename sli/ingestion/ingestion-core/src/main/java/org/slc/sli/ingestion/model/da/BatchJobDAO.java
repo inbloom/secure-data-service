@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -47,32 +48,13 @@ public interface BatchJobDAO {
     @Deprecated
     List<Error> findBatchJobErrors(String batchJobId);
 
-    public Iterable<Error> getBatchJobErrors(String jobId, int limit);
+    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit);
 
     void saveError(Error error);
 
     void saveBatchJobStage(String batchJobId, Stage stage);
 
     List<Stage> getBatchJobStages(String batchJobId);
-
-    /**
-     * Try to acquire a lock on the provided tenant, on behalf of the provided job id.
-     *
-     * @param tenantId
-     * @param batchJobId
-     *
-     * @return true if lock was acquired. false otherwise.
-     */
-    boolean attemptTentantLockForJob(String tenantId, String batchJobId);
-
-    /**
-     * Release lock (if present) for the given tenant if it is held by a job with the provided id.
-     *
-     * @param tenantId
-     * @param batchJobId
-     */
-    void releaseTenantLockForJob(String tenantId, String batchJobId);
-
     /**
      * Populate a shared-resource data structure that can be used to synchronize processing
      *
@@ -118,10 +100,9 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    boolean findAndUpsertRecordHash(String tenantId, String recordId);
+    void upsertRecordHash(String tenantId, String recordId);
 
     void removeRecordHashByTenant(String tenantId);
 
     public RecordHash findRecordHash(String tenantId, String recordId);
-
 }

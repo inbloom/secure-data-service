@@ -40,16 +40,16 @@ API_DB_NAME = convertTenantIdToDbName(DB_NAME);
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  id = "students"                               if human_readable_id == "STUDENT URI"
-  id = "sections"                               if human_readable_id == "SECTION URI"
-  id = "schools"                                if human_readable_id == "SCHOOL URI"
-  id = "studentSchoolAssociations"              if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
-  id = "studentSectionAssociations"             if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
-  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"   if human_readable_id == "English Sec 6"
-  id = "45831a9d-772e-45b3-9024-fa76ca4fe558"   if human_readable_id == "English Sec 7"
-  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "South Daybreak Elementary ID"
+  id = "students"                                if human_readable_id == "STUDENT URI"
+  id = "sections"                                if human_readable_id == "SECTION URI"
+  id = "schools"                                 if human_readable_id == "SCHOOL URI"
+  id = "studentSchoolAssociations"               if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
+  id = "studentSectionAssociations"              if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "English Sec 6"
+  id = "45831a9d-772e-45b3-9024-fa76ca4fe558"    if human_readable_id == "English Sec 7"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"    if human_readable_id == "South Daybreak Elementary ID"
 
-  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
+  id = @newId                                    if human_readable_id == "NEWLY CREATED ENTITY ID"
 
   #return the translated value
   id
@@ -93,7 +93,14 @@ Given /^parameter "([^"]*)" matches via regex "([^"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=~" "#{value}"}
 end
 
-
+When /^I have a valid school association for the student$/ do
+  @fields = {
+    "studentId" => @newId,
+    "schoolId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "entryDate" => "2012-11-02",
+    "entryGradeLevel" => "Eighth grade"
+  }
+end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
@@ -267,7 +274,7 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
       object = object[f]
     end
   end
-  object.should_not == value
+  object.should_not =~ /#{value}/i
 end
 
 Then /^all students should have "([^\"]*)" equal to "([^\"]*)"$/ do |field, value|

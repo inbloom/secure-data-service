@@ -50,7 +50,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -68,8 +68,8 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("/users")
-@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Consumes({ HypermediaType.JSON + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class UserResource {
     @Autowired
     private LdapService ldapService;

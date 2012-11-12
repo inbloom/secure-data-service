@@ -24,6 +24,7 @@ require 'socket'
 require 'net/sftp'
 require 'net/http'
 require 'rest-client'
+require 'rbconfig'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -53,6 +54,8 @@ INGESTION_RC_EDORG = PropLoader.getProps['ingestion_rc_edorg']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT", INGESTION_RC_TENANT]
 
 INGESTION_LOGS_DIRECTORY = PropLoader.getProps['ingestion_log_directory']
+
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
 ############################################################
 # STEPS: BEFORE
@@ -175,30 +178,6 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['jobId', 1]] , :unique => true)
   @collection.remove({ '_id' => " " })
-end
-
-def cloneAllIndexes(db_connection, source_db_name, target_db_name)
-  puts "cloning indexes from #{source_db_name} -> #{target_db_name}"
-  source_db = db_connection[source_db_name]
-
-  source_indexes = source_db["system.indexes"].find()
-  source_indexes.each do |index|
-
-    collection_name = index['ns'][source_db_name.length+1, index['ns'].length]
-
-    index_spec_array  = Array.new
-    index['key'].each do |index_spec|
-      index_component_array = Array.new
-      index_spec.each do |index_component|
-        index_component_array.push(index_component)
-      end
-      index_spec_array.push(index_component_array)
-    end
-
-    target_collection = db_connection[target_db_name][collection_name]
-    #puts "cloning index #{source_db_name} -> #{target_db_name}(#{collection_name}): #{index_spec_array}, name: #{index['name']}"
-    target_collection.ensure_index(index_spec_array, :name => index['name'])
-  end
 end
 
 def initializeTenants()
@@ -846,6 +825,24 @@ Given /^the following collections are completely empty in batch job datastore$/ 
   enable_NOTABLESCAN()
 end
 
+When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => false}})
+end
+
+Then /^the tenant with tenantId "(.*?)" is unlocked$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$set" => {"body.tenantIsReady" => true}})
+end
+
+Then /^the tenantIsReady flag for the tenant "(.*?)" is reset$/ do |tenantId|
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.update({"body.tenantId" => tenantId}, {"$unset" => {"body.tenantIsReady" => 1}})
+end
+
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   disable_NOTABLESCAN()
 
@@ -893,7 +890,6 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   # index the new tenant db
   dbName = convertTenantIdToDbName('Midgar')
-  cloneAllIndexes(@conn, dbName, @ingestion_db_name)
 
   @body = {
     "tenantId" => tenant,
@@ -1051,10 +1047,9 @@ Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
   @lzs_to_remove.push(lz_key)
 end
 
-Given /^the tenant database does not exist/ do
-  puts "Dropping database:" + @ingestion_db_name
-  @conn.drop_database(@ingestion_db_name)
-  @tenantColl.update({"body.dbName" => @ingestion_db_name}, {"$unset" => {"body.tenantIsReady" => 1}})
+Given /^the tenant database for "([^"]*)" does not exist/ do |tenantToDrop|
+  puts "Dropping database for:" + tenantToDrop
+  @conn.drop_database(convertTenantIdToDbName(tenantToDrop))
 end
 
 Given /^the log directory contains "([^"]*)" file$/ do |logfile|
@@ -1331,6 +1326,8 @@ def scpFileToLandingZone(filename)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1352,6 +1349,8 @@ def scpFileToLandingZoneWithNewName(filename, dest_file_name)
     FileUtils.cp @source_path, @destination_path
   end
 
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1371,6 +1370,8 @@ def scpFileToParallelLandingZone(lz, filename)
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
   end
+
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1467,6 +1468,10 @@ def subDocParent(collectionName)
      "student"
     when "studentProgramAssociation"
       "program"
+    when "studentParentAssociation"
+      "student"
+    when "studentCohortAssociation"
+      "cohort"
     else
       nil
   end
@@ -1521,6 +1526,9 @@ def subdocMatch(subdoc, key, match_value)
         path = keys[i]
         if tmp.is_a? Hash
             tmp = tmp[path]
+            if tmp.is_a? Integer
+                tmp = tmp.to_s()
+            end
             if i == keys.length - 1
                 if match_value.is_a? Array and tmp.is_a? Array
                     @contains = true if (match_value & tmp).size > 0
@@ -2309,10 +2317,12 @@ Then /^the following collections counts are the same:$/ do |table|
 end
 
 Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
-  @db = @conn[@ingestion_db_name]
+  @db = @conn[INGESTION_DB_NAME]
   appColl = @db.collection("application")
 
   application = appColl.find({"_id" => arg1})
+
+  assert(application.count == 1, "didn't find an application")
 
   application.each do |app|
     numEdorg = app['body']['authorized_ed_orgs'].size
@@ -2359,6 +2369,7 @@ def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
 end
 
 Then /^I check that ids were generated properly:$/ do |table|
+  disable_NOTABLESCAN()
   @db = @conn[@ingestion_db_name]
   table.hashes.map do |row|
     subdoc_parent = subDocParent row["collectionName"]
@@ -2377,6 +2388,7 @@ Then /^I check that ids were generated properly:$/ do |table|
 
     assert(@entity_count == "1", "Expected 1 entity in collection #{collection} where _id = #{did} and #{field} = #{value}, found #{@entity_count}")
   end
+  enable_NOTABLESCAN()
 end
 
 ############################################################

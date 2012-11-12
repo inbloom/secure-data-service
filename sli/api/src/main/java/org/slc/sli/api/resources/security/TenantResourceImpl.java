@@ -55,8 +55,8 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -75,7 +75,7 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("tenants")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantResource {
 
     @Value("${sli.sandbox.enabled}")
@@ -101,7 +101,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     private RealmHelper realmHelper;
 
     @Autowired
-    private IngestionTenantLockChecker lockChecker;
+    private IngestionOnboardingLockChecker lockChecker;
 
     @Autowired
     private SecurityUtilProxy secUtil;
@@ -430,6 +430,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             // "Ingestion is locked for this tenant");
             return Response.status(Status.CONFLICT).build();
         }
+
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) entity.get("landingZone");
         if (landingZones == null || landingZones.isEmpty()) {
@@ -489,11 +490,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         return super.update(uuid, tenant, headers, uriInfo);
     }
 
-    IngestionTenantLockChecker getLockChecker() {
+    IngestionOnboardingLockChecker getLockChecker() {
         return lockChecker;
     }
 
-    void setLockChecker(IngestionTenantLockChecker lockChecker) {
+    void setLockChecker(IngestionOnboardingLockChecker lockChecker) {
         this.lockChecker = lockChecker;
     }
 

@@ -138,7 +138,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
 
             try {
-                Map<String, Object> assessment = (Map<String, Object>) attributes.get("assessmentId");
+                Map<String, Object> assessment = (Map<String, Object>) attributes.get("AssessmentReference");
                 Map<String, Object> assessmentIdentity = (Map<String, Object>) assessment.get("AssessmentIdentity");
 
                 assessmentTitle = (String) assessmentIdentity.get(ASSESSMENT_TITLE);
@@ -344,7 +344,20 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        /*
+                         * remove the assessmentReference from assessmentItem because current sli
+                         * data
+                         * model does not has this attribute, it will not pass the validation
+                         * when save
+                         * to sli db. The assessmentreference will be used for supporting out of
+                         * order
+                         * ingestion in the future
+                         */
+                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                            assessmentItemAttrs.remove("assessmentReference");
+                        }
+                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
@@ -383,7 +396,20 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                        /*
+                         * remove the assessmentReference from assessmentItem because current sli
+                         * data
+                         * model does not has this attribute, it will not pass the validation
+                         * when save
+                         * to sli db. The assessmentreference will be used for supporting out of
+                         * order
+                         * ingestion in the future
+                         */
+                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                            assessmentItemAttrs.remove("assessmentReference");
+                        }
+                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "

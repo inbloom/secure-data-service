@@ -22,6 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +36,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for Assessment Entities
@@ -54,6 +56,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
+    private static final String ASSESSMENT_ITEM = "assessmentItem";
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -125,11 +128,16 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
 
-            if (attrs.containsKey("assessmentItem")) {
+            if (attrs.containsKey(ASSESSMENT_ITEM)) {
                 @SuppressWarnings("unchecked")
-                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get("assessmentItem");
+                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM);
                 if (items == null || items.size() == 0) {
-                    attrs.remove("assessmentItem");
+                    attrs.remove(ASSESSMENT_ITEM);
+                } else {
+                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
+                    if (assessmentItems != null) {
+                        attrs.put(ASSESSMENT_ITEM, assessmentItems);
+                    }
                 }
             }
 
@@ -142,6 +150,44 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedAssessments.add(neutralRecord);
         }
+    }
+
+    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
+        List<String> identificationCodes = new ArrayList<String>();
+        //build in clause
+        for (Map<String, Object> item : itemReferences) {
+            if (item.containsKey("identificationCode")) {
+                identificationCodes.add((String) item.get("identificationCode"));
+            }
+        }
+
+        if (identificationCodes.size() > 0) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("query for assessmentItems: {}", identificationCodes);
+            }
+            NeutralQuery constraint = new NeutralQuery();
+            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN, identificationCodes));
+            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
+            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, getJob().getId(), constraint);
+            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
+            if (records != null) {
+                for (NeutralRecord record : records) {
+                    // remove the assessmentReference from assessmentItem because current sli data
+                    // model does not has this attribute, it will not pass the validation when save
+                    // to sli db. The assessmentreference will be used for supporting out of order
+                    // ingestion in the future
+                    Map<String, Object> itemAttributes = record.getAttributes();
+                    if (itemAttributes.containsKey("assessmentReference")) {
+                        itemAttributes.remove("assessmentReference");
+                    }
+                    assessmentItems.add(itemAttributes);
+                }
+
+                return assessmentItems;
+            }
+        }
+
+        return null;
     }
 
     @SuppressWarnings("unchecked")

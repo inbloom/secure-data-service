@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -68,17 +67,6 @@ public class ZipFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
         processZipFile(exchange);
     }
 
@@ -94,8 +82,8 @@ public class ZipFileProcessor implements Processor {
             File zipFile = exchange.getIn().getBody(File.class);
 
             newJob = createNewBatchJob(zipFile);
-            TenantContext.setTenantId(newJob.getTenantId());
 
+            TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();
@@ -113,6 +101,8 @@ public class ZipFileProcessor implements Processor {
             setExchangeHeaders(exchange, errorReport, newJob);
 
             setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
+
+            zipFile.delete();
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, exception);

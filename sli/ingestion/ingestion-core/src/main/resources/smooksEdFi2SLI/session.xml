@@ -26,11 +26,11 @@
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
         <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
-        <jb:value property="schoolId" data="attributes schoolId" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes gradingPeriodReference element" />
+        <jb:value data="attributes GradingPeriodReference element" />
     </jb:bean>
 
 </smooks-resource-list>

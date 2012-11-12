@@ -24,14 +24,13 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  *
@@ -60,7 +59,10 @@ public class ObjectiveAssessmentEntityTest {
             + "      <CodeValue>codevalue</CodeValue>"
             + "    </PerformanceLevel>"
             + "  </AssessmentPerformanceLevel>"
-            + "  <AssessmentItemReference id=\"why is this here\" ref=\"EOA12\">"
+            + "  <AssessmentItemReference>"
+            + "  <AssessmentItemIdentity>"
+            + "  <AssessmentItemIdentificationCode>EOA12</AssessmentItemIdentificationCode>"
+            + "  </AssessmentItemIdentity>"
             + "  </AssessmentItemReference>"
             + "  <LearningObjectiveReference id=\"Reading3-4\" ref=\"Reading3-4\">"
             + "    <LearningObjectiveIdentity>"
@@ -136,7 +138,7 @@ public class ObjectiveAssessmentEntityTest {
         List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) entity.get("assessmentItemRefs");
         Assert.assertNotNull(assessmentItems);
         Assert.assertEquals(1, assessmentItems.size());
-        Assert.assertEquals("EOA12", assessmentItems.get(0).get("ref"));
+        Assert.assertEquals("EOA12", assessmentItems.get(0).get("identificationCode"));
 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) entity.get("learningObjectives");

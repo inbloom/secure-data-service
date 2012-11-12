@@ -67,7 +67,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
     private SecurityContextInjector injector;
 
     private PagingRepositoryDelegate<Entity> mockRepo;
-    private StaffToSchoolValidator staffToSchoolValidator;
+    private StaffToEdOrgValidator staffToSchoolValidator;
     private Set<String> schoolIds;
 
     @SuppressWarnings("unchecked")
@@ -75,7 +75,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
     public void setUp() {
         schoolIds = new HashSet<String>();
         mockRepo = Mockito.mock(PagingRepositoryDelegate.class);
-        staffToSchoolValidator = Mockito.mock(StaffToSchoolValidator.class);
+        staffToSchoolValidator = Mockito.mock(StaffToEdOrgValidator.class);
 
         String user = "fake staff";
         String fullName = "Fake Staff";
@@ -87,7 +87,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, "123");
 
         validator.setRepo(mockRepo);
-        validator.setStaffToSchoolValidator(staffToSchoolValidator);
+        validator.setStaffToEdOrgValidator(staffToSchoolValidator);
     }
 
     @After

@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100">
+    <CourseOffering>
+        <LocalCourseCode>CAP0-D0-HSch0-l-ses0-cse0</LocalCourseCode>
+        <LocalCourseTitle>CAP0-D0-HSch0-l-ses0-cse0-title</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference ref="CAP0-D0-HSch0-ses0">
+            <SessionIdentity>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference ref="CAP0-D0-HSch0-cse0">
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>CAP0-D0-HSch0-cse0-1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+    <Section>
+        <UniqueSectionCode>CAP0-D0-HS0-0-0-sec0</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <CourseOfferingReference ref="CAP0-D0-HSch0-l-ses0-cse0">
+            <CourseOfferingIdentity>
+                <LocalCourseCode>CAP0-D0-HSch0-l-ses0-cse0</LocalCourseCode>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>CAP0-D0-HSch0-cse0</ID>
+                </CourseCode>
+                <Term>Spring Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+</InterchangeMasterSchedule>

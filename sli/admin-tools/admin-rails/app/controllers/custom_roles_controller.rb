@@ -61,7 +61,13 @@ class CustomRolesController < ApplicationController
          format.json { render json: @custom_roles, status: :created, location: @custom_roles }
        else
          #errorJson = JSON.parse(errorMsg)
-         flash[:error] = errorMsg
+         if /ValidationError.*groupTitle/.match(errorMsg)
+           flash[:error] = "Group name contains invalid characters."
+         elsif /ValidationError.*names/.match(errorMsg)
+           flash[:error] = "Role name contains invalid characters."
+         else
+           flash[:error] = "Changes could not be saved."
+         end
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	

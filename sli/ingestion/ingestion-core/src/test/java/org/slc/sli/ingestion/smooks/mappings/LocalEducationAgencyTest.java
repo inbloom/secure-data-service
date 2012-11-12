@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,7 +70,7 @@ public class LocalEducationAgencyTest {
             + "    <EducationOrgIdentificationCode IdentificationSystem=\"LEA\">"
             + "        <Id>9777</Id>"
             + "    </EducationOrgIdentificationCode>"
-            + "    <NameOfInstitution>Apple Alternative Elementary School</NameOfInstitution>"
+            + "    <NameOfInstitution>CHILDREN&apos;S DEVELOPMENT GROUP, SPEECH, OCCUPATIONAL, AND PHYSICAL THERAPY, P</NameOfInstitution>"
             + "    <ShortNameOfInstitution>Apple</ShortNameOfInstitution>"
             + "    <OrganizationCategories>"
             + "        <OrganizationCategory>School</OrganizationCategory>"
@@ -165,7 +166,7 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "identificationSystem", "LEA");
         EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "ID", "9777");
 
-        assertEquals("Apple Alternative Elementary School", neutralRecord.getAttributes().get("nameOfInstitution"));
+        assertEquals("CHILDREN'S DEVELOPMENT GROUP, SPEECH, OCCUPATIONAL, AND PHYSICAL THERAPY, P", neutralRecord.getAttributes().get("nameOfInstitution"));
         assertEquals("Apple", neutralRecord.getAttributes().get("shortNameOfInstitution"));
 
         List organizationCategoriesList = (List) neutralRecord.getAttributes().get("organizationCategories");
@@ -204,12 +205,19 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingOrganization", "rating org");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
-        @SuppressWarnings("unchecked")
+/*        @SuppressWarnings("unchecked")
         List<Map<String, Object>> programReferenceList = (List<Map<String, Object>>) neutralRecord.getAttributes().get("programReference");
         assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0).get("programId"));
         assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1).get("programId"));
+*/
 
-        assertEquals("SEA123", neutralRecord.getAttributes().get("parentEducationAgencyReference"));
+        @SuppressWarnings("unchecked")
+        Map<String, Object> seaRef = (Map<String, Object>) neutralRecord.getAttributes().get("StateEducationAgencyReference");
+        assertNotNull(seaRef);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> seaEdOrgId = (Map<String, Object>) seaRef.get("EducationalOrgIdentity");
+        assertNotNull(seaEdOrgId);
+        assertEquals("SEA123", seaEdOrgId.get("StateOrganizationId"));
     }
 
 }

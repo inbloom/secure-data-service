@@ -67,10 +67,31 @@ email_imap_host: mon.slidev.org
 email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
-# TODO: set up secondary user
-secondary_email_imap_registration_user: devldapuser
-secondary_email_imap_registration_user_email: devldapuser@slidev.org
-secondary_email_imap_registration_pass: Y;Gtf@w{
+
+################# e2e test properties #################################
+
+# For CI environments
+
+email_imap_hostname: mon.slidev.org
+email_imap_portname: 993
+
+#SEA Admin creds
+primary_email_imap_registration_user: e2etestsea
+primary_email_imap_registration_user_email: e2etestsea@slidev.org
+primary_email_imap_registration_pass: test1234
+
+#LEA Admin creds
+secondary_email_imap_registration_user: e2etestlea
+secondary_email_imap_registration_user_email: e2etestlea@slidev.org
+secondary_email_imap_registration_pass: test1234
+
+#Developer creds
+developer_email_imap_registration_user: e2etestdev
+developer_email_imap_registration_user_email: e2etestdev@slidev.org
+developer_email_imap_registration_pass: test1234
+
+# IDP and Redirect Endpoint URL for Realm Management
+ci_idp_redirect_url: https://{NODE_NAME}:8080/simple-idp?realm=IL-Daybreak
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
@@ -80,6 +101,8 @@ secondary_email_imap_registration_pass: Y;Gtf@w{
 #secondary_email_imap_registration_user: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_pass: liferaywgen
+
+################# /e2e test properties #################################
 
 portal_server_address: http://local.slidev.org:7000
 portal_app_suffix: "/portal"

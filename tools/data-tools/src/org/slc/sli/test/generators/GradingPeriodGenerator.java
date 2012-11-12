@@ -30,7 +30,7 @@ public class GradingPeriodGenerator {
     
     private String beginDate = null;
     private String endDate = null;
-    Random generator = new Random();
+    Random generator = new Random(31);
 
     public GradingPeriod getGradingPeriod (String orgId,  int gradePeriodType) {
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
@@ -46,56 +46,15 @@ public class GradingPeriodGenerator {
         endDate = "2012-03-" + inTwoDigits(gradePeriodType);
         gp.setBeginDate(beginDate);
         gp.setEndDate(endDate);
-        int roll = 45 + (int) (Math.random() * (150 - 45));
+        Random random = new Random(31);
+        int roll = 45 + (int) (random.nextDouble() * (150 - 45));
         gp.setTotalInstructionalDays(roll);
 
         return gp;
     }
 
-    public static GradingPeriodType getGradingPeriodType(int index) {
-        index = index % InterchangeEdOrgCalGenerator.MAX_GRADING_PERIODS;
-        switch (index) {
-        case 1:
-            return GradingPeriodType.END_OF_YEAR;
-        case 2:
-            return GradingPeriodType.FIFTH_SIX_WEEKS;
-        case 3:
-            return GradingPeriodType.FIRST_NINE_WEEKS;
-        case 4:
-            return GradingPeriodType.FIRST_SEMESTER;
-        case 5:
-            return GradingPeriodType.FIRST_SIX_WEEKS;
-        case 6:
-            return GradingPeriodType.FIRST_SUMMER_SESSION;
-        case 7:
-            return GradingPeriodType.FIRST_TRIMESTER;
-        case 8:
-            return GradingPeriodType.FOURTH_NINE_WEEKS;
-        case 9:
-            return GradingPeriodType.FOURTH_SIX_WEEKS;
-        case 10:
-            return GradingPeriodType.SECOND_NINE_WEEKS;
-        case 11:
-            return GradingPeriodType.SECOND_SEMESTER;
-        case 12:
-            return GradingPeriodType.SECOND_SIX_WEEKS;
-        case 13:
-            return GradingPeriodType.SECOND_SUMMER_SESSION;
-        case 14:
-            return GradingPeriodType.SECOND_TRIMESTER;
-        case 15:
-            return GradingPeriodType.SIXTH_SIX_WEEKS;
-        case 16:
-            return GradingPeriodType.SUMMER_SEMESTER;
-        case 17:
-            return GradingPeriodType.THIRD_NINE_WEEKS;
-        case 18:
-            return GradingPeriodType.THIRD_SIX_WEEKS;
-        case 19:
-            return GradingPeriodType.THIRD_SUMMER_SESSION;
-        default:
-            return GradingPeriodType.THIRD_TRIMESTER;
-        }
+    public GradingPeriodType getGradingPeriodType(int roll) {
+        return GradingPeriodType.FIRST_NINE_WEEKS;
     }
 
     private String inTwoDigits(int number) {

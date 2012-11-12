@@ -1,0 +1,319 @@
+<?xml version="1.0" ?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100">
+    <StudentAcademicRecord id="StudentAcademicRecord_CAP0-D0-HSch0-stu0">
+        <CumulativeCreditsEarned CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>2</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>2</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier 90-100%=A, 80-90%=B,  70-80%=C 60-70%=d</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>2</ClassRank>
+            <TotalNumberInClass>30</TotalNumberInClass>
+            <PercentageRanking>28</PercentageRanking>
+            <ClassRankingDate>2012-07-17</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Attendance award</AcademicHonorsType>
+            <HonorsDescription>Good Attendance Honor</HonorsDescription>
+            <HonorAwardDate>2012-06-30</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>Best Athlete Recognition</RecognitionDescription>
+            <RecognitionAwardDate>2012-07-17</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2012-08-03</ProjectedGraduationDate>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference ref="rcr1">
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2011-03-04</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <DiplomaReference ref="dr1">
+            <DiplomaIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <EducationOrgIdentificationCode IdentificationSystem="Federal">
+                            <ID>CAP0-D0-HSch0</ID>
+                        </EducationOrgIdentificationCode>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <DiplomaAwardDate>2012-11-06</DiplomaAwardDate>
+                <DiplomaType>Regular diploma</DiplomaType>
+            </DiplomaIdentity>
+        </DiplomaReference>
+    </StudentAcademicRecord>
+    <CourseTranscript id="CourseTranscript_CAP0-D0-HSch0-cse0_CAP0-D0-HSch0-stu0">
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>300</Credit>
+        </CreditsAttempted>
+        <CreditsEarned CreditConversion="5" CreditType="Carnegie unit">
+            <Credit>100</Credit>
+        </CreditsEarned>
+        <AdditionalCreditsEarned AdditionalCreditType="AP">
+            <Credit>100</Credit>
+        </AdditionalCreditsEarned>
+        <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
+        <MethodCreditEarned>Adult education credit</MethodCreditEarned>
+        <FinalLetterGradeEarned>E</FinalLetterGradeEarned>
+        <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>CAP0-D0-HSch0-cse0-1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <EducationOrgIdentificationCode IdentificationSystem="Federal">
+                    <ID>CAP0-D0-HSch0</ID>
+                </EducationOrgIdentificationCode>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference ref="sarr1">
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>CAP0-D0-HSch0-ses0</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <Grade id="Grade_RC_0CAP0-D0-HS0-1-1-sec2CAP0-D0-HSch0-stu0">
+        <LetterGradeEarned>A</LetterGradeEarned>
+        <NumericGradeEarned>3</NumericGradeEarned>
+        <DiagnosticStatement>Grade Exam Taken</DiagnosticStatement>
+        <GradeType>Exam</GradeType>
+        <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+        <StudentSectionAssociationReference ref="ssar1">
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Grade>
+    <ReportCard id="CAP0-D0-HSch4-stu0_ReportCard_RC_0">
+        <GradeReference ref="gr1">
+            <GradeIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>CAP0-D0-HSch4-stu0</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>CAP0-D0-HS4-7-1-sec1</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>End of Year</GradingPeriod>
+                        <BeginDate>2011-03-04</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </GradeIdentity>
+        </GradeReference>
+        <StudentCompetencyReference ref="scr1">
+            <StudentCompetencyIdentity>
+                <StudentCompetencyObjectiveReference ref="scor1">
+                    <StudentCompetencyObjectiveIdentity>
+                        <StudentCompetencyObjectiveId>SCO_RC_0_SCObjectiveId_r0_0</StudentCompetencyObjectiveId>
+                    </StudentCompetencyObjectiveIdentity>
+                </StudentCompetencyObjectiveReference>
+                <CodeValue>1</CodeValue>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>CAP0-D0-HSch4-stu0</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>CAP0-D0-HS4-7-1-sec1</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2011-09-01</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+            </StudentCompetencyIdentity>
+        </StudentCompetencyReference>
+        <GPAGivenGradingPeriod>1</GPAGivenGradingPeriod>
+        <GPACumulative>1</GPACumulative>
+        <NumberOfDaysAbsent>6</NumberOfDaysAbsent>
+        <NumberOfDaysInAttendance>68</NumberOfDaysInAttendance>
+        <NumberOfDaysTardy>2</NumberOfDaysTardy>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch4-stu0</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2011-03-04</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </ReportCard>
+    <StudentCompetency id="LearningObjective_RC_0_learningObjectiveId_r0_0_CAP0-D0-HSch0-stu0">
+        <LearningObjectiveReference ref="lor1">
+            <LearningObjectiveIdentity>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CompetencyLevel>
+            <CodeValue>1</CodeValue>
+        </CompetencyLevel>
+        <DiagnosticStatement>DiagnosticStatement for Student Competancy</DiagnosticStatement>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentIdentity>
+                    <StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+                </StudentIdentity>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
+                </SectionIdentity>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+    </StudentCompetency>
+    <StudentGradebookEntry>
+        <DateFulfilled>2012-07-17</DateFulfilled>
+        <LetterGradeEarned>A</LetterGradeEarned>
+        <NumericGradeEarned>1</NumericGradeEarned>
+        <CompetencyLevel/>
+        <DiagnosticStatement>Diagnostic Statement</DiagnosticStatement>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentIdentity>
+                    <StudentUniqueStateId>CAP0-D0-HSch0-stu42</StudentUniqueStateId>
+                </StudentIdentity>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>CAP0-D0-HS0-0-0-sec1</UniqueSectionCode>
+                </SectionIdentity>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradebookEntryReference ref="ger1">
+            <GradebookEntryIdentity>
+                <GradebookEntryType>Test 1</GradebookEntryType>
+                <DateAssigned>2012-07-17</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>CAP0-D0-HS0-0-0-sec1</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
+    </StudentGradebookEntry>
+</InterchangeStudentGrade>

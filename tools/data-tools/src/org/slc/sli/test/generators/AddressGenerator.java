@@ -41,7 +41,7 @@ public class AddressGenerator {
     private String file_street_US = "database/address/street_US.csv";
     private static int cityCount;
     private static int streetCount;
-    private static Random rand = new Random();
+    private static Random rand = new Random(31);
     private static List<String[]> cities = new ArrayList<String[]>();
     private static List<String[]> streets = new ArrayList<String[]>();
     private String today = null;

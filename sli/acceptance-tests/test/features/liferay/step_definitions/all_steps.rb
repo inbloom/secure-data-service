@@ -24,7 +24,7 @@ Dir["./test/features/dashboard/dash/step_definitions/*"].each {|file| require fi
 
 When /^I navigate to the Portal home page$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
-  @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 10)  
+  @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
 Then /^I should see Admin link$/ do

@@ -28,6 +28,7 @@ import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.common.util.entity.EntityManipulator;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,7 +36,11 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Builds a get response
@@ -43,7 +48,6 @@ import java.util.List;
  * @author srupasinghe
  * @author jstokes
  * @author pghosh
- *
  */
 
 @Scope("request")
@@ -64,9 +68,18 @@ public class GetResponseBuilder extends ResponseBuilder {
     private HateoasLink hateoasLink;
 
     public Response build(final UriInfo uriInfo, final ResourceTemplate template,
-                            final ResourceMethod method, final GenericResource.GetResourceLogic logic) {
+                          final ResourceMethod method, final GenericResource.GetResourceLogic logic) {
         //get the resource container
         Resource resource = constructAndCheckResource(uriInfo, template, method);
+
+        // Handle exclude fields in code
+        Set<String> excludeFields = new HashSet<String>();
+        List<String> uriExcludeFields = uriInfo.getQueryParameters().remove(ParameterConstants.EXCLUDE_FIELDS);
+        if (uriExcludeFields != null && !uriExcludeFields.isEmpty()) {
+            for (String excludeField : uriExcludeFields) {
+                excludeFields.addAll(Arrays.asList(excludeField.split(",")));
+            }
+        }
 
         //run the resource logic
         ServiceResponse serviceResponse = logic.run(resource);
@@ -78,8 +91,9 @@ public class GetResponseBuilder extends ResponseBuilder {
         //add the links
         entities = hateoasLink.add(resource.getResourceType(), entities, uriInfo);
 
-        //apply the decorators
+        //apply the decorators and strip out excludedFields
         for (EntityBody entityBody : entities) {
+            EntityManipulator.removeFields(entityBody, new ArrayList<String>(excludeFields));
             for (EntityDecorator entityDecorator : entityDecorators) {
                 entityDecorator.decorate(entityBody, resourceHelper.getEntityDefinition(resource), uriInfo.getQueryParameters());
             }

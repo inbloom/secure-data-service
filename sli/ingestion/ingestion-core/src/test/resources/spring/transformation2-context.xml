@@ -45,6 +45,10 @@
   <bean class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
   <bean class="org.slc.sli.common.util.uuid.ShardType1UUIDGeneratorStrategy"/>
 
+  <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
+  </bean>
+
   <import resource="classpath:/spring/validation.xml" />
 
 </beans>

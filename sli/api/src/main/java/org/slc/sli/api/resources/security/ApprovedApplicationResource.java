@@ -32,7 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -59,7 +59,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("/userapps")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApprovedApplicationResource {
 
     public static final String RESOURCE_NAME = "application";
@@ -83,7 +83,6 @@ public class ApprovedApplicationResource {
     @GET
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
-
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         NeutralQuery query = new NeutralQuery(0);
@@ -139,7 +138,7 @@ public class ApprovedApplicationResource {
     }
 
     private List<String> getUsersRights() {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         ArrayList<String> rights = new ArrayList<String>();
         for (GrantedAuthority right : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             rights.add(right.toString());

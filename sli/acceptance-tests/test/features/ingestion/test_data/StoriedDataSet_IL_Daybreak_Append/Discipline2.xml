@@ -29,7 +29,16 @@
           <StudentUniqueStateId>900000017</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="splashing" />
+    <DisciplineIncidentReference>
+        <DisciplineIncidentIdentity>
+            <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
+            <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                   <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationalOrgReference>
+        </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
     <StudentParticipationCode>Victim</StudentParticipationCode>
     <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
