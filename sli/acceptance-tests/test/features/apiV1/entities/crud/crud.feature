@@ -51,6 +51,8 @@ Examples:
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 | "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
 | "studentCompetencyObjective"   | "studentCompetencyObjectives" | "objectiveGradeLevel" | "First grade"                               |
+| "competencyLevelDescriptor"    | "competencyLevelDescriptor" | "performanceBaseConversion" | "Below Basic"                           |
+
 
     Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
