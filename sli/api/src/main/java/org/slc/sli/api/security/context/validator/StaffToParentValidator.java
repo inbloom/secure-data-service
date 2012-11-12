@@ -17,9 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
