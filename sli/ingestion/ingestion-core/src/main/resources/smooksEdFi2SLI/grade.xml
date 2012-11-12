@@ -27,7 +27,7 @@
     <jb:value property="gradeType" data="attributes gradeType" />
     <jb:value property="performanceBaseConversion" data="attributes performanceBaseConversion" />
     <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
-    <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
+    <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
   </jb:bean>
 
 </smooks-resource-list>
