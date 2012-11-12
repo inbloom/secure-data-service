@@ -34,7 +34,7 @@ public class StudentSearch implements PagedEntity {
     @Pattern(regexp = "[a-zA-Z0-9-' ]*")
     private String lastName;
 
-    @Pattern(regexp = "[a-fA-F0-9\\-]*")
+    @Pattern(regexp = "[a-fA-F0-9\\-]*_id")
     private String schoolId;
 
     private int pageNo = PagedEntity.DEFAULT_PAGE_NO;
