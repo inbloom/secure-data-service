@@ -23,6 +23,7 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "jpratt"               | "jpratt1234"               | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | ">="     | "Chem305-Sec2"     | 3                 | "string"  |
     | "jpratt"               | "jpratt1234"               | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | "!="     | "Chem305-Sec2"     | 3                 | "string"  |
     | "jpratt"               | "jpratt1234"               | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | "="      | "Chem305-Sec2"     | 1                 | "string"  |
+    | "jpratt"               | "jpratt1234"               | "sections"                           | "c9929e15-f907-4473-a948-6f9aa302647d" | "uniqueSectionCode"     | "=~"     | "Chem305"          | 2                 | "string"  |
     | "jpratt"               | "jpratt1234"               | "gradingPeriods"                     | ""                                     | "beginDate"             | "<="     | "2012-01-01"       | 2                 | "date"    |
     | "jpratt"               | "jpratt1234"               | "gradingPeriods"                     | ""                                     | "beginDate"             | ">"      | "2012-01-01"       | 0                 | "date"    |
     | "jpratt"               | "jpratt1234"               | "gradingPeriods"                     | ""                                     | "beginDate"             | ">="     | "2012-01-01"       | 1                 | "date"    |
@@ -52,6 +53,7 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "uniqueSectionCode"     | ">="     | "PDMS-Geometry"    | 2                 | "string"  |
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "uniqueSectionCode"     | "!="     | "PDMS-Geometry"    | 1                 | "string"  |
     | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "uniqueSectionCode"     | "="      | "PDMS-Geometry"    | 1                 | "string"  |
+    | "johndoe"              | "johndoe1234"              | "sections"                           | "eb3b8c35-f582-df23-e406-6947249a19f2" | "uniqueSectionCode"     | "=~"     | "Trig"             | 1                 | "string"  |
 
 Scenario Outline: Test that include fields only affect body fields (type remains)
   Given I am logged in using <username> <password> to realm "IL"
@@ -124,3 +126,13 @@ Scenario Outline: Query subdoc
       | username       | password         |
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
+      
+Scenario Outline: Confirm that API blocks regex against PII data:
+  Given I am logged in using <username> <password> to realm "IL"
+  And format "application/json;charset=utf-8"
+  When I navigate to GET "/v1/students?name.firstName=Billy"
+  Examples:
+      | username       | password         |
+      | "jstevenson"   | "jstevenson1234" |
+      | "linda.kim"    | "linda.kim1234"  |
+    
