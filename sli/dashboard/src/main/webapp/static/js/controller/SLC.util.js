@@ -325,12 +325,7 @@ SLC.namespace('SLC.util', (function () {
 			    lastName = '';
 			  }
 
-			  var schoolId = $('#dbrd_inp_search_schoolid').val();
-			  if (!schoolId || schoolId === undefined) {
-			    	schoolId = '';
-			  }
-
-			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName + '&schoolId=' + schoolId);
+			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
 			  return false;
 			});
 		});

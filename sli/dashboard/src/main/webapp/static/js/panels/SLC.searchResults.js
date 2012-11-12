@@ -87,6 +87,7 @@ SLC.namespace('SLC.searchResults', (function () {
 			// get school id from query strings
 			schoolId = getParameterByName("schoolId");
 
+			// get school list for all available districts
 			getSchoolList();
 			
 			if (dataModel.numResults !== 0) {
@@ -116,11 +117,11 @@ SLC.namespace('SLC.searchResults', (function () {
 				noSearchResults();
 			}
 
-			if (schoolId !== "") {
-				$("#searchResultsSection").show();
+			if (schoolId === "" || schoolId === undefined) {
+				$("#searchResultsSection").hide();
 			}
 			else {
-				$("#searchResultsSection").hide();
+				$("#searchResultsSection").show();
 			}
 		}
 		
@@ -143,8 +144,7 @@ SLC.namespace('SLC.searchResults', (function () {
 				}
 			}
 
-			// if no dropdown option selected, then it will take school id from query string.
-			// If school id from query string is not available, then it will take empty string.
+			// If no dropdown option selected, then it will take school id from query string.
 			schoolIdParam = $("#schoolSelect").val() || schoolId;
 
 			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&schoolId=' + schoolIdParam + '&pageNumber=' + postPageNum +
