@@ -29,6 +29,10 @@ Given /^the large list of edorgs is loaded$/ do
   file = "#{File.dirname(__FILE__)}/edorgs/edorgs.json"
   status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file #{file}")
   assert(status, "#{$?}")
+  # Re-index edorg collection after drop
+  index_js_loc = "#{File.dirname(__FILE__)}/../../../../../config/indexes/tenantDB_indexes.js"
+  status = system("mongo #{convertTenantIdToDbName('Midgar')} #{index_js_loc} --quiet")
+  assert(status, "#{$?}")
 end
 
 When /^I select the "(.*?)"$/ do |arg1|
@@ -71,9 +75,13 @@ When /^I click on the first page of Districts$/ do
 end
 
 Given /^I have replaced the edorg data$/ do
- file = "#{File.dirname(__FILE__)}/../../../data/Midgar_data/educationOrganization_fixture.json"
- status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file #{file}")
- assert(status, "#{$?}")
+  file = "#{File.dirname(__FILE__)}/../../../data/Midgar_data/educationOrganization_fixture.json"
+  status = system("mongoimport --drop -c educationOrganization -d #{convertTenantIdToDbName('Midgar')} --file #{file}")
+  assert(status, "#{$?}")
+  # Re-index edorg collection after drop
+  index_js_loc = "#{File.dirname(__FILE__)}/../../../../../config/indexes/tenantDB_indexes.js"
+  status = system("mongo #{convertTenantIdToDbName('Midgar')} #{index_js_loc} --quiet")
+  assert(status, "#{$?}")
 end
 
 Then /^I see the list of \(only\) my applications$/ do
