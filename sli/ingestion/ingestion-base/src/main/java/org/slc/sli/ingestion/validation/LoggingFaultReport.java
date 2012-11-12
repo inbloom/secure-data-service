@@ -68,6 +68,21 @@ public class LoggingFaultReport extends FaultsReport {
     }
 
     @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        fatal(message, sender);
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        error(message, sender);
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        warning(message, sender);
+    }
+
+    @Override
     public boolean hasErrors() {
         return hasErrors;
     }
