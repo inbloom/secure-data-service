@@ -221,7 +221,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    @Ignore
     public void resolvesEdOrgRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/staffEducationOrgAssignmentAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
