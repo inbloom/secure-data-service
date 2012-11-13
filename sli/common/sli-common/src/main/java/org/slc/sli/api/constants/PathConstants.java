@@ -153,6 +153,7 @@ public class PathConstants {
     }
 
     public static final String V1 = "v1";
+    public static final String ID_PLACEHOLDER = "{id}";
     /** Main entry point for the SLI API ReSTful web service. */
     public static final String API_SERVER_PATH = "api/rest/v1";
     /** URL to check the validity of a SLI session. */
