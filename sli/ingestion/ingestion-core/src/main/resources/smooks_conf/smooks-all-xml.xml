@@ -351,6 +351,7 @@
     <jb:wiring beanIdRef="SLC-StudentSchoolAssociationExtension_Attributes" property="attributes"/>
     <jb:wiring property="metaData" beanIdRef="StudentSchoolAssociationMetaData" />
   </jb:bean>
+  
   <jb:bean beanId="StudentSchoolAssociationMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
     <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,SchoolReference,EntryDate'</jb:expression>
@@ -416,7 +417,13 @@
   <!-- Start Teacher mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:expression property="recordType">'teacher'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="teacherMetaData" />
     <jb:wiring property="attributes" beanIdRef="teacherAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="teacherMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/Teacher">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'staffUniqueStateId'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="teacherAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/Teacher">
@@ -889,6 +896,12 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
     <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
+    <jb:wiring property="metaData" beanIdRef="teacherSectionAssociationMetaData" />
+  </jb:bean>
+  
+    <jb:bean beanId="teacherSectionAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'TeacherReference,SectionReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="teacherSectionAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
@@ -934,7 +947,13 @@
     <jb:expression property="recordType">'teacherSchoolAssociation'</jb:expression>
     <jb:expression property="association">true</jb:expression>
     <jb:wiring property="attributes" beanIdRef="teacherSchoolAttributes" />
+    <jb:wiring property="metaData" beanIdRef="teacherSchoolAssociationMetaData" />
 </jb:bean>
+
+  <jb:bean beanId="teacherSchoolAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/TeacherSchoolAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'TeacherReference,SchoolReference'</jb:expression>
+  </jb:bean>
 
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
@@ -1193,12 +1212,18 @@
   </jb:bean>
   <!-- End of ObjectiveAssessment Mapping -->
 
-    <!-- LearningObjective -->
+    <!-- LearningObjective mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/LearningObjective">
     <jb:expression property="recordType">'learningObjective'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="learningObjectiveMetaData" />
     <jb:wiring property="attributes" beanIdRef="learningObjectiveAttributes" />
   </jb:bean>
 
+ <jb:bean beanId="learningObjectiveMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/LearningObjective">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'objective,academicSubject,objectiveGradeLevel'</jb:expression>
+  </jb:bean>
+  
   <jb:bean beanId="learningObjectiveAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/LearningObjective">
     <jb:wiring property="learningObjectiveId" beanIdRef="learningObjectiveIdRef" />
     <jb:value property="objective" data="LearningObjective/Objective" />
@@ -1250,8 +1275,14 @@
 <!-- LearningObjective for interchangeStudentGrade -->
 <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/LearningObjective">
     <jb:expression property="recordType">'learningObjective'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="learningObjectiveMetaDataSGLO" />    
     <jb:wiring property="attributes" beanIdRef="learningObjectiveAttributesSGLO" />
   </jb:bean>
+  
+  <jb:bean beanId="learningObjectiveMetaDataSGLO" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/LearningObjective">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'objective,academicSubject,objectiveGradeLevel'</jb:expression>
+  </jb:bean> 
 
   <jb:bean beanId="learningObjectiveAttributesSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjective">
     <jb:wiring property="learningObjectiveId" beanIdRef="learningObjectiveIdRefSGLO" />
@@ -1983,7 +2014,14 @@
   <!-- Start Student Attendance mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
     <jb:expression property="recordType">'attendance'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="attendanceEventMetaData" />
     <jb:wiring property="attributes" beanIdRef="attendanceEventAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="attendanceEventMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,schoolId,eventDate,attendanceEventCategory'</jb:expression>
+    <jb:expression property="sliEntityType">'attendance'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
@@ -2109,7 +2147,13 @@
   <!-- StudentAcademicRecord -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:expression property="recordType">'studentAcademicRecord'</jb:expression>
+     <jb:wiring property="metaData" beanIdRef="studentAcademicRecordMetaData" />   
     <jb:wiring property="attributes" beanIdRef="studentAcademicRecordAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="studentAcademicRecordMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,SessionReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
@@ -2207,8 +2251,15 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:expression property="recordType">'courseTranscript'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="courseTranscriptMetaData" />
     <jb:wiring property="attributes" beanIdRef="courseTranscriptAttributes" />
   </jb:bean>
+  
+  <jb:bean beanId="courseTranscriptMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentAcademicRecordReference,CourseReference,courseAttemptResult'</jb:expression>
+  </jb:bean>
+
   <jb:bean beanId="courseTranscriptAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="courseAttemptResult" data="CourseAttemptResult" />
@@ -2566,12 +2617,18 @@
   </jb:bean>
   <!-- End Parent mapping -->
 
-  <!-- Start StudentParentAssociation -->
+  <!-- Start StudentParentAssociation mapping-->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/StudentParentAssociation">
     <jb:expression property="recordType">'studentParentAssociation'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="studentParentAssociationMetaData" />
     <jb:wiring property="attributes" beanIdRef="parentStudentAssociationAttributes" />
   </jb:bean>
-
+ 
+  <jb:bean beanId="studentParentAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,ParentReference'</jb:expression>
+  </jb:bean> 
+  
   <jb:bean beanId="parentStudentAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentParent/StudentParentAssociation">
     <jb:wiring property="ParentReference" beanIdRef="studentParentAssociation_ParentReference" />
@@ -2661,7 +2718,13 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
     <jb:expression property="recordType">'studentGradebookEntry'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="studentGradebookEntryMetaData" />
     <jb:wiring property="attributes" beanIdRef="studentGradebookEntryAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="studentGradebookEntryMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'studentId,GradebookEntryReference,studentSectionAssociationReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntryAttributes" class="java.util.HashMap"
@@ -2713,7 +2776,13 @@
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
     <jb:expression property="recordType">'studentProgramAssociation'</jb:expression>
     <jb:expression property="association">true</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="studentProgramAssociationMetaData" />
     <jb:wiring property="attributes" beanIdRef="studentProgramAssociationAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="studentProgramAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,ProgramReference,EducationOrganizationReference,BeginDate'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentProgramAssociationAttributes" class="java.util.HashMap"
@@ -2873,7 +2942,12 @@
 
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:expression property="recordType">'staffProgramAssociation'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="staffProgramAssociationMetaData" />
     <jb:wiring property="attributes" beanIdRef="staffProgramAssociationAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="MetaData" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StaffReference,ProgramReference,beginDate'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociationAttributes" class="java.util.HashMap"
@@ -2958,7 +3032,13 @@
    <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentCohort/StudentCohortAssociation">
     <jb:expression property="recordType">'studentCohortAssociation'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="studentCohortAssociationMetaData" />    
     <jb:wiring property="attributes" beanIdRef="studentCohortAssociationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCohortAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,CohortReference,BeginDate'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentCohortAssociationAttributes" class="java.util.HashMap"
@@ -3311,7 +3391,13 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
     <jb:expression property="recordType">'studentDisciplineIncidentAssociation'</jb:expression>
+     <jb:wiring property="metaData" beanIdRef="studentDisciplineIncidentAssociationMetaData" />   
     <jb:wiring property="attributes" beanIdRef="studentDisciplineIncidentAssociationAttributes" />
+  </jb:bean>
+  
+  <jb:bean beanId="studentDisciplineIncidentAssociationMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,DisciplineIncidentReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentDisciplineIncidentAssociationAttributes" class="java.util.HashMap"
@@ -3553,7 +3639,13 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
     <jb:expression property="recordType">'studentCompetencyObjective'</jb:expression>
+     <jb:wiring property="metaData" beanIdRef="studentCompetencyObjectiveMetaData" />   
     <jb:wiring property="attributes" beanIdRef="StudentCompetencyObjectiveAttributes" />
+  </jb:bean>
+  
+    <jb:bean beanId="studentCompetencyObjectiveMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'studentCompetencyObjectiveId'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="StudentCompetencyObjectiveAttributes" class="java.util.HashMap"
