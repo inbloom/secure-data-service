@@ -9,43 +9,29 @@
 
     <json:reader rootName="json" />
 
-    <jb:bean beanId="schools" class="java.util.ArrayList" createOnElement="#document">
-        <jb:wiring beanIdRef="school" />
+    <jb:bean beanId="stateEducationAgencies" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="stateEducationAgency" />
     </jb:bean>
 
-    <jb:bean beanId="school" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'school'</jb:expression>
-        <jb:wiring property="body" beanIdRef="schoolBody" />
+    <jb:bean beanId="stateEducationAgency" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'stateEducationAgency'</jb:expression>
+        <jb:wiring property="body" beanIdRef="stateEducationAgencyBody" />
     </jb:bean>
 
-    <jb:bean beanId="schoolBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:bean beanId="stateEducationAgencyBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="stateOrganizationId"                  data="attributes stateOrganizationId" />
+        <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
         <jb:value property="nameOfInstitution"                    data="attributes nameOfInstitution" />
         <jb:value property="shortNameOfInstitution"               data="attributes shortNameOfInstitution" />
-        <jb:value property="webSite"                              data="attributes webSite" />
-        <jb:value property="operationalStatus"                    data="attributes operationalStatus" />
-        <jb:value property="charterStatus"                        data="attributes charterStatus" />
-
-        <!--
-        <jb:value property="localEducationAgencyReference"        data="attributes localEducationAgencyReference" />
-        <jb:value property="educationServiceCenterReference"      data="attributes educationServiceCenterReference" />
-        -->
-        <jb:value property="parentEducationAgencyReference"       data="attributes LocalEducationAgencyReference" />
-
-        <jb:value property="schoolType"                           data="attributes schoolType" />
-        <jb:value property="titleIPartASchoolDesignation"         data="attributes titleIPartASchoolDesignation" />
-        <jb:value property="magnetSpecialProgramEmphasisSchool"   data="attributes magnetSpecialProgramEmphasisSchool" />
-        <jb:value property="administrativeFundingControl"         data="attributes administrativeFundingControl" />
-
-        <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
         <jb:wiring property="organizationCategories"              beanIdRef="organizationCategories" />
         <jb:wiring property="address"                             beanIdRef="addressArray" />
         <jb:wiring property="telephone"                           beanIdRef="telephoneArray" />
+        <jb:value property="webSite"                              data="attributes webSite" />
+        <jb:value property="operationalStatus"                    data="attributes operationalStatus" />
         <jb:wiring property="accountabilityRatings"               beanIdRef="accountabilityRatingsArray" />
         <jb:wiring property="programReference"                    beanIdRef="programReferenceArray" />
-
-        <jb:wiring property="gradesOffered"                       beanIdRef="gradesOfferedArray" />
-        <jb:wiring property="schoolCategories"                    beanIdRef="schoolCategoriesArray" />
+        <!-- agencyHierarchyName -->
+        <!-- jb:value property="parentEducationAgencyReference"       data="" / -->
     </jb:bean>
 
     <jb:bean beanId="educationOrgIdentificationCodeArray" class="java.util.ArrayList" createOnElement="attributes">
@@ -103,12 +89,4 @@
         <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 
-    <!-- New -->
-    <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes gradesOffered">
-        <jb:value data="attributes gradesOffered element" />
-    </jb:bean>
-
-    <jb:bean beanId="schoolCategoriesArray" class="java.util.ArrayList" createOnElement="attributes schoolCategories">
-        <jb:value data="attributes schoolCategories element" />
-    </jb:bean>
 </smooks-resource-list>
