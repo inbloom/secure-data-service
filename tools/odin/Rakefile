@@ -2,11 +2,17 @@ task :default => [:test]
 
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new(:test)
 
 task :generate do
 	ruby "driver.rb"
 end
+
+
+desc "Run those specs"
 task :test do
-  spec "spec/*"
+  RSpec::Core::RakeTask.new(:test) do |t|
+    t.rspec_opts = %w{--colour --format progress}
+    t.pattern = 'spec/*_spec.rb'
+    t.rspec_path = 'rspec'
+  end
 end

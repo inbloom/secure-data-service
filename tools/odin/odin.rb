@@ -51,5 +51,16 @@ class Odin
 
   end
 
+	def validate()
+	  Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f| 
+	    
+	    validate_file(f) 
+	    }
+	end
+	
+	def validate_file ( f ) 
+	   puts "Not yet validating file #{f}"  
+	   
+	end
 end
 

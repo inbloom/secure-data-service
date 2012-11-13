@@ -16,12 +16,14 @@ limitations under the License.
 
 =end
 
-
+require_relative '../odin.rb'
 
 
 describe "Odin" do
   it "generates" do
     odin = Odin.new
     odin.generate()
+    odin.validate()
+    true
   end
 end
