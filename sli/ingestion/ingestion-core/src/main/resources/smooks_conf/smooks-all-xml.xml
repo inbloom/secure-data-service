@@ -1200,7 +1200,8 @@
     <jb:value property="academicSubject" data="LearningObjective/AcademicSubject" />
     <jb:value property="objectiveGradeLevel" data="LearningObjective/ObjectiveGradeLevel" />
     <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningStandardReferenceTypeArray" property="LearningStandardReference"/>
-    <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="LearningObjectiveReference"/>
+    <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="learningObjectiveRefs"/>
+    <!-- <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="LearningObjectiveReference"/> -->
   </jb:bean>
 
   <jb:bean beanId="SLC-LearningObjective_Attributes_SLC-LearningStandardReferenceTypeArray" class="java.util.ArrayList" createOnElement="LearningObjective">
@@ -1215,13 +1216,13 @@
     <jb:value data="LearningObjective/LearningStandardReference/LearningStandardIdentity/IdentificationCode" property="IdentificationCode"/>
   </jb:bean>
 
-  <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="LearningObjective/LearningObjectiveId">
+  <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveId">
     <jb:value property="identificationCode" data="LearningObjective/LearningObjectiveId/IdentificationCode" />
     <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/@ContentStandardName" />
   </jb:bean>
 
-  <jb:bean beanId="learningObjectiveReferenceArrayLO" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/LearningObjective">
-    <jb:wiring beanIdRef="learningObjectiveReference" />
+  <jb:bean beanId="learningObjectiveReferenceArrayLO" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/LearningObjective">
+    <jb:wiring beanIdRef="LearningObjectiveReference" />
   </jb:bean>
 
   <jb:bean beanId="OAlearningObjectiveReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
@@ -1260,8 +1261,8 @@
     <jb:value property="academicSubject" data="InterchangeStudentGrade/LearningObjective/AcademicSubject" />
     <jb:value property="objectiveGradeLevel" data="InterchangeStudentGrade/LearningObjective/ObjectiveGradeLevel" />
     <jb:wiring property="learningStandardRefs" beanIdRef="learningStandardReferenceArrayLOSGLO" />
-    <!-- <jb:wiring property="learningObjectiveRefs" beanIdRef="learningObjectiveReferenceArrayLOSGLO" /> -->
-    <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="LearningObjectiveReference"/>
+    <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="learningObjectiveRefs"/>
+   <!--  <jb:wiring beanIdRef="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" property="LearningObjectiveReference"/> -->
   </jb:bean>
 
   <jb:bean beanId="SLC-LearningObjective_Attributes_SLC-LearningObjectiveReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjective/LearningObjectiveReference">
