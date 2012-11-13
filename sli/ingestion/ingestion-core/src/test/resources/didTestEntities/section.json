@@ -1,0 +1,13 @@
+{
+"recordType":"section",
+"attributes":
+{
+	"SchoolReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

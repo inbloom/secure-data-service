@@ -128,9 +128,12 @@ Then /^application "([^"]*)" is not registered$/ do |app|
 end
 
 Then /^application "([^"]*)" is removed from the list$/ do |app|
-  appsTable = @driver.find_element(:id, "applications")
-  tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
-  assert(tds.length == 0, "#{app} isn't in list")
+  assertWithWait("Shouldn't see a NewApp") {
+	@driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
+  }
+  #appsTable = @driver.find_element(:id, "applications")
+  #tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
+  #assert(tds.length == 0, "#{app} isn't in list")
 end
 
 Then /^the 'Approve' button is disabled for application "([^"]*)"$/ do |app|

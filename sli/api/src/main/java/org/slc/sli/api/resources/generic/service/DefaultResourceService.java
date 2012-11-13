@@ -15,6 +15,20 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -43,16 +57,6 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Default implementation of the resource service.
@@ -272,6 +276,7 @@ public class DefaultResourceService implements ResourceService {
         return definition.getService().getAggregates(id);
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -286,8 +291,31 @@ public class DefaultResourceService implements ResourceService {
         List<String> valueList = Arrays.asList(id.split(","));
 
         final ApiQuery apiQuery = getApiQuery(definition, requestURI);
-        apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+        
+        //Mongo blows up if we have multiple $in or equal criteria for the same key.
+        //To avoid that case, if we do have duplicate keys, set the value for that
+        //criteria to the intersection of the two critiera values
+        boolean skipIn = false;
+        for (NeutralCriteria crit : apiQuery.getCriteria()) {
+            if (crit.getKey().equals(associationKey) 
+                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                skipIn = true;
+                Set valueSet = new HashSet();
+                if (crit.getValue() instanceof Collection) {
+                    valueSet.addAll((Collection) crit.getValue());
+                } else {
+                    valueSet.add(crit.getValue());
+                }
+                valueSet.retainAll(valueList);
+                crit.setValue(valueSet);
+            }
+        }
 
+        if (!skipIn) {
+            apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+        }
+        
+        
         try {
             entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
         } catch (final UnsupportedSelectorException e) {

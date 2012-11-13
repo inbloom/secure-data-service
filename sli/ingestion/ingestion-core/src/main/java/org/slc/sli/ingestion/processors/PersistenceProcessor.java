@@ -195,7 +195,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             List<NeutralRecord> recordHashStore = new ArrayList<NeutralRecord>();
 
-            //UN: Added the records to the recordHashStore
+            // UN: Added the records to the recordHashStore
             for (NeutralRecord neutralRecord : records) {
                 recordHashStore.add(neutralRecord);
             }
@@ -249,7 +249,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     for (NeutralRecord neutralRecord2 : recordHashStore) {
-                            upsertRecordHash(neutralRecord2);
+                        upsertRecordHash(neutralRecord2);
 
                     }
                 } catch (DataAccessResourceFailureException darfe) {
@@ -392,12 +392,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         List<SimpleEntity> transformed = transformer.handle(record, errorReport);
 
         if (transformed == null || transformed.isEmpty()) {
-            errorReport
-                    .error(MessageSourceHelper
-                            .getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
-                            this);
+            errorReport.error(
+                    MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", record.getRecordType()),
+                    record.getSourceFile(), this);
             return null;
         }
+        transformed.get(0).setSourceFile(record.getSourceFile());
         return transformed.get(0);
     }
 
@@ -552,11 +552,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
-     private void upsertRecordHash(NeutralRecord nr){
-            if (nr.getMetaDataByName("rhId") != null) {
-                batchJobDAO.findAndUpsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(),
-                        nr.getMetaDataByName("rhId").toString());
-            }
+    private void upsertRecordHash(NeutralRecord nr) {
+        if (nr.getMetaDataByName("rhId") != null) {
+            batchJobDAO.upsertRecordHash(nr.getMetaDataByName("rhTenantId").toString(), nr.getMetaDataByName("rhId")
+                    .toString());
         }
-
     }
+
+}

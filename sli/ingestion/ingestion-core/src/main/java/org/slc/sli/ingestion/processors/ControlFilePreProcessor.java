@@ -92,6 +92,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
+    @Value("${sli.sandbox.enabled}")
+    private boolean isSandboxEnabled;
+
     private MessageSource messageSource;
 
     /**
@@ -122,22 +125,25 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             controlFileName = fileForControlFile.getName();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
+            createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
+            if (newBatchJob.getTenantId() != null) {
 
-                /* tenant job lock has been acquired */
+                if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
 
-                // FIXME: Move to appropriate processor (maybe its own)
+                    controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                    auditSecurityEvent(controlFile);
 
-                auditSecurityEvent(controlFile);
-
+                } else {
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                }
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG19"), this);
             }
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
@@ -182,14 +188,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
             boolean onboardingLockIsAcquired = tenantDA.updateAndAquireOnboardingLock(tenantId);
             boolean isNowReady = false;
-            
+
             if (onboardingLockIsAcquired) {
 
                 runDbSpinUpScripts(tenantId);
 
                 isNowReady = tenantDA.tenantDbIsReady(tenantId);
                 LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
-            }   
+            }
 
             return isNowReady;
 
@@ -204,8 +210,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
+        if(!isSandboxEnabled) {
+            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = false;");
+        } else {
+            LOG.info("Running tenant sharding script for tenant: {} db: {}", tenantId, dbName);
+            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = true;");
+        }
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
@@ -241,15 +252,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
-        createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
-        TenantContext.setTenantId(newBatchJob.getTenantId());
         // determine whether to override the tenantId property with a LZ derived value
         if (deriveTenantId) {
             // derive the tenantId property from the landing zone directory with a mongo lookup
             String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
             newBatchJob.setTenantId(tenantId);
         }
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+
         return controlFile;
     }
 
@@ -306,11 +318,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         return newJob;
     }
 
-    private void createResourceEntryAndAddToJob(ControlFile cf, NewBatchJob newJob) {
+    private void createResourceEntryAndAddToJob(File cf, NewBatchJob newJob) {
         ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(cf.getFileName());
-        resourceEntry.setExternallyUploadedResourceId(cf.getFileName());
-        resourceEntry.setResourceName(newJob.getSourceId() + cf.getFileName());
+        resourceEntry.setResourceId(cf.getName());
+        resourceEntry.setExternallyUploadedResourceId(cf.getName());
+        resourceEntry.setResourceName(newJob.getSourceId() + cf.getName());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
         resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
         newJob.getResourceEntries().add(resourceEntry);

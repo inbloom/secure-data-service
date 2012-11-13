@@ -171,6 +171,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
+    // Spring's dependency management can confuse camel due to some circular dependencies. Removing
+    // this constructor, even if it doesn't look like it will change things, may affect loading
+    // order and cause ingestion to fail to start on certain JVMs
     @Autowired
     public IngestionRouteBuilder(TenantProcessor tenantProcessor) {
         super();
@@ -242,14 +245,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: processLzFile
         from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
-            .choice().when(body().endsWith(".ctl"))
+            .choice().when(header("filePath").endsWith(".ctl"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                 .process(controlFilePreProcessor)
                 .choice().when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
                     .to(workItemQueueUri).endChoice()
-            .when(body().endsWith(".zip"))
+            .when(header("filePath").endsWith(".zip"))
                 .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                 .process(zipFileProcessor)
                 .choice().when(header("hasErrors").isEqualTo(true))

@@ -17,12 +17,9 @@
 
 package org.slc.sli.test.generators;
 
-import javax.xml.bind.JAXBElement;
-
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjective;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
@@ -30,7 +27,6 @@ import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
 public class StudentCompetancyObjectiveGenerator {
 
 	private static int scId = 0;
-	private static ObjectFactory factory = new ObjectFactory();
 
 	public static StudentCompetencyObjective getStudentCompetencyObjective(String scoId, EducationalOrgReferenceType edOrgRef)
 	{
@@ -61,13 +57,7 @@ public class StudentCompetancyObjectiveGenerator {
 	{
 		StudentCompetencyObjectiveReferenceType ref = new StudentCompetencyObjectiveReferenceType();
 		StudentCompetencyObjectiveIdentityType scoIdentity = new StudentCompetencyObjectiveIdentityType();
-		JAXBElement<String> oid = factory.
-				createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(
-						sco.getStudentCompetencyObjectiveId());
-		scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
-		JAXBElement<String> objective = factory.
-				createStudentCompetencyObjectiveIdentityTypeObjective(sco.getObjective());
-		scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(objective);
+		scoIdentity.setStudentCompetencyObjectiveId(sco.getStudentCompetencyObjectiveId());
 		return ref;
 	}
 }

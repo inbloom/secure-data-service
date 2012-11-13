@@ -1,0 +1,13 @@
+{
+"recordType":"studentCompetencyObjective",
+"attributes":
+{
+	"EducationOrganizationReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}
