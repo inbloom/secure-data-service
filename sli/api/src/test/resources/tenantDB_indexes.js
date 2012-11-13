@@ -52,8 +52,8 @@ db["custom_entities"].ensureIndex({"metaData.entityId":1,"metaData.clientId":1})
 
 
 //_id indexes for embedded entities
-//studentAssessmentAssociation embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation._id":1});
+//studentAssessment embedded into student
+db["student"].ensureIndex({"studentAssessment._id":1});
 //studentSectionAssociation embedded into section
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 
@@ -101,9 +101,9 @@ db["staffProgramAssociation"].ensureIndex({"body.staffId":1});
 db["studentAcademicRecord"].ensureIndex({"body.reportCards":1});
 db["studentAcademicRecord"].ensureIndex({"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"body.studentId":1});
-//studentAssessmentAssociation is embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation.assessmentId":1});
-db["student"].ensureIndex({"studentAssessmentAssociation.studentId":1});  // do we need this?
+//studentAssessment is embedded into student
+db["student"].ensureIndex({"studentAssessment.assessmentId":1});
+db["student"].ensureIndex({"studentAssessment.studentId":1});  // do we need this?
 db["studentCohortAssociation"].ensureIndex({"body.cohortId":1});
 db["studentCohortAssociation"].ensureIndex({"body.studentId":1});
 db["studentCompetency"].ensureIndex({"body.objectiveId.learningObjectiveId":1});

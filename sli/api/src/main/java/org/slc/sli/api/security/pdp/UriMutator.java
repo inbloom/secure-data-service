@@ -146,7 +146,7 @@ public class UriMutator {
 
                 String modifiedRequest = reconnectPathSegments(Arrays.asList(baseEntity, requestedEntity));
                 if (modifiedRequest.equals(PathConstants.ASSESSMENTS + ";"
-                        + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + ";")) {
+                        + PathConstants.STUDENT_ASSESSMENTS + ";")) {
                     verifySingleTransitiveId(transitiveEntityId);
                     mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments",
                             StringUtils.join(sectionHelper.getTeachersSections(user), ","));
@@ -268,7 +268,7 @@ public class UriMutator {
                             StringUtils.join(sectionHelper.getTeachersSections(user), ","));
                 } else if (modifiedRequest.equals(PathConstants.SCHOOLS + ";"
                         + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + ";" + PathConstants.STUDENTS + ";"
-                        + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + ";")) {
+                        + PathConstants.STUDENT_ASSESSMENTS + ";")) {
                     mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments",
                             StringUtils.join(sectionHelper.getTeachersSections(user), ","));
                 } else if (modifiedRequest.equals(PathConstants.SCHOOLS + ";"
@@ -313,7 +313,7 @@ public class UriMutator {
 
                 String modifiedRequest = reconnectPathSegments(Arrays.asList(baseEntity, requestedEntity));
                 if (modifiedRequest.equals(PathConstants.ASSESSMENTS + ";"
-                        + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + ";")) {
+                        + PathConstants.STUDENT_ASSESSMENTS + ";")) {
                     verifySingleTransitiveId(transitiveEntityId);
                     mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAssessments",
                             StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
@@ -622,7 +622,7 @@ public class UriMutator {
                     mutatedPath = String.format(
                             "/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
                 }
-            } else if (ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS.equals(resource)) {
+            } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
                 if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
                     return formQueryBasedOnParameter(
                             "/sections/%s/studentSectionAssociations/students/studentAssessments", mutatedParameters,
@@ -782,7 +782,7 @@ public class UriMutator {
                 String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
                 mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
                         ids);
-            } else if (ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS.equals(resource)) {
+            } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
                 String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
                 mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAssessments", ids);
             } else if (ResourceNames.STUDENT_COHORT_ASSOCIATIONS.equals(resource)) {

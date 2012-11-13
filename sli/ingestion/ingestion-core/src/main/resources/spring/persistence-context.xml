@@ -70,7 +70,7 @@
     <value>assessment</value>
     <value>attendance</value>
     <value>learningObjective</value>
-    <value>studentAssessmentAssociation</value>
+    <value>studentAssessment</value>
     <value>courseTranscript</value>
   </util:set>
 

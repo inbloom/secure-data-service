@@ -22,7 +22,7 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
@@ -49,7 +49,7 @@ Then I only see "East Daybreak Junior High"
 
 When I select school "East Daybreak Junior High"
 And I look in the course drop-down
-Then I see these values in the drop-down: "8th Grade English;6th Grade Math;7th Grade English;6th Grade English;7th Grade Math"
+Then I see these values in the drop-down: "6th Grade English;6th Grade Math;7th Grade English;7th Grade Math;8th Grade English"
 
 When I select course "8th Grade English"
 Then I see these values in the drop-down: "8th Grade English - Sec 6"

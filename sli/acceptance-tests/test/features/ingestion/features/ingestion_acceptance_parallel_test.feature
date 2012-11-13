@@ -23,7 +23,7 @@ Given the following collections are empty in datastore:
         | teacherSectionAssociation             |
         | session                               |
         | assessment                            |
-        | studentAssessmentAssociation          |
+        | studentAssessment          |
         | gradebookEntry                        |
         | courseTranscript                      |
         | studentGradebookEntry                 |
@@ -60,7 +60,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation             | 20    |
         | session                               | 26    |
         | assessment                            | 5     |
-        | studentAssessmentAssociation          | 116   |
+        | studentAssessment          | 116   |
         | courseTranscript                      | 196   |
         | parent                                | 9     |
         | studentParentAssociation              | 9     |

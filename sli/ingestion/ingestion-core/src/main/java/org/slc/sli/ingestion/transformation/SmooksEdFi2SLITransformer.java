@@ -87,8 +87,8 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                 entity.getMetaData().put("externalId", externalId);
             }
 
-            if (EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(entity.getType())) {
-                // Because the studentAssessmentAssociation goes through a Combiner
+            if (EntityNames.STUDENT_ASSESSMENT.equals(entity.getType())) {
+                // Because the studentAssessment goes through a Combiner
                 // during the first Smooks translation. It would be quite complicated
                 // to use Smooks mapping for the second Smooks translation.
                 // All that needs doing is renaming the references from Ed-Fi names
@@ -106,7 +106,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     String assessmentId = (String) ref;
                     entity.getBody().put(SLI_ASSESSMENT_REFERENCE, assessmentId);
                 } else {
-                    LOG.error("Unable to map 'assessmentId' in studentAssessmentAssociation. Expected a String.");
+                    LOG.error("Unable to map 'assessmentId' in studentAssessment. Expected a String.");
                 }
             }
 

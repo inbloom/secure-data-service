@@ -609,7 +609,7 @@ Other</xs:documentation>
         <xs:annotation>
             <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:recordType>studentAssessmentAssociation</sli:recordType>
+                <sli:recordType>studentAssessment</sli:recordType>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
@@ -843,7 +843,7 @@ Other</xs:documentation>
       <xs:documentation/>
       <xs:appinfo>
         <sli:applyKeyFields>true</sli:applyKeyFields>
-        <sli:refType>studentAssessmentAssociation</sli:refType>
+        <sli:refType>studentAssessment</sli:refType>
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>

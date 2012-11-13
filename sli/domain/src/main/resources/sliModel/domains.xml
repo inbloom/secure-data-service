@@ -213,8 +213,7 @@
 		</entity>
 		<entity>
 			<title xml:lang="en">Student Assessment</title>
-			<!-- StudentAssessment was renamed. It should be reverted. -->
-			<class name="StudentAssessmentAssociation"></class>
+			<class name="StudentAssessment"></class>
 		</entity>
 		<entity>
 			<title xml:lang="en">Student Assessment Item</title>
