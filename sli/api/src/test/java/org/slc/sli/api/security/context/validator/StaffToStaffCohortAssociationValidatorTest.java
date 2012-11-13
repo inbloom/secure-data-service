@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -125,6 +126,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
     }
     
     @Test
+    @Ignore
     public void testCanNotValidateExpiredAssociation() {
         // Association itself is bad.
         Entity school = helper.generateEdorgWithParent(null);
