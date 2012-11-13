@@ -142,7 +142,7 @@ public class JsonToFixtureConverter {
         writeTeacherSectionAssociations();
         writeCourseSectionAssociations();
         writeStudents();
-        writeStudentAssessmentAssociations();
+        writeStudentAssessments();
     }
     
     private void writeFixture(String fileName, Iterator<?> iter) {
@@ -260,7 +260,7 @@ public class JsonToFixtureConverter {
         }
     }
     
-    private void writeStudentAssessmentAssociations() {
+    private void writeStudentAssessments() {
         HashMap<String, StudentAssessment> map = DataManager.getStudentAssessments();
         if (map != null) {
             Iterator<StudentAssessment> iter = map.values().iterator();

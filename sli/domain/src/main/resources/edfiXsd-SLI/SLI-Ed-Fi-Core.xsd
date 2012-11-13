@@ -620,7 +620,7 @@ Other</xs:documentation>
         <xs:annotation>
             <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:recordType>studentAssessmentAssociation</sli:recordType>
+                <sli:recordType>studentAssessment</sli:recordType>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
@@ -854,7 +854,7 @@ Other</xs:documentation>
       <xs:documentation/>
       <xs:appinfo>
         <sli:applyKeyFields>true</sli:applyKeyFields>
-        <sli:refType>studentAssessmentAssociation</sli:refType>
+        <sli:refType>studentAssessment</sli:refType>
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
@@ -2736,12 +2736,12 @@ Representative of visiting school
 							<xs:documentation>A school or agency providing free public elementary or secondary education to eligible students under a specific charter granted by the state legislature or other appropriate authority and designated by such authority to be a charter school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>For subdistricts, the LEA the subdistrict is a component of.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationServiceCenterReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ESC of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>

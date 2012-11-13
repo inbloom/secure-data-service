@@ -39,7 +39,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | rrogers    | rrogers1234 |
       | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             | rrogers    | rrogers1234 |
       | staffProgramAssociation                | staffProgramAssociations                 | endDate                  | 2012-12-31             | 2012-02-01             | rrogers    | rrogers1234 |
-      | studentAssessmentAssociation           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
+      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | rrogers    | rrogers1234 |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | rrogers    | rrogers1234 |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | rrogers    | rrogers1234 |
@@ -48,7 +48,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | cgrayadmin | cgray1234   |
-      | studentAssessmentAssociation           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
+      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | cgrayadmin | cgray1234   |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | cgrayadmin | cgray1234   |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | cgrayadmin | cgray1234   |
@@ -125,7 +125,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffCohortAssociation                 | staffCohortAssociations                  | 2     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
-      | studentAssessmentAssociation           | studentAssessments                       | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAssessments" |
+      | studentAssessment           | studentAssessments                       | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAssessments" |
       | studentCohortAssociation               | studentCohortAssociations                | 6     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     | "/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations" |
       | studentParentAssociation               | studentParentAssociations                | 0     | "/schools/@ids/studentSchoolAssociations/students/studentParentAssociations" |
@@ -159,7 +159,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 0     | "/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 0     | "/staff/@ids/staffProgramAssociations" |
-      | studentAssessmentAssociation           | studentAssessments                       | 3     | "/sections/@ids/studentSectionAssociations/students/studentAssessments" |
+      | studentAssessment           | studentAssessments                       | 3     | "/sections/@ids/studentSectionAssociations/students/studentAssessments" |
       | studentCohortAssociation               | studentCohortAssociations                | 0     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     | "/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations" |
       | studentParentAssociation               | studentParentAssociations                | 2     | "/sections/@ids/studentSectionAssociations/students/studentParentAssociations" |
@@ -224,7 +224,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffCohortAssociation                 | staffCohortAssociations                  | <b4e31b1a-8e55-8803-722c-14d8087c0712> | beginDate                | 2011-02-01             | staffId               | cohortId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | <0966614a-6c5d-4345-b451-7ec991823ac5> | beginDate                | 2011-02-15             | staffReference        | educationOrganizationReference | <04f708bc-928b-420d-a440-f1592a5d1073> | <b2c6e292-37b0-4148-bf75-c98a2fcc905f> |
       | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f> | endDate                  | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b> |
-      | studentAssessmentAssociation           | studentAssessments                       | <74cf790e-84c4-4322-84b8-fca7206f1085_ide85b5aa7-465a-6dd3-8ffb-d02461ed79f8_id> | retestIndicator          | 2nd Retest             | studentId             | assessmentId                   | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <abc16592-7d7e-5d27-a87d-dfc7fcb12346> |
+      | studentAssessment           | studentAssessments                       | <74cf790e-84c4-4322-84b8-fca7206f1085_ide85b5aa7-465a-6dd3-8ffb-d02461ed79f8_id> | retestIndicator          | 2nd Retest             | studentId             | assessmentId                   | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <abc16592-7d7e-5d27-a87d-dfc7fcb12346> |
       | studentCohortAssociation               | studentCohortAssociations                | <b40c5b02-8fd5-11e1-86ec-0021701f543f> | beginDate                | 2011-12-01             | studentId             | cohortId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | <0e26de6c-225b-9f67-9625-5113ad50a03b> | studentParticipationCode | Witness                | studentId             | disciplineIncidentId           | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <0e26de79-22aa-5d67-9201-5113ad50a03b> |
       | studentParentAssociation               | studentParentAssociations                | <c5aa1969-492a-5150-8479-71bfc4d57f1e> | livesWith                | false                  | studentId             | parentId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be> | <cb7a932f-2d44-800c-cd5a-cdb25a29fc75> |

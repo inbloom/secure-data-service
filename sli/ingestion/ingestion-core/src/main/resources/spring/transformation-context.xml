@@ -169,6 +169,11 @@
           <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
       </bean>
     </entry>
+    <entry key="stateEducationAgency">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/stateEducationAgency.xml" />
+      </bean>
+    </entry>
     <entry key="localEducationAgency">
       <bean class="org.milyn.Smooks">
           <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/localEducationAgency.xml" />

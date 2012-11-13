@@ -80,6 +80,9 @@ public class DefaultResourceService implements ResourceService {
     @Autowired
     private ModelProvider provider;
 
+    @Autowired
+    private ResourceServiceHelper resourceServiceHelper;
+
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     /**
@@ -113,7 +116,7 @@ public class DefaultResourceService implements ResourceService {
 
                 final List<String> ids = Arrays.asList(idList.split(","));
 
-                ApiQuery apiQuery = getApiQuery(definition, requestURI);
+                ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
 
                 apiQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 apiQuery.setLimit(0);
@@ -147,7 +150,7 @@ public class DefaultResourceService implements ResourceService {
             @Override
             public ServiceResponse run(final Resource resource, final EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
-                final ApiQuery apiQuery = getApiQuery(definition, requestURI);
+                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
 
                 if (getAllEntities) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
@@ -178,17 +181,6 @@ public class DefaultResourceService implements ResourceService {
         });
     }
 
-    protected ApiQuery addTypeCriteria(EntityDefinition entityDefinition, ApiQuery apiQuery) {
-
-        if (apiQuery != null && entityDefinition != null
-                && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
-            apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition
-                    .getType()), false));
-        }
-
-        return apiQuery;
-    }
-
     protected long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
         long count = 0;
 
@@ -212,16 +204,6 @@ public class DefaultResourceService implements ResourceService {
         return count;
     }
 
-    protected ApiQuery getApiQuery(EntityDefinition definition, final URI requestURI) {
-        ApiQuery apiQuery = new ApiQuery(requestURI);
-        addTypeCriteria(definition, apiQuery);
-
-        return apiQuery;
-    }
-
-    protected ApiQuery getApiQuery(EntityDefinition definition) {
-        return getApiQuery(definition, null);
-    }
     @Override
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
@@ -289,7 +271,7 @@ public class DefaultResourceService implements ResourceService {
         List<EntityBody> entityBodyList;
         List<String> valueList = Arrays.asList(id.split(","));
 
-        final ApiQuery apiQuery = getApiQuery(definition, requestURI);
+        final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
         
         //Mongo blows up if we have multiple $in or equal criteria for the same key.
         //To avoid that case, if we do have duplicate keys, set the value for that
@@ -359,7 +341,7 @@ public class DefaultResourceService implements ResourceService {
 
         String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
         if ((parentType != null) && baseEntity.getType().equals(parentType)) {
-            final ApiQuery apiQuery = getApiQuery(baseEntity);
+            final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
             apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
@@ -375,7 +357,7 @@ public class DefaultResourceService implements ResourceService {
                 }
             }
         } else {
-            final ApiQuery apiQuery = getApiQuery(assocEntity);
+            final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
             if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -402,7 +384,7 @@ public class DefaultResourceService implements ResourceService {
         }
 
         List<EntityBody> entityBodyList;
-        final ApiQuery finalApiQuery = getApiQuery(finalEntity, requestUri);
+        final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
 
         //Mongo blows up if we have multiple $in or equal criteria for the same key.
         //To avoid that case, if we do have duplicate keys, set the value for that
@@ -418,7 +400,7 @@ public class DefaultResourceService implements ResourceService {
                 } else {
                     valueSet.add(crit.getValue());
                 }
-                valueSet.retainAll(valueList);
+                valueSet.retainAll(filteredIdList);
                 crit.setValue(valueSet);
             }
         }
