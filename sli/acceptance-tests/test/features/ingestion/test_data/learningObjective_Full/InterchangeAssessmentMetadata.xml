@@ -15,9 +15,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective2</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>To not get left behind!</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -36,9 +36,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective3</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>To not get left behind!</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -57,9 +57,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective4</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>To not get left behind!</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -78,9 +78,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective5</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>To not get left behind!</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>

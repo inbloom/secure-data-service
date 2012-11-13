@@ -54,10 +54,12 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String LS_ID_CODE_PATH = ID_CODE;
     public static final String LS_CONTENT_STANDARD_NAME_PATH = "learningStandardId." + CONTENT_STANDARD_NAME;
     public static final String LEARNING_OBJ_REFS = "learningObjectiveRefs";
+    //public static final String LEARNING_OBJ_REFS = "LearningObjectiveReference";
     public static final String LEARNING_STD_REFS = "learningStandardRefs";
+    public static final String PARENT_LEARNING_OBJ_REF = "LearningObjectiveReference";
     public static final String LOCAL_ID_OBJECTIVE_ID = "parentObjectiveId";
-    public static final String LOCAL_ID_CONTENT_STANDARD = "parentContentStandardName";
-    public static final String LOCAL_ID_OBJECTIVE = "parentObjective";
+    //public static final String LOCAL_ID_CONTENT_STANDARD = "parentContentStandardName";
+    //public static final String LOCAL_ID_OBJECTIVE = "parentObjective";
     public static final String LOCAL_ID_LEARNING_STANDARDS = "childLearningStandards";
 
     private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
@@ -76,7 +78,6 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         for (NeutralRecord parentLO : learningObjectives) {
             // add to working set for persistence
             transformedLearningObjectives.add(parentLO);
-
             flipLearningObjectiveRelDirection(parentLO, learningObjectiveIdMap, transformedLearningObjectives);
 
             moveLearningStdRefsToParentIds(parentLO);
@@ -92,16 +93,17 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
-            String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);
-            String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
-            if (objectiveId != null) {
-                if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
+            String objective = getByPath("objective", attributes);
+            String academicSubject = getByPath("academicSubject", attributes);
+            String objectiveGradeLevel = getByPath("objectiveGradeLevel", attributes);
+            if (objective != null && academicSubject != null && academicSubject != null) {
+                if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel))) {
                     super.getErrorReport(lo.getSourceFile())
-                            .error("Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
-                                    + objectiveId + ", ContentStandardName" + contentStandard, this);
+                            .error("Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. Objective: "
+                                    + objective + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel" + objectiveGradeLevel, this);
                     continue;
                 }
-                learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
+                learningObjectiveIdMap.put(new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel), lo);
             }
         }
         return learningObjectiveIdMap;
@@ -115,45 +117,45 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         String parentContentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, parentLO.getAttributes());
         String parentObj = getByPath("objective", parentLO.getAttributes());
-        List<Map<String, Object>> childLearningObjRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
-                LEARNING_OBJ_REFS);
+        Map<String, Object> childLearningObjRefs = (Map<String, Object>) parentLO.getAttributes().get(LEARNING_OBJ_REFS);
 
         if (childLearningObjRefs != null) {
-            for (Map<String, Object> loRef : childLearningObjRefs) {
-                String objId = getByPath(LO_ID_CODE_PATH, loRef);
-                String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, loRef);
+            String objective = getByPath("LearningObjectiveIdentity.Objective", childLearningObjRefs);
+            String academicSubject = getByPath("LearningObjectiveIdentity.AcademicSubject", childLearningObjRefs);
+            String objectiveGradeLevel = getByPath("LearningObjectiveIdentity.ObjectiveGradeLevel", childLearningObjRefs);
 
-                LearningObjectiveId loId = new LearningObjectiveId(objId, contentStandard);
-                NeutralRecord childNR = learningObjectiveIdMap.get(loId);
-                if (childNR != null) {
+            LearningObjectiveId loId = new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel);
+            NeutralRecord childNR = learningObjectiveIdMap.get(loId);
+            if (childNR != null) {
 
-                    setParentObjectiveRef(childNR, parentObjId, parentContentStandard, parentObj, objId);
+                setParentObjectiveRef(childNR, parentObjId, parentContentStandard, parentObj, objective, academicSubject, objectiveGradeLevel);
 
+            } else {
+
+                // try sli db
+                NeutralQuery query = new NeutralQuery();
+                query.addCriteria(new NeutralCriteria("objective",
+                        NeutralCriteria.OPERATOR_EQUAL, objective));
+                query.addCriteria(new NeutralCriteria("academicSubject",
+                        NeutralCriteria.OPERATOR_EQUAL, academicSubject));
+                query.addCriteria(new NeutralCriteria("objectiveGradeLevel",
+                        NeutralCriteria.OPERATOR_EQUAL, objectiveGradeLevel));
+
+                Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
+
+                if (childEntity != null) {
+                    NeutralRecord childEntityNR = new NeutralRecord();
+                    childEntityNR.setAttributes(childEntity.getBody());
+                    childEntityNR.setRecordType(childEntity.getType());
+                    childEntityNR.setBatchJobId(parentLO.getBatchJobId());
+                    setParentObjectiveRef(childEntityNR, parentObjId, parentContentStandard, parentObj, objective, academicSubject, objectiveGradeLevel);
+
+                    // add this entity to our NR working set
+                    transformedLearningObjectives.add(childEntityNR);
                 } else {
-
-                    // try sli db
-                    NeutralQuery query = new NeutralQuery();
-                    query.addCriteria(new NeutralCriteria("learningObjectiveId.contentStandardName",
-                            NeutralCriteria.OPERATOR_EQUAL, contentStandard));
-                    query.addCriteria(new NeutralCriteria("learningObjectiveId.identificationCode",
-                            NeutralCriteria.OPERATOR_EQUAL, objId));
-
-                    Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
-
-                    if (childEntity != null) {
-                        NeutralRecord childEntityNR = new NeutralRecord();
-                        childEntityNR.setAttributes(childEntity.getBody());
-                        childEntityNR.setRecordType(childEntity.getType());
-                        childEntityNR.setBatchJobId(parentLO.getBatchJobId());
-                        setParentObjectiveRef(childEntityNR, parentObjId, parentContentStandard, parentObj, objId);
-
-                        // add this entity to our NR working set
-                        transformedLearningObjectives.add(childEntityNR);
-                    } else {
-                        super.getErrorReport(parentLO.getSourceFile()).error(
-                                "Could not resolve LearningObjectiveReference with IdentificationCode " + objId
-                                        + ", ContentStandardName " + contentStandard, this);
-                    }
+                    super.getErrorReport(parentLO.getSourceFile()).error(
+                            "Could not resolve LearningObjectiveReference with Objective: "
+                                    + objective + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel" + objectiveGradeLevel, this);
                 }
             }
         }
@@ -162,17 +164,21 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     }
 
     private void setParentObjectiveRef(NeutralRecord childLo, String parentObjectiveId, String parentContentStandard,
-            String parentObjective, String objectiveId) {
+            String parentObjective, String objective, String academicSubject, String objectiveGradeLevel) {
         if (childLo.getLocalParentIds() == null) {
             childLo.setLocalParentIds(new HashMap<String, Object>());
         }
-        if (!childLo.getLocalParentIds().containsKey(LOCAL_ID_OBJECTIVE_ID)) {
-            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
-            childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
-            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+        if (!childLo.getLocalParentIds().containsKey(PARENT_LEARNING_OBJ_REF)) {
+            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".objective", objective);
+            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".academicSubject", academicSubject);
+            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".objectiveGradeLevel", objectiveGradeLevel);
+            //childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
+            //childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
+            //childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
         } else {
             super.getErrorReport(childLo.getSourceFile()).error(
-                    "LearningObjective cannot have multiple parents. IdentificationCode: " + objectiveId, this);
+                    "LearningObjective cannot have multiple parents. Objective: "
+                                    + objective + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel" + objectiveGradeLevel, this);
         }
     }
 
@@ -240,20 +246,23 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     }
 
     private static class LearningObjectiveId {
-        final String objectiveId;
-        final String contentStandardName;
+        final String objective;
+        final String academicSubject;
+        final String objectiveGradeLevel;
 
-        public LearningObjectiveId(String objectiveId, String contentStandardName) {
-            this.objectiveId = objectiveId;
-            this.contentStandardName = contentStandardName;
+        public LearningObjectiveId(String objective, String academicSubject, String objectiveGradeLevel) {
+            this.objective = objective;
+            this.academicSubject = academicSubject;
+            this.objectiveGradeLevel = objectiveGradeLevel;
         }
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((contentStandardName == null) ? 0 : contentStandardName.hashCode());
-            result = prime * result + ((objectiveId == null) ? 0 : objectiveId.hashCode());
+            result = prime * result + ((objective == null) ? 0 : objective.hashCode());
+            result = prime * result + ((academicSubject == null) ? 0 : academicSubject.hashCode());
+            result = prime * result + ((objectiveGradeLevel == null) ? 0 : objectiveGradeLevel.hashCode());
             return result;
         }
 
@@ -269,18 +278,25 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                 return false;
             }
             LearningObjectiveId other = (LearningObjectiveId) obj;
-            if (contentStandardName == null) {
-                if (other.contentStandardName != null) {
+            if (objective == null) {
+                if (other.objective != null) {
                     return false;
                 }
-            } else if (!contentStandardName.equals(other.contentStandardName)) {
+            } else if (!objective.equals(other.objective)) {
                 return false;
             }
-            if (objectiveId == null) {
-                if (other.objectiveId != null) {
+            if (academicSubject == null) {
+                if (other.academicSubject != null) {
                     return false;
                 }
-            } else if (!objectiveId.equals(other.objectiveId)) {
+            } else if (!academicSubject.equals(other.academicSubject)) {
+                return false;
+            }
+            if (objectiveGradeLevel == null) {
+                if (other.objectiveGradeLevel != null) {
+                    return false;
+                }
+            } else if (!objectiveGradeLevel.equals(other.objectiveGradeLevel)) {
                 return false;
             }
             return true;
