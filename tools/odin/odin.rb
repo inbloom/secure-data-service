@@ -40,8 +40,9 @@ Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
 
 configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
 
+scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', configYAML['scenario'] ))
 if ARGV.count == 1
-  configYAML['studentCount'] = ARGV[0].to_i
+  scenarioYAML['studentCount'] = ARGV[0].to_i
 end
 
 prng = Random.new(configYAML['seed'])
@@ -50,9 +51,9 @@ Dir.mkdir('generated') if !Dir.exists?('generated')
 time = Time.now
 pids = []
     
-pids << fork {  StudentParentGenerator.new.write(prng, configYAML)           }
-pids << fork {  EducationOrganizationGenerator.new.write(prng, configYAML)   }
-pids << fork {  StudentEnrollmentGenerator.new.write(prng, configYAML)       }
+pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
+pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
+pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
 Process.waitall
 
 finalTime = Time.now - time
