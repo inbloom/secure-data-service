@@ -139,61 +139,6 @@ db["section"].ensureIndex({"teacherSectionAssociation.body.sectionId":1});
 db["section"].ensureIndex({"teacherSectionAssociation.body.teacherId":1});
 
 ///////////////////////////////////////////////////////////////////
-// staff context resolver access - stamped edOrgs
-///////////////////////////////////////////////////////////////////
-
-// This section can be removed when staff stamper goes away (stamper indexes below)
-//stories US4056, US4466 (Lucky Strike)
-db["assessment"].ensureIndex({"metaData.edOrgs":1});
-db["attendance"].ensureIndex({"metaData.edOrgs":1});
-db["calendarDate"].ensureIndex({"metaData.edOrgs":1});
-db["cohort"].ensureIndex({"metaData.edOrgs":1});
-db["competencyLevelDescriptor"].ensureIndex({"metaData.edOrgs":1});
-db["course"].ensureIndex({"metaData.edOrgs":1});
-db["courseOffering"].ensureIndex({"metaData.edOrgs":1});
-db["courseSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["courseTranscript"].ensureIndex({"metaData.edOrgs":1});
-db["disciplineAction"].ensureIndex({"metaData.edOrgs":1});
-db["disciplineIncident"].ensureIndex({"metaData.edOrgs":1});
-db["educationOrganization"].ensureIndex({"metaData.edOrgs":1});
-db["educationOrganizationAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["educationOrganizationSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["grade"].ensureIndex({"metaData.edOrgs":1});
-db["gradebookEntry"].ensureIndex({"metaData.edOrgs":1});
-db["gradingPeriod"].ensureIndex({"metaData.edOrgs":1});
-db["graduationPlan"].ensureIndex({"metaData.edOrgs":1});
-db["learningObjective"].ensureIndex({"metaData.edOrgs":1});
-db["learningStandard"].ensureIndex({"metaData.edOrgs":1});
-db["parent"].ensureIndex({"metaData.edOrgs":1});
-db["program"].ensureIndex({"metaData.edOrgs":1});
-db["reportCard"].ensureIndex({"metaData.edOrgs":1});
-db["section"].ensureIndex({"metaData.edOrgs":1});
-db["session"].ensureIndex({"metaData.edOrgs":1});
-db["staff"].ensureIndex({"metaData.edOrgs":1});
-db["staffCohortAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["student"].ensureIndex({"metaData.edOrgs":1});
-db["studentAcademicRecord"].ensureIndex({"metaData.edOrgs":1});
-db["studentCohortAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["studentCompetency"].ensureIndex({"metaData.edOrgs":1});
-db["studentCompetencyObjective"].ensureIndex({"metaData.edOrgs":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["studentGradebookEntry"].ensureIndex({"metaData.edOrgs":1});
-db["studentParentAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["studentSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["teacherSchoolAssociation"].ensureIndex({"metaData.edOrgs":1});
-db["teacherSectionAssociation"].ensureIndex({"metaData.edOrgs":1});
-
-//TODO BAD INDEX to make stamper run with --notablescan (stamper wasn't updated for embedded entity)
-db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1});
-//TODO BAD INDEX to make stamper run with --notablescan (stamper wasn't updated for embedded entity)
-db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1});
-//TODO BAD INDEX to make stamper run with --notablescan (collection removed?)
-db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1});
-db["schoolSessionAssociation"].ensureIndex({"body.sessionId":1});
-
-///////////////////////////////////////////////////////////////////
 // Ingestion
 ///////////////////////////////////////////////////////////////////
 
@@ -232,7 +177,7 @@ db["studentCompetencyObjective"].ensureIndex({"body.studentCompetencyObjectiveId
 
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1,"type":1});
 db["educationOrganization"].ensureIndex({"type":1,"body.nameOfInstitution":1});
-db["gradingPeriod"].ensureIndex({"body.beginDate":1,"metaData.edOrgs":1});
+db["gradingPeriod"].ensureIndex({"body.beginDate":1});
 db["staff"].ensureIndex({"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"type":1});
 
@@ -242,6 +187,9 @@ db["reportCard"].ensureIndex({"body.gpaCumulative":1});
 
 //US4365
 db["student"].ensureIndex({"cohort._id" : 1});
+
+//DE2091, checked with Billy
+db["competencyLevelDescriptor"].ensureIndex({"body.codeValue":1});
 
 // US4602, checked with Billy.
 db["educationOrganization"].ensureIndex({"body.organizationCategories":1});

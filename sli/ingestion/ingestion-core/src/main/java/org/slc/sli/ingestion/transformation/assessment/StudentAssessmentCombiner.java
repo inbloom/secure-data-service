@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+
 /**
  * Transformer for StudentAssessmentAssociation entities.
- * 
+ *
  * @author nbrown
  * @author shalka
  */
@@ -127,18 +128,22 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             try {
                 studentId = (String) PropertyUtils.getNestedProperty(attributes,
                         "StudentReference.StudentIdentity.StudentUniqueStateId");
+            } catch (NoSuchMethodException e) {
+                LOG.warn("Unable to get StudentID within {} for StudentAssessment transform", attributes);
             } catch (Exception e) {
-                LOG.debug("Unable to get StudentID for StudentAssessment transform");
+                LOG.error("Exception occurred while retreiving student id", e);
             }
 
             try {
                 administrationDate = (String) attributes.get("administrationDate");
-            } catch (Exception e) {
-                LOG.debug("Unable to get AdministrationDate for StudentAssessment transform");
+            } catch (ClassCastException e) {
+                LOG.error("Illegal value {} for administration date, must be a string");
             }
 
             try {
+                @SuppressWarnings("unchecked")
                 Map<String, Object> assessment = (Map<String, Object>) attributes.get("AssessmentReference");
+                @SuppressWarnings("unchecked")
                 Map<String, Object> assessmentIdentity = (Map<String, Object>) assessment.get("AssessmentIdentity");
 
                 assessmentTitle = (String) assessmentIdentity.get(ASSESSMENT_TITLE);
@@ -146,7 +151,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 gradeLevelAssessed = (String) assessmentIdentity.get(GRADE_LEVEL_ASSESSED);
                 version = (Integer) assessmentIdentity.get(VERSION);
             } catch (Exception e) {
-                LOG.debug("Unable to get key fields for StudentAssessment transform", e);
+                LOG.error("Unable to get key fields for StudentAssessment transform", e);
             }
 
             if (studentAssessmentAssociationId != null) {
@@ -203,7 +208,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -259,7 +264,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
