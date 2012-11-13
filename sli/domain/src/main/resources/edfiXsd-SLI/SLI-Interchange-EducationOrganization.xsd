@@ -19,7 +19,7 @@
 				<xs:element name="ClassPeriod" type="ClassPeriod"/>
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
-				<xs:element name="Program" type="SLC-ProgramRestriction"/>
+				<xs:element name="Program" type="SLC-Program"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
