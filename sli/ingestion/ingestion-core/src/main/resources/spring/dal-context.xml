@@ -191,7 +191,7 @@
     <value>teacherSchoolAssociation,false,creationTime</value>
     <value>teacherSectionAssociation,false,creationTime</value>
     <!-- indexes for transformers -->
-    <value>assessmentFamily,false,body.AssessmentFamilyIdentificationCode.ID</value>
+    <value>assessmentFamily,false,body.AssessmentFamilyTitle</value>
     <value>assessmentItem,false,body.identificationCode</value>
     <value>assessmentItem,false,localId</value>
     <value>assessmentPeriodDescriptor,false,body.codeValue</value>
@@ -200,10 +200,10 @@
     <value>school,false,body.stateOrganizationId</value>
     <value>session,false,body.schoolId</value>
     <value>studentAssessmentItem,false,localParentIds.studentResultRef</value>
-    <value>studentAssessmentItem,false,localParentIds.studentAssessmentReference.studentReference.studentUniqueStateId,localParentIds.studentAssessmentReference.administrationDate,localParentIds.studentAssessmentReference.assessmentReference.identificationSystem,localParentIds.studentAssessmentReference.assessmentReference.id
+    <value>studentAssessmentItem,false,localParentIds.studentAssessmentReference.studentReference.studentUniqueStateId,localParentIds.studentAssessmentReference.administrationDate
     </value>
     <value>studentObjectiveAssessment,false,body.studentAssessmentRef</value>
-    <value>studentObjectiveAssessment,false,body.studentAssessmentReference.studentReference.studentUniqueStateId,body.studentAssessmentReference.administrationDate,body.studentAssessmentReference.assessmentReference.identificationSystem,body.studentAssessmentReference.assessmentReference.id
+    <value>studentObjectiveAssessment,false,body.studentAssessmentReference.studentReference.studentUniqueStateId,body.studentAssessmentReference.administrationDate
     </value>
     <value>studentSchoolAssociation,false,body.studentId</value>
   </util:set>
