@@ -20,6 +20,7 @@ require "rexml/document"
 require 'digest/md5'
 require 'yaml'
 
+require_relative 'validator.rb'
 require_relative 'util.rb'
 class Odin
   def generate( )
@@ -52,15 +53,16 @@ class Odin
   end
 
 	def validate()
+	  valid = true 
 	  Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f| 
-	    
-	    validate_file(f) 
+	   
+	    valid = valid && validate_file(f) 
+	   
 	    }
+	    return valid
 	end
 	
-	def validate_file ( f ) 
-	   puts "Not yet validating file #{f}"  
-	   
-	end
+	
+
 end
 

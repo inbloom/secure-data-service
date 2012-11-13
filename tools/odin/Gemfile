@@ -2,3 +2,5 @@ source 'http://rubygems.org'
 gem 'rake'
 gem 'rspec'
 gem "mustache"
+
+gem 'nokogiri'

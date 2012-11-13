@@ -23,7 +23,6 @@ describe "Odin" do
   it "generates" do
     odin = Odin.new
     odin.generate()
-    odin.validate()
-    true
+    odin.validate().should be true
   end
 end
