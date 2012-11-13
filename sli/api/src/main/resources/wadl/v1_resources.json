@@ -407,10 +407,6 @@
       ]
     },
     {
-      "path": "/competencyLevelDescriptorTypes",
-      "doc": "Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange. To lookup where already loaded specify either CodeValue OR Description. For more information, see the schema $$CompetencyLevelDescriptorType$$ resources."
-    },
-    {
       "path": "/studentParentAssociations",
       "doc": "Represents the relationships between students and their parents, guardians, or caretakers. For more information, see the schema for $$StudentParentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentParentAssociations. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentParentAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [

@@ -51,7 +51,6 @@ public class PathConstants {
     public static final String ATTENDANCES = "attendances";
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
-    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
@@ -130,7 +129,6 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
         TEMP_MAP.put(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, COMPETENCY_LEVEL_DESCRIPTORS);
-        TEMP_MAP.put(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES, COMPETENCY_LEVEL_DESCRIPTOR_TYPES);
         TEMP_MAP.put(ResourceNames.COURSES, COURSES);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_INCIDENTS, DISCIPLINE_INCIDENTS);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_ACTIONS, DISCIPLINE_ACTIONS);

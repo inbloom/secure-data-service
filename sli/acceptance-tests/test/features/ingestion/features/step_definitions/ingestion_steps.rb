@@ -1472,6 +1472,8 @@ def subDocParent(collectionName)
       "student"
     when "studentCohortAssociation"
       "cohort"
+    when "studentDisciplineIncidentAssociation"
+      "student"
     else
       nil
   end

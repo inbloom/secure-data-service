@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -117,13 +118,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             localParentIdKey = k;
         }
     }
-    public static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
+    public final static Map<String, SelfRefEntityConfig> SELF_REF_ENTITY_CONFIG;
     static {
-        SELF_REF_ENTITY_CONFIG = new HashMap<String, SelfRefEntityConfig> ();
+        HashMap<String, SelfRefEntityConfig> m = new HashMap<String, SelfRefEntityConfig> ();
         // learning objective's parent reference is stored in localParentId map. 
-        SELF_REF_ENTITY_CONFIG.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
+        m.put("learningObjective", new SelfRefEntityConfig("learningObjectiveId.identificationCode", null, "parentObjectiveId"));
         // localEducationAgency's parent reference is stored in a field an attribute
-        SELF_REF_ENTITY_CONFIG.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
+        m.put("localEducationAgency", new SelfRefEntityConfig("stateOrganizationId", "localEducationAgencyReference", null));
+        SELF_REF_ENTITY_CONFIG = Collections.unmodifiableMap(m);
     }
     // End Self-referencing entity
     

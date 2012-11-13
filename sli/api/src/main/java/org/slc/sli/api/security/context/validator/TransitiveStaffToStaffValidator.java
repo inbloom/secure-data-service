@@ -49,6 +49,10 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
 	@Override
 	public boolean validate(String entityName, Set<String> staffIds) {
 
+		if (staffIds == null || staffIds.isEmpty()) {
+			return false;
+		}
+		
 		List<String> remainder = new ArrayList<String>(staffIds);
 
 		// Intersecting schools
@@ -63,6 +67,11 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
 		Map<String, Set<String>> staffEdorgMap = new HashMap<String, Set<String>>();
 		populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
 		Set<String> edOrgLineage = getStaffEdOrgLineage();
+		
+		//	Ok, user doesn't have any current edorgs, don't go any further
+		if(edOrgLineage.isEmpty() || staffEdorgMap.isEmpty()) {
+			return false;
+		}
 
 		for (Entry<String, Set<String>> entry : staffEdorgMap.entrySet()) {
 			Set<String> tmpSet = new HashSet<String>(entry.getValue());
@@ -132,6 +141,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
 	@SuppressWarnings("unchecked")
 	private List<String> getIds(String assoc, String field, List<String> groups) {
 		NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(field, "in", groups));
+		injectEndDateQuery(basicQuery);
 		Iterable<Entity> spas = repo.findAll(assoc, basicQuery);
 
 		List<String> ids = new ArrayList<String>();
