@@ -122,8 +122,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             	// HACK HACK HACK HACK ... and needs more work
                 // didResolver has problems resolving StudentReference in "attendance" currently,
                 // but it is not needed for DID calculation so we skip it
-                if (!"attendance".equals(neutralRecord.getRecordType())) {
-                    NeutralRecord neutralRecordResolved = (NeutralRecord) neutralRecord.clone();
+                NeutralRecord neutralRecordResolved = null;
+            	if (!"attendance".equals(neutralRecord.getRecordType())) {
+                    neutralRecordResolved = (NeutralRecord) neutralRecord.clone();
                     Entity entity = new NeutralRecordEntity(neutralRecordResolved);
                     didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
                 }
@@ -131,7 +132,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 // Entity entity = new NeutralRecordEntity(neutralRecord);
                 // didResolver.resolveInternalIds(entity, neutralRecord.getSourceId(), errorReport);
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy)) {
+                if ( !SliDeltaManager.isPreviouslyIngested(neutralRecord, neutralRecordResolved, batchJobDAO, dIdStrategy)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {

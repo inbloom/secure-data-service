@@ -45,10 +45,16 @@ public final class SliDeltaManager {
 	 * @param dIdStrategy
 	 * @return
 	 */
-    public static boolean isPreviouslyIngested(NeutralRecord n, BatchJobDAO batchJobDAO, DeterministicUUIDGeneratorStrategy dIdStrategy) {
+    public static boolean isPreviouslyIngested(NeutralRecord n, NeutralRecord withDids, BatchJobDAO batchJobDAO, DeterministicUUIDGeneratorStrategy dIdStrategy) {
 
-        String recordId = n.generateRecordId(dIdStrategy);
+    	// Calculate DiD using natural key values (that are references) in their Did form
+    	String recordId = null;
+    	if ( withDids == null )
+    		recordId = n.generateRecordId(dIdStrategy);
+    	else
+    		recordId = withDids.generateRecordId(dIdStrategy);
         String tenantId = TenantContext.getTenantId();
+        // Calculate record hash using natural keys' values
         String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);
         RecordHash record = batchJobDAO.findRecordHash(tenantId, recordId);
 
