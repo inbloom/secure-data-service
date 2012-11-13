@@ -75,6 +75,14 @@ public class DeterministicIdResolver {
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
+        resolveInternalIdsImpl(entity, tenantId, true, errorReport);
+    }
+
+    public void resolveInternalIds(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
+        resolveInternalIdsImpl(entity, tenantId, addContext, errorReport);
+    }
+
+    public void resolveInternalIdsImpl(Entity entity, String tenantId, boolean addContext, ErrorReport errorReport) {
 
         if (IdNormalizerFlag.useOldNormalization) {
             // TODO: remove IdNormalizerFlag
@@ -105,7 +113,7 @@ public class DeterministicIdResolver {
                     collectionName = schema.getAppInfo().getCollectionType();
                 }
 
-                handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId);
+                handleDeterministicIdForReference(entity, didRefSource, collectionName, tenantId, addContext);
 
             } catch (IdResolutionException e) {
                 handleException(sourceRefPath, entity.getType(), referenceEntityType, e, errorReport);
@@ -131,7 +139,7 @@ public class DeterministicIdResolver {
     }
 
     private void handleDeterministicIdForReference(Entity entity, DidRefSource didRefSource, String collectionName,
-            String tenantId) throws IdResolutionException {
+            String tenantId, boolean addContext) throws IdResolutionException {
 
         String entityType = didRefSource.getEntityType();
         String sourceRefPath = didRefSource.getSourceRefPath();
@@ -178,7 +186,9 @@ public class DeterministicIdResolver {
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
                 setProperty(entity, sourceRefPath, uuid);
-                addContext(entity, uuid, didRefConfig, collectionName);
+                if (addContext == true) {
+                    addContext(entity, uuid, didRefConfig, collectionName);
+                }
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
             }

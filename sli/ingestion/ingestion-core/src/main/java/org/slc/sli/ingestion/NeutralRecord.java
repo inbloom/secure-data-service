@@ -34,10 +34,12 @@
 
 package org.slc.sli.ingestion;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.MapUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -190,12 +192,24 @@ public class NeutralRecord {
             StringTokenizer fieldNameTokenizer = new StringTokenizer(keyValueFieldNames, ",");
             while (fieldNameTokenizer.hasMoreElements()) {
                 String fieldName = (String) fieldNameTokenizer.nextElement();
-                String value = MapUtils.getString(attributes, fieldName);
+                // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate SLC-Ed-Fi.xml
+//                String strValue = MapUtils.getString(attributes, fieldName);
+                Object value = null;
+                try {
+                    value = PropertyUtils.getProperty(attributes, fieldName);
+                } catch (IllegalAccessException e) {
+                    handleFieldAccessException(fieldName, recordType);
+                } catch (InvocationTargetException e) {
+                    handleFieldAccessException(fieldName, recordType);
+                } catch (NoSuchMethodException e) {
+                    handleFieldAccessException(fieldName, recordType);
+                }
                 if (value == null) {
                     System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
                     throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
                 }
-                naturalKeys.put(fieldName, value);
+                String strValue = value.toString();
+                naturalKeys.put(fieldName, strValue);
             }
 
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, TenantContext.getTenantId(), sliEntityType, null);
@@ -209,6 +223,10 @@ public class NeutralRecord {
         return this.recordId;
     }
 
+    private void handleFieldAccessException(String fieldName, String recordType) {
+        System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
+        throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
+    }
 
     /**
      * @param localId
