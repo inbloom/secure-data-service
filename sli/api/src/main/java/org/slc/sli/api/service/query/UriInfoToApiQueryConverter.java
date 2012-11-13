@@ -65,9 +65,12 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.SELECTOR, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                String stringValue = (String) value;
-                stringValue = stringValue.replaceAll(" ", "");
-                apiQuery.setSelector(selectionConverter.convert(stringValue));
+                //disabling selectors for 1.0
+                throw new QueryParseException("Invalid Query Parameter", (String) value);
+
+//                String stringValue = (String) value;
+//                stringValue = stringValue.replaceAll(" ", "");
+//                apiQuery.setSelector(selectionConverter.convert(stringValue));
             }
         });
 
