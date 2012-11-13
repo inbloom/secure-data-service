@@ -73,7 +73,7 @@ public class ConcurrentEdFiProcessor implements Processor {
     private SliSmooksFactory sliSmooksFactory;
 
     @Autowired
-    private NeutralRecordAccess neutralRecordAccess;
+    private NeutralRecordAccess neutralRecordMongoAccess;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -118,7 +118,7 @@ public class ConcurrentEdFiProcessor implements Processor {
         String dbName = BatchJobUtils.jobIdToDbName(jobId);
 
         LOG.info("Indexing staging db {} for job {}", dbName, jobId);
-        neutralRecordAccess.ensureIndexes();
+        neutralRecordMongoAccess.ensureIndexes();
     }
 
     private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,
