@@ -100,7 +100,9 @@ When /^I select the first sample data set$/ do
 end
 
 When /^I click the Provision button$/ do
+  disable_NOTABLESCAN
   @driver.find_element(:id, "provisionButton").click
+  enable_NOTABLESCAN
 end
 
 Then /^I get the success message$/ do
