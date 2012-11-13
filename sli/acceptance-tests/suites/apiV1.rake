@@ -47,6 +47,11 @@ task :apiV1QueryingTests => [:realmInit] do
   runTests("test/features/apiV1/querying/querying.feature")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
+desc "Run API querying tests"
+task :apiV1NTSQueryingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/querying/no_table_scan.feature")
+end
 
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
