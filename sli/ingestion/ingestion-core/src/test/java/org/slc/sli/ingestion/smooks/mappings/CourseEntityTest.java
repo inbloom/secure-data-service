@@ -18,29 +18,20 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import junitx.util.PrivateAccessor;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.DummyEntityRepository;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Test the smooks mappings for Course entity
@@ -52,73 +43,8 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CourseEntityTest {
 
-    @Autowired
-    private EntityValidator validator;
-
     @Value("${sli.ingestion.recordLevelDeltaEntities}")
     private String recordLevelDeltaEnabledEntityNames;
-
-    @Test
-    public void testValidCourse() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeEducationOrganization/Course";
-
-        String testData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<Course>"
-                + "    <CourseTitle>Science7</CourseTitle>"
-                + "    <NumberOfParts>7</NumberOfParts>"
-                + "    <CourseCode IdentificationSystem=\"LEA course code\""
-                + "        AssigningOrganizationCode=\"orgCode\">"
-                + "        <ID>science7</ID>"
-                + "    </CourseCode>"
-                + "    <CourseCode IdentificationSystem=\"LEA course code\""
-                + "        AssigningOrganizationCode=\"orgCode2\">"
-                + "        <ID>science72</ID>"
-                + "    </CourseCode>"
-                + "    <CourseLevel>Honors</CourseLevel>"
-                + "    <CourseLevelCharacteristics>"
-                + "        <CourseLevelCharacteristic>Advanced</CourseLevelCharacteristic>"
-                + "    </CourseLevelCharacteristics>"
-                + "    <GradesOffered>"
-                + "        <GradeLevel>Third grade</GradeLevel>"
-                + "    </GradesOffered>"
-                + "    <SubjectArea>Science</SubjectArea>"
-                + "    <CourseDescription>A seventh grade science course</CourseDescription>"
-                + "    <DateCourseAdopted>2012-02-01</DateCourseAdopted>"
-                + "    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>"
-                + "    <CourseGPAApplicability>Applicable</CourseGPAApplicability>"
-                + "    <CourseDefinedBy>LEA</CourseDefinedBy>"
-                + "    <MinimumAvailableCredit CreditType=\"Carnegie unit\""
-                + "        CreditConversion=\"1.0\">"
-                + "        <Credit>1.0</Credit>"
-                + "    </MinimumAvailableCredit>"
-                + "    <MaximumAvailableCredit CreditType=\"Carnegie unit\""
-                + "        CreditConversion=\"1.0\">"
-                + "        <Credit>2.0</Credit>"
-                + "    </MaximumAvailableCredit>"
-                + "    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>"
-                + "    <EducationOrganizationReference>"
-                + "        <EducationalOrgIdentity>"
-                + "            <StateOrganizationId>ID1</StateOrganizationId>"
-                + "        </EducationalOrgIdentity>"
-                + "    </EducationOrganizationReference>"
-                + "    <UniqueCourseId>Science-6A-68</UniqueCourseId>"
-                + "</Course>"
-                + "</InterchangeEducationOrganization>";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                testData, recordLevelDeltaEnabledEntityNames);
-
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("course");
-
-        DummyEntityRepository repo = mock(DummyEntityRepository.class);
-        when(repo.exists("educationOrganization", "ID1")).thenReturn(true);
-        PrivateAccessor.setField(validator, "validationRepo", repo);
-
-        Assert.assertTrue(validator.validate(e));
-    }
 
     @Test
     public void edfiXmlCourseTest() throws IOException, SAXException {
