@@ -349,11 +349,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
             "credit" => 32
        }
     },
-    "competencyLevelDescriptor" => {
-      "description" => "Herman tends to throw tantrums",
-      "codeValue" => "Temper Tantrum",
-      "performanceBaseConversion" => "Basic"
-    },
     "studentCompetencyObjective" => {
         "objectiveGradeLevel" => "Kindergarten",
         "objective" => "Phonemic Awareness",
