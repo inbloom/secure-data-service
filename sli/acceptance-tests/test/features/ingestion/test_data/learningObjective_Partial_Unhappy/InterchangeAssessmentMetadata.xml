@@ -15,9 +15,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective112</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>112</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -36,9 +36,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective113</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>113</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -57,9 +57,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective114</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>114</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -78,9 +78,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective115</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>115</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
@@ -99,9 +99,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective111</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>111</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
     </LearningObjective>
