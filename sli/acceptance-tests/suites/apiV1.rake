@@ -70,7 +70,9 @@ end
 desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferences")
+  runTests("test/features/apiV1/associations/directReferences/directReferences.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
 end
 
 desc "Run V1 Direct Reference Collections Tests"
