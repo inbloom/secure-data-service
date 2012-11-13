@@ -15,6 +15,7 @@
     },
     "mapping": {
       "student": {
+        "_timestamp" : { "enabled" : true },
         "properties": {
           "context": {
             "properties": {
@@ -42,6 +43,7 @@
     },
     "mapping": {
       "learningStandard": {
+        "_timestamp" : { "enabled" : true },
         "properties": {
           "context": {
             "properties": {
@@ -58,14 +60,52 @@
                 "index": "not_analyzed"
               }
             }
+          }
+        }
+      }
+    }
+  },
+  "learningObjective": {
+    "fields": [
+      "body.academicSubject",
+      "body.description",
+      "body.learningObjectiveId.contentStandardName",
+      "body.learningObjectiveId.identificationCode",
+      "body.objective",
+      "body.objectiveGradeLevel",
+      "body.learningStandards",
+      "body.parentLearningObjective"
+    ],
+    "append": {
+      "body.context.schoolId" : {"value": "ALL"}
+    },
+    "mapping": {
+      "learningObjective": {
+        "_timestamp" : { "enabled" : true },
+        "properties": {
+          "context": {
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
           },
-          "courseTitle": {
-            "type": "string",
-            "boost": 2.0
+          "learningObjectiveId": {
+            "properties": {
+              "identificationCode": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
           },
-          "description": {
+          "learningStandards": {
             "type": "string",
-            "boost": 1.0
+            "index": "not_analyzed"
+          },
+          "parentLearningObjective": {
+            "type": "string",
+            "index": "not_analyzed"
           }
         }
       }

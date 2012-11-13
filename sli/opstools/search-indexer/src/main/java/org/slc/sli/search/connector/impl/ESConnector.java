@@ -18,7 +18,6 @@ package org.slc.sli.search.connector.impl;
 import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
-import org.slc.sli.search.util.RecoverableIndexerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -30,41 +29,45 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestOperations;
 
+import org.slc.sli.search.util.RecoverableIndexerException;
+import org.slc.sli.search.util.SearchEngineException;
+
 /**
  * Indexer is responsible for building elastic search index requests and
  * sending them to the elastic search server for processing.
- * 
+ *
  * @author dwu
- * 
+ *
  */
 public abstract class ESConnector {
-    
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     private RestOperations searchTemplate;
-    
+
     private String esUsername;
-    
+
     private String esPassword;
-    
+
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
     private ResponseEntity<String> sendRESTCall(HttpMethod method, String url, String query, Object... uriParams) {
         HttpHeaders headers = new HttpHeaders();
-        
+
         // Basic Authentication when username and password are provided
         if (esUsername != null && esPassword != null) {
             headers.set("Authorization",
                     "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug(String.format("%s Request: %s, [%s]", method.name(), url, Arrays.asList(uriParams)));
-        
+        }
+
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, uriParams);
@@ -72,10 +75,10 @@ public abstract class ESConnector {
             logger.error("rest call failed: " + ste);
             throw new RecoverableIndexerException();
         } catch (HttpClientErrorException rce) {
-            return new ResponseEntity<String>(rce.getStatusCode());
-        } 
+            return new ResponseEntity<String>(rce.getMessage(), rce.getStatusCode());
+        }
     }
-    
+
 
     public String executeGet(String url, Object... uriParams) {
         return sendRESTCall(HttpMethod.GET, url, null, uriParams).getBody();
@@ -88,11 +91,15 @@ public abstract class ESConnector {
     public HttpStatus executeHead(String url, Object... uriParams) {
         return sendRESTCall(HttpMethod.HEAD, url, null, uriParams).getStatusCode();
     }
-    
+
     public String executePost(String url, String body, Object... uriParams) {
-        return sendRESTCall(HttpMethod.POST, url, body, uriParams).getBody();
+        ResponseEntity<String> response = sendRESTCall(HttpMethod.POST, url, body, uriParams);
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new SearchEngineException(response.getStatusCode().name(), response.getBody());
+        }
+        return response.getBody();
     }
-    
+
     public HttpStatus executePut(String url, String body, Object... uriParams) {
         return sendRESTCall(HttpMethod.PUT, url, body, uriParams).getStatusCode();
     }
@@ -100,11 +107,11 @@ public abstract class ESConnector {
     public void setSearchUsername(String esUsername) {
         this.esUsername = esUsername;
     }
-    
+
     public void setSearchPassword(String esPassword) {
         this.esPassword = esPassword;
     }
-    
+
     public void setSearchTemplate(RestOperations searchTemplate) {
         this.searchTemplate = searchTemplate;
     }
