@@ -408,11 +408,10 @@
 		<graph>studentAcademicRecords</graph>
 		<singular>studentAcademicRecord</singular>
 	</document>
-	<document name="StudentAssessmentAssociation">
-		<class name="StudentAssessmentAssociation"></class>
-		<!-- FIXME: The name of the class is excessive; EdFi is StudentAssessment -->
+	<document name="StudentAssessment">
+		<class name="StudentAssessment"></class>
 		<graph>studentAssessments</graph>
-		<singular>studentAssessmentAssociation</singular>
+		<singular>studentAssessment</singular>
 	</document>
 	<document name="StudentAssessmentItem">
 		<class name="StudentAssessmentItem"></class>

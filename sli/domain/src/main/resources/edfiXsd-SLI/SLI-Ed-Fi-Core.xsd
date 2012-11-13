@@ -620,7 +620,7 @@ Other</xs:documentation>
         <xs:annotation>
             <xs:appinfo>
                 <sli:applyKeyFields>true</sli:applyKeyFields>
-                <sli:recordType>studentAssessmentAssociation</sli:recordType>
+                <sli:recordType>studentAssessment</sli:recordType>
             </xs:appinfo>
         </xs:annotation>
         <xs:complexContent>
@@ -854,7 +854,7 @@ Other</xs:documentation>
       <xs:documentation/>
       <xs:appinfo>
         <sli:applyKeyFields>true</sli:applyKeyFields>
-        <sli:refType>studentAssessmentAssociation</sli:refType>
+        <sli:refType>studentAssessment</sli:refType>
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
@@ -1172,7 +1172,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 				<xs:annotation>
 					<xs:documentation>The attributes that can be used to specify the student.</xs:documentation>
 					<xs:appinfo>
-						<sli:keyFieldName>StudentIdentity.StudentUniqueStateId</sli:keyFieldName>
+						<sli:keyFieldName>studentId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1180,7 +1180,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 				<xs:annotation>
 					<xs:documentation>The attributes used to specifiy a section</xs:documentation>
 					<xs:appinfo>
-						<sli:keyFieldName>SectionIdentity.UniqueSectionCode</sli:keyFieldName>
+						<sli:keyFieldName>sectionId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1189,7 +1189,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 					<xs:documentation>Month, day and year of the student's entry or assignment to the section.  If blank, default is the start date of the first grading period.
 </xs:documentation>
           <xs:appinfo>
-              <sli:keyFieldName>BeginDate</sli:keyFieldName>
+              <sli:keyFieldName>beginDate</sli:keyFieldName>
           </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1608,7 +1608,7 @@ Teacher of Record, Assistant Teacher, Support Teacher, Substitute Teacher...</xs
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to a student by a state education agency.</xs:documentation>
                     <xs:appinfo>
-                        <sli:keyFieldName>StudentUniqueStateId</sli:keyFieldName>
+                        <sli:keyFieldName>studentUniqueStateId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2736,12 +2736,12 @@ Representative of visiting school
 							<xs:documentation>A school or agency providing free public elementary or secondary education to eligible students under a specific charter granted by the state legislature or other appropriate authority and designated by such authority to be a charter school.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="LocalEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>For subdistricts, the LEA the subdistrict is a component of.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationServiceCenterReference" type="EducationalOrgReferenceType" minOccurs="0">
+					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ESC of which the LEA is an organizational component.</xs:documentation>
 						</xs:annotation>

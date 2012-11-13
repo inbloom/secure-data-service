@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.mockito.Matchers.any;
@@ -89,13 +88,12 @@ public class StudentAssessmentCombinerTest {
         saCombiner.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
 
-        when(
-                repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), any(NeutralQuery.class))).thenReturn(buildSOANeutralRecords());
+        when(repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), any(NeutralQuery.class))).thenReturn(
+                buildSOANeutralRecords());
 
-        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), any(NeutralQuery.class)))
-                .thenReturn(
-                        Arrays.asList(AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ1_ID),
-                                AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ2_ID)));
+        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), any(NeutralQuery.class))).thenReturn(
+                Arrays.asList(AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ1_ID),
+                        AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ2_ID)));
         DBCollection oaCollection = mock(DBCollection.class);
         when(repository.getCollectionForJob(STUDENT_OBJECTIVE_ASSESSMENT)).thenReturn(oaCollection);
 
@@ -103,13 +101,13 @@ public class StudentAssessmentCombinerTest {
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));
 
         when(
-                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(
-                        new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa1")))).thenReturn(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(new NeutralCriteria(
+                        STUDENT_ASSESSMENT_REFERENCE, "=", "sa1")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1")));
         when(
-                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(
-                        new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", "sa2")))).thenReturn(
+                repository.findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, new NeutralQuery(new NeutralCriteria(
+                        STUDENT_ASSESSMENT_REFERENCE, "=", "sa2")))).thenReturn(
                 Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
                         buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2")));
         when(job.getId()).thenReturn(batchJobId);
@@ -137,7 +135,8 @@ public class StudentAssessmentCombinerTest {
             if (record.getAttributes().containsKey(STUDENT_ASSESSMENT_ITEMS_FIELD)) {
                 foundSai = true;
                 @SuppressWarnings("unchecked")
-                List<Map<String, Object>> saItems = (List<Map<String, Object>>) record.getAttributes().get(STUDENT_ASSESSMENT_ITEMS_FIELD);
+                List<Map<String, Object>> saItems = (List<Map<String, Object>>) record.getAttributes().get(
+                        STUDENT_ASSESSMENT_ITEMS_FIELD);
                 Assert.assertEquals(1, saItems.size());
 
             }
@@ -149,7 +148,7 @@ public class StudentAssessmentCombinerTest {
     @SuppressWarnings("unchecked")
     public List<NeutralRecord> buildSANeutralRecords() {
         NeutralRecord sa1 = new NeutralRecord();
-        sa1.setRecordType("studentAssessmentAssociation");
+        sa1.setRecordType("studentAssessment");
         sa1.setAttributeField("administrationDate", "2011-05-01");
         Map<String, Object> scoreResult11 = new HashMap<String, Object>();
         scoreResult11.put("assessmentReportingMethod", "Raw Score");
@@ -160,7 +159,7 @@ public class StudentAssessmentCombinerTest {
         sa1.setAttributeField("ScoreResults", Arrays.asList(scoreResult11, scoreResult12));
         sa1.setAttributeField("xmlId", "sa1");
         NeutralRecord sa2 = new NeutralRecord();
-        sa2.setRecordType("studentAssessmentAssociation");
+        sa2.setRecordType("studentAssessment");
         sa2.setAttributeField("administrationDate", "2011-05-01");
         Map<String, Object> scoreResult21 = new HashMap<String, Object>();
         scoreResult21.put("assessmentReportingMethod", "Raw Score");
@@ -212,12 +211,14 @@ public class StudentAssessmentCombinerTest {
         return rec;
     }
 
-    public Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer, Job job) throws IOException {
+    public Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer, Job job)
+            throws IOException {
         List<NeutralRecord> transformed = new ArrayList<NeutralRecord>();
 
         // Performing the transformation
         transformer.perform(job);
-        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob("studentAssessmentAssociation", new NeutralQuery(0));
+        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                "studentAssessment", new NeutralQuery(0));
         Iterator<NeutralRecord> itr = records.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {

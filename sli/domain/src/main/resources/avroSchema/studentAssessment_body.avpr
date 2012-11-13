@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "StudentAssessmentAssociation",
+  "name" : "StudentAssessment",
   "namespace" : "org.slc.sli.domain",
   "doc" : "This represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a students performance on a set of items on a test.",
   "fields" : [{

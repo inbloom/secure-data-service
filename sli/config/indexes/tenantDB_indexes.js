@@ -43,8 +43,8 @@ db["custom_entities"].ensureIndex({"metaData.entityId":1,"metaData.clientId":1})
 
 //studentProgramAssociation is embedded into program
 db["program"].ensureIndex({"studentProgramAssociation._id":1});
-//studentAssessmentAssociation embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation._id":1});
+//studentAssessment embedded into student
+db["student"].ensureIndex({"studentAssessment._id":1});
 //studentSectionAssociation embedded into section
 db["section"].ensureIndex({"studentSectionAssociation._id":1});
 //teacherSectionAssociation embedded into section
@@ -105,17 +105,17 @@ db["staffProgramAssociation"].ensureIndex({"body.staffId":1});
 db["studentAcademicRecord"].ensureIndex({"body.reportCards":1});
 db["studentAcademicRecord"].ensureIndex({"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"body.studentId":1});
-//studentAssessmentAssociation is embedded into student
-db["student"].ensureIndex({"studentAssessmentAssociation.body.assessmentId":1});
-db["student"].ensureIndex({"studentAssessmentAssociation.body.studentId":1});  // do we need this?
+//studentAssessment is embedded into student
+db["student"].ensureIndex({"studentAssessment.body.assessmentId":1});
+db["student"].ensureIndex({"studentAssessment.body.studentId":1});  // do we need this?
 db["studentCohortAssociation"].ensureIndex({"body.cohortId":1});
 db["studentCohortAssociation"].ensureIndex({"body.studentId":1});
 db["studentCompetency"].ensureIndex({"body.objectiveId.learningObjectiveId":1});
 db["studentCompetency"].ensureIndex({"body.objectiveId.studentCompetencyObjectiveId":1});
 db["studentCompetency"].ensureIndex({"body.studentSectionAssociationId":1});
 db["studentCompetencyObjective"].ensureIndex({"body.educationOrganizationId":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"body.disciplineIncidentId":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"body.studentId":1});
+db["student"].ensureIndex({"studentDisciplineIncidentAssociation.body.disciplineIncidentId":1});
+db["student"].ensureIndex({"studentDisciplineIncidentAssociation.body.studentId":1});
 db["studentGradebookEntry"].ensureIndex({"body.gradebookEntryId":1});
 db["studentGradebookEntry"].ensureIndex({"body.sectionId":1});
 db["studentGradebookEntry"].ensureIndex({"body.studentId":1});

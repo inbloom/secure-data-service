@@ -74,7 +74,7 @@ public class StudentAssessmentEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidStudentAssessmentNeutralRecord(NeutralRecord studentAssessmentNeutralRecord) {
 
-        assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
+        assertEquals("studentAssessment", studentAssessmentNeutralRecord.getRecordType());
 
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));

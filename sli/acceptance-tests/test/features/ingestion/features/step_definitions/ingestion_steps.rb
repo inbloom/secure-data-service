@@ -1381,6 +1381,7 @@ When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
+  puts "Copying zip file at #{Time.now}"
   scpFileToLandingZone @source_file_name
 end
 
@@ -1464,7 +1465,7 @@ def subDocParent(collectionName)
      "section"
     when "teacherSectionAssociation"
      "section"
-    when "studentAssessmentAssociation"
+    when "studentAssessment"
      "student"
     when "studentProgramAssociation"
       "program"
@@ -1472,6 +1473,8 @@ def subDocParent(collectionName)
       "student"
     when "studentCohortAssociation"
       "cohort"
+    when "studentDisciplineIncidentAssociation"
+      "student"
     else
       nil
   end
