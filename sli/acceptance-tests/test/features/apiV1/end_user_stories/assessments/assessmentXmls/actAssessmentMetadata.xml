@@ -20,10 +20,7 @@
 		<ObjectiveAssessmentReference ref="ACTWriting"></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT-Family</ID>
-				</AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>

@@ -137,7 +137,6 @@
             "deprecated" : true,
             "ref":{
                 "entityType":"student",
-                "takesContext":["edOrgs"],
                 "choiceOfFields":[
                     [
                         {
