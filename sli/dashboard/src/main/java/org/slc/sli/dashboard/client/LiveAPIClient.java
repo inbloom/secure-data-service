@@ -74,7 +74,7 @@ public class LiveAPIClient {
     private static final String HOME_URL = "/v1/home/";
     private static final String ASSMT_URL = "/v1/assessments/";
     private static final String SESSION_URL = "/v1/sessions/";
-    private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
+    private static final String STUDENT_ASSESSMENTS_URL = "/v1/studentAssessments/";
     private static final String STUDENT_GRADEBOOK_ENTR_URL = "/v1/studentGradebookEntries";
     private static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
@@ -83,7 +83,7 @@ public class LiveAPIClient {
     private static final String ATTENDANCES = "/attendances";
     private static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations";
     private static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
-    private static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations";
+    private static final String STUDENT_ASSESSMENTS = "/studentAssessments";
     private static final String SECTIONS = "/sections";
     private static final String STUDENTS = "/students";
     private static final String COURSE_TRANSCRIPTS = "/courseTranscripts";
@@ -332,7 +332,7 @@ public class LiveAPIClient {
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // make a call to student-assessments, with the student id
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId
-                + STUDENT_ASSMT_ASSOC, token);
+                + STUDENT_ASSESSMENTS, token);
 
         // for each link in the returned list, make the student-assessment call
         // for the result data
@@ -488,7 +488,7 @@ public class LiveAPIClient {
      * Get one student-assessment association
      */
     private GenericEntity getStudentAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + STUDENT_ASSESSMENTS_URL + id, token);
     }
 
     /**

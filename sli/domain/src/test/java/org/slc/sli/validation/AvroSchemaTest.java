@@ -87,14 +87,14 @@ public class AvroSchemaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testValidStudentAssessmentAssociation() throws Exception {
+    public void testValidStudentAssessment() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader(
-                "src/test/resources/studentassessmentassociation_fixture.json"));
-        String studentassessmentassoc;
-        while ((studentassessmentassoc = reader.readLine()) != null) {
+                "src/test/resources/studentassessment_fixture.json"));
+        String studentassessment;
+        while ((studentassessment = reader.readLine()) != null) {
             ObjectMapper oRead = new ObjectMapper();
-            Map<String, Object> obj = oRead.readValue(studentassessmentassoc, Map.class);
-            mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
+            Map<String, Object> obj = oRead.readValue(studentassessment, Map.class);
+            mapValidation((Map<String, Object>) obj.get("body"), "studentAssessment");
         }
     }
 

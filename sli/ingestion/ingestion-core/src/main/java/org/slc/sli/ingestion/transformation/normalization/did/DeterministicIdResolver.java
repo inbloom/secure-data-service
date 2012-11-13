@@ -75,7 +75,7 @@ public class DeterministicIdResolver {
         }
 
         if (entityConfig.getReferenceSources() == null || entityConfig.getReferenceSources().isEmpty()) {
-            LOG.warn("Entity configuration contains no references --> returning...");
+            LOG.debug("Entity configuration contains no references --> returning...");
             return;
         }
 

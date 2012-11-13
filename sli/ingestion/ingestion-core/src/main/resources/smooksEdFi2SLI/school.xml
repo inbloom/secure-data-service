@@ -100,7 +100,7 @@
     </jb:bean>
 
     <jb:bean beanId="programReferenceArray" class="java.util.ArrayList"  createOnElement="attributes programReference">
-        <jb:value data="attributes programReference element" />
+        <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 
     <!-- New -->

@@ -124,3 +124,15 @@ Scenario Outline: Query subdoc
       | username       | password         |
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
+    @RALLY_DE2088
+  Scenario Outline: Learning Objective tests
+    Given I am logged in using "<username>" "<password>" to realm "IL"
+    And format "application/json;charset=utf-8"
+    When I navigate to GET "<resource name>"
+    Then I should receive a return code of 200
+    And "entityType" should be "<Entity Type>"
+    And "id" should be "<VALID VALUE>"
+  Examples:
+    | username   | password       |  resource name                                                                       | Entity Type       | VALID VALUE                          |
+    | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6/childLearningObjectives  | learningObjective | dd9165f2-65fe-6d27-a8ec-bdc5f47757b7 |
+    | cgrayadmin | cgrayadmin1234 | /v1/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/parentLearningObjectives | learningObjective | dd9165f2-65be-6d27-a8ac-bdc5f46757b6 |

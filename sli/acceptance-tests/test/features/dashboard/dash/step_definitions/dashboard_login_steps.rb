@@ -74,6 +74,11 @@ Then /^I add a cookie for linda.kim$/ do
   end
 end
 
+Then /^I should see "(.*?)" prompt$/ do |expectedText|
+  @explicitWait.until{@driver.current_url.include?("studentSearch") == true}
+  checkForTextInBody(expectedText)
+end
+
 def checkForTextInBody(expectedText)
   #make sure something is loaded, caveat, it might be still the old page
   assertWithWait(expectedText) {@driver.find_element(:tag_name,"body")}

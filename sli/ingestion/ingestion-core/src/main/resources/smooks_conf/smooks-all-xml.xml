@@ -244,7 +244,17 @@
       data="LocalEducationAgency/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:value property="educationServiceCenterReference"
       data="LocalEducationAgency/EducationServiceCenterReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring property="LocalEducationAgencyReference"   beanIdRef="LEA_LEA_Reference" />
+    <jb:wiring property="EducationServiceCenterReference" beanIdRef="LEA_ESC_Reference" />
   </jb:bean>
+
+
+    <jb:bean beanId="LEA_LEA_Reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference">
+        <jb:wiring property="EducationalOrgIdentity" beanIdRef="LEA_LEA_EducationalOrgIdentity" />
+    </jb:bean>
+    <jb:bean beanId="LEA_LEA_EducationalOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference/EducationalOrgIdentity">
+        <jb:value property="StateOrganizationId" data="InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    </jb:bean>
 
     <jb:bean beanId="LEA_SEA_Reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference">
         <jb:wiring property="EducationalOrgIdentity" beanIdRef="LEA_SEA_EducationalOrgIdentity" />
@@ -1728,7 +1738,7 @@
 
   <!-- StudentAssessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:expression property="recordType">'studentAssessmentAssociation'</jb:expression>
+    <jb:expression property="recordType">'studentAssessment'</jb:expression>
     <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
   </jb:bean>
