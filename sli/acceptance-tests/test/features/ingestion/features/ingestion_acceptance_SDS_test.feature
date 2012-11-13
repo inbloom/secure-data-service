@@ -432,10 +432,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
-    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
-    | studentAssessment         | 0f037add13a1b0590b9e7f19bd9edf8c38e0e1ac_id88754d3ae3a4166f26bd90e9d3f242f23b047121_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
-    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.administrationDate   | 2011-10-01                           |
+    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
+    | studentAssessment         | 0f037add13a1b0590b9e7f19bd9edf8c38e0e1ac_id4f3903628a3e67a727cbd88c5cc68aae17f243e5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
+    | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.administrationDate   | 2011-10-01                           |
     | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.studentSectionAssociationId    | c377c9c4b343dda726e837f442a171c570a460cd_id |
     | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
