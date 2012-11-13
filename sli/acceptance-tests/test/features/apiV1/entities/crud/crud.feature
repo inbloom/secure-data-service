@@ -417,9 +417,9 @@ Examples:
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
 | "assessment"            | "assessments"             | 17    |/assessments|                                                                            
-| "attendance"            | "attendances"             | 2     |/sections/@ids/studentSectionAssociations/students/attendances|
+| "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
-| "course"                | "courses"                 | 26    |/schools/@ids/courses|                                                                   
+| "course"                | "courses"                 | 26    |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
