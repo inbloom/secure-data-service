@@ -365,14 +365,12 @@ public class DefaultResourceService implements ResourceService {
                 if (associations != null) {
                     if(finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
                         //if the finalEntity references the assocEntity
-                        System.out.println("@WDS:finalEntity references association. NEW WEIRDNESS");
                         for (EntityBody associationEntity : associations) {
                             filteredIdList.add((String) associationEntity.get("id"));
                         }
                         key = resourceKey;
                     } else {
                         //otherwise the assocEntity references the finalEntity
-                        System.out.println("@WDS:association references finalEntity. NORMAL");
                         for (EntityBody associationEntity : associations) {
                             filteredIdList.add((String) associationEntity.get(resourceKey));
                         }
