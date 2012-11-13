@@ -709,7 +709,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
 
-
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "StoriedDataSet_IL_Daybreak_Append.zip" file as the payload of the ingestion job

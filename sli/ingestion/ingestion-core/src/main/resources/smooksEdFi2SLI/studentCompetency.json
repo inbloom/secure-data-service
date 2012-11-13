@@ -63,7 +63,6 @@
             "ref" :
             {
                 "entityType" : "studentSectionAssociation",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

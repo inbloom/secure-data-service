@@ -708,13 +708,15 @@ public class UriMutator {
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                String ids = getQueryValueForQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
                 if (ids != null) {
-                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                    mutatedPath = String.format("/students/%s/attendances", ids);
                 } else {
                     ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+                    mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
                 }
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+                
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
             } else if (ResourceNames.COURSES.equals(resource)) {
