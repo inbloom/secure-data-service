@@ -3,11 +3,11 @@
     "references" :
       [
           {
+            "deprecated" : true,
             "fieldPath" : "body.educationOrgId",
             "ref" :
             {
                 "entityType" : "educationOrganization",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

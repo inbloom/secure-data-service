@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -30,6 +31,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
     public int chunkSize;
     public String operationsEnabled;
     public CopyOnWriteArrayList<Pair<String, Integer>> opCounts;
+    public String profiledCollectionName;
     
     public T dataRecord;
     
@@ -37,7 +39,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         
     }
     
-    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, T dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts, String operationsEnabled) {
+    public MongoCompositeTest(int id, int operationCount, int chunkSize, DataAccessWrapper da, T dataRecord, CopyOnWriteArrayList<Pair<String, Integer>> opCounts, String operationsEnabled, String profiledCollectionName) {
         this.id = id;
         this.operationCount = operationCount;
         this.chunkSize = chunkSize;
@@ -45,6 +47,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         this.dataRecord = dataRecord;
         this.opCounts = opCounts;
         this.operationsEnabled = operationsEnabled;
+        this.profiledCollectionName = profiledCollectionName;
     }
 
     @Override
@@ -56,8 +59,6 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
     }
 
     public void execute() {
-    
-        String profiledCollectionName = "profiledCollection";
         
         int iterations = operationCount / this.chunkSize;
         
@@ -95,6 +96,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);        
             
             BasicDBObject dbObj = new BasicDBObject();
+            dbObj.put("_id", UUID.randomUUID().toString());
             dbObj.put("body", innerObject);
             dbObj.put("metaData", "");
 
@@ -106,7 +108,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             DB db = m.getDB("sli");
             db.setWriteConcern(WriteConcern.SAFE);
             
-            DBCollection profiledCollection = db.getCollection("profiledCollection");
+            DBCollection profiledCollection = db.getCollection(this.profiledCollectionName);
 
             long startTime = System.currentTimeMillis();
             profiledCollection.insert(records);
@@ -136,6 +138,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             
             BasicDBObject dbObj = new BasicDBObject();
+            dbObj.put("_id", UUID.randomUUID().toString());
             dbObj.put("body", innerObject);
             dbObj.put("metaData", "");
 
@@ -165,6 +168,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
             innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
     
             BasicDBObject dbObj = new BasicDBObject();
+            dbObj.put("_id", UUID.randomUUID().toString());
             dbObj.put("body", innerObject);
             dbObj.put("metaData", "");
 

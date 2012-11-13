@@ -1,11 +1,13 @@
 {
-    "keyFields" : [ "body.gradebookEntryId", "body.studentId", "body.sectionId"],
+    "keyFields" : [ "body.gradebookEntryId","body.studentSectionAssociationId"], 
     "references" :
-    [{
-        "fieldPath" : "body.SectionReference","ref" :
+    [
+    {
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
+        "ref" :
         {
             "entityType" : "section",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -21,10 +23,11 @@
         }
     },
     {
-        "fieldPath" : "body.studentId","ref" :
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -32,7 +35,7 @@
                         "path" : "body.studentUniqueStateId",
                         "values" :
                         [{
-                            "valueSource" : "body.studentId"
+                            "valueSource" : "body.StudentReference"
                         }]
                     }
                 ]
@@ -45,7 +48,6 @@
 	   "ref" :
         {
             "entityType" : "gradebookEntry",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -90,7 +92,8 @@
         }
     },
     {
-        "fieldPath" : "body.studentSectionAssociationId",
+        "fieldPath" : "body.StudentSectionAssociationReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "studentSectionAssociation",

@@ -31,17 +31,16 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+//@Component - Disable teacher validators for now
 public class TransitiveTeacherToStaffValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
     
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return through && EntityNames.STAFF.equals(entityType)
+    public boolean canValidate(String entityType, boolean transitive) {
+        return transitive && EntityNames.STAFF.equals(entityType)
                 && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
     }
     

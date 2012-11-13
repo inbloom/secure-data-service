@@ -1,11 +1,19 @@
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -14,13 +22,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Abstract class that all context validators must extend.
@@ -35,6 +36,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
+    
+    @Autowired
+    private EdOrgHelper edorgHelper;
 
     private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -86,19 +90,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *         otherwise.
      */
     protected boolean isLhsBeforeRhs(DateTime lhs, DateTime rhs) {
-        boolean before = false;
-        if (lhs.getYear() < rhs.getYear()) {
-            before = true;
-        } else if (lhs.getYear() == rhs.getYear()) {
-            if (lhs.getMonthOfYear() < rhs.getMonthOfYear()) {
-                before = true;
-            } else if (lhs.getMonthOfYear() == rhs.getMonthOfYear()) {
-                if (lhs.getDayOfMonth() <= rhs.getDayOfMonth()) {
-                    before = true;
-                }
-            }
-        }
-        return before;
+        return !rhs.toLocalDate().isBefore(lhs.toLocalDate());
     }
 
     /**
@@ -143,21 +135,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return false;
     }
 
-    protected Set<String> getChildEdOrgs(Set<String> edOrg) {
-        if (edOrg.size() == 0) {
-            return edOrg;
-        }
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(edOrg)));
-        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenIds) {
-            children.add(child.getEntityId());
-        }
-        edOrg.addAll(getChildEdOrgs(children));
-        return edOrg;
-    }
-
     protected Repository<Entity> getRepo() {
         return this.repo;
     }
@@ -171,7 +148,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected Set<String> getStaffEdOrgLineage() {
         Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
-        edOrgLineage.addAll(getChildEdOrgs(edOrgLineage));
+        edOrgLineage.addAll(edorgHelper.getChildEdOrgs(edOrgLineage));
         return edOrgLineage;
     }
 
@@ -196,8 +173,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     protected Set<String> getStaffEdOrgParents() {
         Set<String> edorgHiearchy = new HashSet<String>();
-        Set<String> directEdorgs = new HashSet<String>();
-        directEdorgs = getStaffCurrentAssociatedEdOrgs();
+        Set<String> directEdorgs = getStaffCurrentAssociatedEdOrgs();
         edorgHiearchy.addAll(directEdorgs);
         for (String edorg : directEdorgs) {
             edorgHiearchy.addAll(fetchParentEdorgs(edorg));
@@ -209,12 +185,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         Set<String> parents = new HashSet<String>();
         Entity edOrg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id, false)));
         if (edOrg != null) {
-            parents.add(id);
-            Map<String, Object> body = edOrg.getBody();
-            if (body.containsKey("parentEducationAgencyReference")) {
-                String myParent = (String) body.get("parentEducationAgencyReference");
-                parents.addAll(fetchParentEdorgs(myParent));
-            }
+            parents.addAll(edorgHelper.getParentEdOrgs(edOrg));
         }
         return parents;
     }
@@ -227,7 +198,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected boolean isPublic(String type) {
         return type.equals(EntityNames.ASSESSMENT) || type.equals(EntityNames.LEARNING_OBJECTIVE)
-                || type.equals(EntityNames.LEARNING_STANDARD);
+                || type.equals(EntityNames.LEARNING_STANDARD)
+ || type.equals(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
     }
 
     /**

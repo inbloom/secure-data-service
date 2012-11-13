@@ -25,13 +25,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Smooks test for AssessmentItem
@@ -89,7 +88,19 @@ public class AssessmentItemTest {
         Assert.assertEquals("Common Core", refs.get(0).get("contentStandardName"));
         Assert.assertEquals("id-code-2", refs.get(1).get("identificationCode"));
         Assert.assertEquals("Unusual Periphery", refs.get(1).get("contentStandardName"));
-
+        
+        /*
+         * Map<String, Object> assessmentRef = (Map<String, Object>)
+         * nr.getAttributes().get("assessmentReference");
+         * Assert.assertNotNull(assessmentRef);
+         * Map<String, Object> assessmentIdentity = (Map<String, Object>)
+         * assessmentRef.get("AssessmentIdentity");
+         * Assert.assertNotNull(assessmentIdentity);
+         * Assert.assertEquals("c-aKzuT08", assessmentIdentity.get("AssessmentTitle"));
+         * Assert.assertEquals("English", assessmentIdentity.get("AcademicSubject"));
+         * Assert.assertEquals("Postsecondary", assessmentIdentity.get("GradeLevelAssessed"));
+         * Assert.assertEquals(1, assessmentIdentity.get("Version"));
+         */
         Assert.assertEquals("nomen", m.get("nomenclature"));
     }
 }

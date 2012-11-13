@@ -250,5 +250,17 @@ public class ValidatorTestHelper {
     public Entity generateGradingPeriod() {
         return repo.create(EntityNames.GRADING_PERIOD, new HashMap<String, Object>());
     }
+    
+    public Entity generateStudentCompetencyObjective(String edorgId) {
+    	Map<String, Object> scObj = new HashMap<String, Object>();
+    	scObj.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+    	return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObj);
+    }
+
+    public Entity generateGraduationPlan(String edorgId) {
+    	Map<String, Object> gradPlan = new HashMap<String, Object>();
+    	gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+    	return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
+    }
 
 }

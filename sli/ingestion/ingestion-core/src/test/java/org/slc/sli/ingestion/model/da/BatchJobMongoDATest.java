@@ -19,8 +19,12 @@ package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +50,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.ingestion.model.RecordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,6 +61,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -74,6 +78,7 @@ public class BatchJobMongoDATest {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final int DUP_KEY_CODE = 11000;
     private static final String BATCHJOBID = "controlfile.ctl-2345342-2342334234";
+    private static final String RESOURCEID = "InterchangeStudentParent.xml";
     private static final int RESULTLIMIT = 3;
     private static final int START_INDEX = 0;
 
@@ -146,7 +151,7 @@ public class BatchJobMongoDATest {
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
-        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESULTLIMIT);
+        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
 
         int iterationCount = START_INDEX;
 
@@ -155,8 +160,8 @@ public class BatchJobMongoDATest {
             iterationCount++;
         }
 
-        // check we use the prepared cursor to query the db twice
-        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
+        // Check we queried the db once.
+        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
     /**
@@ -178,7 +183,7 @@ public class BatchJobMongoDATest {
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
-        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESULTLIMIT);
+        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESOURCEID, FaultType.TYPE_ERROR, RESULTLIMIT);
 
         int iterationCount = START_INDEX;
 
@@ -187,8 +192,8 @@ public class BatchJobMongoDATest {
             iterationCount++;
         }
 
-        // check we use the prepared cursor to query the db twice
-        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
+        // Check we queried the db once.
+        verify(mockMongoTemplate, times(1)).find((Query) any(), eq(Error.class), eq(BATCHJOB_ERROR_COLLECTION));
     }
 
     @Test
@@ -399,10 +404,11 @@ public class BatchJobMongoDATest {
     }
 
     @Test
-    public void testFindAndUpsertRecordHash() {
-        //capture mongoTemplate.save() and mongoTemplate.findOne()!
+    public void testUpsertRecordHash() {
+        // Capture mongoTemplate.save()!
         class DBAnswer implements Answer<Object> {
             RecordHash savedRecordHash;
+
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String method = invocation.getMethod().getName();
@@ -412,25 +418,33 @@ public class BatchJobMongoDATest {
                     return null;
                 } else if (method.equals("findOne")) {
                     return savedRecordHash;
-                } else
+                } else {
                     return null;
+                }
             }
         }
         DBAnswer dbAnswer = new DBAnswer();
         doAnswer(dbAnswer).when(mockMongoTemplate).save(anyObject(), eq("recordHash"));
-        doAnswer(dbAnswer).when(mockMongoTemplate).findOne(any(Query.class), any(Class.class), eq("recordHash"));
-        // first call to findAndUpsertRecordHash should return false since Record is not in db.
-        Assert.assertFalse(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHash"));
-        String savedTimestamp =  dbAnswer.savedRecordHash.timestamp;
-        String savedId        =  dbAnswer.savedRecordHash._id;
-        //introduce delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
-        try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
-        // second call to findAndUpsertRecordHash should return true since Record is already in db.
-        Assert.assertTrue(mockBatchJobMongoDA.findAndUpsertRecordHash("TestTenant", "TestRecordHash"));
+
+        // First call to upsertRecordHash.
+        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
+        String savedTimestamp = dbAnswer.savedRecordHash.timestamp;
+        String savedId = dbAnswer.savedRecordHash._id;
+
+        // Add delay between 2 calls to findAndUpsertRecordHash() so that recordHash timestamp changes.
+        try {
+            Thread.sleep(5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Second call to upsertRecordHash.
+        mockBatchJobMongoDA.upsertRecordHash("TestTenant", "TestRecordHash");
         String updatedTimestamp = dbAnswer.savedRecordHash.timestamp;
-        String updatedId        = dbAnswer.savedRecordHash._id;
+        String updatedId = dbAnswer.savedRecordHash._id;
         Assert.assertTrue(savedId.equals(updatedId));
-        // the timestamp on the recordHash should have changed after the second call.
+
+        // The timestamp on the recordHash should have changed after the second call.
         Assert.assertTrue(Long.parseLong(savedTimestamp) < Long.parseLong(updatedTimestamp));
     }
 

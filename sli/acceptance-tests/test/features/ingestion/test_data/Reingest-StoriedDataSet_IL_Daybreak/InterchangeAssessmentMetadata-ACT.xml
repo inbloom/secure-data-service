@@ -10,20 +10,29 @@
         <Version>1</Version>
         <RevisionDate>2005-03-12</RevisionDate>
         <MaxRawScore>36</MaxRawScore>
-        <AssessmentItemReference ref="AssessmentItem-1"/>
-        <AssessmentItemReference ref="AssessmentItem-2"/>
-        <AssessmentItemReference ref="AssessmentItem-3"/>
-        <AssessmentItemReference ref="AssessmentItem-4"/>
-        <ObjectiveAssessmentReference ref="ActEng"/>
-        <ObjectiveAssessmentReference ref="ActMath"/>
-        <ObjectiveAssessmentReference ref="ActReading"/>
-        <ObjectiveAssessmentReference ref="ActScience"/>
-        <ObjectiveAssessmentReference ref="ActWriting"/>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+		<AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-                    <ID>ACT</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>
@@ -96,6 +105,13 @@
     </ObjectiveAssessment>
     <!-- Assessment Item Section -->
     <AssessmentItem id="AssessmentItem-1">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
         <IdentificationCode>AssessmentItem-1</IdentificationCode>
         <ItemCategory>True-False</ItemCategory>
         <MaxRawScore>5</MaxRawScore>
@@ -112,6 +128,13 @@
         </LearningStandardReference>
     </AssessmentItem>
     <AssessmentItem id="AssessmentItem-2">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
         <IdentificationCode>AssessmentItem-2</IdentificationCode>
         <ItemCategory>True-False</ItemCategory>
         <MaxRawScore>5</MaxRawScore>
@@ -128,6 +151,13 @@
         </LearningStandardReference>
     </AssessmentItem>
     <AssessmentItem id="AssessmentItem-3">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
         <IdentificationCode>AssessmentItem-3</IdentificationCode>
         <ItemCategory>True-False</ItemCategory>
         <MaxRawScore>5</MaxRawScore>
@@ -139,6 +169,13 @@
         </LearningStandardReference>
     </AssessmentItem>
     <AssessmentItem id="AssessmentItem-4">
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
         <IdentificationCode>AssessmentItem-4</IdentificationCode>
         <ItemCategory>True-False</ItemCategory>
         <MaxRawScore>5</MaxRawScore>

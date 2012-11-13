@@ -4,7 +4,9 @@
                       "body.studentObjectiveAssessments?" : "studentObjectiveAssessment"},
     "references" :
     [{
-        "fieldPath" : "body.assessmentId","ref" :
+        "fieldPath" : "body.AssessmentReference",
+        "deprecated" : true,
+        "ref" :
         {
             "entityType" : "assessment",
             "choiceOfFields" :
@@ -14,42 +16,42 @@
                         "path" : "body.assessmentIdentificationCode",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode"
                         }]
                     },
                     {
                         "path" : "body.assessmentTitle",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentTitle"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.AssessmentTitle"
                         }]
                     },
                     {
                         "path" : "body.assessmentCategory",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentCategory"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.AssessmentCategory"
                         }]
                     },
                     {
                         "path" : "body.academicSubject",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.AcademicSubject"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.AcademicSubject"
                         }]
                     },
                     {
                         "path" : "body.gradeLevelAssessed",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.GradeLevelAssessed"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.GradeLevelAssessed"
                         }]
                     },
                     {
                         "path" : "body.version",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId.AssessmentIdentity.Version"
+                            "valueSource" : "body.AssessmentReference.AssessmentIdentity.Version"
                         }]
                     }
                 ]
@@ -62,7 +64,6 @@
         "ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

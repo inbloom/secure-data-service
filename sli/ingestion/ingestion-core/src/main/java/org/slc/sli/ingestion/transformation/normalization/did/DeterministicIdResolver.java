@@ -27,20 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizerFlag;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
-import org.slc.sli.ingestion.transformation.normalization.Ref;
-import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -64,13 +57,9 @@ public class DeterministicIdResolver {
     private DidEntityConfigReader didConfigReader;
 
     @Autowired
+
+    @Autowired
     private SchemaRepository schemaRepository;
-
-    @Autowired
-    private EntityConfigFactory entityConfigurations;
-
-    @Autowired
-    private ContextTaker contextTaker;
 
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
@@ -119,14 +108,16 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        //use the json config if there is one
-        DidEntityConfig entityConfig = didConfigReader.getDidEntityConfiguration(entityType);
-
-        if (entityConfig == null) {
-            entityConfig = didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configFromParser = didSchemaParser == null ? null : didSchemaParser.getEntityConfigs().get(entityType);
+        DidEntityConfig configByHand = didConfigReader == null ? null : didConfigReader.getDidEntityConfiguration(entityType);
+        DidEntityConfig retVal = new DidEntityConfig();
+        if (configFromParser != null && configFromParser.getReferenceSources() != null) {
+            retVal.getReferenceSources().addAll(configFromParser.getReferenceSources());
         }
-
-        return entityConfig;
+        if (configByHand != null && configByHand.getReferenceSources() != null) {
+            retVal.getReferenceSources().addAll(configByHand.getReferenceSources());
+        }
+        return retVal;
     }
 
     private DidRefConfig getRefConfig(String refType) {
@@ -213,7 +204,6 @@ public class DeterministicIdResolver {
                 String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
                     uuidList.add(uuid);
-                    addContext(entity, uuid, didRefConfig, collectionName);
                 } else {
                     throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
                 }
@@ -226,7 +216,6 @@ public class DeterministicIdResolver {
 
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
-                addContext(entity, uuid, didRefConfig, collectionName);
                 return uuid;
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
@@ -265,34 +254,12 @@ public class DeterministicIdResolver {
         }
     }
 
-    // This logic would ideally be performed outside of this class.
-    // However, this would duplicate the setup (looping, etc) already present here.
-    // This logic will be removed in the near future, so not refactoring.
-    private void addContext(Entity entity, String uuid, DidRefConfig didRefConfig, String collectionName) {
-        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
-            for (RefDef rd : oldEntityConfig.getReferences()) {
-                Ref ref = rd.getRef();
-                if (ref != null && ref.getTakesContext() != null
-                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
-                    Criteria criteria = Criteria.where("_id").is(uuid);
-                    Query filter = new Query(criteria);
-                    List<String> ids = new ArrayList<String>();
-                    List<String> takesContext = ref.getTakesContext();
-
-                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
-                }
-            }
-        }
-    }
-
     private void handleException(String sourceRefPath, String entityType, String referenceType, Exception e,
             ErrorReport errorReport) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
         String errorMessage = "ERROR: Failed to resolve a deterministic id" + "\n       Entity " + entityType
                 + ": Reference to " + referenceType
-                + " is incomplete because the following reference field is not resolved: "
-                + sourceRefPath;
+                + " is incomplete because the following reference field is not resolved: " + sourceRefPath;
 
         errorReport.error(errorMessage, this);
     }
@@ -312,7 +279,7 @@ public class DeterministicIdResolver {
 
         for (KeyFieldDef keyFieldDef : didRefConfig.getKeyFields()) {
             // populate naturalKeys
-            String value = null;
+            Object value = null;
             if (keyFieldDef.getRefConfig() != null) {
                 Object nestedRef = getProperty(reference, keyFieldDef.getValueSource());
 
@@ -337,17 +304,16 @@ public class DeterministicIdResolver {
                 }
 
             } else {
-                value = (String) getProperty(reference, keyFieldDef.getValueSource());
+            	value = getProperty(reference, keyFieldDef.getValueSource());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
-            // don't add null or empty keys or values to the naturalKeys map
-            if (fieldName == null || fieldName.isEmpty() || value == null) {
-                continue;
+            // don't add null or empty keys to the naturalKeys map
+            if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
+                naturalKeys.put(fieldName, value == null ? "" : value.toString());
             } else {
                 //
             }
-            naturalKeys.put(fieldName, value);
         }
 
         // no natural keys found

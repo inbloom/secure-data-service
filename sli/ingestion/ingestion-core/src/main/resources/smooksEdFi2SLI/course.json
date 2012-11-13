@@ -5,10 +5,10 @@
     [
         {
             "fieldPath": "body.schoolId",
+            "deprecated" : true,
             "ref":
             {
                 "entityType": "educationOrganization",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields":
                 [
                     [

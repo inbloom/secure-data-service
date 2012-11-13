@@ -27,6 +27,8 @@ require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
 
+UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
+
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
@@ -99,6 +101,8 @@ end
 def lzCopy(srcPath, destPath, lz_server_url = nil, lz_username = nil, lz_password = nil, lz_port_number = nil)
   if @local_lz
     FileUtils.cp srcPath, destPath
+    puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}"
+    runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{destPath}")
   else
     Net::SFTP.start(lz_server_url, lz_username, {:password => lz_password, :port => lz_port_number}) do |sftp|
         puts "attempting to remote copy " + srcPath + " to " + destPath
@@ -127,6 +131,7 @@ def fileContainsMessage(prefix, message, landingZone, lz_server_url = nil, lz_us
 
   if @local_lz
     Dir["#{landingZone + prefix + "*"}"].each do |file|
+      next if File.directory?(file);
       content = File.read(file)
       if content.include?(message)
         return true

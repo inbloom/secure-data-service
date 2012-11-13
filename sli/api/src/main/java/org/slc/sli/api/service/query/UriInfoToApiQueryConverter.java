@@ -17,7 +17,9 @@
 
 package org.slc.sli.api.service.query;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +65,12 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.SELECTOR, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-                String stringValue = (String) value;
-                stringValue = stringValue.replaceAll(" ", "");
-                apiQuery.setSelector(selectionConverter.convert(stringValue));
+                //disabling selectors for 1.0
+                throw new QueryParseException("Invalid Query Parameter", (String) value);
+
+//                String stringValue = (String) value;
+//                stringValue = stringValue.replaceAll(" ", "");
+//                apiQuery.setSelector(selectionConverter.convert(stringValue));
             }
         });
 
@@ -158,8 +163,10 @@ public class UriInfoToApiQueryConverter {
         if (apiQuery != null && queryString != null) {
 
             if (queryString != null) {
+
                 try {
                     for (String criteriaString : queryString.split("&")) {
+                        criteriaString = URLDecoder.decode(criteriaString, "UTF-8");
                         NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
                         NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
@@ -177,6 +184,10 @@ public class UriInfoToApiQueryConverter {
                 } catch (RuntimeException re) {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
                     throw new QueryParseException(re.getMessage(), queryString);
+                } catch (UnsupportedEncodingException e) {
+                    // TODO Auto-generated catch block
+                    error("Unable to decode query string as UTF-8: {}", queryString);
+                    throw new QueryParseException(e.getMessage(), queryString);
                 }
             }
 

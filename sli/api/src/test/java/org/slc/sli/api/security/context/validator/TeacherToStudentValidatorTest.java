@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -52,6 +53,7 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
+@Ignore //ignore while teacher validators are disabled
 public class TeacherToStudentValidatorTest {
 
     private static final String ED_ORG_ID = "111";

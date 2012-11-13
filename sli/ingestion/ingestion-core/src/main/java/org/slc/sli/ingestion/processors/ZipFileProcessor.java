@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -22,7 +21,6 @@ import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,17 +67,6 @@ public class ZipFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
         processZipFile(exchange);
     }
 
@@ -92,22 +79,11 @@ public class ZipFileProcessor implements Processor {
         try {
             LOG.info("Received zip file: " + exchange.getIn());
 
-            // Move zip file into new .done directory in landing zone.
             File zipFile = exchange.getIn().getBody(File.class);
-            try {
-                File lzDoneDir = new File(zipFile.getParent() + File.separator + ".done");
-                FileUtils.moveFileToDirectory(zipFile, lzDoneDir, true);
-                zipFile = new File(lzDoneDir.getPath() + File.separator + zipFile.getName());
-            } catch (IOException e) {
-                // Move failed; try moving to .error directory in landing zone.
-                File lzErrorDir = new File(zipFile.getParent() + File.separator + ".error");
-                FileUtils.moveFileToDirectory(zipFile, lzErrorDir, true);
-                zipFile = new File(lzErrorDir.getPath() + File.separator + zipFile.getName());
-            }
 
             newJob = createNewBatchJob(zipFile);
-            TenantContext.setTenantId(newJob.getTenantId());
 
+            TenantContext.setTenantId(newJob.getTenantId());
             batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();
@@ -125,6 +101,7 @@ public class ZipFileProcessor implements Processor {
             setExchangeHeaders(exchange, errorReport, newJob);
 
             setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
+
             zipFile.delete();
 
         } catch (Exception exception) {

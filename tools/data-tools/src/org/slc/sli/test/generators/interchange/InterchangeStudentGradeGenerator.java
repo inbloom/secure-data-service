@@ -22,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.stream.XMLStreamException;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
@@ -51,7 +50,6 @@ import org.slc.sli.test.edfi.entities.LearningObjective;
 import org.slc.sli.test.edfi.entities.LearningObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
-import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
@@ -96,7 +94,6 @@ import org.slc.sli.test.utils.InterchangeWriter;
  */
 public final class InterchangeStudentGradeGenerator {
 
-    private static ObjectFactory factory = new ObjectFactory();
     private static final String ID_PREFIX_STUDENT_ACADEMIC_RECORD = "StudentAcademicRecord_";
     private static final String ID_PREFIX_COURSE_TRANSCRIPT = "CourseTranscript_";
     private static final String ID_PREFIX_REPORT_CARD = "ReportCard_";
@@ -120,19 +117,7 @@ public final class InterchangeStudentGradeGenerator {
         GradingPeriodReferenceType gradingPeriodRef = new GradingPeriodReferenceType();
         SLCGradingPeriodIdentityType gradingPeriodItentity = new SLCGradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
-        gradingPeriodItentity.setBeginDate(gpMeta.getBeginData());
-        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
-
-        // gradingPeriodItentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        // orignal wrong code
-
-
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.setStateOrganizationId(schoolId);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        eort.setEducationalOrgIdentity(eoit);
-        gradingPeriodItentity.setEducationalOrgReference(eort);
-
+        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
         return gradingPeriodRef;
     }
 
@@ -443,6 +428,8 @@ public final class InterchangeStudentGradeGenerator {
 
         int learningObjectiveIdCounter = 0;
 
+    	LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
+    	AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
 
@@ -471,10 +458,6 @@ public final class InterchangeStudentGradeGenerator {
                     lsi.setIdentificationCode(ID_PREFIX_LO + learningObjectiveIdCounter);
                     loIdentity.getLearningObjectiveIdOrObjective().add(lsi);
                     loRef.setLearningObjectiveIdentity(loIdentity);
-
-                    LearningObjectiveMeta lom = LearningObjectiveMeta.create(ID_PREFIX_LO + learningObjectiveIdCounter);
-
-                    AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.put(ID_PREFIX_LO + learningObjectiveIdCounter, lom);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
                             null);
@@ -513,10 +496,7 @@ public final class InterchangeStudentGradeGenerator {
 
                     StudentCompetencyObjectiveReferenceType scoRef = new StudentCompetencyObjectiveReferenceType();
                     StudentCompetencyObjectiveIdentityType scoIdentity = new StudentCompetencyObjectiveIdentityType();
-                    JAXBElement<String> oid = factory
-                            .createStudentCompetencyObjectiveIdentityTypeStudentCompetencyObjectiveId(ID_PREFIX_SCO
-                                    + reportCardId + "_" + scoId);
-                    scoIdentity.getStudentCompetencyObjectiveIdOrObjective().add(oid);
+                    scoIdentity.setStudentCompetencyObjectiveId(ID_PREFIX_SCO + reportCardId + "_" + scoId);
                     // lina
                     scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
 
@@ -641,23 +621,6 @@ public final class InterchangeStudentGradeGenerator {
             competencyLevelDescriptor.setPerformanceBaseConversion(PerformanceBaseType.ADVANCED);
 
             writer.marshal(competencyLevelDescriptor);
-        }
-    }
-
-    private static void generateLearningObjective(List<ReportCardMeta> reportCardMetas,
-            InterchangeWriter<InterchangeStudentGrade> writer) {
-
-        for (ReportCardMeta reportCardMeta : reportCardMetas) {
-            String reportCardId = reportCardMeta.getId();
-            for (String loId : reportCardMeta.getLearningObjectiveIds()) {
-                LearningObjective lo = new LearningObjective();
-                lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
-                lo.setDescription("Learning Objective Description");
-                lo.setObjective(ID_PREFIX_LO + reportCardId + "_" + loId);
-                lo.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
-
-                writer.marshal(lo);
-            }
         }
     }
 

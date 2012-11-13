@@ -10,7 +10,6 @@
             "entityType" : "staff",
             "isRefList" : true,
             "refObjectPath" : "body.StaffReference",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -33,7 +32,6 @@
             "entityType" : "student",
             "isRefList" : true,
             "refObjectPath" : "body.StudentReference",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -56,7 +54,6 @@
             "entityType" : "disciplineIncident",
             "isRefList" : true,
             "refObjectPath" : "body.DisciplineIncidentReference",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -96,10 +93,10 @@
     },
     {
         "fieldPath" : "body.responsibilitySchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
-            "takesContext" : ["edOrgs"],
+            "entityType" : "educationOrganization",
             "choiceOfFields" :
             [
                 [
@@ -116,10 +113,10 @@
     },
     {
         "fieldPath" : "body.assignmentSchoolId",
+        "deprecated" : true,
         "ref" :
         {
-            "entityType" : "school",
-            "takesContext" : ["edOrgs"],
+            "entityType" : "educationOrganization",
             "optional" : "true",
             "choiceOfFields" :
             [

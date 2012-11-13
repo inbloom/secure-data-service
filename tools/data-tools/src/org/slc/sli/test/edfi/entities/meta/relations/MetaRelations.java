@@ -474,7 +474,7 @@ public final class MetaRelations {
 
         Map<String, GraduationPlanMeta> graduationPlanMap = buildGraduationPlanForSchool(schoolMeta);
 
-        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
+        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, courseOfferingForSchool,
                 sessionsForSchool, programForSchool);
 
         Map<String, CohortMeta> freeStandingCohortsForSchool = buildFreeStandingCohortsForSchool(schoolMeta);
@@ -758,13 +758,13 @@ public final class MetaRelations {
      * SECTION_MAP is used to actually generate the XML.
      *
      * @param schoolMeta
-     * @param coursesForSchool
+     * @param courseOfferingsForSchool
      * @param sessionsForSchool
      * @param programsForSchool
      * @return
      */
     private static Map<String, SectionMeta> buildSectionsForSchool(SchoolMeta schoolMeta,
-            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool,
+            Map<String, CourseOfferingMeta> courseOfferingsForSchool, Map<String, SessionMeta> sessionsForSchool,
             Map<String, ProgramMeta> programsForSchool) {
 
         Map<String, SectionMeta> sectionMapForSchool = new HashMap<String, SectionMeta>();
@@ -774,7 +774,7 @@ public final class MetaRelations {
 
         for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
-            for (CourseMeta courseMeta : coursesForSchool.values()) {
+            for (CourseOfferingMeta courseOfferingMeta : courseOfferingsForSchool.values()) {
 
                 for (int idNum = 0; idNum < SECTIONS_PER_COURSE_SESSION; idNum++) {
 
@@ -786,9 +786,9 @@ public final class MetaRelations {
                         programCounter = (programCounter + 1) % programMetas.length;
                     }
 
-                    SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseMeta, sessionMeta,
+                    SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, sessionMeta,
                             programMeta);
-                    SuperSectionMeta superSectionMeta = new SuperSectionMeta("sec" + idNum, schoolMeta, courseMeta, sessionMeta,
+                    SuperSectionMeta superSectionMeta = new SuperSectionMeta("sec" + idNum, schoolMeta, courseOfferingMeta, sessionMeta,
                             programMeta);
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later

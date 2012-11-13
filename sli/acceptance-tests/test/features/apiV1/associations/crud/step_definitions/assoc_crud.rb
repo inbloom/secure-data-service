@@ -129,13 +129,13 @@ $entityData = {
         "studentRecordAccess" => true
     },
     "staffEducationOrganizationAssociation" => {
-        "staffReference" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "staffReference" => "04f708bc-928b-420d-a440-f1592a5d1073",
         "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
         "staffClassification" => "Counselor",
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {
-        "staffId" => "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "staffId" => "b4c2a73f-336d-4c47-9b47-2d24871eef96",
         "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
         "beginDate" => "2012-01-01",
         "endDate" => "2012-12-31"

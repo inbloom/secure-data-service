@@ -34,7 +34,7 @@ import javax.ws.rs.core.Response.Status;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -55,7 +55,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("/adminDelegation")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class AdminDelegationResource {
 
     @Autowired
