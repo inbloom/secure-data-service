@@ -254,7 +254,7 @@ public class SDKAPIClientTest {
 
         when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
-        List<GenericEntity> students = client.getStudentsWithSearch(token, firstName, lastName);
+        List<GenericEntity> students = client.getStudentsWithSearch(token, firstName, lastName, null);
 
         assertNotNull(students);
         assertEquals(2, students.size());
@@ -268,7 +268,7 @@ public class SDKAPIClientTest {
 
         when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
-        students = client.getStudentsWithSearch(token, firstName, lastName);
+        students = client.getStudentsWithSearch(token, firstName, lastName, null);
 
         assertNotNull(students);
         assertEquals(2, students.size());
@@ -282,7 +282,7 @@ public class SDKAPIClientTest {
 
         when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
-        students = client.getStudentsWithSearch(token, firstName, lastName);
+        students = client.getStudentsWithSearch(token, firstName, lastName, null);
 
         assertNotNull(students);
         assertEquals(1, students.size());
