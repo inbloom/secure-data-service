@@ -94,6 +94,15 @@ public class UriInfoToApiQueryConverterTest {
         QUERY_CONVERTER.convert(uriInfo);
     }
 
+    @Test(expected = QueryParseException.class)
+    public void testSelectorShouldFailFor1_0() throws URISyntaxException {
+        String queryString = "selector=:(students)";
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+
+        QUERY_CONVERTER.convert(uriInfo);
+    }
+
     private void testFullParse(String sortOrderString, NeutralQuery.SortOrder sortOrder) {
         try {
             int offset = 5;
@@ -101,7 +110,7 @@ public class UriInfoToApiQueryConverterTest {
             String includeFields = "field1,field2";
             String excludeFields = "field3,field4";
             String sortBy = "field5";
-            String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false))";
+            //String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false))";
             Map<String, Object> fooMap = new HashMap<String, Object>();
             fooMap.put("bar", true);
             Map<String, Object> foo2Map = new HashMap<String, Object>();
@@ -125,8 +134,8 @@ public class UriInfoToApiQueryConverterTest {
             queryString += (ParameterConstants.SORT_BY + "=" + sortBy);
             queryString += ("&");
             queryString += (ParameterConstants.SORT_ORDER + "=" + sortOrderString);
-            queryString += ("&");
-            queryString += (ParameterConstants.SELECTOR + "=" + selectorString);
+//            queryString += ("&");
+//            queryString += (ParameterConstants.SELECTOR + "=" + selectorString);
             queryString += ("&");
             queryString += ("testKey" + "=" + "testValue");
 
@@ -143,7 +152,7 @@ public class UriInfoToApiQueryConverterTest {
             assertEquals(apiQuery.getExcludeFieldString(), excludeFields);
             assertEquals(apiQuery.getSortBy(), sortBy);
             assertEquals(apiQuery.getSortOrder(), sortOrder);
-            assertEquals(apiQuery.getSelector(), selectorMap);
+            assertEquals(apiQuery.getSelector(), null);
             assertEquals(apiQuery.getCriteria().size(), 1);
         } catch (URISyntaxException urise) {
             assertTrue(false);

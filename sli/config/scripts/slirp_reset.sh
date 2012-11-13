@@ -13,6 +13,10 @@ then
   exit 1
 fi
 
+#
+# Threshold for logging slowq queries, ms
+SLOW_QUERY=100
+
 ######################
 #   Primary Config   #
 ######################
@@ -55,6 +59,10 @@ use sli
 db.dropDatabase();
 use d36f43474916ad310100c9711f21b65bd8231cc6
 db.dropDatabase();
+use 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
+db.dropDatabase();
+use ff501cb38db19529bc3eb7fd5759f3844626fdf6
+db.dropDatabase();
 END
 
 echo " ***** Ensuring Primary servers no longer have the SLI or Kyrule.NYC Database."
@@ -63,9 +71,21 @@ for i in $PRIMARIES;
 do
   mongo $i <<END
 use sli
+db.setProfilingLevel(0);
 db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
 use d36f43474916ad310100c9711f21b65bd8231cc6
+db.setProfilingLevel(0);
 db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
+use 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a
+db.setProfilingLevel(0);
+db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
+use ff501cb38db19529bc3eb7fd5759f3844626fdf6
+db.setProfilingLevel(0);
+db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
 END
 done
 
@@ -79,10 +99,14 @@ mongo sli < indexes/sli_indexes.js
 
 echo " ***** Clearing databases off $ISDB"
 mongo $ISDB/is <<END
+db.setProfilingLevel(0);
 db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
 END
 mongo $ISDB/ingestion_batch_job <<END
+db.setProfilingLevel(0);
 db.dropDatabase();
+db.setProfilingLevel(1,$SLOW_QUERY);
 END
 echo " ***** Setting up indexes on $ISDB"
 mongo $ISDB/is < indexes/is_indexes.js

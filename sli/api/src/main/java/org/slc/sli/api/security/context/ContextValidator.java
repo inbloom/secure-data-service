@@ -26,8 +26,16 @@ import java.util.Set;
 
 import javax.ws.rs.core.PathSegment;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.validator.IContextValidator;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -35,19 +43,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.validator.GenericContextValidator;
-import org.slc.sli.api.security.context.validator.IContextValidator;
-import org.slc.sli.api.security.context.validator.TeacherToStudentValidator;
-import org.slc.sli.api.security.context.validator.TeacherToSubStudentEntityValidator;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -94,22 +90,32 @@ public class ContextValidator implements ApplicationContextAware {
         if (def == null) {
             return;
         }
-        /**
-         * If we are v1/entity/id and the entity is "public" don't validate
-         */
-        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
-            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
-                info("Not validating access to public entity and it's custom data");
-                return;
-            }
-        }
-
+        
         /*
          * e.g.
          * !isTransitive - /v1/staff/<ID>/disciplineActions
          * isTransitive - /v1/staff/<ID>
          */
         boolean isTransitive = segs.size() < 4;
+        
+        /**
+         * If we are v1/entity/id and the entity is "public" don't validate
+         * 
+         * Unless of course you're posting/putting/deleting, blah blah blah.
+         */
+        if (segs.size() == 3 || (segs.size() == 4 && segs.get(3).getPath().equals("custom"))) {
+            if (def.getStoredCollectionName().equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                if (!request.getMethod().equals("GET")) {
+                    isTransitive = false;
+                } else {
+                    info("Not validating access to public entity and it's custom data");
+                    return;
+                }
+                    
+            }
+        }
+
+        
         String idsString = segs.get(2).getPath();
         Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
         validateContextToEntities(def, ids, isTransitive);

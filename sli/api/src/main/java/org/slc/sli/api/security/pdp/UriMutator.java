@@ -461,7 +461,6 @@ public class UriMutator {
         if (!isMutated && isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
                     || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
@@ -652,18 +651,19 @@ public class UriMutator {
         } else if (!isMutated && isStaff(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
                     || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                String ids = getQueryValueForQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
                 if (ids != null) {
-                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                    mutatedPath = String.format("/students/%s/attendances", ids);
                 } else {
                     ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+                    mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
                 }
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
             } else if (ResourceNames.COURSES.equals(resource)) {
