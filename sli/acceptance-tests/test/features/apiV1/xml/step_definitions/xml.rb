@@ -109,6 +109,7 @@ When /^I change the name to "([^"]*)"$/ do |newName|
             <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
     <nameOfInstitution>#{newName}</nameOfInstitution>
+    <parentEducationAgencyReference>b2c6e292-37b0-4148-bf75-c98a2fcc905f</parentEducationAgencyReference>
 </school>
 eos
 end

@@ -708,8 +708,15 @@ public class UriMutator {
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+                String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                if (ids != null) {
+                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                    mutatedPath = String.format("/students/%s/attendances", ids);
+                } else {
+                    ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+                    mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+                }
+                
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
             } else if (ResourceNames.COURSES.equals(resource)) {
@@ -836,6 +843,29 @@ public class UriMutator {
 
         return Pair.of(mutatedPath, mutatedParameters);
     }
+
+    private String getQueryValueForQueryParameters(String queryName, String queryParameters) {
+        String queryValue = null;
+        String[] queries = queryParameters.split("&");
+        String queryRegEx = "^" + Matcher.quoteReplacement(queryName) + "=.+";
+
+        for (String query : queries) {
+            if (query.matches(queryRegEx)) {
+                int INDEX_OF_QUERY_VALUE = queryRegEx.length() - 3;
+                queryValue = query.substring(INDEX_OF_QUERY_VALUE);
+                break;
+            }
+        }
+
+        return queryValue;
+    }
+
+    private String removeQueryFromQueryParameters(String queryName, String queryParameters) {
+        String queryRegEx = Matcher.quoteReplacement(queryName) + "=[^&]*&?";
+        String updatedQueryParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
+        return updatedQueryParameters;
+    }
+
 
     /**
      * Determines if the entity is a teacher.

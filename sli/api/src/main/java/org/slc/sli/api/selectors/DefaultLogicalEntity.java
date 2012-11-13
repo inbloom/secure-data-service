@@ -69,6 +69,10 @@ public class DefaultLogicalEntity implements LogicalEntity {
             throw new NullPointerException("apiQuery");
         }
 
+        if (apiQuery.getSelector() == null) {
+            throw new UnsupportedSelectorException("No selector to parse");
+        }
+
         final EntityDefinition typeDef = resourceHelper.getEntityDefinition(resourceName);
         // TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME
         // This is ugly - we have to capitalize here because our model

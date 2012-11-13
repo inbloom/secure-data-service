@@ -47,6 +47,14 @@
         </LearningStandardReference>
     </LearningObjective>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit0</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
@@ -61,6 +69,14 @@
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit1</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
@@ -75,6 +91,14 @@
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit2</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
@@ -89,6 +113,14 @@
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit3</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
@@ -103,6 +135,14 @@
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit4</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
@@ -206,9 +246,7 @@
         </ObjectiveAssessmentReference>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode AssigningOrganizationCode="AssigningOrganizationCode" IdentificationSystem="Federal">
-                    <ID>asf0</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>asf0Title</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>

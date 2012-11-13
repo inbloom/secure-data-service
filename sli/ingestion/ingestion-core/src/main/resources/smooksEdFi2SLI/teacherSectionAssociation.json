@@ -7,7 +7,6 @@
         "ref" :
         {
             "entityType" : "section",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -96,7 +95,6 @@
         "ref" :
         {
             "entityType" : "staff",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

@@ -149,7 +149,7 @@ public class DefaultResourceService implements ResourceService {
 
         return handle(resource, new ServiceLogic() {
             @Override
-            public ServiceResponse run(final Resource resource, EntityDefinition definition) {
+            public ServiceResponse run(final Resource resource, final EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
 
@@ -158,7 +158,14 @@ public class DefaultResourceService implements ResourceService {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            return logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                            Iterable<EntityBody> entityBodies = null;
+                            try {
+                                entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                            } catch (UnsupportedSelectorException e) {
+                                entityBodies = definition.getService().list(apiQuery);
+                            }
+
+                            return entityBodies;
                         }
                     });
                 } else {

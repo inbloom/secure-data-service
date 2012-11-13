@@ -58,11 +58,11 @@
             }
         },
         {
-            "fieldPath" : "body.studentSectionAssociationId",
+            "fieldPath" : "body.StudentSectionAssociationReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentSectionAssociation",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
