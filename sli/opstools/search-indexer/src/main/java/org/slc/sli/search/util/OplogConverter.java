@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.search.entity.IndexEntity.Action;
+
 /**
  * Entity converter for OpLog
  *
@@ -38,13 +40,24 @@ public class OplogConverter {
     public static final String OPERATOR_ADD_TO_SET = "$addToSet";
     public static final String OPERATOR_EACH = "$each";
 
+
+    public static Map<String, Object> getEntity(Action action, Map<String, Object> oplog) {
+        switch (action) {
+           case INDEX: return getEntityForInsert(oplog);
+           case UPDATE: return getEntityForUpdate(oplog);
+           case DELETE: return getEntityForDelete(oplog);
+        }
+        // some unsupported action
+        return null;
+    }
+
     /**
      * Convert OpLog entry to Entity for Insert
      *
      * @param oplogEntry
      * @return
      */
-    public static Map<String, Object> getEntityForInsert(Map<String, Object> oplogEntry) {
+    private static Map<String, Object> getEntityForInsert(Map<String, Object> oplogEntry) {
         return (Map<String, Object>) oplogEntry.get("o");
     }
 
@@ -54,7 +67,7 @@ public class OplogConverter {
      * @param oplogEntry
      * @return
      */
-    public static Map<String, Object> getEntityForUpdate(Map<String, Object> oplogEntry) {
+    private static Map<String, Object> getEntityForUpdate(Map<String, Object> oplogEntry) {
         Meta meta = getMeta(oplogEntry);
         Map<String, Object> o2 = (Map<String, Object>) oplogEntry.get("o2");
         String id = (String) o2.get("_id");
@@ -77,7 +90,7 @@ public class OplogConverter {
      * @param type
      * @return
      */
-    public static Map<String, Object> getEntityForDelete(Map<String, Object> oplogEntry) {
+    private static Map<String, Object> getEntityForDelete(Map<String, Object> oplogEntry) {
         Meta meta = getMeta(oplogEntry);
         Map<String, Object> o = (Map<String, Object>) oplogEntry.get("o");
         String id = (String) o.get("_id");
@@ -187,16 +200,21 @@ public class OplogConverter {
         }
     }
 
-    public static boolean isInsert(Map<String, Object> oplog) {
-        return "i".equals(oplog.get("op"));
-    }
-
-    public static boolean isUpdate(Map<String, Object> oplog) {
-        return "u".equals(oplog.get("op"));
-    }
-
-    public static boolean isDelete(Map<String, Object> oplog) {
-        return "d".equals(oplog.get("op"));
+    /**
+     * Convert op field from oplog entry to Action
+     * @param oplog
+     * @return
+     */
+    public static Action getAction(Map<String, Object> oplog) {
+        String op = (String) oplog.get("op");
+        if ("i".equals(op)) {
+            return Action.INDEX;
+        } else if ("u".equals(op)) {
+            return Action.UPDATE;
+        } else if ("d".equals(op)) {
+            return Action.DELETE;
+        }
+        return null;
     }
 
     // TODO : is there a better way to make the json valid?

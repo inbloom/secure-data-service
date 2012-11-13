@@ -32,7 +32,11 @@ import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.util.ByteSequence;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.search.entity.IndexEntity;
+import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.IncrementalLoader;
 import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
@@ -41,8 +45,6 @@ import org.slc.sli.search.util.OplogConverter.Meta;
 import org.slc.sli.search.util.SearchIndexerException;
 import org.slc.sli.search.util.amq.ActiveMQConnection;
 import org.slc.sli.search.util.amq.ActiveMQConnection.MessageType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -74,9 +76,11 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      *
      * @see org.slc.sli.search.process.impl.IncrementalListener#listen()
      */
+    @Override
     public void listen() {
         try {
             this.activeMQConnection.getConsumer(MessageType.QUEUE).setMessageListener(new MessageListener() {
+                @Override
                 public void onMessage(Message message) {
                     process(message);
                 }
@@ -113,11 +117,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
                     TextMessage textMessage = (TextMessage) message;
                     opLog = textMessage.getText();
                 }
-
-                List<IndexEntity> entities = convertToEntity(opLog);
-                for (IndexEntity entity : entities) {
-                    sendToIndexer(entity);
-                }
+                processEntities(opLog);
             } catch (Exception e) {
                 logger.error("Error processing message", e);
             }
@@ -128,59 +128,43 @@ public class IncrementalListenerImpl implements IncrementalLoader {
      * Convert oplog message to an IndexEntity, based on the action type (insert, update, delete)
      *
      * @param opLog
-     * @return
+     * @return index entities
      * @throws Exception
      */
-    public List<IndexEntity> convertToEntity(String opLogString) throws Exception {
+    public List<IndexEntity> processEntities(String opLogString) throws Exception {
 
         List<IndexEntity> entities = new LinkedList<IndexEntity>();
 
         List<Map<String, Object>> opLogs = mapper.readValue(OplogConverter.preProcess(opLogString),
                 new TypeReference<List<Map<String, Object>>>() {
                 });
+        IndexEntity ie;
         // check action type and convert to an index entity
         for (Map<String, Object> opLog : opLogs) {
             try {
-                if (OplogConverter.isInsert(opLog)) {
-                    entities.add(convertInsertToEntity(opLog));
-                } else if (OplogConverter.isUpdate(opLog)) {
-                    entities.add(convertUpdateToEntity(opLog));
-                } else if (OplogConverter.isDelete(opLog)) {
-                    entities.add(convertDeleteToEntity(opLog));
+                ie = convertToEntity(opLog);
+                if (ie != null) {
+                    entities.add(ie);
+                    index(ie);
                 } else {
-                    logger.info("Unrecognized message type. Ignoring.");
+                    logger.info("Unsupported message type. Ignoring.");
                 }
             } catch (Exception e) {
-                if (logger.isDebugEnabled()) {
-                    logger.info("Message: " + mapper.writeValueAsString(opLogs));
-                }
-                throw e;
+                logger.info("Unable to process an oplog entry, skipping");
             }
         }
         return entities;
     }
 
-    private IndexEntity convertInsertToEntity(Map<String, Object> opLogMap) throws Exception {
+    private IndexEntity convertToEntity(Map<String, Object> opLogMap) throws Exception {
+        Action action = OplogConverter.getAction(opLogMap);
         Meta meta = OplogConverter.getMeta(opLogMap);
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.INDEX,
-                OplogConverter.getEntityForInsert(opLogMap));
+        Map<String, Object> entity = OplogConverter.getEntity(action, opLogMap);
+        return (entity == null) ? null : indexEntityConverter.fromEntity(meta.getIndex(), action, OplogConverter.getEntity(action, opLogMap));
     }
 
-    private IndexEntity convertUpdateToEntity(Map<String, Object> opLogMap) throws Exception {
-        Meta meta = OplogConverter.getMeta(opLogMap);
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.UPDATE,
-                OplogConverter.getEntityForUpdate(opLogMap));
-    }
-
-    private IndexEntity convertDeleteToEntity(Map<String, Object> opLogMap) throws Exception {
-        // convert to index entity object
-        Meta meta = OplogConverter.getMeta(opLogMap);
-        return indexEntityConverter.fromEntity(meta.getIndex(), IndexEntity.Action.DELETE,
-                OplogConverter.getEntityForDelete(opLogMap));
-    }
-
-    private void sendToIndexer(IndexEntity entity) {
-        indexer.index(entity);
+    protected void index(IndexEntity ie) {
+        indexer.index(ie);
     }
 
     public void setIndexer(Indexer indexer) {
@@ -191,14 +175,11 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         this.indexEntityConverter = indexEntityConverter;
     }
 
-    public void setMapper(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
-
     public void setActiveMQConnection(ActiveMQConnection activeMQConnection) {
         this.activeMQConnection = activeMQConnection;
     }
 
+    @Override
     public String getHealth() {
         return getClass() + "{}";
     }

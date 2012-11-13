@@ -9,6 +9,8 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import com.mongodb.DBCollection;
+
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -16,7 +18,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mongodb.DBCollection;
+import org.slc.sli.search.entity.IndexEntity.Action;
 
 public class OplogConverterTest {
     private ObjectMapper mapper = null;
@@ -74,7 +76,7 @@ public class OplogConverterTest {
         String opLog = getOplogJsonFile(file);
         Map<String, Object> opLogs = mapper.readValue(opLog, new TypeReference<Map<String, Object>>() {
         });
-        return OplogConverter.getEntityForUpdate(opLogs);
+        return OplogConverter.getEntity(Action.UPDATE, opLogs);
     }
 
     private String getOplogJsonFile(String name) {

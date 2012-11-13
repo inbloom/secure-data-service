@@ -25,6 +25,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.process.impl.IncrementalListenerImpl;
@@ -32,10 +33,11 @@ import org.slc.sli.search.transform.IndexEntityConverter;
 
 /**
  * Test class for the Sarje incremental update listener
- * 
+ *
  * @author dwu
- * 
+ *
  */
+@SuppressWarnings("unchecked")
 public class IncrementalListenerTest {
 
     private String opLogInsert;
@@ -43,7 +45,7 @@ public class IncrementalListenerTest {
     private String opLogDelete;
 
     private final IncrementalListenerImpl listener = new IncrementalListenerImpl();
-    private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();;
+    private final IndexEntityConverter indexEntityConverter = new IndexEntityConverter();
 
     @Before
     public void init() throws Exception {
@@ -67,9 +69,8 @@ public class IncrementalListenerTest {
      */
     @Test
     public void testInsert() throws Exception {
-
         // convert to index entity
-        List<IndexEntity> entity = listener.convertToEntity(opLogInsert);
+        List<IndexEntity> entity = listener.processEntities(opLogInsert);
 
         // check result
         Assert.assertEquals("index", entity.get(0).getActionValue());
@@ -84,14 +85,14 @@ public class IncrementalListenerTest {
     /**
      * Test oplog update -> index entity conversion
      * Updates the entire body and metadata
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testUpdate() throws Exception {
 
         // convert to index entity
-        List<IndexEntity> entity = listener.convertToEntity(opLogUpdate);
+        List<IndexEntity> entity = listener.processEntities(opLogUpdate);
 
         // check result
         Assert.assertEquals(entity.get(0).getActionValue(), "index");
@@ -111,7 +112,7 @@ public class IncrementalListenerTest {
     public void testDelete() throws Exception {
 
         // convert to index entity
-        List<IndexEntity> entity = listener.convertToEntity(opLogDelete);
+        List<IndexEntity> entity = listener.processEntities(opLogDelete);
 
         // check result
         Assert.assertEquals(entity.get(0).getActionValue(), "delete");
