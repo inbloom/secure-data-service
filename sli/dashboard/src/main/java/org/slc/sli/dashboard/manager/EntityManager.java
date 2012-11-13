@@ -256,8 +256,8 @@ public class EntityManager extends ApiClientManager {
      * @param lastName
      * @return
      */
-    public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName) {
-        return getApiClient().getStudentsWithSearch(token, firstName, lastName);
+    public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName, String schoolId) {
+        return getApiClient().getStudentsWithSearch(token, firstName, lastName, schoolId);
     }
 
     public GenericEntity getSession(String token, String sessionId) {

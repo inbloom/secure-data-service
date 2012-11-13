@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -108,21 +107,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     entity.getBody().put(SLI_ASSESSMENT_REFERENCE, assessmentId);
                 } else {
                     LOG.error("Unable to map 'assessmentId' in studentAssessment. Expected a String.");
-                }
-            } else if (EntityNames.EDUCATION_ORGANIZATION.equals(entity.getType())
-            		|| EdfiEntity.EDUCATION_SERVICE_CENTER.getEntityName().equals(entity.getType())
-            		|| EdfiEntity.STATE_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
-            		|| EdfiEntity.LOCAL_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
-            		|| EdfiEntity.SCHOOL.getEntityName().equals(entity.getType())
-            		)
-            {
-            	//This should catch EducationServiceCenter, StateEducationAgency, LocalEducationAgency, and School
-                Object ref = entity.getBody().remove(EDFI_PROGRAM_REFERENCE);
-                if (ref instanceof List<?>) {
-                    List<?> references = (List<?>) ref;
-                    entity.getBody().put(SLC_PROGRAM_REFERENCE, references);
-                } else {
-                    LOG.error("Unable to map '" + SLC_PROGRAM_REFERENCE + "' in " + entity.getType() + ". Expected a List.");
                 }
             }
 
