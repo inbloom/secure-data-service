@@ -174,8 +174,8 @@
     <value>stateEducationAgency,false,creationTime</value>
     <value>student,false,creationTime</value>
     <value>studentAcademicRecord,false,creationTime</value>
-    <value>studentAssessmentAssociation,false,creationTime</value>
-    <value>studentAssessmentAssociation_transformed,false,creationTime</value>
+    <value>studentAssessment,false,creationTime</value>
+    <value>studentAssessment_transformed,false,creationTime</value>
     <value>studentAssessmentItem,false,creationTime</value>
     <value>studentCohortAssociation,false,creationTime</value>
     <value>studentCompetency,false,creationTime</value>
