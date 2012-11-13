@@ -198,7 +198,7 @@ public class DeterministicIdResolver {
             if (isOptional) {
                 return null;
             } else {
-                throw new IdResolutionException("Missing required refernece", refType, null);
+                throw new IdResolutionException("Missing required reference", refType, null);
             }
         }
 
