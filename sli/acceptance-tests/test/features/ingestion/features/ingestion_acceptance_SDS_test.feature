@@ -436,9 +436,6 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessment         | 0f037add13a1b0590b9e7f19bd9edf8c38e0e1ac_id4f3903628a3e67a727cbd88c5cc68aae17f243e5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
     | studentAssessment         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idd8e0b70696b616712641162668edffe64511abcc_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.studentSectionAssociationId    | c377c9c4b343dda726e837f442a171c570a460cd_id |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
