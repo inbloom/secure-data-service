@@ -22,14 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -37,6 +29,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Transformer for Assessment Entities
@@ -101,11 +100,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyId = (String) attrs.remove("parentAssessmentFamilyId");
-            String familyHierarchyName = "";
-            familyHierarchyName = getAssocationFamilyMap(parentFamilyId, new HashMap<String, Map<String, Object>>(),
-                    familyHierarchyName);
-
+            String parentFamilyTitle = (String) attrs.remove("parentAssessmentFamilyTitle");
+            String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
             @SuppressWarnings("unchecked")
@@ -173,6 +169,17 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             if (records != null) {
                 for (NeutralRecord record : records) {
+                    // remove the assessmentReference from assessmentItem because current sli data
+                    // model does not has this attribute, it will not pass the validation when save
+                    // to sli db. The assessmentreference will be used for supporting out of order
+                    // ingestion in the future
+                    /*
+                     * Map<String, Object> itemAttributes = record.getAttributes();
+                     * if (itemAttributes.containsKey("assessmentReference")) {
+                     * itemAttributes.remove("assessmentReference");
+                     * }
+                     * assessmentItems.add(itemAttributes);
+                     */
                     assessmentItems.add(record.getAttributes());
                 }
 
@@ -206,41 +213,30 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    private String getAssocationFamilyMap(String key, HashMap<String, Map<String, Object>> deepFamilyMap,
+    private String getAssocationFamilyMap(String assessmentFamilyTitle, HashMap<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID").is(key));
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
+        query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
+        Iterable<NeutralRecord> neutralRecords = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
 
-        Map<String, Object> associationAttrs;
-        ArrayList<Map<String, Object>> tempIdentificationCodes;
-        Map<String, Object> tempMap;
+        // Should only iterate exactly once because AssessmentFamilyTitle should be unique for each AssessmentFamily.
+        for (NeutralRecord neutralRecord : neutralRecords) {
+            Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
-        for (NeutralRecord tempNr : data) {
-            associationAttrs = tempNr.getAttributes();
-
-            if (associationAttrs.get("AssessmentFamilyIdentificationCode") instanceof ArrayList<?>) {
-                tempIdentificationCodes = (ArrayList<Map<String, Object>>) associationAttrs
-                        .get("AssessmentFamilyIdentificationCode");
-
-                tempMap = tempIdentificationCodes.get(0);
-                if (familyHierarchyName.equals("")) {
-                    familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
-                } else {
-                    familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
-                }
-                deepFamilyMap.put((String) tempMap.get("ID"), associationAttrs);
+            if ("".equals(familyHierarchyName)) {
+                familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+            } else {
+                familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
             }
+            deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
 
             // check if there are parent nodes
-            if (associationAttrs.containsKey("parentAssessmentFamilyId")
-                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyId"))) {
-                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyId"),
+            if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
+                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
+                familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
                         deepFamilyMap, familyHierarchyName);
             }
-
         }
 
         return familyHierarchyName;

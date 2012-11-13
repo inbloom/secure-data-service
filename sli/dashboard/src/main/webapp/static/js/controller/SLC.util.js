@@ -281,7 +281,7 @@ SLC.namespace('SLC.util', (function () {
 		function getLayoutLink(name, id, queryString) {
 			return contextRootPath + "/s/l/" + name + ((id) ? ("/" + id) : "") + ((queryString) ? ('?' + queryString) : '');
 		}
-		
+
 		function goToLayout(name, id, queryString) {
 			location.href = getLayoutLink(name, id, queryString);
 		}
@@ -319,10 +319,12 @@ SLC.namespace('SLC.util', (function () {
 			  if (!firstName || firstName === "First Name") {
 			    firstName = '';
 			  }
+
 			  var lastName = $('#dbrd_inp_search_lastName').val();
 			  if (!lastName || lastName === "Last Name") {
 			    lastName = '';
 			  }
+
 			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
 			  return false;
 			});

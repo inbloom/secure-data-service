@@ -42,7 +42,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | staffProgramAssociation                   |
      | student                                   |
      | studentAcademicRecord                     |
-     | studentAssessmentAssociation              |
+     | studentAssessment              |
      | studentCohortAssociation                  |
      | studentCompetency                         |
      | studentCompetencyObjective                |
@@ -93,7 +93,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation                     | 106 |
      | student                                     | 500 |
      | studentAcademicRecord                       | 500 |
-     | studentAssessmentAssociation                | 2500 |
+     | studentAssessment                | 2500 |
      | studentCohortAssociation                    | 1500 |
      | studentCompetency                           | 1000 |
      | studentCompetencyObjective                  | 1 |

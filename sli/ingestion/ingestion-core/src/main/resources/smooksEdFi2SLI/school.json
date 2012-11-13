@@ -4,10 +4,10 @@
     [
         {
             "fieldPath" : "body.parentEducationAgencyReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "educationOrganization",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
@@ -30,7 +30,6 @@
                 "entityType" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.ProgramReference",
-                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

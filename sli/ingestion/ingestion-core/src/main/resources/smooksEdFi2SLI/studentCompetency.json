@@ -38,6 +38,7 @@
         },
         {
             "fieldPath" : "body.StudentCompetencyObjectiveReference",
+        	"deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentCompetencyObjective",
@@ -57,11 +58,11 @@
             }
         },
         {
-            "fieldPath" : "body.studentSectionAssociationId",
+            "fieldPath" : "body.StudentSectionAssociationReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "studentSectionAssociation",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

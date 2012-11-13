@@ -1,0 +1,13 @@
+{
+"recordType":"cohort",
+"attributes":
+{
+	"EducationOrgReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

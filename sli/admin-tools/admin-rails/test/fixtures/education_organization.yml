@@ -3,6 +3,9 @@ state:
     organizationCategories: ["State Education Agency"]
     nameOfInstitution: "Some Fake District"
     stateOrganizationId: "STATE"
+    address:
+        -
+            stateAbbreviation: "NC"
     metaData:
         updated: 10000000
         created: 10000000
@@ -11,6 +14,9 @@ local:
   id: 2
   organizationCategories: ["Local Education Agency"]
   nameOfInstitution: "A Fake Local District"
+  address:
+    -
+        stateAbbreviation: "NC"
   stateOrganizationId: "LOCAL"
 
 

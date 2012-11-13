@@ -90,7 +90,7 @@ Scenario: Applying optional fields
 
   # assessments
   Then I should find 1 "<studentAssessments>"
-  And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
+  And I should see "<entityType>" is "studentAssessment" for one of them
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
   And I should find "<assessments>" under it
   And I should see "<entityType>" is "assessment" for it
@@ -146,7 +146,7 @@ Scenario: Applying optional fields - single student view
 
   # assessments
   Then I should find 1 "<studentAssessments>"
-  And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
+  And I should see "<entityType>" is "studentAssessment" for one of them
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
   And I should find "<assessments>" under it
   And I should see "<entityType>" is "assessment" for it

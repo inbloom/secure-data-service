@@ -148,7 +148,7 @@ public class StudentAssessmentCombinerTest {
     @SuppressWarnings("unchecked")
     public List<NeutralRecord> buildSANeutralRecords() {
         NeutralRecord sa1 = new NeutralRecord();
-        sa1.setRecordType("studentAssessmentAssociation");
+        sa1.setRecordType("studentAssessment");
         sa1.setAttributeField("administrationDate", "2011-05-01");
         Map<String, Object> scoreResult11 = new HashMap<String, Object>();
         scoreResult11.put("assessmentReportingMethod", "Raw Score");
@@ -159,7 +159,7 @@ public class StudentAssessmentCombinerTest {
         sa1.setAttributeField("ScoreResults", Arrays.asList(scoreResult11, scoreResult12));
         sa1.setAttributeField("xmlId", "sa1");
         NeutralRecord sa2 = new NeutralRecord();
-        sa2.setRecordType("studentAssessmentAssociation");
+        sa2.setRecordType("studentAssessment");
         sa2.setAttributeField("administrationDate", "2011-05-01");
         Map<String, Object> scoreResult21 = new HashMap<String, Object>();
         scoreResult21.put("assessmentReportingMethod", "Raw Score");
@@ -216,7 +216,7 @@ public class StudentAssessmentCombinerTest {
         
         // Performing the transformation
         transformer.perform(job);
-        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob("studentAssessmentAssociation", job.getId(), new NeutralQuery(0));
+        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob("studentAssessment", job.getId(), new NeutralQuery(0));
         Iterator<NeutralRecord> itr = records.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {

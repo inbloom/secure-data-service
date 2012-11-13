@@ -17,7 +17,6 @@ package org.slc.sli.api.resources.generic.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
@@ -36,9 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -163,45 +160,6 @@ public class DefaultResourceServiceTest {
         assertEquals("Should match", "student", resourceService.getEntityType(new Resource("v1", "students")));
         assertEquals("Should match", "staff", resourceService.getEntityType(new Resource("v1", "staff")));
         assertEquals("Should match", "teacher", resourceService.getEntityType(new Resource("v1", "teachers")));
-    }
-
-    @Test
-    public void testAddTypeCriteria() {
-        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.TEACHERS);
-        ApiQuery query = new ApiQuery();
-
-        query = resourceService.addTypeCriteria(def, query);
-
-        List<NeutralCriteria> criteriaList = query.getCriteria();
-        assertEquals("Should match", 1, criteriaList.size());
-
-        NeutralCriteria criteria = criteriaList.get(0);
-        assertEquals("Should match", "type", criteria.getKey());
-        assertEquals("Should match", NeutralCriteria.CRITERIA_IN, criteria.getOperator());
-        assertEquals("Should match", Arrays.asList(def.getType()), criteria.getValue());
-    }
-
-    @Test
-    public void testAddTypeCriteriaNoChange() {
-        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
-        ApiQuery query = new ApiQuery();
-
-        query = resourceService.addTypeCriteria(def, query);
-
-        List<NeutralCriteria> criteriaList = query.getCriteria();
-        assertEquals("Should match", 0, criteriaList.size());
-    }
-
-    @Test
-    public void testAddTypeCriteriaNullValues() {
-        ApiQuery query = null;
-
-        assertNull("Should be null", resourceService.addTypeCriteria(null, null));
-
-        query = new ApiQuery();
-        query = resourceService.addTypeCriteria(null, query);
-        List<NeutralCriteria> criteriaList = query.getCriteria();
-        assertEquals("Should match", 0, criteriaList.size());
     }
 
     @Test

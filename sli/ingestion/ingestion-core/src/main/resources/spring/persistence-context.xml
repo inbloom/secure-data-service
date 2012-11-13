@@ -70,7 +70,7 @@
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
     <value>learningObjective</value>
-    <value>studentAssessmentAssociation</value>
+    <value>studentAssessment</value>
     <value>courseTranscript</value>
   </util:set>
 

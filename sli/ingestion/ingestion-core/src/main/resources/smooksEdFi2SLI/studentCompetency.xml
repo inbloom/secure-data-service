@@ -30,7 +30,7 @@
     <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevel" />
     <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
     <jb:wiring property="objectiveId" beanIdRef="studentCompetencyObjectiveId" />
-    <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
+    <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
   </jb:bean>
 
   <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="attributes competencyLevel">

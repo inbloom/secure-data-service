@@ -14,7 +14,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch0-prg0</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -32,7 +31,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch0-prg1</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -74,7 +72,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch1-prg0</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -92,7 +89,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch1-prg1</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch1</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -134,7 +130,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch2-prg0</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -152,7 +147,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch2-prg1</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch2</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -194,7 +188,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch3-prg0</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -212,7 +205,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch3-prg1</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch3</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -254,7 +246,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch4-prg0</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>
@@ -272,7 +263,6 @@
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>CAP0-D0-HSch4-prg1</ProgramId>
-        <StateOrganizationId>CAP0-D0-HSch4</StateOrganizationId>
       </ProgramIdentity>
     </ProgramReference>
   </Cohort>

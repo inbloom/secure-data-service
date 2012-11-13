@@ -44,10 +44,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <RevisionDate>2005-03-12</RevisionDate>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                    <ID>AP-Eng-and-Literature</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>AP-Eng-and-Literature</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>
@@ -96,10 +93,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <RevisionDate>2005-03-12</RevisionDate>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode
-                IdentificationSystem="Test Contractor">
-                    <ID>AP-Lang-and-Literature</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>AP-Lang-and-Literature</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>
@@ -120,9 +114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyIdentificationCode>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-                    <ID>AP</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </AssessmentFamily>
@@ -134,9 +126,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyIdentificationCode>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-                    <ID>AP Eng</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </AssessmentFamily>
@@ -148,9 +138,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         </AssessmentFamilyIdentificationCode>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-                    <ID>AP Eng</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </AssessmentFamily>

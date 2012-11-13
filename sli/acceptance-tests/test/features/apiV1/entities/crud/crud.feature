@@ -50,6 +50,9 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 | "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
+| "studentCompetencyObjective"   | "studentCompetencyObjectives" | "objectiveGradeLevel" | "First grade"                               |
+| "competencyLevelDescriptor"    | "competencyLevelDescriptor" | "performanceBaseConversion" | "Below Basic"                           |
+
 
     Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -194,6 +197,7 @@ Examples:
 | "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 | "graduationPlan"               | "graduationPlans"         | "individualPlan"         | "true"                                       |
+| "studentCompetencyObjective"   | "studentCompetencyObjectives" | "objectiveGradeLevel"| "First grade"                                |
 
     Scenario Outline: Get All Entities as State Staff
     Given my contextual access is defined by table:
@@ -236,6 +240,7 @@ Examples:
 | "studentCompetency"     | "studentCompetencies"     |  200 | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          |  200 | 0     |/schools/@ids/sessions/gradingPeriods|
 | "reportCard"            | "reportCards"             |  200 | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 200  | 0     |/educationOrganizations/@ids/studentCompetencyObjectives    |
 
     Scenario Outline: CRUD operations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -434,7 +439,8 @@ Examples:
 | "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
 | "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
 | "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
-| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|    
+| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
 
 	@DE1825 
 	Scenario: Invalid data parsing fails gracefully

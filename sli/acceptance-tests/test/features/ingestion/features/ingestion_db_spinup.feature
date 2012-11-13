@@ -3,10 +3,22 @@ Feature: Tenant database spin up
 Background: I have a landing zone route configured
 Given I am using local data store
 
+Scenario: The tenant is locked while the database is spinning up
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the tenant database for "Midgar" does not exist
+    And I post "tenant.zip" file as the payload of the ingestion job
+When the tenant with tenantId "Midgar" is locked
+    And zip file is scp to ingestion landing zone
+    And a batch job for file "tenant.zip" is completed in database
+    And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
+    And I should see "INFO  Processed 0 records." in the resulting batch job file
+    And I should see "ERROR  The tenant is currently being onboarded. Please try ingestion in a few minutes when it has completed." in the resulting error log file
+    And the tenantIsReady flag for the tenant "Midgar" is reset
 
 Scenario: First ingestion for a new tenant
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the tenant database for "Midgar" does not exist
+    And the tenantIsReady flag for the tenant "Midgar" is reset
     And I post "tenant.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "tenant.zip" is completed in database

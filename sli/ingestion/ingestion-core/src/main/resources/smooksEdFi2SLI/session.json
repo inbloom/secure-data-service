@@ -4,11 +4,10 @@
     [
         {
             "fieldPath" : "body.schoolId",
-            "deprecated" : false,
+            "deprecated" : true,
             "ref" :
             {
-                "entityType" : "school",
-                "takesContext" : ["edOrgs"],
+                "entityType" : "educationOrganization",
                 "choiceOfFields" :
                 [
                     [
@@ -31,7 +30,6 @@
                 "entityType" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.GradingPeriodReference",
-                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
