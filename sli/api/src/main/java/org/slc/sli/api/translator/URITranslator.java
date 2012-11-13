@@ -51,6 +51,7 @@ public class URITranslator {
     private static String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
     private static String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
     private static String LEARNING_STANDARD = "learningStandards";
+    private static String STUDENT_COMPETENCY = "studentCompetencies";
     private static String ID_KEY = "_id";
 
     public URITranslator() {
@@ -66,6 +67,10 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/learningStandards").
                 usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(ID_KEY)
                 .andReference(LEARNING_STANDARD).build();
+        translate(STUDENT_COMPETENCY).transformTo(ResourceNames.STUDENT_COMPETENCIES).
+                usingPattern("{version}/learningObjectives/{id}/studentCompetencies").
+                usingCollection(EntityNames.STUDENT_COMPETENCY).withKey("objectiveId.learningObjectiveId")
+                .andReference(ID_KEY).build();
     }
 
     public void translate(ContainerRequest request) {
@@ -74,8 +79,10 @@ public class URITranslator {
             String key = entry.getKey();
             if (uri.contains(key)) {
                 String newPath = uriTranslationMap.get(key).translate(request.getPath());
+                if (newPath.equals(uri) == false ) {
                 request.setUris(request.getBaseUri(),
                         request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
+                }
             }
         }
     }
