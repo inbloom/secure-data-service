@@ -963,7 +963,7 @@
 </jb:bean>
 
   <jb:bean beanId="teacherSchoolAssociationMetaData" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/TeacherSchoolAssociation">
+    createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
     <jb:expression property="neutralRecordKeyValueFieldNames">'TeacherReference,SchoolReference'</jb:expression>
   </jb:bean>
 
