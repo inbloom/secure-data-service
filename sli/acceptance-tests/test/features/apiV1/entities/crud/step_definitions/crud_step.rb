@@ -485,7 +485,8 @@ When /^I POST the association of type "([^"]*)"$/ do |type|
     "staffProgramAssociation" => "staffProgramAssociations"
   }
   if type != ""
-    step "I navigate to POST \"/#{@assocUrl[type]}\""
+    api_version = "v1"
+    step "I navigate to POST \"/#{api_version}/#{@assocUrl[type]}\""
     headers = @res.raw_headers
     assert(headers != nil, "Headers are nil")
     assert(headers['location'] != nil, "There is no location link from the previous request")
