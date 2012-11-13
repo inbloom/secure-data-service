@@ -20,4 +20,4 @@ limitations under the License.
 require_relative 'odin'
 
 o = Odin.new
-o.generate()
+o.generate( nil ) # use scenario in config.yml

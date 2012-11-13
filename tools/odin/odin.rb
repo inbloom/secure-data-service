@@ -23,16 +23,17 @@ require 'yaml'
 require_relative 'validator.rb'
 require_relative 'util.rb'
 class Odin
-  def generate( )
+  def generate(  scenario )
 
     Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
 
     configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
 
-    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', configYAML['scenario'] ))
-    if ARGV.count == 1
-      scenarioYAML['studentCount'] = ARGV[0].to_i
+    if ( scenario.nil? )
+      scenario = configYAML['scenario']
     end
+
+    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', scenario ))
 
     prng = Random.new(configYAML['seed'])
     Dir.mkdir('generated') if !Dir.exists?('generated')
@@ -52,17 +53,15 @@ class Odin
 
   end
 
-	def validate()
-	  valid = true 
-	  Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f| 
-	   
-	    valid = valid && validate_file(f) 
-	   
-	    }
-	    return valid
-	end
-	
-	
+  def validate()
+    valid = true
+    Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
+
+      valid = valid && validate_file(f)
+
+    }
+    return valid
+  end
 
 end
 

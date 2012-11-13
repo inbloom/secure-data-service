@@ -20,9 +20,9 @@ require_relative '../odin.rb'
 
 
 describe "Odin" do
-  it "generates" do
+  it "generates valid XML for the default scenario" do
     odin = Odin.new
-    odin.generate()
+    odin.generate( nil )
     odin.validate().should be true
   end
 end
