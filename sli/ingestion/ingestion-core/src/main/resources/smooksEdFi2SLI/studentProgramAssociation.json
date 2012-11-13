@@ -44,6 +44,7 @@
     },
     {
         "fieldPath" : "body.educationOrganizationId",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "educationOrganization",

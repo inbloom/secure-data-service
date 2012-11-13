@@ -358,7 +358,9 @@
   </jb:bean>
   <jb:bean beanId="SLC-StudentSchoolAssociationExtension_Attributes_EducationalOrgReferenceType_EducationalOrgIdentityType" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity">
     <jb:value data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" property="StateOrganizationId"/>
-    <jb:wiring beanIdRef="SLC-StudentSchoolAssociationExtension_Attributes_EducationalOrgReferenceType_EducationalOrgIdentityType_EducationOrgIdentificationCodeArray" property="EducationOrgIdentificationCode"/>
+   <!--
+    <jb:wiring beanIdRef="SLC-StudentSchoolAssociationExtension_Attributes_EducationalOrgReferenceType_EducationalOrgIdentityType_EducationOrgIdentificationCodeArray" property="EducationOrgIdentificationCode"/>	
+  -->
   </jb:bean>
   <jb:bean beanId="SLC-StudentSchoolAssociationExtension_Attributes_EducationalOrgReferenceType_EducationalOrgIdentityType_EducationOrgIdentificationCodeArray" class="java.util.ArrayList" createOnElement="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity">
     <jb:wiring beanIdRef="SLC-StudentSchoolAssociationExtension_Attributes_EducationalOrgReferenceType_EducationalOrgIdentityType_EducationOrgIdentificationCode"/>
@@ -2673,7 +2675,7 @@
     <jb:value property="BeginDate" data="StudentProgramAssociation/BeginDate" />
     <jb:value property="EndDate" data="StudentProgramAssociation/EndDate" />
     <jb:value property="ReasonExited" data="StudentProgramAssociation/ReasonExited" />
-    <jb:wiring property="EducationOrganizationReference" beanIdRef="StudentProgramAssociation_EducationOrganizationReference" />
+    <jb:wiring property="EducationOrganizationReference" beanIdRef="SLC-StudentProgramAssociation_EducationOrganizationReference" />
   </jb:bean>
 
   <!-- StudentProgramAssociation supporting objects: Services -->
@@ -2736,17 +2738,20 @@
 
   <!-- StudentProgramAssociation supporting objects: EducationOrganizationReference -->
 
-  <jb:bean beanId="StudentProgramAssociation_EducationOrganizationReference"
+  <jb:bean beanId="SLC-StudentProgramAssociation_EducationOrganizationReference"
     class="java.util.HashMap"
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation/EducationOrganizationReference">
-    <jb:wiring property="EducationalOrgIdentity" beanIdRef="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity" />
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="SLC-StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity"
+  <jb:bean beanId="SLC-StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity"
     class="java.util.HashMap"
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation/EducationOrganizationReference/EducationalOrgIdentity">
+    <jb:value property="StateOrganizationId" data="StudentProgramAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <!--
     <jb:wiring property="StateOrganizationId" beanIdRef="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_StateOrganizationIdArray" />
     <jb:wiring property="EducationOrgIdentificationCode" beanIdRef="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray" />
+ 	-->
   </jb:bean>
 
   <jb:bean beanId="StudentProgramAssociation_EducationOrganizationReference_EducationalOrgIdentity_StateOrganizationIdArray"

@@ -501,7 +501,7 @@ Other</xs:documentation>
                 <xs:element name="BeginDate" type="xs:date" />
                 <xs:element name="EndDate" type="xs:date" minOccurs="0" />
                 <xs:element name="ReasonExited" type="ReasonExitedType" minOccurs="0" />
-                <xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" />
+                <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" />
             </xs:sequence>
         </xs:extension>
     </xs:complexContent>
@@ -668,7 +668,7 @@ Other</xs:documentation>
       <xs:extension base="ComplexObjectType">
         <xs:sequence>
             <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-            <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+            <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType" />
             <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0" />
             <xs:element name="EntryDate" type="xs:date" />
             <xs:element name="EntryGradeLevel" type="GradeLevelType" />
