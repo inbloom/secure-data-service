@@ -336,9 +336,9 @@ And I check to find if record is in collection:
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
      | collectionName                          | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
-     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Perpetrator          | string               |
-     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Witness              | string               |
-     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Victim               | string               |
+     | student | 2                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Perpetrator          | string               |
+     | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Witness              | string               |
+     | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Victim               | string               |
  And I check to find if record is in collection:
        | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
        | courseTranscript              | 196                 | body.courseAttemptResult              | Pass                    | string               |
@@ -478,8 +478,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffClassification            | LEA System Administrator                       |
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.beginDate                      | 1967-08-13                           |
-     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
+     | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+     | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
 # staffProgramAssociation
     | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.staffId                        | 948bd23862b59e1468aa5dfafbec95ea6570e0e4_id |
     | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.programId                      | a50802f02c7e771d979f7d5b3870c500014e6803_id |

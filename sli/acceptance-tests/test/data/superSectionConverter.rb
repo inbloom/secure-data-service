@@ -22,8 +22,14 @@ else
   exit(1)
 end
 
-sectionFile = File.new(sectionFileString)
 
+# the id of the sub document
+EmbeddedDocField = "studentDisciplineIncidentAssociation"
+
+# the field in the secondary entity that has to match the _id of the primary entity 
+ResolveReferenceField = "studentId"
+
+sectionFile = File.new(sectionFileString)
 newSsaFile = File.new(newSsaFileString, "w")
 
 from = 0.0
@@ -41,12 +47,12 @@ while (line = sectionFile.gets)
 
 #    ssaLine_hash["body"]["beginDate"] = Time.at(from + rand * (to.to_f - from.to_f)).strftime("%Y-%m-%d")
     #puts ssaLine_hash["body"]["sectionId"]
-    if sectionId == ssaLine_hash["body"]["sectionId"]
+    if sectionId == ssaLine_hash["body"][ResolveReferenceField]
       #puts sectionId
       ssa_array << ssaLine_hash
     end
     if ssa_array.length > 0
-      line_hash["studentSectionAssociation"] = ssa_array
+      line_hash[EmbeddedDocField] = ssa_array
       #puts line_hash
       #puts JSON.pretty_generate(line_hash)
     end
