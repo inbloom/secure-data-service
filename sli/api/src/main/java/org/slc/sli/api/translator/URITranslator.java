@@ -17,7 +17,6 @@
 package org.slc.sli.api.translator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
-import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
-import javax.ws.rs.core.PathSegment;
 import java.util.*;
 
 /**
