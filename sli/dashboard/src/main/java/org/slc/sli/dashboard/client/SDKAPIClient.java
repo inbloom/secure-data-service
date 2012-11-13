@@ -542,15 +542,57 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getSectionsForStudent(final String token, final String studentId,
             Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentSectionAssociations)");
+        //params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentSectionAssociations)");
+
+        List<GenericEntity> studentSectionAssociations = getStudentSectionAssociations(token, studentId, params);
+
         List<GenericEntity> sections = this.readEntityList(token,
                 SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC
                         + SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params), studentId);
+
+        sections = mergeLists(sections, studentSectionAssociations, "id", "sectionId", "studentSectionAssociations");
 
         // Disable filtering, so just adding section codes to sections with no name
         sections = filterCurrentSections(sections, false);
 
         return sections;
+    }
+
+    private List<GenericEntity> getStudentSectionAssociations(final String token, final String studentId,
+                                                              Map<String, String> params) {
+        List<GenericEntity> studentSectionAssociations = this.readEntityList(token,
+                SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_SECTION_ASSOC, studentId);
+
+        return studentSectionAssociations;
+    }
+
+    private List<GenericEntity> mergeLists(List<GenericEntity> entities, List<GenericEntity> associations,
+                                           String key, String associationKey, String attributeName) {
+        List<GenericEntity> results = new ArrayList<GenericEntity>();
+
+        for (GenericEntity entity : entities) {
+            String id = (String) entity.get(key);
+            List<GenericEntity> subList = getSubList(associations, associationKey, id);
+
+            entity.put(attributeName, subList);
+            results.add(entity);
+        }
+
+        return results;
+    }
+
+    private List<GenericEntity> getSubList(List<GenericEntity> entities, String key, String value) {
+        List<GenericEntity> results = new ArrayList<GenericEntity>();
+
+        for (GenericEntity entity : entities) {
+            if (entity.containsKey(key)) {
+                if (entity.get(key).equals(value)) {
+                    results.add(entity);
+                }
+            }
+        }
+
+        return results;
     }
 
     /**
@@ -848,9 +890,24 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
-        params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentParentAssociations)");
-        return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
+        //params.put(Constants.ATTR_SELECTOR_FIELD, ":(.,studentParentAssociations)");
+
+        List<GenericEntity> studentParentAssociations = getStudentParentAssociations(token, studentId, params);
+
+        List<GenericEntity> parents = this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
                 + SDKConstants.PARENTS + "?" + this.buildQueryString(params), studentId);
+
+        parents = mergeLists(parents, studentParentAssociations, "id", "parentId", "studentParentAssociations");
+
+        return parents;
+    }
+
+    private List<GenericEntity> getStudentParentAssociations(final String token, final String studentId,
+                                                              Map<String, String> params) {
+        List<GenericEntity> studentParentAssociations = this.readEntityList(token,
+                SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC, studentId);
+
+        return studentParentAssociations;
     }
 
     /**
