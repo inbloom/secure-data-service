@@ -5,8 +5,7 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:test)
 
 task :generate do
-	o = Odin.new
-	o.generate
+	ruby "driver.rb"
 end
 task :test do
   spec "spec/*"
