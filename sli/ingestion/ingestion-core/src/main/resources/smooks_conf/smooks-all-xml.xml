@@ -691,12 +691,11 @@
  <!-- Start Staff EdOrg Assoc mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
     <jb:expression property="recordType">'staffEducationOrganizationAssociation'</jb:expression>
-    <jb:wiring property="localParentIds" beanIdRef="staffEdOrgAssocParentIds" />
     <jb:wiring property="metaData" beanIdRef="staffEdOrgMetaData" />
     <jb:wiring property="attributes" beanIdRef="staffEdOrgAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="staffEdOrgAssocParentIds" class="java.util.HashMap"
+  <jb:bean beanId="staffEdOrgMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
     <jb:expression property="neutralRecordKeyValueFieldNames">'EducationOrganizationReference,StaffReference,staffClassification,beginDate'</jb:expression>
   </jb:bean>
@@ -963,7 +962,7 @@
 </jb:bean>
 
   <jb:bean beanId="teacherSchoolAssociationMetaData" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/TeacherSchoolAssociation">
+    createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
     <jb:expression property="neutralRecordKeyValueFieldNames">'TeacherReference,SchoolReference'</jb:expression>
   </jb:bean>
 
