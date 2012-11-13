@@ -138,8 +138,14 @@
           "path": "/{id}/studentAssessments", 
           "doc": "This URI, /assessments/{id}/studentAssessments, has been marked for deprecation. <Reason>. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/studentAssessments (for teachers) or /schools/{ids}/studentSchoolAssociations/students/studentAssessments (for staff) instead. These URIs are used internally instead of /assessments/{id}/studentAssessments, and will still be available after the deprecation period ends." 
         },
-        { "path": "/{id}/learningStandards" },
-        { "path": "/{id}/learningObjectives" }
+        {
+            "path": "/{id}/learningStandards",
+            "resourceClass": "org.slc.sli.api.resources.generic.custom.AssessmentResource"
+        },
+        {
+            "path": "/{id}/learningObjectives",
+            "resourceClass": "org.slc.sli.api.resources.generic.custom.AssessmentResource"
+        }
       ]
     },
     {
@@ -405,10 +411,6 @@
         { "path": "/{id}/students" },
         { "path": "/{id}/disciplineIncidents" }
       ]
-    },
-    {
-      "path": "/competencyLevelDescriptorTypes",
-      "doc": "Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange. To lookup where already loaded specify either CodeValue OR Description. For more information, see the schema $$CompetencyLevelDescriptorType$$ resources."
     },
     {
       "path": "/studentParentAssociations",

@@ -7,7 +7,6 @@
         "ref" :
         {
 	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [
@@ -28,7 +27,6 @@
         "ref" :
         {
             "entityType" : "parent",
-            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

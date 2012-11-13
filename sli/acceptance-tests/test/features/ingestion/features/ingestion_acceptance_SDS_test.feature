@@ -334,9 +334,9 @@ And I check to find if record is in collection:
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
      | collectionName                          | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
-     | studentDisciplineIncidentAssociation    | 2                   | body.studentParticipationCode       | Perpetrator          | string               |
-     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Witness              | string               |
-     | studentDisciplineIncidentAssociation    | 1                   | body.studentParticipationCode       | Victim               | string               |
+     | student | 2                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Perpetrator          | string               |
+     | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Witness              | string               |
+     | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Victim               | string               |
  And I check to find if record is in collection:
        | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
        | courseTranscript              | 196                 | body.courseAttemptResult              | Pass                    | string               |
@@ -436,14 +436,14 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
     | studentAssessmentAssociation         | 0f037add13a1b0590b9e7f19bd9edf8c38e0e1ac_id88754d3ae3a4166f26bd90e9d3f242f23b047121_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
     | studentAssessmentAssociation         | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_idfee2cbf123fe2305dd0741ea674742eef3b25386_id | body.administrationDate   | 2011-10-01                           |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.competencyLevel.codeValue    | 777                                  |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.studentSectionAssociationId    | c377c9c4b343dda726e837f442a171c570a460cd_id |
-    | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
+    | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
-    | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.studentId                    | 97144661247f1646b4e284fbc4584afd35a00549_id    |
-    | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.studentSectionAssociationId  | 9c8a94ce380481ecda4e95068f5bb69a29da3c58_id    |
-    | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.gradebookEntryId             | 135963f2abd3320ae508546fbff31f37e10b949e_ide9add8e4ac3753fbb70d39d0909026ac852d3305_id    |
-    | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.sectionId                    | 135963f2abd3320ae508546fbff31f37e10b949e_id    |
+    | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.studentId                    | 97144661247f1646b4e284fbc4584afd35a00549_id    |
+    | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.studentSectionAssociationId  | 135963f2abd3320ae508546fbff31f37e10b949e_id9c8a94ce380481ecda4e95068f5bb69a29da3c58_id    |
+    | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.gradebookEntryId             | 135963f2abd3320ae508546fbff31f37e10b949e_ide9add8e4ac3753fbb70d39d0909026ac852d3305_id    |
+    | studentGradebookEntry                | 56751666983beeaa65cf74c1178f1f824fe02659_id | body.sectionId                    | 135963f2abd3320ae508546fbff31f37e10b949e_id    |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.uniqueCourseId  | State-History-II-G7-50 |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id | body.schoolId  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     | reportCard                           | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id | body.studentId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                       |
@@ -455,8 +455,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id | body.incidentIdentifier              | Disruption                           |
 # grade
-    | grade                                | 2298af3d8602a17fed6346ee51ad91234f631f6a_id | body.studentSectionAssociationId     | 199514e812ed873cc45f1126620c71fa1babd316_id |
-    | grade                                | 2298af3d8602a17fed6346ee51ad91234f631f6a_id | body.gradingPeriodId                 | c29dd49f05474ddc05a21a9bce9cb452ea783a98_id |
+    | grade                                | eeb4b976b1e44d2c1511f88c8f6a0db3ba600b0c_id | body.studentSectionAssociationId     | 9a0c4a206bf607abc2dd4786ebc1e8506311c618_idf2d13bddb0c5e51904cbf3e7e9970319bf83396e_id |
+    | grade                                | eeb4b976b1e44d2c1511f88c8f6a0db3ba600b0c_id | body.gradingPeriodId                 | 51cb091a11fa7a32e3cda1e5ce68128b875cd3b8_id |
 # gradebookEntry
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.sectionId                       | 135963f2abd3320ae508546fbff31f37e10b949e_id |
     | gradebookEntry                       | 135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id | body.gradebookEntryType              | Unit test                                 |
@@ -469,8 +469,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffClassification            | LEA System Administrator                       |
     | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.beginDate                      | 1967-08-13                           |
-     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-     | studentDisciplineIncidentAssociation | e2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
+     | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
+     | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
 # staffProgramAssociation
     | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.staffId                        | 948bd23862b59e1468aa5dfafbec95ea6570e0e4_id |
     | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id | body.programId                      | a50802f02c7e771d979f7d5b3870c500014e6803_id |
@@ -707,7 +707,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
-
 
 
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database

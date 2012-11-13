@@ -27,20 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizerFlag;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
-import org.slc.sli.ingestion.transformation.normalization.Ref;
-import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -66,12 +59,6 @@ public class DeterministicIdResolver {
     @Autowired
     private SchemaRepository schemaRepository;
 
-    @Autowired
-    private EntityConfigFactory entityConfigurations;
-
-    @Autowired
-    private ContextTaker contextTaker;
-
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
@@ -88,7 +75,7 @@ public class DeterministicIdResolver {
         }
 
         if (entityConfig.getReferenceSources() == null || entityConfig.getReferenceSources().isEmpty()) {
-            LOG.warn("Entity configuration contains no references --> returning...");
+            LOG.debug("Entity configuration contains no references --> returning...");
             return;
         }
 
@@ -164,7 +151,6 @@ public class DeterministicIdResolver {
                 String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
                     uuidList.add(uuid);
-                    addContext(entity, uuid, didRefConfig, collectionName);
                 } else {
                     throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
                 }
@@ -178,7 +164,6 @@ public class DeterministicIdResolver {
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
                 setProperty(entity, sourceRefPath, uuid);
-                addContext(entity, uuid, didRefConfig, collectionName);
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
             }
@@ -213,27 +198,6 @@ public class DeterministicIdResolver {
             throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
         } catch (NoSuchMethodException e) {
             throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        }
-    }
-
-    // This logic would ideally be performed outside of this class.
-    // However, this would duplicate the setup (looping, etc) already present here.
-    // This logic will be removed in the near future, so not refactoring.
-    private void addContext(Entity entity, String uuid, DidRefConfig didRefConfig, String collectionName) {
-        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
-            for (RefDef rd : oldEntityConfig.getReferences()) {
-                Ref ref = rd.getRef();
-                if (ref != null && ref.getTakesContext() != null
-                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
-                    Criteria criteria = Criteria.where("_id").is(uuid);
-                    Query filter = new Query(criteria);
-                    List<String> ids = new ArrayList<String>();
-                    List<String> takesContext = ref.getTakesContext();
-
-                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
-                }
-            }
         }
     }
 

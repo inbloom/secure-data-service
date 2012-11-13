@@ -8,7 +8,6 @@
         "ref" :
         {
             "entityType" : "section",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -29,7 +28,6 @@
         "ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -50,7 +48,6 @@
 	   "ref" :
         {
             "entityType" : "gradebookEntry",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
