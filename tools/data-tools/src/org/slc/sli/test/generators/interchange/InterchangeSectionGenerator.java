@@ -58,7 +58,7 @@ public class InterchangeSectionGenerator {
                 section = null;
             } else {
             	
-            	section = SectionGenerator.generateMediumFiSliXsdRI(superSectionMetas.id, superSectionMetas.schoolId, superSectionMetas.courseId,
+            	section = SectionGenerator.generateMediumFiSliXsdRI(superSectionMetas.id, superSectionMetas.schoolId, superSectionMetas.courseOffering.courseMeta.id,
             			superSectionMetas.sessionId, superSectionMetas.programId, superSectionMetas.studentIds, superSectionMetas.teacherIds);
              	
             	

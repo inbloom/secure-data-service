@@ -51,9 +51,6 @@ public class GenericContextValidator implements IContextValidator {
         if (userType.equals("staff")) {
             return false;
         }
-        if (entityType.equals("school") || entityType.equals("educationOrganization") || entityType.equals("graduationPlan")) {
-            return false;
-        }
         return store.findResolver(userType, entityType) != null;
     }
 

@@ -30,14 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -45,6 +37,14 @@ import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * Unit tests for staff --> student context validator.
@@ -55,6 +55,7 @@ import org.slc.sli.domain.NeutralQuery;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
+@DirtiesContext
 public class StaffToStudentValidatorTest {
 
     private static final String ED_ORG_ID = "111";
@@ -75,6 +76,9 @@ public class StaffToStudentValidatorTest {
     private ValidatorTestHelper helper;
 
     private Set<String> studentIds;
+    
+    private StaffToProgramValidator mockProgramValidator;
+    private StaffToCohortValidator mockCohortValidator;
 
     @Before
     public void setUp() {
@@ -89,13 +93,22 @@ public class StaffToStudentValidatorTest {
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
 
         studentIds = new HashSet<String>();
+        mockProgramValidator = Mockito.mock(StaffToProgramValidator.class);
+        mockCohortValidator = Mockito.mock(StaffToCohortValidator.class);
+        validator.setProgramValidator(mockProgramValidator);
+        validator.setCohortValidator(mockCohortValidator);
     }
 
     @After
     public void tearDown() {
         mockRepo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT, new NeutralQuery());
         mockRepo.deleteAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new NeutralQuery());
         SecurityContextHolder.clearContext();
+        mockProgramValidator = null;
+        mockCohortValidator = null;
     }
 
     @Test
@@ -194,5 +207,90 @@ public class StaffToStudentValidatorTest {
         
         assertTrue(validator.isLhsBeforeRhs(old, today));
         assertFalse(validator.isLhsBeforeRhs(today, old));
+    }
+
+    public void testCanGetAccessThroughProgram() {
+        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(true);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentProgram("Merp", "Derp", false);
+        studentIds.add("Merp");
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testCanGetAccessThroughCohort() {
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(true);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentCohort("Merp", "Derp", false);
+        studentIds.add("Merp");
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughExpiredCohort() {
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentCohort("Merp", "Derp", true);
+        studentIds.add("Merp");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughExpiredProgram() {
+        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet()))
+                .thenReturn(false);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentProgram("Merp", "Derp", true);
+        studentIds.add("Merp");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughInvalidProgram() {
+        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet()))
+                .thenReturn(false);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentProgram("Merp", "Derp", false);
+        studentIds.add("Merp");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+    
+    @Test
+    public void testCanNotGetAccessThroughInvalidCohort() {
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
+        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        for (int j = -1; j > -31; --j) {
+            String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
+                    NOT_EXPIRED);
+            studentIds.add(studentId);
+        }
+        helper.generateStudentCohort("Merp", "Derp", false);
+        studentIds.add("Merp");
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
 }

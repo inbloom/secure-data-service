@@ -24,9 +24,12 @@
         </CompetencyLevel>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100000000</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -35,6 +38,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>

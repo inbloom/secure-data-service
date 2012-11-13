@@ -19,7 +19,6 @@ package org.slc.sli.dal.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -389,6 +388,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         WriteResult result = updateFirst(query, update, collection);
         // if no records were updated, try insert
         // insert goes through the encryption pipeline, so use the unencrypted record
+        if (result.getError() !=null) {
+            LOG.error("Update on collection {} failed with error: {}, attempting insert", collection, result.getError());
+        }
         if (result.getN() == 0) {
             insert(record, collection);
         }

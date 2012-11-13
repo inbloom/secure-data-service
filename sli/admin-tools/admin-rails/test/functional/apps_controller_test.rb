@@ -68,6 +68,12 @@ class AppsControllerTest < ActionController::TestCase
      assert_redirected_to apps_path
    end
 
+   test "should get lea with valid state" do
+     get :get_local_edorgs, state: "NC", format: :js
+     assert_not_nil assigns(:results)
+     assert_response :success
+   end
+
   # test "should destroy App" do
   #   assert_difference('App.count', -1) do
   #     delete :destroy, id: @Apps.first.to_param

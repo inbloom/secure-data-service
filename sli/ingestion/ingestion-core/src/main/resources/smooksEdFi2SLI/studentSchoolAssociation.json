@@ -6,6 +6,7 @@
         "deprecated" : true,
         "ref" :
         {
+
             "entityType" : "educationOrganization",
             "takesContext" : ["edOrgs"],
             "choiceOfFields" :
@@ -28,7 +29,6 @@
         "ref" :
         {
             "entityType" : "student",
-            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

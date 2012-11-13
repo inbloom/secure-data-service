@@ -1006,7 +1006,6 @@ task :importSecuredData do
   setMultipleFixtureFiles(testHash)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
-  addSecurityData()
 end
 
 desc "Import Sandbox Test Data to Midgar"
@@ -1188,8 +1187,14 @@ task :importUnifiedData => [:realmInit] do
   setMultipleFixtureFiles(testHash)
 end
 
-def addSecurityData()
-  sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+desc "Turn on notablescan flag"
+task :turnOnNOTABLESCAN do
+  enable_NOTABLESCAN
+end
+
+desc "Turn off notablescan flag"
+task :turnOffNOTABLESCAN do
+  disable_NOTABLESCAN
 end
 
 desc "Help information for this Rakefile"

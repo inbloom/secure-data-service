@@ -31,6 +31,10 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 		if (!canValidate(entityType, true)) {
 			throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
 		}
+        
+        if (ids.size() == 0) {
+            return false;
+        }
 
 		info("Validating {}'s access to Programs: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
 

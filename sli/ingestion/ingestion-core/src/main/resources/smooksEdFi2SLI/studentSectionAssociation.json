@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.sectionId", "body.studentId"],
+    "keyFields" : ["body.sectionId", "body.studentId", "body.beginDate"],
     "references" :
     [{
         "fieldPath" : "body.SectionReference",
@@ -7,7 +7,6 @@
         "ref" :
         {
             "entityType" : "section",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -50,7 +49,6 @@
         "ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

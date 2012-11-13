@@ -27,6 +27,7 @@ package org.slc.sli.test.edfi.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -92,7 +93,7 @@ public class ObjectiveAssessment
     @XmlElement(name = "Nomenclature")
     protected String nomenclature;
     @XmlElement(name = "AssessmentItemReference")
-    protected List<ReferenceType> assessmentItemReference;
+    protected List<AssessmentItemReferenceType> assessmentItemReference;
     @XmlElement(name = "LearningObjectiveReference")
     protected List<LearningObjectiveReferenceType> learningObjectiveReference;
     @XmlElement(name = "LearningStandardReference")
@@ -247,9 +248,9 @@ public class ObjectiveAssessment
      * 
      * 
      */
-    public List<ReferenceType> getAssessmentItemReference() {
+    public List<AssessmentItemReferenceType> getAssessmentItemReference() {
         if (assessmentItemReference == null) {
-            assessmentItemReference = new ArrayList<ReferenceType>();
+            assessmentItemReference = new ArrayList<AssessmentItemReferenceType>();
         }
         return this.assessmentItemReference;
     }

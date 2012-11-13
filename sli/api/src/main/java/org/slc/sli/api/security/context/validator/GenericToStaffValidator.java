@@ -22,11 +22,14 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherToStaffValidator extends AbstractContextValidator {
+public class GenericToStaffValidator extends AbstractContextValidator {
     
     @Override
-    public boolean canValidate(String entityType, boolean through) {
-        return !through && EntityNames.STAFF.equals(entityType) && !isStaff();
+    //Validates both teacher to staff and staff to staff
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        
+        //For now we'll disable for teachers, but logic should be the same for both staff and teacher
+        return !isTransitive && EntityNames.STAFF.equals(entityType) && isStaff();
     }
     
     @Override

@@ -10,7 +10,26 @@
 			</CompetencyLevelIdentity>
 		</CompetencyLevelReference>
 		<DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-		<StudentSectionAssociationReference ref="SSA_1" />
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentReference>
+				<StudentIdentity>
+					<StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+				</StudentIdentity>
+				</StudentReference>
+				<SectionReference>
+				<SectionIdentity>
+					<EducationalOrgReference>
+						<EducationalOrgIdentity>
+							<StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+						</EducationalOrgIdentity>
+					</EducationalOrgReference>
+					<UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
+				</SectionIdentity>
+				</SectionReference>
+				<BeginDate>2011-09-01</BeginDate>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
 		<GradebookEntryReference ref="GE_3" />
 	</StudentGradebookEntry>
 	<StudentGradebookEntry>
@@ -23,7 +42,26 @@
 			</CompetencyLevelIdentity>
 		</CompetencyLevelReference>
 		<DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-		<StudentSectionAssociationReference ref="SSA_1" />
+		<StudentSectionAssociationReference>
+			<StudentSectionAssociationIdentity>
+				<StudentReference>
+				<StudentIdentity>
+					<StudentUniqueStateId>CAP0-D0-HSch0-stu0</StudentUniqueStateId>
+				</StudentIdentity>
+				</StudentReference>
+				<SectionReference>
+				<SectionIdentity>
+					<EducationalOrgReference>
+						<EducationalOrgIdentity>
+							<StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+						</EducationalOrgIdentity>
+					</EducationalOrgReference>
+					<UniqueSectionCode>CAP0-D0-HS0-1-1-sec2</UniqueSectionCode>
+				</SectionIdentity>
+				</SectionReference>
+				<BeginDate>2011-09-01</BeginDate>
+			</StudentSectionAssociationIdentity>
+		</StudentSectionAssociationReference>
 		<GradebookEntryReference ref="GE_1" />
 	</StudentGradebookEntry>
 	<GradebookEntry id="GE_2">
