@@ -88,7 +88,7 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   puts "entireDropList = " + entireDropList.to_s  
   #unclick it
   dropList.click
-  assert(selectContentArray == entireDropList, "list content does not match required content: " + listContent)    
+  assert(selectContentArray.sort == entireDropList.sort, "list content does not match required content: " + listContent)    
 end
 
 Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
