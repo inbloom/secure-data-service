@@ -1464,7 +1464,7 @@ def subDocParent(collectionName)
      "section"
     when "teacherSectionAssociation"
      "section"
-    when "studentAssessmentAssociation"
+    when "studentAssessment"
      "student"
     when "studentProgramAssociation"
       "program"

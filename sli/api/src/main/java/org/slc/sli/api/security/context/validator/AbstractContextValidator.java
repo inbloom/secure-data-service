@@ -61,7 +61,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected boolean isSubEntityOfStudent(String type) {
         return EntityNames.ATTENDANCE.equals(type) || EntityNames.COURSE_TRANSCRIPT.equals(type)
                 || EntityNames.DISCIPLINE_ACTION.equals(type) || EntityNames.STUDENT_ACADEMIC_RECORD.equals(type)
-                || EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(type)
+                || EntityNames.STUDENT_ASSESSMENT.equals(type)
                 || EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(type)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(type)
                 || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(type)

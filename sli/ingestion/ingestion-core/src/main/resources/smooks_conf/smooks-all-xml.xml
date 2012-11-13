@@ -1767,7 +1767,7 @@
 
   <!-- StudentAssessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:expression property="recordType">'studentAssessmentAssociation'</jb:expression>
+    <jb:expression property="recordType">'studentAssessment'</jb:expression>
     <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
   </jb:bean>

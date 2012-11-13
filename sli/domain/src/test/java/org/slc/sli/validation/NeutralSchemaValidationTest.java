@@ -152,7 +152,7 @@ public class NeutralSchemaValidationTest {
     }
     
     @Test
-    public void testValidStudentAssessmentAssociation() throws Exception {
+    public void testValidStudentAssessment() throws Exception {
         addDummyEntity("student", "7afddec3-89ec-402c-8fe6-cced79ae3ef5");
         addDummyEntity("student", "1023bfc9-5cb8-4126-ae6a-4fefa74682c8");
         addDummyEntity("student", "034e6e7f-9da2-454a-b67c-b95bd9f36433");
@@ -170,18 +170,18 @@ public class NeutralSchemaValidationTest {
         addDummyEntity("assessment", "a22532c4-6455-41da-b24d-4f93224f526d");
         addDummyEntity("assessment", "b5f684d4-9a12-40c3-a59e-0c0d1b971a1e");
         
-        readAndValidateFixtureData("src/test/resources/student_assessment_association_fixture_neutral.json",
-                "studentAssessmentAssociation");
+        readAndValidateFixtureData("src/test/resources/student_assessment_fixture_neutral.json",
+                "studentAssessment");
     }
     
     @Test
     @ExpectedException(value = EntityValidationException.class)
-    public void testInvalidStudentAssessmentAssociation() throws Exception {
+    public void testInvalidStudentAssessment() throws Exception {
         addDummyCollection("student");
         addDummyCollection("assessment");
         
-        readAndValidateFixtureData("src/test/resources/student_assessment_association_fixture_neutral.json",
-                "studentAssessmentAssociation");
+        readAndValidateFixtureData("src/test/resources/student_assessment_fixture_neutral.json",
+                "studentAssessment");
     }
     
     @Test

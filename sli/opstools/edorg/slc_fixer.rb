@@ -166,20 +166,20 @@ class SLCFixer
 
   def fix_assessments
 
-    set_stamps(@db['studentAssessmentAssociation'])
+    set_stamps(@db['studentAssessment'])
     set_stamps(@db['sectionAssessmentAssociation'])
     embedded_query = @basic_query.clone
-    embedded_query["studentAssessmentAssociation"] = {"$exists" => true}
+    embedded_query["studentAssessment"] = {"$exists" => true}
     @log.info "Iterating student with query: #{embedded_query}"
     @db['student'].find(embedded_query, @basic_options) do |cur|
       cur.each do |student|
-        student["studentAssessmentAssociation"].each do |studentAssessment| 
+        student["studentAssessment"].each do |studentAssessment| 
           edOrg = []
           student_edorg = student_edorgs(studentAssessment['body']['studentId'])
           edOrg << student_edorg
           edOrg = edOrg.flatten.uniq
           stamp_id(@db['student'], studentAssessment['_id'], edOrg, 
-                   "studentAssessmentAssociation", student["_id"])
+                   "studentAssessment", student["_id"])
         end
       end
     end

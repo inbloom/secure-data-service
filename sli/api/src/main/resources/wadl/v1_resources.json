@@ -376,7 +376,7 @@
     },
     {
       "path": "/studentAssessments",
-      "doc": "Represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test. For more information, see the schema for $$StudentAssessmentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAssessments. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAssessments. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
+      "doc": "Represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test. For more information, see the schema for $$StudentAssessment$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAssessments. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAssessments. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/students" },
         { "path": "/{id}/assessments" }
