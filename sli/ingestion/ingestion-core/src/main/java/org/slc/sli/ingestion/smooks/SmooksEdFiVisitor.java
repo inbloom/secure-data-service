@@ -119,11 +119,17 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                // didResolver has problems resolving StudentReference in "attendance" currently, but it is not needed for DID calculation so we skip it
-                if ( !"attendance".equals(neutralRecord.getRecordType()) ) {
-                    Entity entity = new NeutralRecordEntity(neutralRecord);
-                    didResolver.resolveInternalIds(entity, neutralRecord.getSourceId(), false, errorReport);
+            	// HACK HACK HACK HACK ... and needs more work
+                // didResolver has problems resolving StudentReference in "attendance" currently,
+                // but it is not needed for DID calculation so we skip it
+                if (!"attendance".equals(neutralRecord.getRecordType())) {
+                    NeutralRecord neutralRecordResolved = (NeutralRecord) neutralRecord.clone();
+                    Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+                    didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
                 }
+
+                // Entity entity = new NeutralRecordEntity(neutralRecord);
+                // didResolver.resolveInternalIds(entity, neutralRecord.getSourceId(), errorReport);
 
                 if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy)) {
                     queueNeutralRecordForWriting(neutralRecord);
