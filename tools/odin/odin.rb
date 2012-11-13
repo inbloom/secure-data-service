@@ -19,41 +19,37 @@ limitations under the License.
 require "rexml/document"
 require 'digest/md5'
 require 'yaml'
+
 require_relative 'util.rb'
+class Odin
+  def generate( )
 
+    Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
+    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
 
-configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
+    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', configYAML['scenario'] ))
+    if ARGV.count == 1
+      scenarioYAML['studentCount'] = ARGV[0].to_i
+    end
 
-scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', configYAML['scenario'] ))
-if ARGV.count == 1
-  scenarioYAML['studentCount'] = ARGV[0].to_i
+    prng = Random.new(configYAML['seed'])
+    Dir.mkdir('generated') if !Dir.exists?('generated')
+
+    time = Time.now
+    pids = []
+
+    pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
+    pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
+    pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
+    Process.waitall
+
+    finalTime = Time.now - time
+    puts "\t Final time is #{finalTime} secs"
+
+    genCtlFile
+
+  end
+
 end
-
-prng = Random.new(configYAML['seed'])
-Dir.mkdir('generated') if !Dir.exists?('generated')
-
-time = Time.now
-pids = []
-    
-pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
-pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
-pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
-Process.waitall
-
-finalTime = Time.now - time
-puts "\t Final time is #{finalTime} secs"
-
-
-
-
-
-genCtlFile
-
-
-
-
-
-
 

@@ -17,11 +17,7 @@ limitations under the License.
 =end
 
 
+require_relative 'odin'
 
-
-describe "Odin" do
-  it "generates" do
-    odin = Odin.new
-    odin.generate()
-  end
-end
+o = Odin.new
+o.generate()
