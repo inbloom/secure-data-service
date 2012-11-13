@@ -28,7 +28,7 @@
         <jb:value property="charterStatus"                        data="attributes charterStatus" />
 
         <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
-        <jb:value property="educationServiceCenterReference"      data="attributes educationServiceCenterReference" />
+        <jb:value property="educationServiceCenterReference"      data="attributes EducationServiceCenterReference" />
         <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
 
         <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
