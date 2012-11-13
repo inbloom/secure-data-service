@@ -8,7 +8,6 @@
         {
 
             "entityType" : "educationOrganization",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
