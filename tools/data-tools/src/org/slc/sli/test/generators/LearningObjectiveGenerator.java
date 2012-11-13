@@ -61,22 +61,9 @@ public class LearningObjectiveGenerator {
 
     public static LearningObjectiveReferenceType getLearningObjectiveReferenceType(LearningObjective lo) {
         LearningObjectiveIdentityType loId = new LearningObjectiveIdentityType();
-        loId.getLearningObjectiveIdOrObjective().add(lo.getObjective());
-        LearningObjectiveReferenceType lor = new LearningObjectiveReferenceType();
-        lor.setLearningObjectiveIdentity(loId);
-        return lor;
-    }
-
-    public static LearningObjectiveReferenceType getLearningObjectiveReferenceType(String learningStandardIdString) {
-        LearningStandardId learningStandardId = new LearningStandardId();
-        if(learningStandardIdString != null){
-            learningStandardId.setIdentificationCode(learningStandardIdString);
-            learningStandardId.setContentStandardName(learningStandardIdString + "Content Standard");
-        }
-
-        LearningObjectiveIdentityType loId = new LearningObjectiveIdentityType();
-        loId.getLearningObjectiveIdOrObjective().add(learningStandardId);
-
+        loId.setObjective(lo.getObjective());
+        loId.setObjectiveGradeLevel(lo.getObjectiveGradeLevel());
+        loId.setAcademicSubject(lo.getAcademicSubject());
         LearningObjectiveReferenceType lor = new LearningObjectiveReferenceType();
         lor.setLearningObjectiveIdentity(loId);
         return lor;
@@ -98,11 +85,6 @@ public class LearningObjectiveGenerator {
         for (String learningStandardId : learningObjectiveMeta.learningStandardIds) {
             lo.getLearningStandardReference().add(
                     LearningStandardGenerator.getLearningStandardReferenceType(learningStandardId));
-        }
-
-        for (String learningStandardId : learningObjectiveMeta.learningObjectiveMetaIds) {
-            lo.getLearningObjectiveReference().add(
-                    LearningObjectiveGenerator.getLearningObjectiveReferenceType(learningStandardId));
         }
 
         return lo;
