@@ -142,7 +142,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, Object> assessment = (Map<String, Object>) attributes.get("AssessmentReference");
+                Map<String, Object> assessment = (Map<String, Object>) attributes.get("assessmentId");
                 @SuppressWarnings("unchecked")
                 Map<String, Object> assessmentIdentity = (Map<String, Object>) assessment.get("AssessmentIdentity");
 
@@ -357,8 +357,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
-                         * 
-                         * 
+                         *
+                         *
                          * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
                          * if (assessmentItemAttrs.containsKey("assessmentReference")) {
                          * assessmentItemAttrs.remove("assessmentReference");
@@ -412,8 +412,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
-                         * 
-                         * 
+                         *
+                         *
                          * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
                          * if (assessmentItemAttrs.containsKey("assessmentReference")) {
                          * assessmentItemAttrs.remove("assessmentReference");

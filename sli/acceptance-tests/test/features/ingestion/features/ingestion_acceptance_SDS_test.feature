@@ -445,9 +445,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCompetency                    | ce0825027e54fc17e4eb2f2d177328f2be4e2a97_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
     | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
     | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
-    | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.administrationDate   | 2011-05-01  								  |
+    | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.administrationDate   | 2011-05-01                                    |
     | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
-	| studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id 
+    | studentAssessmentAssociation         | c04d5891b6b1f10ce9b9e48b80581cda7788312c_ida872291556865ba6b6dd104c0b528d530238d5a2_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |   
     | studentCompetencyObjective           | 028d7f8e25584d3353c9691e6aab89156029dde8_id | body.studentCompetencyObjectiveId | SCO-K-1                              |
     | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.studentId                    | 97144661247f1646b4e284fbc4584afd35a00549_id    |
     | studentGradebookEntry                | 2bea917c11a769c66a1dff53ff72f4c47f595401_id | body.studentSectionAssociationId  | 9c8a94ce380481ecda4e95068f5bb69a29da3c58_id    |
@@ -522,14 +522,14 @@ Scenario: Verify deterministic ids generated: Clean Database
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.beginDate                           | 2012-03-05                           |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.gradingPeriod | Fifth Six Weeks                      |
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.schoolId      | 352e8570bd1116d11a72755b987902440045d346_id |
-    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.calendarDateReference		        | 085e5a5fcc6c175e66eed7b8edcc2ed1b3b38ba0_id |
+    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.calendarDateReference                | 085e5a5fcc6c175e66eed7b8edcc2ed1b3b38ba0_id |
 # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
     | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
     | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
-    | graduationPlan 					   | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | graduationPlan 					   | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
+    | graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.academicSubject                 | Social Studies |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |

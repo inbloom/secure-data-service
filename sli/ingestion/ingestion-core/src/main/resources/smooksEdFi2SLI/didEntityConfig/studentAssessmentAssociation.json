@@ -19,6 +19,10 @@
         {
             "entityType" : "student",
             "sourceRefPath": "body.studentId"
+        },
+        {
+            "entityType" : "assessment",
+            "sourceRefPath": "body.assessmentId"
         }
     ]
 }

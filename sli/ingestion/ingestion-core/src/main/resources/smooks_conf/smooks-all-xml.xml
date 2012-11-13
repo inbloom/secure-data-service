@@ -1428,12 +1428,7 @@
 
   <jb:bean beanId="AssessmentItemResolvedReference" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference">
-    <jb:value property="identificationCode" data="AssessmentItemReference/AssessmentItem/IdentificationCode" />
-    <jb:value property="itemCategory" data="AssessmentItemReference/AssessmentItem/ItemCategory" />
-    <jb:value property="maxRawScore" decoder="Integer" data="AssessmentItemReference/AssessmentItem/MaxRawScore" />
-    <jb:value property="correctResponse" data="AssessmentItemReference/AssessmentItem/CorrectResponse" />
-    <jb:value property="nomenclature" data="AssessmentItemReference/AssessmentItem/Nomenclature" />
-    <jb:wiring property="learningStandards" beanIdRef="AssessmentItemLearningStandardResolvedReferencesArray" />
+    <jb:value property="identificationCode" data="InterchangeAssessmentMetadata/Assessment/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
   </jb:bean>
 
   <jb:bean beanId="AssessmentItemLearningStandardResolvedReferencesArray" class="java.util.ArrayList"
@@ -1800,7 +1795,7 @@
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-StudentReferenceType" property="studentId"/>
 <!--     <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" /> -->
-    <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-AssessmentReferenceType" property="AssessmentReference"/>
+    <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-AssessmentReferenceType" property="assessmentId"/>
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
     <jb:value property="serialNumber" data="InterchangeStudentAssessment/StudentAssessment/SerialNumber" />
