@@ -1351,7 +1351,7 @@
 
   <jb:bean beanId="learningStandardMetaData" class="java.util.HashMap"
     createOnElement="LearningStandard">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'identificationCode'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'learningStandardId.identificationCode'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="learningStandardAttributes" class="java.util.HashMap" createOnElement="LearningStandard">
@@ -2993,7 +2993,7 @@
     <jb:wiring property="attributes" beanIdRef="staffProgramAssociationAttributes" />
   </jb:bean>
   
-    <jb:bean beanId="MetaData" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
+    <jb:bean beanId="staffProgramAssociationMetaData" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:expression property="neutralRecordKeyValueFieldNames">'StaffReference,ProgramReference,beginDate'</jb:expression>
   </jb:bean>
 
@@ -3612,7 +3612,13 @@
     createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
     <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
     <jb:value property="localId" data="CompetencyLevelDescriptor/@id" />
+    <jb:wiring property="metaData" beanIdRef="competencyLevelDescriptorMetaData" />
     <jb:wiring property="attributes" beanIdRef="CompetencyLevelDescriptorAttributesFromEdorgInterchange" />
+  </jb:bean>
+
+  <jb:bean beanId="competencyLevelDescriptorMetaData" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
+    <jb:expression property="neutralRecordKeyValueFieldNames">'codeValue'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="CompetencyLevelDescriptorAttributesFromEdorgInterchange" class="java.util.HashMap"
