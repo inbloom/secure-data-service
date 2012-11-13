@@ -8,7 +8,6 @@
             "ref" :
             {
                 "entityType" : "educationOrganization",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [
@@ -31,7 +30,6 @@
                 "entityType" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.GradingPeriodReference",
-                "givesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

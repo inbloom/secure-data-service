@@ -1770,9 +1770,12 @@
         <NumericGradeEarned>84</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919001</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1781,6 +1784,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1806,9 +1811,12 @@
         <NumericGradeEarned>58</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919002</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1817,6 +1825,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1842,9 +1852,12 @@
         <NumericGradeEarned>72</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919003</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1853,6 +1866,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1878,9 +1893,12 @@
         <NumericGradeEarned>99</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919004</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1889,6 +1907,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1914,9 +1934,12 @@
         <NumericGradeEarned>100</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919005</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1925,6 +1948,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1950,9 +1975,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919006</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1961,6 +1989,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -1986,9 +2016,12 @@
         <NumericGradeEarned>43</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919007</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -1997,6 +2030,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2022,9 +2057,12 @@
         <NumericGradeEarned>97</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919008</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2033,6 +2071,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2058,9 +2098,12 @@
         <NumericGradeEarned>81</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919009</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2069,6 +2112,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2094,9 +2139,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919010</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2105,6 +2153,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2130,9 +2180,12 @@
         <NumericGradeEarned>91</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919011</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2141,6 +2194,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2166,9 +2221,12 @@
         <NumericGradeEarned>77</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919012</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2177,6 +2235,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2202,9 +2262,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919013</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2213,6 +2276,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2238,9 +2303,12 @@
         <NumericGradeEarned>66</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919014</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2249,6 +2317,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2274,9 +2344,12 @@
         <NumericGradeEarned>68</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919015</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2285,6 +2358,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2310,9 +2385,12 @@
         <NumericGradeEarned>79</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919016</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2321,6 +2399,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2346,9 +2426,12 @@
         <NumericGradeEarned>85</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2357,6 +2440,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2382,9 +2467,12 @@
         <NumericGradeEarned>95</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919018</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2393,6 +2481,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2418,9 +2508,12 @@
         <NumericGradeEarned>55</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919019</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2429,6 +2522,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2454,9 +2549,12 @@
         <NumericGradeEarned>61</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919020</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2465,6 +2563,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2490,9 +2590,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919001</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2501,6 +2604,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2526,9 +2631,12 @@
         <NumericGradeEarned>56</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919002</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2537,6 +2645,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2562,9 +2672,12 @@
         <NumericGradeEarned>73</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919003</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2573,6 +2686,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2598,9 +2713,12 @@
         <NumericGradeEarned>98</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919004</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2609,6 +2727,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2634,9 +2754,12 @@
         <NumericGradeEarned>100</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919005</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2645,6 +2768,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2670,9 +2795,12 @@
         <NumericGradeEarned>81</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919006</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2681,6 +2809,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2706,9 +2836,12 @@
         <NumericGradeEarned>41</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919007</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2717,6 +2850,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2742,9 +2877,12 @@
         <NumericGradeEarned>98</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919008</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2753,6 +2891,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2778,9 +2918,12 @@
         <NumericGradeEarned>87</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919009</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2789,6 +2932,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2814,9 +2959,12 @@
         <NumericGradeEarned>89</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919010</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2825,6 +2973,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2850,9 +3000,12 @@
         <NumericGradeEarned>93</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919011</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2861,6 +3014,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2886,9 +3041,12 @@
         <NumericGradeEarned>76</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919012</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2897,6 +3055,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2922,9 +3082,12 @@
         <NumericGradeEarned>79</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919013</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2933,6 +3096,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2958,9 +3123,12 @@
         <NumericGradeEarned>71</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919014</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -2969,6 +3137,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -2994,9 +3164,12 @@
         <NumericGradeEarned>69</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919015</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3005,6 +3178,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3030,9 +3205,12 @@
         <NumericGradeEarned>80</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919016</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3041,6 +3219,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3066,9 +3246,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3077,6 +3260,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3102,9 +3287,12 @@
         <NumericGradeEarned>94</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919018</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3113,6 +3301,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3138,9 +3328,12 @@
         <NumericGradeEarned>57</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919019</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3149,6 +3342,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3174,9 +3369,12 @@
         <NumericGradeEarned>62</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919020</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3185,6 +3383,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3210,9 +3410,12 @@
         <NumericGradeEarned>85</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919001</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3221,6 +3424,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3246,9 +3451,12 @@
         <NumericGradeEarned>55</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919002</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3257,6 +3465,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3282,9 +3492,12 @@
         <NumericGradeEarned>72</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919003</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3293,6 +3506,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3318,9 +3533,12 @@
         <NumericGradeEarned>97</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919004</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3329,6 +3547,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3354,9 +3574,12 @@
         <NumericGradeEarned>99</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919005</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3365,6 +3588,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3390,9 +3615,12 @@
         <NumericGradeEarned>80</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919006</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3401,6 +3629,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3426,9 +3656,12 @@
         <NumericGradeEarned>40</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919007</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3437,6 +3670,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3462,9 +3697,12 @@
         <NumericGradeEarned>97</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919008</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3473,6 +3711,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3498,9 +3738,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919009</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3509,6 +3752,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3534,9 +3779,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919010</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3545,6 +3793,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3570,9 +3820,12 @@
         <NumericGradeEarned>92</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919011</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3581,6 +3834,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3606,9 +3861,12 @@
         <NumericGradeEarned>75</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919012</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3617,6 +3875,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3642,9 +3902,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919013</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3653,6 +3916,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3678,9 +3943,12 @@
         <NumericGradeEarned>70</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919014</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3689,6 +3957,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3714,9 +3984,12 @@
         <NumericGradeEarned>68</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919015</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3725,6 +3998,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3750,9 +4025,12 @@
         <NumericGradeEarned>79</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919016</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3761,6 +4039,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3786,9 +4066,12 @@
         <NumericGradeEarned>87</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919017</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3797,6 +4080,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3822,9 +4107,12 @@
         <NumericGradeEarned>93</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919018</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3833,6 +4121,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3858,9 +4148,12 @@
         <NumericGradeEarned>56</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919019</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3869,6 +4162,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -3894,9 +4189,12 @@
         <NumericGradeEarned>61</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>91919020</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -3905,6 +4203,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6000,9 +6300,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>453827070</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6011,6 +6314,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6036,9 +6341,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>453827070</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6047,6 +6355,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6072,9 +6382,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>453827070</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6083,6 +6396,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6108,9 +6423,12 @@
         <NumericGradeEarned>76</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>943715230</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6119,6 +6437,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6144,9 +6464,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>943715230</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6155,6 +6478,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6180,9 +6505,12 @@
         <NumericGradeEarned>73</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>943715230</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6191,6 +6519,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6216,9 +6546,12 @@
         <NumericGradeEarned>85</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>164420088</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6227,6 +6560,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6252,9 +6587,12 @@
         <NumericGradeEarned>87</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>164420088</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6263,6 +6601,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6288,9 +6628,12 @@
         <NumericGradeEarned>82</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>164420088</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6299,6 +6642,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6324,9 +6669,12 @@
         <NumericGradeEarned>66</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>505331723</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6335,6 +6683,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6360,9 +6710,12 @@
         <NumericGradeEarned>68</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>505331723</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6371,6 +6724,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6396,9 +6751,12 @@
         <NumericGradeEarned>63</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>505331723</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6407,6 +6765,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6432,9 +6792,12 @@
         <NumericGradeEarned>96</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6443,6 +6806,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6468,9 +6833,12 @@
         <NumericGradeEarned>98</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6479,6 +6847,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6504,9 +6874,12 @@
         <NumericGradeEarned>93</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>530425896</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6515,6 +6888,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6540,9 +6915,12 @@
         <NumericGradeEarned>43</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6551,6 +6929,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6576,9 +6956,12 @@
         <NumericGradeEarned>44</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6587,6 +6970,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6612,9 +6997,12 @@
         <NumericGradeEarned>45</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>429526969</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6623,6 +7011,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6648,9 +7038,12 @@
         <NumericGradeEarned>54</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6659,6 +7052,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6684,9 +7079,12 @@
         <NumericGradeEarned>58</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6695,6 +7093,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6720,9 +7120,12 @@
         <NumericGradeEarned>71</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178828452</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6731,6 +7134,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6756,9 +7161,12 @@
         <NumericGradeEarned>81</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6767,6 +7175,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6792,9 +7202,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6803,6 +7216,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6828,9 +7243,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>525878920</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6839,6 +7257,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6864,9 +7284,12 @@
         <NumericGradeEarned>71</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6875,6 +7298,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6900,9 +7325,12 @@
         <NumericGradeEarned>74</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6911,6 +7339,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6936,9 +7366,12 @@
         <NumericGradeEarned>80</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>510152105</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6947,6 +7380,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -6972,9 +7407,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -6983,6 +7421,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7008,9 +7448,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7019,6 +7462,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7044,9 +7489,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>802709591</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7055,6 +7503,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7080,9 +7530,12 @@
         <NumericGradeEarned>91</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7091,6 +7544,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7116,9 +7571,12 @@
         <NumericGradeEarned>98</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7127,6 +7585,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7152,9 +7612,12 @@
         <NumericGradeEarned>93</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>437680177</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7163,6 +7626,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7188,9 +7653,12 @@
         <NumericGradeEarned>80</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7199,6 +7667,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7224,9 +7694,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7235,6 +7708,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7260,9 +7735,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>170011136</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7271,6 +7749,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7296,9 +7776,12 @@
         <NumericGradeEarned>87</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7307,6 +7790,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7332,9 +7817,12 @@
         <NumericGradeEarned>90</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7343,6 +7831,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7368,9 +7858,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>547028299</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7379,6 +7872,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7404,9 +7899,12 @@
         <NumericGradeEarned>66</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7415,6 +7913,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7440,9 +7940,12 @@
         <NumericGradeEarned>58</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7451,6 +7954,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7476,9 +7981,12 @@
         <NumericGradeEarned>63</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>258392050</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7487,6 +7995,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7512,9 +8022,12 @@
         <NumericGradeEarned>68</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178875887</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7523,6 +8036,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7548,9 +8063,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178875887</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7559,6 +8077,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7584,9 +8104,12 @@
         <NumericGradeEarned>69</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>178875887</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7595,6 +8118,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7620,9 +8145,12 @@
         <NumericGradeEarned>26</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7631,6 +8159,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7656,9 +8186,12 @@
         <NumericGradeEarned>28</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7667,6 +8200,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7692,9 +8227,12 @@
         <NumericGradeEarned>33</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>100644447</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7703,6 +8241,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7728,9 +8268,12 @@
         <NumericGradeEarned>56</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7739,6 +8282,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7764,9 +8309,12 @@
         <NumericGradeEarned>58</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7775,6 +8323,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7800,9 +8350,12 @@
         <NumericGradeEarned>63</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>376191021</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7811,6 +8364,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7836,9 +8391,12 @@
         <NumericGradeEarned>36</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7847,6 +8405,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7872,9 +8432,12 @@
         <NumericGradeEarned>48</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7883,6 +8446,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7908,9 +8473,12 @@
         <NumericGradeEarned>53</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>336344132</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7919,6 +8487,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7944,9 +8514,12 @@
         <NumericGradeEarned>56</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7955,6 +8528,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -7980,9 +8555,12 @@
         <NumericGradeEarned>58</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -7991,6 +8569,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8016,9 +8596,12 @@
         <NumericGradeEarned>43</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>711411586</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8027,6 +8610,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8052,9 +8637,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8063,6 +8651,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8088,9 +8678,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8099,6 +8692,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8124,9 +8719,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>131758477</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8135,6 +8733,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8160,9 +8760,12 @@
         <NumericGradeEarned>66</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8171,6 +8774,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8196,9 +8801,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8207,6 +8815,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8232,9 +8842,12 @@
         <NumericGradeEarned>73</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>670703438</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8243,6 +8856,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8268,9 +8883,12 @@
         <NumericGradeEarned>96</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8279,6 +8897,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8304,9 +8924,12 @@
         <NumericGradeEarned>98</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8315,6 +8938,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8340,9 +8965,12 @@
         <NumericGradeEarned>99</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>851123275</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8351,6 +8979,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8376,9 +9006,12 @@
         <NumericGradeEarned>72</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8387,6 +9020,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8412,9 +9047,12 @@
         <NumericGradeEarned>78</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8423,6 +9061,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8448,9 +9088,12 @@
         <NumericGradeEarned>73</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>423037202</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8459,6 +9102,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8484,9 +9129,12 @@
         <NumericGradeEarned>67</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8495,6 +9143,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8520,9 +9170,12 @@
         <NumericGradeEarned>69</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8531,6 +9184,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8556,9 +9211,12 @@
         <NumericGradeEarned>73</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>250918988</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8567,6 +9225,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8592,9 +9252,12 @@
         <NumericGradeEarned>86</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8603,6 +9266,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8628,9 +9293,12 @@
         <NumericGradeEarned>88</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8639,6 +9307,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
@@ -8664,9 +9334,12 @@
         <NumericGradeEarned>83</NumericGradeEarned>
         <StudentSectionAssociationReference>
             <StudentSectionAssociationIdentity>
+                <StudentReference>
                 <StudentIdentity>
                     <StudentUniqueStateId>421216329</StudentUniqueStateId>
                 </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
                 <SectionIdentity>
                     <EducationalOrgReference>
                         <EducationalOrgIdentity>
@@ -8675,6 +9348,8 @@
                     </EducationalOrgReference>
                     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
                 </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
             </StudentSectionAssociationIdentity>
         </StudentSectionAssociationReference>
         <GradebookEntryReference>
