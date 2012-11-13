@@ -78,6 +78,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         for (NeutralRecord parentLO : learningObjectives) {
             // add to working set for persistence
             transformedLearningObjectives.add(parentLO);
+
             flipLearningObjectiveRelDirection(parentLO, learningObjectiveIdMap, transformedLearningObjectives);
 
             moveLearningStdRefsToParentIds(parentLO);
@@ -113,11 +114,15 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     private void flipLearningObjectiveRelDirection(NeutralRecord parentLO,
             Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap,
             List<NeutralRecord> transformedLearningObjectives) {
-        String parentObjId = getByPath(LO_ID_CODE_PATH, parentLO.getAttributes());
 
-        String parentContentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, parentLO.getAttributes());
-        String parentObj = getByPath("objective", parentLO.getAttributes());
+        Map<String, Object> attributes = parentLO.getAttributes();
         Map<String, Object> childLearningObjRefs = (Map<String, Object>) parentLO.getAttributes().get(LEARNING_OBJ_REFS);
+        Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
+        Map<String, Object> learningObjIdentity = new HashMap<String, Object>();
+        learningObjIdentity.put("Objective", getByPath("objective", attributes));
+        learningObjIdentity.put("AcademicSubject", getByPath("academicSubject", attributes));
+        learningObjIdentity.put("ObjectiveGradeLevel", getByPath("objectiveGradeLevel", attributes));
+        parentLearningObjRefs.put("LearningObjectiveIdentity", learningObjIdentity);
 
         if (childLearningObjRefs != null) {
             String objective = getByPath("LearningObjectiveIdentity.Objective", childLearningObjRefs);
@@ -128,7 +133,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             NeutralRecord childNR = learningObjectiveIdMap.get(loId);
             if (childNR != null) {
 
-                setParentObjectiveRef(childNR, parentObjId, parentContentStandard, parentObj, objective, academicSubject, objectiveGradeLevel);
+                setParentObjectiveRef(childNR, parentLearningObjRefs);
 
             } else {
 
@@ -148,7 +153,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     childEntityNR.setAttributes(childEntity.getBody());
                     childEntityNR.setRecordType(childEntity.getType());
                     childEntityNR.setBatchJobId(parentLO.getBatchJobId());
-                    setParentObjectiveRef(childEntityNR, parentObjId, parentContentStandard, parentObj, objective, academicSubject, objectiveGradeLevel);
+                    setParentObjectiveRef(childEntityNR, parentLearningObjRefs);
 
                     // add this entity to our NR working set
                     transformedLearningObjectives.add(childEntityNR);
@@ -163,22 +168,15 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         parentLO.getAttributes().remove(LEARNING_OBJ_REFS);
     }
 
-    private void setParentObjectiveRef(NeutralRecord childLo, String parentObjectiveId, String parentContentStandard,
-            String parentObjective, String objective, String academicSubject, String objectiveGradeLevel) {
-        if (childLo.getLocalParentIds() == null) {
-            childLo.setLocalParentIds(new HashMap<String, Object>());
+    private void setParentObjectiveRef(NeutralRecord childLo, Map<String,Object> childLearningObjRefs) {
+        if (childLo.getAttributes() == null) {
+            childLo.setAttributes(new HashMap<String, Object>());
         }
-        if (!childLo.getLocalParentIds().containsKey(PARENT_LEARNING_OBJ_REF)) {
-            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".objective", objective);
-            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".academicSubject", academicSubject);
-            childLo.getLocalParentIds().put(PARENT_LEARNING_OBJ_REF + ".objectiveGradeLevel", objectiveGradeLevel);
-            //childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
-            //childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
-            //childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+        if (!childLo.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
+            childLo.getAttributes().put(PARENT_LEARNING_OBJ_REF, childLearningObjRefs);
         } else {
             super.getErrorReport(childLo.getSourceFile()).error(
-                    "LearningObjective cannot have multiple parents. Objective: "
-                                    + objective + ", AcademicSubject" + academicSubject + ", ObjectiveGradeLevel" + objectiveGradeLevel, this);
+                    "LearningObjective cannot have multiple parents. " + childLearningObjRefs.toString(), this);
         }
     }
 
