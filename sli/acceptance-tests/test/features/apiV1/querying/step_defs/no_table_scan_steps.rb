@@ -33,14 +33,10 @@ When /^I navigate to GET for each resource available$/ do
                   \tbody = #{@res.body}
                   \tuser = #{@user}"""
     end
-    #assert(result != nil, "result of parsing result body was nil!")
-    #assert(@res.code != 500, "Return code was 500 from api, body = #{@res.body}\n
+    assert(result != nil, "result of parsing result body was nil!")
+    assert(@res.code != 500, "Return code was 500 from api, body = #{@res.body}\n
            #requesting resource #{resource}")
-    $stderr.puts """500 Response:
-                \tresource = #{resource}
-                \tqueryParams = #{@queryParams}
-                \tbody = #{@res.body}
-                \tuser = #{@user}""" if @res.code == 500
+
   end
 end
 
