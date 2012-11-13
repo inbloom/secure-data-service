@@ -2,10 +2,10 @@
     "keyFields" : ["body.schoolId", "body.teacherId", "body.programAssignment"],
     "references" :
     [{
+        "deprecated" : true,
         "fieldPath" : "body.schoolId","ref" :
         {
-            "entityType" : "school",
-            "takesContext" : ["edOrgs"],
+            "entityType" : "educationOrganization",
             "choiceOfFields" :
             [
                 [
@@ -26,7 +26,6 @@
         "ref" :
         {
             "entityType" : "staff",
-            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

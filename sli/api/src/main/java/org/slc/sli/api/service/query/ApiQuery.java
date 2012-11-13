@@ -127,7 +127,7 @@ public class ApiQuery extends NeutralQuery {
     }
 
     public Map<String, Object> getSelector() {
-        return (selector != null) ? selector : DEFAULT_SELECTOR;
+        return selector;
     }
 
     public void setSelector(Map<String, Object> selector) {

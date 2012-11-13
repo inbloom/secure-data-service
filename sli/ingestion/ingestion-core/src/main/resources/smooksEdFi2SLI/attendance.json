@@ -3,10 +3,10 @@
 	"references" :
 	[{
         "fieldPath" : "body.schoolId",
+        "deprecated": true,
         "ref" :
         {
-	        "entityType" : "school",
-	        "takesContext" : ["edOrgs"],
+	        "entityType" : "educationOrganization",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -27,7 +27,6 @@
         "ref" :
         {
 	        "entityType" : "student",
-	        "takesContext" : ["edOrgs"],
 	        "choiceOfFields" :
 	        [
 	            [

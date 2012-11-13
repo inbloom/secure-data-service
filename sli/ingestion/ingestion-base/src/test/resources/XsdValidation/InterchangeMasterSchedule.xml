@@ -27,7 +27,7 @@
     <Section>
         <UniqueSectionCode>CAP0-D0-HS0-0-0-sec0</UniqueSectionCode>
         <SequenceOfCourse>1</SequenceOfCourse>
-        <CourseOfferingReference>
+        <CourseOfferingReference ref="CAP0-D0-HSch0-l-ses0-cse0">
             <CourseOfferingIdentity>
                 <LocalCourseCode>CAP0-D0-HSch0-l-ses0-cse0</LocalCourseCode>
                 <CourseCode IdentificationSystem="CSSC course code">

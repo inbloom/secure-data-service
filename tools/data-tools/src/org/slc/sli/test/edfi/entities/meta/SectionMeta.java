@@ -22,23 +22,23 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 public class SectionMeta {
     public final String id;
     public final String schoolId;
-    public final String courseId;
+    public final CourseOfferingMeta courseOffering;
     public final String sessionId;
     public final String programId;
     //public final String studentId;
 
     public final String simpleId;
 
-    public SectionMeta(String id, SchoolMeta schoolMeta, CourseMeta courseMeta, SessionMeta sessionMeta,
+    public SectionMeta(String id, SchoolMeta schoolMeta, CourseOfferingMeta courseOfferingMeta, SessionMeta sessionMeta,
                        ProgramMeta programMeta) {
 
         String schoolIdNoAlpha = schoolMeta.id.replaceAll("[a-z]", "");
-        String sessionIdNoAlpha = courseMeta.simpleId.replaceAll("[a-z]", "");
+        String sessionIdNoAlpha = courseOfferingMeta.simpleId.replaceAll("[a-z]", "");
         String courseIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
 
         this.id = schoolIdNoAlpha + MetaRelations.ID_DELIMITER + sessionIdNoAlpha + MetaRelations.ID_DELIMITER + courseIdNoAlpha + MetaRelations.ID_DELIMITER + id;
         this.schoolId = schoolMeta.id;
-        this.courseId = courseMeta.id;
+        this.courseOffering = courseOfferingMeta;
         this.sessionId = sessionMeta.id;
         this.programId = programMeta == null ? null : programMeta.id;
        // this.studentId = studentMeta.id;
@@ -48,7 +48,7 @@ public class SectionMeta {
 
     @Override
     public String toString() {
-        return "SectionMeta [id=" + id + ", schoolId=" + schoolId + ", courseId=" + courseId + ", sessionId="
+        return "SectionMeta [id=" + id + ", schoolId=" + schoolId + ", courseOffering=[" + courseOffering.toString() + "], sessionId="
                 + sessionId + ", programId=" + programId + "]";
     }
 

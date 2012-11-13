@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -76,13 +77,9 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
                         students.add((String) body.get(ParameterConstants.STUDENT_ID));
                     }
                 } else {
-                    // TODO students.addAll?
                     Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
-                    if (studentInfo instanceof BasicDBList) {
-                        BasicDBList studentList = (BasicDBList) studentInfo;
-                        for (int i = 0; i < studentList.size(); i++) {
-                            students.add((String) studentList.get(i));
-                        }
+                    if (studentInfo instanceof Collection) {    //e.g. BasicDBList
+                        students.addAll((Collection) studentInfo);
                     } else if (studentInfo instanceof String) {
                         students.add((String) studentInfo);
                     }

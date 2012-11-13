@@ -317,17 +317,19 @@ public class SamlFederationResource {
 
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
+            TenantContext.setTenantId(samlTenant);
+            TenantContext.setIsSystemCall(false);
+            NeutralQuery idQuery = new NeutralQuery();
+            idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
+            Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
+            if (edOrg != null) {
+                principal.setEdOrgId(edOrg.getEntityId());
+            } else {
+                debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
+            }
         }
 
-        NeutralQuery idQuery = new NeutralQuery();
-        idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
-        Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
-        if (edOrg != null) {
-            principal.setEdOrgId(edOrg.getEntityId());
-        } else {
-            debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
-        }
-
+        TenantContext.setIsSystemCall(true);
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);

@@ -26,51 +26,49 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 @Component
-public class TransitiveStaffToTeacherValidator extends AbstractContextValidator {
+public class StaffToTeacherValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        return through && EntityNames.TEACHER.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+        return EntityNames.TEACHER.equals(entityType) && isStaff();
     }
 
     @Override
     public boolean validate(String entityName, Set<String> teacherIds) {
 
-        //Query teacher's schools
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.CRITERIA_IN, teacherIds));
+        // Query teacher's schools
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.CRITERIA_IN,
+                teacherIds));
         basicQuery.setIncludeFields(Arrays.asList("teacherId", "schoolId"));
         Iterable<Entity> schoolAssoc = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
         Map<String, Set<String>> teacherSchoolMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(teacherSchoolMap, schoolAssoc);
         Set<String> edOrgLineage = getStaffEdOrgLineage();
-        for (Set<String> schools : teacherSchoolMap.values() ) {
+        for (Set<String> schools : teacherSchoolMap.values()) {
 
-            //Make sure there's a valid intersection between the schools and edOrgLIneage
+            // Make sure there's a valid intersection between the schools and edOrgLIneage
             Set<String> tmpSet = new HashSet<String>(schools);
             tmpSet.retainAll(edOrgLineage);
             if (tmpSet.size() == 0) {
                 return false;
             }
         }
-        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherSchoolMap.size()) {
+        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherIds.size()) {
             return false;
         }
         return true;
 
     }
 
-    private void populateMapFromMongoResponse(
-            Map<String, Set<String>> teacherSchoolMap, Iterable<Entity> schoolAssoc) {
+    private void populateMapFromMongoResponse(Map<String, Set<String>> teacherSchoolMap, Iterable<Entity> schoolAssoc) {
         for (Entity assoc : schoolAssoc) {
             String teacherId = (String) assoc.getBody().get("teacherId");
             String schoolId = (String) assoc.getBody().get("schoolId");

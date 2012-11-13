@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://ed-fi.org/0100}ComplexObjectType">
  *       &lt;sequence>
+ *         &lt;element name="AssessmentReference" type="{http://ed-fi.org/0100}AssessmentReferenceType" />
  *         &lt;element name="IdentificationCode" type="{http://ed-fi.org/0100}IdentificationCode"/>
  *         &lt;element name="ItemCategory" type="{http://ed-fi.org/0100}ItemCategoryType"/>
  *         &lt;element name="MaxRawScore" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -62,6 +63,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AssessmentItem", propOrder = {
+    "assessmentReference",
     "identificationCode",
     "itemCategory",
     "maxRawScore",
@@ -74,6 +76,8 @@ public class AssessmentItem
     extends ComplexObjectType
 {
 
+    @XmlElement(name = "AssessmentReference", required = true)
+    protected AssessmentReferenceType assessmentReference;
     @XmlElement(name = "IdentificationCode", required = true)
     protected String identificationCode;
     @XmlElement(name = "ItemCategory", required = true)
@@ -204,7 +208,31 @@ public class AssessmentItem
         return this.learningStandardReference;
     }
 
+	/**
+     * Gets the assessment reference.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AssessmentReferenceType }
+     *     
+     */
+    public AssessmentReferenceType getAssessmentReference() {
+		return assessmentReference;
+	}
+
     /**
+     * Sets the assessment reference.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AssessmentReferenceType }
+     *     
+     */
+	public void setAssessmentReference(AssessmentReferenceType assessmentReference) {
+		this.assessmentReference = assessmentReference;
+	}
+
+	/**
      * Gets the value of the nomenclature property.
      * 
      * @return

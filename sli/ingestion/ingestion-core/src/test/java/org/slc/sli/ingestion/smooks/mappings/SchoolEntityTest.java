@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -237,7 +238,13 @@ public class SchoolEntityTest {
                 .get("magnetSpecialProgramEmphasisSchool"));
         assertEquals("Public School", neutralRecord.getAttributes().get("administrativeFundingControl"));
 
-        assertEquals("LEA123", neutralRecord.getAttributes().get("parentEducationAgencyReference"));
+        @SuppressWarnings("unchecked")
+        Map<String, Object> leaRef = (Map<String, Object>) neutralRecord.getAttributes().get("LocalEducationAgencyReference");
+        assertNotNull(leaRef);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> leaEdOrgId = (Map<String, Object>) leaRef.get("EducationalOrgIdentity");
+        assertNotNull(leaEdOrgId);
+        assertEquals("LEA123", leaEdOrgId.get("StateOrganizationId"));
 
     }
 

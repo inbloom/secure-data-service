@@ -41,8 +41,8 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
@@ -56,6 +56,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -69,7 +70,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("apps")
-@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
+@Produces({ HypermediaType.JSON + ";charset=utf-8" })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
@@ -107,7 +108,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
-
+    
     public void setAutoRegister(boolean register) {
         autoRegister = register;
     }
@@ -198,8 +199,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Override
     protected void addAdditionalCritera(NeutralQuery query) {
 
-
-
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
             query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
@@ -288,6 +287,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You cannot delete this application");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        
+        EntityBody ent = service.get(uuid);
+        if (ent != null) {
+            validateDeveloperHasAccessToApp(ent);
+        } //if it is null, then we'll let the super.delete handle the case of deleting an app with bad ID
         return super.delete(uuid, headers, uriInfo);
     }
 
@@ -314,6 +318,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (clientId == null) {
             app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
         }
+        
+        String createdBy = (String) app.get(CREATED_BY);
+        if (createdBy == null) {
+            app.put(CREATED_BY, oldApp.get(CREATED_BY));
+        }
 
         String id = (String) app.get("id");
         Map<String, Object> oldReg = (Map<String, Object>) oldApp.get(REGISTRATION);
@@ -331,12 +340,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
                 || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
                 || (id != null && !id.equals(oldApp.get("id")))
+                || (createdBy != null && !createdBy.equals(oldApp.get(CREATED_BY)))
                 || (!registrationDatesMatch(oldReg, newReg, APPROVAL_DATE))
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
 
             EntityBody body = new EntityBody();
             body.put("message",
-                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date) specified in PUT.  "
+                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
@@ -369,6 +379,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
 
         } else if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {  // App Developer
+            validateDeveloperHasAccessToApp(oldApp);
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to register applications.");
@@ -418,6 +429,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
 
         return super.update(uuid, app, headers, uriInfo);
+    }
+
+    private void validateDeveloperHasAccessToApp(EntityBody app) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!principal.getExternalId().equals(app.get(CREATED_BY))) {
+            throw new AccessDeniedException("Developer " + principal.getExternalId() 
+                    + " is not the creator of this app and cannot modify it.");
+        }
     }
 
     /**

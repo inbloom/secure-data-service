@@ -57,6 +57,21 @@ public final class TestErrorReport implements ErrorReport {
     }
 
     @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        fatal(message, sender);
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        error(message, sender);
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        warning(message, sender);
+    }
+
+    @Override
     public boolean hasErrors() {
         // Return whether messages has entries or not.
         return (!getMessages().isEmpty());

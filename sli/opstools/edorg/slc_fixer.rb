@@ -206,12 +206,18 @@ class SLCFixer
         stamp_id(@db['disciplineAction'], action['_id'], edorg)
       end
     end
-    @log.info "Iterating studentDisciplineIncidentAssociation with query: #{@basic_query}"
-    @db['studentDisciplineIncidentAssociation'].find(@basic_query, :timeout => false) do |cur|
-      cur.each do |incident|
-        edorg = student_edorgs(incident['body']['studentId'])
-        stamp_id(@db['studentDisciplineIncidentAssociation'], incident['_id'], edorg)
-        stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg)
+    embedded_query = @basic_query.clone
+    embedded_query["studentDisciplineIncidentAssociation"] = {"$exists" => true}
+    @log.info "Iterating studentDisciplineIncidentAssociation in student with query: #{embedded_query}"
+    @db['student'].find(embedded_query, @basic_options) do |cur|
+      cur.each do |student|
+          if student.include? "studentDisciplineIncidentAssociation"
+             student["studentDisciplineIncidentAssociation"].each do |incident|
+               edorg = student_edorgs(incident['body']['studentId'])
+               stamp_id(@db['student'], incident['_id'], edorg, "studentDisciplineIncidentAssociation", student["_id"])
+               stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg)
+             end
+          end
       end
     end
     @log.info "Iterating disciplineIncident with query: #{@basic_query}"
@@ -229,13 +235,21 @@ class SLCFixer
   def fix_parents
     set_stamps(@db['studentParentAssociation'])
     set_stamps(@db['parent'])
-    @log.info "Iterating studentParentAssociation with query: #{@basic_query}"
-    @db['studentParentAssociation'].find(@basic_query, @basic_options) do |cur|
-      cur.each do |parent|
-        edorg = student_edorgs(parent['body']['studentId'])
-        stamp_id(@db['studentParentAssociation'], parent['_id'], edorg)
-        stamp_id(@db['parent'], parent['body']['parentId'], edorg)
-      end
+    embedded_query = @basic_query.clone
+    embedded_query["studentParentAssociation"] = {"$exists" => true}
+    @log.info "Iterating student with query: #{embedded_query}"
+
+    @db['student'].find(embedded_query, @basic_options) do |cur|
+        cur.each do |student|
+            student["studentParentAssociation"].each do |studentParent|
+              edOrg = []
+              student_edorg = student_edorgs(studentParent['body']['studentId'])
+              edOrg << student_edorg
+              edOrg = edOrg.flatten.uniq
+              stamp_id(@db['student'], studentParent['_id'], edOrg,
+                       "studentParentAssociation", student["_id"])
+            end
+        end
     end
   end
 

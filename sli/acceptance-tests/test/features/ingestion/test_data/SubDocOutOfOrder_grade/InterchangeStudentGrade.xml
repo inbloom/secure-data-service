@@ -10,7 +10,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_1"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000101</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 1</GradebookEntryType>
@@ -38,7 +57,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_2"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000001</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 2</GradebookEntryType>
@@ -66,7 +104,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_101"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000101</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 3</GradebookEntryType>
@@ -95,7 +152,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_3"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000002</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 17</GradebookEntryType>
@@ -124,7 +200,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_102"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000001</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 4</GradebookEntryType>
@@ -153,7 +248,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_4"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000003</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 18</GradebookEntryType>
@@ -182,7 +296,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_103"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000002</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 19</GradebookEntryType>
@@ -211,7 +344,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_104"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000003</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 20</GradebookEntryType>
@@ -1022,6 +1174,7 @@
     </CompetencyLevelDescriptor>
     <StudentSectionAssociationReference id="SSA_1">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000101</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -1040,6 +1193,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -1048,10 +1203,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_2">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000001</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -1070,6 +1227,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -1078,10 +1237,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_3">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000002</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -1100,6 +1261,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -1108,10 +1271,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_4">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000003</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -1130,6 +1295,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -1138,6 +1305,7 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <LearningStandardReference>

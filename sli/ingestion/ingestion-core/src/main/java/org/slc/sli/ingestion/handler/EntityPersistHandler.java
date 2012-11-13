@@ -111,7 +111,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), entity.getSourceFile(), errorReport);
         }
         return null;
     }
@@ -165,7 +165,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
-            reportWarnings(e.getCause().getMessage(), collectionName, errorReport);
+            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), errorReport);
         }
 
         return res;
@@ -247,7 +247,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } else {
             preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
         }
-
     }
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
@@ -262,7 +261,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 } catch (Exception e) {
                     String errorMessage = "Issue finding key field: " + field + " for entity of type: "
                             + entity.getType() + "\n";
-                    errorReport.error(errorMessage, this);
+                    errorReport.error(errorMessage, entity.getSourceFile(), this);
                 }
 
                 if (complexField != null) {
@@ -273,7 +272,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     } catch (Exception e) {
                         String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
                                 + "\n";
-                        errorReport.error(errorMessage, this);
+                        errorReport.error(errorMessage, entity.getSourceFile(), this);
                     }
                 }
 
@@ -294,6 +293,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
+
+    /**
+     * Generic error reporting function.
+     *
+     * @param error
+     *            List of errors to report.
+     * @param entity
+     *            Entity reporting errors.
+     * @param errorReport
+     *            Reference to error report logging error messages.
+     */
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
@@ -302,7 +312,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
                     + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
                     + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
-            errorReport.error(message, this);
+            errorReport.error(message, entity.getSourceFile(), this);
         }
     }
 
@@ -316,9 +326,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      * @param errorReport
      *            Reference to error report to log warning message in.
      */
-    private void reportWarnings(String warningMessage, String type, ErrorReport errorReport) {
+    private void reportWarnings(String warningMessage, String type, String resourceId, ErrorReport errorReport) {
         String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
-        errorReport.warning(assembledMessage, this);
+        errorReport.warning(assembledMessage, resourceId, this);
     }
 
     protected String getFailureMessage(String code, Object... args) {

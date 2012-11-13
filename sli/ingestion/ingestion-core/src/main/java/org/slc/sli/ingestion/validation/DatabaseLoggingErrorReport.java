@@ -51,11 +51,26 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     @Override
     public void fatal(String message, Object sender) {
-        error(message, sender);
+        error(message, this.resourceId, sender);
     }
 
     @Override
     public void error(String message, Object sender) {
+        error(message, this.resourceId, sender);
+    }
+
+    @Override
+    public void warning(String message, Object sender) {
+        warning(message, this.resourceId, sender);
+    }
+
+    @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        error(message, resourceId, sender);
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
 
         String recordIdentifier = null;
         Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? null : stage.getName(),
@@ -67,7 +82,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     }
 
     @Override
-    public void warning(String message, Object sender) {
+    public void warning(String message, String resourceId, Object sender) {
 
         String recordIdentifier = null;
         Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? "" : stage.getName(),
@@ -91,10 +106,6 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     public String getResourceId() {
         return resourceId;
-    }
-
-    public void setHasErrors(boolean hasErrors) {
-        this.hasErrors = hasErrors;
     }
 
 }

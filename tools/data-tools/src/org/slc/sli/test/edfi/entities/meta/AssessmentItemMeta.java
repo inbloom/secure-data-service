@@ -24,6 +24,7 @@ public final class AssessmentItemMeta {
 
     public final String id;
     public final List<String> learningStandardIds;
+    private String assessmentId;
 
     private AssessmentItemMeta(String id) {
         this.id = id;
@@ -34,9 +35,17 @@ public final class AssessmentItemMeta {
         return new AssessmentItemMeta(id);
     }
 
-    @Override
+    public String getAssessmentId() {
+		return assessmentId;
+	}
+
+	public void setAssessmentId(String assessmentId) {
+		this.assessmentId = assessmentId;
+	}
+
+	@Override
     public String toString() {
-        return "AssesssmentItemMeta [id=" + id + ", learningStandardIds=" + learningStandardIds + "]";
+        return "AssesssmentItemMeta [id=" + id + ", learningStandardIds=" + learningStandardIds + ", assessmentId=" + assessmentId + "]";
     }
 
 }

@@ -20,7 +20,7 @@
 				<xs:element name="StudentGradebookEntry" type="SLC-StudentGradebookEntry"/>
 				<xs:element name="CompentencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
-				<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjectiveRestriction"/>
+				<xs:element name="StudentCompetencyObjective" type="SLC-StudentCompetencyObjective"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

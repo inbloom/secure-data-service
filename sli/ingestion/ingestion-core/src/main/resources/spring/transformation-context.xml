@@ -159,6 +159,26 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradebookEntry.xml" />
       </bean>
     </entry>
+    <entry key="teacherSchoolAssociation">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="staffEducationOrganizationAssociation">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="localEducationAgency">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/localEducationAgency.xml" />
+      </bean>
+    </entry>
+    <entry key="school">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/school.xml" />
+      </bean>
+    </entry>
     <entry key="studentSchoolAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSchoolAssociation.xml" />
@@ -211,6 +231,7 @@
   <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
   </bean>
+
 
 </beans>
 

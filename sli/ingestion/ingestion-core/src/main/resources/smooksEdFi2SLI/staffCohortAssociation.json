@@ -7,7 +7,6 @@
         "ref" :
         {
             "entityType" : "staff",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -23,7 +22,8 @@
         }
     },
     {
-        "fieldPath" : "body.cohortId",
+        "fieldPath" : "body.CohortReference",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "cohort",
@@ -34,7 +34,7 @@
                         "path" : "body.cohortIdentifier",
                         "values" :
                         [
-                            {"valueSource" : "body.cohortReference.cohortIdentity.cohortIdentifier"}
+                            {"valueSource" : "body.CohortReference.CohortIdentity.CohortIdentifier"}
                         ]
                     },
                     {
@@ -50,7 +50,7 @@
                                             "path" : "body.stateOrganizationId",
                                             "values":
                                             [
-                                                {"valueSource": "body.cohortReference.cohortIdentity.stateOrganizationId"}
+                                                {"valueSource": "body.CohortReference.CohortIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"}
                                             ]
                                         }
                                     ]]

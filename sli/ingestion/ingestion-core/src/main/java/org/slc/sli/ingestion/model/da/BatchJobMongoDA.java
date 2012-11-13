@@ -21,7 +21,6 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,9 +40,9 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -69,6 +68,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
+    private static final String RESOURCE_ID_FIELD = "resourceId";
+    private static final String SEVERITY_FIELD = "severity";
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
@@ -154,8 +155,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public Iterable<Error> getBatchJobErrors(String jobId, int limit) {
-        return new ErrorIterable(jobId, limit);
+    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit) {
+        return batchJobMongoTemplate.find(
+                Query.query(
+                        Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(RESOURCE_ID_FIELD).is(resourceId)
+                                .and(SEVERITY_FIELD).is(type.getName())).limit(limit), Error.class,
+                BATCHJOB_ERROR_COLLECTION);
     }
 
     @Override
@@ -442,102 +447,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         batchJobMongoTemplate.getCollection(STAGED_ENTITIES).remove(dbObj);
     }
 
-    /**
-     * Iterable error class
-     *
-     * @author bsuzuki
-     *
-     */
-    private class ErrorIterable implements Iterable<Error> {
-
-        private static final int ERROR_QUERY_DEFAULT_LIMIT = 100;
-
-        private String jobId = null;
-        private int resultLimit = ERROR_QUERY_DEFAULT_LIMIT;
-
-        public ErrorIterable(String jobId, int queryResultLimit) {
-            this.jobId = jobId;
-            this.resultLimit = queryResultLimit;
-        }
-
-        @Override
-        public Iterator<Error> iterator() {
-            return new ErrorIterator(jobId, resultLimit);
-        }
-
-        /**
-         * Iterator for errors
-         *
-         * @author bsuzuki
-         *
-         */
-        private final class ErrorIterator implements Iterator<Error> {
-            private String jobId = null;
-            private Iterator<Error> currentIterator;
-            private long remainingResults = 0;
-
-            private LimitedCursorPreparer cursorPreparer;
-
-            private ErrorIterator(String jobId, int queryResultLimit) {
-                this.jobId = jobId;
-                this.cursorPreparer = new LimitedCursorPreparer(queryResultLimit);
-                this.remainingResults = batchJobMongoTemplate.getCollection(BATCHJOB_ERROR_COLLECTION).count(
-                        query(where(BATCHJOBID_FIELDNAME).is(jobId)).getQueryObject());
-                // TODO use the following rather than the previous line when we upgrade to
-                // mongotemplate 1.0.0.M5 or above
-                // this.remainingResults =
-                // batchJobMongoTemplate.count(query(where(BATCHJOBID_FIELDNAME).is(jobId)),
-                // BATCHJOB_ERROR_COLLECTION);
-                this.currentIterator = getNextList();
-            }
-
-            @Override
-            public boolean hasNext() {
-                return currentIterator.hasNext() || (remainingResults > 0);
-            }
-
-            @Override
-            public Error next() {
-                if (!currentIterator.hasNext()) {
-                    currentIterator = getNextList();
-                }
-                return currentIterator.next();
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            private Iterator<Error> getNextList() {
-                Query q = query(where(BATCHJOBID_FIELDNAME).is(jobId)).skip(cursorPreparer.position).limit(
-                        cursorPreparer.limit);
-                cursorPreparer.position += cursorPreparer.limit;
-                List<Error> errors = batchJobMongoTemplate.find(q, Error.class, BATCHJOB_ERROR_COLLECTION);
-                remainingResults -= errors.size();
-                return errors.iterator();
-            }
-        }
-
-        /**
-         * Prepares the cursor to be used when querying for errors
-         *
-         * @author bsuzuki
-         *
-         */
-        private final class LimitedCursorPreparer {
-
-            private final int limit;
-            private int position = 0;
-
-            public LimitedCursorPreparer(int limit) {
-                this.limit = limit;
-            }
-
-        }
-
-    }
-
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         this.batchJobMongoTemplate = mongoTemplate;
     }
@@ -559,25 +468,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean findAndUpsertRecordHash(String tenantId, String recordId) {
-        RecordHash rh = this.findRecordHash(tenantId, recordId);
+    public void upsertRecordHash(String tenantId, String recordId) {
 
-        if (rh == null) {
-            // record was not found
-            rh = new RecordHash();
-            rh._id = recordId;
-            rh.tenantId = tenantId;
-            rh.timestamp = "" + System.currentTimeMillis();
-            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-            return false;
-        } else {
-            rh.timestamp = "" + System.currentTimeMillis();
-            rh.tenantId = tenantId;
-            this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
-
-            return true;
-        }
-    }
+        // record was not found
+        RecordHash rh = new RecordHash();
+        rh._id = recordId;
+        rh.tenantId = tenantId;
+        rh.timestamp = "" + System.currentTimeMillis();
+        this.batchJobHashCacheMongoTemplate.save(rh, RECORD_HASH);
+   }
 
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {

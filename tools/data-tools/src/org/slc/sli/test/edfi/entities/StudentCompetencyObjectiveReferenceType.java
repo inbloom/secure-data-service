@@ -57,7 +57,6 @@ import javax.xml.bind.annotation.XmlType;
     "studentCompetencyObjectiveIdentity"
 })
 public class StudentCompetencyObjectiveReferenceType
-    extends ReferenceType
 {
 
     @XmlElement(name = "StudentCompetencyObjectiveIdentity")

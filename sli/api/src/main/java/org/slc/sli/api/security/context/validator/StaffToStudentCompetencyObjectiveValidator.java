@@ -16,26 +16,15 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextValidator {
-    
-    @Autowired
-    StaffToStudentValidator studentVal;
-    
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -44,27 +33,20 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
 
     @Override
     public boolean validate(String entityType, Set<String> objectiveIds) {
-        // TODO return true by default has a smell.
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, objectiveIds));
-        basicQuery.setIncludeFields(Arrays.asList("_id", "educationOrganizationId"));
-        Iterable<Entity> objectives = repo.findAll(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, basicQuery);
-
-        Set<String> objIdsFound = new HashSet<String>();
-        Set<String> edorgLineage = getStaffEdOrgLineage();
-        for (Entity obj : objectives) {
-            String objId = (String) obj.getEntityId();
-            String edorgId = (String) obj.getBody().get("educationOrganizationId");
-            if (!edorgLineage.contains(edorgId)) {
-                return false;
-            }
-            objIdsFound.add(objId);
-        }
-
-        if (objIdsFound.size() < objectiveIds.size()) {
-            return false;
-        }
-        
-        return true;
+    	Set<String> lineage = this.getStaffEdOrgLineage();
+    	lineage.addAll(this.getStaffEdOrgParents());
+    	
+        /*
+         * Check if the entities being asked for exist in the repo
+         * This is done by checking sizes of the input set and
+         * the return from the database
+         * 
+         * Restriction for edorg lineage is added since competency objectives
+         * can exist at higher edorgs
+         */
+		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", objectiveIds));
+		nq.addCriteria(new NeutralCriteria("educationOrganizationId", NeutralCriteria.CRITERIA_IN, lineage));
+		return getRepo().count(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, nq) == objectiveIds.size();
     }
 
 }

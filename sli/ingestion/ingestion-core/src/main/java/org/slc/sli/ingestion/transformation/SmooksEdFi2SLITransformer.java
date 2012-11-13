@@ -50,6 +50,8 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
 
+    private final String EDFI_ASSESSMENT_REFERENCE = "AssessmentReference";
+    private final String SLI_ASSESSMENT_REFERENCE = "assessmentId";
     private final String EDFI_PROGRAM_REFERENCE = "ProgramReference";
     private final String SLC_PROGRAM_REFERENCE = "programReference";
 
@@ -90,8 +92,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
                     || EdfiEntity.STATE_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
                     || EdfiEntity.LOCAL_EDUCATION_AGENCY.getEntityName().equals(entity.getType())
                     || EdfiEntity.SCHOOL.getEntityName().equals(entity.getType())
-                    )
-            {
+                    ) {
                 //This should catch EducationServiceCenter, StateEducationAgency, LocalEducationAgency, and School
                 Object ref = entity.getBody().remove(EDFI_PROGRAM_REFERENCE);
                 if (ref instanceof List<?>) {

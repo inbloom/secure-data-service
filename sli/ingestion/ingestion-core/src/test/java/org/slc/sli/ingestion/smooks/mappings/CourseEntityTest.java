@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -159,6 +160,12 @@ public class CourseEntityTest {
 
         assertEquals("Science Technology Engineering and Mathematics",
                 neutralRecord.getAttributes().get("careerPathway"));
+
+        Map<String, Object> EducationOrganizationReference = (Map<String, Object>)neutralRecord.getAttributes().get("EducationOrganizationReference");
+        assertNotNull("Could not find EducationOrganizationReference in Course", EducationOrganizationReference);
+        Map<String, Object> EducationalOrgIdentity  = (Map<String, Object>)EducationOrganizationReference.get("EducationalOrgIdentity");
+        assertNotNull("Could not find EducationOrganizationReference.EducationalOrgIdentity in Course", EducationOrganizationReference);
+        assertEquals("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId is not 'ID1' in Course", "ID1", (String)EducationalOrgIdentity.get("StateOrganizationId"));
     }
 
 }
