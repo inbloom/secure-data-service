@@ -627,6 +627,21 @@ public final class InterchangeStudentGradeGenerator {
         }
     }
 
+    private static void generateLearningObjective(List<ReportCardMeta> reportCardMetas,
+            InterchangeWriter<InterchangeStudentGrade> writer) {
+
+        for (ReportCardMeta reportCardMeta : reportCardMetas) {
+            for (String loId : reportCardMeta.getLearningObjectiveIds()) {
+                LearningObjective lo = new LearningObjective();
+                lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+                lo.setDescription("Learning Objective Description");
+                lo.setObjective(loId);
+                lo.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
+
+                writer.marshal(lo);
+            }
+        }
+    }
 
     private static void generateStudentCompentencyObjective(List<ReportCardMeta> reportCardMetas,
             InterchangeWriter<InterchangeStudentGrade> writer) {
