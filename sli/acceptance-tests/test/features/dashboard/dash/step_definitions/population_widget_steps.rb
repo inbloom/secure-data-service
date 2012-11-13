@@ -84,14 +84,10 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   selectContentArray = selectContent.split(";")
   puts "selectContentArray = " + selectContentArray.to_s
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
-  puts "result = " + result.to_s
-  # Adding entireDropList variable to make this step common to the old code and new US4437 -  Dashboard Temporary fix
   entireDropList = result + desiredContentArray
   puts "entireDropList = " + entireDropList.to_s  
   #unclick it
   dropList.click
-  # Original test assert is commented to make this step common to the old code and new US4437 -  Dashboard Temporary fix
-  #assert(result == ["Choose One"], "list content does not match required content: " + listContent)  
   assert(selectContentArray == entireDropList, "list content does not match required content: " + listContent)    
 end
 
