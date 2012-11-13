@@ -138,11 +138,11 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
 
     @Override
     public void ensureIndexes() {
-        LOG.info("Ensuring {} indexes for staging db", stagingIndexes.size());
-
-        int indexOrder = 0; // used to name the indexes
-
         if (stagingIndexes != null) {
+            LOG.info("Ensuring {} indexes for staging db", stagingIndexes.size());
+
+            int indexOrder = 0; // used to name the indexes
+
             // each index is a comma delimited string in the format:
             // (collection, unique, indexKeys ...)
             for (String indexEntry : stagingIndexes) {
@@ -150,7 +150,7 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
                 String[] indexTokens = indexEntry.split(",");
 
                 if (indexTokens.length < 3) {
-                    throw new IllegalArgumentException("Expected at least 3 tokens for index config definition: "
+                    throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
                             + indexTokens);
                 }
 
@@ -165,6 +165,8 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
                 neutralRecordRepository.getTemplate().getCollection(collection)
                         .ensureIndex(keys, "is" + indexOrder, unique);
             }
+        } else {
+            throw new IllegalStateException("staging indexes configuration not found.");
         }
     }
 }
