@@ -51,8 +51,10 @@ public final class SliDeltaManager {
     	String recordId = null;
     	if ( withDids == null )
     		recordId = n.generateRecordId(dIdStrategy);
-    	else
+    	else {
     		recordId = withDids.generateRecordId(dIdStrategy);
+    		n.setRecordId(recordId);
+    	}
         String tenantId = TenantContext.getTenantId();
         // Calculate record hash using natural keys' values
         String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);

@@ -55,10 +55,7 @@ public class SliSmooksFactory {
     @Autowired
     public BatchJobDAO batchJobDAO;
 
-    @Autowired
     public DeterministicUUIDGeneratorStrategy dIdStrategy;
-
-    @Autowired
     public DeterministicIdResolver dIdResolver;
 
     private Set<String> recordLevelDeltaEnabledEntities;
