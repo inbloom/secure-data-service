@@ -49,7 +49,7 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
  * Container format to store any type of Ingestion data generically.
  *
  */
-public class NeutralRecord {
+public class NeutralRecord implements Cloneable {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -508,6 +508,21 @@ public class NeutralRecord {
         } catch (Exception e) {
             return super.toString();
         }
+    }
+    
+    /* Clone, e.g. for the DiD calculation needs */
+    public Object clone() {
+    	NeutralRecord result = null;
+    	try {
+    		result = (NeutralRecord) super.clone();
+    		result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
+    		result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
+    		result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
+    	}
+    	catch ( CloneNotSupportedException e ) {
+    		result = null;
+    	}
+  		return result;
     }
 
 }
