@@ -82,10 +82,13 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
     puts "selectContent = " + selectContent
   end
   selectContentArray = selectContent.split(";")
+  puts "selectContentArray = " + selectContentArray.to_s
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
+  entireDropList = result + desiredContentArray
+  puts "entireDropList = " + entireDropList.to_s  
   #unclick it
   dropList.click
-  assert(result == ["Choose One"], "list content does not match required content: " + listContent)  
+  assert(selectContentArray == entireDropList, "list content does not match required content: " + listContent)    
 end
 
 Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
@@ -133,6 +136,9 @@ When /^I select user view "([^"]*)"$/ do |optionToSelect|
   selectDropdownOption(@dropDownId, optionToSelect)
 end
 
+Then /^I click the go button$/ do
+  clickOnGo()
+end
 
 Then /^the list includes: "([^"]*)"$/ do |desiredContent|
   assert(listContains(desiredContent), "List does not contain desired values: '" + desiredContent + "'")
@@ -174,6 +180,11 @@ end
 
 When /^I click on the go button$/ do
   clickOnGo()
+end
+
+# For US4437 -  Dashboard Temporary fix
+Then /^I search by clicking on the go button$/ do
+  clickButton("search_btn_go", "id")
 end
 
 def isValuesInList(listContent, isInList)

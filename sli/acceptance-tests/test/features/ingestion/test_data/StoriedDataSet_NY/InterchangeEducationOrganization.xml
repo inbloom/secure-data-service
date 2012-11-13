@@ -42,6 +42,13 @@
 		</Address>
 		<OperationalStatus>Active</OperationalStatus>
 		<LEACategory>Charter</LEACategory>
+
+        <LocalEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>NY-Dusk</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </LocalEducationAgencyReference>
+
 		<StateEducationAgencyReference>
 			<EducationalOrgIdentity>
 				<StateOrganizationId>NY</StateOrganizationId>

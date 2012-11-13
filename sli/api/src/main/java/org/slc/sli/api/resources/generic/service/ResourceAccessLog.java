@@ -44,7 +44,7 @@ public class ResourceAccessLog {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
         if (definition == null) {
-            definition = resourceHelper.getEntityDefinition(resource);
+            return;
         }
 
         if (definition.isRestrictedForLogging()) {
