@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require 'mustache'
+
 require_relative './baseEntity.rb'
 
 class Student < BaseEntity
