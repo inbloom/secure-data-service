@@ -19,7 +19,7 @@
     </jb:bean>
 
     <jb:bean beanId="learningObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:wiring property="learningObjectiveId" beanIdRef="attributes learningStandardId" />
+        <jb:wiring property="learningObjectiveId" beanIdRef="learningObjective_learningObjectiveId" />
         <jb:value property="objective" data="attributes objective" />
         <jb:value property="description" data="attributes description"/>
         <jb:value property="academicSubject" data="attributes academicSubject" />
@@ -30,6 +30,11 @@
     
     <jb:bean beanId="learningObjective_learningStandards" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes learningStandardReference element" />
+    </jb:bean>
+    
+    <jb:bean beanId="learningObjective_learningObjectiveId" class="java.util.HashMap" createOnElement="attributes learningObjectiveId">
+        <jb:value data="attributes learningObjectiveId identificationCode" />
+        <jb:value data="attributes learningObjectiveId contentStandardName" />
     </jb:bean>
 
 </smooks-resource-list>
