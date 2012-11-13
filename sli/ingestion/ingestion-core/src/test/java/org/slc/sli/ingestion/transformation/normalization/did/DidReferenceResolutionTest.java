@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +82,7 @@ public class DidReferenceResolutionTest {
         checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
     }
 
-    @Ignore
+
     @Test
     public void shouldResolveLearningStandardDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/learningStandardReference.json");
@@ -96,6 +96,21 @@ public class DidReferenceResolutionTest {
         checkId(entity, "LearningStandardReference", naturalKeys, "learningStandard");
     }
 
+    @Test
+    public void shouldResolveLearningObjectiveDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+        Entity entity = loadEntity("didTestEntities/learningObjectiveReference.json");
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("objective", "Writing: Informational Text");
+        naturalKeys.put("academicSubject", "ELA");
+        naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+
+        checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
+    }
+
     // generate the expected deterministic ids to validate against
     private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {
         NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, entityType, parentId);
@@ -107,9 +122,16 @@ public class DidReferenceResolutionTest {
     private void checkId(Entity entity, String referenceField, Map<String, String> naturalKeys, String collectionName) throws JsonParseException, JsonMappingException, IOException {
         String expectedDid =  generateExpectedDid(naturalKeys, TENANT_ID, collectionName, null);
         Map<String, Object> body = entity.getBody();
-        Assert.assertNotNull(body.get(referenceField));
+        Object resolvedRef = null;
 
-        Object resolvedRef = body.get(referenceField);
+        try {
+			resolvedRef = PropertyUtils.getProperty(body, referenceField);
+		} catch (Exception e) {
+			Assert.fail("Exception thrown accessing resolved reference: " + e);
+		}
+
+        Assert.assertNotNull(resolvedRef);
+
         if (resolvedRef instanceof List) {
             List<Object> refs = (List<Object>) resolvedRef;
             Assert.assertEquals(1, refs.size());
