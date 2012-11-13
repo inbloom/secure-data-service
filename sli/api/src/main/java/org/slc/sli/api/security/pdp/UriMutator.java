@@ -29,8 +29,6 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
@@ -39,6 +37,7 @@ import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -512,7 +511,6 @@ public class UriMutator {
         if (!isMutated && isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
                     || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
@@ -703,18 +701,19 @@ public class UriMutator {
         } else if (!isMutated && isStaff(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES.equals(resource)
                     || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
                     || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                String ids = getQueryValueForQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
                 if (ids != null) {
-                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.SCHOOL_ID, queryParameters);
+                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                    mutatedPath = String.format("/students/%s/attendances", ids);
                 } else {
                     ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+                    mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
                 }
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+                
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
             } else if (ResourceNames.COURSES.equals(resource)) {

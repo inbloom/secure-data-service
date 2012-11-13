@@ -60,15 +60,17 @@ jQuery ->
 jQuery ->
   $("#lea-menu input").live 'change', ->
     id = $(@).parent().parent().parent().attr('id')
+    console.log id
     edorgs = getEdorgs()
     if $(@).is(':checked')
       #Add the input
       $('div#ed_orgs').append("<input id=\"app_authorized_ed_orgs\" name=\"app[authorized_ed_orgs][]\" multiple=\"multiple\" type=\"hidden\" value=#{id}>")
     else
       index = edorgs.indexOf id
+      console.log index
       if index != -1
         #Remove the input
-        $("input#app_authorized_ed_orgs[value=#{id}]").remove()
+        $("input#app_authorized_ed_orgs[value=\"#{id}\"]").remove()
     false
   
 jQuery ->
