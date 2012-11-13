@@ -78,7 +78,9 @@ end
 desc "Run V1 Direct Reference Collections Tests"
 task :v1DirectReferenceCollectionsTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferenceCollections")
+  runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections_teacher.feature")
 end
 
 desc "Run V1 Common Core Standards reference traversal Tests"
