@@ -28,14 +28,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -70,7 +69,7 @@ public class EntityTestUtils {
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
 
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector, String recordLevelDeltaEnabledEntityNames) throws IOException, SAXException, SmooksException {
+            String targetSelector, Set<String> recordLevelDeltaEnabledEntityNames) throws IOException, SAXException, SmooksException {
 
         BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         when(batchJobDAO.findRecordHash((String) any(), (String) any())).thenReturn(null);
@@ -81,9 +80,7 @@ public class EntityTestUtils {
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
-        HashSet<String> recordLevelDeltaEnabledEntities = new HashSet<String>();
-        recordLevelDeltaEnabledEntities.addAll(Arrays.asList(recordLevelDeltaEnabledEntityNames.split(",")));
-        smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntities);
+        smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
 
         smooksEdFiVisitor.setBatchJobDAO(batchJobDAO);
 
@@ -144,7 +141,7 @@ public class EntityTestUtils {
      * @throws SAXException
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
-            String testData, String recordLevelDeltaEnabledEntityNames) throws IOException, SAXException {
+            String testData, Set<String> recordLevelDeltaEnabledEntityNames) throws IOException, SAXException {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;

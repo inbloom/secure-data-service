@@ -36,7 +36,7 @@
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="idRefResolution-context.xml" />
-
+  <import resource="recordLvlHash-context.xml" />
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
     /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->

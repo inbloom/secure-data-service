@@ -19,29 +19,21 @@ package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import junitx.util.PrivateAccessor;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.DummyEntityRepository;
-import org.slc.sli.validation.EntityValidator;
 
 /**
  * Test the smooks mappings for Course entity
@@ -53,11 +45,8 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CourseEntityTest {
 
-    @Autowired
-    private EntityValidator validator;
-
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
     @Test
     public void edfiXmlCourseTest() throws IOException, SAXException {
@@ -177,7 +166,7 @@ public class CourseEntityTest {
         assertNotNull("Could not find EducationOrganizationReference in Course", EducationOrganizationReference);
         Map<String, Object> EducationalOrgIdentity  = (Map<String, Object>)EducationOrganizationReference.get("EducationalOrgIdentity");
         assertNotNull("Could not find EducationOrganizationReference.EducationalOrgIdentity in Course", EducationOrganizationReference);
-        assertEquals("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId is not 'ID1' in Course", "ID1", (String)EducationalOrgIdentity.get("StateOrganizationId"));
+        assertEquals("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId is not 'ID1' in Course", "ID1", EducationalOrgIdentity.get("StateOrganizationId"));
     }
 
 }

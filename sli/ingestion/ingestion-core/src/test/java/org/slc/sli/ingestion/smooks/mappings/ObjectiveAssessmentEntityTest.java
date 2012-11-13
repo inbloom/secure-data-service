@@ -20,17 +20,19 @@ package org.slc.sli.ingestion.smooks.mappings;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  *
@@ -41,8 +43,8 @@ import org.xml.sax.SAXException;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ObjectiveAssessmentEntityTest {
 
-    @Value("${sli.ingestion.recordLevelDeltaEntities}")
-    private String recordLevelDeltaEnabledEntityNames;
+    @Value("#{recordLvlHashNeutralRecordTypes}")
+    private Set<String> recordLevelDeltaEnabledEntityNames;
 
     private String validXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
             + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
