@@ -62,8 +62,6 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
 
-    public static final String INDEX_SCRIPT = "is_indexes.js";
-
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
 
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentEdFiProcessor.class);
