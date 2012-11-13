@@ -39,99 +39,136 @@ import java.util.*;
 @Component
 public class URITranslator {
 
-    private Map<String,Model> translateMap = new HashMap<String, Model>();
+    private Map<String,URITranlation> uriTranslationMap = new HashMap<String, URITranlation>();
+
+    public void setRepository(PagingRepositoryDelegate<Entity> repository) {
+        this.repository = repository;
+    }
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repository;
 
+    private static String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
+    private static String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
+    private static String ID_KEY = "_id";
+
     public URITranslator() {
-        Model parentlearningObj = new Model(ResourceNames.LEARNINGOBJECTIVES, EntityNames.LEARNING_OBJECTIVE,
-                "{version}/learningObjectives/{id}/parentLearningObjectives","parentLearningObjective", "_id");
-        Model childlearningObj = new Model(ResourceNames.LEARNINGOBJECTIVES, EntityNames.LEARNING_OBJECTIVE,
-                "{version}/learningObjectives/{id}/childLearningObjectives","_id", "parentLearningObjective");
-        translateMap.put("parentLearningObjectives",parentlearningObj);
-        translateMap.put("childLearningObjectives",childlearningObj);
+        translate(PARENT_LEARNING_OBJECTIVE).transformTo(ResourceNames.LEARNINGOBJECTIVES).
+                usingPattern("{version}/learningObjectives/{id}/parentLearningObjectives").
+                usingCollection(EntityNames.LEARNING_OBJECTIVE)
+                .withKey(PARENT_LEARNING_OBJECTIVE).andReference(ID_KEY).build();
+        translate(CHILD_LEARNING_OBJECTIVE).transformTo(ResourceNames.LEARNINGOBJECTIVES).
+                usingPattern("{version}/learningObjectives/{id}/childLearningObjectives").
+                usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(ID_KEY)
+                .andReference(PARENT_LEARNING_OBJECTIVE).build();
     }
 
     public void translate(ContainerRequest request) {
         String uri = request.getPath();
-        for (Map.Entry<String,Model> entry:translateMap.entrySet()) {
+        for (Map.Entry<String,URITranlation> entry:uriTranslationMap.entrySet()) {
             String key = entry.getKey();
             if (uri.contains(key)) {
-                translate(request,key);
+                String newPath = uriTranslationMap.get(key).translate(request.getPath());
+                request.setUris(request.getBaseUri(),
+                        request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
             }
         }
     }
+    private URITranslationBuilder translate (String resource) {
+        return new URITranslationBuilder(resource);
+    }
 
-    private void translate(ContainerRequest request, String key) {
-        Model model = translateMap.get(key);
-        final UriTemplate uriTemplate = new UriTemplate(model.getPattern());
-        Map<String, String> matchList = uriTemplate.match(request.getPath());
-        List<String> translatedIdList = new ArrayList<String>();
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria(model.getReferenceKey(), "in", Arrays.asList(matchList.get("id"))));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(0);
-        Iterable<Entity> entities = repository.findAll(model.parentEntity, neutralQuery);
+    private class URITranslationBuilder {
+        private String transformResource;
+        private String transformTo;
+        private String pattern;
+        private String parentEntity;
+        private String key;
+        private String referenceKey;
 
-        for (Entity entity: entities) {
-            if(model.getKey().equals("_id")) {
-                translatedIdList.add(entity.getEntityId());
-            } else if (entity.getBody().containsKey(model.getKey())) {
-                Object value = entity.getBody().get(model.getKey());
-                if (value instanceof String) {
-                    translatedIdList.add((String) value);
-                } else if (value instanceof List<?>) {
-                    for (String id : (List<String>) value) {
-                        translatedIdList.add(id);
-                    }
-                }
-            }
+        private URITranslationBuilder(String transformResource) {
+            this.transformResource = transformResource;
+        }
+        public URITranslationBuilder transformTo (String transformTo) {
+            this.transformTo = transformTo;
+            return this;
+        }
+        public URITranslationBuilder usingPattern (String pattern) {
+            this.pattern = pattern;
+            return this;
         }
 
-        String newPath = buildTranslatedPath(matchList,model.getTransformTo(), translatedIdList);
-        request.setUris(request.getBaseUri(),
-                request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
-    }
+        public URITranslationBuilder usingCollection (String parentEntity) {
+            this.parentEntity = parentEntity;
+            return this;
+        }
 
-    private String buildTranslatedPath(Map<String, String> matchList, String transformTo, List<String> translatedIdList) {
-        return  transformTo + "/" + StringUtils.join(translatedIdList, ",");
-    }
+        public URITranslationBuilder withKey (String key) {
+            this.key = key;
+            return this;
+        }
 
-    class Model {
+        public URITranslationBuilder andReference (String referenceKey) {
+            this.referenceKey = referenceKey;
+            return this;
+        }
+
+        public void build () {
+            uriTranslationMap.put(transformResource,
+                    new URITranlation(transformTo, pattern, parentEntity, key, referenceKey));
+        }
+    }
+    public class URITranlation {
         String transformTo;
         String pattern;
         String parentEntity;
         String key;
         String referenceKey;
 
-        public String getTransformTo() {
-            return transformTo;
-        }
-
-        public String getParentEntity() {
-            return parentEntity;
-        }
-
-        public String getPattern() {
-            return pattern;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getReferenceKey() {
-            return referenceKey;
-        }
-
-        Model(String transformTo, String parentEntity, String pattern, String key, String referenceKey) {
+        URITranlation(String transformTo, String pattern, String parentEntity, String key, String referenceKey) {
             this.transformTo = transformTo;
-            this.parentEntity = parentEntity;
             this.pattern = pattern;
+            this.parentEntity = parentEntity;
             this.key = key;
             this.referenceKey = referenceKey;
         }
+
+
+        public String translate(String requestPath) {
+            final UriTemplate uriTemplate = new UriTemplate(pattern);
+            Map<String, String> matchList = uriTemplate.match(requestPath);
+            List<String> translatedIdList = new ArrayList<String>();
+
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria(referenceKey, "in", Arrays.asList(matchList.get("id"))));
+            neutralQuery.setOffset(0);
+            neutralQuery.setLimit(0);
+            Iterable<Entity> entities = repository.findAll(parentEntity, neutralQuery);
+
+            for (Entity entity: entities) {
+                if(key.equals("_id")) {
+                    translatedIdList.add(entity.getEntityId());
+                } else if (entity.getBody().containsKey(key)) {
+                    Object value = entity.getBody().get(key);
+                    if (value instanceof String) {
+                        translatedIdList.add((String) value);
+                    } else if (value instanceof List<?>) {
+                        for (String id : (List<String>) value) {
+                            translatedIdList.add(id);
+                        }
+                    }
+                }
+            }
+            return buildTranslatedPath(translatedIdList);
+        }
+
+        private String buildTranslatedPath(  List<String> translatedIdList) {
+            return  transformTo + "/" + StringUtils.join(translatedIdList, ",");
+        }
+
+    }
+    public URITranlation getTranslator(String uri) {
+        return uriTranslationMap.get(uri);
     }
 }
