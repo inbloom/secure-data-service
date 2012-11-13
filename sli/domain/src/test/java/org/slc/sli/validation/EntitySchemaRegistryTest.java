@@ -42,7 +42,7 @@ public class EntitySchemaRegistryTest {
     @Test
     public void testFindSchemaForType() {
         String[] schemaNames = new String[] { "assessment", "student", "school", "section",
-                "studentAssessmentAssociation", "studentSchoolAssociation", "studentSectionAssociation", "teacher",
+                "studentAssessment", "studentSchoolAssociation", "studentSectionAssociation", "teacher",
                 "teacherSchoolAssociation", "teacherSectionAssociation" };
         for (String schemaName : schemaNames) {
             checkSchema(schemaName);

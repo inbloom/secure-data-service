@@ -6,7 +6,6 @@
         "fieldPath" : "body.schoolId","ref" :
         {
             "entityType" : "educationOrganization",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -27,7 +26,6 @@
         "ref" :
         {
             "entityType" : "staff",
-            "givesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

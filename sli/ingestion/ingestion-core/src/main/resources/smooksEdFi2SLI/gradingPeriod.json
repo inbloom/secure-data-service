@@ -27,7 +27,6 @@
                     "fieldPath" : "body.gradingPeriodIdentity.schoolId",
                     "ref" : {
                         "entityType" : "educationOrganization",
-                        "takesContext" : ["edOrgs"],
                         "choiceOfFields" :
                                 [
                                     [

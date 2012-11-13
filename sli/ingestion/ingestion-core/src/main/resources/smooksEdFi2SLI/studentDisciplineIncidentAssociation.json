@@ -27,7 +27,6 @@
         "ref" :
         {
             "entityType" : "disciplineIncident",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

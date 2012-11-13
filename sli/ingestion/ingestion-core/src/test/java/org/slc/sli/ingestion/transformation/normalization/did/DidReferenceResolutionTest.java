@@ -116,7 +116,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    @Ignore
     public void resolvesEdOrgRefDidInStudentSchoolAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/studentSchoolAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -127,7 +126,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    @Ignore
     public void resolvesEdOrgRefDidInStudentProgramAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         ErrorReport errorReport = new TestErrorReport();
@@ -221,7 +219,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    @Ignore
     public void resolvesEdOrgRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         Entity entity = loadEntity("didTestEntities/staffEducationOrgAssignmentAssociation.json");
         ErrorReport errorReport = new TestErrorReport();

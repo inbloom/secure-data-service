@@ -104,6 +104,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition studentCompetencyObjective = factory.makeEntity(EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
                 ResourceNames.STUDENT_COMPETENCY_OBJECTIVES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS)
+                .buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
                 ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
         factory.makeEntity(EntityNames.DISCIPLINE_ACTION, ResourceNames.DISCIPLINE_ACTIONS).buildAndRegister(this);
@@ -155,8 +157,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .build();
         addDefinition(teacherSectionAssociation);
 
-        AssociationDefinition studentAssessment = factory.makeAssoc("studentAssessmentAssociation", "studentAssessments")
-                .exposeAs(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS).storeAs("studentAssessmentAssociation")
+        AssociationDefinition studentAssessment = factory.makeAssoc("studentAssessment", "studentAssessments")
+                .exposeAs(ResourceNames.STUDENT_ASSESSMENTS).storeAs("studentAssessment")
                 .from(student, "getStudent", "getStudents").to(assessment, "getAssessment", "getAssessments")
                 .calledFromSource("getStudentAssessments")
                 .calledFromTarget("getStudentAssessments").build();

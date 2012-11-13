@@ -19021,7 +19021,7 @@
     <rhs>
       <name>linguisticAccommodations</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19033,7 +19033,7 @@
     <rhs>
       <name>serialNumber</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19081,7 +19081,7 @@
     <rhs>
       <name>administrationLanguage</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19117,7 +19117,7 @@
     <rhs>
       <name>student</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19189,7 +19189,7 @@
     <rhs>
       <name>studentObjectiveAssessments</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19213,7 +19213,7 @@
     <rhs>
       <name>administrationDate</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19225,7 +19225,7 @@
     <rhs>
       <name>performanceLevelDescriptors</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19249,7 +19249,7 @@
     <rhs>
       <name>administrationEndDate</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19297,7 +19297,7 @@
     <rhs>
       <name>specialAccommodations</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19321,7 +19321,7 @@
     <rhs>
       <name>administrationEnvironment</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19333,7 +19333,7 @@
     <rhs>
       <name>studentAssessmentItems</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19369,7 +19369,7 @@
     <rhs>
       <name>retestIndicator</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19381,7 +19381,7 @@
     <rhs>
       <name>scoreResults</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19405,7 +19405,7 @@
     <rhs>
       <name>reasonNotTested</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19417,7 +19417,7 @@
     <rhs>
       <name>gradeLevelWhenAssessed</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -19453,7 +19453,7 @@
     <rhs>
       <name>assessment</name>
       <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>

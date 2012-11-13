@@ -55,8 +55,8 @@ db.runCommand( { shardcollection : "is.staffProgramAssociation", key : {"batchJo
 db.runCommand( { shardcollection : "is.stateEducationAgency", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.student", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentAcademicRecord", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.studentAssessmentAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.studentAssessmentAssociation_transformed", key : {"batchJobId" : 1, "_id" : 1} } );
+db.runCommand( { shardcollection : "is.studentAssessment", key : {"batchJobId" : 1, "_id" : 1} } );
+db.runCommand( { shardcollection : "is.studentAssessment_transformed", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentAssessmentItem", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentCohortAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentCompetency", key : {"batchJobId" : 1, "_id" : 1} } );

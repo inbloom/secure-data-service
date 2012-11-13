@@ -44,7 +44,7 @@ Scenario Outline:  As a leader I want to get the following attrubutes for all th
              And the "AssessmentPerformanceLevel" levels contain a "Code" value of "3"
              And the "AssessmentPerformanceLevel" levels contain a "Code" value of "4"
              And the "AssessmentPerformanceLevel" levels contain a "Code" value of "5"
-             And I should recieve a link to "getStudentAssessmentAssociations" with URI "/student-assessment-associations/<'AP English' ID>"
+             And I should recieve a link to "getStudentAssessments" with URI "/student-assessments/<'AP English' ID>"
       
       When I navigate to GET "/student-section-association/<'Each Section' ID>/targets"
         Then I should receive a collection of 5 student links

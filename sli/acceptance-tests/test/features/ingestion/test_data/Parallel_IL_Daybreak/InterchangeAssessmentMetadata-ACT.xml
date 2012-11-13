@@ -40,10 +40,7 @@
 		</ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT</ID>
-				</AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
