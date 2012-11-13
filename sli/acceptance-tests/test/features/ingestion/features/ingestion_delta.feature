@@ -36,7 +36,7 @@ Scenario: Job report should report deltas when SDS is ingested twice
         | staffProgramAssociation               |
         | student                               |
         | studentAcademicRecord                 |
-        | studentAssessmentAssociation          |
+        | studentAssessment          |
         | studentCohortAssociation              |
         | studentCompetency                     |
         | studentCompetencyObjective            |
@@ -118,7 +118,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessmentAssociation|
+        | studentAssessment|
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |

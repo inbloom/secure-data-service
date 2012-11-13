@@ -50,29 +50,29 @@ public class StudentAssessmentOptionalFieldAppender implements OptionalFieldAppe
         //get the student Ids
         List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
         //get the student assessment associations for the students
-        List<EntityBody> studentAssessmentAssociations = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS,
+        List<EntityBody> studentAssessments = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ASSESSMENTS,
                 ParameterConstants.STUDENT_ID, studentIds);
 
         //get the assessment ids from the associations
-        List<String> assessmentIds = optionalFieldAppenderHelper.getIdList(studentAssessmentAssociations, ParameterConstants.ASSESSMENT_ID);
+        List<String> assessmentIds = optionalFieldAppenderHelper.getIdList(studentAssessments, ParameterConstants.ASSESSMENT_ID);
         //get a list of assessments
         List<EntityBody> assessments = optionalFieldAppenderHelper.queryEntities(ResourceNames.ASSESSMENTS, "_id", assessmentIds);
 
         for (EntityBody student : entities) {
             //get the student assessment associations for the given student
-            List<EntityBody> studentAssessmentAssociationsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentAssessmentAssociations, ParameterConstants.STUDENT_ID,
+            List<EntityBody> studentAssessmentsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentAssessments, ParameterConstants.STUDENT_ID,
                     (String) student.get("id"));
 
-            for (EntityBody studentAssessmentAssociation : studentAssessmentAssociationsForStudent) {
+            for (EntityBody studentAssessment : studentAssessmentsForStudent) {
                 //get the assessment
                 EntityBody assessment = optionalFieldAppenderHelper.getEntityFromList(assessments, "id",
-                        (String) studentAssessmentAssociation.get(ParameterConstants.ASSESSMENT_ID));
+                        (String) studentAssessment.get(ParameterConstants.ASSESSMENT_ID));
 
-                studentAssessmentAssociation.put(PathConstants.ASSESSMENTS, assessment);
+                studentAssessment.put(PathConstants.ASSESSMENTS, assessment);
             }
 
             //add the body to the student
-            student.put(PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS, studentAssessmentAssociationsForStudent);
+            student.put(PathConstants.STUDENT_ASSESSMENTS, studentAssessmentsForStudent);
         }
 
         return entities;

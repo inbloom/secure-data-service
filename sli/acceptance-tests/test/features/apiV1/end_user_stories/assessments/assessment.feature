@@ -63,11 +63,11 @@ Background: None
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
         And I submit the sorting and pagination request
-        Then I should have a list of "studentAssessmentAssociation" entities
+        Then I should have a list of "studentAssessment" entities
         And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
-      Then I should have a list of 1 "studentAssessmentAssociation" entities
+      Then I should have a list of 1 "studentAssessment" entities
         And "administrationDate" should be "2011-09-15"
         And "administrationEndDate" should be "2011-12-15"
         And "retestIndicator" should be "Primary Administration"
@@ -151,11 +151,11 @@ Examples:
         And filter by "offset" = "0"
         #And filter by "limit" = "1"
         And I submit the sorting and pagination request
-      Then I should have a list of "studentAssessmentAssociation" entities
+      Then I should have a list of "studentAssessment" entities
         And I should have an entity with ID "<'Most Recent SAT Student Assessment Association' ID>"
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>"
-      Then I should have a list of 1 "studentAssessmentAssociation" entities
+      Then I should have a list of 1 "studentAssessment" entities
         And "administrationDate" should be "2011-05-10"
         And "administrationEndDate" should be "2011-06-15"
         And "gradeLevelWhenAssessed" should be "Twelfth grade"

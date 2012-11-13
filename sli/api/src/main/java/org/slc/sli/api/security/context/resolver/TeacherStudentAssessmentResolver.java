@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TeacherStudentAssessmentAssociationResolver implements EntityContextResolver {
+public class TeacherStudentAssessmentResolver implements EntityContextResolver {
     @Autowired
     private TeacherStudentResolver studentResolver;
     
@@ -46,7 +46,7 @@ public class TeacherStudentAssessmentAssociationResolver implements EntityContex
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType)
-                && EntityNames.STUDENT_ASSESSMENT_ASSOCIATION.equals(toEntityType);
+                && EntityNames.STUDENT_ASSESSMENT.equals(toEntityType);
     }
     
     @Override
@@ -57,13 +57,13 @@ public class TeacherStudentAssessmentAssociationResolver implements EntityContex
         } else {
             studentIds = new ArrayList<String>(securityCache.retrieve(EntityNames.STUDENT));
         }
-        Iterable<String> saaIds = repo.findAllIds(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, new NeutralQuery(
+        Iterable<String> saaIds = repo.findAllIds(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentIds)));
         List<String> ids = new ArrayList<String>();
         for (String id : saaIds) {
             ids.add(id);
         }
-        securityCache.warm(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, new HashSet<String>(ids));
+        securityCache.warm(EntityNames.STUDENT_ASSESSMENT, new HashSet<String>(ids));
         return ids;
     }
     

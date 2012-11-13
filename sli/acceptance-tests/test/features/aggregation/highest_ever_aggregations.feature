@@ -13,7 +13,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
         | student                      |
         | studentSchoolAssociation     |
         | studentSectionAssociation    |
-        | studentAssessmentAssociation |
+        | studentAssessment |
     When zip file is scp to ingestion landing zone
       And a batch job log has been created
     Then I should see following map of entry counts in the corresponding collections:
@@ -21,7 +21,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
         | student                      | 350   |
         | studentSchoolAssociation     | 350   |
         | studentSectionAssociation    | 350   |
-        | studentAssessmentAssociation | 3500  |
+        | studentAssessment | 3500  |
 
     When I run the highest ever aggregation job
     Then I see the expected number of <Collection> records for <Assessment> with score <Score> is <Count>:

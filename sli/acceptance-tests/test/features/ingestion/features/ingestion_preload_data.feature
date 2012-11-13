@@ -39,7 +39,7 @@ Scenario: Preload Small Sample Data Set
      | staffProgramAssociation                   |
      | student                                   |
      | studentAcademicRecord                     |
-     | studentAssessmentAssociation              |
+     | studentAssessment              |
      | studentCohortAssociation                  |
      | studentCompetency                         |
      | studentCompetencyObjective                |
@@ -90,7 +90,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation                  |                  7|
      | student                                  |                 78|
      | studentAcademicRecord                    |                117|
-     | studentAssessmentAssociation             |                203|
+     | studentAssessment             |                203|
      | studentCohortAssociation                 |                  6|
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
