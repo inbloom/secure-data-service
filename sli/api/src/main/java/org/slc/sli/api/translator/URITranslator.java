@@ -50,6 +50,7 @@ public class URITranslator {
 
     private static String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
     private static String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
+    private static String LEARNING_STANDARD = "learningStandards";
     private static String ID_KEY = "_id";
 
     public URITranslator() {
@@ -61,6 +62,10 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/childLearningObjectives").
                 usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(ID_KEY)
                 .andReference(PARENT_LEARNING_OBJECTIVE).build();
+        translate(LEARNING_STANDARD).transformTo(ResourceNames.LEARNINGSTANDARDS).
+                usingPattern("{version}/learningObjectives/{id}/learningStandards").
+                usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(ID_KEY)
+                .andReference(LEARNING_STANDARD).build();
     }
 
     public void translate(ContainerRequest request) {
