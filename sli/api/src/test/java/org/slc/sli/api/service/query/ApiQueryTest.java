@@ -65,20 +65,30 @@ public class ApiQueryTest {
     @Test
     public void testToString() throws URISyntaxException {
 
-        String queryString = "selector=:(field1,link1:(*,field2:false))";
+        //String queryString = "selector=:(field1,link1:(*,field2:false))";
 
         //the selector gets parsed and stored in a map so there's no concept of ordering
         List<String> equivalentStrings = new ArrayList<String>();
-        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(*,field2:false))");
-        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(field2:false,*))");
-        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(*,field2:false),field1)");
-        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(field2:false,*),field1)");
+        equivalentStrings.add("offset=0&limit=50");
+        equivalentStrings.add("offset=0&limit=50");
+        equivalentStrings.add("offset=0&limit=50");
+        equivalentStrings.add("offset=0&limit=50");
 
-        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        URI requestUri = new URI(URI_STRING);
         when(uriInfo.getRequestUri()).thenReturn(requestUri);
         ApiQuery apiQuery = new ApiQuery(uriInfo);
 
         assertTrue(equivalentStrings.contains(apiQuery.toString()));
+    }
+
+    @Test (expected = QueryParseException.class)
+    public void testToStringWithSelectors() throws URISyntaxException {
+
+        String queryString = "selector=:(field1,link1:(*,field2:false))";
+
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        ApiQuery apiQuery = new ApiQuery(uriInfo);
     }
 
     @Test
