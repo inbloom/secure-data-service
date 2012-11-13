@@ -33,7 +33,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -42,7 +41,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.Ref;
@@ -76,9 +74,6 @@ public class DeterministicIdResolverTest {
     @Mock
     private EntityConfigFactory entityConfigs;
 
-    @Mock
-    private ContextTaker contextTaker;
-
     private static final String TENANT = "tenant";
     private static final String ENTITY_TYPE = "entity_type";
     private static final String SRC_KEY_FIELD = "key_field";
@@ -105,7 +100,6 @@ public class DeterministicIdResolverTest {
     public void setup() {
         didResolver = new DeterministicIdResolver();
         entityConfigs = Mockito.mock(EntityConfigFactory.class);
-        contextTaker = Mockito.mock(ContextTaker.class);
         Mockito.when(entityConfigs.getEntityConfiguration(Mockito.anyString())).thenReturn(null);
 
         MockitoAnnotations.initMocks(this);
@@ -165,10 +159,6 @@ public class DeterministicIdResolverTest {
 
         Assert.assertEquals(DID_VALUE, entity.getBody().get(REF_FIELD));
         Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
-
-        // unable to mock contextTaker.addContext() because return type is void
-        Mockito.verify(contextTaker, Mockito.times(1)).addContext(Mockito.eq(entity), Mockito.anyListOf(String.class),
-                Mockito.eq(""), Mockito.any(Query.class), Mockito.anyListOf(String.class));
     }
 
     @Test

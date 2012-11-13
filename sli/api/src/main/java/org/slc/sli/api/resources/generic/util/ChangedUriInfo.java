@@ -31,9 +31,11 @@ import javax.ws.rs.core.UriInfo;
 public class ChangedUriInfo implements UriInfo {
 
 	private URI uri;
+	private UriBuilder baseUriBuilder;
 
-    public ChangedUriInfo(String uri, String queryString, UriBuilder builder) {
-        this.uri = builder.path(uri).replaceQuery(queryString).build();
+    public ChangedUriInfo(String uri, UriBuilder builder) {
+        this.uri = URI.create(uri);
+	    this.baseUriBuilder = builder;
 	}
 
 	@Override
@@ -90,7 +92,7 @@ public class ChangedUriInfo implements UriInfo {
 
 	@Override
 	public UriBuilder getBaseUriBuilder() {
-		return getRequestUriBuilder();
+		return this.baseUriBuilder.clone();
 	}
 
 	@Override

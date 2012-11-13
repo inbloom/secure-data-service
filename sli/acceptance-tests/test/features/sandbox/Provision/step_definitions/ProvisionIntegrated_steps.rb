@@ -261,7 +261,9 @@ When /^the developer go to the provisioning application web page$/ do
 end
 
 When /^I provision a Landing zone$/ do
+  disable_NOTABLESCAN
   @driver.find_element(:id, "provisionButton").click
+  enable_NOTABLESCAN
 end
 
 When /^the Ingestion Admin provision a Landing zone$/ do

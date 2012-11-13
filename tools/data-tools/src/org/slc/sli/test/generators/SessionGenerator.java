@@ -28,6 +28,7 @@ import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
+import org.slc.sli.test.edfi.entities.GradingPeriodType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
@@ -39,8 +40,8 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SessionGenerator {
 
-    private String beginDate = "2011-03-04";
-    private String endDate = "2012-03-04";
+    private String beginDate = "2011-03-01";
+    private String endDate = "2012-03-01";
     Random generator = new Random(31);
 
     public Session sessionGenerator(List<String> stateOrgIds) {
@@ -68,7 +69,7 @@ public class SessionGenerator {
         session.setEducationOrganizationReference(eort);
 
         SLCGradingPeriodIdentityType gpit = new SLCGradingPeriodIdentityType();
-        gpit.setGradingPeriod(GradingPeriodGenerator.getGradingPeriodType(generator.nextInt(20) + 1));
+        gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
         gpit.setBeginDate(beginDate);
         // System.out.println("this is grading period Type :" +
         // gpit.getGradingPeriod());
@@ -101,6 +102,10 @@ public class SessionGenerator {
         // session.getGradingPeriodReference().get(0).getGradingPeriodIdentity().getStateOrganizationIdOrEducationOrgIdentificationCode().get(1));
 
         return session;
+    }
+
+    public GradingPeriodType getGradingPeriodType() {
+        return GradingPeriodType.FIRST_NINE_WEEKS;
     }
 
     public TermType getTermType() {
@@ -183,7 +188,7 @@ public class SessionGenerator {
                 eort.setEducationalOrgIdentity(eoit);
                 gpit.setEducationalOrgReference(eort);
 
-                gpit.setGradingPeriod(GradingPeriodGenerator.getGradingPeriodType(gradingPeriodNum.intValue()));
+                gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
                 gpit.setBeginDate("2011-03-04");
 
                 GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();

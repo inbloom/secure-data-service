@@ -295,10 +295,7 @@
     <MaxRawScore>450</MaxRawScore>
     <AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>StateTest Writing for Grade 8</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </Assessment>
@@ -319,10 +316,7 @@
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>StateTest</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
@@ -335,10 +329,7 @@
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>StateTest Reading for Grades 3-8</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
@@ -351,10 +342,7 @@
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>StateTest</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
@@ -367,10 +355,7 @@
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>StateTest Writing for Grades 3-8</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
@@ -418,10 +403,7 @@
 	</AssessmentPeriod>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>READ2_NEXT</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>READ2_NEXT</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </Assessment>
@@ -443,10 +425,7 @@
 	</AssessmentPeriod>
 	<AssessmentFamilyReference>
 		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>READ2_NEXT</ID>
-			</AssessmentFamilyIdentificationCode>
+          <AssessmentFamilyTitle>READ2_NEXT</AssessmentFamilyTitle>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>
   </Assessment>
@@ -465,9 +444,7 @@
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentiy>
-				<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-					<ID>READ2</ID>
-				</AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>READ2</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentiy>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>

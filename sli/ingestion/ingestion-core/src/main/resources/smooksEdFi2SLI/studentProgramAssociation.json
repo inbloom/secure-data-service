@@ -7,7 +7,6 @@
         "ref" :
         {
             "entityType" : "student",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [
@@ -44,10 +43,10 @@
     },
     {
         "fieldPath" : "body.educationOrganizationId",
+        "deprecated" : true,
         "ref" :
         {
             "entityType" : "educationOrganization",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields" :
             [
                 [

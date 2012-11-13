@@ -31,8 +31,6 @@ public class Ref {
     private boolean isRefList = false;
     private String refObjectPath;
     private boolean optional = false;
-    private List<String> givesContext;
-    private List<String> takesContext;
 
     public String getEntityType() {
         return entityType;
@@ -74,22 +72,6 @@ public class Ref {
         return optional;
     }
 
-    public List<String> getGivesContext() {
-        return givesContext;
-    }
-
-    public void setGivesContext(List<String> givesContext) {
-        this.givesContext = givesContext;
-    }
-
-    public List<String> getTakesContext() {
-        return takesContext;
-    }
-
-    public void setTakesContext(List<String> takesContext) {
-        this.takesContext = takesContext;
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -97,9 +79,7 @@ public class Ref {
         builder.append("choiceOfFields=").append(choiceOfFields).append(", ");
         builder.append("isRefList=").append(isRefList).append(", ");
         builder.append("refObjectPath=").append(refObjectPath).append(", ");
-        builder.append("optional=").append(optional).append(", ");
-        builder.append("givesContext=").append(givesContext).append(", ");
-        builder.append("takesContext=").append(takesContext);
+        builder.append("optional=").append(optional);
         builder.append("}]");
         return builder.toString();
     }
