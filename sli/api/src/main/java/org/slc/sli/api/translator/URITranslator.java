@@ -143,6 +143,9 @@ public class URITranslator {
         public String translate(String requestPath) {
             final UriTemplate uriTemplate = new UriTemplate(pattern);
             Map<String, String> matchList = uriTemplate.match(requestPath);
+            if (matchList.isEmpty()) {
+                return requestPath;
+            }
             List<String> translatedIdList = new ArrayList<String>();
 
             NeutralQuery neutralQuery = new NeutralQuery();
