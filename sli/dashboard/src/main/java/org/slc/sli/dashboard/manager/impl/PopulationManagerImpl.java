@@ -995,126 +995,117 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         // get attendance for the student
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
-        for (Map<String, Object> targetAttendance : attendanceList) {
+        // sort by schoolYear
+        GenericEntityComparator comparator = new GenericEntityComparator(Constants.ATTR_SCHOOL_YEAR,
+                String.class);
+        Collections.sort(attendanceList, Collections.reverseOrder(comparator));
 
-            // get schoolYearAttendance
-            List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) targetAttendance
-                    .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
-            if (schoolYearAttendances != null) {
+        for (Map<String, Object> schoolYearAttendance : attendanceList) {
+            int inAttendanceCount = 0;
+            int absenceCount = 0;
+            int excusedAbsenceCount = 0;
+            int unexcusedAbsenceCount = 0;
+            int tardyCount = 0;
+            int earlyDepartureCount = 0;
+            int totalCount = 0;
 
-                // sort by schoolYear
-                GenericEntityComparator comparator = new GenericEntityComparator(Constants.ATTR_SCHOOL_YEAR,
-                        String.class);
-                Collections.sort(schoolYearAttendances, Collections.reverseOrder(comparator));
+            // get schoolYear
+            String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
 
-                for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
-                    int inAttendanceCount = 0;
-                    int absenceCount = 0;
-                    int excusedAbsenceCount = 0;
-                    int unexcusedAbsenceCount = 0;
-                    int tardyCount = 0;
-                    int earlyDepartureCount = 0;
-                    int totalCount = 0;
-
-                    // get schoolYear
-                    String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
-
-                    // if some reasons we cannot find currentSchoolYear, then display all histories
-                    // if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
-                    // then exam whether current loop is within user defined yearsBack
-                    if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
-                        int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
-                        // if yearsBack is 1, it means current schoolYear.
-                        // break from the loop if currentSchoolYear-targetYear is over yearsBack.
-                        if ((currentSchoolYear - targetYear) >= intYearsBack) {
-                            break;
-                        }
-                    }
-
-                    // get attendanceEvent
-                    List<LinkedHashMap<String, Object>> attendanceEvents = (List<LinkedHashMap<String, Object>>) schoolYearAttendance
-                            .get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
-
-                    // count each attendance event
-                    if (attendanceEvents != null) {
-                        for (Map<String, Object> attendanceEvent : attendanceEvents) {
-                            String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-                            if (event != null) {
-                                totalCount++;
-                                if (event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-                                    inAttendanceCount++;
-                                } else if (event.equals(Constants.ATTR_ATTENDANCE_ABSENCE)) {
-                                    absenceCount++;
-                                } else if (event.equals(Constants.ATTR_ATTENDANCE_EXCUSED_ABSENCE)) {
-                                    excusedAbsenceCount++;
-                                } else if (event.equals(Constants.ATTR_ATTENDANCE_UNEXCUSED_ABSENCE)) {
-                                    unexcusedAbsenceCount++;
-                                } else if (event.equals(Constants.ATTR_ATTENDANCE_TARDY)) {
-                                    tardyCount++;
-                                } else if (event.equals(Constants.ATTR_ATTENDANCE_EARLY_DEPARTURE)) {
-                                    earlyDepartureCount++;
-                                }
-                            }
-                        }
-                    }
-                    // get target school year enrollment
-                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
-                    GenericEntity currentTermAttendance = new GenericEntity();
-
-                    // set school term
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
-
-                    String nameOfInstitution = "";
-                    // get school name from enrollment
-                    if (enrollment != null) {
-                        Map<String, Object> school = (Map<String, Object>) enrollment
-                                .get(Constants.ATTR_SCHOOL);
-                        if (school != null) {
-                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
-                        }
-                    }
-                    // set school name
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_SCHOOL, nameOfInstitution);
-
-                    String gradeLevel = "";
-                    // set grade level
-                    if (enrollment != null) {
-                        gradeLevel = (String) enrollment.get(Constants.ATTR_ENROLLMENT_ENTRY_GRADE_LEVEL_CODE);
-                    }
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_GRADE_LEVEL, gradeLevel);
-
-                    // set %Present
-                    currentTermAttendance
-                            .put(Constants.ATTENDANCE_HISTORY_PRESENT,
-                                    numberFormat
-                                            .format(totalCount == 0 ? 0
-                                                    : ((inAttendanceCount + tardyCount + earlyDepartureCount) / (double) totalCount) * 100));
-                    // set In Attendance
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_IN_ATTENDANCE, inAttendanceCount);
-
-                    // set Total Absences
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TOTAL_ABSENCES, absenceCount
-                            + excusedAbsenceCount + unexcusedAbsenceCount);
-
-                    // set Absence
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_ABSENCE, absenceCount);
-
-                    // set Excused Absences
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_EXCUSED, excusedAbsenceCount);
-
-                    // set Unexcused Absences
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_UNEXCUSED, unexcusedAbsenceCount);
-
-                    // set Tardy
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TARDY, tardyCount);
-
-                    // set Early departure
-                    currentTermAttendance.put(Constants.ATTENDANCE_EARLY_DEPARTURE, earlyDepartureCount);
-
-                    // Add to attendance list
-                    attendance.appendToList("attendance", currentTermAttendance);
+            // if some reasons we cannot find currentSchoolYear, then display all histories
+            // if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
+            // then exam whether current loop is within user defined yearsBack
+            if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
+                int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
+                // if yearsBack is 1, it means current schoolYear.
+                // break from the loop if currentSchoolYear-targetYear is over yearsBack.
+                if ((currentSchoolYear - targetYear) >= intYearsBack) {
+                    break;
                 }
             }
+
+            // get attendanceEvent
+            List<LinkedHashMap<String, Object>> attendanceEvents = (List<LinkedHashMap<String, Object>>) schoolYearAttendance
+                    .get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+
+            // count each attendance event
+            if (attendanceEvents != null) {
+                for (Map<String, Object> attendanceEvent : attendanceEvents) {
+                    String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+                    if (event != null) {
+                        totalCount++;
+                        if (event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+                            inAttendanceCount++;
+                        } else if (event.equals(Constants.ATTR_ATTENDANCE_ABSENCE)) {
+                            absenceCount++;
+                        } else if (event.equals(Constants.ATTR_ATTENDANCE_EXCUSED_ABSENCE)) {
+                            excusedAbsenceCount++;
+                        } else if (event.equals(Constants.ATTR_ATTENDANCE_UNEXCUSED_ABSENCE)) {
+                            unexcusedAbsenceCount++;
+                        } else if (event.equals(Constants.ATTR_ATTENDANCE_TARDY)) {
+                            tardyCount++;
+                        } else if (event.equals(Constants.ATTR_ATTENDANCE_EARLY_DEPARTURE)) {
+                            earlyDepartureCount++;
+                        }
+                    }
+                }
+            }
+            // get target school year enrollment
+            LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
+            GenericEntity currentTermAttendance = new GenericEntity();
+
+            // set school term
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
+
+            String nameOfInstitution = "";
+            // get school name from enrollment
+            if (enrollment != null) {
+                Map<String, Object> school = (Map<String, Object>) enrollment
+                        .get(Constants.ATTR_SCHOOL);
+                if (school != null) {
+                    nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
+                }
+            }
+            // set school name
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_SCHOOL, nameOfInstitution);
+
+            String gradeLevel = "";
+            // set grade level
+            if (enrollment != null) {
+                gradeLevel = (String) enrollment.get(Constants.ATTR_ENROLLMENT_ENTRY_GRADE_LEVEL_CODE);
+            }
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_GRADE_LEVEL, gradeLevel);
+
+            // set %Present
+            currentTermAttendance
+                    .put(Constants.ATTENDANCE_HISTORY_PRESENT,
+                            numberFormat
+                                    .format(totalCount == 0 ? 0
+                                            : ((inAttendanceCount + tardyCount + earlyDepartureCount) / (double) totalCount) * 100));
+            // set In Attendance
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_IN_ATTENDANCE, inAttendanceCount);
+
+            // set Total Absences
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TOTAL_ABSENCES, absenceCount
+                    + excusedAbsenceCount + unexcusedAbsenceCount);
+
+            // set Absence
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_ABSENCE, absenceCount);
+
+            // set Excused Absences
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_EXCUSED, excusedAbsenceCount);
+
+            // set Unexcused Absences
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_UNEXCUSED, unexcusedAbsenceCount);
+
+            // set Tardy
+            currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TARDY, tardyCount);
+
+            // set Early departure
+            currentTermAttendance.put(Constants.ATTENDANCE_EARLY_DEPARTURE, earlyDepartureCount);
+
+            // Add to attendance list
+            attendance.appendToList("attendance", currentTermAttendance);
         }
         return attendance;
     }
