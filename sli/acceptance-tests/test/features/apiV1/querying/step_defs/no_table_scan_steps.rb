@@ -48,7 +48,8 @@ Then /^I should not encounter any table scans$/ do
 end
 
 def resources
-  v1_resources = JSON.parse(File.read('/Users/jstokes/Documents/workspace/SLI/sli/api/src/main/resources/wadl/v1_resources.json'))['resources']
+config_path = File.expand_path("../../../../../../../api/src/main/resources/wadl/v1_resources.json", __FILE__)
+  v1_resources = JSON.parse(File.read(config_path))['resources']
   paths = get_resource_paths v1_resources
   paths.each do |path|
     if path.include? "{id}"
