@@ -60,5 +60,10 @@ Then /^the response at position (\d)+ should include the information (.+)$/ do |
 end
 
 Then /^I should see a total of (\d+) entities$/ do |arg1|
-  assert(@result.size == convert(arg1), "Expected to see #{arg1} entities, actual number #{@result.size}")
+  if @result.class == {}.class
+    size = 0
+  else
+    size = @result.size
+  end
+  assert(size == convert(arg1), "Expected to see #{arg1} entities, actual number #{@result.size}")
 end
