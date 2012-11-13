@@ -49,14 +49,6 @@ public class AssessmentItemTest {
             + "  <ItemCategory>List Question</ItemCategory>"
             + "  <MaxRawScore>100</MaxRawScore>"
             + "  <CorrectResponse>Hello World!</CorrectResponse>"
-            + "   <AssessmentReference>"
-            + "    <AssessmentIdentity>"
-            + "      <AssessmentTitle>c-aKzuT08</AssessmentTitle>"
-            + "      <AcademicSubject>English</AcademicSubject>"
-            + "      <GradeLevelAssessed>Postsecondary</GradeLevelAssessed>"
-            + "      <Version>1</Version>"
-            + "    </AssessmentIdentity>"
-            + "  </AssessmentReference>"
             + "  <LearningStandardReference>"
             + "    <LearningStandardIdentity>"
             + "      <LearningStandardId ContentStandardName='Common Core'>"
@@ -97,15 +89,18 @@ public class AssessmentItemTest {
         Assert.assertEquals("id-code-2", refs.get(1).get("identificationCode"));
         Assert.assertEquals("Unusual Periphery", refs.get(1).get("contentStandardName"));
         
-        Map<String, Object> assessmentRef = (Map<String, Object>) nr.getAttributes().get("assessmentReference");
-        Assert.assertNotNull(assessmentRef);
-        Map<String, Object> assessmentIdentity = (Map<String, Object>) assessmentRef.get("AssessmentIdentity");
-        Assert.assertNotNull(assessmentIdentity);
-        Assert.assertEquals("c-aKzuT08", assessmentIdentity.get("AssessmentTitle"));
-        Assert.assertEquals("English", assessmentIdentity.get("AcademicSubject"));
-        Assert.assertEquals("Postsecondary", assessmentIdentity.get("GradeLevelAssessed"));
-        Assert.assertEquals(1, assessmentIdentity.get("Version"));
-
+        /*
+         * Map<String, Object> assessmentRef = (Map<String, Object>)
+         * nr.getAttributes().get("assessmentReference");
+         * Assert.assertNotNull(assessmentRef);
+         * Map<String, Object> assessmentIdentity = (Map<String, Object>)
+         * assessmentRef.get("AssessmentIdentity");
+         * Assert.assertNotNull(assessmentIdentity);
+         * Assert.assertEquals("c-aKzuT08", assessmentIdentity.get("AssessmentTitle"));
+         * Assert.assertEquals("English", assessmentIdentity.get("AcademicSubject"));
+         * Assert.assertEquals("Postsecondary", assessmentIdentity.get("GradeLevelAssessed"));
+         * Assert.assertEquals(1, assessmentIdentity.get("Version"));
+         */
         Assert.assertEquals("nomen", m.get("nomenclature"));
     }
 }

@@ -173,11 +173,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     // model does not has this attribute, it will not pass the validation when save
                     // to sli db. The assessmentreference will be used for supporting out of order
                     // ingestion in the future
-                    Map<String, Object> itemAttributes = record.getAttributes();
-                    if (itemAttributes.containsKey("assessmentReference")) {
-                        itemAttributes.remove("assessmentReference");
-                    }
-                    assessmentItems.add(itemAttributes);
+                    /*
+                     * Map<String, Object> itemAttributes = record.getAttributes();
+                     * if (itemAttributes.containsKey("assessmentReference")) {
+                     * itemAttributes.remove("assessmentReference");
+                     * }
+                     * assessmentItems.add(itemAttributes);
+                     */
+                    assessmentItems.add(record.getAttributes());
                 }
 
                 return assessmentItems;

@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessmentAssociation entities.
@@ -357,12 +356,15 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
+                         * 
+                         * 
+                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                         * assessmentItemAttrs.remove("assessmentReference");
+                         * }
+                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                          */
-                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                            assessmentItemAttrs.remove("assessmentReference");
-                        }
-                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
+                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
@@ -409,12 +411,15 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
+                         * 
+                         * 
+                         * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
+                         * if (assessmentItemAttrs.containsKey("assessmentReference")) {
+                         * assessmentItemAttrs.remove("assessmentReference");
+                         * }
+                         * sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
                          */
-                        Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
-                        if (assessmentItemAttrs.containsKey("assessmentReference")) {
-                            assessmentItemAttrs.remove("assessmentReference");
-                        }
-                        sai.getAttributes().put("assessmentItem", assessmentItemAttrs);
+                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
                     } else {
                         super.getErrorReport(sai.getSourceFile()).error(
                                 "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
