@@ -2075,7 +2075,8 @@
 
   <jb:bean beanId="graduationPlanMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/GraduationPlan">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'graduationPlanType,EducationOrganizationReference'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'graduationPlanType'</jb:expression>
+    <jb:expression property="optionalNeutralRecordKeyValueFieldNames">'EducationOrganizationReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="graduationPlanAttributes" class="java.util.HashMap"
@@ -2765,7 +2766,7 @@
   
     <jb:bean beanId="studentGradebookEntryMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'studentId,GradebookEntryReference,studentSectionAssociationReference'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'GradebookEntryReference,studentSectionAssociationReference'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="studentGradebookEntryAttributes" class="java.util.HashMap"

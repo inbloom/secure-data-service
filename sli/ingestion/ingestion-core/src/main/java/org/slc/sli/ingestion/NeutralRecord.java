@@ -183,34 +183,9 @@ public class NeutralRecord implements Cloneable {
             // Determine the neutralrecord key fields from smooks config - temporary solution until annotations are added identifying key fields in SLI-Ed-Fi.xsd
             // that can be mapped deterministically to the neutralrecord fields
             Map<String, String> naturalKeys = new HashMap<String, String>();
-            // TODO: Add handling for compound natural key field names - comma delimited list?
-            String keyValueFieldNames = MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames");
-            if (keyValueFieldNames == null) {
-                System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
-                throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
-            }
-            StringTokenizer fieldNameTokenizer = new StringTokenizer(keyValueFieldNames, ",");
-            while (fieldNameTokenizer.hasMoreElements()) {
-                String fieldName = (String) fieldNameTokenizer.nextElement();
-                // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate SLC-Ed-Fi.xml
-//                String strValue = MapUtils.getString(attributes, fieldName);
-                Object value = null;
-                try {
-                    value = PropertyUtils.getProperty(attributes, fieldName);
-                } catch (IllegalAccessException e) {
-                    handleFieldAccessException(fieldName, recordType);
-                } catch (InvocationTargetException e) {
-                    handleFieldAccessException(fieldName, recordType);
-                } catch (NoSuchMethodException e) {
-                    handleFieldAccessException(fieldName, recordType);
-                }
-                if (value == null) {
-                    System.out.println("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
-                    throw new RuntimeException("Field name \"" + fieldName + "\" specified in \"neutralRecordKeyValueFieldNames\" in smooks-all-xml for \"" + recordType + "\" is wrong or not mapped properly.");
-                }
-                String strValue = value.toString();
-                naturalKeys.put(fieldName, strValue);
-            }
+
+            addFieldsToNaturalKeys(naturalKeys, MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames"));
+            addOptionalFieldsToNaturalKeys(naturalKeys, MapUtils.getString(metaData, "optionalNeutralRecordKeyValueFieldNames"));
 
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, TenantContext.getTenantId(), sliEntityType, null);
             this.recordId = strategy.generateId(nkd);
@@ -221,6 +196,44 @@ public class NeutralRecord implements Cloneable {
         }
 
         return this.recordId;
+    }
+
+    private void addFieldsToNaturalKeys(Map<String, String> naturalKeys, String string) {
+        addFieldsToNaturalKeysImpl(naturalKeys, MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames"), false);
+    }
+
+    private void addOptionalFieldsToNaturalKeys(Map<String, String> naturalKeys, String string) {
+        addFieldsToNaturalKeysImpl(naturalKeys, MapUtils.getString(metaData, "neutralRecordKeyValueFieldNames"), true);
+    }
+
+    private void addFieldsToNaturalKeysImpl(Map<String, String> naturalKeys, String fieldNames, boolean optional) {
+
+        //TODO: this needs cleanup
+        if (fieldNames == null) {
+            System.out.println("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+            throw new RuntimeException("A mapping for \"neutralRecordKeyValueFieldNames\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
+        }
+        StringTokenizer fieldNameTokenizer = new StringTokenizer(fieldNames, ",");
+        while (fieldNameTokenizer.hasMoreElements()) {
+            String fieldName = (String) fieldNameTokenizer.nextElement();
+            // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate SLC-Ed-Fi.xml
+//                String strValue = MapUtils.getString(attributes, fieldName);
+            Object value = null;
+            try {
+                value = PropertyUtils.getProperty(attributes, fieldName);
+            } catch (IllegalAccessException e) {
+                handleFieldAccessException(fieldName, recordType);
+            } catch (InvocationTargetException e) {
+                handleFieldAccessException(fieldName, recordType);
+            } catch (NoSuchMethodException e) {
+                handleFieldAccessException(fieldName, recordType);
+            }
+            String strValue = "";
+            if (value != null) {
+                strValue = value.toString();
+            }
+            naturalKeys.put(fieldName, strValue);
+        }
     }
 
     private void handleFieldAccessException(String fieldName, String recordType) {
@@ -527,8 +540,9 @@ public class NeutralRecord implements Cloneable {
             return super.toString();
         }
     }
-    
+
     /* Clone, e.g. for the DiD calculation needs */
+    @Override
     public Object clone() {
     	NeutralRecord result = null;
     	try {
