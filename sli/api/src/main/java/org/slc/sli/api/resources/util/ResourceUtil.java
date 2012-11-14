@@ -316,16 +316,18 @@ public class ResourceUtil {
                     Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField
                             .getValue().getResourceName());
                     count--;
-                    for (String resourceName : resourceNames) {
-                        String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
-                        if (count > 0) {
-                            linkName = linkName + "[" + count + "]";
-                        }
-                        if (!linkName.isEmpty()) {
-                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                    PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
-                        }
+                    if (resourceNames != null) {
+                        for (String resourceName : resourceNames) {
+                            String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
+                            if (count > 0) {
+                                linkName = linkName + "[" + count + "]";
+                            }
+                            if (!linkName.isEmpty()) {
+                                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                        PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                            }
 
+                        }
                     }
                 }
             }
