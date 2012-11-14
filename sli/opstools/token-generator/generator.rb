@@ -1,6 +1,6 @@
 require 'mongo'
 require 'optparse'
-require 'SecureRandom'
+require 'securerandom'
 
 #Hold the command line options
 options = {}
