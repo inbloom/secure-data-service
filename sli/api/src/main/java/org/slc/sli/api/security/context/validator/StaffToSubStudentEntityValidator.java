@@ -87,7 +87,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
             }
         }
 
-        if (students.isEmpty()) {
+        if (students.size() != ids.size()) {
             return false;
         }
 

@@ -1,12 +1,26 @@
 #!/bin/bash
 
-mongo sli --quiet --eval 'db.adminCommand("listDatabases").databases.forEach( function (d) {
-  var name = d.name;
-  if (name != "local" && name != "admin" && name != "config") {
-  	print("[MONGO] dropping database: " + name);
-    db.getSiblingDB(d.name).dropDatabase();
-  }
-});'
+########################################################################
+# To skip dropping databases:
+#   > sh resetAllDbs.sh --nodrop
+########################################################################
+
+CLEAR_DB=1
+if [ ! -z $1 ] && [ $1 = "--nodrop" ]
+then
+  CLEAR_DB=0
+fi
+
+if [ $CLEAR_DB = 1 ]
+then
+  mongo sli --quiet --eval 'db.adminCommand("listDatabases").databases.forEach( function (d) {
+    var name = d.name;
+    if (name != "local" && name != "admin" && name != "config") {
+      print("[MONGO] dropping database: " + name);
+      db.getSiblingDB(d.name).dropDatabase();
+    }
+  });'
+fi
 
 echo "[MONGO] indexing database: sli"; mongo sli ../indexes/sli_indexes.js --quiet
 echo "[MONGO] indexing database: is"; mongo is ../indexes/is_indexes.js --quiet

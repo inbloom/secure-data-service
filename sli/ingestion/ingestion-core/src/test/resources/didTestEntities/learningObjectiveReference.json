@@ -1,0 +1,22 @@
+{
+	"recordType":"assessment",
+	"attributes":
+	{
+		"objectiveAssessment" :
+		[
+			{
+				"learningObjectives" :
+				[
+					{
+						"LearningObjectiveIdentity" :
+						{
+							"ObjectiveGradeLevel" : "Twelfth grade",
+							"Objective" : "Writing: Informational Text",
+							"AcademicSubject" : "ELA"
+						}
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,35 +1,44 @@
 {
     "keyFields" : [ "body.objective","body.academicSubject","body.objectiveGradeLevel","body.learningObjectiveId.identificationCode"],
-	"references" :
-	[{
-        "fieldPath" : "body.parentLearningObjective",
+    "references" :
+    [{
+        "fieldPath" : "body.LearningObjectiveReference",
+        "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "learningObjective",
-	        "optional" : true,
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.learningObjectiveId.identificationCode",
-		                "values" :
-		                [{
-			                "valueSource" : "localParentIds.parentObjectiveId"
-		                }]
-		            },
-		            {
-		           	    "path" : "body.learningObjectiveId.contentStandardName",
-		                "values" :
-		                [{
-			                "valueSource" : "localParentIds.parentContentStandardName"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "learningObjective",
+            "optional" : true,
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.objective",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.Objective"
+                            }]
+                    },
+                    {
+                        "path" : "body.academicSubject",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject"
+                            }]
+                    },
+                    {
+                        "path" : "body.objectiveGradeLevel",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel"
+                            }]
+                    }
+                ]
+            ]
         }
     },
     {
             "fieldPath" : "body.learningStandards",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "learningStandard",

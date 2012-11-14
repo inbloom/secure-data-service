@@ -9,18 +9,11 @@
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Triangles">
-			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-C</IdentificationCode>
-				</LearningObjectiveId>
-			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-SRT</IdentificationCode>
-				</LearningObjectiveId>
+				<Objective>Triangles</Objective>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
 	</LearningObjective>
@@ -32,11 +25,31 @@
 		<Objective>Triangles</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="G-C.1"></LearningStandardReference>
-		<LearningStandardReference ref="G-C.2"></LearningStandardReference>
-		<LearningStandardReference ref="G-C.3"></LearningStandardReference>
-		<LearningStandardReference ref="G-C.4"></LearningStandardReference>
-		<LearningStandardReference ref="G-C.5"></LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-C.1</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-C.2</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-C.3</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-C.4</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<IdentificationCode>G-C.5</IdentificationCode>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
 	</LearningObjective>
 	
 	<LearningStandard id="G-C.1">

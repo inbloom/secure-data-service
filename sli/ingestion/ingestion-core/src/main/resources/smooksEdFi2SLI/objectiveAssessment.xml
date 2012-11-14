@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="objectiveAssessments" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="objectiveAssessment" />
+    </jb:bean>
+
+    <jb:bean beanId="objectiveAssessment" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'objectiveAssessment'</jb:expression>
+        <jb:wiring property="body" beanIdRef="objectiveAssessmentBody" />
+    </jb:bean>
+
+    <jb:bean beanId="objectiveAssessmentBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="id" data="attributes identificationCode" />
+        <jb:value property="identificationCode" data="attributes identificationCode" />
+        <jb:value property="maxRawScore" data="attributes maxRawScore" decoder="Integer" />
+        <jb:value property="percentOfAssessment" data="attributes percentOfAssessment" decoder="Integer"/>
+        <jb:value property="nomenclature" data="attributes nomenclature" />
+        <jb:wiring property="assessmentItemRefs" beanIdRef="objectiveAssessment_assessmentItemRefArray" />
+        <jb:wiring property="subObjectiveRefs" beanIdRef="objectiveAssessment_subObjectiveRefArray" />
+        <jb:wiring property="LearningObjectiveReference" beanIdRef="objectiveAssessment_learningObjectiveRefArray"/>
+    </jb:bean>
+
+    <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes assessmentItem element" />
+    </jb:bean>
+
+    <jb:bean beanId="objectiveAssessment_subObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes objectiveAssessment element" />
+    </jb:bean>
+
+    <jb:bean beanId="objectiveAssessment_learningObjectiveRefArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes LearningObjectiveReference element" />
+    </jb:bean>
+
+</smooks-resource-list>

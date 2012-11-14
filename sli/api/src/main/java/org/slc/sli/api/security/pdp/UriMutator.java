@@ -16,17 +16,6 @@
 
 package org.slc.sli.api.security.pdp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ws.rs.core.PathSegment;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.EntityNames;
@@ -38,6 +27,16 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -51,6 +50,9 @@ public class UriMutator {
 
     @Resource
     private SectionHelper sectionHelper;
+
+    @Resource
+    private RootSearchMutator rootSearchMutator;
 
     /**
      * Acts as a filter to determine if the requested resource, given knowledge of the user
@@ -450,63 +452,11 @@ public class UriMutator {
         String mutatedPath = null;
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
-        String[] queries = queryParameters.split("&");
-        if (!isMutated && queryParameters.matches("^studentId=.+")) {
-            for (String query : queries) {
-                if (query.matches("^studentId=.+")) {
-                    int INDEX_OF_QUERY_VALUE = 10;
-                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                    mutatedPath = "/" + ResourceNames.STUDENTS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
-                    isMutated = true;
-                }
-            }
+        mutatedPath = rootSearchMutator.mutatePath(resource, queryParameters);
+        if(mutatedPath != null) {
+            mutatedParameters = queryParameters;
+            isMutated = true;
         }
-        if (!isMutated && !resource.equals(ResourceNames.ATTENDANCES) && queryParameters.matches("^schoolId=.+")) {
-            for (String query : queries) {
-                if (query.matches("^schoolId=.+")) {
-                    int INDEX_OF_QUERY_VALUE = 9;
-                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                    mutatedPath = "/" + ResourceNames.SCHOOLS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
-                    isMutated = true;
-                }
-            }
-        }
-        if (!isMutated && queryParameters.matches("^staffReference=.+")) {
-            for (String query : queries) {
-                if (query.matches("^staffReference=.+")) {
-                    int INDEX_OF_QUERY_VALUE = 15;
-                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                    mutatedPath = "/" + ResourceNames.STAFF + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
-                    isMutated = true;
-                }
-            }
-        }
-        if (!isMutated && queryParameters.matches("^teacherId=.+")) {
-            for (String query : queries) {
-                if (query.matches("^teacherId=.+")) {
-                    int INDEX_OF_QUERY_VALUE = 10;
-                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                    mutatedPath = "/" + ResourceNames.TEACHERS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
-                    isMutated = true;
-                }
-            }
-        }
-        if (!isMutated && queryParameters.matches("^studentSectionAssociationId=.+")) {
-            for (String query : queries) {
-                if (query.matches("^studentSectionAssociationId=.+")) {
-                    int INDEX_OF_QUERY_VALUE = 28;
-                    String ids = query.substring(INDEX_OF_QUERY_VALUE);
-                    mutatedPath = "/" + ResourceNames.STUDENT_SECTION_ASSOCIATIONS + "/" + ids + "/" + resource;
-                    mutatedParameters = queryParameters.replaceFirst(Matcher.quoteReplacement(query), "");
-                    isMutated = true;
-                }
-            }
-        }
-
 
         if (!isMutated && isTeacher(user)) {
             if (ResourceNames.ASSESSMENTS.equals(resource)
@@ -713,7 +663,7 @@ public class UriMutator {
                     ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
                     mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
                 }
-                
+
             } else if (ResourceNames.COHORTS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
             } else if (ResourceNames.COURSES.equals(resource)) {
