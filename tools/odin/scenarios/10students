@@ -4,3 +4,5 @@ studentCount: 10
 numSEA: 1
 numLEA: 1
 studentsPerSchool: 10
+numPrograms: 4
+numCourses: 2
