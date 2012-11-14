@@ -46,7 +46,7 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-    <value>attendance</value> <!-- Needs to be excluded from DID resolver due to StudentReference -->
+<!--    <value>attendance</value> Transformed so needs additional work.  Needs to be excluded from DID resolver due to StudentReference -->
     <value>learningObjective</value>
     <value>courseTranscript</value>
   </util:set>

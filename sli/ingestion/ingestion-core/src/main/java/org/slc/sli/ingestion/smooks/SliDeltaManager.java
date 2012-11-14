@@ -83,21 +83,14 @@ public final class SliDeltaManager {
 
         NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
 
-        // HACK HACK HACK HACK ... and needs more work
-        // didResolver has problems resolving StudentReference in "attendance" currently,
-        // but it is not needed for DID calculation so we skip it
         NeutralRecord neutralRecordResolved = null;
-        if ("attendance".equals(n.getRecordType())) {
-            recordId = n.generateRecordId(dIdStrategy, nkd);
-        } else {
 
-            neutralRecordResolved = (NeutralRecord) n.clone();
-            Entity entity = new NeutralRecordEntity(neutralRecordResolved);
-            didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
+        neutralRecordResolved = (NeutralRecord) n.clone();
+        Entity entity = new NeutralRecordEntity(neutralRecordResolved);
+        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
 
-            recordId = neutralRecordResolved.generateRecordId(dIdStrategy, nkd);
-            n.setRecordId(recordId);
-        }
+        recordId = neutralRecordResolved.generateRecordId(dIdStrategy, nkd);
+        n.setRecordId(recordId);
 
         // Calculate record hash using natural keys' values
         String recordHashValues = DigestUtils.shaHex(n.getRecordType() + "-" + n.getAttributes().toString() + "-" + tenantId);
