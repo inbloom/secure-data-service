@@ -341,6 +341,38 @@ public class DidReferenceResolutionTest {
 
         checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
     }
+	
+	@Test
+	public void shouldResolveStudentSectionAssociationDidCorrectly() throws JsonParseException, JsonMappingException, IOException {
+		Entity entity = loadEntity("didTestEntities/studentSectionAssociationReference.json");
+		ErrorReport errorReport = new TestErrorReport();
+
+		didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+
+		Map<String, String> studentNaturalKeys = new HashMap<String, String>();
+		studentNaturalKeys.put("studentUniqueStateId", "800000025");
+		String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
+
+		Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
+		schoolNaturalKeys.put("stateOrganizationId", "this school");
+		String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> sectionNaturalKeys = new HashMap<String, String>();
+		sectionNaturalKeys.put("schoolId", schoolId);
+		sectionNaturalKeys.put("uniqueSectionCode", "this section");
+		String sectionDid = generateExpectedDid(sectionNaturalKeys, TENANT_ID, "section", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("studentId", studentDid);
+		naturalKeys.put("sectionId", sectionDid);
+		naturalKeys.put("beginDate", "2011-09-01");
+
+		// because we don't have a full entity structure it thinks section is the parent, so use sectionDid
+		String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
+		Map<String, Object> body = entity.getBody();
+		Object resolvedRef = body.get("StudentSectionAssociationReference");
+		Assert.assertEquals(refId, resolvedRef);
+	}
 
     // generate the expected deterministic ids to validate against
     private String generateExpectedDid(Map<String, String> naturalKeys, String tenantId, String entityType, String parentId) throws JsonParseException, JsonMappingException, IOException {

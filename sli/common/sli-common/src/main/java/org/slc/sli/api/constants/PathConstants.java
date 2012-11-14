@@ -32,7 +32,7 @@ public class PathConstants {
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     public static final String COURSE_OFFERINGS = "courseOfferings";
-    public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
+    public static final String STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrgAssignmentAssociations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganizationAssociations";
@@ -111,7 +111,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, TEACHER_SCHOOL_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, TEACHER_SECTION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_OFFERINGS, COURSE_OFFERINGS);
-        TEMP_MAP.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, STUDENT_ASSESSMENT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_ASSESSMENTS, STUDENT_ASSESSMENTS);
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, STUDENT_SECTION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_TRANSCRIPTS, COURSE_TRANSCRIPTS);
@@ -153,6 +153,7 @@ public class PathConstants {
     }
 
     public static final String V1 = "v1";
+    public static final String ID_PLACEHOLDER = "{id}";
     /** Main entry point for the SLI API ReSTful web service. */
     public static final String API_SERVER_PATH = "api/rest/v1";
     /** URL to check the validity of a SLI session. */

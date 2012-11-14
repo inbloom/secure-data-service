@@ -7,7 +7,7 @@ Background:
 Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 
-@integration
+@integration @wip
 Scenario: Valid user login
 
 #hitting static URL
@@ -23,7 +23,7 @@ Then I should be redirected to the Dashboard landing page
 When I access "/simon"
 And I am informed that "the page that you were looking for could not be found"
 
-@integration
+@integration @wip
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
@@ -41,7 +41,7 @@ Then I add a cookie for linda.kim
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
 
-@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147 @RALLY_US4437
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -52,7 +52,7 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
@@ -134,13 +134,38 @@ And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "colo
 And I click on student "Carmen Ortiz"
 When I enter "rudolph" into the "firstName" search box
 And I click the search button
-Then "2" results are returned in the page
+When I look in the school drop-down
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
+And I select school "Daybreak Central High"
+And I search by clicking on the go button
+Then "1" results are returned in the page
 And the search results include:
  |Student          |Grade    |School                     |
-  |Rudolph Sennett  |1        |South Daybreak Elementary  |
-  |Rudolph Krinsky  |12       |Daybreak Central High      |
+ |Rudolph Krinsky  |12       |Daybreak Central High      |
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
+Then "0" results are returned in the page
+And I select school "South Daybreak Elementary"
+And I search by clicking on the go button
+Then "1" results are returned in the page
+ And the search results include:
+ |Student          |Grade    |School                     |
+ |Rudolph Sennett  |1        |South Daybreak Elementary  |
+When I enter "matt" into the "firstName" search box
+And I click the search button
+# Test the text displayed when user clicks the 'Go' button without selecting the school
+And I search by clicking on the go button
+And I should see "Please select a school from the dropdown." prompt
+When I look in the school drop-down
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
+And I select school "East Daybreak Junior High"
+And I search by clicking on the go button
+Then "1" results are returned in the page
+And the search results include:
+ |Student          |Grade    |School                     |
+ |Matt Sollars     |8        |East Daybreak Junior High  |
 
-@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -151,7 +176,8 @@ When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+#Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select ed org "Sunset School District 4526"
 And I select school "Sunset Central High School"
 And I select course "A.P. Calculus"
@@ -164,13 +190,20 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "50" results are returned in the page
-And I select page size of "100"
-And "54" results are returned in the page
+When I look in the school drop-down
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary;Sunset Central High School"
+And I select school "Daybreak Central High"
+And I search by clicking on the go button
+Then "0" results are returned in the page
+And I select school "South Daybreak Elementary"
+And I search by clicking on the go button
+Then "0" results are returned in the page
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
+Then "1" results are returned in the page
 And the search results include:
  |Student          |Grade    |School                     |
-  |Matt Sollars     |8        |East Daybreak Junior High  |
-  |Matt Forker      |11       |Sunset Central High School |
+ |Matt Sollars     |8        |East Daybreak Junior High  |
 And I click on student "Matt Sollars"
 And I view its student profile
 And Student Enrollment History has the following entries:
@@ -182,7 +215,24 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
 
-@wip @search @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+When I enter "Matt" into the "firstName" search box
+And I click the search button
+# Test the text displayed when user clicks the 'Go' button without selecting the school
+And I search by clicking on the go button
+And I should see "Please select a school from the dropdown." prompt
+And I select school "Sunset Central High School"
+And I search by clicking on the go button
+Then "50" results are returned in the page
+And I select page size of "100"
+And "53" results are returned in the page
+And the search results include:
+ |Student          |Grade    |School                     |
+ |Matt Abraham     |11       |Sunset Central High School |
+ |Matt Forker      |11       |Sunset Central High School |
+ |Matt Randy       |11       |Sunset Central High School |
+ |Matt Zebra       |11       |Sunset Central High School |  
+ 
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -193,7 +243,7 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
@@ -221,6 +271,8 @@ And I select section "Sec 145"
 And I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
+And I select school "East Daybreak Junior High" 
+And I search by clicking on the go button
 Then "1" results are returned in the page
 And the search results include:
  |Student          |Grade    |School                     |
@@ -237,7 +289,7 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select school "East Daybreak Junior High"
 Then I don't see a course selection
 
@@ -252,7 +304,7 @@ When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select school "South Daybreak Elementary"
 Then I don't see a course selection
 When I select ed org "Sunset School District 4526"
@@ -260,7 +312,7 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "Sunset Central High School"
 Then I don't see a course selection
 
-@wip @search @integration @RALLY_US200  @RALLY_US147 @RALLY_US198
+@integration @RALLY_US200  @RALLY_US147 @RALLY_US198  @RALLY_US4437
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -271,7 +323,7 @@ When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 #DE1096 - Needs to be fixed in API. And Test should probably be moved to API
 #And I select school "South Daybreak Elementary"
 #And I select course "Phys-Ed 4A"
@@ -289,13 +341,16 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
+And I select school "Sunset Central High School"
+And I search by clicking on the go button
 Then "50" results are returned in the page
 And I select page size of "100"
-And "54" results are returned in the page
+And "53" results are returned in the page
 And the search results include:
  |Student          |Grade    |School                     |
-  |Matt Sollars     |8        |East Daybreak Junior High  |
+ |Matt Abraham     |11       |Sunset Central High School |
  |Matt Forker      |11       |Sunset Central High School |
+ |Matt Zebra       |11       |Sunset Central High School |
 And I click on student "Matt Forker"
 And I view its student profile
 And their name shown in profile is "Matt Forker"
@@ -305,7 +360,7 @@ And their grade is "11"
 #And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
-@integration @RALLY_US197 @RALLY_US200
+@integration @RALLY_US197 @RALLY_US200   @RALLY_US4437
 Scenario: Login with School Level Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -323,7 +378,11 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 When I enter "Alton" into the "firstName" search box
 And I click the search button
+And I select school "South Daybreak Elementary"
+And I search by clicking on the go button
 Then "0" results are returned in the page
+# Click the back button twice
+And I click on the browser back button
 And I click on the browser back button
 Then I see a list of 25 students
 

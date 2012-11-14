@@ -121,7 +121,7 @@ public class TeacherToSubStudentEntityValidatorTest {
 
     @Test
     public void testCanValidateTeacherToStudentAssessment() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, false));
     }
 
     @Test

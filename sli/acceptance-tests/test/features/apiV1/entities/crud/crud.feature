@@ -417,16 +417,16 @@ Examples:
 Examples:
 | Entity Type             | Entity Resource URI       | Count | Rewrite URI|
 | "assessment"            | "assessments"             | 17    |/assessments|                                                                            
-| "attendance"            | "attendances"             | 1     |/sections/@ids/studentSectionAssociations/students/attendances|                            
-| "cohort"                | "cohorts"                 | 0     |/staff/@ids/staffCohortAssociations/cohorts|                                             
-| "course"                | "courses"                 | 26    |/schools/@ids/courses|                                                                   
+| "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
+| "cohort"                | "cohorts"                 | 1     |/staff/@ids/staffCohortAssociations/cohorts|
+| "course"                | "courses"                 | 26    |/schools/@ids/courses|
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
-| "gradebookEntry"        | "gradebookEntries"        | 0     |/sections/@ids/gradebookEntries|                                                 
+| "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
 | "learningObjective"     | "learningObjectives"      | 5     |/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/learningStandards|                                                                      
-| "parent"                | "parents"                 | 1     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|      
+| "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
 | "program"               | "programs"                | 0     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/schools/@ids|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
@@ -436,10 +436,10 @@ Examples:
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
 | "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
-| "grade"                 | "grades"                  | 0     |/sections/@ids/studentSectionAssociations/grades|                                
-| "studentCompetency"     | "studentCompetencies"     | 0     |/sections/@ids/studentSectionAssociations/studentCompetencies|                   
+| "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
+| "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          | 2     |/schools/@ids/sessions/gradingPeriods|                                                   
-| "reportCard"            | "reportCards"             | 2     |/sections/@ids/studentSectionAssociations/students/reportCards|
+| "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
 | "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/educationOrganizations/@ids/studentCompetencyObjectives    |
 
 	@DE1825 

@@ -524,10 +524,10 @@
 						resource.
 					</wadl:doc>
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentList"></wadl:representation>
           </wadl:response>
         </wadl:method>
       </wadl:resource>
@@ -2659,10 +2659,10 @@
           <wadl:doc>Returns the requested collection of resources that are
 						associated with the specified resource.</wadl:doc>
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentList"></wadl:representation>
           </wadl:response>
         </wadl:method>
       </wadl:resource>
@@ -5732,14 +5732,14 @@
 				on a test.
 
 				For more information, see the schema for
-				$$StudentAssessmentAssociation$$ resources.
+				$$StudentAssessment$$ resources.
 			</wadl:doc>
       <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
       <wadl:method name="POST" id="postStudentAssessments">
         <wadl:request>
-          <wadl:representation mediaType="application/json" element="studentAssessmentAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="studentAssessmentAssociation"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="studentAssessment"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessment"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="studentAssessment"></wadl:representation>
         </wadl:request>
         <wadl:response>
           <wadl:representation mediaType="application/json"></wadl:representation>
@@ -5754,10 +5754,10 @@
           <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
         </wadl:request>
         <wadl:response>
-          <wadl:representation mediaType="application/json" element="studentAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="studentAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentAssociationList"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="studentAssessmentList"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentList"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="studentAssessmentList"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentList"></wadl:representation>
         </wadl:response>
       </wadl:method>
       <wadl:resource path="{studentAssessmentId}/assessment">
@@ -5810,17 +5810,17 @@
         </wadl:method>
         <wadl:method name="GET" id="getStudentAssessmentsById">
           <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentAssociationList"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="studentAssessmentList"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+xml" element="studentAssessmentList"></wadl:representation>
           </wadl:response>
         </wadl:method>
         <wadl:method name="PUT" id="putStudentAssessmentsById">
           <wadl:request>
-            <wadl:representation mediaType="application/json" element="studentAssessmentAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessmentAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentAssessmentAssociation"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="studentAssessment"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="studentAssessment"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="studentAssessment"></wadl:representation>
           </wadl:request>
           <wadl:response>
             <wadl:representation mediaType="application/json"></wadl:representation>

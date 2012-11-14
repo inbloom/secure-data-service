@@ -242,7 +242,13 @@ def restHttpPut(id, data, format = @format, sessionId = @sessionId)
 
   urlHeader = makeUrlAndHeaders('put',id,sessionId,format)
   @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
-
+  puts "\n\n" if $SLI_DEBUG
+  puts @res.code if $SLI_DEBUG
+  puts "\n\n" if $SLI_DEBUG
+  puts @res.body if $SLI_DEBUG
+  puts "\n\n" if $SLI_DEBUG
+  puts @res.raw_headers if $SLI_DEBUG
+  puts "\n\n" if $SLI_DEBUG
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
@@ -510,7 +516,7 @@ module CreateEntityHash
         ]
     return data
   end
-  
+
   def CreateEntityHash.createBaseSchoolRandomId()
     data = CreateEntityHash.createBaseSchool
     data['stateOrganizationId'] = (0...8).map{65.+(rand(25)).chr}.join
@@ -551,4 +557,3 @@ end
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
-

@@ -34,7 +34,7 @@
   <xs:element name="staffProgramAssociation" type="staffProgramAssociation" />
   <xs:element name="student" type="student" />
   <xs:element name="studentAcademicRecord" type="studentAcademicRecord" />
-  <xs:element name="studentAssessmentAssociation" type="studentAssessmentAssociation" />
+  <xs:element name="studentAssessment" type="studentAssessment" />
   <xs:element name="studentCohortAssociation" type="studentCohortAssociation" />
   <xs:element name="studentCompetency" type="studentCompetency" />
   <xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />

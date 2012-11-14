@@ -57,7 +57,7 @@ When I navigate to "getAssessments" with URI "/section-assessment-associations/<
 	     Then I get a collection of 20 student-assessment-associations links 
 	     When I navigate to GET "/student-assessment-associations/<'Most recent SAT' ID>" and filter by studentId is "<'Current_student' ID>"
 	         Then I get a collection of 1 student-assessment-associations links 
-	         And  I should receive a "studentAssessmentAssociation" with ID "<'Most Recent Assessment Association' ID>"
+	         And  I should receive a "studentAssessment" with ID "<'Most Recent Assessment Association' ID>"
 	         
 	     When I navigate to URI /student-assessment-associations/"<'Most Recent Assessment Association' ID>"
 	     Then I get 1 student-assessment-association

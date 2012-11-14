@@ -126,7 +126,6 @@ public class StaffToStaffProgramAssociationValidatorTest {
     }
     
     @Test
-    @Ignore
     public void testCanNotValidateExpiredAssociation() {
         // Association itself is bad.
         Entity school = helper.generateEdorgWithParent(null);
