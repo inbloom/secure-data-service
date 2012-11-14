@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="learningObjectives" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="learningObjective" />
+    </jb:bean>
+
+    <jb:bean beanId="learningObjective" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'learningObjective'</jb:expression>
+        <jb:wiring property="body" beanIdRef="learningObjectiveBody" />
+    </jb:bean>
+
+    <jb:bean beanId="learningObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:wiring property="learningObjectiveId" beanIdRef="learningObjective_learningObjectiveId" />
+        <jb:value property="objective" data="attributes objective" />
+        <jb:value property="description" data="attributes description"/>
+        <jb:value property="academicSubject" data="attributes academicSubject" />
+        <jb:value property="objectiveGradeLevel" data="attributes objectiveGradeLevel" />
+        <jb:wiring property="learningStandards" beanIdRef="learningObjective_learningStandards" />
+        <jb:value property="parentLearningObjective" data="attributes LearningObjectiveReference" />
+    </jb:bean>
+    
+    <jb:bean beanId="learningObjective_learningStandards" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes learningStandardReference element" />
+    </jb:bean>
+    
+    <jb:bean beanId="learningObjective_learningObjectiveId" class="java.util.HashMap" createOnElement="attributes learningObjectiveId">
+        <jb:value data="attributes learningObjectiveId identificationCode" />
+        <jb:value data="attributes learningObjectiveId contentStandardName" />
+    </jb:bean>
+
+</smooks-resource-list>

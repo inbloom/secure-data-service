@@ -15,20 +15,6 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -57,6 +43,19 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
+
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Default implementation of the resource service.
@@ -279,7 +278,7 @@ public class DefaultResourceService implements ResourceService {
         //criteria to the intersection of the two critiera values
         boolean skipIn = false;
         for (NeutralCriteria crit : apiQuery.getCriteria()) {
-            if (crit.getKey().equals(associationKey) 
+            if (crit.getKey().equals(associationKey)
                     && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                 skipIn = true;
                 Set valueSet = new HashSet();
@@ -352,9 +351,19 @@ public class DefaultResourceService implements ResourceService {
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
                 if (associations != null) {
-                    for (EntityBody associationEntity : associations) {
-                        filteredIdList.add((String) associationEntity.get(resourceKey));
+                    if(finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
+                        //if the finalEntity references the assocEntity
+                        for (EntityBody associationEntity : associations) {
+                            filteredIdList.add((String) associationEntity.get("id"));
+                        }
+                        key = resourceKey;
+                    } else {
+                        //otherwise the assocEntity references the finalEntity
+                        for (EntityBody associationEntity : associations) {
+                            filteredIdList.add((String) associationEntity.get(resourceKey));
+                        }
                     }
+
                 }
             }
         } else {
@@ -386,7 +395,29 @@ public class DefaultResourceService implements ResourceService {
 
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
-        finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
+
+        //Mongo blows up if we have multiple $in or equal criteria for the same key.
+        //To avoid that case, if we do have duplicate keys, set the value for that
+        //criteria to the intersection of the two critiera values
+        boolean skipIn = false;
+        for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
+            if (crit.getKey().equals(key)
+                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                skipIn = true;
+                Set valueSet = new HashSet();
+                if (crit.getValue() instanceof Collection) {
+                    valueSet.addAll((Collection) crit.getValue());
+                } else {
+                    valueSet.add(crit.getValue());
+                }
+                valueSet.retainAll(filteredIdList);
+                crit.setValue(valueSet);
+            }
+        }
+
+        if (!skipIn) {
+            finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
+        }
 
         try {
             entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
@@ -397,6 +428,11 @@ public class DefaultResourceService implements ResourceService {
         long count = getEntityCount(finalEntity, finalApiQuery);
 
         return new ServiceResponse(entityBodyList, count);
+    }
+
+    private boolean finalEntityReferencesAssociation(EntityDefinition finalEntity, EntityDefinition assocEntity, String referenceField) {
+        return !assocEntity.getReferenceFields().containsKey(referenceField) &&
+                finalEntity.getReferenceFields().containsKey(referenceField);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {

@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -49,12 +48,11 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
 
-    private final String EDFI_STUDENT_REFERENCE = "StudentReference";
     private final String EDFI_ASSESSMENT_REFERENCE = "AssessmentReference";
-    private final String SLI_STUDENT_REFERENCE = "studentId";
     private final String SLI_ASSESSMENT_REFERENCE = "assessmentId";
     private final String EDFI_PROGRAM_REFERENCE = "ProgramReference";
     private final String SLC_PROGRAM_REFERENCE = "programReference";
+
 
     private Map<String, Smooks> smooksConfigs;
 
@@ -85,29 +83,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             String externalId = (String) item.getLocalId();
             if (externalId != null) {
                 entity.getMetaData().put("externalId", externalId);
-            }
-
-            if (EntityNames.STUDENT_ASSESSMENT.equals(entity.getType())) {
-                // Because the studentAssessment goes through a Combiner
-                // during the first Smooks translation. It would be quite complicated
-                // to use Smooks mapping for the second Smooks translation.
-                // All that needs doing is renaming the references from Ed-Fi names
-                // to SLI names.
-                Object ref = entity.getBody().remove(EDFI_STUDENT_REFERENCE);
-                if (ref instanceof String) {
-                    String studentId = (String) ref;
-                    entity.getBody().put(SLI_STUDENT_REFERENCE, studentId);
-                } else {
-                    LOG.error("Unable to map '" + SLI_STUDENT_REFERENCE + "' in " + entity.getType() + ". Expected a String.");
-                }
-
-                ref = entity.getBody().remove(EDFI_ASSESSMENT_REFERENCE);
-                if (ref instanceof String) {
-                    String assessmentId = (String) ref;
-                    entity.getBody().put(SLI_ASSESSMENT_REFERENCE, assessmentId);
-                } else {
-                    LOG.error("Unable to map 'assessmentId' in studentAssessment. Expected a String.");
-                }
             }
 
             return Arrays.asList(entity);

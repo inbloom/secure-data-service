@@ -2,9 +2,14 @@
     "referenceSources" :
         [
             {
-              "entityType" : "educationOrganization", 
+              "entityType" : "educationOrganization",
               "optional" : false,
               "sourceRefPath": "body.schoolId"
+            },
+            {
+              "entityType" : "student",
+              "optional" : false,
+              "sourceRefPath": "body.StudentReference"
             }
 
         ]
