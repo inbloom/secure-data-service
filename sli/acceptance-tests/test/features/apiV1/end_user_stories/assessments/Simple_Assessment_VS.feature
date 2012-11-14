@@ -19,9 +19,9 @@ Scenario: Displaying simple StateTest reading results for all students
 	And the configuration file "assessmentFamily" is like "StateTest Reading for Grades 3-8"
 	
     Then for each student I search for "Assessment" where "assessmentTitle" is "Grade 3 2010 StateTest Writing"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "percentile"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "other"  
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "scaleScore" 
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "percentile"
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "other"  
 
 Scenario: Displaying most recent StateTest writing results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -35,8 +35,8 @@ Scenario: Displaying most recent StateTest writing results for all students
 	And in the configuration file "rule" is "Most Recent"
     
     When I find the "Assessment" where the "assessmentTitle" is "Grade 3 2010 StateTest Writing" and the "assessmentFamilyHierarchy" is like "StateTest Writing for Grades 3-8*"
-    Then for each student I find the "most recent" "studentAssessmentAssociation"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
+    Then for each student I find the "most recent" "studentAssessment"
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "scaleScore" 
 
 
 Scenario: Calculating Highest ReportingResultType for any a defined assessment 
@@ -51,9 +51,9 @@ Scenario: Calculating Highest ReportingResultType for any a defined assessment
   And in the configuration file "ReportingTypes" are "scaleScore"  and "percentile"
   
   When I find the "Assessment" where the "assessmentTitle" is "SAT" and the "assessmentFamilyHierarchy" is like "SAT*"
-    Then for each student I find the "highest" "studentAssessmentAssociation.scoreResults.result"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "percentile" 
+    Then for each student I find the "highest" "studentAssessment.scoreResults.result"
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "scaleScore" 
+    And I see "studentAssessment.scoreResults.result" where "studentAssessment.scoreResult.assessmentReportingResultType" is "percentile" 
  
 # only implement in 3.4
 Scenario: Calculating Highest ReportingResultType for any section of a defined assessment 
@@ -69,7 +69,7 @@ Scenario: Calculating Highest ReportingResultType for any section of a defined a
   And in the configuration file "ReportingTypes" are "scaleScore"  and "percentile"
   
   When I find the "Assessment" where the "assessmentTitle" is "SAT" and the "assessmentFamilyHierarchy" is like "SAT*"
-    Then for each studentAssessmentAssociation I find "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
+    Then for each studentAssessment I find "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
     When for each student I find the "highest" "studentObjectiveAssessment.scoreResults.result"
     Then I see the "studentObjectiveAssessment.scoreResults.result"  where studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "scaleScore"	
 	And I see the "studentObjectiveAssessment.scoreResults.result"  where studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "percentile"
@@ -86,7 +86,7 @@ Scenario: Display Performance Levels for an Assessment
   And in the configuration file "ReportingTypes" are "performance"
   
   When I find the "Assessment" where the "assessmentTitle" is "Grade K-3 MOY READ2" and the "assessmentFamilyHierarchy" is like "READ2*"
-  When for each student I find the "studentAssessmentAssociation"
+  When for each student I find the "studentAssessment"
    Then I see the "performanceLevelDescriptor.codeValue"
    And I see the "performanceLevelDescriptor.description"
    
@@ -103,6 +103,6 @@ Scenario: Display Performance Levels for an Assessment
   
    When I find "most recent" "Assessment" where  the "assessmentFamilyHierarchy" is like "READ2*"
    Then I find "Assessment" where "assessmentTitle" is "Grade K-3 MOY READ2" 
-   When for each student I find the "studentAssessmentAssociation"
+   When for each student I find the "studentAssessment"
    Then I see the "performanceLevelDescriptor.codeValue"
    And I see the "performanceLevelDescriptor.description"

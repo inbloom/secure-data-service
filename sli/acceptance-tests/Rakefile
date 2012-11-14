@@ -49,7 +49,7 @@ $collectionSet = ["student",
                   "teacherSectionAssociation",
                   "session",
                   "assessment",
-                  "studentAssessmentAssociation",
+                  "studentAssessment",
                   "gradebookEntry",
                   "courseTranscript",
                   "studentGradebookEntry",
@@ -535,6 +535,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
                      :apiV1DuplicateLinkTest,
                      :apiV1QueryingTests,
+                     :apiV1NTSQueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
                      :v1homeUriTests,
@@ -924,6 +925,10 @@ task :importStoriedData do
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
   end
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Secured Data Set"
@@ -952,7 +957,7 @@ task :importSecuredData do
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
-    "studentAssessmentAssociation" => "secured/studentAssessment.json",
+    "studentAssessment" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
 #    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
@@ -1006,6 +1011,10 @@ task :importSecuredData do
   setMultipleFixtureFiles(testHash)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data to Midgar"
@@ -1023,7 +1032,7 @@ task :importSandboxMidgarData do
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
     "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
-    "studentAssessmentAssociation" => "Midgar_data/studentAssessmentAssociation_fixture.json",
+    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
     "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
@@ -1084,6 +1093,10 @@ task :importSandboxData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data"
@@ -1098,6 +1111,9 @@ task :importZorkSandboxData do
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data"
@@ -1112,6 +1128,9 @@ task :importChaosSandboxData do
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Tenant Metrics Data"
@@ -1160,6 +1179,10 @@ task :importTenantMetricsData do
   ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Unified Data Set"
@@ -1175,7 +1198,7 @@ task :importUnifiedData => [:realmInit] do
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
     "student" => "unified_data/uds_student.json",
-    "studentAssessmentAssociation" => "unified_data/uds_studentAssessmentAssociation.json",
+    "studentAssessment" => "unified_data/uds_studentAssessment.json",
     "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
@@ -1185,6 +1208,15 @@ task :importUnifiedData => [:realmInit] do
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
+desc "Run indexing script on databases, no drop"
+task :runDbIndexingScript do
+  sh "cd #{File.dirname(__FILE__)}/../config/scripts; sh resetAllDbs.sh --nodrop"
 end
 
 desc "Turn on notablescan flag"

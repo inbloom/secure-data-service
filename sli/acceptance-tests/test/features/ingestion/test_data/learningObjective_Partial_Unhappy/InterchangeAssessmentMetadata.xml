@@ -1,149 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
-	
-	<LearningObjective>
-		<LearningObjectiveId ContentStandardName="Common Core">
-			<IdentificationCode>Objective21</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>To hopefully not get left behind!</Objective>
-		<Description>I wanna know as much as Grandpa!</Description>
-		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
-		<LearningStandardReference>
+<?xml version="1.0" ?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Common Core">
+            <IdentificationCode>Objective21</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>To hopefully not get left behind!</Objective>
+        <Description>I wanna know as much as Grandpa!</Description>
+        <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+        <ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+        <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective112</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>112</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-	</LearningObjective>
-	<LearningObjective>
-		<LearningObjectiveId ContentStandardName="Common Core">
-			<IdentificationCode>Objective22</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>To hopefully not get left behind!</Objective>
-		<Description>I wanna know as much as Grandpa!</Description>
-		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Common Core">
+            <IdentificationCode>Objective22</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>To hopefully not get left behind!</Objective>
+        <Description>I wanna know as much as Grandpa!</Description>
+        <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+        <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective113</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>113</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-	</LearningObjective>
-	<LearningObjective>
-		<LearningObjectiveId ContentStandardName="Common Core">
-			<IdentificationCode>Objective23</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>To hopefully not get left behind!</Objective>
-		<Description>I wanna know as much as Grandpa!</Description>
-		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Common Core">
+            <IdentificationCode>Objective23</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>To hopefully not get left behind!</Objective>
+        <Description>I wanna know as much as Grandpa!</Description>
+        <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+        <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard3</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard3</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective114</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>114</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-	</LearningObjective>
-	<LearningObjective>
-		<LearningObjectiveId ContentStandardName="Common Core">
-			<IdentificationCode>Objective24</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>To hopefully not get left behind!</Objective>
-		<Description>I wanna know as much as Grandpa!</Description>
-		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Common Core">
+            <IdentificationCode>Objective24</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>To hopefully not get left behind!</Objective>
+        <Description>I wanna know as much as Grandpa!</Description>
+        <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+        <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective115</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>115</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-	</LearningObjective>
-	<LearningObjective>
-		<LearningObjectiveId ContentStandardName="Common Core">
-			<IdentificationCode>Objective25</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>To hopefully not get left behind!</Objective>
-		<Description>I wanna know as much as Grandpa!</Description>
-		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId ContentStandardName="Common Core">
+            <IdentificationCode>Objective25</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>To hopefully not get left behind!</Objective>
+        <Description>I wanna know as much as Grandpa!</Description>
+        <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective111</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>111</Objective>
+                <AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+                <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-	</LearningObjective>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>Standard1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Find the derivative of a function</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>Standard2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Integrate a function</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>Standard3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Kill someone with your brain</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
+    </LearningObjective>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>Standard1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Find the derivative of a function</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>Standard2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Integrate a function</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>Standard3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Kill someone with your brain</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
 </InterchangeAssessmentMetadata>

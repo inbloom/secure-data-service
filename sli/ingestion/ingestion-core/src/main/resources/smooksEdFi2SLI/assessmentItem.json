@@ -1,8 +1,9 @@
 {
     "keyFields" : ["metaData.externalId"],
-    
+
     "references" : [{
         "fieldPath" : "body.learningStandards",
+        "deprecated" : true,
         "ref" : {
             "entityType" : "learningStandard",
             "isRefList" : true,

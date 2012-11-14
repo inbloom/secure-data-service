@@ -62,9 +62,9 @@ import org.slc.sli.dashboard.util.TimedLogic;
  * such as a student summary comprised of student profile,
  * program, and assessment information in order to deliver the
  * Population Summary interaction.
- *
+ * 
  * @author Robert Bloh
- *
+ * 
  */
 public class PopulationManagerImpl extends ApiClientManager implements PopulationManager {
 
@@ -85,7 +85,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#getAssessments(java.lang.String,
      * java.util.List)
@@ -116,7 +116,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#getStudentSummaries(java.lang.
      * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
@@ -137,7 +137,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#getListOfStudents(java.lang.String
      * , java.lang.Object, org.slc.sli.dashboard.entity.Config.Data)
@@ -168,7 +168,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     /**
      * Make enhancements that make it easier for front-end javascript to use the
      * data
-     *
+     * 
      * @param studentSummaries
      */
     public void enhanceListOfStudents(List<GenericEntity> studentSummaries, String sectionId) {
@@ -204,7 +204,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Create an attribute for the full student name (first name + last name)
-     *
+     * 
      * @param student
      */
     public void addFullName(GenericEntity student) {
@@ -220,7 +220,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     /**
      * Tally up individual attendance events. Front-end needs to show aggregated
      * results.
-     *
+     * 
      * @param student
      */
     public void tallyAttendanceData(GenericEntity student) {
@@ -260,7 +260,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Modify the data structure for assessments, for front-end convenience
-     *
+     * 
      * @param student
      */
     public void transformAssessmentFormat(GenericEntity student) {
@@ -310,7 +310,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     /**
      * Clean out some student data, so we don't pass too much unnecessary stuff
      * to the front-end
-     *
+     * 
      * @param student
      */
     public void scrubStudentData(GenericEntity student) {
@@ -320,7 +320,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Grabs the subject area from the data based on the section ID.
-     *
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -341,7 +341,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Grabs the Subject Area from a section.
-     *
+     * 
      * @param sections
      * @return
      */
@@ -360,12 +360,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /**
-     *
+     * 
      * Finds the chronologically (strictly) earlier date on the list as compared to the anchorDate.
      * Note that this method assumes the dates list has been chronologically sorted, the
      * anchorDate is contained on it, and it has no "null" entries. The input parameters themselves
      * can be null, in which case null is returned.
-     *
+     * 
      * @param dates
      * @param anchorDate
      */
@@ -390,7 +390,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * Extracts grades from transcriptAssociationRecord based on sections in the
      * past. For each section where a transcript with final letter grade
      * exist, the grade is added to the list of grades for the semester.
-     *
+     * 
      * @param student
      * @param interSections
      * @param stuTransAssocs
@@ -478,7 +478,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * This method adds the final grades of a student to the student data. It
      * will only grab the latest two grades. Ideally we would filter on subject
      * area, but there is currently no subject area data in the SDS.
-     *
+     * 
      * @param student
      */
     @SuppressWarnings({ "unchecked" })
@@ -522,8 +522,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             addSemesterFinalGrades(student, interSections,
-                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_COURSE_TRANSCRIPTS),
-                    curSessionEndDate);
+                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_COURSE_TRANSCRIPTS), curSessionEndDate);
 
         } catch (ClassCastException ex) {
             log.error("Error occured processing Final Grades", ex);
@@ -538,7 +537,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Returns the term and the year as a string for a given student Section association.
-     *
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -558,7 +557,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Extracts the semester+Year from the section passed.
-     *
+     * 
      * @param sections
      * @return (e.g. FallSemester2010-2011 )
      */
@@ -585,7 +584,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Extracts the session start and end dates from the specified section.
-     *
+     * 
      * @param section
      * @return session start and end dates or null if information is not available
      * @author iivanisevic
@@ -608,7 +607,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     /**
      * Extracts the session start and end dates from the specified section and
      * studentSectionAssociation.
-     *
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return session start and end dates or null if information is not available
@@ -646,7 +645,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Adds the current session grades to the student in a easily retrievable manner.
-     *
+     * 
      * @param student
      * @param sectionId
      */
@@ -806,7 +805,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     /**
      * Filter a list of assessment results, based on the assessment family and
      * timed logic
-     *
+     * 
      * @param assmtResults
      * @param assmtFamily
      * @param timedLogic
@@ -878,7 +877,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#setEntityManager(org.slc.sli.dashboard.manager
      * .EntityManager)
@@ -890,7 +889,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.dashboard.manager.PopulationManagerI#getStudent(java.lang.String,
      * java.lang.String)
      */
@@ -923,7 +922,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.slc.sli.dashboard.manager.PopulationManagerI#getStudent(java.lang.String,
      * java.lang.Object, org.slc.sli.dashboard.entity.Config.Data)
      */
@@ -934,7 +933,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#getAttendance(java.lang.String,
      * java.lang.Object, org.slc.sli.dashboard.entity.Config.Data)
@@ -1067,8 +1066,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String nameOfInstitution = "";
                     // get school name from enrollment
                     if (enrollment != null) {
-                        Map<String, Object> school = (Map<String, Object>) enrollment
-                                .get(Constants.ATTR_SCHOOL);
+                        Map<String, Object> school = (Map<String, Object>) enrollment.get(Constants.ATTR_SCHOOL);
                         if (school != null) {
                             nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
                         }
@@ -1121,7 +1119,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#getSessionDates(java.lang.String,
      * java.lang.String)
@@ -1168,7 +1166,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         try {
             nameList = (String[]) nameQuery;
         } catch (ClassCastException cce) {
-            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1);
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1, "");
             return studentSearch;
         }
         // the query should contain at a minimum either a first or a last name
@@ -1178,8 +1176,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             firstName = nameList[0];
             lastName = nameList[1];
         }
-        if ((firstName == null || firstName.equals("")) && (lastName == null || lastName.equals(""))) {
-            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1);
+        if ((firstName == null || firstName.isEmpty()) && (lastName == null || lastName.isEmpty())) {
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1, "");
             return studentSearch;
         }
         // optionally (but typically), it should also contain pagination information
@@ -1198,14 +1196,37 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         String searchString = firstName + " " + lastName;
         searchString = searchString.trim();
 
-        List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        String searchingSchoolId = null;
+        if (nameList.length >= 5) {
+            searchingSchoolId = nameList[4];
+        }
+        if (searchingSchoolId == null || searchingSchoolId.isEmpty()) {
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), searchString, firstName == null ? ""
+                    : firstName, lastName == null ? "" : lastName, 0, pageNum, pageSize, 1, "");
+            return studentSearch;
+        }
+
+        List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName,
+                searchingSchoolId);
 
         List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token,
-                WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
+                WordUtils.capitalize(firstName), WordUtils.capitalize(lastName), searchingSchoolId);
 
         HashSet<GenericEntity> studentSet = new HashSet<GenericEntity>();
         studentSet.addAll(students);
         studentSet.addAll(titleCaseStudents);
+        
+        // API returns student entities with a current attending school when searching query is used
+        // for school id he/she used to attend.
+        // Dashboard search is interested only current attending school.
+        // Filtering old school
+        Iterator<GenericEntity> studentIterator = studentSet.iterator();
+        while (studentIterator.hasNext()) {
+            GenericEntity student = studentIterator.next();
+            if (!searchingSchoolId.equals(student.get("schoolId"))) {
+                studentIterator.remove();
+            }
+        }
 
         List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
         HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
@@ -1267,12 +1288,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         // fill the search map with results
         setStudentSearchEntity(studentSearch, enhancedStudents, searchString, firstName, lastName, numResults, pageNum,
-                pageSize, maxPageNum);
+                pageSize, maxPageNum, searchingSchoolId);
         return studentSearch;
     }
 
     private void setStudentSearchEntity(GenericEntity studentSearch, List<GenericEntity> students, String searchStr,
-            String firstName, String lastName, int numResults, int pageNum, int pageSize, int maxPageNum) {
+            String firstName, String lastName, int numResults, int pageNum, int pageSize, int maxPageNum,
+            String schoolId) {
         studentSearch.put(Constants.ATTR_STUDENTS, students);
         studentSearch.put(Constants.ATTR_SEARCH_STRING, searchStr);
         studentSearch.put(Constants.ATTR_FIRST_NAME, firstName);
@@ -1281,6 +1303,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, pageNum);
         studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, pageSize);
         studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, maxPageNum);
+        studentSearch.put(Constants.ATTR_SCHOOL_ID, schoolId);
     }
 
     @SuppressWarnings("unchecked")
@@ -1373,8 +1396,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * Returns a GenericEntity with startDate, endDate, and attendanceList.
      */
     @Override
-    public GenericEntity getStudentAttendanceForCalendar(String token,
-            Object studentId, Data config) {
+    public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Data config) {
 
         GenericEntity ge = new GenericEntity();
 
@@ -1385,12 +1407,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         GenericEntity firstWrapper = attendanceList.get(0);
         String schoolId = (String) firstWrapper.get("schoolId");
-        List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper.get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+        List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper
+                .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
             return ge;
         }
 
-        //Comparator, sort by "schoolYear" descending order
+        // Comparator, sort by "schoolYear" descending order
         Comparator<Map<String, Object>> schoolYearAttendanceComparator = new Comparator<Map<String, Object>>() {
             @Override
             public int compare(Map<String, Object> arg0, Map<String, Object> arg1) {
@@ -1423,7 +1446,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             for (Map attEvent : attList) {
                 String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                 if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-                    String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY)).replace(" ", "");
+                    String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY))
+                            .replace(" ", "");
                     attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
                     absentList.addLast(attEvent);
                 }
@@ -1438,12 +1462,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return ge;
     }
 
-
     /**
      * Returns the begin and end dates of the current school year.
      * The current school year is determined by comparing the current date to
      * the begin/end dates for sessions the user can see. If the current date
      * is not in any session, it returns the most recent session.
+     * 
      * @param token
      * @return
      * @throws Exception
@@ -1483,8 +1507,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             Date currentDate = new Date();
             Date sessionStart = sdf.parse(session.getString(Constants.ATTR_BEGIN_DATE));
             Date sessionEnd = sdf.parse(session.getString(Constants.ATTR_END_DATE));
-            if (sessionStart != null && sessionStart.before(currentDate)
-                    && sessionEnd != null && sessionEnd.after(currentDate)) {
+            if (sessionStart != null && sessionStart.before(currentDate) && sessionEnd != null
+                    && sessionEnd.after(currentDate)) {
                 schoolYear = session.getString(Constants.ATTR_SCHOOL_YEAR);
                 break;
             } else if (sessionEnd.before(currentDate)) {
@@ -1517,13 +1541,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return ret;
     }
 
-	@Override
-	public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
-		return entityManager.getEdorgProfile(token, (String) edorgId);
-	}
+    @Override
+    public GenericEntity getEdorgProfile(String token, Object edorgId, Config.Data config) {
+        return entityManager.getEdorgProfile(token, (String) edorgId);
+    }
 
-	@Override
-	public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
-		return entityManager.getStateEdorgProfile(token, (String) edorgId);
-	}
+    @Override
+    public GenericEntity getStateEdorgProfile(String token, Object edorgId, Config.Data config) {
+        return entityManager.getStateEdorgProfile(token, (String) edorgId);
+    }
 }

@@ -78,8 +78,8 @@ public class StudentAssessmentOptionalFieldAppenderTest {
         assessmentId1 = repo.create("assessment", createAssessment()).getEntityId();
         assessmentId2 = repo.create("assessment", createAssessment()).getEntityId();
 
-        repo.create("studentAssessmentAssociation", createTestStudentAssessmentAssociation(STUDENT_ID, assessmentId1));
-        repo.create("studentAssessmentAssociation", createTestStudentAssessmentAssociation(STUDENT_ID, assessmentId2));
+        repo.create("studentAssessment", createTestStudentAssessment(STUDENT_ID, assessmentId1));
+        repo.create("studentAssessment", createTestStudentAssessment(STUDENT_ID, assessmentId2));
     }
 
     @After
@@ -95,9 +95,9 @@ public class StudentAssessmentOptionalFieldAppenderTest {
         entities = studentAssessmentOptionalFieldAppender.applyOptionalField(entities, null);
         assertEquals("Should be 1", 1, entities.size());
 
-        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) entities.get(0).get("studentAssessments");
-        assertEquals("Should match", 2, studentAssessmentAssociations.size());
-        assertEquals("Should match", STUDENT_ID, studentAssessmentAssociations.get(0).get("studentId"));
+        List<EntityBody> studentAssessments = (List<EntityBody>) entities.get(0).get("studentAssessments");
+        assertEquals("Should match", 2, studentAssessments.size());
+        assertEquals("Should match", STUDENT_ID, studentAssessments.get(0).get("studentId"));
 
         EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentAssessments")).get(0);
         EntityBody assessment = (EntityBody) body.get("assessments");
@@ -114,7 +114,7 @@ public class StudentAssessmentOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createTestStudentAssessmentAssociation(String studentId, String assessmentId) {
+    private Map<String, Object> createTestStudentAssessment(String studentId, String assessmentId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("assessmentId", assessmentId);

@@ -1,2 +1,2 @@
-{"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessmentAssociation"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}
+{"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessment"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}
 {"eventId": "oplog:math_proficiency_aggregation", "triggers": [{"ns": "sli.student", "op": "u"}], "jar": "/POC/aggregation/Math-Proficiency-Aggregation/target/Math-Proficiency-Aggregation-1.0-SNAPSHOT-job.jar"}
