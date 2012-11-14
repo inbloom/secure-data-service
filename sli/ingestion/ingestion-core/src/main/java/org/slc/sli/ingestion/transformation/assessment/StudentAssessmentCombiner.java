@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
@@ -126,7 +127,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 studentId = (String) PropertyUtils.getNestedProperty(attributes,
-                        "StudentReference.StudentIdentity.StudentUniqueStateId");
+                        "studentId.StudentIdentity.StudentUniqueStateId");
             } catch (NoSuchMethodException e) {
                 LOG.warn("Unable to get StudentID within {} for StudentAssessment transform", attributes);
             } catch (Exception e) {
@@ -141,7 +142,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, Object> assessment = (Map<String, Object>) attributes.get("AssessmentReference");
+                Map<String, Object> assessment = (Map<String, Object>) attributes.get("assessmentId");
                 @SuppressWarnings("unchecked")
                 Map<String, Object> assessmentIdentity = (Map<String, Object>) assessment.get("AssessmentIdentity");
 
@@ -356,8 +357,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
-                         * 
-                         * 
+                         *
+                         *
                          * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
                          * if (assessmentItemAttrs.containsKey("assessmentReference")) {
                          * assessmentItemAttrs.remove("assessmentReference");
@@ -411,8 +412,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                          * to sli db. The assessmentreference will be used for supporting out of
                          * order
                          * ingestion in the future
-                         * 
-                         * 
+                         *
+                         *
                          * Map<String, Object> assessmentItemAttrs = assessmentItem.getAttributes();
                          * if (assessmentItemAttrs.containsKey("assessmentReference")) {
                          * assessmentItemAttrs.remove("assessmentReference");

@@ -200,10 +200,10 @@ public final class InterchangeStudentGradeGenerator {
         generateCompentencyLevelDescriptor(StudentGradeRelations.competencyLevelDescriptors, writer);
         System.out.println("Finished CompentencyLevelDescriptor [" + StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR
                 + "] Records Generated");
-        // generateLearningObjective(StudentGradeRelations.REPORT_CARD_META, writer);
-        // System.out.println("Finished LearningObjective [" +
-        // StudentGradeRelations.learningObjectives.size()
-        // + "] Records Generated");
+        generateLearningObjective(StudentGradeRelations.REPORT_CARD_META, writer);
+        System.out.println("Finished LearningObjective [" +
+        StudentGradeRelations.learningObjectives.size()
+         + "] Records Generated");
         generateStudentCompentencyObjective(StudentGradeRelations.REPORT_CARD_META, writer);
         System.out.println("Finished StudentCompentencyObjective ["
                 + StudentGradeRelations.studentCompetencyObjectives.size() + "] Records Generated");
@@ -456,7 +456,10 @@ public final class InterchangeStudentGradeGenerator {
                     LearningStandardId lsi = new LearningStandardId();
                     learningObjectiveIdCounter++;
                     lsi.setIdentificationCode(ID_PREFIX_LO + learningObjectiveIdCounter);
-                    loIdentity.getLearningObjectiveIdOrObjective().add(lsi);
+                    
+                    loIdentity.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+                    loIdentity.setObjective(loId);
+                    loIdentity.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
                     loRef.setLearningObjectiveIdentity(loIdentity);
 
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
@@ -621,6 +624,22 @@ public final class InterchangeStudentGradeGenerator {
             competencyLevelDescriptor.setPerformanceBaseConversion(PerformanceBaseType.ADVANCED);
 
             writer.marshal(competencyLevelDescriptor);
+        }
+    }
+
+    private static void generateLearningObjective(List<ReportCardMeta> reportCardMetas,
+            InterchangeWriter<InterchangeStudentGrade> writer) {
+
+        for (ReportCardMeta reportCardMeta : reportCardMetas) {
+            for (String loId : reportCardMeta.getLearningObjectiveIds()) {
+                LearningObjective lo = new LearningObjective();
+                lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+                lo.setDescription("Learning Objective Description");
+                lo.setObjective(loId);
+                lo.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
+
+                writer.marshal(lo);
+            }
         }
     }
 

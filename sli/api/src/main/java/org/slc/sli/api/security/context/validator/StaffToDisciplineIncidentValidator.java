@@ -56,7 +56,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             match = false;
             // The union of studentDisciplineIncidentAssociations and DI.schoolId
             NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.DISCIPLINE_INCIDENT_ID,
-                    NeutralCriteria.CRITERIA_IN, ids));
+                    NeutralCriteria.OPERATOR_EQUAL, id));
             Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                     basicQuery);
             for(Entity association : associations) {

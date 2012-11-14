@@ -104,7 +104,7 @@ public abstract class GenericResource {
         Resource association = resourceHelper.getAssociationName(uriInfo, template);
 
         ServiceResponse resp = resourceService.getEntities(base, id, association, resource,
-                URI.create(uriInfo.getRequestUri().getPath()));
+                URI.create(uriInfo.getRequestUri().getPath() + "?limit=0"));
 
         StringBuilder ids = new StringBuilder();
 

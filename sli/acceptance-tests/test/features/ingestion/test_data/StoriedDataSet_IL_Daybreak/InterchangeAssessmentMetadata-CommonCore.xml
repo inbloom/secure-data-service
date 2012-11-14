@@ -1,1523 +1,1305 @@
-<InterchangeAssessmentMetadata
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
-
-<!-- English learning standards -->
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text, including determining where the text leaves matters uncertain.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine two or more central ideas of a text and analyze their development over the course of the text, including how they interact and build on one another to provide a complex analysis; provide an objective summary of the text.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze a complex set of ideas or sequence of events and explain how specific individuals, ideas, or events interact and develop over the course of the text.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.4</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine the meaning of words and phrases as they are used in a text, including figurative, connotative, and technical meanings; analyze how an author uses and refines the meaning of a key term or terms over the course of a text (e.g., how Madison defines faction in Federalist No. 10).</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.5</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze and evaluate the effectiveness of the structure an author uses in his or her exposition or argument, including whether the structure makes points clear, convincing, and engaging.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.6</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine an author’s point of view or purpose in a text in which the rhetoric is particularly effective, analyzing how style and content contribute to the power, persuasiveness or beauty of the text.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.7</IdentificationCode>
-		</LearningStandardId>
-		<Description>Integrate and evaluate multiple sources of information presented in different media or formats (e.g., visually, quantitatively) as well as in words in order to address a question or solve a problem.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.8</IdentificationCode>
-		</LearningStandardId>
-		<Description>Delineate and evaluate the reasoning in seminal U.S. texts, including the application of constitutional principles and use of legal reasoning (e.g., in U.S. Supreme Court majority opinions and dissents) and the premises, purposes, and arguments in works of public advocacy (e.g., The Federalist, presidential addresses).</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.9</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze seventeenth-, eighteenth-, and nineteenth-century foundational U.S. documents of historical and literary significance (including The Declaration of Independence, the Preamble to the Constitution, the Bill of Rights, and Lincoln’s Second Inaugural Address) for their themes, purposes, and rhetorical features.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>RI.11-12.10</IdentificationCode>
-		</LearningStandardId>
-		<Description>By the end of the grade 11, read and comprehend literary nonfiction at the high end of the grades 11-CCR text complexity band independently and proficiently, with scaffolding as needed at the high end of the range. By the end of grade 12, read and comprehend literary nonfiction at the high end of the grades 11–CCR text complexity band independently and proficiently.</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-
-	<!-- Circles Learning Standards -->
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-C.1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Prove that all circles are similar.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-C.2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Identify and describe relationships among inscribed angles, radii, and chords. Include the relationship between central, inscribed, 
+<?xml version="1.0" ?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+    <!-- English learning standards -->
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text, including determining where the text leaves matters uncertain.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine two or more central ideas of a text and analyze their development over the course of the text, including how they interact and build on one another to provide a complex analysis; provide an objective summary of the text.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze a complex set of ideas or sequence of events and explain how specific individuals, ideas, or events interact and develop over the course of the text.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine the meaning of words and phrases as they are used in a text, including figurative, connotative, and technical meanings; analyze how an author uses and refines the meaning of a key term or terms over the course of a text (e.g., how Madison defines faction in Federalist No. 10).</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze and evaluate the effectiveness of the structure an author uses in his or her exposition or argument, including whether the structure makes points clear, convincing, and engaging.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine an author’s point of view or purpose in a text in which the rhetoric is particularly effective, analyzing how style and content contribute to the power, persuasiveness or beauty of the text.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.7</IdentificationCode>
+        </LearningStandardId>
+        <Description>Integrate and evaluate multiple sources of information presented in different media or formats (e.g., visually, quantitatively) as well as in words in order to address a question or solve a problem.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.8</IdentificationCode>
+        </LearningStandardId>
+        <Description>Delineate and evaluate the reasoning in seminal U.S. texts, including the application of constitutional principles and use of legal reasoning (e.g., in U.S. Supreme Court majority opinions and dissents) and the premises, purposes, and arguments in works of public advocacy (e.g., The Federalist, presidential addresses).</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.9</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze seventeenth-, eighteenth-, and nineteenth-century foundational U.S. documents of historical and literary significance (including The Declaration of Independence, the Preamble to the Constitution, the Bill of Rights, and Lincoln’s Second Inaugural Address) for their themes, purposes, and rhetorical features.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>RI.11-12.10</IdentificationCode>
+        </LearningStandardId>
+        <Description>By the end of the grade 11, read and comprehend literary nonfiction at the high end of the grades 11-CCR text complexity band independently and proficiently, with scaffolding as needed at the high end of the range. By the end of grade 12, read and comprehend literary nonfiction at the high end of the grades 11–CCR text complexity band independently and proficiently.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <!-- Circles Learning Standards -->
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Prove that all circles are similar.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Identify and describe relationships among inscribed angles, radii, and chords. Include the relationship between central, inscribed, 
 					  and circumscribed angles; inscribed angles on a diameter are right angles; the radius of a circle is perpendicular to the tangent where 
 					  the radius intersects the circle.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-C.3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Construct the inscribed and circumscribed circles of a triangle, and prove properties of angles for a quadrilateral 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Construct the inscribed and circumscribed circles of a triangle, and prove properties of angles for a quadrilateral 
 					 inscribed in a circle.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-C.4</IdentificationCode>
-		</LearningStandardId>
-		<Description>(+) Construct a tangent line from a point outside a given circle to the circle.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-C.5</IdentificationCode>
-		</LearningStandardId>
-		<Description>Derive using similarity the fact that the length of the arc intercepted by an angle is proportional to the radius, 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Construct a tangent line from a point outside a given circle to the circle.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Derive using similarity the fact that the length of the arc intercepted by an angle is proportional to the radius, 
 					 and define the radian measure of the angle as the constant of proportionality; derive the formula for the area of a sector.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-<!-- SRT Learning Standards -->
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Verify experimentally the properties of dilations given by a center and a scale factor:
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <!-- SRT Learning Standards -->
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Verify experimentally the properties of dilations given by a center and a scale factor:
 					 A dilation takes a line not passing through the center of the dilation to a parallel line, 
 					 and leaves a line passing through the center unchanged.
 					 The dilation of a line segment is longer or shorter in the ratio given by the scale factor.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Given two figures, use the definition of similarity in terms of similarity transformations to decide if they are similar; 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Given two figures, use the definition of similarity in terms of similarity transformations to decide if they are similar; 
 					 explain using similarity transformations the meaning of similarity for triangles as the equality of all corresponding pairs of 
 					 angles and the proportionality of all corresponding pairs of sides.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Use the properties of similarity transformations to establish the AA criterion for two triangles to be similar.
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use the properties of similarity transformations to establish the AA criterion for two triangles to be similar.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.4</IdentificationCode>
-		</LearningStandardId>
-		<Description>Prove theorems about triangles. Theorems include: a line parallel to one side of a triangle divides the other two proportionally, 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Prove theorems about triangles. Theorems include: a line parallel to one side of a triangle divides the other two proportionally, 
 					 and conversely; the Pythagorean Theorem proved using triangle similarity.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.5</IdentificationCode>
-		</LearningStandardId>
-		<Description>Use congruence and similarity criteria for triangles to solve problems and to prove relationships in geometric figures.
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use congruence and similarity criteria for triangles to solve problems and to prove relationships in geometric figures.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.6</IdentificationCode>
-		</LearningStandardId>
-		<Description>Understand that by similarity, side ratios in right triangles are properties of the angles in the triangle, 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Understand that by similarity, side ratios in right triangles are properties of the angles in the triangle, 
 					 leading to definitions of trigonometric ratios for acute angles.</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.7</IdentificationCode>
-		</LearningStandardId>
-		<Description>Explain and use the relationship between the sine and cosine of complementary angles.
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.7</IdentificationCode>
+        </LearningStandardId>
+        <Description>Explain and use the relationship between the sine and cosine of complementary angles.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.8</IdentificationCode>
-		</LearningStandardId>
-		<Description>Use trigonometric ratios and the Pythagorean Theorem to solve right triangles in applied problems.
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.8</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use trigonometric ratios and the Pythagorean Theorem to solve right triangles in applied problems.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.9</IdentificationCode>
-		</LearningStandardId>
-		<Description>(+) Derive the formula A = 1/2 ab sin(C) for the area of a triangle by drawing an auxiliary line from a vertex perpendicular to the 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.9</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Derive the formula A = 1/2 ab sin(C) for the area of a triangle by drawing an auxiliary line from a vertex perpendicular to the 
 					opposite side.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.10</IdentificationCode>
-		</LearningStandardId>
-		<Description>(+) Prove the Laws of Sines and Cosines and use them to solve problems.
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.10</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Prove the Laws of Sines and Cosines and use them to solve problems.
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard>
-		<LearningStandardId>
-			<IdentificationCode>G-SRT.11</IdentificationCode>
-		</LearningStandardId>
-		<Description>(+) Understand and apply the Law of Sines and the Law of Cosines to find unknown measurements in right and non-right triangles 
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.11</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Understand and apply the Law of Sines and the Law of Cosines to find unknown measurements in right and non-right triangles 
 					 (e.g., surveying problems, resultant forces).
 		</Description>
-		<ContentStandard>National Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>Mathematics</SubjectArea>
-	</LearningStandard>
-
-
-  <!-- LearningStandards for 3rd graders -->
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-1</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for reading</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Reading</SubjectArea>
-    <CourseTitle>Reading</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-2</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for writing</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Writing</SubjectArea>
-    <CourseTitle>Writing</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-3</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for math</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Mathematics</SubjectArea>
-    <CourseTitle>Math</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-4</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for Social Studies</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Social Studies</SubjectArea>
-    <CourseTitle>Social Studies</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-5</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for science</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Science</SubjectArea>
-    <CourseTitle>Science</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-G3-6</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for phys-ed</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Third grade</GradeLevel>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <CourseTitle>Phys-Ed</CourseTitle>
-  </LearningStandard>
-
-  <!-- LearningStandards for kindergartners -->
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-1</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for reading</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Reading</SubjectArea>
-    <CourseTitle>Reading</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-2</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for writing</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Writing</SubjectArea>
-    <CourseTitle>Writing</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-3</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for math</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Mathematics</SubjectArea>
-    <CourseTitle>Math</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-4</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for science</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Science</SubjectArea>
-    <CourseTitle>Science</CourseTitle>
-  </LearningStandard>
-
-<!-- English Learning Objectives -->
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>RI-11-12</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Reading: Informational Text</Objective>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.1</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.2</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.3</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.4</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.5</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.6</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.7</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.8</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.9</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>RI.11-12.10</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-	</LearningObjective>
-	
-	<!-- Geometry Learning Objectives -->
-
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>G</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Geometry</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference>
-			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-C</IdentificationCode>
-				</LearningObjectiveId>
-			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
-		<LearningObjectiveReference>
-			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-SRT</IdentificationCode>
-				</LearningObjectiveId>
-			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
-	</LearningObjective>
-
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>G-C</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Circles</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.1</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.2</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.3</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.4</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.5</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-	</LearningObjective>
-
-
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>G-SRT</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Similarity, Right Triangle, and Trigonometry</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.1</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.2</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.3</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.4</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.5</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.6</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.7</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.8</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.9</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.10</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-SRT.11</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-	</LearningObjective>
-
-
-  <!-- LearningObjectives for 3rd graders -->
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-1</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Fluency and Expression</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    <!-- LearningStandards for 3rd graders -->
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-1</IdentificationCode>
+            <IdentificationCode>LS-G3-1</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-2</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Story Grammar</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for reading</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+        <CourseTitle>Reading</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-1</IdentificationCode>
+            <IdentificationCode>LS-G3-2</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-3</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Informational Text</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-1</IdentificationCode>
+            <IdentificationCode>LS-G3-3</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-4</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Comprehension</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for math</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+        <CourseTitle>Math</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-1</IdentificationCode>
+            <IdentificationCode>LS-G3-4</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-5</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Expository Writing</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for Social Studies</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Social Studies</SubjectArea>
+        <CourseTitle>Social Studies</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-G3-5</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-6</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Narrative Writing</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for science</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Science</SubjectArea>
+        <CourseTitle>Science</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-G3-6</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-7</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Spelling</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for phys-ed</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+        <CourseTitle>Phys-Ed</CourseTitle>
+    </LearningStandard>
+    <!-- LearningStandards for kindergartners -->
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-GK-1</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-8</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Punctuation</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for reading</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+        <CourseTitle>Reading</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-GK-2</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-9</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Grammar and Usage</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-2</IdentificationCode>
+            <IdentificationCode>LS-GK-3</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-10</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Fractions</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
+        <Description>Description of learning standard for math</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+        <CourseTitle>Math</CourseTitle>
+    </LearningStandard>
+    <LearningStandard>
         <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
+            <IdentificationCode>LS-GK-4</IdentificationCode>
         </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-11</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>2 x 2 Multiplication</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-12</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Weights and Measures</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-13</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Place Value</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-14</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Addition (Sums to 100)</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-15</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Subtraction (Differences to 50)</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-16</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>The Revolutionary Period</Objective>
-    <AcademicSubject>Social Studies</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-17</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>U.S. Geography</Objective>
-    <AcademicSubject>Social Studies</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-18</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Polls and Surveys</Objective>
-    <AcademicSubject>Social Studies</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-19</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Elections and Legislation</Objective>
-    <AcademicSubject>Social Studies</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-20</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Gravity</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-5</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-21</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Electro-Magnetism</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-5</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-22</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Data Collection</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-5</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-23</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Experimental Design</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-5</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-24</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Soccer</Objective>
-    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-6</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-25</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Sportsmanship</Objective>
-    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-6</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-26</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Track and Field</Objective>
-    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-6</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-G3-27</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Archery</Objective>
-    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
-    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-G3-6</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-
-  <!-- LearningObjectives for kindergartners -->
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-1</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Phonemic Awareness</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-2</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Phonics</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-3</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Comprehension</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-4</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Fluency</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-5</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Content</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-6</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Sentence Structure</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-7</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Conventions</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-8</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Handwriting</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-9</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Computation</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-10</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Calculus</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-11</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Measurement</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-12</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Statistics</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-13</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>States of Matter</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-14</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>The Water Cycle</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-15</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>The Universe</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-16</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Scientific Method</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-17</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Initial Sounds</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-18</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Final Sounds</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-19</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Digraphs</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-20</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Summary</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-1</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-21</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Handwriting</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-22</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Spelling</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-23</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Initial and Terminal Punctuation</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-24</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Sentences in SVO Form</Objective>
-    <AcademicSubject>Writing</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-2</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-25</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Counting: Up to 20 by 1s, 2s, and 5s</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-26</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Addition: Sums 0 to 20</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-27</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Subtraction: Differences 0 to 10</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-28</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Spelling of numerals</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-3</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-29</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Dinosaurs</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-30</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>The Rainforest</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-31</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>The Solar System</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-  <LearningObjective>
-    <LearningObjectiveId>
-      <IdentificationCode>LO-GK-32</IdentificationCode>
-    </LearningObjectiveId>
-    <Objective>Hypothesis</Objective>
-    <AcademicSubject>Science</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    <LearningStandardReference>
-      <LearningStandardIdentity>
-        <LearningStandardId>
-          <IdentificationCode>LS-GK-4</IdentificationCode>
-        </LearningStandardId>
-      </LearningStandardIdentity>
-    </LearningStandardReference>
-  </LearningObjective>
-
+        <Description>Description of learning standard for science</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <SubjectArea>Science</SubjectArea>
+        <CourseTitle>Science</CourseTitle>
+    </LearningStandard>
+    <!-- English Learning Objectives -->
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>RI-11-12</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Reading: Informational Text</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.7</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.8</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.9</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-12.10</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <!-- Geometry Learning Objectives -->
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>G</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Geometry</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>Circles</Objective>
+				<AcademicSubject>Mathematics</AcademicSubject>
+				<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>G-C</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Circles</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-C.1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-C.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-C.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-C.4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-C.5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>G-SRT</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Similarity, Right Triangle, and Trigonometry</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.7</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.8</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.9</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.10</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.11</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <!-- LearningObjectives for 3rd graders -->
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-1</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Fluency and Expression</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-2</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Story Grammar</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-3</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Informational Text</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-4</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Comprehension</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-5</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Expository Writing</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-6</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Narrative Writing</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-7</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Spelling</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-8</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Punctuation</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-9</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Grammar and Usage</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-10</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Fractions</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-11</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>2 x 2 Multiplication</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-12</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Weights and Measures</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-13</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Place Value</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-14</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Addition (Sums to 100)</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-15</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Subtraction (Differences to 50)</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-16</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>The Revolutionary Period</Objective>
+        <AcademicSubject>Social Studies</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-17</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>U.S. Geography</Objective>
+        <AcademicSubject>Social Studies</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-18</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Polls and Surveys</Objective>
+        <AcademicSubject>Social Studies</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-19</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Elections and Legislation</Objective>
+        <AcademicSubject>Social Studies</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-20</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Gravity</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-21</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Electro-Magnetism</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-22</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Data Collection</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-23</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Experimental Design</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-24</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Soccer</Objective>
+        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-25</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Sportsmanship</Objective>
+        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-26</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Track and Field</Objective>
+        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-G3-27</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Archery</Objective>
+        <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+        <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-G3-6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <!-- LearningObjectives for kindergartners -->
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-1</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Phonemic Awareness</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-2</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Phonics</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-3</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Comprehension</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-4</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Fluency</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-5</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Content</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-6</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Sentence Structure</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-7</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Conventions</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-8</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Handwriting</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-9</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Computation</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-10</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Calculus</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-11</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Measurement</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-12</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Statistics</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-13</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>States of Matter</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-14</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>The Water Cycle</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-15</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>The Universe</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-16</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Scientific Method</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-17</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Initial Sounds</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-18</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Final Sounds</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-19</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Digraphs</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-20</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Summary</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-21</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Handwriting</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-22</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Spelling</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-23</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Initial and Terminal Punctuation</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-24</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Sentences in SVO Form</Objective>
+        <AcademicSubject>Writing</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-25</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Counting: Up to 20 by 1s, 2s, and 5s</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-26</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Addition: Sums 0 to 20</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-27</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Subtraction: Differences 0 to 10</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-28</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Spelling of numerals</Objective>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-29</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Dinosaurs</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-30</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>The Rainforest</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-31</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>The Solar System</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>LO-GK-32</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Hypothesis</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>LS-GK-4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
 </InterchangeAssessmentMetadata>

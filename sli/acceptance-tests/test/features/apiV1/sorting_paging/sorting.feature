@@ -218,7 +218,13 @@ Scenario: Confirm default limit of 50 entities and ability to override
     And I navigate to GET "/v1/schools/ec2e4218-6483-4e9c-8954-0aecccfd4731/studentSchoolAssociations/students"
    Then I should receive a collection with 62 elements
     And the a next link should not exist
-    
+
+Scenario: Confirm limit only affects final segment of URL
+  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/json"
+   When parameter "limit" is "55"
+    And I navigate to GET "/v1/schools/ec2e4218-6483-4e9c-8954-0aecccfd4731/studentSchoolAssociations/students/attendances"
+   Then I should receive a collection with 55 elements
     
 @DE1688
 Scenario: Confirm negative limit is blocked by API

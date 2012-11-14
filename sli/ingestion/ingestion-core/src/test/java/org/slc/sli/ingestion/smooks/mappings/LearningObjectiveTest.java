@@ -53,85 +53,87 @@ public class LearningObjectiveTest {
             + "  <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>"
             + "  <LearningObjectiveReference>"
             + "    <LearningObjectiveIdentity>"
-            + "      <Objective>objective</Objective>"
-            + "    </LearningObjectiveIdentity>"
-            + "  </LearningObjectiveReference>"
-            + "  <LearningObjectiveReference></LearningObjectiveReference>"
-            + "  <LearningObjectiveReference>"
-            + "    <LearningObjectiveIdentity>"
-            + "      <LearningObjectiveId ContentStandardName=\"standard_name\">"
-            + "        <IdentificationCode>objective_id</IdentificationCode>"
-            + "      </LearningObjectiveId>"
+            + "       <Objective>Expository Writing</Objective>"
+            + "       <AcademicSubject>Writing</AcademicSubject>"
+            + "       <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>"
             + "    </LearningObjectiveIdentity>"
             + "  </LearningObjectiveReference>"
             + "  <LearningStandardReference>"
             + "    <LearningStandardIdentity>"
-            + "      <LearningStandardId ContentStandardName=\"standard_name\">"
-            + "        <IdentificationCode>standard_id</IdentificationCode>"
-            + "      </LearningStandardId>"
+            + "       <IdentificationCode>standard_id</IdentificationCode>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
             + "</LearningObjective>" + "</InterchangeAssessmentMetadata>";
 
-    @SuppressWarnings("unchecked")
+    private String validXmlTestData_SG = "<InterchangeStudentGrade xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
+            + "<LearningObjective>"
+            + "  <Objective>objective text</Objective>"
+            + "  <Description>description</Description>"
+            + "  <AcademicSubject>ELA</AcademicSubject>"
+            + "  <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>"
+            + "  <LearningObjectiveReference>"
+            + "    <LearningObjectiveIdentity>"
+            + "       <Objective>Expository Writing</Objective>"
+            + "       <AcademicSubject>Writing</AcademicSubject>"
+            + "       <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>"
+            + "    </LearningObjectiveIdentity>"
+            + "  </LearningObjectiveReference>"
+            + "  <LearningStandardReference>"
+            + "    <LearningStandardIdentity>"
+            + "       <IdentificationCode>standard_id</IdentificationCode>"
+            + "    </LearningStandardIdentity>"
+            + "  </LearningStandardReference>"
+            + "</LearningObjective>" + "</InterchangeStudentGrade>";
+
     @Test
-    public void testLearningObjectiveXML() throws IOException, SAXException {
+    public void testLearningObjectiveXMLInAssessments() throws IOException, SAXException {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeAssessmentMetadata/LearningObjective";
 
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 validXmlTestData, recordLevelDeltaEnabledEntityNames);
-        Map<String, Object> m = nr.getAttributes();
+
+        checkValidLO(nr);
+    }
+
+    @Test
+    public void testLearningObjectiveXMLInStudentGrade() throws IOException, SAXException {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStudentGrade/LearningObjective";
+
+        NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+        		validXmlTestData_SG, recordLevelDeltaEnabledEntityNames);
+
+        checkValidLO(nr);
+    }
+
+    @SuppressWarnings("unchecked")
+	private void checkValidLO(NeutralRecord nr) {
+    	Map<String, Object> m = nr.getAttributes();
         Assert.assertEquals("objective text", m.get("objective"));
         Assert.assertEquals("description", m.get("description"));
         Assert.assertEquals("ELA", m.get("academicSubject"));
         Assert.assertEquals("Twelfth grade", m.get("objectiveGradeLevel"));
+
         List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) m.get("learningObjectiveRefs");
-        Assert.assertNotNull(learningObjectives);
-        Assert.assertEquals(3, learningObjectives.size());
+        Assert.assertEquals(1, learningObjectives.size());
+        Map<String, Object> learningObjectiveRef = learningObjectives.get(0);
+        Assert.assertNotNull(learningObjectiveRef);
+        Map<String, Object> learningObjectiveIdentity = (Map<String, Object>) learningObjectiveRef.get("LearningObjectiveIdentity");
+        Assert.assertNotNull(learningObjectiveIdentity);
 
-        assertInList(learningObjectives, "objective", "objective");
-        assertInList(learningObjectives, "learningObjectiveId.identificationCode", "objective_id");
-        assertInList(learningObjectives, "learningObjectiveId.contentStandardName", "standard_name");
+        Assert.assertEquals("Expository Writing", learningObjectiveIdentity.get("Objective"));
+        Assert.assertEquals("Writing", learningObjectiveIdentity.get("AcademicSubject"));
+        Assert.assertEquals("Second grade", learningObjectiveIdentity.get("ObjectiveGradeLevel"));
 
-        List<Map<String, Object>> learningStandards = (List<Map<String, Object>>) m.get("learningStandardRefs");
-        assertInList(learningStandards, "learningStandardId.identificationCode", "standard_id");
-        assertInList(learningStandards, "learningStandardId.contentStandardName", "standard_name");
-    }
+        List<Map<String, Object>> learningStandards = (List<Map<String, Object>>) m.get("LearningStandardReference");
+        Assert.assertEquals(1, learningStandards.size());
+        Map<String, Object> learningStandardRef = learningStandards.get(0);
 
+        Assert.assertNotNull(learningStandardRef);
+        Map<String, Object> learningStandardIdentity = (Map<String, Object>) learningStandardRef.get("LearningStandardIdentity");
+        Assert.assertNotNull(learningStandardIdentity);
 
-    private static void assertInList(List<Map<String, Object>> maps, String field, String value) {
-        for (Map<String, Object> m : maps) {
-            if (field.indexOf(".") > -1) {
-                String v = getByPath(field, m);
-                if (v != null && v.equals(value)) {
-                    return;
-                }
-            } else if (value.equals(m.get(field))) {
-                return;
-            }
-        }
-        Assert.fail("Did not find " + field + "=" + value + " in list");
-    }
-
-    @SuppressWarnings("unchecked")
-    private static String getByPath(String name, Map<String, Object> map) {
-        if (map == null) {
-            return null;
-        }
-        String[] path = name.split("\\.");
-        for (int i = 0; i < path.length; i++) {
-            Object obj = map.get(path[i]);
-            if (obj == null) {
-                return null;
-            } else if (i == path.length - 1 && obj instanceof String) {
-                return (String) obj;
-            } else if (obj instanceof Map) {
-                map = (Map<String, Object>) obj;
-            } else {
-                return null;
-            }
-        }
-        return null;
+        Assert.assertEquals("standard_id", learningStandardIdentity.get("IdentificationCode"));
     }
 }
