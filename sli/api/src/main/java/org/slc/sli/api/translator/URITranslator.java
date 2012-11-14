@@ -22,6 +22,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -174,6 +175,9 @@ public class URITranslator {
                         }
                     }
                 }
+            }
+            if (translatedIdList.isEmpty()) {
+                throw new EntityNotFoundException("Could not locate entity.");
             }
             return buildTranslatedPath(translatedIdList);
         }

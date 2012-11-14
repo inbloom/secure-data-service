@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="LearningStandardId" type="{http://ed-fi.org/0100}LearningStandardId" minOccurs="0"/>
+ *         &lt;element name="IdentificationCode" type="{http://ed-fi.org/0100}IdentificationCode"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -53,36 +53,36 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningStandardIdentityType", propOrder = {
-    "learningStandardId"
+@XmlType(name = "SLC-LearningStandardIdentityType", propOrder = {
+    "identificationCode"
 })
 public class LearningStandardIdentityType {
 
-    @XmlElement(name = "LearningStandardId")
-    protected LearningStandardId learningStandardId;
+    @XmlElement(name = "IdentificationCode")
+    protected String identificationCode;
 
     /**
-     * Gets the value of the learningStandardId property.
+     * Gets the value of the identificationCode property.
      * 
      * @return
      *     possible object is
-     *     {@link LearningStandardId }
+     *     {@link IdentificationCode }
      *     
      */
-    public LearningStandardId getLearningStandardId() {
-        return learningStandardId;
+    public String getIdentificationCode() {
+        return identificationCode;
     }
 
     /**
-     * Sets the value of the learningStandardId property.
+     * Sets the value of the identificationCode property.
      * 
      * @param value
      *     allowed object is
-     *     {@link LearningStandardId }
+     *     {@link IdentificationCode }
      *     
      */
-    public void setLearningStandardId(LearningStandardId value) {
-        this.learningStandardId = value;
+    public void setLearningStandardId(String value) {
+        this.identificationCode = value;
     }
 
 }

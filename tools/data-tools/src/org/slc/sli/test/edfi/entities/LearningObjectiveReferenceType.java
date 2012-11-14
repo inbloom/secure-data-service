@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningObjectiveReferenceType", propOrder = {
+@XmlType(name = "SLC-LearningObjectiveReferenceType", propOrder = {
     "learningObjectiveIdentity"
 })
 public class LearningObjectiveReferenceType

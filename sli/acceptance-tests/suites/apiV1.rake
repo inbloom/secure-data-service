@@ -47,6 +47,11 @@ task :apiV1QueryingTests => [:realmInit] do
   runTests("test/features/apiV1/querying/querying.feature")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
+desc "Run API querying tests"
+task :apiV1NTSQueryingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/querying/no_table_scan.feature")
+end
 
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
@@ -70,13 +75,17 @@ end
 desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferences")
+  runTests("test/features/apiV1/associations/directReferences/directReferences.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
 end
 
 desc "Run V1 Direct Reference Collections Tests"
 task :v1DirectReferenceCollectionsTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferenceCollections")
+  runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferenceCollections/directReferenceCollections_teacher.feature")
 end
 
 desc "Run V1 Common Core Standards reference traversal Tests"
