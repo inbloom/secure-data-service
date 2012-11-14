@@ -47,8 +47,24 @@ FOOTER
         end
       end
 
+      for id in programs(yamlHash)
+        f.write Program.new(id.to_s, prng).render
+      end
+
+      for id in courses(yamlHash)
+        f.write Course.new(id.to_s, prng).render
+      end
+
       f.write(@footer)
     end
   end
   
+end
+
+def programs(yaml)
+  (0..yaml['numPrograms'])
+end
+
+def courses(yaml)
+  (0..yaml['numCourses'])
 end

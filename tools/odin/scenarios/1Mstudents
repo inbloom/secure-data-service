@@ -4,3 +4,5 @@ studentCount: 1000000
 numSEA: 1
 numLEA: 1
 studentsPerSchool: 1000
+numPrograms: 4
+numCourses: 50
