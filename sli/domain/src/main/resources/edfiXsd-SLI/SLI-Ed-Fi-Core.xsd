@@ -1597,6 +1597,24 @@ Met standard
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="SLC-StudentObjectiveAssessment">
+		<xs:annotation>
+			<xs:documentation>SLC - Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType </xs:documentation>
+			<xs:appinfo>
+				<sli:recordType>studentObjectiveAssessment</sli:recordType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
+					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
+					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:annotation>
 		<xs:documentation>===== Associations =====</xs:documentation>
 	</xs:annotation>
@@ -1730,24 +1748,6 @@ Met standard
 					<xs:element name="StudentParticipationCode" type="StudentParticipationCodeType"/>
 					<xs:element name="Behaviors" type="BehaviorDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="SecondaryBehaviors" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="SLC-StudentObjectiveAssessment">
-		<xs:annotation>
-			<xs:documentation>SLC - Change StudentObjectiveAssessment.StudentAssessmentReference to StudentAssessmentReferenceType </xs:documentation>
-			<xs:appinfo>
-				<sli:recordType>studentObjectiveAssessment</sli:recordType>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded"/>
-					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
-					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
