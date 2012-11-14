@@ -38,9 +38,7 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -119,20 +117,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-            	// HACK HACK HACK HACK ... and needs more work
-                // didResolver has problems resolving StudentReference in "attendance" currently,
-                // but it is not needed for DID calculation so we skip it
-                NeutralRecord neutralRecordResolved = null;
-            	if (!"attendance".equals(neutralRecord.getRecordType())) {
-                    neutralRecordResolved = (NeutralRecord) neutralRecord.clone();
-                    Entity entity = new NeutralRecordEntity(neutralRecordResolved);
-                    didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), errorReport);
-                }
-
-                // Entity entity = new NeutralRecordEntity(neutralRecord);
-                // didResolver.resolveInternalIds(entity, neutralRecord.getSourceId(), errorReport);
-
-                if ( !SliDeltaManager.isPreviouslyIngested(neutralRecord, neutralRecordResolved, batchJobDAO, dIdStrategy)) {
+                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, didResolver, errorReport)) {
                     queueNeutralRecordForWriting(neutralRecord);
 
                 } else {

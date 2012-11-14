@@ -32,6 +32,8 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Tests for SliDeltaManager
@@ -42,9 +44,14 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 @ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
 public class SliDeltaManagerTest {
     @Mock
+    private ErrorReport errorReport;
+    @Mock
     private BatchJobMongoDA mockBatchJobMongoDA;
     @Mock
     private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
+    @Mock
+    private DeterministicIdResolver didResolver;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -60,24 +67,31 @@ public class SliDeltaManagerTest {
         record.getAttributes().put("key2", "value2");
         record.getAttributes().put("key3", "value3");
         RecordHash hash = new RecordHash();
-        hash._id       = "id";
-        hash.created = "timestamp";
+        hash._id       = "mockedId";
+        hash.hash      = "mockedHash";
+        hash.created   = "mockedCreated";
+        hash.updated   = "mockedUpdated";
         hash.tenantId  = "tenantId";
         TenantContext.setTenantId("tenantId");
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(null);
-        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(record, null, mockBatchJobMongoDA, mockDIdStrategy));
+        Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(null);
+        Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA, mockDIdStrategy, didResolver, errorReport));
         String fId = (String)record.getMetaData().get("rhId");
+        String fHash = (String)record.getMetaData().get("rhHash");
         String fTenantId = (String)record.getMetaData().get("rhTenantId");
 
         Mockito.when(mockBatchJobMongoDA.findRecordHash(any(String.class), any(String.class))).thenReturn(hash);
-        Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(record, null, mockBatchJobMongoDA, mockDIdStrategy));
+        Assert.assertTrue(SliDeltaManager.isPreviouslyIngested(record, mockBatchJobMongoDA, mockDIdStrategy, didResolver, errorReport));
         Assert.assertNotNull(record.getMetaData().get("rhId"));
+        Assert.assertNotNull(record.getMetaData().get("rhHash"));
         Assert.assertNotNull(record.getMetaData().get("rhTenantId"));
 
         String sId = (String)record.getMetaData().get("rhId");
-        String sTenantId = (String)record.getMetaData().get("rhId");
+        String sHash = (String)record.getMetaData().get("rhHash");
+        String sTenantId = (String)record.getMetaData().get("rhTenantId");
 
         Assert.assertEquals(fId, sId);
+        Assert.assertEquals(fHash, sHash);
         Assert.assertEquals(fTenantId, sTenantId);
     }
 }
