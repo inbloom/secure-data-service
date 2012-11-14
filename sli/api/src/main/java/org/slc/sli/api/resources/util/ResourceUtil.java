@@ -19,6 +19,7 @@ package org.slc.sli.api.resources.util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -315,19 +316,20 @@ public class ResourceUtil {
                 if (referenceGuid != null) {
                     Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField
                             .getValue().getResourceName());
+                    if (resourceNames == null) {
+                        resourceNames = Collections.emptySet();
+                    }
                     count--;
-                    if (resourceNames != null) {
-                        for (String resourceName : resourceNames) {
-                            String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
-                            if (count > 0) {
-                                linkName = linkName + "[" + count + "]";
-                            }
-                            if (!linkName.isEmpty()) {
-                                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                        PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
-                            }
-
+                    for (String resourceName : resourceNames) {
+                        String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
+                        if (count > 0) {
+                            linkName = linkName + "[" + count + "]";
                         }
+                        if (!linkName.isEmpty()) {
+                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                    PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                        }
+
                     }
                 }
             }
