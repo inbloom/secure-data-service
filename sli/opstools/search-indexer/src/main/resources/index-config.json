@@ -18,6 +18,7 @@
         "_timestamp" : { "enabled" : true },
         "properties": {
           "context": {
+            "include_in_all" : false,
             "properties": {
               "schoolId": {
                 "type": "string",
@@ -46,6 +47,7 @@
         "_timestamp" : { "enabled" : true },
         "properties": {
           "context": {
+            "include_in_all" : false,
             "properties": {
               "schoolId": {
                 "type": "string",
@@ -84,6 +86,7 @@
         "_timestamp" : { "enabled" : true },
         "properties": {
           "context": {
+            "include_in_all" : false,
             "properties": {
               "schoolId": {
                 "type": "string",
