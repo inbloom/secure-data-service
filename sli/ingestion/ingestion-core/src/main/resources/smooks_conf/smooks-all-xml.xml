@@ -1934,16 +1934,23 @@
     <jb:value property="schoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
     <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
     <jb:wiring beanIdRef="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
-    <jb:value property="schoolId"
-      data="InterchangeStudentAttendance/AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring beanIdRef="SLC-Attendance_EducationOrganizationReference" property="SchoolReference" />
     <jb:wiring beanIdRef="SLC-AttendanceEvent_data_as_array" property="attendanceEvent"/>
   </jb:bean>
-  
+
+  <jb:bean beanId="SLC-Attendance_EducationOrganizationReference" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="SLC-Attendance_EducationOrganizationReference_EducationalOrgIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="SLC-Attendance_EducationOrganizationReference_EducationalOrgIdentity" class="java.util.HashMap"
+           createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+    <jb:value property="StateOrganizationId" data="AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
   <jb:bean beanId="SLC-AttendanceEvent_data_as_array" class="java.util.ArrayList" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
      <jb:wiring beanIdRef="SLC-AttendanceEvent_data_as_array_single_value" />
   </jb:bean>
-  
-  
+
   <jb:bean beanId="SLC-AttendanceEvent_data_as_array_single_value" class="java.util.HashMap"
            createOnElement="InterchangeStudentAttendance/AttendanceEvent">
      <jb:value property="date" data="InterchangeStudentAttendance/AttendanceEvent/EventDate" />

@@ -41,7 +41,7 @@
           <xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0" />
           <xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0" />
           <xs:element name="StudentReference" type="SLC-StudentReferenceType" />
-          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0" />
           <xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0" />
         </xs:sequence>

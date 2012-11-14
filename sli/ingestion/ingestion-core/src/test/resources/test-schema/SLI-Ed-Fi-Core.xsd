@@ -40,7 +40,7 @@
           <xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0" />
           <xs:element name="StudentReference" type="StudentReferenceType" />
           <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0" />
-          <xs:element name="SchoolReference" type="EducationalOrgReferenceType" />
+          <xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType" />
           <xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0" />
         </xs:sequence>
       </xs:restriction>

@@ -2,7 +2,7 @@
     "keyFields" : ["body.schoolId", "body.studentId", "body.schoolYear"],
 	"references" :
 	[{
-        "fieldPath" : "body.schoolId",
+        "fieldPath" : "body.SchoolReference",
         "deprecated": true,
         "ref" :
         {
