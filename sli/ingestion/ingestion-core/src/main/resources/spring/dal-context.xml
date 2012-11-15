@@ -130,7 +130,7 @@
 
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
 
-  <util:set id="stagingIndexes" set-class="java.util.HashSet">
+  <util:set id="stagingIndexes" set-class="java.util.TreeSet">
     <!-- (collection,unique,indexKeys ...) -->
     <!-- creationTime indexes for all collections -->
     <value>assessment,false,creationTime</value>
