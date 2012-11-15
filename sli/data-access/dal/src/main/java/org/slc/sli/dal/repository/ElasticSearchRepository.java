@@ -50,7 +50,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -139,9 +138,6 @@ public class ElasticSearchRepository implements Repository<Entity> {
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, params);
-        } catch (RestClientException rce) {
-            LOG.error("Error sending elastic search request!", rce);
-            throw rce;
         } finally {
             LOG.info("ES call {} finished in {} ms", entity, System.currentTimeMillis() - start);
         }
