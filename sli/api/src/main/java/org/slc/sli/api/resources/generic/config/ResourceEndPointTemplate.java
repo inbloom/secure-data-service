@@ -28,6 +28,7 @@ public class ResourceEndPointTemplate {
     private String path;
     private String doc;
     private String resourceClass;
+    private boolean allowQuerying = true;
     private List<ResourceEndPointTemplate> subResources;
 
     public String getDoc() {
@@ -60,5 +61,13 @@ public class ResourceEndPointTemplate {
 
     public void setSubResources(List<ResourceEndPointTemplate> subResources) {
         this.subResources = subResources;
+    }
+
+    public boolean isAllowQuerying() {
+        return allowQuerying;
+    }
+
+    public void setAllowQuerying(boolean allowQuerying) {
+        this.allowQuerying = allowQuerying;
     }
 }

@@ -17,9 +17,11 @@ package org.slc.sli.api.resources.generic.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
@@ -49,6 +51,8 @@ public class ResourceEndPoint {
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
 
+    private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
+
     @Autowired
     private ResourceHelper resourceHelper;
 
@@ -65,6 +69,11 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
+
+            if (!resource.isAllowQuerying()) {
+                queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+            }
+
             resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
 
@@ -121,5 +130,9 @@ public class ResourceEndPoint {
 
     public Map<String, String> getResources() {
         return resourceEndPoints;
+    }
+
+    public List<String> getQueryingDisallowedEndPoints() {
+        return queryingDisallowedEndPoints;
     }
 }

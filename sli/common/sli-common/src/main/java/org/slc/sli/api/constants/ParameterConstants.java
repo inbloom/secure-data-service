@@ -17,6 +17,9 @@
 
 package org.slc.sli.api.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Constants used in URI requests.
  *
@@ -123,6 +126,10 @@ public class ParameterConstants {
     public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
     public static final String OPTIONAL_FIELD_TRANSCRIPT = "transcript";
     public static final String OPTIONAL_FIELD_GRADE_LEVEL = "gradeLevel";
+
+    public static final List<String> DEFAULT_QUERY_PARAMS = Arrays.asList(OFFSET, LIMIT, SELECTOR,
+            INCLUDE_FIELDS, EXCLUDE_FIELDS, SORT_BY, SORT_ORDER, OPTIONAL_FIELDS, INCLUDE_CUSTOM,
+            INCLUDE_CALCULATED, INCLUDE_AGGREGATES);
 
     /**
      * Entity/Association IDs
