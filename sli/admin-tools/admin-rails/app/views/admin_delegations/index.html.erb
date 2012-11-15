@@ -1,4 +1,7 @@
   <h2>District <%= @edorgName  %> - Delegate District Privileges to a State Super Administrator</h2>
+<div id="notice">
+	<%= notice %>
+</div>
   <p />
   <%= form_for(@admin_delegation) do |f| %>
     <%= f.hidden_field :localEdOrgId %>
