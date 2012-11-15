@@ -1,0 +1,13 @@
+{
+"recordType":"attendance",
+"attributes":
+{
+    "schoolId":
+    {
+        "EducationalOrgIdentity":
+        {
+            "StateOrganizationId":"testSchoolId"
+        }
+    }
+}
+}

@@ -159,11 +159,46 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradebookEntry.xml" />
       </bean>
     </entry>
+    <entry key="teacherSchoolAssociation">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="staffEducationOrganizationAssociation">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="stateEducationAgency">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/stateEducationAgency.xml" />
+      </bean>
+    </entry>
+    <entry key="localEducationAgency">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/localEducationAgency.xml" />
+      </bean>
+    </entry>
+    <entry key="school">
+      <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/school.xml" />
+      </bean>
+    </entry>
     <entry key="studentSchoolAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSchoolAssociation.xml" />
       </bean>
     </entry>
+    <entry key="learningObjective">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningObjective.xml" />
+      </bean>
+    </entry>
+<!--     <entry key="objectiveAssessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/objectiveAssessment.xml" />
+      </bean>
+    </entry> -->
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
@@ -197,6 +232,11 @@
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
+
+  <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
+  </bean>
+
 
 </beans>
 

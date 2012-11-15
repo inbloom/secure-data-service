@@ -17,14 +17,14 @@
     <jb:expression property="type">'teacherSchoolAssociation'</jb:expression>
     <jb:wiring property="body" beanIdRef="teacherSchoolAssociationBody" />
   </jb:bean>
-  
+
 
   <jb:bean beanId="teacherSchoolAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <!-- TeacherReference -->
     <jb:value property="teacherId" data="attributes TeacherReference" />
     
     <!-- SchoolReference -->
-    <jb:value property="schoolId" data="attributes schoolId" />
+    <jb:value property="schoolId" data="attributes SchoolReference" />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="attributes programAssignment" />

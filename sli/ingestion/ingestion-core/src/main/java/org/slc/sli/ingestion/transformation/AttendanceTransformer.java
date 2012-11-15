@@ -29,14 +29,6 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +39,15 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -64,6 +65,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     private static final String SESSION = "session";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
+
+    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
+    private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
 
     private int numAttendancesIngested = 0;
 
@@ -252,7 +256,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+                query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID, NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
@@ -261,7 +265,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 Map<String, Object> update = new HashMap<String, Object>();
                 update.put("pushAll", attendanceEventsToPush);
                 getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
-                        ATTENDANCE_TRANSFORMED, getBatchJobId());
+                        ATTENDANCE_TRANSFORMED);
 
                 LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
             }
@@ -304,7 +308,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         attendanceAttributes.put("StudentReference", studentReference);
         attendanceAttributes.put("studentId", studentId);
-        attendanceAttributes.put("schoolId", schoolId);
+        attendanceAttributes.put("schoolId", createEdfiSchoolReference(schoolId));
         attendanceAttributes.put("schoolYearAttendance", daily);
 
         record.setAttributes(attendanceAttributes);
@@ -453,6 +457,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      *            The StateOrganizationid for the school
      * @return The Id of the Parent Education Organization
      */
+    @SuppressWarnings("unchecked")
     private String getParentEdOrg(String schoolId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
@@ -464,11 +469,24 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         String parentEducationAgency = null;
         if (queriedSchool.iterator().hasNext()) {
             NeutralRecord record = queriedSchool.iterator().next();
-            parentEducationAgency = (String) record.getAttributes().get("parentEducationAgencyReference");
+            Map<String, Object> edorgReference = (Map<String, Object>) record.getAttributes().get("LocalEducationAgencyReference");
+            if (edorgReference != null) {
+                Map<String, Object> edorgIdentity = (Map<String, Object>) edorgReference.get(EDUCATIONAL_ORG_ID);
+                if (edorgIdentity != null) {
+                    parentEducationAgency = (String) (edorgIdentity.get(STATE_ORGANIZATION_ID));
+                }
+            }
         } else {
             Entity school = getSliSchool(schoolId);
             if (school != null) {
-                parentEducationAgency = (String) school.getBody().get("parentEducationAgencyReference");
+                String parentEducationAgencyID = (String) school.getBody().get("parentEducationAgencyReference");
+                if (parentEducationAgencyID != null) {
+                    // look up the state edorg id of parent from SLI using its _id. Since the child is in sli, the parent must be as well.
+                    NeutralQuery parentQuery = new NeutralQuery(0);
+                    parentQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, parentEducationAgencyID));
+                    Entity parent = getMongoEntityRepository().findOne(EntityNames.EDUCATION_ORGANIZATION, parentQuery);
+                    parentEducationAgency = (String) parent.getBody().get("stateOrganizationId");
+                }
             }
         }
 
@@ -725,6 +743,17 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
             }
         }
         return res;
+    }
+
+    /**
+     * create a school reference that can be resolved by the deterministic ID resolver
+     */
+    private static Map<String, Object> createEdfiSchoolReference(String schoolId) {
+        Map<String, Object> schoolReferenceObj = new HashMap<String, Object>();
+        Map<String, Object> idObj = new HashMap<String, Object>();
+        idObj.put(STATE_ORGANIZATION_ID, schoolId);
+        schoolReferenceObj.put(EDUCATIONAL_ORG_ID, idObj);
+        return schoolReferenceObj;
     }
 
     /**

@@ -70,7 +70,7 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
         And I should have an entity with ID "<'SAT READING' ID>"
 
     When I navigate to "getStudentAssessments" with URI "/v1/students/<'Matt Sollars' ID>/studentAssessments" and filter by administrationDate is between "2011-01-01" and "2011-06-31"
-    Then I should have a list of 1 "studentAssessmentAssociation" entities
+    Then I should have a list of 1 "studentAssessment" entities
         And I should have an entity with ID "<'Matt Sollars Assessment' ID>"
 
 	Examples:

@@ -21,7 +21,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessmentAssociation|
+        | studentAssessment|
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -86,7 +86,7 @@ And the following collections are empty in datastore:
         | staffProgramAssociation     |
         | student                     |
         | studentAcademicRecord       |
-        | studentAssessmentAssociation|
+        | studentAssessment|
         | studentCohortAssociation    |
         | studentCompetency           |
         | studentCompetencyObjective  |

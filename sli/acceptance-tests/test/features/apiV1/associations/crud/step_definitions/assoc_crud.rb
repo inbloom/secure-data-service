@@ -140,7 +140,7 @@ $entityData = {
         "beginDate" => "2012-01-01",
         "endDate" => "2012-12-31"
     },
-    "studentAssessmentAssociation" => {
+    "studentAssessment" => {
         "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
         "assessmentId" => "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
         "administrationDate" => "2011-10-01",

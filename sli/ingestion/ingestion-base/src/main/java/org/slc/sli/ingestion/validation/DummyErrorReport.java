@@ -41,6 +41,21 @@ public final class DummyErrorReport implements ErrorReport {
     }
 
     @Override
+    public void fatal(String message, String resourceId, Object sender) {
+        // nothing
+    }
+
+    @Override
+    public void error(String message, String resourceId, Object sender) {
+        // nothing
+    }
+
+    @Override
+    public void warning(String message, String resourceId, Object sender) {
+        // nothing
+    }
+
+    @Override
     public boolean hasErrors() {
         return false;
     }

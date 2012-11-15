@@ -36,39 +36,62 @@
             <div class="panel-header">
             </div>
 			<@includePanelModel panelId="studentSearchResults"/>
-        	Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.
 
-            <div class="panel-content">
-                <div id="content">
-                    <#-- create header panels -->
-                    <#list layout as item>
-                        <@includePanelContent panel=item/>
-                    </#list>
-	                <br/>
-	                <div id="noSearchResultsDiv">
-	                </div>
-					<div id="searchPgnDiv">
-						<button id="searchPrevBtn" class="btn" type="button">
-							<img src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height="13px" alt="Prev" />
-						</button>
-						Page ${panelData.searchPageNum} of ${panelData.searchMaxPageNum}
-						<button id="searchNextBtn" class="btn" type="button">
-							<img src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height="13px" alt="Next" />
-						</button>
-						<select id="pageSizeSelect">
-	  						<option value="50">50</option>
-	  						<option value="100">100</option>
-						</select>
-						Viewing ${(panelData.searchPageNum - 1) * panelData.searchPageSize + 1} -
-						<#if (panelData.searchPageNum * panelData.searchPageSize) lte panelData.numResults>${panelData.searchPageNum * panelData.searchPageSize}</#if>
-						<#if (panelData.searchPageNum * panelData.searchPageSize) gt panelData.numResults>${panelData.numResults}</#if>
-						of ${panelData.numResults}
-						<script type="text/javascript">
-							SLC.searchResults.setup();
-						</script>
-					</div>
+            <div id="schoolSelectSection">
+                <h4>Select a school to search:</h4>
+
+                <input type='hidden' value='' id ='schoolSelect' />
+                <div class="btn-toolbar menuBox">
+                    <div class="btn-group" id="schoolSelectMenu">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
+                            <span class='optionText'> </span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                       <button type="submit" class="btn" id="search_btn_go">Go</button>
+                    </div>
                 </div>
+                <div id="schoolSelectionError">Please select a school from the dropdown.</div>
             </div>
+
+            <div id="searchResultsSection">
+                Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.
+
+                <div class="panel-content">
+                    <div id="content">
+                        <#-- create header panels -->
+                        <#list layout as item>
+                            <@includePanelContent panel=item/>
+                        </#list>
+                        <br/>
+                        <div id="noSearchResultsDiv">
+                        </div>
+                        <div id="searchPgnDiv">
+                            <button id="searchPrevBtn" class="btn" type="button">
+                                <img src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height="13px" alt="Prev" />
+                            </button>
+                            Page ${panelData.searchPageNum} of ${panelData.searchMaxPageNum}
+                            <button id="searchNextBtn" class="btn" type="button">
+                                <img src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height="13px" alt="Next" />
+                            </button>
+                            <select id="pageSizeSelect">
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            Viewing ${(panelData.searchPageNum - 1) * panelData.searchPageSize + 1} -
+                            <#if (panelData.searchPageNum * panelData.searchPageSize) lte panelData.numResults>${panelData.searchPageNum * panelData.searchPageSize}</#if>
+                            <#if (panelData.searchPageNum * panelData.searchPageSize) gt panelData.numResults>${panelData.numResults}</#if>
+                            of ${panelData.numResults}
+                            <script type="text/javascript">
+                                SLC.searchResults.setup();
+                            </script>
+                        </div>
+                    </div>
+                </div>
+             </div>
         </div>
     </div>
 	<div class="clear"></div>

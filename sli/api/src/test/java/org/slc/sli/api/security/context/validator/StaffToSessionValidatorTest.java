@@ -114,7 +114,7 @@ public class StaffToSessionValidatorTest {
         assertFalse(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.STAFF_PROGRAM_ASSOCIATION, true));
         assertFalse(validator.canValidate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, false));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_PARENT_ASSOCIATION, false));
     }
     

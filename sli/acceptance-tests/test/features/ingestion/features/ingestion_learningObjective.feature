@@ -69,8 +69,8 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard            | 5     |
   
   And I should see "Processed 8 records." in the resulting batch job file
-  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective111," in the resulting error log file
-  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective112," in the resulting error log file
-  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective113," in the resulting error log file
-  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective114," in the resulting error log file
-  And I should see "Could not resolve LearningObjectiveReference with IdentificationCode Objective115," in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with Objective: 111, AcademicSubjectPublic, Protective, and Government Service, ObjectiveGradeLevelTwelfth grade" in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with Objective: 112, AcademicSubjectPublic, Protective, and Government Service, ObjectiveGradeLevelTwelfth grade" in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with Objective: 113, AcademicSubjectPublic, Protective, and Government Service, ObjectiveGradeLevelTwelfth grade" in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with Objective: 114, AcademicSubjectPublic, Protective, and Government Service, ObjectiveGradeLevelTwelfth grade" in the resulting error log file
+  And I should see "Could not resolve LearningObjectiveReference with Objective: 115, AcademicSubjectPublic, Protective, and Government Service, ObjectiveGradeLevelTwelfth grade" in the resulting error log file

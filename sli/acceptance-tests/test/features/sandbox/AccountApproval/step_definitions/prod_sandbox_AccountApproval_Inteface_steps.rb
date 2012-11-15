@@ -140,13 +140,22 @@ When /^I am asked "([^"]*)"$/ do |arg1|
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
-  statuses=@driver.find_elements(:id,"status."+@user_name)
-  found =false
-  statuses.each do |status|
-    if status.text==arg1
-      found=true
+  step "I navigate to the account management page"
+  found = false
+  statuses = nil
+  5.times do
+    @driver.navigate.refresh
+    statuses = @driver.find_elements(:id,"status."+@user_name)
+    statuses.each do |status|
+      if status.text==arg1
+        found=true
+      end
     end
-  end  
+    break if found
+    sleep(10)
+  end
+
+
   assert(found,"user account status is not #{arg1}, was instead #{statuses.map{|s|s.text}}")
   clear_users()
 end

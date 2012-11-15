@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
@@ -67,6 +68,7 @@ public class WorkNoteSplitter {
         List<WorkNote> workNoteList = null;
         try {
             jobId = exchange.getIn().getHeader("jobId").toString();
+            TenantContext.setJobId(jobId);
             LOG.info("orchestrating splitting for job: {}", jobId);
 
             workNoteList = createNextTierWorkNotes(jobId);
@@ -103,7 +105,7 @@ public class WorkNoteSplitter {
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
 
-            List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+            List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
             batchJobDAO.createTransformationLatch(jobId, stagedEntity.getCollectionNameAsStaged(),
                     workNotesForEntity.size());
@@ -128,9 +130,10 @@ public class WorkNoteSplitter {
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
+        TenantContext.setJobId(jobId);
 
         LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
-        List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
         batchJobDAO
                 .setPersistenceLatchCount(jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 

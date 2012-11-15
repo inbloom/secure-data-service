@@ -37,6 +37,7 @@ def allLeaAllowApp(appName)
 end
 
 def allLeaAllowAppForTenant(appName, tenantName)
+  disable_NOTABLESCAN()
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
@@ -65,6 +66,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
       puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
     end
   end
+  enable_NOTABLESCAN()
 end
 
 def convertTenantIdToDbName(tenantId)

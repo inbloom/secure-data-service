@@ -9,7 +9,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "StudentObjectiveAssessment1.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
-     | StudentAssessmentAssociation                     |
+     | StudentAssessment                     |
 When zip file is scp to ingestion landing zone
   And "10" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:

@@ -78,7 +78,7 @@ public class OrchestraPreProcessorTest {
         Set<String> stagedCollectionNames = new HashSet<String>();
 
         Mockito.when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(neutralRecordRepository);
-        Mockito.when(neutralRecordRepository.getStagedCollectionsForJob(testJobId)).thenReturn(stagedCollectionNames);
+        Mockito.when(neutralRecordRepository.getStagedCollectionsForJob()).thenReturn(stagedCollectionNames);
 
         PrivateAccessor.setField(orchestraPreProcessor, "neutralRecordMongoAccess", neutralRecordMongoAccess);
 

@@ -2,7 +2,7 @@ require "json"
 
 studentFile = File.new("student_fixture.json")
 
-newSaaFile = File.new("studentAssessmentAssociation_superDoc_fixture.json", "w")
+newSaaFile = File.new("studentAssessment_superDoc_fixture.json", "w")
 
 while (line = studentFile.gets)
   begin
@@ -14,7 +14,7 @@ while (line = studentFile.gets)
   end
   studentId = line_hash["_id"]
 #puts studentId
-  saaFile = File.new("studentAssessmentAssociation_fixture.json")
+  saaFile = File.new("studentAssessment_fixture.json")
   saa_array = [ ]
   while (saaLine = saaFile.gets)
     saaLine_hash = JSON.parse(saaLine)
@@ -25,7 +25,7 @@ while (line = studentFile.gets)
       saa_array << saaLine_hash
     end
     if saa_array.length > 0
-      line_hash["studentAssessmentAssociation"] = saa_array
+      line_hash["studentAssessment"] = saa_array
       #puts line_hash
       #puts JSON.pretty_generate(line_hash)
     end

@@ -40,7 +40,6 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultType;
@@ -69,7 +68,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
-    private static final String FILE_NAME_FIELD = "resourceId";
+    private static final String RESOURCE_ID_FIELD = "resourceId";
     private static final String SEVERITY_FIELD = "severity";
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
@@ -156,10 +155,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public Iterable<Error> getBatchJobErrors(String jobId, String fileName, FaultType type, int limit) {
+    public Iterable<Error> getBatchJobErrors(String jobId, String resourceId, FaultType type, int limit) {
         return batchJobMongoTemplate.find(
                 Query.query(
-                        Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(FILE_NAME_FIELD).is(fileName)
+                        Criteria.where(BATCHJOBID_FIELDNAME).is(jobId).and(RESOURCE_ID_FIELD).is(resourceId)
                                 .and(SEVERITY_FIELD).is(type.getName())).limit(limit), Error.class,
                 BATCHJOB_ERROR_COLLECTION);
     }
@@ -169,8 +168,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         try {
 
             final BasicDBObject latchObject = new BasicDBObject();
-            latchObject.put("syncStage", MessageType.DATA_TRANSFORMATION.name());
             latchObject.put("jobId", jobId);
+            latchObject.put("syncStage", MessageType.DATA_TRANSFORMATION.name());
             latchObject.put("recordType", recordType);
             latchObject.put("count", count);
 
@@ -198,8 +197,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public boolean createPersistanceLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId) {
         try {
             final BasicDBObject latchObject = new BasicDBObject();
-            latchObject.put("syncStage", MessageType.PERSIST_REQUEST.name());
             latchObject.put("jobId", jobId);
+            latchObject.put("syncStage", MessageType.PERSIST_REQUEST.name());
             latchObject.put("entities", defaultPersistenceLatch);
 
             RetryMongoCommand retry = new RetryMongoCommand() {
@@ -236,8 +235,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private boolean countDownTransformationLatch(String jobId, String recordType) {
 
         final BasicDBObject query = new BasicDBObject();
-        query.put("syncStage", MessageType.DATA_TRANSFORMATION.name());
         query.put("jobId", jobId);
+        query.put("syncStage", MessageType.DATA_TRANSFORMATION.name());
         query.put("recordType", recordType);
 
         BasicDBObject decrementCount = new BasicDBObject("count", -1);
@@ -262,8 +261,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private boolean countDownPersistenceLatches(String jobId, String recordType) {
 
         final BasicDBObject query = new BasicDBObject();
-        query.put("syncStage", MessageType.PERSIST_REQUEST.name());
         query.put("jobId", jobId);
+        query.put("syncStage", MessageType.PERSIST_REQUEST.name());
         query.put("entities.type", recordType);
 
         BasicDBObject decrementCount = new BasicDBObject("entities.$.count", -1);
@@ -297,8 +296,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public void setPersistenceLatchCount(String jobId, String collectionNameAsStaged, int size) {
         final BasicDBObject query = new BasicDBObject();
-        query.put("syncStage", MessageType.PERSIST_REQUEST.name());
         query.put("jobId", jobId);
+        query.put("syncStage", MessageType.PERSIST_REQUEST.name());
         query.put("entities.type", collectionNameAsStaged);
 
         BasicDBObject decrementCount = new BasicDBObject("entities.$.count", size);
@@ -424,8 +423,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private DBCursor getWorkNoteLatchesForStage(String jobId, String syncStage) {
 
         BasicDBObject ref = new BasicDBObject();
-        ref.put("syncStage", syncStage);
         ref.put("jobId", jobId);
+        ref.put("syncStage", syncStage);
 
         DBCursor cursor;
 

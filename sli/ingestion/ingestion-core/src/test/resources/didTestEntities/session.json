@@ -1,0 +1,13 @@
+{
+"recordType":"session",
+"attributes":
+{
+	"EducationOrganizationReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

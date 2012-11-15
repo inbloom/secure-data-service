@@ -4,10 +4,10 @@
    [
       {
          "fieldPath":"body.schoolId",
+          "deprecated" : true,
          "ref":
          {
             "entityType":"school",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields":
             [
                [
@@ -28,7 +28,6 @@
          "ref":
          {
             "entityType":"session",
-            "takesContext" : ["edOrgs"],
             "choiceOfFields":
             [
                [
@@ -68,7 +67,7 @@
                                        "path":"body.stateOrganizationId",
                                        "values":
                                        [{
-                                           "valueSource":"body.schoolReference.educationalOrgIdentity.stateOrganizationId"
+                                           "valueSource":"body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
                                        }]
                                     }
                                  ]
@@ -87,7 +86,6 @@
           "ref" : 
           {
               "entityType" : "courseOffering",
-              "takesContext" : ["edOrgs"],
               "choiceOfFields" :
               [
                   [

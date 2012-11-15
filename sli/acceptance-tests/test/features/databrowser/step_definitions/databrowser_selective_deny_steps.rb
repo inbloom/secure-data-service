@@ -91,6 +91,7 @@ Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
 end
 
 Given /^I remove the application authorizations in sunset$/ do
+  disable_NOTABLESCAN()
   coll()
   @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
   $oldSunsetAuth = @coll.find_one({"body.authId" => @sunset})
@@ -98,9 +99,11 @@ Given /^I remove the application authorizations in sunset$/ do
   @coll.remove({"body.authId" => @sunset})
   newSunsetAuth["body"]["appIds"] = []
   @coll.insert(newSunsetAuth)
+  enable_NOTABLESCAN()
 end
 
 Given /^I remove the application authorizations in daybreak/ do
+  disable_NOTABLESCAN()
   coll()
   @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   $oldDaybreakAuth = @coll.find_one({"body.authId" => @daybreak})
@@ -108,29 +111,37 @@ Given /^I remove the application authorizations in daybreak/ do
   @coll.remove({"body.authId" => @daybreak})
   newDaybreakAuth["body"]["appIds"] = []
   @coll.insert(newDaybreakAuth)
+  enable_NOTABLESCAN()
 end
 
 Then /^I put back the application authorizations in sunset$/ do
+  disable_NOTABLESCAN()
   @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
   coll()
   @coll.remove({"body.authId" => @sunset})
   @coll.insert($oldSunsetAuth)
+  enable_NOTABLESCAN()
 end
 
 Then /^I put back the application authorizations in daybreak/ do
+  disable_NOTABLESCAN()
   @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   coll()
   @coll.remove({"body.authId" => @daybreak})
   @coll.insert($oldDaybreakAuth)
+  enable_NOTABLESCAN()
 end
 
 def coll
+  disable_NOTABLESCAN()
   @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('Midgar'))
   @coll ||= @db.collection('applicationAuthorization')
   return @coll
+  enable_NOTABLESCAN()
 end
 
 Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
+  disable_NOTABLESCAN()
   db = Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
   coll = db.collection('customRole')
   customRoleDoc = coll.find_one({"body.realmId" => realm})
@@ -141,6 +152,7 @@ Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") t
     end
   end
   coll.insert(customRoleDoc)
+  enable_NOTABLESCAN()
 end
 
 

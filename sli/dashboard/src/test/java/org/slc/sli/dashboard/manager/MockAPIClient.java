@@ -448,7 +448,7 @@ public class MockAPIClient extends SDKAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getStudentsWithSearch(String token,
-            String firstName, String lastName) {
+            String firstName, String lastName, String schoolId) {
         // TODO Auto-generated method stub
         return null;
     }

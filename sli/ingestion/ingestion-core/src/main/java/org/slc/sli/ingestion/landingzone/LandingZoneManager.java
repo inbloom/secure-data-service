@@ -29,7 +29,7 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.tenant.TenantDA;
 
 /**
- * Mananges the landing zones to be monitored.
+ * Manages the landing zones to be monitored.
  *
  * @author vmcglaughlin
  *
@@ -39,24 +39,12 @@ public class LandingZoneManager {
     @Autowired
     private TenantDA tenantDA;
 
-    private boolean multipleLandingZonesEnabled;
-    private String singleLandingZoneDir;
-
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public List<LocalFileSystemLandingZone> getLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList;
-        if (multipleLandingZonesEnabled) {
-            landingZoneList = getMultipleLandingZones();
-        } else {
-            landingZoneList = new ArrayList<LocalFileSystemLandingZone>();
-            landingZoneList.add(getSingleLandingZone());
-        }
+        landingZoneList = getMultipleLandingZones();
         return landingZoneList;
-    }
-
-    protected LocalFileSystemLandingZone getSingleLandingZone() {
-        return new LocalFileSystemLandingZone(new File(singleLandingZoneDir));
     }
 
     protected List<LocalFileSystemLandingZone> getMultipleLandingZones() {
@@ -78,31 +66,4 @@ public class LandingZoneManager {
         return landingZoneList;
     }
 
-    /**
-     * @return the multipleLandingZonesEnabled
-     */
-    public boolean multipleLandingZonesEnabled() {
-        return multipleLandingZonesEnabled;
-    }
-
-    /**
-     * @param multipleLandingZonesEnabled the multipleLandingZonesEnabled to set
-     */
-    public void setMultipleLandingZonesEnabled(boolean multipleLandingZonesEnabled) {
-        this.multipleLandingZonesEnabled = multipleLandingZonesEnabled;
-    }
-
-    /**
-     * @return the singleLandingZoneDir
-     */
-    public String getSingleLandingZoneDir() {
-        return singleLandingZoneDir;
-    }
-
-    /**
-     * @param singleLandingZoneDir the singleLandingZoneDir to set
-     */
-    public void setSingleLandingZoneDir(String singleLandingZoneDir) {
-        this.singleLandingZoneDir = singleLandingZoneDir;
-    }
 }

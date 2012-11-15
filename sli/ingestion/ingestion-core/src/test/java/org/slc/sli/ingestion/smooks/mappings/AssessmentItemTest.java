@@ -18,20 +18,21 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Smooks test for AssessmentItem
@@ -52,16 +53,12 @@ public class AssessmentItemTest {
             + "  <CorrectResponse>Hello World!</CorrectResponse>"
             + "  <LearningStandardReference>"
             + "    <LearningStandardIdentity>"
-            + "      <LearningStandardId ContentStandardName='Common Core'>"
             + "        <IdentificationCode>id-code-1</IdentificationCode>"
-            + "      </LearningStandardId>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
             + "  <LearningStandardReference>"
             + "    <LearningStandardIdentity>"
-            + "      <LearningStandardId ContentStandardName='Unusual Periphery'>"
             + "        <IdentificationCode>id-code-2</IdentificationCode>"
-            + "      </LearningStandardId>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
             + "  <Nomenclature>nomen</Nomenclature>"
@@ -75,6 +72,7 @@ public class AssessmentItemTest {
         String targetSelector = "InterchangeAssessmentMetadata/AssessmentItem";
 
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData, recordLevelDeltaEnabledEntityNames);
+
         Map<String, Object> m = nr.getAttributes();
         Assert.assertEquals("test-id", nr.getLocalId());
         Assert.assertEquals("test-code", m.get("identificationCode"));
@@ -85,11 +83,32 @@ public class AssessmentItemTest {
         List<Map<String, Object>> refs = (List<Map<String, Object>>) nr.getAttributes().get("learningStandards");
         Assert.assertNotNull(refs);
         Assert.assertEquals(2, refs.size());
-        Assert.assertEquals("id-code-1", refs.get(0).get("identificationCode"));
-        Assert.assertEquals("Common Core", refs.get(0).get("contentStandardName"));
-        Assert.assertEquals("id-code-2", refs.get(1).get("identificationCode"));
-        Assert.assertEquals("Unusual Periphery", refs.get(1).get("contentStandardName"));
 
+        //put the ids in a set - we don't care about the order
+        Set<String> lsIdSet = new HashSet<String>();
+
+        for (Map<String, Object> lsRef : refs) {
+        	Map<String, Object> identityType = (Map<String, Object>) lsRef.get("LearningStandardIdentity");
+        	Assert.assertNotNull(identityType);
+        	Assert.assertTrue(identityType.containsKey("IdentificationCode"));
+        	lsIdSet.add((String) identityType.get("IdentificationCode"));
+        }
+
+        Assert.assertTrue(lsIdSet.contains("id-code-1"));
+        Assert.assertTrue(lsIdSet.contains("id-code-2"));
+        
+        /*
+         * Map<String, Object> assessmentRef = (Map<String, Object>)
+         * nr.getAttributes().get("assessmentReference");
+         * Assert.assertNotNull(assessmentRef);
+         * Map<String, Object> assessmentIdentity = (Map<String, Object>)
+         * assessmentRef.get("AssessmentIdentity");
+         * Assert.assertNotNull(assessmentIdentity);
+         * Assert.assertEquals("c-aKzuT08", assessmentIdentity.get("AssessmentTitle"));
+         * Assert.assertEquals("English", assessmentIdentity.get("AcademicSubject"));
+         * Assert.assertEquals("Postsecondary", assessmentIdentity.get("GradeLevelAssessed"));
+         * Assert.assertEquals(1, assessmentIdentity.get("Version"));
+         */
         Assert.assertEquals("nomen", m.get("nomenclature"));
     }
 }

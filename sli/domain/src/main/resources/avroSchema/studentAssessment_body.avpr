@@ -1,0 +1,97 @@
+{
+  "type" : "record",
+  "name" : "StudentAssessment",
+  "namespace" : "org.slc.sli.domain",
+  "doc" : "This represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a students performance on a set of items on a test.",
+  "fields" : [{
+    "name" : "assessmentTitle",
+    "doc" : "The title or name of the assessment.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  },{
+    "name" : "administrationDate",
+    "type" : {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    }
+  }, {
+    "name" : "administrationEndDate",
+    "type" : [ "null", {
+      "type" : "string",
+      "pattern" : "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+      "xsd-type" : "date"
+    } ]
+  }, {
+    "name" : "serialNumber",
+    "doc" : "A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.",
+    "type" : [ "null", {
+      "type" : "string",
+      "max-length" : "60",
+      "min-length" : "1"
+    } ]
+  }, {
+    "name" : "administrationLanguage",
+    "type" : [ "null", "org.slc.sli.domain.enum.LanguageItemType" ]
+  }, {
+    "name" : "administrationEnvironment",
+    "type" : [ "null", "org.slc.sli.domain.enum.AdministrationEnvironmentType" ]
+  }, {
+    "name" : "specialAccommodations",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.SpecialAccommodationItemType"
+    } ]
+  }, {
+    "name" : "linguisticAccommodations",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.enum.LinguisticAccommodationItemType"
+    } ]
+  }, {
+    "name" : "retestIndicator",
+    "type" : [ "null", "string" ]
+  }, {
+    "name" : "reasonNotTested",
+    "type" : [ "null", "org.slc.sli.domain.enum.ReasonNotTestedType" ]
+  }, {
+    "name" : "scoreResults",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : "org.slc.sli.domain.ScoreResult"
+    } ]
+  }, {
+    "name" : "gradeLevelWhenAssessed",
+    "type" : [ "null", "org.slc.sli.domain.enum.GradeLevelType" ]
+  }, {
+    "name" : "id",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "ID"
+    } ]
+  }, {
+    "name" : "ref",
+    "type" : [ "null", {
+      "type" : "string",
+      "xsd-type" : "IDREF"
+    } ]
+  }, {
+    "name" : "performanceLevelIdentity",
+    "type" : [ "null", "org.slc.sli.domain.PerformanceLevelIdentityType" ]
+  },{
+    "name" : "studentId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "assessmentId",
+    "type" : [ "null", "string" ],
+    "default" : null
+  },{
+    "name" : "performanceLevel",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }]
+}

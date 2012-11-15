@@ -92,7 +92,7 @@ public class ChangedUriInfo implements UriInfo {
 
 	@Override
 	public UriBuilder getBaseUriBuilder() {
-		return this.baseUriBuilder;
+		return this.baseUriBuilder.clone();
 	}
 
 	@Override

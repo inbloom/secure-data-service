@@ -61,7 +61,7 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
                 return false;
             }
         }
-        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherSchoolMap.size()) {
+        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherIds.size()) {
             return false;
         }
         return true;

@@ -70,12 +70,13 @@ public class EmbeddedDocumentRelations {
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        map.put("studentAssessment", new Parent("student", "studentId"));
         map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
         map.put("studentParentAssociation", new Parent("student", "studentId"));
+        map.put("studentDisciplineIncidentAssociation", new Parent("student", "studentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
         denormalizationByEntityAndKey = new HashSet<String>();

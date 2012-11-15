@@ -17,6 +17,9 @@
 
 package org.slc.sli.api.resources.v1;
 
+import javax.ws.rs.core.MediaType;
+
+
 /**
  * Class of constants representing transmission types.
  * 
@@ -26,8 +29,12 @@ package org.slc.sli.api.resources.v1;
 public class HypermediaType {
     
     /**
-     * SLC JSON format.
+     * SLC supported formats.
      */
+    public static final String XML = MediaType.APPLICATION_XML;
+    public static final String JSON = MediaType.APPLICATION_JSON;
     public static final String VENDOR_SLC_JSON = "application/vnd.slc+json";
     public static final String VENDOR_SLC_XML = "application/vnd.slc+xml";
+    public static final String VENDOR_SLC_LONG_JSON = "application/vnd.slc.full+json";
+    public static final String VENDOR_SLC_LONG_XML = "application/vnd.slc.full+xml";
 }

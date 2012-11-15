@@ -25,12 +25,9 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -57,45 +54,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningObjectiveIdentityType", propOrder = {
-    "learningObjectiveIdOrObjective"
+@XmlType(name = "SLC-LearningObjectiveIdentityType", propOrder = {
+    "objective", "academicSubject", "objectiveGradeLevel"
 })
 public class LearningObjectiveIdentityType {
 
-    @XmlElements({
-        @XmlElement(name = "LearningObjectiveId", type = LearningStandardId.class),
-        @XmlElement(name = "Objective", type = String.class)
-    })
-    protected List<Object> learningObjectiveIdOrObjective;
-
-    /**
-     * Gets the value of the learningObjectiveIdOrObjective property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the learningObjectiveIdOrObjective property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getLearningObjectiveIdOrObjective().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LearningStandardId }
-     * {@link String }
-     * 
-     * 
-     */
-    public List<Object> getLearningObjectiveIdOrObjective() {
-        if (learningObjectiveIdOrObjective == null) {
-            learningObjectiveIdOrObjective = new ArrayList<Object>();
-        }
-        return this.learningObjectiveIdOrObjective;
-    }
-
+    @XmlElement(name = "Objective")
+    protected String objective;
+    @XmlElement(name = "AcademicSubject")
+    protected AcademicSubjectType academicSubject;
+    @XmlElement(name = "ObjectiveGradeLevel")
+    protected GradeLevelType objectiveGradeLevel;
+    
+    public String getObjective() {
+		return objective;
+	}
+	public void setObjective(String objective) {
+		this.objective = objective;
+	}
+	public AcademicSubjectType getAcademicSubject() {
+		return academicSubject;
+	}
+	public void setAcademicSubject(AcademicSubjectType academicSubject) {
+		this.academicSubject = academicSubject;
+	}
+	public GradeLevelType getObjectiveGradeLevel() {
+		return objectiveGradeLevel;
+	}
+	public void setObjectiveGradeLevel(GradeLevelType objectiveGradeLevel) {
+		this.objectiveGradeLevel = objectiveGradeLevel;
+	}
+	
+    
+	
 }

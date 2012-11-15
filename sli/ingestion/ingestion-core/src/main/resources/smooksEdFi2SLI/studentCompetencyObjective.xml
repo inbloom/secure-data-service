@@ -23,7 +23,7 @@
         <jb:value property="objective" data="attributes objective" />
         <jb:value property="description" data="attributes description" />
         <jb:value property="objectiveGradeLevel" data="attributes objectiveGradeLevel" />
-        <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+        <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
 </smooks-resource-list>

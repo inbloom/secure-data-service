@@ -211,7 +211,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            Neutral Record to be written to data store.
      */
     public void createRecord(NeutralRecord record) {
-        neutralRecordMongoAccess.getRecordRepository().createForJob(record, job.getId());
+        neutralRecordMongoAccess.getRecordRepository().createForJob(record);
     }
 
     /**

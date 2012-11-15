@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="localEducationAgencies" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="localEducationAgency" />
+    </jb:bean>
+
+    <jb:bean beanId="localEducationAgency" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'localEducationAgency'</jb:expression>
+        <jb:wiring property="body" beanIdRef="localEducationAgencyBody" />
+    </jb:bean>
+
+    <jb:bean beanId="localEducationAgencyBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="stateOrganizationId"                  data="attributes stateOrganizationId" />
+        <jb:value property="nameOfInstitution"                    data="attributes nameOfInstitution" />
+        <jb:value property="shortNameOfInstitution"               data="attributes shortNameOfInstitution" />
+        <jb:value property="webSite"                              data="attributes webSite" />
+        <jb:value property="operationalStatus"                    data="attributes operationalStatus" />
+        <jb:value property="LEACategory"                          data="attributes LEACategory" />
+        <jb:value property="charterStatus"                        data="attributes charterStatus" />
+
+        <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
+        <jb:value property="educationServiceCenterReference"      data="attributes EducationServiceCenterReference" />
+        <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
+
+        <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
+        <jb:wiring property="organizationCategories"              beanIdRef="organizationCategories" />
+        <jb:wiring property="address"                             beanIdRef="addressArray" />
+        <jb:wiring property="telephone"                           beanIdRef="telephoneArray" />
+        <jb:wiring property="accountabilityRatings"               beanIdRef="accountabilityRatingsArray" />
+        <jb:wiring property="programReference"                    beanIdRef="programReferenceArray" />
+    </jb:bean>
+
+    <jb:bean beanId="educationOrgIdentificationCodeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="educationOrgIdentificationCode" />
+    </jb:bean>
+    <jb:bean beanId="educationOrgIdentificationCode" class="java.util.HashMap" createOnElement="educationOrgIdentificationCode element">
+        <jb:value property="identificationSystem"                data="identificationSystem" />
+        <jb:value property="ID"                                  data="ID" />
+    </jb:bean>
+
+    <jb:bean beanId="organizationCategories" class="java.util.ArrayList" createOnElement="attributes organizationCategories">
+        <jb:value data="attributes organizationCategories element" />
+    </jb:bean>
+
+    <jb:bean beanId="addressArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="lea_address" />
+    </jb:bean>
+    <jb:bean beanId="lea_address"  class="java.util.HashMap"      createOnElement="address element">
+        <jb:value property="addressType "                         data="addressType" />
+        <jb:value property="streetNumberName "                    data="streetNumberName" />
+        <jb:value property="apartmentRoomSuiteNumber "            data="apartmentRoomSuiteNumber" />
+        <jb:value property="buildingSiteNumber "                  data="buildingSiteNumber" />
+        <jb:value property="city "                                data="city" />
+        <jb:value property="stateAbbreviation "                   data="stateAbbreviation" />
+        <jb:value property="postalCode "                          data="postalCode" />
+        <jb:value property="nameOfCounty "                        data="nameOfCounty" />
+        <jb:value property="countyFIPSCode "                      data="countyFIPSCode" />
+        <jb:value property="countryCode "                         data="countryCode" />
+        <jb:value property="latitude "                            data="latitude" />
+        <jb:value property="longitude "                           data="longitude" />
+        <jb:value property="openDate "                            data="openDate" />
+        <jb:value property="closeDate "                           data="closeDate" />
+    </jb:bean>
+
+    <jb:bean beanId="telephoneArray" class="java.util.ArrayList"  createOnElement="attributes">
+        <jb:wiring beanIdRef="telephone" />
+    </jb:bean>
+    <jb:bean beanId="telephone" class="java.util.HashMap" createOnElement="telephone element">
+        <jb:value property="institutionTelephoneNumberType "      data="institutionTelephoneNumberType" />
+        <jb:value property="telephoneNumber "                     data="telephoneNumber" />
+    </jb:bean>
+
+    <jb:bean beanId="accountabilityRatingsArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="accountabilityRatings" />
+    </jb:bean>
+    <jb:bean beanId="accountabilityRatings" class="java.util.HashMap" createOnElement="accountabilityRatings element">
+        <jb:value property="ratingTitle "                         data="ratingTitle" />
+        <jb:value property="rating "                              data="rating" />
+        <jb:value property="ratingDate "                          data="ratingDate" />
+        <jb:value property="ratingOrganization "                  data="ratingOrganization" />
+        <jb:value property="ratingProgram "                       data="ratingProgram" />
+    </jb:bean>
+
+    <jb:bean beanId="programReferenceArray" class="java.util.ArrayList"  createOnElement="attributes programReference">
+        <jb:value data="attributes ProgramReference element" />
+    </jb:bean>
+
+</smooks-resource-list>

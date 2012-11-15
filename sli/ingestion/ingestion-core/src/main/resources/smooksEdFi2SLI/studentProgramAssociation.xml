@@ -25,7 +25,7 @@
     <jb:value property="beginDate" data="attributes BeginDate" />
     <jb:value property="endDate" data="attributes EndDate" />
     <jb:value property="reasonExited" data="attributes ReasonExited" />
-    <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+    <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
   </jb:bean>
 
   <jb:bean beanId="StudentProgramAssociation_ServicesArray" class="java.util.ArrayList" createOnElement="attributes">
