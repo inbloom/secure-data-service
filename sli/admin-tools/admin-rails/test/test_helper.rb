@@ -86,6 +86,7 @@ class ActiveSupport::TestCase
 
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
+      mock.post "/api/rest/adminDelegation", {"Content-Type" => "application/json"}, @admin_delegations_fixtures["one"].to_json, 201
       
       #Support email
       mock.get "/api/rest/v1/system/support/email/", {"Accept" => "application/json"}, {"email" => "email@email.com"}.to_json

@@ -78,12 +78,12 @@ public class WorkNoteSplitterTest {
 
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
-        Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"), "1")).thenReturn(list);
+        Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"))).thenReturn(list);
 
         List<WorkNote> result = workNoteSplitter.splitTransformationWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
-        Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
+        Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class));
         Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).createTransformationLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
 
@@ -114,12 +114,12 @@ public class WorkNoteSplitterTest {
 
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
-        Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"), "1")).thenReturn(list);
+        Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"))).thenReturn(list);
 
         List<WorkNote> result = workNoteSplitter.splitPersistanceWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
-        Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
+        Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class));
         Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).setPersistenceLatchCount(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
 

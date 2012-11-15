@@ -163,7 +163,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
                 if (entry.getValue().size() > 0) {
                     try {
-                        nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                        nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey());
                         LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
                         queuedWrites.get(entry.getKey()).clear();
                     } catch (DataAccessResourceFailureException darfe) {

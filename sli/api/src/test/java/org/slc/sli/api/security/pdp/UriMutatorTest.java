@@ -21,11 +21,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import javax.ws.rs.core.PathSegment;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -76,6 +79,17 @@ public class UriMutatorTest {
 
         mutator.setSectionHelper(sectionHelper);
         mutator.setEdOrgHelper(edOrgHelper);
+    }
+    
+    @Test
+    public void testV1Mutate() {
+        // Testing that we don't crash the api if we do an api/v1/ request
+        PathSegment v1 = Mockito.mock(PathSegment.class);
+        when(v1.getPath()).thenReturn("v1");
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", Pair.of("/home", ""),
+                mutator.mutate(Arrays.asList(v1), null, staff));
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", Pair.of("/home", ""),
+                mutator.mutate(Arrays.asList(v1), null, teacher));
     }
 
     @Test
