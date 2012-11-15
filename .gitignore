@@ -11,7 +11,7 @@ target
 .project
 .idea/
 *.iml
-.pmd/
+.pmd
 sli/dashboard/maven-eclipse.xml
 sli/ingestion/ingestion-service/src/main/resources/ingestion-dev.properties
 Demo/EdFiSampleData/
