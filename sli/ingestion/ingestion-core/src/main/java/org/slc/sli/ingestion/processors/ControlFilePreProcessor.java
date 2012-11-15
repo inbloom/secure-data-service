@@ -92,9 +92,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
-    @Value("${sli.sandbox.enabled}")
-    private boolean isSandboxEnabled;
-
     private MessageSource messageSource;
 
     /**
@@ -210,13 +207,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-        if(!isSandboxEnabled) {
-            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = false;");
-        } else {
-            LOG.info("Running tenant sharding script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = true;");
-        }
+        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant=\'" + dbName + "\';");
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
