@@ -292,7 +292,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 								}
 								Long hl = (Long) sessionEntity.getBody().get("hardLogout");
 
-								if (hl - createdOn.getTime() > this.hardLogout) {
+								if (isLongLived(hl - createdOn.getTime())) {
 									info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
 								}
 								// ****
@@ -443,4 +443,16 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     public void setEntityRepository(Repository<Entity> repository) {
         this.repo = repository;
     }
+    /**
+     * Compares the provided number of milliseconds converted to minutes
+     * against the configuration property
+     * @param actual
+     * @return
+     */
+	private boolean isLongLived(long actual) {
+		long minutes = actual / 60000;
+		long configMinutes = this.hardLogout / 60000;
+
+		return minutes > configMinutes;
+	}
 }
