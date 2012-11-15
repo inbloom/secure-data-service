@@ -134,15 +134,16 @@ public class ElasticSearchRepository implements Repository<Entity> {
             headers.set("Authorization",
                     "Basic " + Base64.encodeBase64String((esUsername + ":" + esPassword).getBytes()));
         }
+        long start = System.currentTimeMillis();
         HttpEntity<String> entity = new HttpEntity<String>(query, headers);
-
         // make the REST call
         try {
             return searchTemplate.exchange(url, method, entity, String.class, params);
         } catch (RestClientException rce) {
             LOG.error("Error sending elastic search request!", rce);
             throw rce;
-
+        } finally {
+            LOG.info("ES call {} finished in {} ms", entity, System.currentTimeMillis() - start);
         }
     }
 
