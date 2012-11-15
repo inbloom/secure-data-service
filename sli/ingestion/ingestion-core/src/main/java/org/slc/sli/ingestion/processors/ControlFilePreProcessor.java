@@ -89,9 +89,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Autowired
     private TenantDA tenantDA;
 
-    @Value("${sli.ingestion.tenant.deriveTenants}")
-    private boolean deriveTenantId;
-
     @Value("${sli.sandbox.enabled}")
     private boolean isSandboxEnabled;
 
@@ -253,12 +250,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
-        // determine whether to override the tenantId property with a LZ derived value
-        if (deriveTenantId) {
-            // derive the tenantId property from the landing zone directory with a mongo lookup
-            String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
-            newBatchJob.setTenantId(tenantId);
-        }
+        // derive the tenantId property from the landing zone directory with a mongo lookup
+        String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
+        newBatchJob.setTenantId(tenantId);
 
         TenantContext.setTenantId(newBatchJob.getTenantId());
 
