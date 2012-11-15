@@ -27,7 +27,6 @@ SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
 SEARCH_INDEXER_LOG="search-indexer.log"
 
 
-
 #Color
 BRed='\e[1;31m'
 BGreen='\e[1;32m'
