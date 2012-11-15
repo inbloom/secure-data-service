@@ -37,39 +37,21 @@ public class ResourceDocumentation {
 
         for (int i = 0; i < topLevelResources.getLength(); i++) {
             final Node node = topLevelResources.item(i);
-            addDocTag(node);
-            addDeprecations(node);
-        }
-    }
-
-    private void addDocTag(final Node node) {
-        final ResourceEndPointTemplate resource = getResourceTemplate(node);
-        if (resource != null) {
-            final String doc = resource.getDoc();
-            if (doc != null) {
-                final Node docElem = this.doc.createElement("doc");
-                docElem.setTextContent(doc);
-                node.appendChild(docElem);
+            final ResourceEndPointTemplate resourceTemplate = getResourceTemplate(node);
+            if (resourceTemplate != null) {
+                addTag(node, "doc", resourceTemplate.getDoc());
+                addTag(node, "deprecatedVersion", resourceTemplate.getDeprecatedVersion());
+                addTag(node, "deprecatedReason", resourceTemplate.getDeprecatedReason());
+                addTag(node, "availableSince", resourceTemplate.getAvailableSince());
             }
         }
     }
 
-    private void addDeprecations(final Node node) {
-        final ResourceEndPointTemplate resource = getResourceTemplate(node);
-        if (resource != null) {
-            final String deprecatedReason = resource.getDeprecatedReason();
-            if (deprecatedReason != null) {
-                final Node deprecatedReasonNode = this.doc.createElement("deprecatedReason");
-                deprecatedReasonNode.setTextContent(deprecatedReason);
-                node.appendChild(deprecatedReasonNode);
-            }
-
-            final String deprecatedVersion = resource.getDeprecatedVersion();
-            if (deprecatedVersion != null) {
-                final Node deprecatedVersionNode = this.doc.createElement("deprecatedVersion");
-                deprecatedVersionNode.setTextContent(deprecatedVersion);
-                node.appendChild(deprecatedVersionNode);
-            }
+    private void addTag(final Node node, final String key, final String value) {
+        if (value != null) {
+            final Node toAdd = this.doc.createElement(key);
+            toAdd.setTextContent(value);
+            node.appendChild(toAdd);
         }
     }
 

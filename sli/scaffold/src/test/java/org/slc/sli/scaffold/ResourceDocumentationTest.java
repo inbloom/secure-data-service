@@ -92,4 +92,15 @@ public class ResourceDocumentationTest {
         assertNotNull(sectionNodeDoc);
         assertEquals("test /sections doc", sectionNodeDoc.getFirstChild().getNodeValue());
     }
+
+    @Test
+    public void testAvailableSince() throws Exception {
+        NodeList section = documentManipulator.getNodeList(testWadl, "//resource[@path='v1/sections']");
+        assertEquals(1, section.getLength());
+
+        Node sectionNodeAS = documentManipulator.getNodeList(testWadl,
+                "//resource[@path='v1/sections']/availableSince").item(0);
+        assertNotNull(sectionNodeAS);
+        assertEquals("v1", sectionNodeAS.getFirstChild().getNodeValue());
+    }
 }

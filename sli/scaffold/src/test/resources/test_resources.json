@@ -6,6 +6,7 @@
             "doc" : "test /sections doc",
             "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
             "deprecatedVersion" : "v3",
+            "availableSince" : "v1",
             "subResources": [
                 {
                     "path": "/{id}/gradebookEntries",
