@@ -64,8 +64,8 @@ class Odin
     return valid
   end
 
-  # Generates a SHA-1 hash of the generated xml files.
-  def sha1()
+  # Generates a MD5 hash of the generated xml files.
+  def md5()
     hashes = []
     Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
       hashes.push( Digest::MD5.hexdigest( f ))

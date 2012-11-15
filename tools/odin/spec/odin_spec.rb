@@ -27,15 +27,15 @@ describe "Odin" do
     end
   end
 
-  describe "#sha1"
+  describe "#md5"
   it "generates the same data for each run" do
     odin = Odin.new
     odin.generate( nil )
 
-    sha1 = odin.sha1()
+    sha1 = odin.md5()
     4.times do
       odin.generate( nil )
-      odin.sha1().should eq sha1
+      odin.md5().should eq sha1
     end
   end
 end
