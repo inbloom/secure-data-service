@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -71,6 +72,9 @@ public class ConcurrentEdFiProcessor implements Processor {
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
+    @Autowired
+    private NeutralRecordAccess neutralRecordMongoAccess;
+
     @Override
     public void process(Exchange exchange) throws Exception {
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
@@ -91,6 +95,8 @@ public class ConcurrentEdFiProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
             TenantContext.setJobId(batchJobId);
 
+            indexStagingDB();
+
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
@@ -105,6 +111,14 @@ public class ConcurrentEdFiProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
+    }
+
+    private void indexStagingDB() {
+        String jobId = TenantContext.getJobId();
+        String dbName = BatchJobUtils.jobIdToDbName(jobId);
+
+        LOG.info("Indexing staging db {} for job {}", dbName, jobId);
+        neutralRecordMongoAccess.ensureIndexes();
     }
 
     private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,

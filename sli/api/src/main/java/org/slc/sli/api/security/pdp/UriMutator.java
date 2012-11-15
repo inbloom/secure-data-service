@@ -16,7 +16,19 @@
 
 package org.slc.sli.api.security.pdp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ws.rs.core.PathSegment;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -27,16 +39,6 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ws.rs.core.PathSegment;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -75,7 +77,13 @@ public class UriMutator {
 
         if (segments.size() < 3) {
             if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
-                Pair<String, String> mutated = mutateBaseUri(segments.get(1).getPath(), queryParameters, user);
+                Pair<String, String> mutated = new MutablePair<String, String>();
+                if (segments.size() == 1) {
+                    // api/v1
+                    mutated = mutateBaseUri(ResourceNames.HOME, queryParameters, user);
+                } else {
+                    mutated = mutateBaseUri(segments.get(1).getPath(), queryParameters, user);
+                }
                 mutatedPath = mutated.getLeft();
                 mutatedParameters = mutated.getRight();
             }

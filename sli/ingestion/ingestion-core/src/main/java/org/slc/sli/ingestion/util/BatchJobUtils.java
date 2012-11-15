@@ -138,4 +138,15 @@ public class BatchJobUtils {
         return resource;
     }
 
+    public static String jobIdToDbName(String jobId) {
+        // only use the UUID portion of the jobId
+        if (jobId.length() < 36) {
+            throw new IllegalArgumentException("Job id length should not be less than 36 - should contain UUID");
+        }
+
+        int startOfUuid = jobId.length() - 36;
+
+        return "staging-" + jobId.substring(startOfUuid);
+    }
+
 }

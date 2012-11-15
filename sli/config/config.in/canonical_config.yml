@@ -195,7 +195,6 @@ default:
         sli.ingestion.queue.pit.keystorePassword:
 
         sli.ingestion.nodeType: standalone
-        sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
@@ -1363,7 +1362,6 @@ test-local:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1401,7 +1399,6 @@ test-team:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1415,7 +1412,6 @@ test-perf:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
