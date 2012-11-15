@@ -16,17 +16,19 @@ limitations under the License.
 
 =end
 
+require 'openssl'
 
-require_relative './encryptor.rb'
-
-if ARGV.count < 2
-  puts "Usage: encryptLDAPPass <keyfile> <ldap_pass>"
-  puts "\t keyfile - filename into which the key is stored, which was created by generateRailsKey.rb script"
-  puts "\t ldap_pass - LDAP server password to be ecrypted"
-  puts "Use the specified key file to ecrypt given LDAP password, outputting the relavent properties"
-  exit
-else
-  keyFilePath = ARGV[0]
-  ldap_pass = ARGV[1]
-  encrypt(keyFilePath, ldap_pass, "ldap_pass")
+def encrypt(keyFilePath, password, property)
+	aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
+    aes.encrypt
+    
+    #retrieve key and iv
+    key_file = File.open(keyFilePath, "rb")
+    aes.key = key_file.readline
+    aes.iv = key_file.readline
+    
+    encryptedLDAPPassBin = aes.update(password) + aes.final
+    encryptedLDAPPassHex = encryptedLDAPPassBin.unpack("H*")[0]
+    
+    puts "#{property}: #{encryptedLDAPPassHex}"
 end
