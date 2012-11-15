@@ -1,0 +1,19 @@
+{
+    "nameSpace": "v1",
+    "resources": [
+        {
+            "path": "/sections",
+            "doc" : "test /sections doc",
+            "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
+            "deprecatedVersion" : "v3",
+            "subResources": [
+                {
+                    "path": "/{id}/gradebookEntries",
+                    "doc" : "test section/{id}/gradebookEntries doc",
+                    "deprecatedVersion" : "v1",
+                    "deprecatedReason" : "no good!"
+                }
+            ]
+        }
+    ]
+}
