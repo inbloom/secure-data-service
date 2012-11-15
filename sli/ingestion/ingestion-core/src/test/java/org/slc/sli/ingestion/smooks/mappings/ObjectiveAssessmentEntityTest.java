@@ -66,19 +66,16 @@ public class ObjectiveAssessmentEntityTest {
             + "  <AssessmentItemIdentificationCode>EOA12</AssessmentItemIdentificationCode>"
             + "  </AssessmentItemIdentity>"
             + "  </AssessmentItemReference>"
-            + "  <LearningObjectiveReference id=\"Reading3-4\" ref=\"Reading3-4\">"
+            + "  <LearningObjectiveReference>"
             + "    <LearningObjectiveIdentity>"
-            + "      <LearningObjectiveId ContentStandardName=\"Reading3-4\">"
-            + "        <IdentificationCode>Reading3-4</IdentificationCode>"
-            + "      </LearningObjectiveId>"
-            + "      <Objective>objective</Objective>"
+            + "       <Objective>Expository Writing</Objective>"
+            + "       <AcademicSubject>Writing</AcademicSubject>"
+            + "       <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>"
             + "    </LearningObjectiveIdentity>"
             + "  </LearningObjectiveReference>"
-            + "  <LearningStandardReference id=\"Reading3-4\" ref=\"Reading3-4\">"
-            + "    <LearningStandardIdentity>"
-            + "      <LearningStandardId ContentStandardName=\"Reading3-4\">"
+            + "  <LearningStandardReference>"
+            + "      <LearningStandardIdentity>"
             + "        <IdentificationCode>Reading3-4</IdentificationCode>"
-            + "      </LearningStandardId>"
             + "    </LearningStandardIdentity>"
             + "  </LearningStandardReference>"
             + "  <ObjectiveAssessmentReference>"
@@ -123,7 +120,8 @@ public class ObjectiveAssessmentEntityTest {
 
     }
 
-    private void checkValidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {
+    @SuppressWarnings("unchecked")
+	private void checkValidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {
         Map<String, Object> entity = neutralRecord.getAttributes();
 
         Assert.assertEquals("TAKSReading3-4", entity.get("id"));
@@ -136,21 +134,20 @@ public class ObjectiveAssessmentEntityTest {
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);
 
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) entity.get("assessmentItemRefs");
         Assert.assertNotNull(assessmentItems);
         Assert.assertEquals(1, assessmentItems.size());
         Assert.assertEquals("EOA12", assessmentItems.get(0).get("identificationCode"));
 
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) entity.get("learningObjectives");
         Assert.assertNotNull(learningObjectives);
         Assert.assertEquals(1, learningObjectives.size());
-        Assert.assertEquals("objective", learningObjectives.get(0).get("objective"));
-        Assert.assertEquals("Reading3-4",
-                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("identificationCode"));
-        Assert.assertEquals("Reading3-4",
-                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("contentStandardName"));
+
+        Map<String, Object> loIdentity = (Map<String, Object>) learningObjectives.get(0).get("LearningObjectiveIdentity");
+        Assert.assertNotNull(loIdentity);
+        Assert.assertEquals("Expository Writing", loIdentity.get("Objective"));
+        Assert.assertEquals("Writing", loIdentity.get("AcademicSubject"));
+        Assert.assertEquals("Second grade", loIdentity.get("ObjectiveGradeLevel"));
     }
 
     private void checkInvalidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {

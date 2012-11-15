@@ -27,8 +27,8 @@
         <jb:value property="LEACategory"                          data="attributes LEACategory" />
         <jb:value property="charterStatus"                        data="attributes charterStatus" />
 
-        <jb:value property="localEducationAgencyReference"        data="attributes localEducationAgencyReference" />
-        <jb:value property="educationServiceCenterReference"      data="attributes educationServiceCenterReference" />
+        <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
+        <jb:value property="educationServiceCenterReference"      data="attributes EducationServiceCenterReference" />
         <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
 
         <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
@@ -91,7 +91,7 @@
     </jb:bean>
 
     <jb:bean beanId="programReferenceArray" class="java.util.ArrayList"  createOnElement="attributes programReference">
-        <jb:value data="attributes programReference element" />
+        <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 
 </smooks-resource-list>

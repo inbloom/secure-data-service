@@ -14,9 +14,9 @@
 				<xs:element name="Assessment" type="SLC-Assessment"/>
 				<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
 				<xs:element name="PerformanceLevelDescriptor" type="PerformanceLevelDescriptor"/>
-				<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessmentExtension"/>
-				<xs:element name="AssessmentItem" type="AssessmentItem"/>
-				<xs:element name="LearningObjective" type="LearningObjective"/>
+				<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
+				<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
+				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
 				<xs:element name="LearningStandard" type="LearningStandard"/>
 			</xs:choice>
 		</xs:complexType>

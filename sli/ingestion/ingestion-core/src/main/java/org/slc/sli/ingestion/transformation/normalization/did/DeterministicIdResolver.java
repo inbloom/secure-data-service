@@ -27,20 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.transformation.normalization.ContextTaker;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizerFlag;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
-import org.slc.sli.ingestion.transformation.normalization.Ref;
-import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -66,13 +59,10 @@ public class DeterministicIdResolver {
     @Autowired
     private SchemaRepository schemaRepository;
 
-    @Autowired
-    private EntityConfigFactory entityConfigurations;
-
-    @Autowired
-    private ContextTaker contextTaker;
-
     private static final Logger LOG = LoggerFactory.getLogger(DeterministicIdResolver.class);
+
+    private static final String BODY_PATH = "body.";
+    private static final String PATH_SEPARATOR = "\\.";
 
     public void resolveInternalIds(Entity entity, String tenantId, ErrorReport errorReport) {
         resolveInternalIdsImpl(entity, tenantId, true, errorReport);
@@ -96,7 +86,7 @@ public class DeterministicIdResolver {
         }
 
         if (entityConfig.getReferenceSources() == null || entityConfig.getReferenceSources().isEmpty()) {
-            LOG.warn("Entity configuration contains no references --> returning...");
+            LOG.debug("Entity configuration contains no references --> returning...");
             return;
         }
 
@@ -107,7 +97,9 @@ public class DeterministicIdResolver {
         for (DidRefSource didRefSource : entityConfig.getReferenceSources()) {
             try {
                 referenceEntityType = didRefSource.getEntityType();
+
                 sourceRefPath = didRefSource.getSourceRefPath();
+
                 NeutralSchema schema = schemaRepository.getSchema(referenceEntityType);
                 if (schema != null && schema.getAppInfo() != null) {
                     collectionName = schema.getAppInfo().getCollectionType();
@@ -122,16 +114,14 @@ public class DeterministicIdResolver {
     }
 
     private DidEntityConfig getEntityConfig(String entityType) {
-        DidEntityConfig configFromParser = didSchemaParser == null ? null : didSchemaParser.getEntityConfigs().get(entityType);
-        DidEntityConfig configByHand = didConfigReader == null ? null : didConfigReader.getDidEntityConfiguration(entityType);
-        DidEntityConfig retVal = new DidEntityConfig();
-        if (configFromParser != null && configFromParser.getReferenceSources() != null) {
-            retVal.getReferenceSources().addAll(configFromParser.getReferenceSources());
+        //use the json config if there is one
+        DidEntityConfig entityConfig = didConfigReader.getDidEntityConfiguration(entityType);
+
+        if (entityConfig == null) {
+            entityConfig = didSchemaParser.getEntityConfigs().get(entityType);
         }
-        if (configByHand != null && configByHand.getReferenceSources() != null) {
-            retVal.getReferenceSources().addAll(configByHand.getReferenceSources());
-        }
-        return retVal;
+
+        return entityConfig;
     }
 
     private DidRefConfig getRefConfig(String refType) {
@@ -150,14 +140,60 @@ public class DeterministicIdResolver {
             return;
         }
 
-        Object referenceObject = getProperty(entity, sourceRefPath);
+        //handle case of references within embedded lists of objects (for assessments)
+        //split source ref path and look for lists in embedded objects
+        String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
+        String[] pathParts = strippedRefPath.split(PATH_SEPARATOR);
+        String refObjName = pathParts[pathParts.length-1];
+
+        //get a list of the parentNodes
+        List<Map<String, Object>> parentNodes = new ArrayList<Map<String, Object>>();
+        extractReferenceParentNodes(parentNodes, entity.getBody(), pathParts, 0);
+
+        //resolve and set all the parentNodes
+        for (Map<String, Object> node : parentNodes) {
+            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), entity, didRefConfig, collectionName, tenantId);
+            if (resolvedRef != null) {
+                node.put(refObjName, resolvedRef);
+            }
+        }
+    }
+
+    /**
+     * Recursive extraction of all parent nodes in the entity that contain the reference
+     * @throws IdResolutionException
+     */
+    @SuppressWarnings("unchecked")
+    private void extractReferenceParentNodes(List<Map<String, Object>> parentNodes, Map<String, Object> curNode, String[] pathParts, int level) throws IdResolutionException {
+        String nextNodeName = pathParts[level];
+        if (level >= pathParts.length-1) {
+            parentNodes.add(curNode);
+        } else {
+            Object nextNode = curNode.get(nextNodeName);
+            if (nextNode instanceof List) {
+                List<Object> nodeList = (List<Object>) nextNode;
+                for (Object nodeObj : nodeList) {
+                    if (nodeObj instanceof Map) {
+                        extractReferenceParentNodes(parentNodes, (Map<String, Object>) nodeObj, pathParts, level+1);
+                    }
+                }
+            } else if (nextNode instanceof Map) {
+                extractReferenceParentNodes(parentNodes, (Map<String, Object>) nextNode, pathParts, level+1);
+            }
+        }
+    }
+
+    private Object resolveReference(Object referenceObject, boolean isOptional, Entity entity, DidRefConfig didRefConfig,
+            String collectionName, String tenantId) throws IdResolutionException {
+
+        String refType = didRefConfig.getEntityType();
 
         if (referenceObject == null) {
             // ignore an empty reference if it is optional
-            if (didRefSource.isOptional()) {
-                return;
+            if (isOptional) {
+                return null;
             } else {
-                throw new IdResolutionException("Entity missing key", sourceRefPath, null);
+                throw new IdResolutionException("Missing required reference", refType, null);
             }
         }
 
@@ -172,12 +208,11 @@ public class DeterministicIdResolver {
                 String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
                     uuidList.add(uuid);
-                    addContext(entity, uuid, didRefConfig, collectionName);
                 } else {
-                    throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
+                    throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
                 }
             }
-            setProperty(entity, sourceRefPath, uuidList);
+            return uuidList;
         } else if (referenceObject instanceof Map) {
             // handle a single reference object
             @SuppressWarnings("unchecked")
@@ -185,15 +220,12 @@ public class DeterministicIdResolver {
 
             String uuid = getId(reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
-                setProperty(entity, sourceRefPath, uuid);
-                if (addContext == true) {
-                    addContext(entity, uuid, didRefConfig, collectionName);
-                }
+                return uuid;
             } else {
-                throw new IdResolutionException("Null or empty deterministic id generated", sourceRefPath, uuid);
+                throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
             }
         } else {
-            throw new IdResolutionException("Unsupported reference object type", sourceRefPath, null);
+            throw new IdResolutionException("Unsupported reference object type", refType, null);
         }
     }
 
@@ -223,27 +255,6 @@ public class DeterministicIdResolver {
             throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
         } catch (NoSuchMethodException e) {
             throw new IdResolutionException("Unable to set reference object for entity", fieldPath, uuid.toString(), e);
-        }
-    }
-
-    // This logic would ideally be performed outside of this class.
-    // However, this would duplicate the setup (looping, etc) already present here.
-    // This logic will be removed in the near future, so not refactoring.
-    private void addContext(Entity entity, String uuid, DidRefConfig didRefConfig, String collectionName) {
-        EntityConfig oldEntityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-        if (oldEntityConfig != null && oldEntityConfig.getReferences() != null) {
-            for (RefDef rd : oldEntityConfig.getReferences()) {
-                Ref ref = rd.getRef();
-                if (ref != null && ref.getTakesContext() != null
-                        && ref.getEntityType().equals(didRefConfig.getEntityType())) {
-                    Criteria criteria = Criteria.where("_id").is(uuid);
-                    Query filter = new Query(criteria);
-                    List<String> ids = new ArrayList<String>();
-                    List<String> takesContext = ref.getTakesContext();
-
-                    contextTaker.addContext(entity, takesContext, collectionName, filter, ids);
-                }
-            }
         }
     }
 
@@ -297,13 +308,15 @@ public class DeterministicIdResolver {
                 }
 
             } else {
-            	value = getProperty(reference, keyFieldDef.getValueSource());
+                value = getProperty(reference, keyFieldDef.getValueSource());
             }
 
             String fieldName = keyFieldDef.getKeyFieldName();
             // don't add null or empty keys to the naturalKeys map
             if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
                 naturalKeys.put(fieldName, value == null ? "" : value.toString());
+            } else {
+                //
             }
         }
 

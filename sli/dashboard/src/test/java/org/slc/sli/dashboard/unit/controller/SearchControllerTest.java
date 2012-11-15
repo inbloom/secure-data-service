@@ -52,7 +52,7 @@ public class SearchControllerTest extends ControllerTestBase  {
     public void testHandle() throws Exception {
         // test good search
         try {
-            Assert.assertNotNull(searchController.handle(new StudentSearch("M", "S"), request));
+            Assert.assertNotNull(searchController.handle(new StudentSearch("M", "S", ""), request));
         } catch (Exception e) {
             Assert.fail("Should pass but getting " + e.getMessage());
         }

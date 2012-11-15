@@ -25,12 +25,9 @@
 
 package org.slc.sli.test.edfi.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -47,11 +44,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="CohortIdentifier" type="{http://ed-fi.org/0100}CohortIdentifier"/>
- *         &lt;choice maxOccurs="unbounded">
- *           &lt;element name="StateOrganizationId" type="{http://ed-fi.org/0100}IdentificationCode"/>
- *           &lt;element name="EducationOrgIdentificationCode" type="{http://ed-fi.org/0100}EducationOrgIdentificationCode" maxOccurs="unbounded"/>
- *         &lt;/choice>
- *       &lt;/sequence>
+ *         &lt;element name="EducationalOrgReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType"/>
+  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -62,17 +56,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CohortIdentityType", propOrder = {
     "cohortIdentifier",
-    "stateOrganizationIdOrEducationOrgIdentificationCode"
+    "educationalOrgReference"
 })
 public class CohortIdentityType {
 
     @XmlElement(name = "CohortIdentifier", required = true)
     protected String cohortIdentifier;
-    @XmlElements({
-        @XmlElement(name = "EducationOrgIdentificationCode", type = EducationOrgIdentificationCode.class),
-        @XmlElement(name = "StateOrganizationId", type = String.class)
-    })
-    protected List<Object> stateOrganizationIdOrEducationOrgIdentificationCode;
+    
+    @XmlElement(name = "EducationalOrgReference", required = true)
+    protected EducationalOrgReferenceType educationalOrgReference;
 
     /**
      * Gets the value of the cohortIdentifier property.
@@ -99,33 +91,24 @@ public class CohortIdentityType {
     }
 
     /**
-     * Gets the value of the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stateOrganizationIdOrEducationOrgIdentificationCode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStateOrganizationIdOrEducationOrgIdentificationCode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EducationOrgIdentificationCode }
-     * {@link String }
-     * 
-     * 
+     * Gets the value of the educationalOrgReference property.
+     *  
      */
-    public List<Object> getStateOrganizationIdOrEducationOrgIdentificationCode() {
-        if (stateOrganizationIdOrEducationOrgIdentificationCode == null) {
-            stateOrganizationIdOrEducationOrgIdentificationCode = new ArrayList<Object>();
-        }
-        return this.stateOrganizationIdOrEducationOrgIdentificationCode;
+    public EducationalOrgReferenceType getEducationalOrgReference() {
+
+        return educationalOrgReference;
     }
+    
+    /**
+    * Sets the value of the educationalOrgReference property.
+    * 
+    * @param value
+    *     allowed object is
+    *     {@link EducationalOrgReferenceType }
+    *     
+    */
+   public void setEducationalOrgReference(EducationalOrgReferenceType value) {
+       this.educationalOrgReference = value;
+   }
 
 }

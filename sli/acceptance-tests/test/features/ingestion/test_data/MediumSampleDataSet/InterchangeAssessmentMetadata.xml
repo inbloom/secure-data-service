@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" ?>
 <InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
     <LearningStandard id="lstd0">
         <LearningStandardId ContentStandardName="lstd0Name">
@@ -40,78 +40,106 @@
         <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit0</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd1Name">
-                    <IdentificationCode>lstd1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit1</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit2</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit3</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
     <AssessmentItem>
+    	<AssessmentReference>
+    		<AssessmentIdentity>
+    			<AssessmentTitle>as0Title</AssessmentTitle>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+         </AssessmentReference>
         <IdentificationCode>asit4</IdentificationCode>
         <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
         <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd2Name">
-                    <IdentificationCode>lstd2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
@@ -142,9 +170,7 @@
         <Nomenclature>Nomenclature</Nomenclature>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd1Name">
-                    <IdentificationCode>lstd1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </ObjectiveAssessment>
@@ -206,9 +232,7 @@
         </ObjectiveAssessmentReference>
         <AssessmentFamilyReference>
             <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode AssigningOrganizationCode="AssigningOrganizationCode" IdentificationSystem="Federal">
-                    <ID>asf0</ID>
-                </AssessmentFamilyIdentificationCode>
+              <AssessmentFamilyTitle>asf0Title</AssessmentFamilyTitle>
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>

@@ -1,208 +1,230 @@
-﻿<InterchangeAssessmentMetadata
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
-
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>RI-11-13</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Writing: Informational Text</Objective>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="RI-11-13-1"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-2"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-3"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-4"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-5"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-6"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-7"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-8"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-9"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-13-10"></LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningStandard id="RI-11-13-1">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text, 
+<?xml version="1.0" ?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>RI-11-13</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Writing: Informational Text</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.1</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.4</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.5</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.6</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.7</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.8</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.9</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RI.11-13.10</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+    <LearningStandard id="RI-11-13-1">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text, 
 					 including determining where the text leaves matters uncertain.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-2">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine two or more central ideas of a text and analyze their development over the course of the text, including how they interact and 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-2">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine two or more central ideas of a text and analyze their development over the course of the text, including how they interact and 
 					 build on one another to provide a complex analysis; provide an objective summary of the text.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-3">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze a complex set of ideas or sequence of events and explain how specific individuals, ideas, 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-3">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze a complex set of ideas or sequence of events and explain how specific individuals, ideas, 
 					 or events interact and develop over the course of the text.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-4">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.4</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine the meaning of words and phrases as they are used in a text, including figurative, connotative, and technical meanings; 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-4">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine the meaning of words and phrases as they are used in a text, including figurative, connotative, and technical meanings; 
 					 analyze how an author uses and refines the meaning of a key term or terms over the course of a text 
 					 (e.g., how Madison defines faction in Federalist No. 10).
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-5">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.5</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze and evaluate the effectiveness of the structure an author uses in his or her exposition or argument, 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-5">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze and evaluate the effectiveness of the structure an author uses in his or her exposition or argument, 
 					 including whether the structure makes points clear, convincing, and engaging.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-6">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.6</IdentificationCode>
-		</LearningStandardId>
-		<Description>Determine an author’s point of view or purpose in a text in which the rhetoric is particularly effective, 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-6">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Determine an author’s point of view or purpose in a text in which the rhetoric is particularly effective, 
 					 analyzing how style and content contribute to the power, persuasiveness or beauty of the text.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-7">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.7</IdentificationCode>
-		</LearningStandardId>
-		<Description>Integrate and evaluate multiple sources of information presented in different media or formats (e.g., visually, quantitatively) 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-7">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.7</IdentificationCode>
+        </LearningStandardId>
+        <Description>Integrate and evaluate multiple sources of information presented in different media or formats (e.g., visually, quantitatively) 
 					 as well as in words in order to address a question or solve a problem.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-8">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.8</IdentificationCode>
-		</LearningStandardId>
-		<Description>Delineate and evaluate the reasoning in seminal U.S. texts, including the application of constitutional principles and use of 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-8">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.8</IdentificationCode>
+        </LearningStandardId>
+        <Description>Delineate and evaluate the reasoning in seminal U.S. texts, including the application of constitutional principles and use of 
 					 legal reasoning (e.g., in U.S. Supreme Court majority opinions and dissents) and the premises, purposes, and arguments in works of 
 					 public advocacy (e.g., The Federalist, presidential addresses).
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-9">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.9</IdentificationCode>
-		</LearningStandardId>
-		<Description>Analyze seventeenth-, eighteenth-, and nineteenth-century foundational U.S. documents of historical and literary 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-9">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.9</IdentificationCode>
+        </LearningStandardId>
+        <Description>Analyze seventeenth-, eighteenth-, and nineteenth-century foundational U.S. documents of historical and literary 
 					 significance (including The Declaration of Independence, the Preamble to the Constitution, the Bill of Rights, 
 					 and Lincoln’s Second Inaugural Address) for their themes, purposes, and rhetorical features.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="RI-11-13-10">
-		<LearningStandardId>
-			<IdentificationCode>RI.11-13.10</IdentificationCode>
-		</LearningStandardId>
-		<Description>By the end of the grade 11, read and comprehend literary nonfiction at the high end of the grades 11-CCR text complexity 
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="RI-11-13-10">
+        <LearningStandardId>
+            <IdentificationCode>RI.11-13.10</IdentificationCode>
+        </LearningStandardId>
+        <Description>By the end of the grade 11, read and comprehend literary nonfiction at the high end of the grades 11-CCR text complexity 
 					 band independently and proficiently, with scaffolding as needed at the high end of the range.
 					 By the end of grade 12, read and comprehend literary nonfiction at the high end of the grades 11–CCR text 
 					 complexity band independently and proficiently.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-	
-	<LearningStandard id="LearningStandard1">
-		<LearningStandardId>
-			<IdentificationCode>Standard1</IdentificationCode>
-		</LearningStandardId>
-		<Description>Find the derivative of a function</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard id="LearningStandard2">
-		<LearningStandardId>
-			<IdentificationCode>Standard2</IdentificationCode>
-		</LearningStandardId>
-		<Description>Integrate a function</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard id="LearningStandard3">
-		<LearningStandardId>
-			<IdentificationCode>Standard3</IdentificationCode>
-		</LearningStandardId>
-		<Description>Kill someone with your brain</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard id="LearningStandard4">
-		<LearningStandardId>
-			<IdentificationCode>Standard4</IdentificationCode>
-		</LearningStandardId>
-		<Description>Find the area under a curve</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard id="LearningStandard5">
-		<LearningStandardId>
-			<IdentificationCode>Standard5</IdentificationCode>
-		</LearningStandardId>
-		<Description>Read another person's mind</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
-
-	<LearningStandard id="LearningStandard6">
-		<LearningStandardId>
-			<IdentificationCode>Standard6</IdentificationCode>
-		</LearningStandardId>
-		<Description>Find the sum of a converging series</Description>
-		<ContentStandard>State Standard</ContentStandard>
-		<GradeLevel>Twelfth grade</GradeLevel>
-		<SubjectArea>ELA</SubjectArea>
-	</LearningStandard>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard1">
+        <LearningStandardId>
+            <IdentificationCode>Standard1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Find the derivative of a function</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard2">
+        <LearningStandardId>
+            <IdentificationCode>Standard2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Integrate a function</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard3">
+        <LearningStandardId>
+            <IdentificationCode>Standard3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Kill someone with your brain</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard4">
+        <LearningStandardId>
+            <IdentificationCode>Standard4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Find the area under a curve</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard5">
+        <LearningStandardId>
+            <IdentificationCode>Standard5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Read another person's mind</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
+    <LearningStandard id="LearningStandard6">
+        <LearningStandardId>
+            <IdentificationCode>Standard6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Find the sum of a converging series</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>
 </InterchangeAssessmentMetadata>

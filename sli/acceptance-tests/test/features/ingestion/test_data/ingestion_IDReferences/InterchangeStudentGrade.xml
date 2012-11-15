@@ -10,7 +10,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_1"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000101</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 1</GradebookEntryType>
@@ -38,7 +57,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_2"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000001</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 2</GradebookEntryType>
@@ -66,7 +104,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_101"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000101</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 3</GradebookEntryType>
@@ -95,7 +152,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_3"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000002</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 17</GradebookEntryType>
@@ -124,7 +200,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_102"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000001</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 4</GradebookEntryType>
@@ -153,7 +248,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_4"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000003</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 18</GradebookEntryType>
@@ -182,7 +296,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_103"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000002</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000001</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 19</GradebookEntryType>
@@ -211,7 +344,26 @@
             </CompetencyLevelIdentity>
         </CompetencyLevelReference>
         <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
-        <StudentSectionAssociationReference ref="SSA_104"/>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>100000003</StudentUniqueStateId>
+                </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>1000002</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+                </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2011-09-01</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
         <GradebookEntryReference>
             <GradebookEntryIdentity>
                 <GradebookEntryType>funeral homework 20</GradebookEntryType>
@@ -236,9 +388,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -266,9 +416,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_101</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_101</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -296,9 +444,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -326,9 +472,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard3</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard3</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -356,9 +500,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard4</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard4</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -386,9 +528,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_102</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_102</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -416,9 +556,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_103</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_103</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -446,9 +584,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_104</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_104</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -476,9 +612,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard5</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard5</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -506,9 +640,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard6</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard6</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -536,9 +668,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard7</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard7</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -566,9 +696,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_105</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_105</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -596,9 +724,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_106</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_106</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -626,9 +752,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_107</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_107</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -656,9 +780,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard8</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard8</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -686,9 +808,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_108</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_108</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -716,9 +836,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard1</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -746,9 +864,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_101</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>LS_101</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -776,9 +892,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard2</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -806,9 +920,7 @@
         <Description>Herman must write a story about his pet Spot</Description>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard3</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>Standard3</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
         <LearningObjectiveReference>
@@ -862,6 +974,7 @@
     </CompetencyLevelDescriptor>
     <StudentSectionAssociationReference id="SSA_1">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000101</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -880,6 +993,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -888,10 +1003,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_2">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000001</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -910,6 +1027,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -918,10 +1037,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_3">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000002</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -940,6 +1061,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -948,10 +1071,12 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
     <StudentSectionAssociationReference id="SSA_4">
         <StudentSectionAssociationIdentity>
+            <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>100000003</StudentUniqueStateId>
                 <StudentIdentificationCode>
@@ -970,6 +1095,8 @@
                 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
                 <Race>Mixed</Race>
             </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
             <SectionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
@@ -978,70 +1105,47 @@
                 </EducationalOrgReference>
                 <UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
             </SectionIdentity>
+            </SectionReference>
         </StudentSectionAssociationIdentity>
     </StudentSectionAssociationReference>
-    <LearningStandardReference id="LS_1">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard1</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard1</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_2">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard101</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard101</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_3">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard2</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard2</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_4">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard3</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard3</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_5">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard4</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard4</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_6">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard102</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard102</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_7">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard5</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard5</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
-    <LearningStandardReference id="LS_8">
+    <LearningStandardReference>
         <LearningStandardIdentity>
-            <LearningStandardId>
-                <IdentificationCode>Standard6</IdentificationCode>
-                <ContentStandardName>Common Core</ContentStandardName>
-            </LearningStandardId>
+            <IdentificationCode>Standard6</IdentificationCode>
         </LearningStandardIdentity>
     </LearningStandardReference>
     <LearningObjectiveReference id="LO_1">
@@ -1289,9 +1393,7 @@
         <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
         <LearningStandardReference>
             <LearningStandardIdentity>
-                <LearningStandardId ContentStandardName="lstd0Name">
-                    <IdentificationCode>lstd0</IdentificationCode>
-                </LearningStandardId>
+                <IdentificationCode>lstd0</IdentificationCode>
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>

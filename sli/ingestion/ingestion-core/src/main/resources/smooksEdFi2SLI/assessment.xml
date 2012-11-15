@@ -53,11 +53,16 @@
         <jb:wiring property="assessmentPerformanceLevel" beanIdRef="OAssessmentPerformanceLevelTypeArray" />
         <jb:value property="percentOfAssessment" data="objectiveAssessment element percentOfAssessment" decoder="Integer"/>
         <jb:value property="nomenclature" data="objectiveAssessment element nomenclature" />
+        <jb:wiring property="learningObjectives" beanIdRef="LearningObjectivesTypeArray1"/>
         <jb:wiring property="objectiveAssessments" beanIdRef="ObjectiveAssessmentTypeArray1"/>
     </jb:bean>
 
     <jb:bean beanId="ObjectiveAssessmentTypeArray1" class="java.util.ArrayList" createOnElement="objectiveAssessments">
         <jb:wiring beanIdRef="ObjectiveAssessmentType1"/>
+    </jb:bean>
+
+    <jb:bean beanId="LearningObjectivesTypeArray1" class="java.util.ArrayList" createOnElement="learningObjectives">
+        <jb:value data="LearningObjectiveReference element"/>
     </jb:bean>
 
     <jb:bean beanId="ObjectiveAssessmentType1" class="java.util.HashMap" createOnElement="objectiveAssessments element">
