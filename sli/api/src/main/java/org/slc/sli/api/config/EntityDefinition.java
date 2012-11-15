@@ -51,13 +51,14 @@ public class EntityDefinition {
     private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
     private final boolean supportsAggregates;
     private final boolean skipContextValidation;
+    private final boolean wrapperEntity;
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
-        this(type, resourceName, collectionName, service, supportsAggregates, false);
+        this(type, resourceName, collectionName, service, supportsAggregates, false, false);
     }
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates,
-            boolean skipContextValidation) {
+            boolean skipContextValidation, boolean pullTypeFromEntity) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
@@ -65,6 +66,7 @@ public class EntityDefinition {
         this.referencingEntities = new LinkedList<EntityDefinition>();
         this.supportsAggregates = supportsAggregates;
         this.skipContextValidation = skipContextValidation;
+        this.wrapperEntity = pullTypeFromEntity;
     }
 
     public boolean hasArrayField(String fieldName) {
@@ -205,5 +207,15 @@ public class EntityDefinition {
      */
     public boolean skipContextValidation() {
         return skipContextValidation;
+    }
+
+    /**
+     * The entity is a wrapper for other entities
+     * For example, search wraps entities like student, section, etc.
+     *
+     * @return
+     */
+    public boolean wrapperEntity() {
+        return wrapperEntity;
     }
 }

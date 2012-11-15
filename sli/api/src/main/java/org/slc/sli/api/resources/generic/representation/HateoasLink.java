@@ -49,9 +49,15 @@ public class HateoasLink {
 
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
-        EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
+        EntityDefinition baseDefinition = entityDefinitionStore.lookupByResourceName(resource);
+        EntityDefinition definition;
 
         for (EntityBody entity : entities) {
+
+            // if this is a wrapper entity, get the definition from the type of the entity itself
+            definition = baseDefinition.wrapperEntity() ?
+                             entityDefinitionStore.lookupByEntityType((String) entity.get("entityType")) :
+                             baseDefinition;
             List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
 
             Iterator<EmbeddedLink> it = links.iterator();

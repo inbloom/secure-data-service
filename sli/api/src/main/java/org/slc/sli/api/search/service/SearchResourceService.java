@@ -124,6 +124,7 @@ public class SearchResourceService {
         // set up query criteria, make query
         try {
             finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
+            setRealEntityTypes(finalEntities);
         } catch (HttpStatusCodeException hsce) { // TODO: create some sli exception for this
             warn("Error retrieving results from ES: " + hsce.getMessage());
             // if item not indexed, throw Illegal
@@ -193,6 +194,17 @@ public class SearchResourceService {
         }
         finalEntities.subList(0, offset).clear();
         return (finalEntities.size() <= limit) ? finalEntities : finalEntities.subList(0, limit);
+    }
+
+    /**
+     * Replace entity type 'search' with the real entity types
+     * @param entities
+     */
+    private void setRealEntityTypes(List<EntityBody> entities) {
+        for (EntityBody entity : entities) {
+            entity.put("entityType", entity.get("type"));
+            entity.remove("type");
+        }
     }
 
     /**

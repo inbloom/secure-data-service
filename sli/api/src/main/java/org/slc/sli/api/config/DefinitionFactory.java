@@ -92,6 +92,7 @@ public class DefinitionFactory {
         protected Right writeRight;
         private boolean supportsAggregates;
         private boolean skipContextValidation;
+        private boolean wrapperEntity;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -195,6 +196,11 @@ public class DefinitionFactory {
             return this;
         }
 
+        public EntityBuilder wrapperEntity() {
+            this.wrapperEntity = true;
+            return this;
+        }
+
         /**
          * Create the actual entity definition
          *
@@ -206,7 +212,7 @@ public class DefinitionFactory {
                     collectionName, treatments, this.readRight, this.writeRight, this.repo);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
-                    supportsAggregates, skipContextValidation);
+                    supportsAggregates, skipContextValidation, wrapperEntity);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
