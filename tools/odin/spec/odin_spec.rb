@@ -18,11 +18,24 @@ limitations under the License.
 
 require_relative '../odin.rb'
 
-
 describe "Odin" do
-  it "generates valid XML for the default scenario" do
+  describe "#validate" do
+    it "generates valid XML for the default scenario" do
+      odin = Odin.new
+      odin.generate( nil )
+      odin.validate().should be true
+    end
+  end
+
+  describe "#md5"
+  it "generates the same data for each run" do
     odin = Odin.new
     odin.generate( nil )
-    odin.validate().should be true
+
+    sha1 = odin.md5()
+    4.times do
+      odin.generate( nil )
+      odin.md5().should eq sha1
+    end
   end
 end
