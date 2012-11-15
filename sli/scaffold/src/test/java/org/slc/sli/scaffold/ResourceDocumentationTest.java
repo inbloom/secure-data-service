@@ -49,30 +49,15 @@ public class ResourceDocumentationTest {
     }
 
     @Test
-    public void testAddDocumentation() throws Exception {
-        NodeList section = documentManipulator.getNodeList(testWadl,
-                "//resource[@path='v1/sections']");
-        assertEquals(1, section.getLength());
-
-        Node sectionNodeDoc = documentManipulator.getNodeList(testWadl,
-                "//resource[@path='v1/sections']/doc").item(0);
-        assertNotNull(sectionNodeDoc);
-        assertEquals("test /sections doc", sectionNodeDoc.getFirstChild().getNodeValue());
-
-        Node sectionNodeDV = documentManipulator.getNodeList(testWadl,
-                "//resource[@path='v1/sections']/deprecatedVersion").item(0);
-        assertNotNull(sectionNodeDV);
-        assertEquals("v3", sectionNodeDV.getFirstChild().getNodeValue());
-
-        Node sectionNodeDR = documentManipulator.getNodeList(testWadl,
-                "//resource[@path='v1/sections']/deprecatedReason").item(0);
-        assertNull(sectionNodeDR);
-
+    public void testAddDocToSubResource() throws Exception {
         Node gradebookEntryDoc = documentManipulator.getNodeList(testWadl,
                 "//resource[@path='v1/sections']/resource[@path='{id}/gradebookEntries']/doc").item(0);
         assertNotNull(gradebookEntryDoc);
         assertEquals("test section/{id}/gradebookEntries doc", gradebookEntryDoc.getFirstChild().getNodeValue());
+    }
 
+    @Test
+    public void testAddDeprecatedToSubResource() throws Exception {
         Node gradebookEntryDV = documentManipulator.getNodeList(testWadl,
                 "//resource[@path='v1/sections']/resource[@path='{id}/gradebookEntries']/deprecatedVersion").item(0);
         assertNotNull(gradebookEntryDV);
@@ -82,5 +67,29 @@ public class ResourceDocumentationTest {
                 "//resource[@path='v1/sections']/resource[@path='{id}/gradebookEntries']/deprecatedReason").item(0);
         assertNotNull(gradebookEntryDR);
         assertEquals("no good!", gradebookEntryDR.getFirstChild().getNodeValue());
+    }
+
+    @Test
+    public void testAddDeprecated() throws Exception {
+        Node sectionNodeDV = documentManipulator.getNodeList(testWadl,
+                "//resource[@path='v1/sections']/deprecatedVersion").item(0);
+        assertNotNull(sectionNodeDV);
+        assertEquals("v3", sectionNodeDV.getFirstChild().getNodeValue());
+
+        Node sectionNodeDR = documentManipulator.getNodeList(testWadl,
+                "//resource[@path='v1/sections']/deprecatedReason").item(0);
+        assertNull(sectionNodeDR);
+    }
+
+    @Test
+    public void testAddDocumentation() throws Exception {
+        NodeList section = documentManipulator.getNodeList(testWadl,
+                "//resource[@path='v1/sections']");
+        assertEquals(1, section.getLength());
+
+        Node sectionNodeDoc = documentManipulator.getNodeList(testWadl,
+                "//resource[@path='v1/sections']/doc").item(0);
+        assertNotNull(sectionNodeDoc);
+        assertEquals("test /sections doc", sectionNodeDoc.getFirstChild().getNodeValue());
     }
 }
