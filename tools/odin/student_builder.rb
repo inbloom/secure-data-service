@@ -33,16 +33,16 @@ class StudentBuilder
   def build
     s = Student.new(@id, @rand)
     @student_writer.write(s.render)
-    @work_order[:enrollments].each{ |term|
-      gen_enrollment(term)
+    @work_order[:sessions].each{ |session|
+      gen_enrollment(session)
     }
   end
 
-  def gen_enrollment(term)
-    school_id = term[:school]
+  def gen_enrollment(session)
+    school_id = session[:school]
     schoolAssoc = StudentSchoolAssociation.new(@id, school_id, @rand)
     @enrollment_writer.write(schoolAssoc.render)
-    term[:sections].each{ |section|
+    session[:sections].each{ |section|
       gen_section(section)
     }
   end
