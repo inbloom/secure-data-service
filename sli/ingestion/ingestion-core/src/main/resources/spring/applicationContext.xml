@@ -44,11 +44,6 @@
   <aop:aspectj-autoproxy />
   <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
 
-  <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
-    <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
-    <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
-  </bean>
-
   <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
     <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
@@ -83,8 +78,8 @@
   <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
     <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
   </bean>
-  
-    <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect" 
+
+    <bean id="stageTrackingAspect" class="org.slc.sli.ingestion.aspect.StageTrackingAspect"
        factory-method="aspectOf">
   </bean>
 
