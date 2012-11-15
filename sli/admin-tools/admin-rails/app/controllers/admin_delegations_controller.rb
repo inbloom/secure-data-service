@@ -65,7 +65,6 @@ class AdminDelegationsController < ApplicationController
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])
     @admin_delegation = AdminDelegation.new(params[:admin_delegation])
 
-
     respond_to do |format|
       if @admin_delegation.save
         format.html { redirect_to admin_delegations_path, notice: 'Admin delegation was successfully created.' }

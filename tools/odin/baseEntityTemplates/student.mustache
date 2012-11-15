@@ -56,12 +56,7 @@ limitations under the License.
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>{{email}}</EmailAddress>
     </ElectronicMail>
-    {{#hispanicLatino}}
-    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    {{/hispanicLatino}}
-    {{^hispanicLatino}}
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    {{/hispanicLatino}}
+    <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
     {{#oldEthnicity}}
     <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
     {{/oldEthnicity}}

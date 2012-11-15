@@ -53,17 +53,15 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-
 /**
  * Handles the persisting of Entity objects
- *
+ * 
  * @author dduran
  *         Modified by Thomas Shewchuk (PI3 US811)
  *         - 2/1/2010 Added record DB lookup and update capabilities, and support for association
  *         entities.
- *
+ * 
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
@@ -124,7 +122,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     /**
      * Persist entity in the data store.
-     *
+     * 
      * @param entity
      *            Entity to be persisted
      * @return Persisted entity
@@ -220,32 +218,28 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
             ErrorReport errorReport, SimpleEntity entity) {
-        if (NaturalKeyExtractor.useDeterministicIds()) {
 
-            NaturalKeyDescriptor naturalKeyDescriptor;
-            try {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
-            } catch (NoNaturalKeysDefinedException e1) {
-                LOG.error(e1.getMessage(), e1);
-                return;
-            }
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
+        } catch (NoNaturalKeysDefinedException e1) {
+            LOG.error(e1.getMessage(), e1);
+            return;
+        }
 
-            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-                String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
-                        + "       Instance   " + entity.getRecordNumber();
-                LOG.error(message);
+        if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+            String message = "Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+                    + "       Instance   " + entity.getRecordNumber();
+            LOG.error(message);
 
-                preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
-            } else {
-                // "new" style -> based on natural keys from schema
-                String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
-                List<Object> keyValues = new ArrayList<Object>();
-                keyValues.add(id);
-                entity.setEntityId(id);
-                memory.put(keyValues, entity);
-            }
-        } else {
             preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+        } else {
+            // "new" style -> based on natural keys from schema
+            String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+            List<Object> keyValues = new ArrayList<Object>();
+            keyValues.add(id);
+            entity.setEntityId(id);
+            memory.put(keyValues, entity);
         }
     }
 
@@ -318,7 +312,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     /**
      * Generic warning reporting function.
-     *
+     * 
      * @param warningMessage
      *            Warning message reported by entity.
      * @param entity

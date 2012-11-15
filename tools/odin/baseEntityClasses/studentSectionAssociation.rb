@@ -16,26 +16,18 @@ limitations under the License.
 
 =end
 
-require_relative '../odin.rb'
 
-describe "Odin" do
-  describe "#validate" do
-    it "generates valid XML for the default scenario" do
-      odin = Odin.new
-      odin.generate( nil )
-      odin.validate().should be true
-    end
+require_relative './baseEntity.rb'
+
+class StudentSectionAssociation < BaseEntity
+
+  attr_accessor :studentId, :sectionId, :edOrgId
+
+  def initialize(studentId, sectionId, edOrgId, rand)
+    @studentId = studentId
+    @sectionId = sectionId
+    @edOrgId = edOrgId
+    @rand = rand
   end
 
-  describe "#md5"
-  it "generates the same data for each run" do
-    odin = Odin.new
-    odin.generate( nil )
-
-    sha1 = odin.md5()
-    4.times do
-      odin.generate( nil )
-      odin.md5().should eq sha1
-    end
-  end
 end

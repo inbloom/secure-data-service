@@ -29,6 +29,9 @@ public class ResourceEndPointTemplate {
     private String doc;
     private String resourceClass;
     private List<ResourceEndPointTemplate> subResources;
+    private String deprecatedVersion;
+    private String deprecatedReason;
+    private String availableSince;
 
     public String getDoc() {
         return doc;
@@ -60,5 +63,29 @@ public class ResourceEndPointTemplate {
 
     public void setSubResources(List<ResourceEndPointTemplate> subResources) {
         this.subResources = subResources;
+    }
+
+    public String getDeprecatedVersion() {
+        return deprecatedVersion;
+    }
+
+    public void setDeprecatedVersion(String depreciatedVersion) {
+        this.deprecatedVersion = depreciatedVersion;
+    }
+
+    public String getDeprecatedReason() {
+        return deprecatedReason;
+    }
+
+    public void setDeprecatedReason(String depreciatedReason) {
+        this.deprecatedReason = depreciatedReason;
+    }
+
+    public String getAvailableSince() {
+        return availableSince;
+    }
+
+    public void setAvailableSince(String availableSince) {
+        this.availableSince = availableSince;
     }
 }
