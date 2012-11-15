@@ -63,7 +63,7 @@ default:
 
         # Ldap server user and pass
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-        sli.api.ldap.pass: Y;Gtf@w{
+        sli.api.ldap.pass: 506983BCB4FA5BE9F909E7C1CF03F495
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
@@ -333,6 +333,9 @@ default:
         # keystore password (used in common, data-access, and dashboard)
         sli.encryption.keyStorePass: changeit
 
+        sli.encryption.ldapKeyAlias: ldap
+        sli.encryption.ldapKeyPass: ldap
+        
         # (only used in data-access, and dashboard)
         sli.encryption.dalKeyAlias: dalKey
 
