@@ -42,6 +42,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -119,8 +120,19 @@ public class SearchResourceService {
      * @return
      */
     public ServiceResponse list(Resource resource, String resourcesToSearch, URI queryUri) {
+        List<EntityBody> finalEntities = null;
         // set up query criteria, make query
-        List<EntityBody> finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
+        try {
+            finalEntities = retrieveResults(prepareQuery(resource, resourcesToSearch, queryUri));
+        } catch (HttpStatusCodeException hsce) { // TODO: create some sli exception for this
+            warn("Error retrieving results from ES: " + hsce.getMessage());
+            // if item not indexed, throw Illegal
+            if (hsce.getStatusCode() == HttpStatus.NOT_FOUND || hsce.getStatusCode().value() >= 500) {
+                throw new IllegalArgumentException("Search is not available for the user at this moment.");
+            }
+            throw hsce;
+        }
+
         return new ServiceResponse(finalEntities, finalEntities.size());
     }
 
@@ -294,7 +306,7 @@ public class SearchResourceService {
         // filter rule:
         // first, token must be at least 1 tokens
         String[] tokens = queryString.split("\\s+");
-        if (tokens == null || tokens.length < 1 || queryString.length() < 2) {
+        if (tokens == null || tokens.length < 1 || queryString.length() < 1) {
             throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
         }
         // append wildcard '*' to each token
