@@ -29,14 +29,6 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +39,15 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
  * attendance events} mappings and stores in the appropriate student-school or student-section
@@ -264,7 +265,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 Map<String, Object> update = new HashMap<String, Object>();
                 update.put("pushAll", attendanceEventsToPush);
                 getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
-                        ATTENDANCE_TRANSFORMED, getBatchJobId());
+                        ATTENDANCE_TRANSFORMED);
 
                 LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
             }

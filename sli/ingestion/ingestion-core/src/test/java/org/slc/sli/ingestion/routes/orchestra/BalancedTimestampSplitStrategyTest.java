@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.routes.orchestra;
 
 import static org.junit.Assert.assertEquals;
@@ -54,7 +53,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(8000);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(1, workNotes.size());
     }
@@ -65,7 +64,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(4000);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(2, workNotes.size());
     }
@@ -76,7 +75,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(900);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(10, workNotes.size());
     }
@@ -1421,12 +1420,12 @@ public class BalancedTimestampSplitStrategyTest {
                 1339426130995L, 1339426130995L, 1339426130995L, 1339426130995L };
 
         @Override
-        public long collectionCountForJob(String collectionNameAsStaged, String jobId) {
+        public long collectionCountForJob(String collectionNameAsStaged) {
             return testRepoTimes.length;
         }
 
         @Override
-        public long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId) {
+        public long countCreationTimeWithinRange(String collectionName, long min, long max) {
             long count = 0;
             for (long repoTime : testRepoTimes) {
                 if (repoTime >= min && repoTime < max) {
@@ -1437,13 +1436,24 @@ public class BalancedTimestampSplitStrategyTest {
         }
 
         @Override
-        public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
+        public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
             return testRepoTimes[testRepoTimes.length - 1] + 1;
         }
 
         @Override
-        public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
+        public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
             return testRepoTimes[0];
+        }
+
+        @Override
+        public void cleanupJob(String batchJobId) {
+            // nothing
+        }
+
+        @Override
+        public void ensureIndexes() {
+            // TODO Auto-generated method stub
+
         }
     }
 }
