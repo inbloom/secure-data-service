@@ -202,7 +202,6 @@ default:
         sli.ingestion.queue.pit.keystorePassword:
 
         sli.ingestion.nodeType: standalone
-        sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
@@ -414,12 +413,14 @@ default:
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.queue.url : failover:(tcp://localhost:61616)?maxReconnectDelay=10000
-        sli.search.indexer.queue.username: system
-        sli.search.indexer.queue.password: manager
+        sli.search.indexer.broker.uri : failover:(tcp://localhost:61616)?maxReconnectDelay=10000
+        sli.search.indexer.broker.username: system
+        sli.search.indexer.broker.password: manager
         sli.search.indexer.queue.name: search_events
         sli.search.indexer.broker.embedded: true
-        sli.search.indexer.broker.embedded.urls: stomp://localhost:61613,tcp://localhost:61616
+        sli.search.indexer.broker.embedded.connectors: stomp://localhost:61613,tcp://localhost:61616
+        sli.search.indexer.broker.embedded.uri: vm://embeddedBroker?broker.persistent=false&broker.useJmx=false
+        sli.search.indexer.broker.embedded.tempUsage: 1073741824
         sli.search.indexer.env: local
 
 acceptance-tests:
@@ -1390,7 +1391,6 @@ test-local:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1428,7 +1428,6 @@ test-team:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1442,7 +1441,6 @@ test-perf:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 

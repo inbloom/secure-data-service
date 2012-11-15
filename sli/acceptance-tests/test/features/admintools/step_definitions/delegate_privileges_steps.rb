@@ -29,7 +29,9 @@ end
 
 When /^"([^"]*)" is unchecked$/ do |feature|
   checkbox = getCheckbox(feature)
-  assert(!checkbox.attribute("checked"), "Expected #{feature} checkbox to be unchecked")
+  assertWithWait("Expected #{feature} checkbox to be unchecked") do
+	!checkbox.attribute("checked")
+  end
 end
 
 When /^I check the "([^"]*)"$/ do |feature|
@@ -45,7 +47,9 @@ end
 
 Then /^"([^"]*)" is checked$/ do |feature|
   checkbox = getCheckbox(feature)
-  assert(checkbox.attribute("checked"), "Expected #{feature} checkbox to be checked")
+  assertWithWait("Expected #{feature} checkbox to be checked") do
+    checkbox.attribute("checked")
+  end
 end
 
 Then /^I get the message "([^"]*)"$/ do |errorMessage|

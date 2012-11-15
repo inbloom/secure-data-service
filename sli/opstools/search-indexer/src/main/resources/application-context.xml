@@ -76,12 +76,14 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="activeMQConnection" ref="activeMQConnection" />
 	</bean>
 	<bean id="activeMQConnection" class="org.slc.sli.search.util.amq.ActiveMQConnection" init-method="init" destroy-method="destroy">
-		<property name="mqURL" value="${sli.search.indexer.queue.url}" />
-		<property name="mqUsername" value="${sli.search.indexer.queue.username}" />
-		<property name="mqPswd" value="${sli.search.indexer.queue.password}" />
+		<property name="brokerURI" value="${sli.search.indexer.broker.uri}" />
+		<property name="brokerUsername" value="${sli.search.indexer.broker.username}" />
+		<property name="brokerPswd" value="${sli.search.indexer.broker.password}" />
 		<property name="queue" value="${sli.search.indexer.queue.name}" />
 		<property name="embeddedBroker" value="${sli.search.indexer.broker.embedded:false}" />
-		<property name="embeddedBrokerUrls" value="${sli.search.indexer.broker.embedded.urls}" />
+		<property name="embeddedConnectors" value="${sli.search.indexer.broker.embedded.connectors}" />
+		<property name="embeddedBrokerURI" value="${sli.search.indexer.broker.embedded.uri}" />
+		<property name="tempUsage" value="${sli.search.indexer.broker.embedded.tempUsage:1073741824}" />
 	</bean>
 	
 	<bean id="loader" class="org.slc.sli.search.process.impl.LoaderImpl"

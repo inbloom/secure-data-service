@@ -33,11 +33,9 @@ import org.apache.activemq.broker.BrokerService;
  */
 public class ActiveMQConnection {
 
-    private String mqURL;
+    private String brokerUsername;
 
-    private String mqUsername;
-
-    private String mqPswd;
+    private String brokerPswd;
 
     private String queue;
 
@@ -48,7 +46,9 @@ public class ActiveMQConnection {
     private boolean embeddedBroker = false;
     private BrokerService broker = null;
 
-    private String[] embeddedBrokerUrls;
+    private String[] embeddedConnectors;
+    private String embeddedBrokerURI;
+    private int tempUsage;
 
     public enum MessageType {
         QUEUE, TOPIC;
@@ -58,29 +58,20 @@ public class ActiveMQConnection {
         if (this.embeddedBroker) {
             // start embedded broker
             this.broker = new BrokerService();
-            this.broker.setPersistent(false);
-            this.broker.setUseJmx(true);
 
-            for (String url : embeddedBrokerUrls) {
+            for (String url : embeddedConnectors) {
                 this.broker.addConnector(url);
-                // if url starts with "tcp://", use it as broker URI.
-                if (this.brokerURI == null && url.contains("tcp://")) {
-                    this.brokerURI = url;
-                }
             }
-
-            this.broker.getSystemUsage().getTempUsage().setLimit(1024 * 1024 * 1024);
+            this.brokerURI = this.embeddedBrokerURI;
+            this.broker.getSystemUsage().getTempUsage().setLimit(tempUsage);
             this.broker.start();
-
-        } else {
-            this.brokerURI = this.mqURL;
         }
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(this.brokerURI);
-        if (this.mqUsername == null) {
+        if (this.brokerUsername == null) {
             this.connection = connectionFactory.createConnection();
         } else {
-            this.connection = connectionFactory.createConnection(this.mqUsername, this.mqPswd);
+            this.connection = connectionFactory.createConnection(this.brokerUsername, this.brokerPswd);
         }
 
         this.connection.start();
@@ -151,24 +142,28 @@ public class ActiveMQConnection {
         this.brokerURI = brokerURI;
     }
 
-    public void setMqURL(String mqURL) {
-        this.mqURL = mqURL;
+    public void setBrokerPswd(String brokerPswd) {
+        this.brokerPswd = brokerPswd;
     }
 
-    public void setMqPswd(String mqPswd) {
-        this.mqPswd = mqPswd;
-    }
-
-    public void setMqUsername(String mqUsername) {
-        this.mqUsername = mqUsername;
+    public void setBrokerUsername(String brokerUsername) {
+        this.brokerUsername = brokerUsername;
     }
 
     public void setEmbeddedBroker(boolean embeddedBroker) {
         this.embeddedBroker = embeddedBroker;
     }
 
-    public void setEmbeddedBrokerUrls(String[] embeddedBrokerUrls) {
-        this.embeddedBrokerUrls = embeddedBrokerUrls;
+    public void setEmbeddedConnectors(String[] embeddedConnectors) {
+        this.embeddedConnectors = embeddedConnectors;
+    }
+
+    public void setEmbeddedBrokerURI(String embeddedBrokerURI) {
+        this.embeddedBrokerURI = embeddedBrokerURI;
+    }
+
+    public void setTempUsage(int tempUsage) {
+        this.tempUsage = tempUsage;
     }
 
 }

@@ -107,7 +107,7 @@ Feature: As an SLI application, I want to return the right order of entities.
       |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f|7e9915ed-ea6f-4e6b-b8b0-aeae20a25826|
       |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|e31f7583-417e-4c42-bd55-0bbe7518edf8|
       |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
-#      |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-226a-5d67-9201-5113ad50a03b| - broken
+      |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-226a-5d67-9201-5113ad50a03b|
 #      |gradebookEntries           |20120613-56b6-4d17-847b-2997b7227686|008fd89d-88a2-43aa-8af1-74ac16a29380|
 #      |grades                     |708c4e08-9942-11e1-a8a9-68a86d21d918|ef42e2a2-9942-11e1-a8a9-68a86d21d918|
 #      |gradingPeriods             |ef72b883-90fa-40fa-afc2-4cb1ae17623b|b40a7eb5-dd74-4666-a5b9-5c3f4425f130|
@@ -134,7 +134,7 @@ Feature: As an SLI application, I want to return the right order of entities.
       |studentDisciplineIncidentAssociations  |20120613-8d5a-c796-76e3-d77d5d497e6c|0e26de6c-225b-9f67-8621-5113ad50a03b|
 #      |studentParentAssociations              |dd69083f-a053-4819-a3cd-a162cdc627d7|c5aa1969-492a-5150-8479-71bfc4d57f1e| - Get a 404 when accessing a parent where you get a 403 for accessing their student
       |studentProgramAssociations             |b3f63ae6-8fd5-11e1-86ec-0021701f543f|052f9397-db72-4c3d-bb6d-0626c00a3694|
-#      |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4|  #Broken
+      |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4| 
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|12f25c0f-75d7-4e45-8f36-af1bcc342871|
       

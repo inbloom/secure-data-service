@@ -72,6 +72,9 @@ public class DeterministicIdResolverTest {
     private DidSchemaParser didSchemaParser;
 
     @Mock
+    private DidEntityConfigReader didEntityConfigReader;
+
+    @Mock
     private EntityConfigFactory entityConfigs;
 
     private static final String TENANT = "tenant";
@@ -96,10 +99,13 @@ public class DeterministicIdResolverTest {
     private static final String DID_VALUE_1 = "did_value_1";
     private static final String DID_VALUE_2 = "did_value_2";
 
+    private static final String EMBEDDED_LIST_FIELD = "embeddedList";
+
     @Before
     public void setup() {
         didResolver = new DeterministicIdResolver();
         entityConfigs = Mockito.mock(EntityConfigFactory.class);
+        didEntityConfigReader = Mockito.mock(DidEntityConfigReader.class);
         Mockito.when(entityConfigs.getEntityConfiguration(Mockito.anyString())).thenReturn(null);
 
         MockitoAnnotations.initMocks(this);
@@ -344,6 +350,48 @@ public class DeterministicIdResolverTest {
 
     }
 
+    @SuppressWarnings("unchecked")
+	@Test
+    public void shouldResolveDidsInEmbeddedList() throws IOException {
+        Entity entity = createSourceEmbeddedEntity();
+
+        DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config.json");
+        DidEntityConfig entityConfig = createEntityConfig("Embedded_DID_entity_config.json");
+
+        mockRefConfig(refConfig, ENTITY_TYPE);
+        mockEntityConfig(entityConfig, ENTITY_TYPE);
+        Mockito.when(schemaRepository.getSchema(ENTITY_TYPE)).thenReturn(null);
+
+        Map<String, String> naturalKeys1 = new HashMap<String, String>();
+        naturalKeys1.put(SRC_KEY_FIELD, SRC_KEY_VALUE_1);
+        String entityType = ENTITY_TYPE;
+        String tenantId = TENANT;
+        NaturalKeyDescriptor ndk1 = new NaturalKeyDescriptor(naturalKeys1, tenantId, entityType, null);
+
+        Map<String, String> naturalKeys2 = new HashMap<String, String>();
+        naturalKeys2.put(SRC_KEY_FIELD, SRC_KEY_VALUE_2);
+        NaturalKeyDescriptor ndk2 = new NaturalKeyDescriptor(naturalKeys2, tenantId, entityType, null);
+
+        Mockito.when(didGenerator.generateId(Mockito.eq(ndk1))).thenReturn(DID_VALUE_1);
+        Mockito.when(didGenerator.generateId(Mockito.eq(ndk2))).thenReturn(DID_VALUE_2);
+
+        ErrorReport errorReport = new TestErrorReport();
+
+        didResolver.resolveInternalIds(entity, TENANT, errorReport);
+
+        List<Object> embeddedList = (List<Object>) entity.getBody().get(EMBEDDED_LIST_FIELD);
+        Assert.assertNotNull(embeddedList);
+        Assert.assertEquals(2, embeddedList.size());
+
+        Map<String, Object> subObj1 = (Map<String, Object>) embeddedList.get(0);
+        Map<String, Object> subObj2 = (Map<String, Object>) embeddedList.get(1);
+
+        Assert.assertEquals(DID_VALUE_1, subObj1.get(REF_FIELD));
+        Assert.assertEquals(DID_VALUE_2, subObj2.get(REF_FIELD));
+        Assert.assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+    }
+
+
     @Test
     public void testErrorReportingOnRefConfigEntityTypeEmpty() throws IOException {
         DidRefConfig refConfig = createRefConfig("Simple_DID_ref_config_entityType_empty.json");
@@ -564,4 +612,38 @@ public class DeterministicIdResolverTest {
 
         return entity;
     }
+
+    /**
+     * Create an entity with an embedded list of entities, within each of which there is a reference
+     */
+    private Entity createSourceEmbeddedEntity() {
+
+        Map<String, String> refObject1 = new HashMap<String, String>();
+        refObject1.put(SRC_KEY_FIELD, SRC_KEY_VALUE_1);
+
+        Map<String, String> refObject2 = new HashMap<String, String>();
+        refObject2.put(SRC_KEY_FIELD, SRC_KEY_VALUE_2);
+
+        Map<String, Object> subObject1 = new HashMap<String, Object>();
+        subObject1.put(REF_FIELD, refObject1);
+
+        Map<String, Object> subObject2 = new HashMap<String, Object>();
+        subObject2.put(REF_FIELD, refObject2);
+
+        List<Object> subObjectList = new ArrayList<Object>();
+        subObjectList.add(subObject1);
+        subObjectList.add(subObject2);
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put(EMBEDDED_LIST_FIELD, subObjectList);
+
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(attributes);
+        nr.setRecordType(ENTITY_TYPE);
+
+        Entity entity = new NeutralRecordEntity(nr);
+
+        return entity;
+    }
+
 }

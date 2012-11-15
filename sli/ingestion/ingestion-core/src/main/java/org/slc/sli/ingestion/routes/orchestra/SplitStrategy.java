@@ -37,5 +37,5 @@ public interface SplitStrategy {
      * @param jobId
      * @return list of WorkNotes
      */
-    List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity, String jobId);
+    List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity);
 }

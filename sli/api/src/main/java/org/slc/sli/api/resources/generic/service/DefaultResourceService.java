@@ -351,9 +351,19 @@ public class DefaultResourceService implements ResourceService {
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
                 if (associations != null) {
-                    for (EntityBody associationEntity : associations) {
-                        filteredIdList.add((String) associationEntity.get(resourceKey));
+                    if(finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
+                        //if the finalEntity references the assocEntity
+                        for (EntityBody associationEntity : associations) {
+                            filteredIdList.add((String) associationEntity.get("id"));
+                        }
+                        key = resourceKey;
+                    } else {
+                        //otherwise the assocEntity references the finalEntity
+                        for (EntityBody associationEntity : associations) {
+                            filteredIdList.add((String) associationEntity.get(resourceKey));
+                        }
                     }
+
                 }
             }
         } else {
@@ -418,6 +428,11 @@ public class DefaultResourceService implements ResourceService {
         long count = getEntityCount(finalEntity, finalApiQuery);
 
         return new ServiceResponse(entityBodyList, count);
+    }
+
+    private boolean finalEntityReferencesAssociation(EntityDefinition finalEntity, EntityDefinition assocEntity, String referenceField) {
+        return !assocEntity.getReferenceFields().containsKey(referenceField) &&
+                finalEntity.getReferenceFields().containsKey(referenceField);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {

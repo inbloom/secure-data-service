@@ -535,6 +535,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
                      :apiV1DuplicateLinkTest,
                      :apiV1QueryingTests,
+                     :apiV1NTSQueryingTests,
                      :apiV1AssociationTests,
                      :apiPatchTests,
                      :v1homeUriTests,
@@ -707,7 +708,7 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
@@ -924,6 +925,10 @@ task :importStoriedData do
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
   end
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Secured Data Set"
@@ -1006,6 +1011,10 @@ task :importSecuredData do
   setMultipleFixtureFiles(testHash)
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data to Midgar"
@@ -1084,6 +1093,10 @@ task :importSandboxData do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxHyruleData"].execute
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data"
@@ -1098,6 +1111,9 @@ task :importZorkSandboxData do
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Sandbox Test Data"
@@ -1112,6 +1128,9 @@ task :importChaosSandboxData do
   setMultipleFixtureFiles(testHash)
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Tenant Metrics Data"
@@ -1160,6 +1179,10 @@ task :importTenantMetricsData do
   ]
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
 end
 
 desc "Import Unified Data Set"
@@ -1185,6 +1208,15 @@ task :importUnifiedData => [:realmInit] do
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
+
+  if TODROP
+    Rake::Task["runDbIndexingScript"].execute
+  end
+end
+
+desc "Run indexing script on databases, no drop"
+task :runDbIndexingScript do
+  sh "cd #{File.dirname(__FILE__)}/../config/scripts; sh resetAllDbs.sh --nodrop"
 end
 
 desc "Turn on notablescan flag"
