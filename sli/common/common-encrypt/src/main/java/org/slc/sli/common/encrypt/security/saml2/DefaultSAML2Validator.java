@@ -58,6 +58,7 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -77,6 +78,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
 
     private DOMValidateContext valContext;
 
+    private static final String REGEX = "^https?://@domain(:\\d+)?/.+";
     /**
      * Pulls the <Signature> tag from the SAML assertion document.
      *
@@ -156,6 +158,9 @@ public class DefaultSAML2Validator implements SAML2Validator {
                     LOG.error("X509 Certificate is not trusted.");
                 }
             }
+            else {
+            	LOG.error("Domain on the certificate does not match the issuer");
+            }
         } else {
             LOG.error("X509 Certificate is null --> no trust can be established.");
         }
@@ -205,10 +210,15 @@ public class DefaultSAML2Validator implements SAML2Validator {
      */
     private boolean issuerMatchesSubject(X509Certificate certificate, String issuer) {
         String subject = getSubjectFromCertificate(certificate);
-        if (subject == null) {
-            return false;
-        }
-        return issuer.contains(subject.replaceFirst("\\*", ""));
+        boolean verdict=false;
+		if (subject != null) {
+			String regexp = REGEX.replace("@domain", subject.replace(".","\\.")).replaceAll("\\*", ".+");
+			verdict = issuer.matches(regexp);
+		}
+		
+		LOG.info("[{}] Assertion issuer: {}. Certificate domain: {}.", new Object[] { verdict ? "MATCHED" : "MISMATCH", issuer, subject });
+		
+		return verdict;
     }
 
     private String getSubjectFromCertificate(X509Certificate certificate) {
