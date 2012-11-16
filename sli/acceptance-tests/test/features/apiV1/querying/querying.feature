@@ -167,12 +167,10 @@ Scenario Outline: Confirm that API blocks regex against no-context endpoints:
       | username       | password         | endpoint                             |
       | "jstevenson"   | "jstevenson1234" | "/v1/assessments"                    |
       | "jstevenson"   | "jstevenson1234" | "/v1/competencyLevelDescriptor"      |
-      | "jstevenson"   | "jstevenson1234" | "/v1/competencyLevelDescriptorTypes" |
       | "jstevenson"   | "jstevenson1234" | "/v1/learningObjectives"             |
       | "jstevenson"   | "jstevenson1234" | "/v1/learningStandards"              | 
       | "linda.kim"    | "linda.kim1234"  | "/v1/assessments"                    |
       | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptor"      |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptorTypes" |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives"             |
       | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards"              |
     
@@ -190,7 +188,6 @@ Scenario Outline: Confirm that API inserts context against some endpoints:
       | "linda.kim"    | "linda.kim1234"  | "/v1/studentCompetencyObjectives"    |
     
 
-@wip
 Scenario Outline: Confirm that entities that block queries dont block 2+ part URIs from querying
   Given I am logged in using <username> <password> to realm "IL"
   And format "application/json;charset=utf-8"
@@ -198,15 +195,13 @@ Scenario Outline: Confirm that entities that block queries dont block 2+ part UR
   And I navigate to GET <endpoint>
   Then I should receive a return code of 404
   Examples:
-      | username       | password         | endpoint                             |
+      | username       | password         | endpoint                                                                    |
       | "jstevenson"   | "jstevenson1234" | "/v1/assessments/29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"                      |
-      | "jstevenson"   | "jstevenson1234" | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id"      |
-      | "jstevenson"   | "jstevenson1234" | "/v1/competencyLevelDescriptorTypes" |
-      | "jstevenson"   | "jstevenson1234" | "/v1/learningObjectives"             |
-      | "jstevenson"   | "jstevenson1234" | "/v1/learningStandards"              | 
-      | "linda.kim"    | "linda.kim1234"  | "/v1/assessments/29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"                    |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id"      |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptorTypes" |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives"             |
-      | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards"              |
+      | "jstevenson"   | "jstevenson1234" | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id" |
+      | "jstevenson"   | "jstevenson1234" | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
+      | "jstevenson"   | "jstevenson1234" | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                | 
+      | "linda.kim"    | "linda.kim1234"  | "/v1/assessments/29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"                      |
+#      | "linda.kim"    | "linda.kim1234"  | "/v1/competencyLevelDescriptor/3a7b0473fd3fdeb24254c08d1250087a2144c642_id" |
+      | "linda.kim"    | "linda.kim1234"  | "/v1/learningObjectives/dd9165f2-65be-6d27-a8ac-bdc5f46757b6"               |
+      | "linda.kim"    | "linda.kim1234"  | "/v1/learningStandards/dd9165f2-653e-6e27-a82c-bec5f48757b8"                |
     
