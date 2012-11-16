@@ -30,13 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
@@ -45,6 +38,14 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Unit tests for staff --> student context validator.
@@ -76,7 +77,7 @@ public class StaffToStudentValidatorTest {
     private ValidatorTestHelper helper;
 
     private Set<String> studentIds;
-    
+
     private StaffToProgramValidator mockProgramValidator;
     private StaffToCohortValidator mockCohortValidator;
 
@@ -195,7 +196,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add(studentId);
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testIsLhsBeforeRhs() {
         //Same date, different times
@@ -204,7 +205,7 @@ public class StaffToStudentValidatorTest {
         DateTime old = new DateTime(2000, 1, 1, 1, 1, 1);
         assertTrue(validator.isLhsBeforeRhs(today, today2));    //dates are equal
         assertTrue(validator.isLhsBeforeRhs(today2, today));
-        
+
         assertTrue(validator.isLhsBeforeRhs(old, today));
         assertFalse(validator.isLhsBeforeRhs(today, old));
     }
@@ -221,7 +222,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add("Merp");
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanGetAccessThroughCohort() {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(true);
@@ -235,7 +236,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add("Merp");
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
@@ -249,7 +250,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add("Merp");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() {
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet()))
@@ -264,7 +265,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add("Merp");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidProgram() {
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet()))
@@ -279,7 +280,7 @@ public class StaffToStudentValidatorTest {
         studentIds.add("Merp");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
-    
+
     @Test
     public void testCanNotGetAccessThroughInvalidCohort() {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
@@ -292,5 +293,18 @@ public class StaffToStudentValidatorTest {
         helper.generateStudentCohort("Merp", "Derp", false);
         studentIds.add("Merp");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+    }
+
+    @Test
+    public void testGetValid() {
+        StaffToStudentValidator mock = Mockito.spy(validator);
+        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1"))));
+        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("2"))));
+        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("3"))));
+        Mockito.doReturn(false).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1", "2", "3", "4"))));
+        Set<String> validated = mock.getValid(EntityNames.STUDENT, new HashSet<String>(Arrays.asList("1", "2", "3", "4")));
+        validated.removeAll(new HashSet<String>(Arrays.asList("1", "2", "3")));
+        // has to have only 1,2,3
+        assertTrue(validated.isEmpty());
     }
 }

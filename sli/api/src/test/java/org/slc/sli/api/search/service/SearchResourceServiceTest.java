@@ -20,8 +20,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -144,6 +147,7 @@ public class SearchResourceServiceTest {
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCheckAccessibleAsStaff() {
 
@@ -151,11 +155,13 @@ public class SearchResourceServiceTest {
         SearchResourceService rs = Mockito.spy(resourceService);
 
         // for staff, list of entities should not change
-        Mockito.doReturn(true).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
-        List<EntityBody> result = rs.filterResultsBySecurity(getEntities());
+        Mockito.doReturn(getSet("1", "2")).when(rs).isAccessible(Mockito.eq("student"), Mockito.anySet());
+        Mockito.doReturn(getSet("3")).when(rs).isAccessible(Mockito.eq("section"), Mockito.anySet());
+        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities());
         Assert.assertEquals(3, result.size());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCheckAccessibleAsTeacher() {
 
@@ -163,22 +169,32 @@ public class SearchResourceServiceTest {
 
         // test varied accessibility
         SearchResourceService rs = Mockito.spy(resourceService);
-        Mockito.doReturn(true).when(rs).isAccessible("student", "1");
-        Mockito.doReturn(false).when(rs).isAccessible("student", "2");
-        Mockito.doReturn(true).when(rs).isAccessible("student", "5");
-        Mockito.doReturn(false).when(rs).isAccessible("section", "1");
-        Mockito.doReturn(true).when(rs).isAccessible("section", "3");
-        Mockito.doReturn(true).when(rs).isAccessible("someRandomType", "1");
-        List<EntityBody> result = rs.filterResultsBySecurity(getEntities());
+        Mockito.doReturn(getSet("1", "3", "5")).when(rs).isAccessible(Mockito.eq("student"), Mockito.anySet());
+        Mockito.doReturn(getSet("3")).when(rs).isAccessible(Mockito.eq("section"), Mockito.anySet());
+        Mockito.doReturn(getSet("1")).when(rs).isAccessible(Mockito.eq("someRandomType"), Mockito.anySet());
+        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities());
+
         Assert.assertEquals(2, result.size());
-        Assert.assertEquals("1", result.get(0).get("id"));
-        Assert.assertEquals("3", result.get(1).get("id"));
+
+        Assert.assertTrue(contains(result, "student", "1"));
+        Assert.assertTrue(contains(result, "section", "3"));
 
         // test when all entities are inaccessible
-        Mockito.doReturn(false).when(rs).isAccessible(Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(getSet()).when(rs).isAccessible(Mockito.anyString(), Mockito.anySet());
         result = rs.filterResultsBySecurity(getEntities());
         Assert.assertEquals(0, result.size());
 
+    }
+
+    private boolean contains(Collection<EntityBody> col, String type, String id) {
+        Iterator<EntityBody> eb = col.iterator();
+        while (eb.hasNext()) {
+            EntityBody next = eb.next();
+            if (type.equals(next.get("type")) && id.equals(next.get("id"))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<EntityBody> getEntities() {
@@ -197,6 +213,19 @@ public class SearchResourceServiceTest {
         entities.add(e2);
         entities.add(e3);
         return entities;
+    }
+
+    private Set<String> getEntitiesIds() {
+        // set up entities
+        Set<String> entities = new HashSet<String>();
+        for (EntityBody eb: getEntities()) {
+            entities.add((String)eb.get("id"));
+        }
+        return entities;
+    }
+
+    private Set<String> getSet(String... ids) {
+        return new HashSet<String>(Arrays.asList(ids));
     }
 
     @Test

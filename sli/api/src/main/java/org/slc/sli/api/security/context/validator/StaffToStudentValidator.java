@@ -24,14 +24,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
@@ -42,7 +43,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
     private StaffToProgramValidator programValidator;
-    
+
     @Autowired
     private StaffToCohortValidator cohortValidator;
 
@@ -53,8 +54,13 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
+    public Set<String> getValid(String entityType, Set<String> studentIds) {
+        return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
+    }
+
+    @Override
     public boolean validate(String entityType, Set<String> studentIds) {
-        
+
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
@@ -89,9 +95,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
                     cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
                 }
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                boolean byProgram = programValidator.validate(EntityNames.PROGRAM, programs);
-                boolean byCohort = cohortValidator.validate(EntityNames.COHORT, cohorts);
-                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) || byProgram || byCohort)) {
+                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
+                      programValidator.validate(EntityNames.PROGRAM, programs) ||
+                      cohortValidator.validate(EntityNames.COHORT, cohorts))) {
                     isValid = false;
                     break;
                 }
@@ -155,7 +161,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     public void setProgramValidator(StaffToProgramValidator programValidator) {
         this.programValidator = programValidator;
     }
-    
+
     /**
      * @param cohortValidator
      *            the cohortValidator to set

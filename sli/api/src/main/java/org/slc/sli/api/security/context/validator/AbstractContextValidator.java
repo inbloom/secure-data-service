@@ -10,6 +10,9 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -20,8 +23,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -36,7 +37,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
-    
+
     @Autowired
     private EdOrgHelper edorgHelper;
 
@@ -236,5 +237,20 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     public void setStaffEdOrgEdOrgIDNodeFilter(StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter) {
         this.staffEdOrgEdOrgIDNodeFilter = staffEdOrgEdOrgIDNodeFilter;
+    }
+
+    @Override
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        // Default "fallback" implementation where ids are validated one by one
+        Set<String> validated = new HashSet<String>();
+        Set<String> tmp = new HashSet<String>();
+        for (String id : ids) {
+            tmp.add(id);
+            if (validate(entityType, tmp)) {
+                validated.add(id);
+            }
+            tmp.clear();
+        }
+        return validated;
     }
 }

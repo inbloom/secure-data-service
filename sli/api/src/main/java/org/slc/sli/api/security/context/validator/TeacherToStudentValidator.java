@@ -17,9 +17,12 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -28,7 +31,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 
 //@Component - Disable teacher validators for now
 public class TeacherToStudentValidator extends AbstractContextValidator {
@@ -43,15 +45,23 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> ids) {
-        boolean withSections = validatedWithSections(ids);
-        boolean withCohorts = validatedWithCohorts(ids);
-        boolean withPrograms = validatedWithPrograms(ids);
-        return withSections || withCohorts || withPrograms;
+    public Set<String> getValid(String entityType, Set<String> ids) {
+        Set<String> validated = new HashSet<String>();
+        validated.addAll(validatedWithSections(ids, false));
+        validated.addAll(validatedWithCohorts(ids, false));
+        validated.addAll(validatedWithPrograms(ids, false));
+        return validated;
     }
-    
-    private boolean validatedWithPrograms(Set<String> ids) {
-        boolean match = false;
+
+    @Override
+    public boolean validate(String entityName, Set<String> ids) {
+        int length = ids.size();
+        return validatedWithSections(ids, true).size() == length ||
+               validatedWithCohorts(ids, true).size() == length ||
+               validatedWithPrograms(ids, true).size() == length;
+    }
+
+    private Collection<String> validatedWithPrograms(Set<String> ids, boolean quitOnFirstInvalid) {
         // Get my edorg association
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
@@ -91,6 +101,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
             staffProgramIds.add(programId);
         }
+        Collection<String> validated = new ArrayList<String>();
         // Get studentProgramAssociations
         for (String id : ids) {
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
@@ -102,19 +113,18 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             }
             Set<String> tempSet = new HashSet<String>(staffProgramIds);
             tempSet.retainAll(studentProgramIds);
-            if (tempSet.size() == 0) {
-                return false;
+            if (tempSet.size() == 0 && quitOnFirstInvalid) {
+                return validated;
             } else {
-                match = true;
+                validated.add(id);
             }
-            
-        }
-        return match;
-    }
-    
 
-    private boolean validatedWithCohorts(Set<String> ids) {
-        boolean match = false;
+        }
+        return validated;
+    }
+
+
+    private Collection<String> validatedWithCohorts(Set<String> ids, boolean quitOnFirstInvalid) {
         // Get my edorg association
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
@@ -151,7 +161,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                 }
             }
         }
-
+        Collection<String> validated = new ArrayList<String>();
         // Get studentCohortAssociations
         for (String id : ids) {
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
@@ -163,25 +173,24 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                     studentCohortIds.add((String) studentCohort.getBody().get(ParameterConstants.COHORT_ID));
                 }
             }
-            
+
             Set<String> tempSet = new HashSet<String>(staffCohortIds);
             tempSet.retainAll(studentCohortIds);
-            if (tempSet.size() == 0) {
-                return false;
+            if (tempSet.size() == 0 && quitOnFirstInvalid) {
+                return validated;
             } else {
-                match = true;
+                validated.add(id);
             }
 
         }
-        return match;
+        return validated;
     }
-    
-    private boolean validatedWithSections(Set<String> ids) {
+
+    private Collection<String> validatedWithSections(Set<String> ids, boolean quitOnFirstInvalid) {
         Set<String> teacherSections = new HashSet<String>();
-        boolean match = false;
-        
+
         NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
-        
+
         NeutralQuery basicQuery = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
                         .getSLIPrincipal().getEntity().getEntityId()));
@@ -194,7 +203,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                 teacherSections.add((String) tsa.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
-
+        Collection<String> validated = new ArrayList<String>();
         for (String id : ids) {
             Set<String> studentSections = new HashSet<String>();
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
@@ -209,16 +218,18 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
             Set<String> tempSet = new HashSet<String>(teacherSections);
             tempSet.retainAll(studentSections);
-            if (tempSet.size() == 0) {
-                return false;
+            if (tempSet.size() == 0 && quitOnFirstInvalid) {
+                return validated;
             } else {
-                match = true;
+                validated.add(id);
             }
+
         }
-        return match;
+        return validated;
     }
 
 
+    @Override
     public void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;
     }

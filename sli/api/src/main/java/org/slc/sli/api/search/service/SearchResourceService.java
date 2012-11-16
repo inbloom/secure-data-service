@@ -25,10 +25,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
+import com.google.common.collect.HashBasedTable;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -250,32 +253,40 @@ public class SearchResourceService {
      * @param entities
      * @return
      */
-    public List<EntityBody> filterResultsBySecurity(List<EntityBody> entities) {
+    public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entities) {
 
-        List<EntityBody> accessible = new ArrayList<EntityBody>();
         String toType, entityId;
+        HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
         // loop through entities. if accessible, add to list
         for (EntityBody entity : entities) {
             toType = (String) entity.get("type");
             entityId = (String) entity.get("id");
-            if (isAccessible(toType, entityId)) {
-                accessible.add(entity);
+            entitiesByType.put(toType, entityId, entity);
+        }
+        Set<String> set;
+        Set<EntityBody> accessible = new HashSet<EntityBody>();
+        Map<String, EntityBody> row;
+        for (String type: entitiesByType.rowKeySet()) {
+            row = entitiesByType.row(type);
+            set = isAccessible(type, row.keySet());
+            for (String id: set) {
+                if (row.containsKey(id)) {
+                    accessible.add(row.get(id));
+                }
             }
         }
         return accessible;
     }
 
-    public boolean isAccessible(String toType, String id) {
+    public Set<String> isAccessible(String toType, Set<String> ids) {
 
         // get and save validator
         IContextValidator validator = contextValidator.findValidator(toType, false);
         // validate. if accessible, add to list
         if (validator != null) {
-            Set<String> entityIds = new HashSet<String>();
-            entityIds.add(id);
-            return validator.validate(toType, entityIds);
+            return validator.getValid(toType, ids);
         }
-        return false;
+        return Collections.emptySet();
     }
 
     /**
