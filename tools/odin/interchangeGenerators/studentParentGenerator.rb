@@ -32,14 +32,19 @@ FOOTER
   end
 
   def write(prng, yamlHash)
+    stime = Time.now
     File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
       f.write(@header)
+      interchanges = {:studentParent => f}
       for id in 0..yamlHash['studentCount']-1 do
-        student = Student.new id, prng
-        f.write(student.render)
+        work_order = {:id => id, :sessions => []}
+        builder = StudentBuilder.new(work_order, interchanges)
+        builder.build
       end
       f.write(@footer)
     end
+    elapsed = Time.now - stime
+    puts "\t#{yamlHash['studentCount']} students generated in #{elapsed} seconds."
   end
   
 end

@@ -19,6 +19,7 @@ limitations under the License.
 require "rexml/document"
 require 'digest/md5'
 require 'yaml'
+require 'digest/sha1'
 
 require_relative 'validator.rb'
 require_relative 'util.rb'
@@ -41,13 +42,15 @@ class Odin
     time = Time.now
     pids = []
 
+    WorldGenerator.new.create(prng, scenarioYAML)
+
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
     pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    puts "\t Total generation time #{finalTime} secs"
 
     genCtlFile
 
@@ -63,5 +66,14 @@ class Odin
     return valid
   end
 
+  # Generates a MD5 hash of the generated xml files.
+  def md5()
+    hashes = []
+    Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
+      hashes.push( Digest::MD5.hexdigest( f ))
+    }
+    
+    return Digest::MD5.hexdigest( hashes.to_s )
+  end
 end
 
