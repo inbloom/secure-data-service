@@ -42,6 +42,8 @@ class Odin
     time = Time.now
     pids = []
 
+    WorldGenerator.new.create(prng, scenarioYAML)
+
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
     pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
@@ -49,7 +51,7 @@ class Odin
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    puts "\t Total generation time #{finalTime} secs"
 
     genCtlFile
 

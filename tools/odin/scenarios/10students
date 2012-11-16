@@ -1,4 +1,6 @@
 studentCount: 10
+beginYear: 2001
+numYears: 3
 
 # Example of other configuration 
 numSEA: 1
