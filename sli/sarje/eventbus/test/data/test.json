@@ -1,16 +1,3 @@
 {"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessment"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}
 {"eventId": "oplog:math_proficiency_aggregation", "triggers": [{"ns": "sli.student", "op": "u"}], "jar": "/POC/aggregation/Math-Proficiency-Aggregation/target/Math-Proficiency-Aggregation-1.0-SNAPSHOT-job.jar"}
-{"eventId": "search:student", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]student$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:student_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]student$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:learningStandard", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]learningStandard$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:learningStandard_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]learningStandard$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:learningObjective", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]learningObjective$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:learningObjective_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]learningObjective$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:competencyLevelDescriptor", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]competencyLevelDescriptor$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:scompetencyLevelDescriptor_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]competencyLevelDescriptor$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:competencyLevelDescriptorType", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]competencyLevelDescriptorType$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:competencyLevelDescriptorType_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]competencyLevelDescriptorType$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:studentCompetencyObjective", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]studentCompetencyObjective$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:studentCompetencyObjective_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]studentCompetencyObjective$", "op": "u"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:assessment", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]assessment$", "op": "i"}], "queue": "search", "publishOplog": true}
-{"eventId": "search:assessment_update", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]assessment$", "op": "u"}], "queue": "search", "publishOplog": true}
+{"eventId": "oplog:search", "triggers": [{"ns": "^(?!is\.)^[^.]+[.]assessment$"}, {"ns": "^(?!is\.)^[^.]+[.]student$"}, {"ns": "^(?!is\.)^[^.]+[.]learningStandard$"}, {"ns": "^(?!is\.)^[^.]+[.]learningObjective$"}, {"ns": "^(?!is\.)^[^.]+[.]search:competencyLevelDescriptor$"}, {"ns": "^(?!is\.)^[^.]+[.]competencyLevelDescriptorType$"},], "queue": "search", "publishOplog": true}
