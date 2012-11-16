@@ -47,10 +47,11 @@ class Odin
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
     pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
+     pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    puts "\t Total generation time #{finalTime} secs"
 
     genCtlFile
 

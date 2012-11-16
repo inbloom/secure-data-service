@@ -16,17 +16,19 @@ limitations under the License.
 
 =end
 
-require_relative 'odin'
+require 'openssl'
 
-# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
-scenario = nil
-if ARGV.length > 0
-  if File.file?("scenarios/" + ARGV[0])
-    scenario = ARGV[0]
-  else
-    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
-  end
+def encrypt(keyFilePath, password, property)
+	aes = OpenSSL::Cipher::Cipher.new('AES-256-CBC')
+    aes.encrypt
+    
+    #retrieve key and iv
+    key_file = File.open(keyFilePath, "rb")
+    aes.key = key_file.readline
+    aes.iv = key_file.readline
+    
+    encryptedLDAPPassBin = aes.update(password) + aes.final
+    encryptedLDAPPassHex = encryptedLDAPPassBin.unpack("H*")[0]
+    
+    puts "#{property}: #{encryptedLDAPPassHex}"
 end
-
-o = Odin.new
-o.generate( scenario )

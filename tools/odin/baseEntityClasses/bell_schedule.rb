@@ -16,17 +16,42 @@ limitations under the License.
 
 =end
 
-require_relative 'odin'
+require 'mustache'
+require_relative './baseEntity.rb'
 
-# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
-scenario = nil
-if ARGV.length > 0
-  if File.file?("scenarios/" + ARGV[0])
-    scenario = ARGV[0]
-  else
-    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
+class BellSchedule < BaseEntity
+
+  attr_accessor :id, :session
+
+  def initialize(id, session)
+    @id = id
+    @session = :session
+  end
+  
+ def  edOrgId
+   3000
+ end
+  def name
+    "schedule name"
+  end
+
+  def gradeLevels
+    ["Early Education"]
+  end  
+  def weeksInCycle
+    3
+  end
+
+  def classPeriodName
+    "classperiodName"
+  end
+  
+  def weekNumber
+    40
+  end
+  
+  ## FIXME - Needs a fixed date
+  def calendarDate
+   Date.today.xmlschema
   end
 end
-
-o = Odin.new
-o.generate( scenario )

@@ -16,17 +16,27 @@ limitations under the License.
 
 =end
 
-require_relative 'odin'
+require 'mustache'
+require_relative './baseEntity.rb'
 
-# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
-scenario = nil
-if ARGV.length > 0
-  if File.file?("scenarios/" + ARGV[0])
-    scenario = ARGV[0]
-  else
-    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
+class CourseOffering < BaseEntity
+
+  attr_accessor :id, :edOrg
+
+  def initialize(id, edOrg)
+    @id = id
+    @edOrg = edOrg
   end
-end
 
-o = Odin.new
-o.generate( scenario )
+  def edOrgId
+   3000
+   end
+   
+   def session
+     "new session FIXME"
+   end
+   
+   def uniqueCourseId
+     "fixme course Id"
+   end
+end

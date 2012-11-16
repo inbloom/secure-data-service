@@ -31,7 +31,18 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -45,17 +56,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -100,7 +100,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId,
-            String samlId, boolean sessionExpired) {
+            String realmId, String samlId, boolean sessionExpired) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
 
@@ -124,6 +124,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
             sessionEntity.getBody().put("tenantId", tenantId);
+            sessionEntity.getBody().put("requestedRealmId", realmId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }
 
@@ -183,11 +184,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
 
         if (session == null) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
-                    String.format("Session with code %s does not exist.", code));
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
+                    "Session with code %s does not exist.", code));
         }
 
-        //Find the nested app session data with the given code
+        // Find the nested app session data with the given code
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
         Map<String, Object> curAppSession = null;
         for (Map<String, Object> appSession : appSessions) {
@@ -199,25 +200,23 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             }
         }
 
-        //verify other attributes of the appSession
+        // verify other attributes of the appSession
         String clientId = (String) curAppSession.get("clientId");
         if (!clientCredentials.getLeft().equals(clientId)) {
-            throw new OAuthAccessException(OAuthError.INVALID_CLIENT,
-                    String.format("Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
+            throw new OAuthAccessException(OAuthError.INVALID_CLIENT, String.format(
+                    "Client %s is invalid for app session %s.", clientCredentials.getLeft(), code));
         }
 
         String verified = (String) curAppSession.get("verified");
         if (Boolean.valueOf(verified)) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
-                    String.format("App session %s has already been verified.", code));
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format(
+                    "App session %s has already been verified.", code));
         }
 
         Long expiration = (Long) ((Map<String, Object>) curAppSession.get("code")).get("expiration");
         if (expiration < System.currentTimeMillis()) {
-            throw new OAuthAccessException(OAuthError.INVALID_GRANT,
-                    String.format("App session %s has expired.", code));
+            throw new OAuthAccessException(OAuthError.INVALID_GRANT, String.format("App session %s has expired.", code));
         }
-
 
         // Locate the application and compare the client secret
         nq = new NeutralQuery();
@@ -244,7 +243,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, "User " + principal.getExternalId()
                     + " is not authorized to use " + app.getBody().get("name"), (String) session.getBody().get("state"));
         }
-
 
         String token = "";
         token = (String) curAppSession.get("token");
@@ -277,20 +275,20 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         for (Map<String, Object> session : sessions) {
                             if (session.get("token").equals(accessToken)) {
 
-								// Log that the long lived session is being used
-								Date createdOn;
-								if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
-									String date = (String) sessionEntity.getMetaData().get("created");
+                                // Log that the long lived session is being used
+                                Date createdOn;
+                                if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
+                                    String date = (String) sessionEntity.getMetaData().get("created");
 
-									if (date.contains("T")) {
-										date = date.substring(0, date.indexOf("T"));
-									}
-									createdOn = DateTimeUtil.parseDateTime(date).toDate();
+                                    if (date.contains("T")) {
+                                        date = date.substring(0, date.indexOf("T"));
+                                    }
+                                    createdOn = DateTimeUtil.parseDateTime(date).toDate();
 
-								} else {
-									createdOn = (Date) sessionEntity.getMetaData().get("created");
-								}
-								Long hl = (Long) sessionEntity.getBody().get("hardLogout");
+                                } else {
+                                    createdOn = (Date) sessionEntity.getMetaData().get("created");
+                                }
+                                Long hl = (Long) sessionEntity.getBody().get("hardLogout");
 
 								if (isLongLived(hl - createdOn.getTime())) {
 									info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
@@ -299,18 +297,23 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 
                                 ClientToken token = new ClientToken((String) session.get("clientId"), null , null);
 
+
                                 // Spring doesn't provide a setter for the approved field (used by
                                 // isAuthorized), so we set it the hard way
                                 Field approved = ClientToken.class.getDeclaredField("approved");
                                 approved.setAccessible(true);
                                 approved.set(token, true);
 
-                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
+                                        SLIPrincipal.class);
                                 TenantContext.setTenantId(principal.getTenantId());
-                                principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+                                principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
+                                        .getEntity());
                                 principal.setSessionId(sessionEntity.getEntityId());
-                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(), principal.getRoles());
-                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
+                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
+                                        principal.getRealm(), principal.getRoles());
+                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
+                                        principal, accessToken, authorities);
                                 userToken.setAuthenticated(true);
                                 auth = new OAuth2Authentication(token, userToken);
 
@@ -374,7 +377,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         return deleted;
     }
 
-    private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm, final List<String> roleNames) {
+    private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
+            final List<String> roleNames) {
         return resolver.resolveRoles(tenantId, realm, roleNames);
     }
 
@@ -383,7 +387,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         SLIPrincipal anon = new SLIPrincipal(time);
         anon.setEntity(new MongoEntity("user", "-133", new HashMap<String, Object>(), new HashMap<String, Object>()));
         return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()),
-                new AnonymousAuthenticationToken(time, anon, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
+                new AnonymousAuthenticationToken(time, anon, Arrays.<GrantedAuthority> asList(Right.ANONYMOUS_ACCESS)));
     }
 
     private Entity findEntityForAccessToken(String token) {
@@ -419,16 +423,18 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         boolean success = true;
 
         NeutralQuery hardLogoutQuery = new NeutralQuery(0);
-        hardLogoutQuery.addCriteria(new NeutralCriteria("hardLogout", NeutralCriteria.CRITERIA_LT, System.currentTimeMillis()));
+        hardLogoutQuery.addCriteria(new NeutralCriteria("hardLogout", NeutralCriteria.CRITERIA_LT, System
+                .currentTimeMillis()));
 
         NeutralQuery query = new NeutralQuery();
-        NeutralQuery expireQuery = new NeutralQuery(new NeutralCriteria("expiration", NeutralCriteria.CRITERIA_LT, System.currentTimeMillis()));
+        NeutralQuery expireQuery = new NeutralQuery(new NeutralCriteria("expiration", NeutralCriteria.CRITERIA_LT,
+                System.currentTimeMillis()));
         query.addOrQuery(hardLogoutQuery);
         query.addOrQuery(expireQuery);
 
         for (Entity entity : repo.findAll(SESSION_COLLECTION, query)) {
             if (!repo.delete(SESSION_COLLECTION, entity.getEntityId())) {
-                error("Failed to delete entity with id: {}", new Object[] {entity.getEntityId()});
+                error("Failed to delete entity with id: {}", new Object[] { entity.getEntityId() });
                 success = false;
             }
         }
@@ -438,7 +444,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Sets the entity repository.
      *
-     * @param repository New Entity Repository to be used.
+     * @param repository
+     *            New Entity Repository to be used.
      */
     public void setEntityRepository(Repository<Entity> repository) {
         this.repo = repository;

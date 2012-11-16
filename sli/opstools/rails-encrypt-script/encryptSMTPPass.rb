@@ -16,17 +16,16 @@ limitations under the License.
 
 =end
 
-require_relative 'odin'
+require_relative './encryptor.rb'
 
-# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
-scenario = nil
-if ARGV.length > 0
-  if File.file?("scenarios/" + ARGV[0])
-    scenario = ARGV[0]
-  else
-    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
-  end
+if ARGV.count < 2
+  puts "Usage: encryptLDAPPass <keyfile> <email_password>"
+  puts "\t keyfile - filename into which the key is stored, which was created by generateRailsKey.rb script"
+  puts "\t email_password - Email server password to be ecrypted"
+  puts "Use the specified key file to ecrypt given password, outputting the relavent properties"
+  exit
+else
+  keyFilePath = ARGV[0]
+  email_pass = ARGV[1]
+  encrypt(keyFilePath, email_pass, "email_password")
 end
-
-o = Odin.new
-o.generate( scenario )

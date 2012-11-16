@@ -17,41 +17,38 @@ limitations under the License.
 =end
 
 require_relative "./interchangeGenerator.rb"
-require_relative "../student_builder.rb"
-
 Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
-
-class StudentParentGenerator < InterchangeGenerator
+class MasterScheduleGenerator < InterchangeGenerator
   def initialize
     @header = <<-HEADER
 <?xml version="1.0"?>
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd ">
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd ">
 HEADER
     @footer = <<-FOOTER
-</InterchangeStudentParent>
+</InterchangeMasterSchedule>
 FOOTER
   end
 
   def write(prng, yamlHash)
-    stime = Time.now
-    File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
+    File.open("generated/InterchangeMasterSchedule.xml", 'w') do |f|
       f.write(@header)
-      interchanges = {:studentParent => f}
-      for id in 1..yamlHash['studentCount'] do
-        work_order = {:id => id, :sessions => []}
-        builder = StudentBuilder.new(work_order, interchanges)
-        builder.build
+      #This needs to map to courses
 
-        if (id % 100000 == 0)
-          puts "\t#{id} students generated."
+      if !yamlHash['numCourseOffering'].nil?
+        for id in 1..yamlHash['numCourseOffering'] do
+          f.write CourseOffering.new(id.to_s, prng).render
         end
-
       end
+
+      if !yamlHash['numBellSchedule'].nil?
+        for id in 1..yamlHash['numBellSchedule'] do
+          f.write BellSchedule.new(id.to_s, prng).render
+        end
+      end
+
       f.write(@footer)
     end
-    elapsed = Time.now - stime
-    puts "\t#{yamlHash['studentCount']} students generated in #{elapsed} seconds."
   end
-  
+
 end
