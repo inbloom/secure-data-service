@@ -467,10 +467,14 @@ public class UriMutator {
         }
 
         if (!isMutated && isTeacher(user)) {
-            if (ResourceNames.ASSESSMENTS.equals(resource)
+            if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
+                    || ResourceNames.LEARNINGSTANDARDS.equals(resource) 
+                    || ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
-                    || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPE.equals(resource)
+                    || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+                mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
+            } else if (ResourceNames.HOME.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
                 if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
@@ -604,9 +608,6 @@ public class UriMutator {
                     String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                     mutatedPath = String.format("/sections/%s/studentSectionAssociations/studentCompetencies", ids);
                 }
-            } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
                 if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
                     return formQueryBasedOnParameter(
@@ -657,10 +658,14 @@ public class UriMutator {
                 mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
             }
         } else if (!isMutated && isStaff(user)) {
-            if (ResourceNames.ASSESSMENTS.equals(resource)
+            if(ResourceNames.LEARNINGOBJECTIVES.equals(resource)
+                    || ResourceNames.LEARNINGSTANDARDS.equals(resource) 
+                    || ResourceNames.ASSESSMENTS.equals(resource)
                     || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
-                    || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPE.equals(resource)
+                    || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+                mutatedPath = "/" + ResourceNames.SEARCH + "/" + resource;
+            } else if (ResourceNames.HOME.equals(resource)) {
                 mutatedPath = "/" + resource;
             } else if (ResourceNames.ATTENDANCES.equals(resource)) {
                 String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
@@ -749,9 +754,6 @@ public class UriMutator {
             } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
                 String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
                 mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations/studentCompetencies", ids);
-            } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
             } else if (ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(resource)) {
                 mutatedPath = String.format("/staff/%s/disciplineIncidents/studentDisciplineIncidentAssociations",
                         user.getEntityId());

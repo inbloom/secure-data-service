@@ -95,7 +95,7 @@ public class UriMutatorTest {
     @Test
     public void testGetInferredUrisForTeacher() throws Exception {
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.ASSESSMENTS + " is incorrect.",
-                Pair.of("/assessments", ""),
+                Pair.of("/search/assessments", ""),
                 mutator.mutateBaseUri(ResourceNames.ASSESSMENTS, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.ATTENDANCES + " is incorrect.",
@@ -103,7 +103,7 @@ public class UriMutatorTest {
                 mutator.mutateBaseUri(ResourceNames.ATTENDANCES, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS + " is incorrect.",
-                Pair.of("/competencyLevelDescriptor", ""),
+                Pair.of("/search/competencyLevelDescriptor", ""),
                 mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.HOME + " is incorrect.",
@@ -111,11 +111,11 @@ public class UriMutatorTest {
                 mutator.mutateBaseUri(ResourceNames.HOME, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.LEARNINGSTANDARDS + " is incorrect.",
-                Pair.of("/learningStandards", ""),
+                Pair.of("/search/learningStandards", ""),
                 mutator.mutateBaseUri(ResourceNames.LEARNINGSTANDARDS, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.LEARNINGOBJECTIVES + " is incorrect.",
-                Pair.of("/learningObjectives", ""),
+                Pair.of("/search/learningObjectives", ""),
                 mutator.mutateBaseUri(ResourceNames.LEARNINGOBJECTIVES, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.SECTIONS + " is incorrect.",
@@ -142,7 +142,7 @@ public class UriMutatorTest {
     @Test
     public void testGetInferredUrisForStaff() throws Exception {
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.ASSESSMENTS + " is incorrect.",
-                Pair.of("/assessments", ""),
+                Pair.of("/search/assessments", ""),
                 mutator.mutateBaseUri(ResourceNames.ASSESSMENTS, "", staff));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.ATTENDANCES + " is incorrect.",
@@ -154,7 +154,7 @@ public class UriMutatorTest {
                 mutator.mutateBaseUri(ResourceNames.COHORTS, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS + " is incorrect.",
-                Pair.of("/competencyLevelDescriptor", ""),
+                Pair.of("/search/competencyLevelDescriptor", ""),
                 mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.HOME + " is incorrect.",
@@ -162,11 +162,11 @@ public class UriMutatorTest {
                 mutator.mutateBaseUri(ResourceNames.HOME, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.LEARNINGSTANDARDS + " is incorrect.",
-                Pair.of("/learningStandards", ""),
+                Pair.of("/search/learningStandards", ""),
                 mutator.mutateBaseUri(ResourceNames.LEARNINGSTANDARDS, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.LEARNINGOBJECTIVES + " is incorrect.",
-                Pair.of("/learningObjectives", ""),
+                Pair.of("/search/learningObjectives", ""),
                 mutator.mutateBaseUri(ResourceNames.LEARNINGOBJECTIVES, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.PROGRAMS + " is incorrect.",

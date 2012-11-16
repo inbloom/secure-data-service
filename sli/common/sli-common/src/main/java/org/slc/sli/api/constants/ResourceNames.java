@@ -38,6 +38,7 @@ public final class ResourceNames {
     public static final String ATTENDANCES = "attendances";
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
     public static final String STUDENT_TRANSCRIPTS = "courseTranscripts";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
