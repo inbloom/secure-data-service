@@ -19,7 +19,7 @@ limitations under the License.
 require_relative '../student_builder.rb'
 
 describe "StudentBuilder" do
-  describe "build" do
+  describe "#build" do
     context 'With a simple work order' do
       let(:work_order) {{:id => 42, :sessions => [{:school => 64, :sections => [{:id => 32, :edOrg => 64},
                                                                                   {:id => 33, :edOrg => 64},
