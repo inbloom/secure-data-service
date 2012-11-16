@@ -16,8 +16,17 @@ limitations under the License.
 
 =end
 
-
 require_relative 'odin'
 
+# Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
+scenario = nil
+if ARGV.length > 0
+  if File.file?("scenarios/" + ARGV[0])
+    scenario = ARGV[0]
+  else
+    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
+  end
+end
+
 o = Odin.new
-o.generate( nil ) # use scenario in config.yml
+o.generate( scenario )

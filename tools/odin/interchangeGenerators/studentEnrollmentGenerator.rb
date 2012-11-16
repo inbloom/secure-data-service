@@ -32,17 +32,24 @@ FOOTER
   end
 
   def write(prng, yamlHash)
+    stime = Time.now
     File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |f|
       f.write(@header)
-      for schoolId in 0..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil - 1 do
-        for studentId in schoolId*yamlHash['studentsPerSchool']..((schoolId+1) * yamlHash['studentsPerSchool'])-1 do
-          ssa = StudentSchoolAssociation.new studentId, schoolId, prng
+      studentCount = 0
+      for schoolId in 1..(1.0*yamlHash['studentCount'] / yamlHash['studentsPerSchool']).ceil do
+        for studentId in 1..(yamlHash['studentsPerSchool']) do
+          ssa = StudentSchoolAssociation.new studentId+studentCount, schoolId, prng
           f.write(ssa.render)
         end
+        studentCount = studentCount + yamlHash['studentsPerSchool']
+        if (studentCount % 100000 == 0)
+          puts "\t#{studentCount} students enrolled."
+        end
       end
-
       f.write(@footer)
     end
+    elapsed = Time.now - stime
+    puts "\t#{yamlHash['studentCount']} student enrollments generated in #{elapsed} seconds."
   end
   
 end

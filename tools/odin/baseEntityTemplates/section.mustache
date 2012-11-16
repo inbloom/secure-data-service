@@ -7,16 +7,7 @@
     <CourseOfferingReference>
       <CourseOfferingIdentity>
         <LocalCourseCode>{{courseCode}}</LocalCourseCode>
-          <SessionReference>
-            <SessionIdentity>
-              <EducationalOrgReference>
-                  <EducationalOrgIdentity>
-                    <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
-                  </EducationalOrgIdentity>
-              </EducationalOrgReference>
-              <SessionName>{{session}}</SessionName>
-            </SessionIdentity>
-          </SessionReference>
+         {{>partials/_session_reference}}
           <EducationalOrgReference>
             <EducationalOrgIdentity>
               <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
@@ -29,16 +20,7 @@
           <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
         </EducationalOrgIdentity>
     </SchoolReference>
-    <SessionReference>
-        <SessionIdentity>
-            <EducationalOrgReference>
-                <EducationalOrgIdentity>
-                  <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>{{session}}</SessionName>
-        </SessionIdentity>
-    </SessionReference>
+    {{>partials/_session_reference}}
     <ProgramReference>
         <ProgramIdentity>
           <ProgramId>{{program}}</ProgramId>
