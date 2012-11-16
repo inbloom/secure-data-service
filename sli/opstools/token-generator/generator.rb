@@ -7,7 +7,11 @@ require 'date'
 options = {}
 
 ARGV.options do |opts|
+<<<<<<< HEAD
   opts.banner = "Usage: generator -t Tenant -u User -c ClientId -r Role -e expiration [options]"
+=======
+  opts.banner = "Usage: generator -t Tenant -u User -c Application -r Roles -e expiration [options]"
+>>>>>>> ced1a30... [DE2175] Fixing generator to not use externalId
   options[:mongo] = 'localhost:27017'
   options[:realm] = "SandboxIDP"
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
