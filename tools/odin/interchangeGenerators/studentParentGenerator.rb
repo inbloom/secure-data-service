@@ -44,7 +44,7 @@ FOOTER
         builder.build
 
         if (id % 100000 == 0)
-          puts "\t#{id} students enrolled."
+          puts "\t#{id} students generated."
         end
 
       end
