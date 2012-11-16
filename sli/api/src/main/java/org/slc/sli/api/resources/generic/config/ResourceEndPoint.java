@@ -17,6 +17,7 @@ package org.slc.sli.api.resources.generic.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,8 @@ public class ResourceEndPoint {
     private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
+    
+    private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
 
     @Autowired
     private ResourceHelper resourceHelper;
@@ -65,6 +68,10 @@ public class ResourceEndPoint {
 
         List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
         for (ResourceEndPointTemplate resource : resources) {
+            if (!resource.isQueryable()) {
+                queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+            }
+            
             resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
 
@@ -98,6 +105,10 @@ public class ResourceEndPoint {
         String resourceClass = bruteForceMatch(resourcePath);
 
         return resourceClass;
+    }
+    
+    public List<String> getQueryingDisallowedEndPoints() {
+        return this.queryingDisallowedEndPoints;
     }
 
     protected String bruteForceMatch(final String resourcePath) {
