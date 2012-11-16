@@ -19,6 +19,7 @@ package org.slc.sli.api.resources.util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -315,6 +316,9 @@ public class ResourceUtil {
                 if (referenceGuid != null) {
                     Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField
                             .getValue().getResourceName());
+                    if (resourceNames == null) {
+                        resourceNames = Collections.emptySet();
+                    }
                     count--;
                     for (String resourceName : resourceNames) {
                         String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);

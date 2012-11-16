@@ -66,8 +66,8 @@ public class URITranslator {
                 .andReference(PARENT_LEARNING_OBJECTIVE).build();
         translate(LEARNING_STANDARD).transformTo(ResourceNames.LEARNINGSTANDARDS).
                 usingPattern("{version}/learningObjectives/{id}/learningStandards").
-                usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(ID_KEY)
-                .andReference(LEARNING_STANDARD).build();
+                usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(LEARNING_STANDARD)
+                .andReference(ID_KEY).build();
         translate(STUDENT_COMPETENCY).transformTo(ResourceNames.STUDENT_COMPETENCIES).
                 usingPattern("{version}/learningObjectives/{id}/studentCompetencies").
                 usingCollection(EntityNames.STUDENT_COMPETENCY).withKey("objectiveId.learningObjectiveId")

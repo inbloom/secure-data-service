@@ -29,26 +29,27 @@ public interface ResourceWriter<T> {
 
     /**
      * Write an entity to the data store (using 'upsert').
-     * 
+     *
      * @param t Entity to be written.
      * @param jobId Current batch job id.
+     *
      */
-    void writeResource(T t, String jobId);
+    void writeResource(T t);
 
     /**
      * Inserts an entity to the data store (using 'insert').
-     * 
+     *
      * @param t Entity to be written.
      * @param jobId Current batch job id.
      */
-    void insertResource(T t, String jobId);
+    void insertResource(T t);
 
     /**
      * Inserts multiple entities to the data store (using 'insert').
-     * 
+     *
      * @param t Entities to be written.
      * @param collectionName Name of collection to write entities to.
      * @param jobId Current batch job id.
      */
-    void insertResources(List<T> neutralRecords, String collectionName, String jobId);
+    void insertResources(List<T> neutralRecords, String collectionName);
 }
