@@ -46,13 +46,14 @@ import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
+import org.slc.sli.test.edfi.entities.SLCCourse;
 
 public class CourseGenerator {
 
     private static final Logger log = Logger.getLogger(CourseGenerator.class);
     private static String file_course = "database/course/course.csv";
     private static Random rand = new Random(31);
-    private List<Course> courses = null;
+    private List<SLCCourse> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;
     // private Course course;
@@ -65,46 +66,46 @@ public class CourseGenerator {
             load();
         }
         if (grade == GradeLevelType.FIRST_GRADE)
-            courses = new ArrayList<Course>(grade1Courses);
+            courses = new ArrayList<SLCCourse>(grade1Courses);
         else if (grade == GradeLevelType.SECOND_GRADE)
-            courses = new ArrayList<Course>(grade2Courses);
+            courses = new ArrayList<SLCCourse>(grade2Courses);
         else if (grade == GradeLevelType.THIRD_GRADE)
-            courses = new ArrayList<Course>(grade3Courses);
+            courses = new ArrayList<SLCCourse>(grade3Courses);
         else if (grade == GradeLevelType.FOURTH_GRADE)
-            courses = new ArrayList<Course>(grade4Courses);
+            courses = new ArrayList<SLCCourse>(grade4Courses);
         else if (grade == GradeLevelType.FIFTH_GRADE)
-            courses = new ArrayList<Course>(grade5Courses);
+            courses = new ArrayList<SLCCourse>(grade5Courses);
         else if (grade == GradeLevelType.SIXTH_GRADE)
-            courses = new ArrayList<Course>(grade6Courses);
+            courses = new ArrayList<SLCCourse>(grade6Courses);
         else if (grade == GradeLevelType.SEVENTH_GRADE)
-            courses = new ArrayList<Course>(grade7Courses);
+            courses = new ArrayList<SLCCourse>(grade7Courses);
         else if (grade == GradeLevelType.EIGHTH_GRADE)
-            courses = new ArrayList<Course>(grade8Courses);
+            courses = new ArrayList<SLCCourse>(grade8Courses);
         else if (grade == GradeLevelType.NINTH_GRADE)
-            courses = new ArrayList<Course>(grade9Courses);
+            courses = new ArrayList<SLCCourse>(grade9Courses);
         else if (grade == GradeLevelType.TENTH_GRADE)
-            courses = new ArrayList<Course>(grade10Courses);
+            courses = new ArrayList<SLCCourse>(grade10Courses);
         else if (grade == GradeLevelType.ELEVENTH_GRADE)
-            courses = new ArrayList<Course>(grade11Courses);
+            courses = new ArrayList<SLCCourse>(grade11Courses);
         else if (grade == GradeLevelType.TWELFTH_GRADE)
-            courses = new ArrayList<Course>(grade12Courses);
+            courses = new ArrayList<SLCCourse>(grade12Courses);
 
         courseCount = courses.size();
 
     }
 
-    static List<Course> grade1Courses = new ArrayList<Course>();
-    static List<Course> grade2Courses = new ArrayList<Course>();
-    static List<Course> grade3Courses = new ArrayList<Course>();
-    static List<Course> grade4Courses = new ArrayList<Course>();
-    static List<Course> grade5Courses = new ArrayList<Course>();
-    static List<Course> grade6Courses = new ArrayList<Course>();
-    static List<Course> grade7Courses = new ArrayList<Course>();
-    static List<Course> grade8Courses = new ArrayList<Course>();
-    static List<Course> grade9Courses = new ArrayList<Course>();
-    static List<Course> grade10Courses = new ArrayList<Course>();
-    static List<Course> grade11Courses = new ArrayList<Course>();
-    static List<Course> grade12Courses = new ArrayList<Course>();
+    static List<SLCCourse> grade1Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade2Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade3Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade4Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade5Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade6Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade7Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade8Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade9Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade10Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade11Courses = new ArrayList<SLCCourse>();
+    static List<SLCCourse> grade12Courses = new ArrayList<SLCCourse>();
 
     private static int getRand() {
         int num = rand.nextInt();
@@ -180,7 +181,7 @@ public class CourseGenerator {
                 course.setGradesOffered(new GradeLevelsType());
                 if (grade.trim().equals("Grade 1")) {
                     course.getGradesOffered().getGradeLevel().add(GradeLevelType.FIRST_GRADE);
-                    grade1Courses.add(course);
+                    grade1Courses.add(Course);
                 } else if (grade.trim().equals("Grade 2")) {
                     course.getGradesOffered().getGradeLevel().add(GradeLevelType.SECOND_GRADE);
                     grade2Courses.add(course);
@@ -270,8 +271,8 @@ public class CourseGenerator {
         }
     }
 
-    private Course clone(Course old) {
-        Course clone = new Course();
+    private SLCCourse clone(SLCCourse old) {
+        SLCCourse clone = new SLCCourse();
         clone.setCourseTitle(old.getCourseTitle());
         clone.setNumberOfParts(old.getNumberOfParts());
         clone.setCourseLevel(old.getCourseLevel());
@@ -291,9 +292,9 @@ public class CourseGenerator {
         return clone;
     }
 
-    public Course getCourse(String courseId, String schoolId, String uniqueCourseId) {
-        Course course = null;
-        course = clone(courses.get((counter++)%courses.size()));
+    public SLCCourse getCourse(String courseId, String schoolId, String uniqueCourseId) {
+        SLCCourse course = null;
+        SLCCourse = clone(courses.get((counter++)%courses.size()));
 
         // courseCount--;
         course.setId(courseId);
