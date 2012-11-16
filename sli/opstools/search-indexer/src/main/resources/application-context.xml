@@ -50,7 +50,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	</bean>
 	<bean id="indexConfigStore" class="org.slc.sli.search.config.IndexConfigStore">
 		<constructor-arg name="configFile"
-		value="${sli.search.index.config:index-config.json}" />
+		value="${sli.search.indexer.config:index-config.json}" />
 	</bean>
 	<bean id="sourceDatasourceConnector" class="org.slc.sli.search.connector.impl.SourceDatastoreConnectorImpl">
 		<property name="mongoTemplate" ref="mongoTemplate" />
