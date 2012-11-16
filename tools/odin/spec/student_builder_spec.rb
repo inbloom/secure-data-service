@@ -29,7 +29,7 @@ describe "StudentBuilder" do
       let(:studentParent) {StringIO.new('', 'w')}
       let(:enrollment) {StringIO.new('', 'w')}
       let(:builder) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
-      let!(:result) {builder.build}
+      before {builder.build}
 
       it "will build student documents with the given student id" do 
         studentParent.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil

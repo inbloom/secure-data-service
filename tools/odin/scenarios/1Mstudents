@@ -6,3 +6,4 @@ numLEA: 1
 studentsPerSchool: 1000
 numPrograms: 4
 numCourses: 50
+numYears: 1

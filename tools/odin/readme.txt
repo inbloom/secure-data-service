@@ -7,7 +7,7 @@ To generate data for a scenario:
 > bundle exec ruby driver.rb <scenario name>
 
 Output is created in:
-  Generated
+  generated
 
 To run the unit tests
 > bundle exec rake
