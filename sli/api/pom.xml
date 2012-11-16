@@ -70,12 +70,6 @@
             <groupId>org.slc.sli.common</groupId>
             <artifactId>common-encrypt</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>org.slc.sli</groupId>
-            <artifactId>encryption-tool</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>org.slc.sli.dal</groupId>
