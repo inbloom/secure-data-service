@@ -1889,7 +1889,7 @@ def checkForContentInFileGivenPrefix(message, prefix)
       #puts "FILE CONTENTS = " + file_contents
 
       if (file_contents.rindex(message) == nil)
-        assert(false, "File doesn't contain correct processing message")
+        assert(false, "File doesn't contain correct processing message, contents were:\n#{file_contents}")
       end
       aFile.close
     else
