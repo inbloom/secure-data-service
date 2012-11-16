@@ -28,6 +28,7 @@ public class ResourceEndPointTemplate {
     private String path;
     private String doc;
     private String resourceClass;
+    private boolean queryable;
     private List<ResourceEndPointTemplate> subResources;
 
     public String getDoc() {
@@ -60,5 +61,13 @@ public class ResourceEndPointTemplate {
 
     public void setSubResources(List<ResourceEndPointTemplate> subResources) {
         this.subResources = subResources;
+    }
+
+    public boolean isQueryable() {
+        return queryable;
+    }
+
+    public void setQueryable(boolean queryable) {
+        this.queryable = queryable;
     }
 }
