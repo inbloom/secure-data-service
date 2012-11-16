@@ -91,4 +91,8 @@ class Student < BaseEntity
     choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
   end
 
+  def race
+    choose(['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White'])
+  end
+
 end

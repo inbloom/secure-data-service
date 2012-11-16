@@ -1586,11 +1586,6 @@ Met standard
 					<xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0"/>
 					<xs:element name="CompetencyLevel" type="CompetencyLevelDescriptorType" minOccurs="0"/>
 					<xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
-					<!-- StudentReference and SectionReference don't need to be in the data - they will
-               get picked up from the StudentSectionAssociationReference. The StudentReference
-               and SectionReference are included here so deterministic IDs can be resolved -->
-					<xs:element name="StudentReference" type="SLC-StudentReferenceType" minOccurs="0"/>
-					<xs:element name="SectionReference" type="SLC-SectionReferenceType" minOccurs="0"/>
 					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 					<xs:element name="GradebookEntryReference" type="SLC-GradebookEntryReferenceType"/>
 				</xs:sequence>

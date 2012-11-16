@@ -19,6 +19,7 @@ limitations under the License.
 require "rexml/document"
 require 'digest/md5'
 require 'yaml'
+require 'digest/sha1'
 
 require_relative 'validator.rb'
 require_relative 'util.rb'
@@ -63,5 +64,14 @@ class Odin
     return valid
   end
 
+  # Generates a MD5 hash of the generated xml files.
+  def md5()
+    hashes = []
+    Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
+      hashes.push( Digest::MD5.hexdigest( f ))
+    }
+    
+    return Digest::MD5.hexdigest( hashes.to_s )
+  end
 end
 
