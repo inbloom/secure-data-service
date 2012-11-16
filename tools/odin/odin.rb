@@ -42,6 +42,8 @@ class Odin
     time = Time.now
     pids = []
 
+    WorldGenerator.new.create(prng, scenarioYAML)
+
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
     pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
