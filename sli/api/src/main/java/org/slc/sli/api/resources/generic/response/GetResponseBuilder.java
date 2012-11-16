@@ -123,17 +123,26 @@ public class GetResponseBuilder extends ResponseBuilder {
 
         List<PathSegment> pathSegments = uriInfo.getPathSegments();
 
-        if (pathSegments.size() >=1 ) {
+        if (pathSegments != null && pathSegments.size() >= 1 ) {
             String mainSegment = pathSegments.get(1).getPath();
             String query = uriInfo.getRequestUri().getQuery();
 
             if (resourceEndPoint.getQueryingDisallowedEndPoints().contains(mainSegment) && (query != null)) {
                 String[] params = query.split("&");
 
+                boolean invalid = false;
                 for (String param : params) {
-                    String[] queryParam = param.split("=");
-                    if (!ParameterConstants.DEFAULT_QUERY_PARAMS.contains(queryParam[0])) {
-                        throw new QueryParseException("Querying not Allowed", param);
+                    for (String constant : ParameterConstants.DEFAULT_QUERY_PARAMS) {
+                        if (!param.startsWith(constant)) {
+                            invalid = true;
+                        } else {
+                            invalid = false;
+                            break;
+                        }
+                    }
+
+                    if (invalid) {
+                        throw new QueryParseException("Querying not allowed", "");
                     }
                 }
             }
