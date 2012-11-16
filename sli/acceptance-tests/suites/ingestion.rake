@@ -1,6 +1,11 @@
 ############################################################
 # Ingestion tests start
 ############################################################
+desc "Run Concurrent Tenant Ingestion Test"
+task :ingestionConcurrentTenantTest do
+  runTests("test/features/ingestion/features/ingestion_concurrentTenant.feature")
+end
+
 desc "Run Common Core Standards Tests"
 task :ingestionCommonCoreTest do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")

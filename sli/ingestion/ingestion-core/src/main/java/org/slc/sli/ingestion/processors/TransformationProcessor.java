@@ -119,7 +119,7 @@ public class TransformationProcessor implements Processor {
                 false));
 
         long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
-                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
+                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query);
         metrics.setRecordCount(recordsToProcess);
         stage.getMetrics().add(metrics);
     }

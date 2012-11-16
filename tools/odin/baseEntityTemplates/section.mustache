@@ -1,0 +1,30 @@
+<Section>
+  <UniqueSectionCode>{{id}}</UniqueSectionCode>
+  <SequenceOfCourse>{{sequence}}</SequenceOfCourse>
+  <EducationalEnvironment>{{environment}}</EducationalEnvironment>
+  <MediumOfInstruction>{{medium}}</MediumOfInstruction>
+  <PopulationServed>{{population}}</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>{{courseCode}}</LocalCourseCode>
+         {{>partials/_session_reference}}
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </SchoolReference>
+    {{>partials/_session_reference}}
+    <ProgramReference>
+        <ProgramIdentity>
+          <ProgramId>{{program}}</ProgramId>
+        </ProgramIdentity>
+    </ProgramReference>
+  </Section>
+

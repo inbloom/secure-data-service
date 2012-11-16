@@ -144,15 +144,28 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>${maven.assembly.version}</version>
-				<configuration>
-					<finalName>OfflineValidationTool</finalName>
-					<descriptors>
-						<descriptor>${project.parent.basedir}/ingestion-validation/assembly/zip.xml</descriptor>
-					</descriptors>
-				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
+						<configuration>
+					    <finalName>OfflineValidationTool</finalName>
+					    <descriptors>
+						    <descriptor>${project.parent.basedir}/ingestion-validation/assembly/zip.xml</descriptor>
+					    </descriptors>
+				    </configuration>
+					  <id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+					<execution>
+					  <configuration>
+					    <finalName>OfflineValidationTool-src</finalName>
+					      <descriptors>
+						      <descriptor>${project.parent.basedir}/ingestion-validation/assembly/package.xml</descriptor>
+					      </descriptors>
+			  	    </configuration>
+						<id>make-src</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>

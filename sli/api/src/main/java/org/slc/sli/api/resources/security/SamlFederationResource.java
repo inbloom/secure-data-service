@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import java.io.IOException;
@@ -197,12 +196,13 @@ public class SamlFederationResource {
 
         if (conditions != null) {
 
-            //One or both of these can be null
+            // One or both of these can be null
             String notBefore = conditions.getAttributeValue("NotBefore");
             String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
-                generateSamlValidationError("SAML Conditions failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
+                generateSamlValidationError("SAML Conditions failed.  Current time not in range " + notBefore + " to "
+                        + notOnOrAfter + ".");
             }
         }
 
@@ -216,12 +216,13 @@ public class SamlFederationResource {
                 generateSamlValidationError("SAML Recipient was invalid, was " + recipient);
             }
 
-            //One or both of these can be null
+            // One or both of these can be null
             String notBefore = subjConfirmationData.getAttributeValue("NotBefore");
             String notOnOrAfter = subjConfirmationData.getAttributeValue("NotOnOrAfter");
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
-                generateSamlValidationError("SAML Subject failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
+                generateSamlValidationError("SAML Subject failed.  Current time not in range " + notBefore + " to "
+                        + notOnOrAfter + ".");
             }
         } else {
             generateSamlValidationError("SAML response is missing Subject.");
@@ -250,8 +251,9 @@ public class SamlFederationResource {
             // realm's tenantId is null
             tenant = samlTenant;
             if (tenant == null) {
-                generateSamlValidationError(
-                        MessageFormat.format("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer, inResponseTo));
+                generateSamlValidationError(MessageFormat.format(
+                        "No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer,
+                        inResponseTo));
             }
         } else {
             Object temp = realm.getBody().get("admin");
@@ -312,7 +314,8 @@ public class SamlFederationResource {
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new AccessDeniedException("Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
+            throw new AccessDeniedException(
+                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
         }
 
         if (samlTenant != null) {
@@ -320,18 +323,26 @@ public class SamlFederationResource {
             TenantContext.setTenantId(samlTenant);
             TenantContext.setIsSystemCall(false);
             NeutralQuery idQuery = new NeutralQuery();
-            idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
+            idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal
+                    .getEdOrg()));
             Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
             if (edOrg != null) {
                 principal.setEdOrgId(edOrg.getEntityId());
             } else {
-                debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
+                debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(),
+                        principal.getTenantId());
             }
         }
 
         TenantContext.setIsSystemCall(true);
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
+
+        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
+        if (requestedRealmId == null || !requestedRealmId.equals(realm.getEntityId())) {
+            generateSamlValidationError("Invalid realm for user.");
+        }
+
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
         Boolean isInstalled = (Boolean) appSession.get("installed");
         Map<String, Object> code = (Map<String, Object>) appSession.get("code");
@@ -398,7 +409,6 @@ public class SamlFederationResource {
         return null;
     }
 
-
     /**
      * Get metadata describing saml federation.
      * This is an unsecured (public) resource.
@@ -407,7 +417,7 @@ public class SamlFederationResource {
      */
     @GET
     @Path("metadata")
-    @Produces( { "text/xml" } )
+    @Produces({ "text/xml" })
     public Response getMetadata() {
 
         if (!metadata.isEmpty()) {
@@ -420,8 +430,10 @@ public class SamlFederationResource {
     /**
      * Check that the current time is within the specified range.
      *
-     * @param notBefore - can be null to skip before check
-     * @param notOnOrAfter - can be null to skip after check
+     * @param notBefore
+     *            - can be null to skip before check
+     * @param notOnOrAfter
+     *            - can be null to skip after check
      * @return true if in range, false otherwise
      */
     private boolean isTimeInRange(String notBefore, String notOnOrAfter) {
@@ -444,6 +456,5 @@ public class SamlFederationResource {
         }
         return true;
     }
-
 
 }

@@ -63,7 +63,7 @@ default:
 
         # Ldap server user and pass
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-        sli.api.ldap.pass: Y;Gtf@w{
+        sli.api.ldap.pass: 76F2FD74E0CEF4808FFD476EC604CFB4
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
@@ -195,7 +195,6 @@ default:
         sli.ingestion.queue.pit.keystorePassword:
 
         sli.ingestion.nodeType: standalone
-        sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
@@ -334,6 +333,9 @@ default:
         # keystore password (used in common, data-access, and dashboard)
         sli.encryption.keyStorePass: changeit
 
+        sli.encryption.ldapKeyAlias: ldap
+        sli.encryption.ldapKeyPass: ldap
+        
         # (only used in data-access, and dashboard)
         sli.encryption.dalKeyAlias: dalKey
 
@@ -1363,7 +1365,6 @@ test-local:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1401,7 +1402,6 @@ test-team:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
@@ -1415,7 +1415,6 @@ test-perf:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
