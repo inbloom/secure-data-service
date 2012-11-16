@@ -28,6 +28,7 @@ package org.slc.sli.test.edfi.entities;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -103,7 +104,7 @@ public class ReportCard
     @XmlElement(name = "GradeReference")
     protected List<GradeReferenceType> gradeReference;
     @XmlElement(name = "StudentCompetencyReference")
-    protected List<ReferenceType> studentCompetencyReference;
+    protected List<StudentCompetencyReferenceType> studentCompetencyReference;
     @XmlElement(name = "GPAGivenGradingPeriod", required = true)
     protected BigDecimal gpaGivenGradingPeriod;
     @XmlElement(name = "GPACumulative", required = true)
@@ -150,29 +151,29 @@ public class ReportCard
 
     /**
      * Gets the value of the studentCompetencyReference property.
-     *
+     * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the studentCompetencyReference property.
-     *
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+     * modification you make to the returned list will be present inside the JAXB object. This is
+     * why there is not a <CODE>set</CODE> method for the studentCompetencyReference property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getStudentCompetencyReference().add(newItem);
+     * getStudentCompetencyReference().add(newItem);
      * </pre>
-     *
-     *
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link ReferenceType }
-     *
-     *
+     * {@link StudentCompetencyReferenceType }
+     * 
+     * 
      */
-    public List<ReferenceType> getStudentCompetencyReference() {
+    public List<StudentCompetencyReferenceType> getStudentCompetencyReference() {
         if (studentCompetencyReference == null) {
-            studentCompetencyReference = new ArrayList<ReferenceType>();
+            studentCompetencyReference = new ArrayList<StudentCompetencyReferenceType>();
         }
         return this.studentCompetencyReference;
     }

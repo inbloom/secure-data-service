@@ -31,15 +31,19 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * This event entity represents the recording of whether a student is in attendance for a class or in attendance to receive or participate in program services.
+ * This event entity represents the recording of whether a student is in attendance for a class or
+ * in attendance to receive or participate in program services.
  * 
- * <p>Java class for AttendanceEvent complex type.
+ * <p>
+ * Java class for AttendanceEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="AttendanceEvent">
@@ -47,6 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *     &lt;extension base="{http://ed-fi.org/0100}ComplexObjectType">
  *       &lt;sequence>
  *         &lt;element name="EventDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="SchoolYear" type="{http://ed-fi.org/0100}SchoolYearType"/>
  *         &lt;element name="AttendanceEventType" type="{http://ed-fi.org/0100}AttendanceEventType" minOccurs="0"/>
  *         &lt;element name="AttendanceEventCategory" type="{http://ed-fi.org/0100}AttendanceEventCategoryType"/>
  *         &lt;element name="AttendanceEventReason" type="{http://ed-fi.org/0100}AttendanceEventReason" minOccurs="0"/>
@@ -66,6 +71,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttendanceEvent", propOrder = {
     "eventDate",
+ "schoolYear",
     "attendanceEventType",
     "attendanceEventCategory",
     "attendanceEventReason",
@@ -100,6 +106,9 @@ public class AttendanceEvent
     protected EducationalOrgReferenceType schoolReference;
     @XmlElement(name = "SessionReference")
     protected SessionReferenceType sessionReference;
+    @XmlElement(name = "SchoolYear", required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String schoolYear;
 
     /**
      * Gets the value of the eventDate property.
@@ -315,6 +324,28 @@ public class AttendanceEvent
      */
     public void setSessionReference(SessionReferenceType value) {
         this.sessionReference = value;
+    }
+
+    /**
+     * Gets the value of the schoolYear property.
+     * 
+     * @return
+     *         possible object is {@link String }
+     * 
+     */
+    public String getSchoolYear() {
+        return schoolYear;
+    }
+
+    /**
+     * Sets the value of the schoolYear property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setSchoolYear(String value) {
+        this.schoolYear = value;
     }
 
 }

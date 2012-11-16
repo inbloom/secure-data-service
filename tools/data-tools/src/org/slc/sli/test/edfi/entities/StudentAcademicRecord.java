@@ -28,6 +28,7 @@ package org.slc.sli.test.edfi.entities;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -136,7 +137,7 @@ public class StudentAcademicRecord
     @XmlElement(name = "SessionReference", required = true)
     protected SessionReferenceType sessionReference;
     @XmlElement(name = "ReportCardReference")
-    protected List<ReferenceType> reportCardReference;
+    protected List<ReportCardReferenceType> reportCardReference;
     @XmlElement(name = "DiplomaReference")
     protected ReferenceType diplomaReference;
 
@@ -514,27 +515,26 @@ public class StudentAcademicRecord
      * Gets the value of the reportCardReference property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the reportCardReference property.
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+     * modification you make to the returned list will be present inside the JAXB object. This is
+     * why there is not a <CODE>set</CODE> method for the reportCardReference property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getReportCardReference().add(newItem);
+     * getReportCardReference().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ReferenceType }
+     * Objects of the following type(s) are allowed in the list {@link ReportCardReferenceType }
      * 
      * 
      */
-    public List<ReferenceType> getReportCardReference() {
+    public List<ReportCardReferenceType> getReportCardReference() {
         if (reportCardReference == null) {
-            reportCardReference = new ArrayList<ReferenceType>();
+            reportCardReference = new ArrayList<ReportCardReferenceType>();
         }
         return this.reportCardReference;
     }

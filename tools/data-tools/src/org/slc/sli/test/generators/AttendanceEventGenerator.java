@@ -44,6 +44,7 @@ public class AttendanceEventGenerator {
 
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
+        ae.setSchoolYear("2011-2012");
         ae.setAttendanceEventCategory(getAttendanceEventCategoryTypeMedFi());
         ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
         ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));

@@ -56,15 +56,15 @@ import org.slc.sli.test.edfi.entities.Recognition;
 import org.slc.sli.test.edfi.entities.RecognitionType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
+import org.slc.sli.test.edfi.entities.ReportCardReferenceType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
-import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecord;
 import org.slc.sli.test.edfi.entities.StudentAcademicRecordReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCompetency;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.StudentCompetencyReferenceType;
 import org.slc.sli.test.edfi.entities.StudentGradebookEntry;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociationIdentityType;
@@ -99,27 +99,14 @@ public class StudentGradeGenerator {
         StudentSectionAssociationReferenceType ssaRef = new StudentSectionAssociationReferenceType();
         StudentSectionAssociationIdentityType ssaIdentity = new StudentSectionAssociationIdentityType();
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
-        ssaIdentity.setStudentIdentity(student.getStudentIdentity());
-        ssaIdentity.setSectionIdentity(section.getSectionIdentity());
-        return ssaRef;
-    }
-
-    public static SLCStudentSectionAssociationReferenceType getSLCStudentSectionAssociationReference(
-            StudentReferenceType student, SectionReferenceType section) {
-        SLCStudentSectionAssociationReferenceType ssaRef = new SLCStudentSectionAssociationReferenceType();
-        SLCStudentSectionAssociationIdentityType ssaIdentity = new SLCStudentSectionAssociationIdentityType();
-        ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
-        StudentReferenceType stuRef = new StudentReferenceType();
-        SectionReferenceType secRef = new SectionReferenceType();
-        stuRef.setStudentIdentity(student.getStudentIdentity());
-        secRef.setSectionIdentity(section.getSectionIdentity());
-        ssaIdentity.setStudentReference(stuRef);
-        ssaIdentity.setSectionReference(secRef);
+        ssaIdentity.setStudentReference(student);
+        ssaIdentity.setSectionReference(section);
+        ssaIdentity.setBeginDate(StudentSectionAssociationGenerator.BEGIN_DATE);
         return ssaRef;
     }
 
     public static StudentAcademicRecord getStudentAcademicRecord(StudentReferenceType studentRef,
-            SessionReferenceType sessionRef, List<ReferenceType> reportCardRef, ReferenceType diplomaRef) {
+            SessionReferenceType sessionRef, List<ReportCardReferenceType> reportCardRef, ReferenceType diplomaRef) {
         StudentAcademicRecord sar = new StudentAcademicRecord();
         Credits earned = new Credits();
         sar.setCumulativeCreditsEarned(earned);
@@ -171,7 +158,7 @@ public class StudentGradeGenerator {
 
     public static ReportCard getReportCard(StudentReferenceType studentRef,
             GradingPeriodReferenceType gradingPeriodRef, List<GradeReferenceType> gradeReference,
-            List<ReferenceType> scReference) {
+            List<StudentCompetencyReferenceType> scReference) {
         ReportCard reportCard = new ReportCard();
         if (gradeReference != null)
             reportCard.getGradeReference().addAll(gradeReference);
@@ -338,9 +325,9 @@ public class StudentGradeGenerator {
         StudentSectionAssociationReferenceType ssRef = new StudentSectionAssociationReferenceType();
         StudentSectionAssociationIdentityType ssIdentity = new StudentSectionAssociationIdentityType();
         ssRef.setStudentSectionAssociationIdentity(ssIdentity);
-        ssIdentity.setSectionIdentity(section.getSectionIdentity());
-        ssIdentity.setStudentIdentity(student.getStudentIdentity());
-
+        ssIdentity.setSectionReference(section);
+        ssIdentity.setStudentReference(student);
+        ssIdentity.setBeginDate(StudentSectionAssociationGenerator.BEGIN_DATE);
         sgbe.setStudentSectionAssociationReference(ssRef);
         return sgbe;
 

@@ -26,6 +26,8 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
 
 public class StudentSectionAssociationGenerator {
 
+    public static final String BEGIN_DATE = "2011-03-04";
+
     public static StudentSectionAssociation generateLowFi(String studentId, String schoolId, String sectionCode) {
         StudentSectionAssociation ssa = new StudentSectionAssociation();
 
@@ -42,7 +44,7 @@ public class StudentSectionAssociationGenerator {
         secrt.setSectionIdentity(secit);
         ssa.setSectionReference(secrt);
 
-        ssa.setBeginDate("2011-03-04");
+        ssa.setBeginDate(BEGIN_DATE);
         ssa.setEndDate("2011-03-04");
 
         ssa.setHomeroomIndicator(true);

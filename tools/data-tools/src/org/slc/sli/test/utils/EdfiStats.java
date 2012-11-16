@@ -163,11 +163,7 @@ public class EdfiStats {
                 new FileOutputStream(dataDirectory + "/" + "jsExpected.js"));
         js.println("//mongo localhost:27017/sli --eval 'var tenant=\"MegatronIL\";' jsExpected.js");
         //http://stackoverflow.com/questions/2159678/paste-a-multi-line-java-string-in-eclipse
-        js.println("var criteria = {};\r\n" + 
-                "if( typeof tenant  != 'undefined' \r\n" + 
-                "       &&  tenant  != null \r\n" + 
-                "       &&  tenant.length > 0) \r\n" + 
-                "    criteria['metaData.tenantId']=tenant;");
+        js.println("var criteria = {};");
         js.println("var entities ={");
         for(String entity: new TreeSet<String>(sliCounts.keySet())) {
             js.println("              '" + entity + "'" +  ":" + sliCounts.get(entity) + ",");

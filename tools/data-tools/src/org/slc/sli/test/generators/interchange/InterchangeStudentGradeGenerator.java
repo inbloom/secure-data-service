@@ -53,9 +53,9 @@ import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ReportCard;
+import org.slc.sli.test.edfi.entities.ReportCardIdentityType;
+import org.slc.sli.test.edfi.entities.ReportCardReferenceType;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
@@ -65,9 +65,9 @@ import org.slc.sli.test.edfi.entities.StudentCompetency;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjective;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
+import org.slc.sli.test.edfi.entities.StudentCompetencyReferenceType;
 import org.slc.sli.test.edfi.entities.StudentGradebookEntry;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.StudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
@@ -80,7 +80,9 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
+import org.slc.sli.test.generators.SLCGradingPeriodIdentityTypeGenerator;
 import org.slc.sli.test.generators.SessionGenerator;
+import org.slc.sli.test.generators.StudentCompetancyGenerator;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentGradeGenerator;
@@ -118,6 +120,18 @@ public final class InterchangeStudentGradeGenerator {
         SLCGradingPeriodIdentityType gradingPeriodItentity = new SLCGradingPeriodIdentityType();
         gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
         gradingPeriodItentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
+
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.setStateOrganizationId(schoolId);
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        eort.setEducationalOrgIdentity(eoit);
+        gradingPeriodItentity.setEducationalOrgReference(eort);
+
+        // no clear way to get a dynamic beginDate to match existing data
+        String beginDate = "2011-03-05";
+
+        gradingPeriodItentity.setBeginDate(beginDate);
+
         return gradingPeriodRef;
     }
 
@@ -228,11 +242,30 @@ public final class InterchangeStudentGradeGenerator {
                                                                                                   // to
                                                                                                   // Student
 
-            List<ReferenceType> reportCardRefs = new ArrayList<ReferenceType>();
+            List<ReportCardReferenceType> reportCardRefs = new ArrayList<ReportCardReferenceType>();
             for (ReportCardMeta reportCardMeta : reportCardsForStudent) {
-                ReferenceType reportCardRef = new ReferenceType();
-                reportCardRef.setRef(new Ref(studentId + "_" + ID_PREFIX_REPORT_CARD + reportCardMeta.getId()));
-                reportCardRefs.add(reportCardRef);// References to ReportCards
+                // ReferenceType reportCardRef = new ReferenceType();
+                // reportCardRef.setRef(new Ref(studentId + "_" + ID_PREFIX_REPORT_CARD +
+                // reportCardMeta.getId()));
+                // reportCardRefs.add(reportCardRef);// References to ReportCards
+
+                ReportCardReferenceType rRef = new ReportCardReferenceType();
+                ReportCardIdentityType reportCardIdentity = new ReportCardIdentityType();
+                rRef.setReportCardIdentity(reportCardIdentity);
+
+                reportCardIdentity.setStudentReference(studentRef);
+                if (reportCardMeta.getGradingPeriod() != null) {
+
+                    SLCGradingPeriodIdentityTypeGenerator gen = new SLCGradingPeriodIdentityTypeGenerator();
+                    SLCGradingPeriodIdentityType ident = gen.getGradingPeriodIdentityType(sessionMeta.schoolId);
+                    GradingPeriodReferenceType gpRef = new GradingPeriodReferenceType();
+                    gpRef.setGradingPeriodIdentity(ident);
+
+                    reportCardIdentity.setGradingPeriodReference(gpRef);
+                }
+
+                reportCardRefs.add(rRef);
+
             }
 
             ReferenceType diplomaRef = null;// Reference to Diploma. Not used
@@ -320,26 +353,33 @@ public final class InterchangeStudentGradeGenerator {
                     for (Grade grade : gradeList) {
                         GradeIdentityType git = new GradeIdentityType();
                         git.setGradingPeriodReference(grade.getGradingPeriodReference());
-                        SLCStudentSectionAssociationReferenceType slcssa = new SLCStudentSectionAssociationReferenceType();
-                        StudentSectionAssociationReferenceType ssa = grade.getStudentSectionAssociationReference();
-
-                        slcssa.setId(ssa.getId());
-                        SLCStudentSectionAssociationIdentityType slcssai = new SLCStudentSectionAssociationIdentityType();
-                        StudentSectionAssociationIdentityType ssai = ssa.getStudentSectionAssociationIdentity();
-
-                        StudentReferenceType stuRef = new StudentReferenceType();
-                        SectionReferenceType secRef = new SectionReferenceType();
-
-                        stuRef.setStudentIdentity(ssai.getStudentIdentity());
-                        secRef.setSectionIdentity(ssai.getSectionIdentity());
-
-                        slcssai.setStudentReference(stuRef);
-                        slcssai.setSectionReference(secRef);
-
-
-                        slcssa.setStudentSectionAssociationIdentity(slcssai);
-
-                        git.setStudentSectionAssociationReference(slcssa);
+                        git.setStudentSectionAssociationReference(grade.getStudentSectionAssociationReference());
+                        // SLCStudentSectionAssociationReferenceType slcssa = new
+                        // SLCStudentSectionAssociationReferenceType();
+                        // SLCStudentSectionAssociationReferenceType ssa =
+                        // grade.getStudentSectionAssociationReference();
+                        //
+                        // // slcssa.setId(ssa.getId());
+                        // // SLCStudentSectionAssociationIdentityType slcssai = new
+                        // SLCStudentSectionAssociationIdentityType();
+                        // SLCStudentSectionAssociationIdentityType ssai =
+                        // ssa.getStudentSectionAssociationIdentity();
+                        //
+                        // StudentReferenceType stuRef = new StudentReferenceType();
+                        // SectionReferenceType secRef = new SectionReferenceType();
+                        //
+                        // // stuRef.setStudentIdentity(ssai.getStudentIdentity());
+                        // // secRef.setSectionIdentity(ssai.getSectionIdentity());
+                        // //
+                        // // slcssai.setBeginDate(StudentSectionAssociationGenerator.BEGIN_DATE);
+                        // //
+                        // // slcssai.setStudentReference(stuRef);
+                        // // slcssai.setSectionReference(secRef);
+                        //
+                        //
+                        // slcssa.setStudentSectionAssociationIdentity(ssai);
+                        //
+                        // git.setStudentSectionAssociationReference(slcssa);
                         GradeReferenceType grt = new GradeReferenceType();
                         grt.setGradeIdentity(git);
                         gradeReferences.add(grt);
@@ -348,20 +388,58 @@ public final class InterchangeStudentGradeGenerator {
 
                 // References to StudentCompetency(For LearningObjectives and
                 // StudentCompetencyObjectives)
-                List<ReferenceType> scReferences = new ArrayList<ReferenceType>();
+                List<StudentCompetencyReferenceType> scReferences = new ArrayList<StudentCompetencyReferenceType>();
                 List<String> loIds = reportCardMeta.getLearningObjectiveIds();
                 List<String> scIds = reportCardMeta.getStudentCompetencyIds();
 
-                for (String loId : loIds) {
-                    ReferenceType loRef = new ReferenceType();
-                    loRef.setRef(new Ref(ID_PREFIX_LO + reportCardId + "_" + loId + "_" + studentId));
-                    scReferences.add(loRef);
+                for (int i = 0; i < loIds.size(); i++) {
+                    String loId = loIds.get(i);
+                    SectionMeta sectionMeta = reportCardMeta.getLearningObjectiveSections().get(i);
+
+                    SectionReferenceType sectionRef = getSectionRef(sectionMeta.id, schoolId);
+                    StudentSectionAssociationReferenceType studentSectionRef = StudentGradeGenerator
+                            .getStudentSectionAssociationReference(studentRef, sectionRef);
+
+                    // ReferenceType loRef = new ReferenceType();
+                    // loRef.setRef(new Ref(ID_PREFIX_LO + reportCardId + "_" + loId + "_" +
+                    // studentId));
+
+                    LearningObjectiveReferenceType loRef = new LearningObjectiveReferenceType();
+                    LearningObjectiveIdentityType loIdentity = new LearningObjectiveIdentityType();
+                    LearningStandardId lsi = new LearningStandardId();
+                    lsi.setIdentificationCode(ID_PREFIX_LO + loId);
+
+                    loIdentity.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+                    loIdentity.setObjective(loId);
+                    loIdentity.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
+                    loRef.setLearningObjectiveIdentity(loIdentity);
+
+                    StudentCompetencyReferenceType scRef = StudentCompetancyGenerator.getStudentCompetencyReference(
+                            loRef, "1", studentSectionRef);
+                    scReferences.add(scRef);
                 }
 
-                for (String scId : scIds) {
-                    ReferenceType scoRef = new ReferenceType();
-                    scoRef.setRef(new Ref(ID_PREFIX_SCO + reportCardId + "_" + scId + "_" + studentId));
-                    scReferences.add(scoRef);
+                for (int i = 0; i < scIds.size(); i++) {
+                    String scId = scIds.get(i);
+                    SectionMeta sectionMeta = reportCardMeta.getStudentCompetencyObjectiveSections().get(i);
+
+                    SectionReferenceType sectionRef = getSectionRef(sectionMeta.id, schoolId);
+                    StudentSectionAssociationReferenceType studentSectionRef = StudentGradeGenerator
+                            .getStudentSectionAssociationReference(studentRef, sectionRef);
+
+                    // ReferenceType scoRef = new ReferenceType();
+                    // scoRef.setRef(new Ref(ID_PREFIX_SCO + reportCardId + "_" + scId + "_" +
+                    // studentId));
+
+                    StudentCompetencyObjectiveReferenceType scoRef = new StudentCompetencyObjectiveReferenceType();
+                    StudentCompetencyObjectiveIdentityType scoIdentity = new StudentCompetencyObjectiveIdentityType();
+                    scoIdentity.setStudentCompetencyObjectiveId(ID_PREFIX_SCO + reportCardId + "_" + scId);
+                    // lina
+                    scoRef.setStudentCompetencyObjectiveIdentity(scoIdentity);
+
+                    StudentCompetencyReferenceType scRef = StudentCompetancyGenerator.getStudentCompetencyReference(
+                            scoRef, "1", studentSectionRef);
+                    scReferences.add(scRef);
                 }
 
                 GradingPeriodMeta gpMeta = reportCardMeta.getGradingPeriod();// Reference to

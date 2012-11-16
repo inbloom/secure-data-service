@@ -17,29 +17,24 @@
 
 package org.slc.sli.test.generators;
 
-import java.util.List;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
+import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 
 public class SLCGradingPeriodIdentityTypeGenerator {
     Random generator = new Random(31);
 
-    public SLCGradingPeriodIdentityType getGradingPeriodIdentityType(List<String> StateOrgnizationId,
-            String EducationOrgIdentificationCode) {
+    public SLCGradingPeriodIdentityType getGradingPeriodIdentityType(String StateOrgnizationId) {
         SLCGradingPeriodIdentityType gpit = new SLCGradingPeriodIdentityType();
         gpit.setGradingPeriod(getGradingPeriodType());
         gpit.setBeginDate("2011-03-04");
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
 
-        for (String stateOrgId : StateOrgnizationId) {
-            // eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(StateOrgnizationId);
-            eoit.setStateOrganizationId(stateOrgId);
-        }
+        eoit.setStateOrganizationId(StateOrgnizationId);
         EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         eort.setEducationalOrgIdentity(eoit);
         gpit.setEducationalOrgReference(eort);
