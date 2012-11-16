@@ -35,3 +35,15 @@ Scenario: Rick Rogers querying on the restricted fields - incorrect values
   Given parameter "schoolFoodServicesEligibility" is "Reduced price"
   When I make an API call to get "<'MARVIN MILLER'>"
   Then I should receive a return code of 404
+  
+Scenario:  As a Aggregate Viewer I should see my own information
+  Given I am logged in using "msmith" "msmith1234" to realm "IL"
+  When I navigate to GET "/v1/staff/07294225-e6bc-44c9-97d7-2fff22e0de22"
+  Then I should receive a return code of 200
+  And I should see my personal information
+  
+  When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations/c7be3645-8044-0ad0-8087-5d8356e09143"
+  Then I should receive a return code of 200
+  And I should see my personal information
+  When I make an API call to get "<'MARVIN MILLER'>"
+  Then I should receive a return code of 403

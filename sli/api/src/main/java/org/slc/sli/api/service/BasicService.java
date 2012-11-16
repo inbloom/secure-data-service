@@ -851,6 +851,10 @@ public class BasicService implements EntityService {
     private void filterFields(Map<String, Object> eb) {
         filterFields(eb, "");
         complexFilter(eb);
+        if (eb.keySet().size() == 0) {
+            // We filtered everything out, so you can't have access
+            throw new AccessDeniedException("Unable to access this entity");
+        }
     }
 
     private void complexFilter(Map<String, Object> eb) {
@@ -913,7 +917,8 @@ public class BasicService implements EntityService {
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
-                if (principal.getEntity().getEntityId().equals(value)) {
+                String principalId = principal.getEntity().getEntityId();
+                if (principalId.equals(value)) {
                     return;
                 } else if (!auths.contains(neededRight)) {
                     toRemove.add(fieldName);
@@ -955,7 +960,7 @@ public class BasicService implements EntityService {
      *
      * @param query The query to check
      */
-    protected void checkFieldAccess(NeutralQuery query) {
+    public void checkFieldAccess(NeutralQuery query) {
 
         if (query != null) {
             // get the authorities

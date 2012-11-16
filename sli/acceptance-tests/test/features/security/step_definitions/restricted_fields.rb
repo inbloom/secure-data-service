@@ -20,3 +20,7 @@ limitations under the License.
 Then /^I should not see the restricted field "([^\"]*)"$/ do |field|
   assert(@result[field] == nil, "The restricted field #{field} is visible")
 end
+
+Then /^I should see my personal information$/ do
+  assert(@result.keys.count > 1)
+end

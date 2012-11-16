@@ -16,13 +16,14 @@
 
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.Arrays;
+
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.util.Arrays;
 
 /**
  * Helper class for resource services
@@ -35,7 +36,9 @@ public class ResourceServiceHelper {
     public ApiQuery getApiQuery(EntityDefinition definition, final URI requestURI) {
         ApiQuery apiQuery = new ApiQuery(requestURI);
         addTypeCriteria(definition, apiQuery);
-
+        // Check the query
+        BasicService service = (BasicService) definition.getService();
+        service.checkFieldAccess(apiQuery);
         return apiQuery;
     }
 
