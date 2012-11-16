@@ -35,11 +35,16 @@ FOOTER
       f.write(@header)
       #This needs to map to courses
 
-      for id in 0..yamlHash['numCourseOffering']-1 do
-        f.write CourseOffering.new(id.to_s, prng).render
+      if !yamlHash['numCourseOffering'].nil?
+        for id in 0..yamlHash['numCourseOffering']-1 do
+          f.write CourseOffering.new(id.to_s, prng).render
+        end
       end
-      for id in 0..yamlHash['numBellSchedule']-1 do
-        f.write BellSchedule.new(id.to_s, prng).render
+
+      if !yamlHash['numBellSchedule'].nil?
+        for id in 0..yamlHash['numBellSchedule']-1 do
+          f.write BellSchedule.new(id.to_s, prng).render
+        end
       end
 
       f.write(@footer)
