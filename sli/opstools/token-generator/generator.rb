@@ -6,7 +6,7 @@ require 'securerandom'
 options = {}
 
 ARGV.options do |opts|
-  opts.banner = "Usage: generator -t Tenant -u User -a Application -r Roles -e expiration [options]"
+  opts.banner = "Usage: generator -t Tenant -u User -c Application -r Roles -e expiration [options]"
   options[:mongo] = 'localhost:27017'
   options[:realm] = "SandboxIDP"
   opts.on(:OPTIONAL, /.+/, '-m', '--mongo','The host and port for mongo (Default: localhost:27017)') do |mongo|
@@ -95,7 +95,7 @@ principal[:realm] = realm['_id']
 principal[:roles] = options[:roles]
 principal[:tenantId] = options[:tenant]
 principal[:name] = user['body']['name']['firstName'] + " " + user['body']['name']['lastSurname']
-principal[:externalId] = user['metaData']['externalId']
+principal[:externalId] = user['body']['staffUniqueStateId']
 principal[:id] = principal[:externalId] + "@" + principal[:tenantId]
 body[:principal] = principal
 body[:appSession] = appSessions
