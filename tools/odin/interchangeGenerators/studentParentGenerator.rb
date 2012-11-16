@@ -38,10 +38,15 @@ FOOTER
     File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
       f.write(@header)
       interchanges = {:studentParent => f}
-      for id in 0..yamlHash['studentCount']-1 do
+      for id in 1..yamlHash['studentCount'] do
         work_order = {:id => id, :sessions => []}
         builder = StudentBuilder.new(work_order, interchanges)
         builder.build
+
+        if (id % 100000 == 0)
+          puts "\t#{id} students enrolled."
+        end
+
       end
       f.write(@footer)
     end

@@ -36,13 +36,13 @@ FOOTER
       #This needs to map to courses
 
       if !yamlHash['numCourseOffering'].nil?
-        for id in 0..yamlHash['numCourseOffering']-1 do
+        for id in 1..yamlHash['numCourseOffering'] do
           f.write CourseOffering.new(id.to_s, prng).render
         end
       end
 
       if !yamlHash['numBellSchedule'].nil?
-        for id in 0..yamlHash['numBellSchedule']-1 do
+        for id in 1..yamlHash['numBellSchedule'] do
           f.write BellSchedule.new(id.to_s, prng).render
         end
       end
