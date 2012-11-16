@@ -421,7 +421,7 @@ public class Denormalizer {
 
             DBObject patchUpdate = toDenormalizedObjectUpdate(update);
 
-            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, true, true, WriteConcern.SAFE)
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true, WriteConcern.SAFE)
                         .getLastError().ok();
 
             return result;
