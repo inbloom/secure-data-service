@@ -28,14 +28,6 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -64,6 +56,13 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -88,9 +87,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private TenantDA tenantDA;
-
-    @Value("${sli.sandbox.enabled}")
-    private boolean isSandboxEnabled;
 
     private MessageSource messageSource;
 
@@ -207,13 +203,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         MongoCommander.exec(dbName, INDEX_SCRIPT, " ");
 
-        if(!isSandboxEnabled) {
-            LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = false;");
-        } else {
-            LOG.info("Running tenant sharding script for tenant: {} db: {}", tenantId, dbName);
-            MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "'; shardOnly = true;");
-        }
+        LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
+        MongoCommander.exec("admin", PRE_SPLITTING_SCRIPT, "tenant='" + dbName + "';");
 
         tenantDA.setTenantReadyFlag(tenantId);
     }
