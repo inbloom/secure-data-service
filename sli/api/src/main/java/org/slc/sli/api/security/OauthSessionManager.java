@@ -32,7 +32,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 public interface OauthSessionManager {
-    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId, boolean sessionExpired);
+    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String realmId, String samlId, boolean sessionExpired);
     public Entity getSessionForSamlId(String samlId);
     public Map<String, Object> getAppSession(String samlId, Entity session);
     public void updateSession(Entity session);
