@@ -50,7 +50,7 @@ class Odin
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    puts "\t Total generation time #{finalTime} secs"
 
     genCtlFile
 

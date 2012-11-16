@@ -32,6 +32,7 @@ FOOTER
   end
 
   def write(prng, yamlHash)
+    stime = Time.now
     File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
       f.write(@header)
       interchanges = {:studentParent => f}
@@ -42,6 +43,8 @@ FOOTER
       end
       f.write(@footer)
     end
+    elapsed = Time.now - stime
+    puts "\t#{yamlHash['studentCount']} students generated in #{elapsed} seconds."
   end
   
 end
