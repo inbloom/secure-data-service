@@ -28,16 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -60,6 +50,15 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -134,8 +133,8 @@ public class BasicService implements EntityService {
 
     @Override
     public long count(NeutralQuery neutralQuery) {
-        checkRights(readRight);
-        checkFieldAccess(neutralQuery);
+        // checkRights(readRight);
+        // checkFieldAccess(neutralQuery);
 
         if (useContextResolver()) {
             NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
@@ -155,8 +154,8 @@ public class BasicService implements EntityService {
      */
     @Override
     public Iterable<String> listIds(NeutralQuery neutralQuery) {
-        checkRights(readRight);
-        checkFieldAccess(neutralQuery);
+        // checkRights(readRight);
+        // checkFieldAccess(neutralQuery);
 
         if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
@@ -292,8 +291,8 @@ public class BasicService implements EntityService {
     }
 
     private Entity getEntity(String id, NeutralQuery neutralQuery) {
-        checkAccess(readRight, id);
-        checkFieldAccess(neutralQuery);
+        // checkAccess(readRight, id);
+        // checkFieldAccess(neutralQuery);
 
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
@@ -329,8 +328,8 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        checkRights(readRight);
-        checkFieldAccess(neutralQuery);
+        // checkRights(readRight);
+        // checkFieldAccess(neutralQuery);
 
         List<String> idList = new ArrayList<String>();
 
@@ -368,8 +367,8 @@ public class BasicService implements EntityService {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
-        checkRights(readRight);
-        checkFieldAccess(neutralQuery);
+        // checkRights(readRight);
+        // checkFieldAccess(neutralQuery);
 
         Collection<Entity> entities;
         if (useContextResolver()) {
@@ -398,7 +397,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean exists(String id) {
-        checkRights(readRight);
+        // checkRights(readRight);
 
         boolean exists = false;
         NeutralQuery query = new NeutralQuery();
@@ -914,7 +913,9 @@ public class BasicService implements EntityService {
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
-                if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                if (principal.getEntity().getEntityId().equals(value)) {
+                    return;
+                } else if (!auths.contains(neededRight)) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
