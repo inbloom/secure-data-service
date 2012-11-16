@@ -25,10 +25,13 @@ limitations under the License.
 class WorldGenerator
   def initialize   
     @edOrgs = Hash.new
+    @edOrgs["sea"]        = []
     @edOrgs["leas"]       = []
     @edOrgs["elementary"] = []
     @edOrgs["middle"]     = []
     @edOrgs["high"]       = []
+
+#    @education_organization_writer = EducationOrganizationGenerator.new
   end
 
   def create(rand, yaml)
@@ -49,6 +52,7 @@ class WorldGenerator
   	puts "\tnumber of years:    #{num_years}"
 	
   	puts "edOrgs: #{@edOrgs}"
+  	# { stateOrganizationId:2, parent:1, sessions:[], teachers:[], staff:[] }
   end
 
   def create_from_schools(rand, yaml)
