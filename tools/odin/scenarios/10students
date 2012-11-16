@@ -6,3 +6,5 @@ numLEA: 1
 studentsPerSchool: 10
 numPrograms: 4
 numCourses: 2
+numCourseOffering: 2
+numBellSchedule: 2
