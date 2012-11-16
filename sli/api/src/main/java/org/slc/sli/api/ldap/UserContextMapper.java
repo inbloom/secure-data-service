@@ -38,7 +38,7 @@ public class UserContextMapper implements ContextMapper {
             try {
                 return test.parse(dateString);
             } catch (ParseException e) {
-                e.printStackTrace();
+                error("failed parsing ldap string to date {}", e);
             }
         }
         return null;
