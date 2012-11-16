@@ -63,7 +63,7 @@ default:
 
         # Ldap server user and pass
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-        sli.api.ldap.pass: 506983BCB4FA5BE9F909E7C1CF03F495
+        sli.api.ldap.pass: 76F2FD74E0CEF4808FFD476EC604CFB4
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
