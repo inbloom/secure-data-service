@@ -210,7 +210,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-CourseTranscript">
 		<xs:annotation>
-			<xs:documentation>Changed types of CourseReference, EducationOrganizationReference and StudentAcademicRecordReference to SLC reference types.</xs:documentation>
+			<xs:documentation>Changed types of CourseReference and StudentAcademicRecordReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>courseTranscript</sli:recordType>
 			</xs:appinfo>
@@ -234,7 +234,7 @@
 					<xs:element name="FinalNumericGradeEarned" type="xs:integer" minOccurs="0"/>
 					<xs:element name="CourseRepeatCode" type="CourseRepeatCodeType" minOccurs="0"/>
 					<xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
-					<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType" maxOccurs="unbounded"/>
+					<xs:element name="EducationOrganizationReference" type="EducationalOrgReferenceType" maxOccurs="unbounded"/>
 					<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1259,7 +1259,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-CourseIdentityType">
 		<xs:annotation>
-			<xs:documentation>Changed to use an embedded EducationalOrgReference and added a UniqueCourseId, rather than CourseCode.</xs:documentation>
+			<xs:documentation>Changed to use an embedded EducationalOrgReference and UniqueCourseId, rather than CourseCode.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="EducationalOrgReference" type="SLC-EducationalOrgReferenceType">
@@ -2078,7 +2078,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentReferenceType">
 		<xs:annotation>
-			<xs:documentation>Provides alternative references for Student reference during interchange. Use XML IDREF to reference a student record that is included in the interchange</xs:documentation>
+			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
 			<xs:appinfo>
 				<sli:applyKeyFields>true</sli:applyKeyFields>
 				<sli:refType>student</sli:refType>
