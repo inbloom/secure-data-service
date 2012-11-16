@@ -84,7 +84,7 @@ public class XmlSignatureHelperTest {
     public void checkSamlUntrusted() throws KeyStoreException, InvalidAlgorithmParameterException,
             CertificateException, NoSuchAlgorithmException, MarshalException {
         Document document = getDocument("adfs-invalid.xml");
-        Assert.assertTrue(!validator.isDocumentTrusted(document));
+        Assert.assertTrue(!validator.isDocumentTrusted(document, "CN=*.slidev.org,OU=Domain Control Validated,O=*.slidev.org"));
     }
 
     @Ignore
@@ -121,6 +121,6 @@ public class XmlSignatureHelperTest {
         Assert.assertTrue("Should be true if Signature contains SignedInfo tag", foundSignedInfo);
         Assert.assertTrue("Should be true if Signature contains SignatureValue tag", foundSignatureValue);
         Assert.assertTrue("Should be true if Signature contains KeyInfo tag", foundKeyInfo);
-        Assert.assertTrue(validator.isDocumentTrusted(signedDom));
+        Assert.assertTrue(validator.isDocumentTrusted(signedDom, "CN=*.slidev.org,OU=Domain Control Validated,O=*.slidev.org"));
     }
 }

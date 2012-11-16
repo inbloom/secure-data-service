@@ -105,7 +105,7 @@ public class DefaultSAML2ValidatorTest {
     @Test
     public void testIsUntrustedAssertionTrusted() throws Exception {
         Document doc = getDocument("adfs-invalid.xml");
-        Assert.isTrue(!validator.isDocumentTrusted(doc));
+        Assert.isTrue(!validator.isDocumentTrusted(doc, "CN=*.slidev.org,OU=Domain Control Validated,O=*.slidev.org"));
     }
 
 }
