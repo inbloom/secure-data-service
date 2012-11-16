@@ -28,7 +28,6 @@ password = APP_CONFIG["email_password"]
 if username && password && (username.strip != "") && (password.strip != "")
     smtp_settings[:user_name] = username.strip
     smtp_settings[:password] = PropertyDecryptorHelper.decrypt(password.strip)
-    puts "email password is: #{smtp_settings[:password]}"
     smtp_settings[:authentication] = :plain
 end 
 
