@@ -113,8 +113,10 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             }
             Set<String> tempSet = new HashSet<String>(staffProgramIds);
             tempSet.retainAll(studentProgramIds);
-            if (tempSet.size() == 0 && quitOnFirstInvalid) {
-                return validated;
+            if (tempSet.size() == 0) {
+                if (quitOnFirstInvalid) {
+                    return validated;
+                }
             } else {
                 validated.add(id);
             }
@@ -176,8 +178,10 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
             Set<String> tempSet = new HashSet<String>(staffCohortIds);
             tempSet.retainAll(studentCohortIds);
-            if (tempSet.size() == 0 && quitOnFirstInvalid) {
-                return validated;
+            if (tempSet.size() == 0) {
+                if (quitOnFirstInvalid) {
+                    return validated;
+                }
             } else {
                 validated.add(id);
             }
@@ -218,8 +222,10 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
             Set<String> tempSet = new HashSet<String>(teacherSections);
             tempSet.retainAll(studentSections);
-            if (tempSet.size() == 0 && quitOnFirstInvalid) {
-                return validated;
+            if (tempSet.size() == 0) {
+                if (quitOnFirstInvalid) {
+                    return validated;
+                }
             } else {
                 validated.add(id);
             }
