@@ -325,7 +325,7 @@ public class Denormalizer {
             result &= template.getCollection(denormalizeToEntity)
                     .update(parentQuery, buildPullObject(entities), false, true, WriteConcern.SAFE).getLastError().ok();
             result &= template.getCollection(denormalizeToEntity)
-                    .update(parentQuery, buildPushObject(entities), false, true, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPushObject(entities), true, true, WriteConcern.SAFE).getLastError().ok();
             referencedEntityMap = null;
 
             return result;
@@ -403,7 +403,7 @@ public class Denormalizer {
             TenantContext.setIsSystemCall(false);
 
             return template.getCollection(denormalizeToEntity)
-                    .update(parentQuery, buildPullObject(subEntities), false, true, WriteConcern.SAFE).getLastError().ok();
+                    .update(parentQuery, buildPullObject(subEntities), true, true, WriteConcern.SAFE).getLastError().ok();
         }
 
         private Entity findTypeEntity(String id) {
@@ -421,7 +421,7 @@ public class Denormalizer {
 
             DBObject patchUpdate = toDenormalizedObjectUpdate(update);
 
-            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, false, true, WriteConcern.SAFE)
+            boolean result = template.getCollection(denormalizeToEntity).update(parentQuery, patchUpdate, true, true, WriteConcern.SAFE)
                         .getLastError().ok();
 
             return result;

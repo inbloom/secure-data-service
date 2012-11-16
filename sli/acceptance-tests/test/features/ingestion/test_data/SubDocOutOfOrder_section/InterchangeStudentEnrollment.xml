@@ -3,27 +3,6 @@
 	<StudentSectionAssociation>
 		<StudentReference>
 			<StudentIdentity>
-				<StudentUniqueStateId>100000000</StudentUniqueStateId>
-			</StudentIdentity>
-		</StudentReference>
-		<SectionReference>
-			<SectionIdentity>
-			    <EducationalOrgReference>
-			    <EducationalOrgIdentity>
-				<StateOrganizationId>Able School</StateOrganizationId>
-				</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
-			</SectionIdentity>
-		</SectionReference>
-		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
-		<HomeroomIndicator>true</HomeroomIndicator>
-		<RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
-	</StudentSectionAssociation>
-	<StudentSectionAssociation>
-		<StudentReference>
-			<StudentIdentity>
 				<StudentUniqueStateId>100000001</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
