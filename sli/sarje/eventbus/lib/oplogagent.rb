@@ -39,11 +39,17 @@ module Eventbus
     # read_oplogs blocks on cursor tail read
     def handle_oplogs
       cursor = get_oplog_mongo_cursor(@config[:mongo_ignore_initial_read])
+      processed = 0
       loop do
         while not cursor.closed?
           begin
             doc = cursor.next
             if doc
+              processed += 1
+              if (processed == @config[:oplog_proccessed_before_saving_timestamp])
+                save_to_mongo(doc["ts"].seconds)
+                processed = 0
+              end
               yield doc
             else
               sleep(1)
@@ -61,12 +67,29 @@ module Eventbus
         connection = get_connection
         db = connection.db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
-        cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
+        cursor = nil
+        
         if initial_empty
           @logger.info "ignoring initial readings" if @logger
+          last_ts = get_last_timestamp()
+          # if last timestamp is read, then read to timestamp that is greater than it
+          if last_ts
+            last_ts = Integer(last_ts)
+            cursor = coll.find({'ts' => {'$gte'=> BSON::Timestamp.new(last_ts, 0) }})
+            cursor.add_option(Mongo::Constants::OP_QUERY_TAILABLE)
+            cursor.add_option(Mongo::Constants::OP_QUERY_OPLOG_REPLAY)
+          else
+            # skip to the current last entry
+            start_count = coll.count
+            cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true, :order => [['$natural', 1]]).skip(start_count- 1)
+          end
+          
           while cursor.has_next?
             cursor.next_document
           end
+          @logger.debug "reached end of cursor" if @logger
+        else
+          cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
         end
       rescue Exception => e
         @logger.debug "exception occurred when connecting to mongo for oplog: #{e}" if @logger
@@ -85,6 +108,38 @@ module Eventbus
       else
         Mongo::ReplSetConnection.new(hosts)
       end
+    end
+    
+    def save_to_mongo(seconds)
+      coll = get_oplog_marker_collection()
+      node_id = @config[:node_id] + Socket.gethostname 
+      coll.remove({"nodeId" => node_id})
+      coll.insert({:nodeId => node_id, :timeStamp => seconds, :lastUpdated => Time.now})
+      #TODO figure out why _id is not added in update upsert
+      #doc = coll.find_and_modify({
+      #  :query => {"nodeId" => node_id},
+      #  :update => {"$set" => {"nodeId" => node_id, "timeStamp" => seconds, "lastUpdated" => Time.now}},
+      #  :new => true,
+      #  :upsert => true
+      #})
+    end
+    
+    def get_last_timestamp()
+      coll = get_oplog_marker_collection()
+      node_id = @config[:node_id] + Socket.gethostname 
+      doc = coll.find_one({"nodeId" => node_id})
+      if doc 
+        return doc["timeStamp"].to_s
+      else
+        return nil
+      end
+    end
+    
+    def get_oplog_marker_collection()
+      connection = get_connection
+      db = connection.db(@config[:mongo_db])
+      coll = db[@config[:mongo_timestamp_marker]]
+      return coll
     end
   end
 
