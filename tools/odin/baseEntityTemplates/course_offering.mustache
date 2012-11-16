@@ -1,16 +1,7 @@
 <CourseOffering>
     <LocalCourseCode>LocalCourseCode</LocalCourseCode>
     <LocalCourseTitle>LocalCourseTitle</LocalCourseTitle>
-    <SchoolReference id="idvalue1" ref="idvalue0"/>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>SessionName</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-    <CourseReference>
-      <CourseIdentity>
-        <EducationalOrgReference id="idvalue2" ref="idvalue0"/>
-        <UniqueCourseId>UniqueCourseId</UniqueCourseId>
-      </CourseIdentity>
-    </CourseReference>
+    {{>partials/_school_reference}}
+   	{{>partials/_session_reference}}
+	{{>partials/_course_reference}}
   </CourseOffering>
