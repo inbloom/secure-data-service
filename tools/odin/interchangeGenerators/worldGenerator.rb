@@ -23,7 +23,7 @@ limitations under the License.
 # (1) create world using number of students + time information (begin year, number of years)
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldGenerator
-  def initialize   
+  def initialize
     @edOrgs = Hash.new
     @edOrgs["sea"]        = []
     @edOrgs["leas"]       = []
@@ -45,12 +45,12 @@ class WorldGenerator
   	num_students = yaml["studentCount"]
   	begin_year   = yaml["beginYear"]
   	num_years    = yaml["numYears"]
-  	
+
   	puts "Initial conditions for creating world:"
   	puts "\tnumber of students: #{num_students}"
   	puts "\tbegin year:         #{begin_year}"
   	puts "\tnumber of years:    #{num_years}"
-	
+
   	puts "edOrgs: #{@edOrgs}"
   	# { stateOrganizationId:2, parent:1, sessions:[], teachers:[], staff:[] }
   end
@@ -63,9 +63,19 @@ class WorldGenerator
   end
 
   def update_edOrgs_for_time(rand, yaml)
-  	begin_year   = yaml["beginYear"]
-  	num_years    = yaml["numYears"]
-  	
+    begin_year   = yaml["beginYear"]
+    num_years    = yaml["numYears"]
+
+    if begin_year.nil?
+      puts "beginYear scenario property not set. Using default (2012)"
+      begin_year = 2012
+    end
+
+    if num_years.nil?
+      puts "numYears scenario property not set. Using default (1)"
+      num_years = 1
+    end
+
   	# todo: need to create leas before this encapsulates year iteration loop
   	#for lea in @edOrgs["leas"] do
   	#end
