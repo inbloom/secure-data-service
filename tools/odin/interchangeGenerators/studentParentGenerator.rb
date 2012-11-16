@@ -34,9 +34,11 @@ FOOTER
   def write(prng, yamlHash)
     File.open("generated/InterchangeStudentParent.xml", 'w') do |f|
       f.write(@header)
+      interchanges = {:studentParent => f}
       for id in 0..yamlHash['studentCount']-1 do
-        student = Student.new id, prng
-        f.write(student.render)
+        work_order = {:id => id, :sessions => []}
+        builder = StudentBuilder.new(work_order, interchanges)
+        builder.build
       end
       f.write(@footer)
     end
