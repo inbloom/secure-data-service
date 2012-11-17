@@ -18,6 +18,8 @@ limitations under the License.
 
 require_relative "./interchangeGenerator.rb"
 require_relative "../student_builder.rb"
+require_relative "../demographics.rb"
+
 Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
 
 class StudentParentGenerator < InterchangeGenerator
@@ -44,13 +46,15 @@ FOOTER
   def write(prng, yamlHash)
     stime = Time.now
     numSchools = (1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil
+    demographics = Demographics.new
     File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParent|
       File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollment|
         studentParent.write(@header)
         enrollment.write(@enroll_header)
         interchanges = {:studentParent => studentParent, :enrollment => enrollment}
         for id in 1..yamlHash['studentCount'] do
-          work_order = {:id => id, :sessions => (1..yamlHash['numYears']).map{|i| {:school => prng.rand(numSchools), :sections => []}}}
+          work_order = {:id => id, :birth_day_after => Date.new(2000, 9, 1), :demographics => demographics,
+                        :sessions => (1..yamlHash['numYears']).map{|i| {:school => prng.rand(numSchools), :sections => []}}}
           builder = StudentBuilder.new(work_order, interchanges)
           builder.build
           if (id % 100000 == 0)

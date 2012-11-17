@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../student_builder.rb'
+require_relative '../demographics.rb'
 
 describe "StudentBuilder" do
   describe "#build" do
@@ -25,7 +26,8 @@ describe "StudentBuilder" do
                                                                                   {:id => 33, :edOrg => 64},
                                                                                   {:id => 34, :edOrg => 128}]},
                                                     {:school => 65, :sections => [{:id => 16, :edOrg => 65},
-                                                                                  {:id => 17, :edOrg => 65}]}]}}
+                                                                                  {:id => 17, :edOrg => 65}]}],
+                         :demographics => Demographics.new, :birth_day_after => Date.new(2000, 9, 1)}}
       let(:studentParent) {StringIO.new('', 'w')}
       let(:enrollment) {StringIO.new('', 'w')}
       let(:builder) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
