@@ -22,6 +22,7 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +36,7 @@ public class IfThenElseTest {
     MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         JavaSnippet testSnip = new NotEqual(new VarNameExpr("var1"), new VarNameExpr("var2"));
         JavaSnippet thenSnip = new TestAnnotation();
         JavaSnippet elseSnip = new ReturnStmt(new VarNameExpr("returnVal"));

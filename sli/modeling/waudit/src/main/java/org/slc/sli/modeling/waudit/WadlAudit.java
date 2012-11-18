@@ -52,8 +52,12 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.slc.sli.modeling.wadl.writer.WadlWriter;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class WadlAudit {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlAudit.class);
 
     private static final String NAMESPACE_WWW_SLCEDU_ORG_API_V1 = "http://www.slcedu.org/api/v1";
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
@@ -200,7 +204,7 @@ public final class WadlAudit {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new WadlAuditRuntimeException(e);
                 }
             } else {
                 try {
@@ -239,18 +243,19 @@ public final class WadlAudit {
                     WadlWriter.writeDocument(app, prefixMappings, outLocation);
 
                 } catch (final FileNotFoundException e) {
-                    System.err.println(e.getMessage());
+                    LOG.warn(e.getMessage());
                 }
             }
         } catch (final OptionException e) {
             // Caused by illegal arguments.
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
 
         try {
             @SuppressWarnings("unused")
             final ModelIndex model = new DefaultModelIndex(XmiReader.readModel("SLI.xmi"));
         } catch (final FileNotFoundException e) {
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -259,7 +264,7 @@ public final class WadlAudit {
      */
     private static final Map<String, QName> computeElementNames(final PsmConfig<Type> psm, final String namespaceUri) {
         if (namespaceUri == null) {
-            throw new NullPointerException("namespaceUri");
+            throw new IllegalArgumentException("namespaceUri");
         }
         final Map<String, QName> elementNames = new HashMap<String, QName>();
         elementNames.put("Custom", new QName(namespaceUri, "custom"));

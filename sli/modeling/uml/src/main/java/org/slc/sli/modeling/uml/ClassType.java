@@ -35,14 +35,14 @@ public class ClassType extends ComplexType implements Navigable {
                 return true;
             } else {
                 if (required) {
-                    throw new NullPointerException("rhs");
+                    throw new IllegalArgumentException("rhs");
                 } else {
                     throw new IllegalArgumentException("lhs is specified, but rhs is null.");
                 }
             }
         } else {
             if (required) {
-                throw new NullPointerException("lhs");
+                throw new IllegalArgumentException("lhs");
             } else {
                 if (rhs == null) {
                     return false;
@@ -78,10 +78,10 @@ public class ClassType extends ComplexType implements Navigable {
             final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (attributes == null) {
-            throw new NullPointerException("attributes");
+            throw new IllegalArgumentException("attributes");
         }
         checkAssociationEnds(lhs, rhs, !isClassType);
         this.isAbstract = isAbstract;

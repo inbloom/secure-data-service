@@ -37,14 +37,14 @@ public class DmAttributeTest {
 		
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullNameThrowsException() {
 		String value = "bar";
 		new DmAttribute(null, value);
 		
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullValueThrowsException() {
 		String key = "foo";
 		QName qName = new QName(key);

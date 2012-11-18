@@ -37,13 +37,13 @@ public class Representation extends WadlElement {
             final List<String> profiles, final List<Documentation> doc, final List<Param> params) {
         super(doc);
         if (null == mediaType) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         if (null == profiles) {
-            throw new NullPointerException("profiles");
+            throw new IllegalArgumentException("profiles");
         }
         if (null == params) {
-            throw new NullPointerException("params");
+            throw new IllegalArgumentException("params");
         }
         this.id = id;
         this.elementName = elementName;

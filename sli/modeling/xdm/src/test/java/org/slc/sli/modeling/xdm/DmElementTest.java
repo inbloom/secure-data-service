@@ -56,12 +56,12 @@ public final class DmElementTest {
         new DmElement(new QName(""), new ArrayList<DmComment>());
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testConstructionNullName() {
     	new DmElement(null, new ArrayList<DmNode>());
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testConstructionNullNodes() {
     	new DmElement(new QName(""), null);
     }

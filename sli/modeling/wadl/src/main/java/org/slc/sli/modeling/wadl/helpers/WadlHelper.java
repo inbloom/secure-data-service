@@ -48,7 +48,7 @@ public final class WadlHelper {
      */
     public static List<Param> getRequestParams(final Method method) {
         if (method == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         }
         final Request request = method.getRequest();
         if (request != null) {

@@ -32,8 +32,13 @@ public final class Assignment implements JavaSnippet {
     private final JavaSnippetExpr rhs;
 
     public Assignment(final JavaParam lhs, final JavaSnippetExpr rhs) {
-        if (lhs == null) throw new NullPointerException("lhs");
-        if (rhs == null) throw new NullPointerException("rhs");
+        if (lhs == null) {
+            throw new IllegalArgumentException("lhs");
+        }
+
+        if (rhs == null) {
+            throw new IllegalArgumentException("rhs");
+        }
 
         this.lhs = lhs;
         this.rhs = rhs;

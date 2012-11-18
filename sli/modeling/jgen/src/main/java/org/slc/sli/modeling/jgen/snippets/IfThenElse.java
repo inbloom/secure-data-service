@@ -29,13 +29,13 @@ public final class IfThenElse implements JavaSnippet {
 
     public IfThenElse(final JavaSnippet testSnippet, final JavaSnippet thenSnippet, final JavaSnippet elseSnippet) {
         if (testSnippet == null) {
-            throw new NullPointerException("testSnippet");
+            throw new IllegalArgumentException("testSnippet");
         }
         if (thenSnippet == null) {
-            throw new NullPointerException("thenSnippet");
+            throw new IllegalArgumentException("thenSnippet");
         }
         if (elseSnippet == null) {
-            throw new NullPointerException("elseSnippet");
+            throw new IllegalArgumentException("elseSnippet");
         }
         this.testSnippet = testSnippet;
         this.thenSnippet = thenSnippet;

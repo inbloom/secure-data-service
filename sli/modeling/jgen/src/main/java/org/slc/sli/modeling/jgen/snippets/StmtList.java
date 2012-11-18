@@ -31,7 +31,9 @@ public class StmtList implements JavaSnippet {
     private final List<JavaSnippet> stmts;
 
     public StmtList(final JavaSnippet... stmts) {
-        if (stmts == null) throw new NullPointerException("stmts");
+        if (stmts == null) {
+            throw new IllegalArgumentException("stmts");
+        }
         this.stmts = Arrays.asList(stmts);
     }
     @Override

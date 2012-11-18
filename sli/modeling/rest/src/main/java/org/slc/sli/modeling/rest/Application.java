@@ -37,16 +37,16 @@ public class Application extends WadlElement {
             final List<Representation> representations, final List<Representation> faults) {
         super(doc);
         if (null == resourceTypes) {
-            throw new NullPointerException("resourceTypes");
+            throw new IllegalArgumentException("resourceTypes");
         }
         if (null == methods) {
-            throw new NullPointerException("methods");
+            throw new IllegalArgumentException("methods");
         }
         if (null == representations) {
-            throw new NullPointerException("representations");
+            throw new IllegalArgumentException("representations");
         }
         if (null == faults) {
-            throw new NullPointerException("faults");
+            throw new IllegalArgumentException("faults");
         }
         this.grammars = grammars;
         this.resources = resources;

@@ -150,7 +150,7 @@ public class WadlExpertTest {
 		
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testGetNamesWithNullNames() {
 		WadlExpert.getNames(null);
 	}
