@@ -16,6 +16,9 @@ limitations under the License.
 
 =end
 
+require 'date'
+require 'logger'
+
 # World Generator
 # -> intent is to create 'scaffolding' that represents a detailed, time-sensitive view of the world
 #
@@ -24,6 +27,10 @@ limitations under the License.
 # (2) create world using number of schools  + time information (begin year, number of years) [not supported]
 class WorldGenerator
   def initialize
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+
     @edOrgs = Hash.new
     @edOrgs["sea"]        = []
     @edOrgs["leas"]       = []
@@ -54,11 +61,11 @@ class WorldGenerator
   def create_edOrgs_from_students(rand, yaml)
     num_students = yaml["studentCount"]
 
-    puts "Initial conditions for creating world:"
-    puts "\tnumber of students: #{num_students}"
+    @log.info "Initial conditions for creating world:"
+    @log.info "\tnumber of students: #{num_students}"
   
-    puts "edOrgs: #{@edOrgs}"
-    # { stateOrganizationId:2, parent:1, sessions:[], teachers:[], staff:[] }
+    @log.info "edOrgs: #{@edOrgs}"
+    # will be of the form: [ { stateOrganizationId:2, parent:1, sessions:[], teachers:[], staff:[] }, ...]
   end
   
   def populate(rand, yaml)
@@ -78,18 +85,19 @@ class WorldGenerator
     num_years    = yaml["numYears"]
     
     if begin_year.nil?
-      puts "beginYear scenario property not set. Using default (2012)"
-      begin_year = 2012
+      this_year = Date.today.year
+      @log.info "beginYear property not set for scenario. Using default: #{this_year}"
+      begin_year = this_year
     end
 
     if num_years.nil?
-      puts "numYears scenario property not set. Using default (1)"
+      @log.info "numYears property not set for scenario. Using default: 1"
       num_years = 1
     end
 
     # loop over years updating infrastructure and population
     for year in begin_year..(begin_year+num_years-1) do
-      puts " [info] simulating information for year: #{year}-#{year+1}"
+      @log.info "simulating information for year: #{year}-#{year+1}"
 
       # Calculate changes to the infrastructure for the year
       step_infrastructure(year, rand, yaml)
@@ -109,7 +117,7 @@ class WorldGenerator
   
   def step_infrastructure(year, rand, yaml)
     # Update infrastructure entities for the year
-    puts " [info] creating session information for year: #{year}-#{year+1}"
+    @log.info "creating session information for year: #{year}-#{year+1}"
     # create session for leas
     # -> create grading periods for session
     # -> create calendar dates for grading period
