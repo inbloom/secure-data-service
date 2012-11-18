@@ -28,6 +28,7 @@ public class ResourceEndPointTemplate {
     private String path;
     private String doc;
     private String resourceClass;
+    private boolean queryable;
     private List<ResourceEndPointTemplate> subResources;
     private String deprecatedVersion;
     private String deprecatedReason;
@@ -87,5 +88,13 @@ public class ResourceEndPointTemplate {
 
     public void setAvailableSince(String availableSince) {
         this.availableSince = availableSince;
+    }
+    
+    public boolean isQueryable() {
+        return queryable;
+    }
+
+    public void setQueryable(boolean queryable) {
+        this.queryable = queryable;
     }
 }

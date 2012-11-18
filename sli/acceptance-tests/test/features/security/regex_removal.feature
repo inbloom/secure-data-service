@@ -1,6 +1,5 @@
-@smoke @RALLY_US209 @RALLY_US210
-Feature: As an SLI application I want to prevent attackers from executing regular expression DoS attacks
-  This means the API should no longer support query by regular expression
+@smoke @RALLY_US209 @RALLY_US210 @DE2017
+Feature: As of DE2017 the API should support regex
 
 Background:
   Given format "application/json"
@@ -12,4 +11,4 @@ Scenario: Querying school entities using the regex "nameOfInstitution=~High"
   And I should receive a collection of "1" entities
   When I navigate to GET "/v1/schools?nameOfInstitution=~High"
   Then I should receive a return code of 200
-  And I should receive a collection of "0" entities
+  And I should receive a collection of "7" entities

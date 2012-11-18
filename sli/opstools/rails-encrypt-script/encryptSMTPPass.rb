@@ -16,17 +16,16 @@ limitations under the License.
 
 =end
 
-
 require_relative './encryptor.rb'
 
 if ARGV.count < 2
-  puts "Usage: encryptLDAPPass <keyfile> <ldap_pass>"
+  puts "Usage: encryptSMTPPass <keyfile> <email_password>"
   puts "\t keyfile - filename into which the key is stored, which was created by generateRailsKey.rb script"
-  puts "\t ldap_pass - LDAP server password to be ecrypted"
-  puts "Use the specified key file to ecrypt given LDAP password, outputting the relavent properties"
+  puts "\t email_password - Email server password to be ecrypted"
+  puts "Use the specified key file to ecrypt given password, outputting the relavent properties"
   exit
 else
   keyFilePath = ARGV[0]
-  ldap_pass = ARGV[1]
-  encrypt(keyFilePath, ldap_pass, "ldap_pass")
+  email_pass = ARGV[1]
+  encrypt(keyFilePath, email_pass, "email_password")
 end

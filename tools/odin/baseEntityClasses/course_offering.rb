@@ -16,17 +16,27 @@ limitations under the License.
 
 =end
 
+require 'mustache'
+require_relative './baseEntity.rb'
 
-require_relative './encryptor.rb'
+class CourseOffering < BaseEntity
 
-if ARGV.count < 2
-  puts "Usage: encryptLDAPPass <keyfile> <ldap_pass>"
-  puts "\t keyfile - filename into which the key is stored, which was created by generateRailsKey.rb script"
-  puts "\t ldap_pass - LDAP server password to be ecrypted"
-  puts "Use the specified key file to ecrypt given LDAP password, outputting the relavent properties"
-  exit
-else
-  keyFilePath = ARGV[0]
-  ldap_pass = ARGV[1]
-  encrypt(keyFilePath, ldap_pass, "ldap_pass")
+  attr_accessor :id, :edOrg
+
+  def initialize(id, edOrg)
+    @id = id
+    @edOrg = edOrg
+  end
+
+  def edOrgId
+   3000
+   end
+   
+   def session
+     "new session FIXME"
+   end
+   
+   def uniqueCourseId
+     "fixme course Id"
+   end
 end
