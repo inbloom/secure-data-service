@@ -2,6 +2,10 @@ task :default => [:test]
 
 require 'rspec/core/rake_task'
 
+# Code coverage
+require 'simplecov'
+SimpleCov.start
+
 
 task :generate do
 	ruby "driver.rb"
@@ -12,7 +16,7 @@ desc "Run those specs"
 task :test do
   RSpec::Core::RakeTask.new(:test) do |t|
     t.rspec_opts = %w{--colour --format progress}
-    t.pattern = 'spec/*_spec.rb'
+    t.pattern = 'test/spec/*_spec.rb'
     t.rspec_path = 'rspec'
   end
 end

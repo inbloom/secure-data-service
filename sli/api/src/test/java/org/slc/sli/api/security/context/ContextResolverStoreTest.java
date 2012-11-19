@@ -59,9 +59,9 @@ public class ContextResolverStoreTest {
         List<String> entityNames = new ArrayList<String>();
         Field[] fields = EntityNames.class.getDeclaredFields();
         
-        for (Field f: fields) {
-            if (f.getType() == String.class && Modifier.isStatic(f.getModifiers())) {
-                entityNames.add((String) f.get(null));
+        for (Field field : fields) {
+            if (field.getType() == String.class && Modifier.isStatic(field.getModifiers())) {
+                entityNames.add((String) field.get(null));
             }
         }
         

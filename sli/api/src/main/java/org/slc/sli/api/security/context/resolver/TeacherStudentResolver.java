@@ -212,12 +212,12 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity student : studentList) {
             List<Map<String, Object>> cohortList = student.getDenormalizedData().get(COHORT_REF);
-            for ( Map<String, Object> cohort : cohortList) {
+            for (Map<String, Object> cohort : cohortList) {
                 String endDate = (String) cohort.get(ParameterConstants.END_DATE);
-                String cohortRefId = (String)cohort.get("_id");
-                if ((cohortIds.contains(cohortRefId)) &&
-                        (endDate == null || endDate.isEmpty() ||
-                        dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate))) {
+                String cohortRefId = (String) cohort.get("_id");
+                if ((cohortIds.contains(cohortRefId))
+                        && 
+                        (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate))) {
                     studentIds.add(student.getEntityId());
                     break;
                 }

@@ -28,6 +28,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates staff have the necessary context to view a given discipline incident.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class StaffToDisciplineIncidentValidator extends AbstractContextValidator {
     
@@ -50,7 +56,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         boolean match = false;
-        Set<String> diIds = new HashSet<String>();
+        //Set<String> diIds = new HashSet<String>();
         
         for (String id : ids) {
             match = false;
@@ -59,7 +65,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
                     NeutralCriteria.OPERATOR_EQUAL, id));
             Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                     basicQuery);
-            for(Entity association : associations) {
+            for (Entity association : associations) {
                 if (subStudentValidator.validate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                         new HashSet<String>(Arrays.asList(association.getEntityId())))) {
                     match = true;
@@ -79,7 +85,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             if (schoolValidator.validate(EntityNames.SCHOOL, schoolId)) {
                 match = true;
             }
-            if (match == false) {
+            if (!match) {
                 return false;
             }
 

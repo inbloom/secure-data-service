@@ -19,30 +19,36 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+/**
+ * Tests the staff to course offering validator.
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class StaffToCourseOfferingValidatorTest {
 
-	@Resource
-	private StaffToCourseOfferingValidator val;
-
-	@Resource
-	private SecurityContextInjector injector;
-
-	@Before
-	public void init() {
-		injector.setStaffContext();
-	}
-
-	@Test
-	public void testCanValidate() {
-		Assert.assertTrue("Must be able to validate",val.canValidate(EntityNames.COURSE_OFFERING, false));
-		Assert.assertFalse("Must not be able to validate",val.canValidate(EntityNames.ADMIN_DELEGATION, false));
-	}
-	
-	@Test
-	public void testValidation() {
-		Assert.assertFalse(val.validate(EntityNames.COURSE_OFFERING, new HashSet<String>(Arrays.asList("lamb"))));
-	}
+    @Resource
+    private StaffToCourseOfferingValidator val;
+    
+    @Resource
+    private SecurityContextInjector injector;
+    
+    @Before
+    public void init() {
+        injector.setStaffContext();
+    }
+    
+    @Test
+    public void testCanValidate() {
+        Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.COURSE_OFFERING, false));
+        Assert.assertFalse("Must not be able to validate", val.canValidate(EntityNames.ADMIN_DELEGATION, false));
+    }
+    
+    @Test
+    public void testValidation() {
+        Assert.assertFalse(val.validate(EntityNames.COURSE_OFFERING, new HashSet<String>(Arrays.asList("lamb"))));
+    }
 }

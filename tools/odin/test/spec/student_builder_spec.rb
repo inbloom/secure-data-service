@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 
-require_relative '../student_builder.rb'
-require_relative '../demographics.rb'
+require_relative '../../EntityCreation/student_builder.rb'
+require_relative '../../Shared/demographics.rb'
 
 describe "StudentBuilder" do
   describe "#build" do
@@ -33,7 +33,7 @@ describe "StudentBuilder" do
       let(:builder) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}
       before {builder.build}
 
-      it "will build student documents with the given student id" do 
+      it "will build student documents with the given student id" do
         studentParent.string.match('<StudentUniqueStateId>42</StudentUniqueStateId>').should_not be_nil
       end
 

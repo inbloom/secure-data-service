@@ -113,13 +113,13 @@ public class UriMutator {
             for (String query : queries) {
                 if (!query
                         .matches("(limit|offset|expandDepth|includeFields|excludeFields|sortBy|sortOrder|views|includeCustom|selector)=.+")) {
-                    int BASE_RESOURCE_INDEX = 1;
+                    int baseResourceIndex = 1;
                     if (segments.size() >= 2
-                            && publicResourcesThatAllowSearch.contains(segments.get(BASE_RESOURCE_INDEX).getPath())) {
+                            && publicResourcesThatAllowSearch.contains(segments.get(baseResourceIndex).getPath())) {
                         skipMutation = true;
                         break;
                     } else {
-                        debug("Search request /{}?{}", segments.get(BASE_RESOURCE_INDEX).getPath(), queryParameters);
+                        debug("Search request /{}?{}", segments.get(baseResourceIndex).getPath(), queryParameters);
                     }
                 }
             }
@@ -439,6 +439,349 @@ public class UriMutator {
         }
         return stringified;
     }
+    
+    private Pair<String, String> mutateForTeacher(String resource, String mutatedParameters, Entity user) {
+
+        String mutatedPath = null;
+        
+        if (ResourceNames.ASSESSMENTS.equals(resource)
+                || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
+                || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
+                || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+            mutatedPath = "/" + resource;
+        } else if (ResourceNames.ATTENDANCES.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students/attendances",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/attendances",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
+            }
+        } else if (ResourceNames.COHORTS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
+        } else if (ResourceNames.COURSES.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/courses",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/courseOfferings",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/courseTranscripts", mutatedParameters,
+                        ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/courseTranscripts",
+                        ids);
+            }
+        } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineActions", user.getEntityId());
+        } else if (ResourceNames.DISCIPLINE_INCIDENTS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineIncidents", user.getEntityId());
+        } else if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(resource)) {
+            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId());
+        } else if (ResourceNames.GRADES.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/grades",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/grades", ids);
+            }
+        } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/sessions/gradingPeriods",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/gradebookEntries", mutatedParameters,
+                        ParameterConstants.SECTION_ID);
+            } else {
+                mutatedPath = String.format("/sections/%s/gradebookEntries",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
+            }
+        } else if (ResourceNames.PARENTS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                mutatedPath = String.format(
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
+            }
+        } else if (ResourceNames.PROGRAMS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
+        } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students/reportCards",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/reportCards", ids);
+            }
+        } else if (ResourceNames.SECTIONS.equals(resource)) {
+            mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
+        } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            List<String> ids = edOrgHelper.getDirectSchools(user);
+            mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
+            if (ids.isEmpty()) {
+                error("Context Inferrence Failed");
+                throw new ContextInferrenceFailedException();
+            }
+        } else if (ResourceNames.SESSIONS.equals(resource)) {
+            mutatedPath = String.format("/educationOrganizations/%s/sessions",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.STAFF.equals(resource)) {
+            mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations", user.getEntityId());
+        } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations", user.getEntityId());
+        } else if (ResourceNames.STUDENTS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/students", ids);
+            }
+        } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentAcademicRecords",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format(
+                        "/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
+            }
+        } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentAssessments", mutatedParameters,
+                        ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments",
+                        ids);
+            }
+        } else if (ResourceNames.STUDENT_COHORT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts/studentCohortAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineIncidents/studentDisciplineIncidentAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/studentCompetencies",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations/studentCompetencies", ids);
+            }
+        } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+            mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentGradebookEntries",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format(
+                        "/sections/%s/studentSectionAssociations/students/studentGradebookEntries", ids);
+            }
+        } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format(
+                        "/sections/%s/studentSectionAssociations/students/studentParentAssociations", ids);
+            }
+        } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter(
+                        "/sections/%s/studentSectionAssociations/students/studentSchoolAssociations",
+                        mutatedParameters, ParameterConstants.SECTION_ID);
+            } else {
+                String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
+                mutatedPath = String.format(
+                        "sections/%s/studentSectionAssociations/students/studentSchoolAssociations", ids);
+            }
+        } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
+                return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations", mutatedParameters,
+                        ParameterConstants.SECTION_ID);
+            } else {
+                mutatedPath = String.format("/sections/%s/studentSectionAssociations",
+                        StringUtils.join(sectionHelper.getTeachersSections(user), ","));
+            }
+        } else if (ResourceNames.TEACHERS.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/teacherSchoolAssociations/teachers",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations", user.getEntityId());
+        } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
+        }
+        
+        return Pair.of(mutatedPath, mutatedParameters);
+    }
+    
+    private Pair<String, String> mutateForStaff(String resource, String mutatedParameters, Entity user, String queryParameters) {
+
+        String mutatedPath = null;
+        
+        if (ResourceNames.ASSESSMENTS.equals(resource)
+                || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
+                || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
+                || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
+            mutatedPath = "/" + resource;
+        } else if (ResourceNames.ATTENDANCES.equals(resource)) {
+            String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+            if (ids != null) {
+                mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                mutatedPath = String.format("/students/%s/attendances", ids);
+            } else {
+                ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
+            }
+
+        } else if (ResourceNames.COHORTS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
+        } else if (ResourceNames.COURSES.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/courses",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/courseOfferings",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/courseTranscripts", ids);
+        } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineActions", user.getEntityId());
+        } else if (ResourceNames.DISCIPLINE_INCIDENTS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineIncidents", user.getEntityId());
+        } else if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffEducationOrgAssignmentAssociations/educationOrganizations",
+                    user.getEntityId());
+        } else if (ResourceNames.GRADES.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations/grades", ids);
+        } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/sessions/gradingPeriods",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
+            mutatedPath = String.format("/schools/%s/sections/gradebookEntries",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.PARENTS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format(
+                    "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents", ids);
+        } else if (ResourceNames.PROGRAMS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
+        } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/reportCards", ids);
+        } else if (ResourceNames.SCHOOLS.equals(resource)) {
+            List<String> ids = edOrgHelper.getDirectSchools(user);
+            mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
+            if (ids.isEmpty()) {
+                error("Context Inferrence Failed");
+                throw new ContextInferrenceFailedException();
+            }
+        } else if (ResourceNames.SECTIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/sections", ids);
+        } else if (ResourceNames.SESSIONS.equals(resource)) {
+            if (mutatedParameters.contains(ParameterConstants.SCHOOL_ID)) {
+                return formQueryBasedOnParameter("/educationOrganizations/%s/sessions", mutatedParameters,
+                        ParameterConstants.SCHOOL_ID);
+            } else {
+                mutatedPath = String.format("/educationOrganizations/%s/sessions",
+                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+            }
+        } else if (ResourceNames.STAFF.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                    ids);
+        } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations", user.getEntityId());
+        } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffEducationOrgAssignmentAssociations", user.getEntityId());
+        } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations", user.getEntityId());
+        } else if (ResourceNames.STUDENTS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students", ids);
+        } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
+                    ids);
+        } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAssessments", ids);
+        } else if (ResourceNames.STUDENT_COHORT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts/studentCohortAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations/studentCompetencies", ids);
+        } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+            mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/disciplineIncidents/studentDisciplineIncidentAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentGradebookEntries",
+                    ids);
+        } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentParentAssociations",
+                    ids);
+        } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations",
+                    user.getEntityId());
+        } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/studentSchoolAssociations", ids);
+        } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations", ids);
+        } else if (ResourceNames.TEACHERS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/teacherSchoolAssociations/teachers", ids);
+        } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format("/schools/%s/teacherSchoolAssociations", ids);
+        } else if (ResourceNames.PROGRAMS.equals(resource)) {
+            mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
+        } else if (ResourceNames.PARENTS.equals(resource)) {
+            mutatedPath = String.format(
+                    "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents",
+                    StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
+        } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
+            mutatedPath = String.format(
+                    "/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
+        }
+        
+        return Pair.of(mutatedPath, mutatedParameters);
+    }
 
     /**
      * Mutates the API call (to a base entity) to a more-specific (and generally more constrained)
@@ -461,342 +804,18 @@ public class UriMutator {
         String mutatedParameters = queryParameters != null ? queryParameters : "";
 
         mutatedPath = rootSearchMutator.mutatePath(resource, queryParameters);
-        if(mutatedPath != null) {
+        if (mutatedPath != null) {
             mutatedParameters = queryParameters;
             isMutated = true;
         }
 
         if (!isMutated && isTeacher(user)) {
-            if (ResourceNames.ASSESSMENTS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
-                    || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
-                mutatedPath = "/" + resource;
-            } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students/attendances",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/attendances",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                }
-            } else if (ResourceNames.COHORTS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
-            } else if (ResourceNames.COURSES.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/courses",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/courseOfferings",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/courseTranscripts", mutatedParameters,
-                            ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/courseTranscripts",
-                            ids);
-                }
-            } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineActions", user.getEntityId());
-            } else if (ResourceNames.DISCIPLINE_INCIDENTS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineIncidents", user.getEntityId());
-            } else if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(resource)) {
-                mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId());
-            } else if (ResourceNames.GRADES.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/grades",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/grades", ids);
-                }
-            } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/sessions/gradingPeriods",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/gradebookEntries", mutatedParameters,
-                            ParameterConstants.SECTION_ID);
-                } else {
-                    mutatedPath = String.format("/sections/%s/gradebookEntries",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                }
-            } else if (ResourceNames.PARENTS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                }
-            } else if (ResourceNames.PROGRAMS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
-            } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students/reportCards",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/reportCards", ids);
-                }
-            } else if (ResourceNames.SECTIONS.equals(resource)) {
-                mutatedPath = String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId());
-            } else if (ResourceNames.SCHOOLS.equals(resource)) {
-                List<String> ids = edOrgHelper.getDirectSchools(user);
-                mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
-                success = !ids.isEmpty();
-            } else if (ResourceNames.SESSIONS.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/sessions",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.STAFF.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations", user.getEntityId());
-            } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations", user.getEntityId());
-            } else if (ResourceNames.STUDENTS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/students",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students", ids);
-                }
-            } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentAcademicRecords",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentAcademicRecords", ids);
-                }
-            } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentAssessments", mutatedParameters,
-                            ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/students/studentAssessments",
-                            ids);
-                }
-            } else if (ResourceNames.STUDENT_COHORT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts/studentCohortAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineIncidents/studentDisciplineIncidentAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations/studentCompetencies",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations/studentCompetencies", ids);
-                }
-            } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentGradebookEntries",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentGradebookEntries", ids);
-                }
-            } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentParentAssociations",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format(
-                            "/sections/%s/studentSectionAssociations/students/studentParentAssociations", ids);
-                }
-            } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter(
-                            "/sections/%s/studentSectionAssociations/students/studentSchoolAssociations",
-                            mutatedParameters, ParameterConstants.SECTION_ID);
-                } else {
-                    String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                    mutatedPath = String.format(
-                            "sections/%s/studentSectionAssociations/students/studentSchoolAssociations", ids);
-                }
-            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
-                    return formQueryBasedOnParameter("/sections/%s/studentSectionAssociations", mutatedParameters,
-                            ParameterConstants.SECTION_ID);
-                } else {
-                    mutatedPath = String.format("/sections/%s/studentSectionAssociations",
-                            StringUtils.join(sectionHelper.getTeachersSections(user), ","));
-                }
-            } else if (ResourceNames.TEACHERS.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/teacherSchoolAssociations/teachers",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/teachers/%s/teacherSchoolAssociations", user.getEntityId());
-            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/teachers/%s/teacherSectionAssociations", user.getEntityId());
-            }
+            return this.mutateForTeacher(resource, mutatedParameters, user);
         } else if (!isMutated && isStaff(user)) {
-            if (ResourceNames.ASSESSMENTS.equals(resource)
-                    || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                    || ResourceNames.HOME.equals(resource) || ResourceNames.LEARNINGOBJECTIVES.equals(resource)
-                    || ResourceNames.LEARNINGSTANDARDS.equals(resource)) {
-                mutatedPath = "/" + resource;
-            } else if (ResourceNames.ATTENDANCES.equals(resource)) {
-                String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
-                if (ids != null) {
-                    mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
-                    mutatedPath = String.format("/students/%s/attendances", ids);
-                } else {
-                    ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                    mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/attendances", ids);
-                }
-
-            } else if (ResourceNames.COHORTS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId());
-            } else if (ResourceNames.COURSES.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/courses",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/courseOfferings",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/courseTranscripts", ids);
-            } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineActions", user.getEntityId());
-            } else if (ResourceNames.DISCIPLINE_INCIDENTS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineIncidents", user.getEntityId());
-            } else if (ResourceNames.EDUCATION_ORGANIZATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffEducationOrgAssignmentAssociations/educationOrganizations",
-                        user.getEntityId());
-            } else if (ResourceNames.GRADES.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations/grades", ids);
-            } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/sessions/gradingPeriods",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
-                mutatedPath = String.format("/schools/%s/sections/gradebookEntries",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.PARENTS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format(
-                        "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents", ids);
-            } else if (ResourceNames.PROGRAMS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
-            } else if (ResourceNames.REPORT_CARDS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/reportCards", ids);
-            } else if (ResourceNames.SCHOOLS.equals(resource)) {
-                List<String> ids = edOrgHelper.getDirectSchools(user);
-                mutatedPath = String.format("/schools/%s/", StringUtils.join(edOrgHelper.getDirectSchools(user), ","));
-                success = !ids.isEmpty();
-            } else if (ResourceNames.SECTIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/sections", ids);
-            } else if (ResourceNames.SESSIONS.equals(resource)) {
-                if (mutatedParameters.contains(ParameterConstants.SCHOOL_ID)) {
-                    return formQueryBasedOnParameter("/educationOrganizations/%s/sessions", mutatedParameters,
-                            ParameterConstants.SCHOOL_ID);
-                } else {
-                    mutatedPath = String.format("/educationOrganizations/%s/sessions",
-                            StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-                }
-            } else if (ResourceNames.STAFF.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
-                        ids);
-            } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations", user.getEntityId());
-            } else if (ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffEducationOrgAssignmentAssociations", user.getEntityId());
-            } else if (ResourceNames.STAFF_PROGRAM_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations", user.getEntityId());
-            } else if (ResourceNames.STUDENTS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students", ids);
-            } else if (ResourceNames.STUDENT_ACADEMIC_RECORDS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
-                        ids);
-            } else if (ResourceNames.STUDENT_ASSESSMENTS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentAssessments", ids);
-            } else if (ResourceNames.STUDENT_COHORT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffCohortAssociations/cohorts/studentCohortAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_COMPETENCIES.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations/studentCompetencies", ids);
-            } else if (ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
-                mutatedPath = String.format("/educationOrganizations/%s/studentCompetencyObjectives",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/disciplineIncidents/studentDisciplineIncidentAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_GRADEBOOK_ENTRIES.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentGradebookEntries",
-                        ids);
-            } else if (ResourceNames.STUDENT_PARENT_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations/students/studentParentAssociations",
-                        ids);
-            } else if (ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs/studentProgramAssociations",
-                        user.getEntityId());
-            } else if (ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/studentSchoolAssociations", ids);
-            } else if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/sections/studentSectionAssociations", ids);
-            } else if (ResourceNames.TEACHERS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/teacherSchoolAssociations/teachers", ids);
-            } else if (ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format("/schools/%s/teacherSchoolAssociations", ids);
-            } else if (ResourceNames.PROGRAMS.equals(resource)) {
-                mutatedPath = String.format("/staff/%s/staffProgramAssociations/programs", user.getEntityId());
-            } else if (ResourceNames.PARENTS.equals(resource)) {
-                mutatedPath = String.format(
-                        "/schools/%s/studentSchoolAssociations/students/studentParentAssociations/parents",
-                        StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ","));
-            } else if (ResourceNames.TEACHER_SECTION_ASSOCIATIONS.equals(resource)) {
-                String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
-                mutatedPath = String.format(
-                        "/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
-            }
+            return this.mutateForStaff(resource, mutatedParameters, user, queryParameters);
+        } else {
+            return Pair.of(mutatedPath, mutatedParameters);
         }
-
-        if (!success) {
-            error("Context Inferrence Failed");
-            throw new ContextInferrenceFailedException();
-        }
-
-        return Pair.of(mutatedPath, mutatedParameters);
     }
 
     private String getQueryValueForQueryParameters(String queryName, String queryParameters) {
@@ -806,8 +825,8 @@ public class UriMutator {
 
         for (String query : queries) {
             if (query.matches(queryRegEx)) {
-                int INDEX_OF_QUERY_VALUE = queryRegEx.length() - 3;
-                queryValue = query.substring(INDEX_OF_QUERY_VALUE);
+                int indexOfQueryValue = queryRegEx.length() - 3;
+                queryValue = query.substring(indexOfQueryValue);
                 break;
             }
         }
