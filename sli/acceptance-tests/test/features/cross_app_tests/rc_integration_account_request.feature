@@ -34,7 +34,7 @@ Scenario: As an app developer I request a production account and  I want to veri
   And when I click "Submit"
   Then my field entries are validated
   And I am redirected to a page with terms and conditions
- #And when I click "Accept"
+  And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
 #Scenario: As an app developer I want to verify my registration email
