@@ -97,5 +97,5 @@ end
 Then /^I will drop the tenant document from the collection$/ do
   sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
   sli_db['tenant'].remove("body.tenantId" => @tenant_name)
-  assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count != 0, "Tenant document not dropped.")
+  assert(sli_db['tenant'].find("body.tenantId" => @tenant_name).count == 0, "Tenant document not dropped.")
 end
