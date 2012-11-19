@@ -17,6 +17,7 @@ end
 # RC Tests
 ############################################################
 
+require 'mongo'
 require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
@@ -68,6 +69,11 @@ task :rcTenantCleanUp do
   runTests("test/features/cross_app_tests/rc_integration_delete_tenant.feature")
 end
 
+desc "Run RC Tenant Purge Test"
+task :rcTenantPurgeTests do
+  runTests("test/features/cross_app_tests/rc_integration_purge.feature")
+end
+
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
@@ -87,7 +93,8 @@ end
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
-#  Rake::Task["rcCleanUpTests"].execute
+  #Rake::Task["rcCleanUpTests"].execute if tenant_exists
+  #Rake::Task["rcTenantCleanUp"].execute
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
@@ -96,6 +103,7 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
+  Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
   if $SUCCESS
@@ -108,4 +116,18 @@ end
 desc "Run Sandbox Integration Test for Dev checklist"
 task :sandboxDevChecklistTest do
   runTests("test/features/cross_app_tests/sandbox_integration_developer.feature")
+end
+
+############################################################
+# Def
+############################################################
+
+private
+
+def tenant_exists(tenant_name = PropLoader.getProps['e2e_tenant_name'])
+  host = (RUN_ON_RC) ? "rcingest01.#{RC_SERVER}" : PropLoader.getProps['ingestion_db']
+  conn = Mongo::Connection.new(host)
+  sli_db = conn.db(PropLoader.getProps['sli_database_name'])
+  return_val = (sli_db['tenant'].find("body.tenantId" => tenant_name).count == 0) ? false : true
+  return_val
 end
