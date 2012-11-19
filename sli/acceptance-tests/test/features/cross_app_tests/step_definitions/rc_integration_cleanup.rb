@@ -33,9 +33,9 @@ end
 
 Transform /^<(.+)>$/ do |template|
   id = template
-  id = PropLoader.getProps['email_imap_registration_user_email'] if template == "SEA ADMIN"
-  id = "test1234"                                                if template == "SEA ADMIN PASSWORD"
-  id = RC_SERVER                                                 if template == "SERVER"
+  id = PropLoader.getProps['e2e_sea_email']   if template == "SEA ADMIN"
+  id = PropLoader.getProps['e2e_password']    if template == "SEA ADMIN PASSWORD"
+  id = RC_SERVER                              if template == "SERVER"
   # return the transformed value
   id
 end
@@ -48,15 +48,16 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
   if RUN_ON_RC
     steps %Q{
       Given I am using local data store
-      Given I am using default landing zone
-      Given I use the landingzone user name "#{user}" and password "#{pass}" on landingzone server "#{server}-lz.slidev.org" on port "443"
+      And I am using default landing zone
+      And I use the landingzone user name "#{user}" and password "#{pass}" on landingzone server "#{server}-lz.slidev.org" on port "443"
       And I drop the file "Purge.zip" into the landingzone
       Then a batch job log has been created
       And I should not see an error log file created
     }
   else
     steps %Q{
-      Given I have a local configured landing zone for my tenant
+      Given I am using local data store
+      And I have a local configured landing zone for my tenant
       And I drop the file "Purge.zip" into the landingzone
       Then a batch job log has been created
       And I should not see an error log file created
