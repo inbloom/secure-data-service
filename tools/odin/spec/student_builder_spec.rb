@@ -44,6 +44,13 @@ describe "StudentBuilder" do
       it "will have the right number of section associations" do
         enrollment.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
       end
+      
+      it "will find a school with the correct school ids" do
+        work_order[:sessions].each do |session|
+          school_id = session[:school]
+          enrollment.string.match("<StateOrganizationId>school#{school_id}</StateOrganizationId>").should_not be_nil
+        end
+      end
     end
   end
 end
