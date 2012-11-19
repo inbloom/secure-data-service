@@ -91,7 +91,7 @@ developer_email_imap_registration_user_email: e2etestdev@slidev.org
 developer_email_imap_registration_pass: test1234
 
 # IDP and Redirect Endpoint URL for Realm Management
-ci_idp_redirect_url: https://{NODE_NAME}:8080/simple-idp?realm=IL-Daybreak
+ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
