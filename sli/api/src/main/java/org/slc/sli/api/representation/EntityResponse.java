@@ -38,7 +38,7 @@ public class EntityResponse extends HashMap<String, Object> {
         return this.get(entityCollectionName);
     }
 
-    protected void setEntityCollectionName(String entityCollectionName) {
+    public final void setEntityCollectionName(String entityCollectionName) {
         if (entityCollectionName != null && !entityCollectionName.isEmpty()) {
             this.entityCollectionName = entityCollectionName;
         } else {

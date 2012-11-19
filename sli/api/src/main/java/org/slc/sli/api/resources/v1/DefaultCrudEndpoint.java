@@ -126,10 +126,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String resourceName) {
         if (entityDefs == null) {
-            throw new NullPointerException("entityDefs");
+            throw new IllegalArgumentException("entityDefs can not be null");
         }
         if (resourceName == null) {
-            throw new NullPointerException("resourceName");
+            throw new IllegalArgumentException("resourceName can not be null");
         }
         this.entityDefs = entityDefs;
         this.resourceName = resourceName;
@@ -639,7 +639,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
 
     protected void addAdditionalCritera(NeutralQuery query) {
-
+    	//no-op
     }
 
     protected boolean shouldReadAll() {

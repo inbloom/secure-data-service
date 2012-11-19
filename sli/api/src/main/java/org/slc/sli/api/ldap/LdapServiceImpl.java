@@ -250,7 +250,6 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public Collection<User> findUsersByAttributes(String realm, Collection<String> attributes) {
-        // TODO Auto-generated method stub
         return null;
     }
 

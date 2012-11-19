@@ -42,9 +42,6 @@ public class EmbeddedLink {
         this.href = href;
     }
 
-    public EmbeddedLink() {
-    }
-
     @JsonIgnore
     public String getRel() {
         return rel;
