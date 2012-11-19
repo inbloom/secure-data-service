@@ -32,6 +32,19 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
+Transform /^<([^>]*)>$/ do |human_readable_text|
+ if human_readable_text == "Email_IMAP_Registration_User_Email"
+   url = PropLoader.getProps["email_imap_registration_user_email"]
+ elsif human_readable_text == "Email_IMAP_Registration_Pass"
+   url = PropLoader.getProps["email_imap_registration_pass"]
+ elsif human_readable_text == "Email_IMAP_Registration_LZ"
+   url = PropLoader.getProps["email_imap_registration_lz"]
+ elsif human_readable_text == "Email_IMAP_Registration_LZ_Port"
+   url = PropLoader.getProps["email_imap_registration_lz_port"]
+ end
+ url
+end
+
 
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
@@ -207,7 +220,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
 
 end
 
-Given /^I use the landingzone user name "(.*?)" and password "(.*?)" on landingzone server "(.*?)" on port "(.*?)"$/ do |arg1, arg2, arg3, arg4|
+Given /^I use the landingzone user name "([^"]*)" and password "([^"]*)" on landingzone server "([^"]*)" on port "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   @lz_username = arg1
   @lz_password = arg2
   @lz_url = arg3
