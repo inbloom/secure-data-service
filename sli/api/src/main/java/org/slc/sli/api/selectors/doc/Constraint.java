@@ -26,7 +26,12 @@ public class Constraint {
     private String key;
     private Object value;
 
-    public Constraint() {  }
+    /**
+     * Default Constructor
+     */
+    public Constraint() {
+        new Constraint("",null);
+    }
 
     public Constraint(String key, Object value) {
         this.key = key;
