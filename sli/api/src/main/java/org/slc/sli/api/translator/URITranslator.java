@@ -49,11 +49,11 @@ public class URITranslator {
     @Autowired
     private PagingRepositoryDelegate<Entity> repository;
 
-    private static String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
-    private static String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
-    private static String LEARNING_STANDARD = "learningStandards";
-    private static String STUDENT_COMPETENCY = "studentCompetencies";
-    private static String ID_KEY = "_id";
+    private static final String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
+    private static final String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
+    private static final String LEARNING_STANDARD = "learningStandards";
+    private static final String STUDENT_COMPETENCY = "studentCompetencies";
+    private static final String ID_KEY = "_id";
 
     public URITranslator() {
         translate(PARENT_LEARNING_OBJECTIVE).transformTo(ResourceNames.LEARNINGOBJECTIVES).

@@ -23,8 +23,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -41,13 +39,11 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Holder for security utilities
+ * Holder for security utilities.
  *
  * @author dkornishev
  */
 public class SecurityUtil {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtil.class);
 
     private static final Authentication FULL_ACCESS_AUTH;
     public static final String SYSTEM_ENTITY = "system_entity";
@@ -60,7 +56,6 @@ public class SecurityUtil {
 
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
-    private static String principalId;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -70,7 +65,7 @@ public class SecurityUtil {
 
     public static <T> T sudoRun(SecurityTask<T> task) {
         if (inSudo.get() != null && inSudo.get()) {
-            throw new RuntimeException("Cannot sudo inside a sudo block");
+            throw new IllegalArgumentException("Cannot sudo inside a sudo block");
         }
         inSudo.set(true);
         T toReturn = null;
@@ -91,7 +86,7 @@ public class SecurityUtil {
 
     public static <T> T runWithAllTenants(SecurityTask<T> task) {
         if (inTenantBlock.get() != null && inTenantBlock.get()) {
-            throw new RuntimeException("Cannot nest tenant blocks");
+            throw new IllegalArgumentException("Cannot nest tenant blocks");
         }
         inTenantBlock.set(true);
         T toReturn = null;
@@ -244,7 +239,7 @@ public class SecurityUtil {
             Boolean admin = (Boolean) entity.getBody().get("admin");
             return admin != null ? admin : false;
         } else {
-            throw new RuntimeException("Could not find realm " + realmId);
+            throw new IllegalArgumentException("Could not find realm " + realmId);
         }
     }
 

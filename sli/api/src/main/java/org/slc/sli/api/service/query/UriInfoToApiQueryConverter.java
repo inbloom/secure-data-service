@@ -185,7 +185,6 @@ public class UriInfoToApiQueryConverter {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
                     throw new QueryParseException(re.getMessage(), queryString);
                 } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
                     error("Unable to decode query string as UTF-8: {}", queryString);
                     throw new QueryParseException(e.getMessage(), queryString);
                 }
