@@ -556,7 +556,8 @@
     {
       "path": "/search",
       "doc": "Provides search functionality for students, sections, and other entities.",
-      "resourceClass": "org.slc.sli.api.search.resource.SearchResource"
+      "resourceClass": "org.slc.sli.api.search.resource.SearchResource",
+      "queryable": true
     },
     {
         "path": "/graduationPlans",

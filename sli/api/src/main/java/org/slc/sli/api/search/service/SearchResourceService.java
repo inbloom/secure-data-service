@@ -348,8 +348,8 @@ public class SearchResourceService {
         Entity principalEntity = principal.getEntity();
         // get allSchools for staff
         List<String> schoolIds = new ArrayList<String>();
-        schoolIds.addAll(edOrgHelper.getUserSchools(principalEntity));
-        schoolIds.addAll(edOrgHelper.getDirectSchools(principalEntity));
+        schoolIds.addAll(edOrgHelper.getUserEdOrgs(principalEntity));
+        // a special marker for global entities
         schoolIds.add("ALL");
         apiQuery.addCriteria(new NeutralCriteria(CONTEXT_SCHOOL_ID, NeutralCriteria.CRITERIA_IN, new ArrayList<String>(schoolIds)));
     }

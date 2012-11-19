@@ -2,7 +2,6 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,37 +139,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return this.repo;
     }
 
-
-    /**
-     * Will go through staffEdorgAssociations that are current and get the descendant
-     * edorgs that you have.
-     *
-     * @return a set of the edorgs you are associated to and their children.
-     */
-    protected Set<String> getStaffEdOrgLineage() {
-        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs();
-        edOrgLineage.addAll(edorgHelper.getChildEdOrgs(edOrgLineage));
-        return edOrgLineage;
+    public Set<String> getStaffEdOrgLineage() {
+        return edorgHelper.getStaffEdOrgLineage(SecurityUtil.getSLIPrincipal().getEntity());
     }
 
-    protected Set<String> getStaffCurrentAssociatedEdOrgs() {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
-        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
-        if (staffEdOrgs != null) {
-            for (Entity staffEdOrg : staffEdOrgs) {
-                staffEdOrgAssociations.add(staffEdOrg);
-            }
-        }
-        List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, null);
-        Set<String> edOrgIds = new HashSet<String>();
-        for (Entity association : currentStaffEdOrgAssociations) {
-            edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-        }
-        return edOrgIds;
+    protected  Set<String> getStaffCurrentAssociatedEdOrgs() {
+        return edorgHelper.getStaffCurrentAssociatedEdOrgs(SecurityUtil.getSLIPrincipal().getEntity());
     }
-
 
     protected Set<String> getStaffEdOrgParents() {
         Set<String> edorgHiearchy = new HashSet<String>();

@@ -18,7 +18,9 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -57,6 +59,9 @@ public class EdOrgHelper {
 
 	@Autowired
 	private AssociativeContextHelper helper;
+
+	@Autowired
+    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
 	/**
 	 * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or indirectly.
@@ -149,36 +154,39 @@ public class EdOrgHelper {
 		return ids;
 	}
 
-	/**
-	 * Walks the edorg hierarchy to get all schools
-	 * @param principal
-	 * @return
-	 */
-	public List<String> getUserSchools(Entity principal) {
-		List<String> schools = new ArrayList<String>();
-
-		// Get direct associations
-		List<String> ids = getDirectEdOrgAssociations(principal);
-
-		// get edorg entities
-		while (!ids.isEmpty()) {
-			NeutralQuery nq = new NeutralQuery();
-			nq.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "in", ids));
-			Iterable<Entity> childEdorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, nq);
-
-			ids.clear();
-			for(Entity e:childEdorgs) {
-				if(isSchool(e)) {
-					schools.add(e.getEntityId());
-				}
-				else {
-					ids.add(e.getEntityId());
-				}
-			}
-		}
-
-		return schools;
+	public Collection<String> getUserEdOrgs(Entity principal) {
+        return (isTeacher(principal)) ? getDirectSchools(principal) : getStaffEdOrgLineage(principal);
 	}
+
+	 /**
+     * Will go through staffEdorgAssociations that are current and get the descendant
+     * edorgs that you have.
+     *
+     * @return a set of the edorgs you are associated to and their children.
+     */
+	public Set<String> getStaffEdOrgLineage(Entity principal) {
+        Set<String> edOrgLineage = getStaffCurrentAssociatedEdOrgs(principal);
+        edOrgLineage.addAll(getChildEdOrgs(edOrgLineage));
+        return edOrgLineage;
+    }
+
+	public Set<String> getStaffCurrentAssociatedEdOrgs(Entity principal) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+        Iterable<Entity> staffEdOrgs = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        List<Entity> staffEdOrgAssociations = new LinkedList<Entity>();
+        if (staffEdOrgs != null) {
+            for (Entity staffEdOrg : staffEdOrgs) {
+                staffEdOrgAssociations.add(staffEdOrg);
+            }
+        }
+        List<Entity> currentStaffEdOrgAssociations = staffEdOrgEdOrgIDNodeFilter.filterEntities(staffEdOrgAssociations, null);
+        Set<String> edOrgIds = new HashSet<String>();
+        for (Entity association : currentStaffEdOrgAssociations) {
+            edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+        }
+        return edOrgIds;
+    }
 
 	/**
 	 * Finds schools directly associated to this user
@@ -198,7 +206,7 @@ public class EdOrgHelper {
 
 		return schools;
 	}
-	
+
 	/**
 	 * Recursively returns the list of all child edorgs
 	 * @param edOrgs
@@ -217,7 +225,6 @@ public class EdOrgHelper {
         }
         return children;
     }
-
 
 	private Entity getTopLEAOfEdOrg(Entity entity) {
 		Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, (String) entity.getBody().get("parentEducationAgencyReference"));
@@ -241,7 +248,7 @@ public class EdOrgHelper {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public boolean isLEA(Entity entity) {
 		List<String> category = (List<String>) entity.getBody().get("organizationCategories");
