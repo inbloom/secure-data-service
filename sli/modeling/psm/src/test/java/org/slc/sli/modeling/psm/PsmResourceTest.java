@@ -38,7 +38,7 @@ public class PsmResourceTest {
         assertEquals("test", resource.getName());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testThrowsNullPointer() {
         final PsmResource resource = new PsmResource(null);
     }

@@ -37,6 +37,8 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class takes an incoming UML {@link Model} and converts attributes to
@@ -45,6 +47,8 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  * Intentionally package protected.
  */
 final class Xsd2UmlLinker {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Xsd2UmlLinker.class);
  
     // FIXME: Externalize this concept into the plug-in.
     private static final String SUFFIX_REFERENCES = "References";
@@ -291,6 +295,6 @@ final class Xsd2UmlLinker {
     }
 
     private static final void reportIllegalSuffix(final ClassType classType, final Attribute attribute) {
-        System.err.println("Illegal suffix in " + classType.getName() + "." + attribute.getName());
+        LOG.warn("Illegal suffix in " + classType.getName() + "." + attribute.getName());
     }
 }

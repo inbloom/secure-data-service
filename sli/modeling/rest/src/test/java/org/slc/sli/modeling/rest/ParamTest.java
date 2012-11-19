@@ -58,19 +58,19 @@ public class ParamTest {
                 REPEATING, FIXED, PATH, DOC, OPTIONS, LINK);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullName() {
         new Param(null, STYLE, ID, TYPE, DEFAULT_VALUE, REQUIRED, REPEATING,
                 FIXED, PATH, DOC, OPTIONS, LINK);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullStyle() {
         new Param(NAME, null, ID, TYPE, DEFAULT_VALUE, REQUIRED, REPEATING,
                 FIXED, PATH, DOC, OPTIONS, LINK);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullOptions() {
         new Param(NAME, STYLE, ID, TYPE, DEFAULT_VALUE, REQUIRED, REPEATING,
                 FIXED, PATH, DOC, null, LINK);

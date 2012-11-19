@@ -36,12 +36,12 @@ public class DmProcessingInstructionTest {
 		assertTrue(dmProcessingInstruction.getStringValue().equals(data));
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullPrefixThrowsException() {
 		new DmProcessingInstruction("foo", null);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullNamespaceThrowsException() {
 		new DmProcessingInstruction(null, "bar");
 	}

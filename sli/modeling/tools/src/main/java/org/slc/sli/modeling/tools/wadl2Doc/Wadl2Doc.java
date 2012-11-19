@@ -24,8 +24,14 @@ import java.util.Map;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.slc.sli.modeling.wadl.writer.WadlWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.security.auth.login.FailedLoginException;
 
 public final class Wadl2Doc {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Wadl2Doc.class);
 
 	public final static String DEFAULT_INPUT_FILENAME = "wadl-original.xml";
 	public final static String DEFAULT_OUTPUT_FILENAME = "wadl-clean.xml";
@@ -44,7 +50,7 @@ public final class Wadl2Doc {
             final Application app = WadlReader.readApplication(inputFilename);
             WadlWriter.writeDocument(app, prefixMappings, outputFilename);
         } catch (final FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
 }

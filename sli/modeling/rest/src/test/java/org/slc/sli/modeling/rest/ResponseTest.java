@@ -41,17 +41,17 @@ public class ResponseTest {
         response = new Response(STATUS_CODES, DOC, PARAMS, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullStatusCodes() {
         new Response(null, DOC, PARAMS, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullParams() {
         new Response(STATUS_CODES, DOC, null, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullRepresentations() {
         new Response(STATUS_CODES, DOC, PARAMS, null);
     }

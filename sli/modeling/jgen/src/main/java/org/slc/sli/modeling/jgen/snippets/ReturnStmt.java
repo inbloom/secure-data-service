@@ -27,7 +27,7 @@ public final class ReturnStmt implements JavaSnippet {
 
     public ReturnStmt(final JavaSnippet what) {
         if (what == null) {
-            throw new NullPointerException("what");
+            throw new IllegalArgumentException("what");
         }
         this.what = what;
     }

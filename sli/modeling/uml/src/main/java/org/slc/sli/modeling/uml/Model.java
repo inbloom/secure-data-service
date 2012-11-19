@@ -31,7 +31,7 @@ public class Model extends ModelElement implements Visitable {
             final List<NamespaceOwnedElement> ownedElements) {
         super(id, taggedValues);
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
         this.ownedElements = Collections.unmodifiableList(new ArrayList<NamespaceOwnedElement>(ownedElements));

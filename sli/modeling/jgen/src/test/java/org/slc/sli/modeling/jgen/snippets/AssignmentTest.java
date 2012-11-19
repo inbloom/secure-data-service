@@ -24,6 +24,7 @@ import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,7 +38,7 @@ public class AssignmentTest {
     Assignment assignment;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         jsw = new MockJavaStreamWriter();
         JavaParam lhs = new JavaParam("LHS", JavaType.JT_STRING, false);
         JavaSnippetExpr rhs = new NewInstanceExpr(JavaType.JT_STRING);

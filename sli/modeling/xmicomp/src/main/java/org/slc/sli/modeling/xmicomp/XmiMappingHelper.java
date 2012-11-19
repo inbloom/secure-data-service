@@ -53,17 +53,17 @@ public final class XmiMappingHelper {
     
     private static final CaseInsensitiveQName makeKey(final ClassType classType, final Feature feature) {
         if (classType == null) {
-            throw new NullPointerException("classType");
+            throw new IllegalArgumentException("classType");
         }
         if (feature == null) {
-            throw new NullPointerException("feature");
+            throw new IllegalArgumentException("feature");
         }
         return new CaseInsensitiveQName(classType.getName(), feature.getName());
     }
     
     private static final CaseInsensitiveQName makeKey(final XmiFeature feature) {
         if (feature == null) {
-            throw new NullPointerException("feature");
+            throw new IllegalArgumentException("feature");
         }
         return new CaseInsensitiveQName(feature.getOwnerName(), feature.getName());
     }
@@ -150,7 +150,7 @@ public final class XmiMappingHelper {
     public static void appendRemaining(final Map<CaseInsensitiveQName, XmiFeature> features,
             final List<XmiMapping> mappings, final boolean isLHS, final String comment) {
         if (comment == null) {
-            throw new NullPointerException("comment");
+            throw new IllegalArgumentException("comment");
         }
         final boolean isRHS = !isLHS;
         final Set<CaseInsensitiveQName> names = new HashSet<CaseInsensitiveQName>(features.keySet());

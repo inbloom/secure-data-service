@@ -82,17 +82,17 @@ public class XmiMappingTest {
 		*/
 	}
 	
-	@Test (expected = NullPointerException.class) 
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
 		new XmiMapping(lhsFeature, rhsFeature, null, TRACKING, COMMENT);
 	}
 	
-	@Test (expected = NullPointerException.class) 
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
 		new XmiMapping(lhsFeature, rhsFeature, xmiMappingStatus, null, COMMENT);
 	}
 	
-	@Test (expected = NullPointerException.class) 
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam3() {
 		new XmiMapping(lhsFeature, rhsFeature, xmiMappingStatus, TRACKING, null);
 	}

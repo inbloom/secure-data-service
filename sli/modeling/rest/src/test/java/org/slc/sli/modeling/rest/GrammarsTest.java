@@ -41,7 +41,7 @@ public class GrammarsTest {
         grammars = new Grammars(DOC, INCLUDES);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullIncludes() {
         new Grammars(DOC, null);
     }

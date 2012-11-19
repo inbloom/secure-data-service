@@ -27,9 +27,18 @@ public final class StatusCodeException extends Exception {
     public StatusCodeException(final int statusCode) {
         this(statusCode, null);
     }
+
+    public StatusCodeException(Exception e, final int statusCode) {
+        this(e, statusCode, null);
+    }
     
     public StatusCodeException(final int statusCode, final String message) {
         super(message);
+        this.statusCode = statusCode;
+    }
+
+    public StatusCodeException(Exception e, final int statusCode, final String message) {
+        super(message, e);
         this.statusCode = statusCode;
     }
     
