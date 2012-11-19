@@ -90,13 +90,19 @@ developer_email_imap_registration_user: e2etestdev
 developer_email_imap_registration_user_email: e2etestdev@slidev.org
 developer_email_imap_registration_pass: test1234
 
+sandbox_dev_checklist_user_email: devldapuser_dip-mac.wgenhq.net@slidev.org
+sandbox_dev_checklist_pass: test1234
+
 # IDP and Redirect Endpoint URL for Realm Management
 ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com
 #email_imap_registration_user: testuser0.wgen@gmail.com
-#email_imap_registration_user_email: testuser0.wgen@gmail.com
+email_imap_registration_user_email: testuser0.wgen@gmail.com
+email_imap_registration_pass: test1234
+email_imap_registration_lz: picard-lz.slidev.org
+email_imap_registration_lz_port: 443
 #email_imap_registration_pass: liferaywgen
 #secondary_email_imap_registration_user: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com

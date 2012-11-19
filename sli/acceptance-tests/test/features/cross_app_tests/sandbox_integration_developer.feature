@@ -8,7 +8,7 @@ Scenario:  Developer Checklist
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 # This is temporary, please replace this
-When I submit the credentials "devldapuser_dip-mac.wgenhq.net@slidev.org" "test1234" for the "Simple" login page  
+When I submit the credentials "<Sandbox_Dev_Checklist_User_Email>" "<Sandbox_Dev_Checklist_Pass>" for the "Simple" login page  
 Then I should be on Portal home page
 And I should see "Developer Home"
 And I should see Developer Checklist
