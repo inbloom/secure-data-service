@@ -2,11 +2,6 @@ task :default => [:test]
 
 require 'rspec/core/rake_task'
 
-# Code coverage
-require 'simplecov'
-SimpleCov.start
-
-
 task :generate do
 	ruby "driver.rb"
 end
