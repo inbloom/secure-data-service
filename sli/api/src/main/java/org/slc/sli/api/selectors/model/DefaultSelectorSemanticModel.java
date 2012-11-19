@@ -44,8 +44,12 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     private ModelProvider modelProvider;
 
     public SemanticSelector parse(final Map<String, Object> selectors, final ClassType type) throws SelectorParseException {
-        if (type == null) throw new NullPointerException("type");
-        if (selectors == null) throw new NullPointerException("selectors");
+        if (type == null) {
+        	throw new IllegalArgumentException("type");
+        }
+        if (selectors == null) {
+        	throw new IllegalArgumentException("selectors");
+        }
 
         final SemanticSelector selector = new SemanticSelector();
         if (selectors.isEmpty()) {
