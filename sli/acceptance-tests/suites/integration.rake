@@ -82,6 +82,7 @@ end
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
+  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -89,7 +90,6 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
-  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcDeleteLDAPUsers"].execute
 
   displayFailureReport()
