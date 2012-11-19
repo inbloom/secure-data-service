@@ -28,8 +28,8 @@ public final class StatusCodeException extends Exception {
         this(statusCode, null);
     }
 
-    public StatusCodeException(Exception e, final int statusCode) {
-        this(e, statusCode, null);
+    public StatusCodeException(Throwable cause, final int statusCode) {
+        this(cause, statusCode, null);
     }
     
     public StatusCodeException(final int statusCode, final String message) {
@@ -37,8 +37,8 @@ public final class StatusCodeException extends Exception {
         this.statusCode = statusCode;
     }
 
-    public StatusCodeException(Exception e, final int statusCode, final String message) {
-        super(message, e);
+    public StatusCodeException(Throwable cause, final int statusCode, final String message) {
+        super(message, cause);
         this.statusCode = statusCode;
     }
     
