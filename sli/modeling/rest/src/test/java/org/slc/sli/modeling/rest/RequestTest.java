@@ -42,12 +42,12 @@ public class RequestTest {
         request = new Request(DOC, PARAMS, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullParams() {
         new Request(DOC, null, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullRepresentations() {
         new Request(DOC, PARAMS, null);
     }

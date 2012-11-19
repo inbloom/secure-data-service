@@ -38,10 +38,10 @@ public final class JavaFeature {
 
     public JavaFeature(final Feature name, final ModelIndex type) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         this.feature = name;
         this.model = type;

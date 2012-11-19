@@ -49,13 +49,13 @@ public final class Level2ClientInterfaceWriter extends Level3ClientWriter {
             final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
         if (packageName == null) {
-            throw new NullPointerException("packageName");
+            throw new IllegalArgumentException("packageName");
         }
         if (className == null) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         this.packageName = packageName;
         this.className = className;
@@ -74,7 +74,7 @@ public final class Level2ClientInterfaceWriter extends Level3ClientWriter {
                 schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
@@ -176,6 +176,7 @@ public final class Level2ClientInterfaceWriter extends Level3ClientWriter {
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        //No Op
     }
 
     @Override
@@ -183,12 +184,13 @@ public final class Level2ClientInterfaceWriter extends Level3ClientWriter {
         try {
             jsw.endClass();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
 
     @Override
     public void endResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        //No Op
     }
 }

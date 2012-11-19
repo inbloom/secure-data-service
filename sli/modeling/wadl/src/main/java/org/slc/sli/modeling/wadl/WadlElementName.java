@@ -91,7 +91,7 @@ public enum WadlElementName {
 
     WadlElementName(final String localName) {
         if (localName == null) {
-            throw new NullPointerException("localName");
+            throw new IllegalArgumentException("localName");
         }
         this.localName = localName;
     }

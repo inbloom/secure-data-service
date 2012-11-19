@@ -68,12 +68,12 @@ public class XmiFeatureTest {
     	*/
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullParam1() {
     	new XmiFeature(null, EXISTS, CLASS_NAME, CLASS_EXISTS);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullParam2() {
     	new XmiFeature(NAME, EXISTS, null, CLASS_EXISTS);
     }

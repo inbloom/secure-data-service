@@ -36,10 +36,10 @@ public class TaggedValue extends ModelElement {
             final Identifier tagDefinition) {
         super(id, taggedValues);
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         if (tagDefinition == null) {
-            throw new NullPointerException("tagDefinition");
+            throw new IllegalArgumentException("tagDefinition");
         }
         this.value = value;
         this.tagDefinition = tagDefinition;

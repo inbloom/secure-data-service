@@ -28,10 +28,10 @@ public final class PutMapEntry implements JavaSnippet {
 
     public PutMapEntry(final String name, final JavaSnippet value) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.name = name;
         this.value = value;

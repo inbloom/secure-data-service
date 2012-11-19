@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require_relative '../odin.rb'
+require_relative '../../odin.rb'
 
 describe "Odin" do
   describe "#validate" do
@@ -42,8 +42,8 @@ describe "Odin" do
   context "with a 10 student configuration" do
     let(:odin) {Odin.new}
     before {odin.generate "10students"}
-    let(:student_parent) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
-    let(:enroll) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml"}
+    let(:student_parent) {File.new "#{File.dirname(__FILE__)}/../../generated/InterchangeStudentParent.xml"}
+    let(:enroll) {File.new "#{File.dirname(__FILE__)}/../../generated/InterchangeStudentEnrollment.xml"}
 
     describe "#generate" do
       it "will generate lists of 10 students" do

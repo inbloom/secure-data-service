@@ -36,7 +36,7 @@ public final class ParentFileURIResolver implements URIResolver {
 
     public ParentFileURIResolver(final File parentFile) {
         if (parentFile == null) {
-            throw new NullPointerException("parentFile");
+            throw new IllegalArgumentException("parentFile");
         }
         this.parentFile = parentFile;
     }
@@ -48,7 +48,7 @@ public final class ParentFileURIResolver implements URIResolver {
             final InputStream byteStream = new BufferedInputStream(new FileInputStream(file));
             return new InputSource(byteStream);
         } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new XmiGenRuntimeException(e);
         }
     }
 }

@@ -29,7 +29,7 @@ public final class DmText implements DmNode {
 
     public DmText(final String value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.value = value;
     }

@@ -27,7 +27,7 @@ public final class StringLiteralExpr implements JavaSnippetExpr {
 
     public StringLiteralExpr(final String value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.value = value;
     }
@@ -35,7 +35,7 @@ public final class StringLiteralExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.dblQte();
         try {

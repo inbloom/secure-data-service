@@ -34,7 +34,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     
     protected StandardLevel2ClientManual(final String baseUrl, final Level1Client client) {
         if (baseUrl == null) {
-            throw new NullPointerException("baseUrl");
+            throw new IllegalArgumentException("baseUrl");
         }
         
         this.client = client;
@@ -49,10 +49,10 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     public List<Entity> getStudentsByStudentId(final String token, final List<String> studentIds,
             Map<String, Object> queryArgs) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (studentIds == null) {
-            throw new NullPointerException("studentIds");
+            throw new IllegalArgumentException("studentIds");
         }
         try {
             final String path = String.format("students/%s", StringUtils.join(studentIds, ','));
@@ -68,7 +68,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     public List<Entity> getStudents(final String token, Map<String, Object> queryArgs) throws IOException,
             StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         try {
             final String path = String.format("students");
@@ -83,7 +83,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     @Override
     public void deleteStudentsById(final String token, final String entityId) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         try {
             final String path = String.format("students/%s", entityId);
@@ -98,10 +98,10 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     @Override
     public String postStudents(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (entity == null) {
-            throw new NullPointerException("entity");
+            throw new IllegalArgumentException("entity");
         }
         try {
             final String path = "students";
@@ -117,10 +117,10 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     @Override
     public void putStudentsById(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (entity == null) {
-            throw new NullPointerException("entity");
+            throw new IllegalArgumentException("entity");
         }
         try {
             final String path = String.format("students/%s", entity.getId());

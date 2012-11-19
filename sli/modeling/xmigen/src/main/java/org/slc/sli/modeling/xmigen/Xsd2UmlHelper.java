@@ -23,7 +23,7 @@ public final class Xsd2UmlHelper {
      */
     public static final String pluralize(final String typeName) {
         if (typeName == null) {
-            throw new NullPointerException("typeName");
+            throw new IllegalArgumentException("typeName");
         }
         if (typeName.endsWith("y")) {
             return typeName.substring(0, typeName.length() - 1).concat("ies");
@@ -44,7 +44,7 @@ public final class Xsd2UmlHelper {
     
     public static final String camelCase(final String text) {
         if (text == null) {
-            throw new NullPointerException("text");
+            throw new IllegalArgumentException("text");
         }
         for (final String acronym : ACRONYMS) {
             if (acronym.equals(text)) {
@@ -61,7 +61,7 @@ public final class Xsd2UmlHelper {
     
     public static final String titleCase(final String text) {
         if (text == null) {
-            throw new NullPointerException("text");
+            throw new IllegalArgumentException("text");
         }
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
