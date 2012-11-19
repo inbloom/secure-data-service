@@ -21,6 +21,12 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which staff any generic entity can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class GenericToStaffValidator extends AbstractContextValidator {
     

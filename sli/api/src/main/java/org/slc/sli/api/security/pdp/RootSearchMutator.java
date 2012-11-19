@@ -23,7 +23,7 @@ public class RootSearchMutator {
     @Autowired
     ResourceEndPoint resourceEndPoint;
 
-    private static final List<Pair<String, String>> parameterResourcePairs = Arrays.asList(
+    private static final List<Pair<String, String>> PARAMETER_RESOURCE_PARIS = Arrays.asList(
             Pair.of(ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS),
             Pair.of(ParameterConstants.SCHOOL_ID, ResourceNames.SCHOOLS),
             Pair.of(ParameterConstants.STAFF_REFERENCE, ResourceNames.STAFF),
@@ -36,7 +36,7 @@ public class RootSearchMutator {
 
         Map<String, String> parameters = getParameterMap(queryParameters);
 
-        for (Pair<String, String> parameterResourcePair : parameterResourcePairs) {
+        for (Pair<String, String> parameterResourcePair : PARAMETER_RESOURCE_PARIS) {
             String curParameter = parameterResourcePair.getLeft();
             String curResource = parameterResourcePair.getRight();
             if (parameters.containsKey(curParameter)) {

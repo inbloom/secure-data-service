@@ -28,6 +28,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which cohorts any given staff member can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class StaffToCohortValidator extends AbstractContextValidator {
     
@@ -63,12 +69,12 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
                 getStaffEdOrgLineage()));
         Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
-        for(Entity cohort : cohorts) {
+        for (Entity cohort : cohorts) {
             myCohortIds.add(cohort.getEntityId());
         }
 
-        for(String id : ids) {
-            if(!myCohortIds.contains(id)) {
+        for (String id : ids) {
+            if (!myCohortIds.contains(id)) {
                 return false;
             } else {
                 match = true;

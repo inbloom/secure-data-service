@@ -28,9 +28,14 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which grades any given teacher can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class TeacherGradeResolver implements EntityContextResolver {
     @Autowired

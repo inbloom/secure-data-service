@@ -104,7 +104,7 @@ public class SecurityCriteriaTest {
         injector.setCustomContext("DerpSir", "Derp sir", "Merple", Arrays.asList("Educator"), body, "111");
         List<String> ids = new ArrayList<String>();
         Long size = Long.parseLong(inClauseSize);
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             ids.add("" + i);
         }
         SecurityCriteria securityCriteria = new SecurityCriteria();

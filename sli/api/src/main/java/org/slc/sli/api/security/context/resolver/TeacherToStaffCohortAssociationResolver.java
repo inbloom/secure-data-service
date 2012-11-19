@@ -33,24 +33,25 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeacherToStaffCohortAssociationResolver implements EntityContextResolver {
-
-	@Autowired
-	private AssociativeContextHelper helper;
-
-	@Autowired
-	private SessionSecurityCache securityCachingStrategy;
-
-	@Override
-	public boolean canResolve(String fromEntityType, String toEntityType) {
-		return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STAFF_COHORT_ASSOCIATION.equals(toEntityType);
-	}
-
-	@Override
-	public List<String> findAccessible(Entity principal) {
-		List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
-		List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId", ids);
-		securityCachingStrategy.warm(EntityNames.STAFF_COHORT_ASSOCIATION, new HashSet<String>(finalIds));
-		return finalIds;
-	}
+    
+    @Autowired
+    private AssociativeContextHelper helper;
+    
+    @Autowired
+    private SessionSecurityCache securityCachingStrategy;
+    
+    @Override
+    public boolean canResolve(String fromEntityType, String toEntityType) {
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STAFF_COHORT_ASSOCIATION.equals(toEntityType);
+    }
+    
+    @Override
+    public List<String> findAccessible(Entity principal) {
+        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
+        List<String> finalIds = helper.findEntitiesContainingReference(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId",
+                ids);
+        securityCachingStrategy.warm(EntityNames.STAFF_COHORT_ASSOCIATION, new HashSet<String>(finalIds));
+        return finalIds;
+    }
 
 }

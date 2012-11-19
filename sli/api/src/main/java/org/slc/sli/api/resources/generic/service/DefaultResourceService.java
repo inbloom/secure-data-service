@@ -351,7 +351,7 @@ public class DefaultResourceService implements ResourceService {
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
                 if (associations != null) {
-                    if(finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
+                    if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
                         //if the finalEntity references the assocEntity
                         for (EntityBody associationEntity : associations) {
                             filteredIdList.add((String) associationEntity.get("id"));
@@ -431,8 +431,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     private boolean finalEntityReferencesAssociation(EntityDefinition finalEntity, EntityDefinition assocEntity, String referenceField) {
-        return !assocEntity.getReferenceFields().containsKey(referenceField) &&
-                finalEntity.getReferenceFields().containsKey(referenceField);
+        return !assocEntity.getReferenceFields().containsKey(referenceField) && finalEntity.getReferenceFields().containsKey(referenceField);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
