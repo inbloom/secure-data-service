@@ -16,7 +16,11 @@ limitations under the License.
 
 =end
 
-require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
+require_relative '../../ingestion/rc_test/step_definition/rc_integration_ingestion.rb'
+
+Before do
+  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+end
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM

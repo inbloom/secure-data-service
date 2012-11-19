@@ -46,7 +46,7 @@ Scenario:  LEA deletes realm
   And I should see that I am on the new realm page
   And I exit out of the iframe
   And I click on log out
-
+@test
 Scenario: SEA purge tenant data
   #TODO: need to externalize server name
   When I drop a control file to purge tenant data as "<SEA ADMIN>" with password "<SEA ADMIN PASSWORD>" to "picard"
