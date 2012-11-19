@@ -48,9 +48,6 @@ public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppe
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
 
-    public StudentGradeLevelOptionalFieldAppender() {
-    }
-
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
 
