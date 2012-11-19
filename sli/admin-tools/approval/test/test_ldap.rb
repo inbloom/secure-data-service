@@ -189,7 +189,6 @@ class TestLdap < Test::Unit::TestCase
     new_user_info
   end
 
-  # TODO: enable this test when 
   def test_search_users
     @ldap.create_user(build_user_info Email1)
     @ldap.create_user(build_user_info Email2)
