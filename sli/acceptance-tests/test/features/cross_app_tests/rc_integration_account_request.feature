@@ -27,8 +27,8 @@ Scenario: As an app developer I request a production account and  I want to veri
   And I fill out the field "Last Name" as "Developer"
   And I fill out the field "Vendor" as "WGEN RC"
   And I fill out the field "Email" as "<DEVELOPER_EMAIL>"
-  And I fill out the field "Password" as "test1234"
-  And I fill out the field "Confirmation" as "test1234"
+  And I fill out the field "Password" as "<DEVELOPER_EMAIL_PASS>"
+  And I fill out the field "Confirmation" as "<DEVELOPER_EMAIL_PASS>"
   Then my password is shown as a series of dots
   And a captcha form is shown
   And when I click "Submit"

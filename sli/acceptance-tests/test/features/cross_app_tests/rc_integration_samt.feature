@@ -36,7 +36,7 @@ Feature:  RC Integration SAMT Tests
     And the newly created user has "EdOrg" updated to "STANDARD-SEA"
     
     And I switch to the iframe
-    Then I set my password to "test1234"
+    Then I set my password to "<PRIMARY_EMAIL_PASS>"
 
 # This is used for local testing to bypass portal.
 #@local

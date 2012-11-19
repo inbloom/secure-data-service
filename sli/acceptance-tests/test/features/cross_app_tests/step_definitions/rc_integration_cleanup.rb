@@ -22,25 +22,9 @@ require_relative '../../ingestion/rc_test/step_definition/rc_integration_ingesti
 # BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
 ###############################################################################
 
-Before do
-  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
-  RC_SERVER = ENV['RC_SERVER'] ? ENV['RC_SERVER'] : ""
-end
-
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
 ###############################################################################
-
-Transform /^<(.+)>$/ do |template|
-  id = template
-  id = PropLoader.getProps['e2e_sea_email']   if template == "SEA ADMIN"
-  id = PropLoader.getProps['e2e_password']    if template == "SEA ADMIN PASSWORD"
-  id = RC_SERVER                              if template == "SERVER"
-  id = PropLoader.getProps['e2e_sea_lz']      if template == "SEA LZ"
-  id = PropLoader.getProps['e2e_sea_lz_port'] if template == "SEA LZ PORT"
-  # return the transformed value
-  id
-end
 
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
