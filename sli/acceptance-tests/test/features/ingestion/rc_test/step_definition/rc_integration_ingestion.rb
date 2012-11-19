@@ -186,20 +186,22 @@ Given /^I have a local configured landing zone for my tenant$/ do
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
   tenants = db.collection("tenant").find("body.tenantId" => "RCTestTenant").to_a
-  assert(!tenants.empty?, "Cannot find the tenant \"RCTestTenant\" in mongo")
 
-  tenants[0]["body"]["landingZone"].each do |lz|
-    if lz["educationOrganization"] == "STANDARD-SEA"
-      @landing_zone_path = lz["path"]
-      if (@landing_zone_path =~ /\/$/).nil?
-        @landing_zone_path += "/"
-      end
-      break
-    end
+  if tenants.empty?
+    puts "RCTestTenant tenantId not found in Mongo - skipping tenant database deletion and LZ clearance"
+    else
+        tenants[0]["body"]["landingZone"].each do |lz|
+            if lz["educationOrganization"] == "STANDARD-SEA"
+                @landing_zone_path = lz["path"]
+                if (@landing_zone_path =~ /\/$/).nil?
+                    @landing_zone_path += "/"
+                end
+                break
+            end
+        end
+    clear_local_lz
   end
-  assert(!@landing_zone_path.nil?, "Cannot find configured lz path")
 
-  clear_local_lz
 end
 
 Given /^I use the landingzone user name "(.*?)" and password "(.*?)" on landingzone server "(.*?)" on port "(.*?)"$/ do |arg1, arg2, arg3, arg4|
