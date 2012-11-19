@@ -32,10 +32,10 @@ public class Resources extends WadlElement {
     public Resources(final String base, final List<Documentation> doc, final List<Resource> resources) {
         super(doc);
         if (null == base) {
-            throw new NullPointerException("base");
+            throw new IllegalArgumentException("base");
         }
         if (null == resources) {
-            throw new NullPointerException("resources");
+            throw new IllegalArgumentException("resources");
         }
         this.base = base;
         this.resources = Collections.unmodifiableList(new ArrayList<Resource>(resources));

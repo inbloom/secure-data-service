@@ -48,10 +48,10 @@ public class JavaType {
 
     public static JavaType collectionType(final JavaCollectionKind collectionKind, final JavaType primeType) {
         if (collectionKind == null) {
-            throw new NullPointerException("collectionKind");
+            throw new IllegalArgumentException("collectionKind");
         }
         if (primeType == null) {
-            throw new NullPointerException("primeType");
+            throw new IllegalArgumentException("primeType");
         }
         return new JavaType(primeType.getSimpleName(), collectionKind, primeType.getTypeKind(), null);
     }

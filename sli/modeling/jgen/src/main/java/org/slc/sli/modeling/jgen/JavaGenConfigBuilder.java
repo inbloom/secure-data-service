@@ -39,10 +39,6 @@ public final class JavaGenConfigBuilder {
 
     private boolean useDataTypeBase = false;
 
-    public JavaGenConfigBuilder() {
-
-    }
-
     public JavaGenConfigBuilder useDataTypeBase(final boolean useDataTypeBase) {
         this.useDataTypeBase = useDataTypeBase;
         return this;

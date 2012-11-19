@@ -49,13 +49,13 @@ public final class SpringLevel0Client implements Level0Client {
     @Override
     public String get(final String token, final URI uri, final String mediaType) throws StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         
         final HttpHeaders headers = new HttpHeaders();
@@ -67,7 +67,7 @@ public final class SpringLevel0Client implements Level0Client {
                     String.class);
             return response.getBody();
         } catch (final HttpClientErrorException e) {
-            throw new StatusCodeException(e.getStatusCode().value());
+            throw new StatusCodeException(e, e.getStatusCode().value());
         }
     }
     

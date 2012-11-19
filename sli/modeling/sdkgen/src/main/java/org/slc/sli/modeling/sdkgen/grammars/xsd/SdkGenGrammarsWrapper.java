@@ -47,7 +47,7 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
 
     public SdkGenGrammarsWrapper(final List<XmlSchema> xmlSchemas) {
         if (xmlSchemas == null) {
-            throw new NullPointerException("xmlSchema");
+            throw new IllegalArgumentException("xmlSchema");
         }
         this.xmlSchemas = Collections.unmodifiableList(new ArrayList<XmlSchema>(xmlSchemas));
     }
@@ -55,7 +55,7 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
     @Override
     public XmlSchemaElement getElement(final QName elementName) {
         if (elementName == null) {
-            throw new NullPointerException("elementName");
+            throw new IllegalArgumentException("elementName");
         }
         for (final XmlSchema xmlSchema : xmlSchemas) {
             final XmlSchemaElement element = xmlSchema.getElementByName(elementName);

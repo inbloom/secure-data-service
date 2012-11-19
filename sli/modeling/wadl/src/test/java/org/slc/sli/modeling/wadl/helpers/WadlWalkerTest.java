@@ -36,12 +36,12 @@ import org.slc.sli.modeling.rest.Resources;
  */
 public class WadlWalkerTest {
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorNullHandler() {
         new WadlWalker(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWalkNullApplication() {
         WadlHandler mockHandler = mock(WadlHandler.class);
         WadlWalker ww = new WadlWalker(mockHandler);

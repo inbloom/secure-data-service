@@ -47,17 +47,17 @@ public class RepresentationTest {
         representation = new Representation(ID, ELEMENT_NAME, MEDIA_TYPE, PROFILES, DOC, PARAMS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullMediaType() {
         new Representation(ID, ELEMENT_NAME, null, PROFILES, DOC, PARAMS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullProfiles() {
         new Representation(ID, ELEMENT_NAME, MEDIA_TYPE, null, DOC, PARAMS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullParams() {
         new Representation(ID, ELEMENT_NAME, MEDIA_TYPE, PROFILES, DOC, null);
     }

@@ -54,7 +54,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
 
     public IndentingXMLStreamWriter(final XMLStreamWriter next) {
         if (next == null) {
-            throw new NullPointerException("next");
+            throw new IllegalArgumentException("next");
         }
         this.next = next;
     }
@@ -145,10 +145,10 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
     @Override
     public void writeAttribute(final String localName, final String value) throws XMLStreamException {
         if (localName == null) {
-            throw new NullPointerException("localName");
+            throw new IllegalArgumentException("localName");
         }
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         next.writeAttribute(localName, value);
     }
@@ -163,16 +163,16 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
     public void writeAttribute(final String prefix, final String namespaceURI, final String localName,
             final String value) throws XMLStreamException {
         if (prefix == null) {
-            throw new NullPointerException("prefix");
+            throw new IllegalArgumentException("prefix");
         }
         if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI");
+            throw new IllegalArgumentException("namespaceURI");
         }
         if (localName == null) {
-            throw new NullPointerException("localName");
+            throw new IllegalArgumentException("localName");
         }
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         next.writeAttribute(prefix, namespaceURI, localName, value);
     }

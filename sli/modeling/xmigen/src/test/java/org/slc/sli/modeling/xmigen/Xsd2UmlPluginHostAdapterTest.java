@@ -91,7 +91,7 @@ public void before() throws Exception {
 public void after() throws Exception { 
 }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidInstance() {
         Xsd2UmlPluginHostAdapter invalidAdapter= new Xsd2UmlPluginHostAdapter(null);
     }

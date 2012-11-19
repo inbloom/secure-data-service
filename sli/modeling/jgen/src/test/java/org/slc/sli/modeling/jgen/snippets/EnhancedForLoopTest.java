@@ -25,6 +25,7 @@ import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -38,7 +39,7 @@ public class EnhancedForLoopTest {
     MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         JavaParam param = new JavaParam("param", JavaType.JT_BOOLEAN, false);
         JavaSnippetExpr[] args = new JavaSnippetExpr[] { NullExpr.SINGLETON, NullExpr.SINGLETON };
         enhancedForLoop = new EnhancedForLoop(param,

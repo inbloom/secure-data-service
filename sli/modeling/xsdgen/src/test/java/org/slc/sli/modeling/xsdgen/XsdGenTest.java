@@ -21,14 +21,11 @@ import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.junit.Test;
 import org.slc.sli.modeling.xsd.XsdReader;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.mockito.Mockito.mock;
 
@@ -71,18 +68,6 @@ public class XsdGenTest {
         assertNotNull(schema.getElementByName("assessment"));
 
         outFile.deleteOnExit();
-    }
-
-    @Test
-    public void testXsdGenSad() {
-        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(outContent));
-
-        final String[] strArr = new String[] {"a", "b", "c"};
-        XsdGen.main(strArr);
-
-        assertTrue(outContent.toString().contains("Missing required option"));
-        System.setErr(null);
     }
 
     @Test

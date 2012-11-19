@@ -19,6 +19,7 @@ import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.generic.GenericResource;
+import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.representation.HateoasLink;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
@@ -30,10 +31,12 @@ import org.slc.sli.api.resources.v1.view.View;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.common.util.entity.EntityManipulator;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
@@ -63,12 +66,45 @@ public class GetResponseBuilder extends ResponseBuilder {
     @Autowired
     private View optionalView;
 
+    @Autowired
+    private ResourceEndPoint resourceEndPoint;
 
     @Autowired
     private HateoasLink hateoasLink;
+    
+    /**
+     * Throws a QueryParseException if the end user tried to query an endpoint that does
+     * not support querying.
+     * 
+     * 
+     * @param uriInfo
+     */
+    protected void validatePublicResourceQuery(final UriInfo uriInfo) {
+        List<PathSegment> uriPathSegments = uriInfo.getPathSegments();
+        
+        if (uriPathSegments != null) {
+         // if of the form "v1/foo"
+            if (uriPathSegments.size() == 2) {
+                String endpoint = uriPathSegments.get(1).getPath();
+                
+                // if that endpoint does not allow querying
+                if (this.resourceEndPoint.getQueryingDisallowedEndPoints().contains(endpoint)) {
+                    ApiQuery apiQuery = new ApiQuery(uriInfo);
+                    
+                    // if the user tried to execute a query/filter
+                    if (apiQuery.getCriteria().size() > 0) {
+                        throw new QueryParseException("Querying not allowed", apiQuery.toString());
+                    }
+                }
+            }
+        }
+    }
 
     public Response build(final UriInfo uriInfo, final ResourceTemplate template,
                           final ResourceMethod method, final GenericResource.GetResourceLogic logic) {
+        
+        validatePublicResourceQuery(uriInfo);
+        
         //get the resource container
         Resource resource = constructAndCheckResource(uriInfo, template, method);
 

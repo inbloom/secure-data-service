@@ -40,7 +40,7 @@ public enum Word implements JavaSnippet {
 
     Word(final String word) {
         if (word == null) {
-            throw new NullPointerException("word");
+            throw new IllegalArgumentException("word");
         }
         this.word = word;
     }

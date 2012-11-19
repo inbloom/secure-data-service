@@ -27,7 +27,7 @@ public final class VarNameExpr implements JavaSnippetExpr {
 
     public VarNameExpr(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }
@@ -35,7 +35,7 @@ public final class VarNameExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write(name);
     }

@@ -36,11 +36,15 @@ import org.slc.sli.modeling.uml.HasName;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides analysis of the WADL.
  */
 public final class WadlExpert {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlExpert.class);
 
     /**
      * Compute the element name for the request by walking the URI in the UML graph until it
@@ -65,7 +69,7 @@ public final class WadlExpert {
             if (elementNames.containsKey(typeName.getLocalPart())) {
                 return elementNames.get(typeName.getLocalPart());
             } else {
-                throw new RuntimeException("" + typeName);
+                throw new WadlAuditRuntimeException("" + typeName);
             }
         }
     }
@@ -94,7 +98,7 @@ public final class WadlExpert {
                     return null;
                 }
             } else {
-                throw new RuntimeException("" + typeName);
+                throw new WadlAuditRuntimeException("" + typeName);
             }
         }
     }
@@ -108,7 +112,7 @@ public final class WadlExpert {
             stepIndex = stepIndex + 1;
             if (stepIndex == 1) {
                 if (!"v1".equals(step)) {
-                	System.err.println("1st step is not the version specifier.");
+                    LOG.warn("1st step is not the version specifier.");
                 }
             } else if (stepIndex == 2) {
                 if ("home".equals(step)) {
@@ -118,7 +122,7 @@ public final class WadlExpert {
                     final Type type = document.getType();
                     types.push(type);
                 } else {
-                    System.err.println(step + " is not a valid top-level step.");
+                    LOG.warn(step + " is not a valid top-level step.");
                 }
             } else {
                 final Type type = types.peek();
@@ -155,7 +159,7 @@ public final class WadlExpert {
 
     protected static final List<String> getNames(final List<? extends HasName> namedElements) {
         if (namedElements == null) {
-            throw new NullPointerException("namedElements");
+            throw new IllegalArgumentException("namedElements");
         }
         final List<String> names = new ArrayList<String>(namedElements.size());
         for (final HasName namedElement : namedElements) {
@@ -188,7 +192,7 @@ public final class WadlExpert {
     }
 
     protected WadlExpert() {
-        throw new RuntimeException();
+        throw new WadlAuditRuntimeException("Not Implemented");
     }
 
 }

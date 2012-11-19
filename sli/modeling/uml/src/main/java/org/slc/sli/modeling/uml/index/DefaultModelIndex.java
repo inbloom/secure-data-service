@@ -33,6 +33,7 @@ import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.ModelRuntimeException;
 import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
@@ -51,7 +52,7 @@ public class DefaultModelIndex implements ModelIndex {
         if (obj != null) {
             return obj;
         } else {
-            throw new RuntimeException(memo.toString());
+            throw new ModelRuntimeException(memo.toString());
         }
     }
     

@@ -42,7 +42,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
        | Entity Type               | Entity URI                 | Parent Collection        | Parent ID                     | Reference Field | Reference ID              |
        | studentSectionAssociation | studentSectionAssociations | student                  | <MARVIN MILLER>               | section         | <8TH GRADE ENGLISH SEC 6> |
        | studentProgramAssociation | studentProgramAssociations | student                  | <MARVIN MILLER>               | program         | <ACC TEST PROG 2>         |
-       | studentAcademicRecord     | studentAcademicRecords     | studentSchoolAssociation | <MARVIN MILLER EAST DB JR HI> | sessions        | <SPRING SEMESTER>               |
+#       | studentAcademicRecord     | studentAcademicRecords     | studentSchoolAssociation | <MARVIN MILLER EAST DB JR HI> | sessions        | <SPRING SEMESTER>               |
 #       | attendance                | attendances                | studentSchoolAssociation | <MARVIN MILLER EAST DB JR HI> | session         | <FALL 2011>               |
 
 

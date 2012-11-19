@@ -41,7 +41,7 @@ public class IncludeTest {
         include = new Include(HREF, DOC);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullHref() {
         new Include(null, DOC);
     }

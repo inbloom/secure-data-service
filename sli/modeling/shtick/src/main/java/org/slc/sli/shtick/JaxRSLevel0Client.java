@@ -56,13 +56,13 @@ public final class JaxRSLevel0Client implements Level0Client {
     @Override
     public String get(final String token, final URI uri, final String mediaType) throws StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         
         final Invocation.Builder builder = createBuilder(token, uri, mediaType);
@@ -75,13 +75,13 @@ public final class JaxRSLevel0Client implements Level0Client {
     @Override
     public void delete(final String token, final URI uri, final String mediaType) throws StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         
         final Invocation.Builder builder = createBuilder(token, uri, mediaType);
@@ -94,16 +94,16 @@ public final class JaxRSLevel0Client implements Level0Client {
     public URI post(final String token, final String data, final URI uri, final String mediaType)
             throws StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         
         final Invocation.Builder builder = createBuilder(token, uri, mediaType);
@@ -114,7 +114,7 @@ public final class JaxRSLevel0Client implements Level0Client {
         try {
             return new URI(response.getHeaders().getHeader(HEADER_NAME_LOCATION));
         } catch (final URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new ClientRuntimeException(e);
         }
     }
     
@@ -122,16 +122,16 @@ public final class JaxRSLevel0Client implements Level0Client {
     public void put(final String token, final String data, final URI uri, final String mediaType)
             throws StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         
         final Invocation.Builder builder = createBuilder(token, uri, mediaType);
@@ -143,16 +143,16 @@ public final class JaxRSLevel0Client implements Level0Client {
     @Override
     public void patch(String token, String data, URI uri, String mediaType) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
 
         final Invocation.Builder builder = createBuilder(token, uri, mediaType);
@@ -163,13 +163,13 @@ public final class JaxRSLevel0Client implements Level0Client {
 
     private Invocation.Builder createBuilder(final String token, final URI uri, final String mediaType) {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (mediaType == null) {
-            throw new NullPointerException("mediaType");
+            throw new IllegalArgumentException("mediaType");
         }
         final Invocation.Builder builder = client.target(uri).request(mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
@@ -179,10 +179,10 @@ public final class JaxRSLevel0Client implements Level0Client {
     private RestResponse checkResponse(final Response response, final Response.Status expected)
             throws StatusCodeException {
         if (response == null) {
-            throw new NullPointerException("response");
+            throw new IllegalArgumentException("response");
         }
         if (expected == null) {
-            throw new NullPointerException("expected");
+            throw new IllegalArgumentException("expected");
         }
         if (response.getStatus() != expected.getStatusCode()) {
             throw new StatusCodeException(response.getStatus(), response.readEntity(String.class));
@@ -193,7 +193,7 @@ public final class JaxRSLevel0Client implements Level0Client {
     
     private RestResponse responseToRestResponse(final Response response) {
         if (response == null) {
-            throw new NullPointerException("response");
+            throw new IllegalArgumentException("response");
         }
         final String body = response.readEntity(String.class);
         final int statusCode = response.getStatus();

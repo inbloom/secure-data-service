@@ -28,7 +28,7 @@ public final class MappableToMapExpr implements JavaSnippetExpr {
 
     public MappableToMapExpr(final VarNameExpr id) {
         if (id == null) {
-            throw new NullPointerException("id");
+            throw new IllegalArgumentException("id");
         }
         this.id = id;
     }
@@ -36,7 +36,7 @@ public final class MappableToMapExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write(id);
         jsw.write(".");

@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +34,7 @@ public class WordTest {
     MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         jsw = new MockJavaStreamWriter();
     }
 
