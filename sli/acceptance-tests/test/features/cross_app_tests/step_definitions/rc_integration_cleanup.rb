@@ -64,7 +64,7 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
 end
 
 When /^I get the database name$/ do
-  @tenant_name = PropLoader.getProps['e2e_tenant_name']
+  @tenant_name = PropLoader.getProps['tenant']
   @tenant_db_name = convertTenantIdToDbName(@tenant_name)
 end
 

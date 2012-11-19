@@ -188,13 +188,13 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db_name = PropLoader.getProps['ingestion_database_name']
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
-  tenant_name = PropLoader.getProps['e2e_tenant_name']
+  tenant_name = PropLoader.getProps['tenant']
   tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
 
   if tenants.empty?
     puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
   else
-    edorg = PropLoader.getProps['e2e_edorg']
+    edorg = PropLoader.getProps['edorg']
     tenants[0]["body"]["landingZone"].each do |lz|
       if lz["educationOrganization"] == edorg
         @landing_zone_path = lz["path"]

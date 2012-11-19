@@ -57,6 +57,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = PropLoader.getProps['landingzone_port']
  elsif human_readable_text == "SERVER"
   value = RCSERVER
+ elsif human_readable_text == "TENANT"
+  value = PropLoader.getProps['tenant']
  end
 
  value
