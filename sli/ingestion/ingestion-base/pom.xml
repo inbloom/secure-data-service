@@ -41,39 +41,29 @@
 
   <dependencies>
 
+    <!-- SLI - Domain -->
     <dependency>
-      <groupId>org.slc.sli.schema</groupId>
-      <artifactId>edfi-schema</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-        
-        
-    <!-- Spring Core dependency -->
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
+      <groupId>org.slc.sli.domain</groupId>
+      <artifactId>domain</artifactId>
     </dependency>
 
-    <!-- Spring Context dependency -->
     <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${spring.version}</version>
+      <groupId>org.slc.sli.common</groupId>
+      <artifactId>sli-common</artifactId>
     </dependency>
+
+
 
     <!-- Apache Commons IO dependency -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>${commons.io.version}</version>
     </dependency>
 
     <!-- Apache Commons Codec dependency -->
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>${commons.codec.version}</version>
     </dependency>
 
 	    <!-- Apache Commons Codec dependency -->
@@ -95,7 +85,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
-      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
@@ -108,13 +97,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
-      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>${commons.beanutils.version}</version>
     </dependency>
 
     <dependency>
