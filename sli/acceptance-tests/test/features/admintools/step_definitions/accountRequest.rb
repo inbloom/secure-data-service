@@ -125,8 +125,10 @@ end
 Then /^when I click "([^\"]*)"$/ do |button|
   if button == 'Cancel'
     @driver.find_element(:xpath, "//a[text()=\"#{button}\"]").click
+    puts "Declined Terms and Conditions."
   else
     @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+    puts "Accepted Terms and Conditions."
   end
 end
 
@@ -136,17 +138,9 @@ Then /^my field entries are validated$/ do
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
-  puts @driver.page_source
-  if (@driver.current_url.include?("#{@baseUrl}/eula"))
-    assertText("Terms and Conditions")
-    accept = @driver.find_element(:xpath, "//input[contains(@id,'Accept']")
-    puts "EULA is present"
-    accept.click
-  else
-    puts "EULA has already been accepted"
-  end
-  #assertWithWait("Was not redirected to #{@baseUrl}/eula") { @driver.current_url.include?("#{@baseUrl}/eula") }
-  #assertText("Terms and Conditions")
+  assertWithWait("Was not redirected to #{@baseUrl}/eula") { @driver.current_url.include?("#{@baseUrl}/eula") }
+  assertText("Terms and Conditions")
+  puts "Terms and Conditions displayed"
 end
 
 Then /^I receive an error that the account already exists$/ do
