@@ -27,19 +27,36 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../utils/email.rb'
 
+Before do
+  RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
+  RC_SERVER = ENV['RC_SERVER'] ? ENV['RC_SERVER'] : ""
+end
+
 Transform /^<([^>]*)>$/ do |human_readable_text|
  if human_readable_text == "PRIMARY_EMAIL"
    value = PropLoader.getProps['primary_email_imap_registration_user_email']
    @email_username = PropLoader.getProps['primary_email_imap_registration_user']
    @email_password = PropLoader.getProps['primary_email_imap_registration_pass']
+ if human_readable_text == "PRIMARY_EMAIL_PASS"
+   value = PropLoader.getProps['primary_email_imap_registration_pass']
  elsif human_readable_text == "SECONDARY_EMAIL"
   value = PropLoader.getProps['secondary_email_imap_registration_user_email']
   @email_username = PropLoader.getProps['secondary_email_imap_registration_user']
   @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
+ if human_readable_text == "SECONDARY_EMAIL_PASS"
+   value = PropLoader.getProps['secondary_email_imap_registration_pass']
  elsif human_readable_text == "DEVELOPER_EMAIL"
   value = PropLoader.getProps['developer_email_imap_registration_user_email']
   @email_username = PropLoader.getProps['developer_email_imap_registration_user']
-  @email_password = PropLoader.getProps['developer_email_imap_registration_pass']   
+  @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
+ if human_readable_text == "DEVELOPER_EMAIL_PASS"
+   value = PropLoader.getProps['developer_email_imap_registration_pass']
+ elsif human_reable_text == "LANDINGZONE"
+  value = PropLoader.getProps['landingzone']
+ elsif human_readable_text == "LANDINGZONE_PORT"
+  value = PropLoader.getProps['landingzone_port']
+ elsif human_readable_text == "SERVER"
+  value = RCSERVER
  end
 
  value

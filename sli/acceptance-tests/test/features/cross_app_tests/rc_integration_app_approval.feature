@@ -8,7 +8,7 @@ Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials  "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page  
+When I submit the credentials  "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page  
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -49,7 +49,7 @@ Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials  "<DEVELOPER_EMAIL>" "test1234" for the "Simple" login page    
+When I submit the credentials  "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -101,7 +101,7 @@ Scenario:  LEA approves Dashboard, Databrowser and Dev App
 When I navigate to the Portal home page
 When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials  "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page    
+When I submit the credentials  "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin

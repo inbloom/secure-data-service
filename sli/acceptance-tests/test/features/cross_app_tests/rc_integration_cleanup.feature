@@ -8,7 +8,7 @@ Scenario: App developer deletes installed app
   When I navigate to the Portal home page
   When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials  "<DEVELOPER_EMAIL>"  "test1234" for the "Simple" login page
+  When I submit the credentials  "<DEVELOPER_EMAIL>"  "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
@@ -31,7 +31,7 @@ Scenario:  LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page
+  When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
@@ -49,7 +49,7 @@ Scenario:  LEA deletes realm
 
 @singhy
 Scenario: SEA purge tenant data
-  When I drop a control file to purge tenant data as "<SEA ADMIN>" with password "<SEA ADMIN PASSWORD>" to "<SERVER>"
+  When I drop a control file to purge tenant data as "<PRIMARY_EMAIL>" with password "<PRIMARY_EMAIL_PASS>" to "<SERVER>"
   Then my tenant database should be cleared
 
 Scenario: slcoperator deletes SEA,LEA
