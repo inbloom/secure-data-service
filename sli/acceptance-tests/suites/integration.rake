@@ -85,6 +85,7 @@ task :rcDeleteLDAPUsers do
       cleanUpLdapUser(email)
       puts "Successfully Deleted #{email} from LDAP"
     rescue Exception => e  
+      puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
     end
