@@ -107,6 +107,8 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_pass: liferaywgen
 
+#For RC environments
+
 e2e_tenant_name: RCTestTenant
 #e2e_edorg: RCTestEdOrg
 e2e_edorg: STANDARD-SEA
