@@ -29,9 +29,9 @@
     </jb:bean>
 
     <jb:bean beanId="GradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="schoolYear" data="attributes GradingPeriodIdentity SchoolYear" />
-        <jb:value property="gradingPeriod" data="attributes GradingPeriodIdentity GradingPeriod" />
-        <jb:value property="schoolId" data="attributes GradingPeriodIdentity SchoolId" />
+        <jb:value property="schoolYear" data="attributes SchoolYear" />
+        <jb:value property="gradingPeriod" data="attributes GradingPeriod" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
     <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
