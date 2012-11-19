@@ -32,19 +32,6 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
-Transform /^<([^>]*)>$/ do |human_readable_text|
- if human_readable_text == "Email_IMAP_Registration_User_Email"
-   url = PropLoader.getProps["email_imap_registration_user_email"]
- elsif human_readable_text == "Email_IMAP_Registration_Pass"
-   url = PropLoader.getProps["email_imap_registration_pass"]
- elsif human_readable_text == "Email_IMAP_Registration_LZ"
-   url = PropLoader.getProps["email_imap_registration_lz"]
- elsif human_readable_text == "Email_IMAP_Registration_LZ_Port"
-   url = PropLoader.getProps["email_imap_registration_lz_port"]
- end
- url
-end
-
 
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]

@@ -36,6 +36,8 @@ Transform /^<(.+)>$/ do |template|
   id = PropLoader.getProps['e2e_sea_email']   if template == "SEA ADMIN"
   id = PropLoader.getProps['e2e_password']    if template == "SEA ADMIN PASSWORD"
   id = RC_SERVER                              if template == "SERVER"
+  id = PropLoader.getProps['e2e_sea_lz']      if template == "SEA LZ"
+  id = PropLoader.getProps['e2e_sea_lz_port'] if template == "SEA LZ Port"
   # return the transformed value
   id
 end
