@@ -36,7 +36,7 @@ end
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
-When /^I drop a control file to purge tenant data as "([^\"]*) with password "([^\"]*)" to "([^\"]*)"$/ do |user, pass server|
+When /^I drop a control file to purge tenant data as "([^\"]*)" with password "([^\"]*)" to "([^\"]*)"$/ do |user, pass, server|
   #TODO
   if RUN_ON_RC
     steps %Q{
