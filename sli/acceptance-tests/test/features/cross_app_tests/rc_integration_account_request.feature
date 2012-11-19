@@ -1,10 +1,27 @@
 @rc
 Feature: User requests for an account for production or sandbox account
 
-Background: None
-
-Scenario: As an app developer I request a production account
+Background:
   Given I have an open web browser
+
+Scenario: SLC Operator logs into SAMT and deletes the developer account
+	#Given I have an open web browser
+    When I navigate to the Portal home page
+    When I selected the realm "Shared Learning Collaborative"
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+    Then I should be on Portal home page
+    Then I should see Admin link
+    And I click on Admin
+    Then I should be on the admin page
+    And under System Tools, I click on "Administrative Account Management"
+
+    And I switch to the iframe
+    Then I delete the user "RCTest Developer" if exists
+    And I switch to the iframe	
+
+Scenario: As an app developer I request a production account and  I want to verify my registration email
+  #Given I have an open web browser
   And I go to the account registration page
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
@@ -20,13 +37,13 @@ Scenario: As an app developer I request a production account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
 
-Scenario: As an app developer I want to verify my registration email
+#Scenario: As an app developer I want to verify my registration email
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 
 Scenario: As an SLC Operator I want to approve the app developer account
-  Given I have an open web browser
+ # Given I have an open web browser
   And I navigate to the Portal home page
   When I select the "Shared Learning Collaborative" realm 
   Then I am redirected to "Simple" login page
