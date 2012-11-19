@@ -77,7 +77,7 @@ public class SamlResponseComposer {
         try {
             template = IOUtils.toString(this.getClass().getResourceAsStream("/samlResponseTemplate.xml"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         }
         
         template = template.replace("__RESPONSE_ID__", UUID.randomUUID().toString());
@@ -137,19 +137,19 @@ public class SamlResponseComposer {
             
         } catch (SAXException e) {
             // holy checked exception list, Batman!
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (TransformerException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (MarshalException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (XMLSignatureException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         }
     }
     
