@@ -198,21 +198,26 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db_name = PropLoader.getProps['ingestion_database_name']
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
-  tenants = db.collection("tenant").find("body.tenantId" => "RCTestTenant").to_a
-  assert(!tenants.empty?, "Cannot find the tenant \"RCTestTenant\" in mongo")
+  tenant_name = PropLoader.getProps['e2e_tenant_name']
+  tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
 
-  tenants[0]["body"]["landingZone"].each do |lz|
-    if lz["educationOrganization"] == "STANDARD-SEA"
-      @landing_zone_path = lz["path"]
-      if (@landing_zone_path =~ /\/$/).nil?
-        @landing_zone_path += "/"
+  if tenants.empty?
+    puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion and LZ clearance"
+  else
+    edorg = PropLoader.getProps['e2e_edorg']
+    tenants[0]["body"]["landingZone"].each do |lz|
+      if lz["educationOrganization"] == edorg
+        @landing_zone_path = lz["path"]
+        if (@landing_zone_path =~ /\/$/).nil?
+          @landing_zone_path += "/"
+        end
+        break
       end
-      break
     end
+    assert(!@landing_zone_path.nil?, "Could not retrieve landing zone path")
+    clear_local_lz
   end
-  assert(!@landing_zone_path.nil?, "Cannot find configured lz path")
 
-  clear_local_lz
 end
 
 Given /^I use the landingzone user name "([^"]*)" and password "([^"]*)" on landingzone server "([^"]*)" on port "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
