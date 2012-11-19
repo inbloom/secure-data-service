@@ -487,11 +487,11 @@ public class DefaultResourceService implements ResourceService {
                         errorResult.put("type", "Forbidden");
                         errorResult.put("message", "Access DENIED: " + ade.getMessage());
                         errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
-                    } catch (Exception e) {
+                    } /* catch (Exception e) {
                         errorResult.put("type", "Internal Server Error");
                         errorResult.put("message", "Internal Server Error: " + e.getMessage());
                         errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-                    }
+                    } */
 
                     finalResults.add(i, new EntityBody(errorResult));
                 }
