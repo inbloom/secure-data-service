@@ -64,8 +64,11 @@ public class MockBasicService implements EntityService {
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
         List<EntityBody> results = new ArrayList<EntityBody>();
+        EntityBody body;
         for (int i=0; i<numToReturn.get(count); i++) {
-            results.add(new EntityBody());
+            body = new EntityBody();
+            body.put("id", i);
+            results.add(body);
         }
         count++;
         return results;

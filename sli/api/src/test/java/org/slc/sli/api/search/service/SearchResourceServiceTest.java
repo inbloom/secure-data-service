@@ -32,6 +32,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -157,7 +159,7 @@ public class SearchResourceServiceTest {
         // for staff, list of entities should not change
         Mockito.doReturn(getSet("1", "2")).when(rs).isAccessible(Mockito.eq("student"), Mockito.anySet());
         Mockito.doReturn(getSet("3")).when(rs).isAccessible(Mockito.eq("section"), Mockito.anySet());
-        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities());
+        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities(), 0, 10);
         Assert.assertEquals(3, result.size());
     }
 
@@ -172,7 +174,7 @@ public class SearchResourceServiceTest {
         Mockito.doReturn(getSet("1", "3", "5")).when(rs).isAccessible(Mockito.eq("student"), Mockito.anySet());
         Mockito.doReturn(getSet("3")).when(rs).isAccessible(Mockito.eq("section"), Mockito.anySet());
         Mockito.doReturn(getSet("1")).when(rs).isAccessible(Mockito.eq("someRandomType"), Mockito.anySet());
-        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities());
+        Collection<EntityBody> result = rs.filterResultsBySecurity(getEntities(), 0, 10);
 
         Assert.assertEquals(2, result.size());
 
@@ -181,7 +183,7 @@ public class SearchResourceServiceTest {
 
         // test when all entities are inaccessible
         Mockito.doReturn(getSet()).when(rs).isAccessible(Mockito.anyString(), Mockito.anySet());
-        result = rs.filterResultsBySecurity(getEntities());
+        result = rs.filterResultsBySecurity(getEntities(), 0, 10);
         Assert.assertEquals(0, result.size());
 
     }
@@ -250,7 +252,8 @@ public class SearchResourceServiceTest {
         runPaginationTest(Arrays.asList(60, 40), 18, queryUri, 10);
     }
 
-    private void runPaginationTest(List<Integer> numSearchHits, int filterNum, URI queryUri, int numResults) {
+    @SuppressWarnings("unchecked")
+    private void runPaginationTest(List<Integer> numSearchHits, final int filterNum, URI queryUri, int numResults) {
 
         SearchResourceService rs = Mockito.spy(resourceService);
         EntityDefinition mockDef = Mockito.mock(EntityDefinition.class);
@@ -258,17 +261,19 @@ public class SearchResourceServiceTest {
         mockService.setNumToReturn(numSearchHits);
         Mockito.when(mockDef.getService()).thenReturn(mockService);
         Mockito.when(rs.getService()).thenReturn(mockService);
-        Mockito.doReturn(getResults(filterNum)).when(rs).filterResultsBySecurity(Mockito.isA(List.class));
+        Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {
+            @Override
+            public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                return getResults((List<EntityBody>)args[0], filterNum);
+            }
+        });
         ApiQuery apiQuery = rs.prepareQuery(new Resource("v1", "student"), null, queryUri);
         List<EntityBody> results = rs.retrieveResults(apiQuery);
         Assert.assertEquals(numResults, results.size());
     }
 
-    private List<EntityBody> getResults(int num) {
-        List<EntityBody> results = new ArrayList<EntityBody>();
-        for (int i=0; i<num; i++) {
-            results.add(new EntityBody());
-        }
-        return results;
+    private List<EntityBody> getResults(List<EntityBody> list, int num) {
+        return new ArrayList<EntityBody>(list.subList(0, Math.min(num, list.size())));
     }
 }

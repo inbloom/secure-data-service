@@ -178,13 +178,11 @@ public class SearchResourceService {
 
             // call BasicService to query the elastic search repo
             entityBodies = (List<EntityBody>) getService().list(apiQuery);
-
-            // filter results through security context
-
-            finalEntities.addAll(filterResultsBySecurity(entityBodies));
+            int lastSize = entityBodies.size();
+            finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
 
             // if no more results to grab, then we're done
-            if (entityBodies.size() < limitPerQuery) {
+            if (lastSize < limitPerQuery) {
                 break;
             }
 
@@ -251,31 +249,48 @@ public class SearchResourceService {
      * Retains the original order of entities.
      *
      * @param entities
+     * @param offset -
+     * @param limit - total requested
      * @return
      */
-    public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entities) {
-
+    public Collection<EntityBody> filterResultsBySecurity(List<EntityBody> entityBodies, int offset, int limit) {
+        if (entityBodies == null || entityBodies.isEmpty()) {
+            return entityBodies;
+        }
+        int total = offset + limit;
+        List<EntityBody> sublist;
+        List<EntityBody> finalEntities = new ArrayList<EntityBody>();
+        Set<EntityBody> accessible = new HashSet<EntityBody>();
         String toType, entityId;
         HashBasedTable<String, String, EntityBody> entitiesByType = HashBasedTable.create();
-        // loop through entities. if accessible, add to list
-        for (EntityBody entity : entities) {
-            toType = (String) entity.get("type");
-            entityId = (String) entity.get("id");
-            entitiesByType.put(toType, entityId, entity);
-        }
-        Set<String> set;
-        Set<EntityBody> accessible = new HashSet<EntityBody>();
-        Map<String, EntityBody> row;
-        for (String type: entitiesByType.rowKeySet()) {
-            row = entitiesByType.row(type);
-            set = isAccessible(type, row.keySet());
-            for (String id: set) {
-                if (row.containsKey(id)) {
-                    accessible.add(row.get(id));
+        // filter results through security context
+        // security checks are expensive, so do min checks necessary at a time
+        while (!entityBodies.isEmpty() && finalEntities.size() < total) {
+            sublist = new ArrayList<EntityBody>(entityBodies.subList(0, Math.min(entityBodies.size(), limit)));
+            // loop through entities. if accessible, add to list
+            for (EntityBody entity : sublist) {
+                toType = (String) entity.get("type");
+                entityId = (String) entity.get("id");
+                entitiesByType.put(toType, entityId, entity);
+            }
+            Set<String> set;
+
+            Map<String, EntityBody> row;
+            for (String type: entitiesByType.rowKeySet()) {
+                row = entitiesByType.row(type);
+                set = isAccessible(type, row.keySet());
+                for (String id: set) {
+                    if (row.containsKey(id)) {
+                        accessible.add(row.get(id));
+                    }
                 }
             }
+            finalEntities.addAll(accessible);
+            entityBodies.removeAll(sublist);
+            entitiesByType.clear();
+            accessible.clear();
         }
-        return accessible;
+        return finalEntities;
     }
 
     public Set<String> isAccessible(String toType, Set<String> ids) {

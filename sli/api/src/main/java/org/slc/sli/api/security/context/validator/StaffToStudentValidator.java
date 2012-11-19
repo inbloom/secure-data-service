@@ -76,28 +76,10 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
-                NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
-                        NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
-                Set<String> cohorts = new HashSet<String>();
-                Set<String> programs = new HashSet<String>();
-                Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
-                for (Entity spa : spas) {
-                    if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE)) {
-                        continue;
-                    }
-                    programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
-                }
-                Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
-                for (Entity sca : scas) {
-                    if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
-                        continue;
-                    }
-                    cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
-                }
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
-                      programValidator.validate(EntityNames.PROGRAM, programs) ||
-                      cohortValidator.validate(EntityNames.COHORT, cohorts))) {
+                      programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
+                      cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity)))) {
                     isValid = false;
                     break;
                 }
@@ -107,6 +89,34 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         }
 
         return isValid;
+    }
+
+    private Set<String> getValidPrograms(Entity entity) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+        Set<String> programs = new HashSet<String>();
+        Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
+        for (Entity spa : spas) {
+            if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE)) {
+                continue;
+            }
+            programs.add((String) spa.getBody().get(ParameterConstants.PROGRAM_ID));
+        }
+        return programs;
+    }
+
+    private Set<String> getValidCohorts(Entity entity) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
+        Set<String> cohorts = new HashSet<String>();
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
+        for (Entity sca : scas) {
+            if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+                continue;
+            }
+            cohorts.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+        }
+        return cohorts;
     }
 
     private boolean isIntersection(Set<String> setA, Set<String> setB) {
