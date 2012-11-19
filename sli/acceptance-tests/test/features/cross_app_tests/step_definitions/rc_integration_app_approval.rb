@@ -31,10 +31,6 @@ $client_secret = nil
 Transform /^<([^>]*)>$/ do |human_readable_text|
  if human_readable_text == "CI_IDP_Redirect_URL"
    url = PropLoader.getProps["ci_idp_redirect_url"]
- elsif human_readable_text == "Sandbox_Dev_Checklist_User_Email"
-   url = PropLoader.getProps["sandbox_dev_checklist_user_email"]
- elsif human_readable_text == "Sandbox_Dev_Checklist_Pass"
-   url = PropLoader.getProps["sandbox_dev_checklist_pass"]
  end
  url
 end
