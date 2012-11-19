@@ -57,14 +57,7 @@ public class InterchangeStudentParentGenerator {
      * @return
      */
     public static void generate(InterchangeWriter<InterchangeStudentParent> iWriter)  throws Exception  {
-
-//        InterchangeStudentParent interchange = new InterchangeStudentParent();
-//        List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
-
-    	
         writeEntitiesToInterchange(iWriter);
-        
-//        return interchange;
     }
 
     /**

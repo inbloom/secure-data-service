@@ -158,7 +158,7 @@ public class StateEdFiXmlGenerator {
          
     }
     private static void generateAndMarshalInterchanges() throws Exception {
-    	/*
+        /* 
         if (MetaRelations.INTERCHANGE_ED_ORG) {
             edOrg();
         }
@@ -174,19 +174,19 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STAFF_ASSOCIATION) {
             staffAssociation();
         }
-        */
+
         if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
             studentParent();
         }
         
-//        if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
-//            studentEnrollment();
-//        }
-        
+        if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
+            studentEnrollment();
+        }
+
         if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
-       
+        */       
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
         }
