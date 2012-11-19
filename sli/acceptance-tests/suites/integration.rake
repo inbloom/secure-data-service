@@ -125,7 +125,7 @@ end
 
 private
 
-def tenant_exists(tenant_name = PropLoader.getProps['e2e_tenant_name'])
+def tenant_exists(tenant_name = PropLoader.getProps['tenant'])
   host = (RUN_ON_RC) ? "rcingest01.#{RC_SERVER}" : PropLoader.getProps['ingestion_db']
   conn = Mongo::Connection.new(host)
   sli_db = conn.db(PropLoader.getProps['sli_database_name'])
