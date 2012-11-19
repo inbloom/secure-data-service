@@ -136,6 +136,7 @@ Then /^my field entries are validated$/ do
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
+  puts "on terms and conditions. Page contents are = \n" + @driver.attribute('innerHTML').to_s
   assertWithWait("Was not redirected to #{@baseUrl}/eula") { @driver.current_url.include?("#{@baseUrl}/eula") }
   assertText("Terms and Conditions")
 end
