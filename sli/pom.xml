@@ -203,11 +203,6 @@
                 <artifactId>domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
-             <dependency>
-                <groupId>org.slc.sli.schema</groupId>
-                <artifactId>edfi-schema</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.slc.sli.common</groupId>
                 <artifactId>common-encrypt</artifactId>
