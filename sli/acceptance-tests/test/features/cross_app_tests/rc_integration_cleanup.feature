@@ -8,7 +8,7 @@ Scenario: App developer deletes installed app
   When I navigate to the Portal home page
   When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "testdev.wgen@gmail.com" "test1234" for the "Simple" login page
+  When I submit the credentials  "<DEVELOPER_EMAIL>"  "test1234" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
@@ -31,7 +31,7 @@ Scenario:  LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "testuser1.wgen@gmail.com" "test1234" for the "Simple" login page
+  When I submit the credentials "<SECONDARY_EMAIL>" "test1234" for the "Simple" login page
   Then I should be on Portal home page
   Then I should see Admin link
   And I click on Admin
@@ -60,3 +60,4 @@ Scenario: slcoperator deletes SEA,LEA
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN"
+  
