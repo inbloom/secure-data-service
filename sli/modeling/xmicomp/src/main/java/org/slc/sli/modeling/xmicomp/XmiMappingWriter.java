@@ -29,16 +29,17 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XmiMappingWriter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmiMappingWriter.class);
     
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
     
     private static final void writeStatus(final XmiMappingStatus status, final XMLStreamWriter xsw)
@@ -76,7 +77,7 @@ public class XmiMappingWriter {
                 }
                 default: {
                     // Handle non-schema status gracefully.
-                    System.err.println("Unexpected status : " + status);
+                    LOG.warn("Unexpected status : " + status);
                     xsw.writeCharacters(status.toString());
                     break;
                 }
@@ -206,7 +207,7 @@ public class XmiMappingWriter {
             xsw.flush();
             xsw.close();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiCompRuntimeException(e);
         }
     }
     
@@ -219,7 +220,7 @@ public class XmiMappingWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     

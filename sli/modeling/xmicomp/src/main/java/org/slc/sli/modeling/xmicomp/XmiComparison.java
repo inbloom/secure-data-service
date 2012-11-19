@@ -28,10 +28,10 @@ public final class XmiComparison {
     
     public XmiComparison(final XmiDefinition lhsRef, final XmiDefinition rhsRef, final List<XmiMapping> mappings) {
         if (lhsRef == null) {
-            throw new NullPointerException("lhsRef");
+            throw new IllegalArgumentException("lhsRef");
         }
         if (rhsRef == null) {
-            throw new NullPointerException("rhsRef");
+            throw new IllegalArgumentException("rhsRef");
         }
         this.lhsRef = lhsRef;
         this.rhsRef = rhsRef;

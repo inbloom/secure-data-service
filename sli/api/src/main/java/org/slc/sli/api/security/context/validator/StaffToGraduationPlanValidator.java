@@ -7,6 +7,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates the context of a staff member to see the requested set of graduation plan
+ * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
 public class StaffToGraduationPlanValidator extends AbstractContextValidator {
 
@@ -17,9 +23,9 @@ public class StaffToGraduationPlanValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> graduationIds) {
-    	Set<String> lineage = this.getStaffEdOrgLineage();
-    	lineage.addAll(this.getStaffEdOrgParents());
-    	
+        Set<String> lineage = this.getStaffEdOrgLineage();
+        lineage.addAll(this.getStaffEdOrgParents());
+        
         /*
          * Check if the entities being asked for exist in the repo
          * This is done by checking sizes of the input set and
@@ -28,9 +34,9 @@ public class StaffToGraduationPlanValidator extends AbstractContextValidator {
          * Restriction for edorg lineage is added since graduation plans
          * can exist at higher edorgs
          */
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", graduationIds));
-		nq.addCriteria(new NeutralCriteria("educationOrganizationId", NeutralCriteria.CRITERIA_IN, lineage));
-		return getRepo().count(EntityNames.GRADUATION_PLAN, nq) == graduationIds.size();
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", graduationIds));
+        nq.addCriteria(new NeutralCriteria("educationOrganizationId", NeutralCriteria.CRITERIA_IN, lineage));
+        return getRepo().count(EntityNames.GRADUATION_PLAN, nq) == graduationIds.size();
     }
 
 }

@@ -40,11 +40,11 @@ public class ValidatorTestHelper {
 
     private static final String GRADING_PERIOD_REFERENCE = "gradingPeriodReference";
 
-	@Autowired
+    @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
-    public final String STAFF_ID = "1";
-    public final String ED_ORG_ID = "111";
+    public static final String STAFF_ID = "1";
+    public static final String ED_ORG_ID = "111";
 
     public String getBadDate() {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -237,13 +237,13 @@ public class ValidatorTestHelper {
         sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
         repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
     }
-
+    
     public Entity generateSession(String schoolId, List<String> gradingPeriodRefs) {
-    	Map<String, Object> session = new HashMap<String, Object>();
-    	session.put(ParameterConstants.SCHOOL_ID, schoolId);
-    	if (null != gradingPeriodRefs) {
-    		session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs);
-    	}
+        Map<String, Object> session = new HashMap<String, Object>();
+        session.put(ParameterConstants.SCHOOL_ID, schoolId);
+        if (null != gradingPeriodRefs) {
+            session.put(GRADING_PERIOD_REFERENCE, gradingPeriodRefs);
+        }
         return repo.create(EntityNames.SESSION, session);
     }
     
@@ -252,15 +252,15 @@ public class ValidatorTestHelper {
     }
     
     public Entity generateStudentCompetencyObjective(String edorgId) {
-    	Map<String, Object> scObj = new HashMap<String, Object>();
-    	scObj.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
-    	return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObj);
+        Map<String, Object> scObj = new HashMap<String, Object>();
+        scObj.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+        return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, scObj);
     }
-
+    
     public Entity generateGraduationPlan(String edorgId) {
-    	Map<String, Object> gradPlan = new HashMap<String, Object>();
-    	gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
-    	return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
+        Map<String, Object> gradPlan = new HashMap<String, Object>();
+        gradPlan.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+        return repo.create(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, gradPlan);
     }
 
 }

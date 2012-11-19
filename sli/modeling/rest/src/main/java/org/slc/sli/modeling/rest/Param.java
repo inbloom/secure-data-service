@@ -44,13 +44,13 @@ public class Param extends WadlElement {
             final String path, final List<Documentation> doc, final List<Option> options, final Link link) {
         super(doc);
         if (null == name) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (null == style) {
-            throw new NullPointerException("style");
+            throw new IllegalArgumentException("style");
         }
         if (null == options) {
-            throw new NullPointerException("options");
+            throw new IllegalArgumentException("options");
         }
         this.name = name;
         this.style = style;

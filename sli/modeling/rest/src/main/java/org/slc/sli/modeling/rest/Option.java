@@ -30,7 +30,7 @@ public class Option extends WadlElement {
     public Option(final String value, final List<Documentation> doc) {
         super(doc);
         if (null == value) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.value = value;
     }

@@ -29,7 +29,7 @@ public final class Block implements JavaSnippet {
 
     public Block(final JavaSnippet... stmts) {
         if (stmts == null) {
-            throw new NullPointerException("stmts");
+            throw new IllegalArgumentException("stmts");
         }
         this.stmts = Arrays.asList(stmts);
     }

@@ -52,12 +52,12 @@ public class XmiComparisonTest {
 		assertEquals(xmiMappings, xmiComparison.getMappings());
 	}
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullParam1() {
     	new XmiComparison(null, rhsXmiDefinition, xmiMappings);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullParam2() {
     	new XmiComparison(lhsXmiDefinition, null, xmiMappings);
     }

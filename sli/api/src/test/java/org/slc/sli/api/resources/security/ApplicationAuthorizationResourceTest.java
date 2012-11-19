@@ -182,39 +182,28 @@ public class ApplicationAuthorizationResourceTest {
     }
 
     @Test
-    public void testList1() {   //no matching data
+    public void testList1() throws Exception {   //no matching data
         setupAuth("MY-DISTRICT");
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(null);
         List<Map<String, Object>> data;
         Response response;
-        try {
-            response = resource.getAuthorizations(buildMockUriInfo(""));
-            data = (List<Map<String, Object>>) response.getEntity();
-            assertEquals(0, data.size());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        response = resource.getAuthorizations(buildMockUriInfo(""));
+        data = (List<Map<String, Object>>) response.getEntity();
+        assertEquals(0, data.size());
     }
 
     @Test
-    public void testList2() {
+    public void testList2() throws Exception {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         MongoEntity ent = new MongoEntity("blah", auth);
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(ent);
         List<Map<String, Object>> data;
         Response response;
-        try {
-            response = resource.getAuthorizations(buildMockUriInfo(""));
-            data = (List<Map<String, Object>>) response.getEntity();
-            assertEquals(1, data.size());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
+        response = resource.getAuthorizations(buildMockUriInfo(""));
+        data = (List<Map<String, Object>>) response.getEntity();
+        assertEquals(1, data.size());
     }
 
     @Test

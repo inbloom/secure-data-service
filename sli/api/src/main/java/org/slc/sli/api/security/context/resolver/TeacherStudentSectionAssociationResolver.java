@@ -30,6 +30,9 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which student section associations a given teacher is allowed to access.
+ */
 @Component
 public class TeacherStudentSectionAssociationResolver implements EntityContextResolver {
     @Autowired

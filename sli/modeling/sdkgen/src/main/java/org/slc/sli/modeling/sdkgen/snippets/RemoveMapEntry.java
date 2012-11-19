@@ -27,7 +27,7 @@ public final class RemoveMapEntry implements JavaSnippet {
 
     public RemoveMapEntry(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }

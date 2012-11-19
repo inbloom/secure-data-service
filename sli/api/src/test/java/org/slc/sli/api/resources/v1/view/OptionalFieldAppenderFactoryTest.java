@@ -50,10 +50,6 @@ public class OptionalFieldAppenderFactoryTest {
     @Autowired
     OptionalFieldAppenderFactory factory;
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testGetViewGenerator() {
         assertTrue("Should be of type studentassessment",

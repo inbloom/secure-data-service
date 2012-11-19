@@ -113,11 +113,11 @@ public class ResourceEndPoint {
 
     protected String bruteForceMatch(final String resourcePath) {
 
-    	if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
-    		return SIX_PART_RESOURCE;
-    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
-    		return FIVE_PART_RESOURCE;
-    	} else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
+        if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.SIX_PART)) {
+            return SIX_PART_RESOURCE;
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FIVE_PART)) {
+            return FIVE_PART_RESOURCE;
+        } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.FOUR_PART)) {
             return FOUR_PART_RESOURCE;
         } else if (resourceHelper.resolveResourcePath(resourcePath, ResourceTemplate.THREE_PART)) {
             return THREE_PART_RESOURCE;
@@ -126,7 +126,7 @@ public class ResourceEndPoint {
             return BASE_RESOURCE;
         }
 
-        throw new RuntimeException("Cannot resolve resource handler class");
+        throw new ResourceEndPointException("Cannot resolve resource handler class");
 
     }
 

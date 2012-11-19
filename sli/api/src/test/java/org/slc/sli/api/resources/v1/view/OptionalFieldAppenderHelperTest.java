@@ -71,11 +71,6 @@ public class OptionalFieldAppenderHelperTest {
     }
 
     @Test
-    public void testQueryEntities() {
-
-    }
-
-    @Test
     public void testGetEntityFromList() {
         EntityBody body = helper.getEntityFromList(createEntityList(true), "field1", "2");
         assertEquals("Should match", "2", body.get("field1"));

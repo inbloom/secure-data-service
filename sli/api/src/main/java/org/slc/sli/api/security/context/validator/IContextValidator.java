@@ -18,6 +18,13 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
+/**
+ * Set of methods pertaining to validating access to entities via context checks.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public interface IContextValidator {
 
     /**

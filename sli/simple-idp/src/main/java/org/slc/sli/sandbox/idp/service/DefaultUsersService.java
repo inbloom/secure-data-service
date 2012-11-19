@@ -130,7 +130,7 @@ public class DefaultUsersService {
         return users;
     }
     private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader()
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream(file)));
         String line = null;
         StringBuilder stringBuilder = new StringBuilder();

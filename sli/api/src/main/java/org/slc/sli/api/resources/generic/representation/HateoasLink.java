@@ -45,7 +45,7 @@ public class HateoasLink {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students",".+/courses/.+/courseStranscripts/students");
+    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students", ".+/courses/.+/courseStranscripts/students");
 
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
@@ -61,11 +61,11 @@ public class HateoasLink {
             List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
 
             Iterator<EmbeddedLink> it = links.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 EmbeddedLink l = it.next();
-                for(String deny:disallowedLinks) {
-                    if(l.getHref().matches(deny)) {
-                        info("URI: {} matches removed endpoint {}.  Removing",l.getHref(),deny);
+                for (String deny : disallowedLinks) {
+                    if (l.getHref().matches(deny)) {
+                        info("URI: {} matches removed endpoint {}.  Removing", l.getHref(), deny);
                         it.remove();
                     }
                 }

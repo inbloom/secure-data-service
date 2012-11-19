@@ -23,6 +23,12 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates the context of a staff member to see the requested set of student competency objectives.
+ * Returns true if the staff member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 @Component
 public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextValidator {
 
@@ -33,9 +39,9 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
 
     @Override
     public boolean validate(String entityType, Set<String> objectiveIds) {
-    	Set<String> lineage = this.getStaffEdOrgLineage();
-    	lineage.addAll(this.getStaffEdOrgParents());
-    	
+        Set<String> lineage = this.getStaffEdOrgLineage();
+        lineage.addAll(this.getStaffEdOrgParents());
+        
         /*
          * Check if the entities being asked for exist in the repo
          * This is done by checking sizes of the input set and
@@ -44,9 +50,9 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
          * Restriction for edorg lineage is added since competency objectives
          * can exist at higher edorgs
          */
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", objectiveIds));
-		nq.addCriteria(new NeutralCriteria("educationOrganizationId", NeutralCriteria.CRITERIA_IN, lineage));
-		return getRepo().count(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, nq) == objectiveIds.size();
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", objectiveIds));
+        nq.addCriteria(new NeutralCriteria("educationOrganizationId", NeutralCriteria.CRITERIA_IN, lineage));
+        return getRepo().count(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, nq) == objectiveIds.size();
     }
 
 }

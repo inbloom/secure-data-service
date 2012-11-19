@@ -78,8 +78,8 @@ public class StaffToStudentValidator extends AbstractContextValidator {
             for (Entity entity : students) {
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
-                      programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
-                      cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity)))) {
+                      programValidator.validateWithStudentAccess(EntityNames.PROGRAM, getValidPrograms(entity), true) ||
+                      cohortValidator.validateWithStudentAccess(EntityNames.COHORT, getValidCohorts(entity), true))) {
                     isValid = false;
                     break;
                 }

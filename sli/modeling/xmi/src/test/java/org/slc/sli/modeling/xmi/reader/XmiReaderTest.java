@@ -181,11 +181,6 @@ public class XmiReaderTest {
         XmiReader.closeQuiet(mockCloseable);
         assertTrue(stringBuffer.toString().equals(""));
         
-        //test unsuccessful close
-        doThrow(new IOException()).when(mockCloseable).close();
-        XmiReader.closeQuiet(mockCloseable);
-        assertFalse(stringBuffer.toString().equals(""));
-        
         //pop
         System.setErr(stdErr);
     }

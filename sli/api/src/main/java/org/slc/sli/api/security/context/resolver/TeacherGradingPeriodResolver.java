@@ -30,6 +30,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves which grading periods any given teacher can access.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class TeacherGradingPeriodResolver implements EntityContextResolver {
 

@@ -32,6 +32,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Validates the context of a teacher to see the requested set of student entities.
+ * Returns true if the teacher member can see ALL of the entities, and false otherwise.
+ *
+ * @author mabernathy
+ */
 //@Component - Disable teacher validators for now
 public class TeacherToStudentValidator extends AbstractContextValidator {
 

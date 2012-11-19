@@ -33,10 +33,10 @@ public class Range extends ModelElement {
     public Range(final Identifier id, final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues) {
         super(id, taggedValues);
         if (lower == null) {
-            throw new NullPointerException("lower");
+            throw new IllegalArgumentException("lower");
         }
         if (upper == null) {
-            throw new NullPointerException("upper");
+            throw new IllegalArgumentException("upper");
         }
         this.lowerBound = lower;
         this.upperBound = upper;
