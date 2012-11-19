@@ -1,1347 +1,1353 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
-	<!-- CalendarDates for the 2011-2012 school year -->
-	<CalendarDate id="CLND_20110822Instructionalday">
-		<Date>2011-08-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110823Instructionalday">
-		<Date>2011-08-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110824Instructionalday">
-		<Date>2011-08-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110825Instructionalday">
-		<Date>2011-08-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110826Instructionalday">
-		<Date>2011-08-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110827Holiday">
-		<Date>2011-08-27</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110828Holiday">
-		<Date>2011-08-28</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110829Instructionalday">
-		<Date>2011-08-29</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110830Instructionalday">
-		<Date>2011-08-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110831Instructionalday">
-		<Date>2011-08-31</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110901Instructionalday">
-		<Date>2011-09-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110902Instructionalday">
-		<Date>2011-09-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110903Holiday">
-		<Date>2011-09-03</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110904Holiday">
-		<Date>2011-09-04</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110905Holiday">
-		<Date>2011-09-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110906Instructionalday">
-		<Date>2011-09-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110907Instructionalday">
-		<Date>2011-09-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110908Instructionalday">
-		<Date>2011-09-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110909Instructionalday">
-		<Date>2011-09-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110910Holiday">
-		<Date>2011-09-10</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110911Holiday">
-		<Date>2011-09-11</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110912Instructionalday">
-		<Date>2011-09-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110913Instructionalday">
-		<Date>2011-09-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110914Instructionalday">
-		<Date>2011-09-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110915Instructionalday">
-		<Date>2011-09-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110916Instructionalday">
-		<Date>2011-09-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110917Holiday">
-		<Date>2011-09-17</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110918Holiday">
-		<Date>2011-09-18</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110919Instructionalday">
-		<Date>2011-09-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110920Instructionalday">
-		<Date>2011-09-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110921Instructionalday">
-		<Date>2011-09-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110922Instructionalday">
-		<Date>2011-09-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110923Instructionalday">
-		<Date>2011-09-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110924Holiday">
-		<Date>2011-09-24</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110925Holiday">
-		<Date>2011-09-25</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110926Instructionalday">
-		<Date>2011-09-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110927Instructionalday">
-		<Date>2011-09-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110928Instructionalday">
-		<Date>2011-09-28</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110929Instructionalday">
-		<Date>2011-09-29</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20110930Instructionalday">
-		<Date>2011-09-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111001Holiday">
-		<Date>2011-10-01</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111002Holiday">
-		<Date>2011-10-02</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111003Instructionalday">
-		<Date>2011-10-03</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111004Instructionalday">
-		<Date>2011-10-04</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111005Instructionalday">
-		<Date>2011-10-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111006Instructionalday">
-		<Date>2011-10-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111007Instructionalday">
-		<Date>2011-10-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111008Holiday">
-		<Date>2011-10-08</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111009Holiday">
-		<Date>2011-10-09</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111010Instructionalday">
-		<Date>2011-10-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111011Instructionalday">
-		<Date>2011-10-11</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111012Instructionalday">
-		<Date>2011-10-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111013Instructionalday">
-		<Date>2011-10-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111014Instructionalday">
-		<Date>2011-10-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111015Holiday">
-		<Date>2011-10-15</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111016Holiday">
-		<Date>2011-10-16</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111017Instructionalday">
-		<Date>2011-10-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111018Instructionalday">
-		<Date>2011-10-18</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111019Instructionalday">
-		<Date>2011-10-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111020Instructionalday">
-		<Date>2011-10-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111021Instructionalday">
-		<Date>2011-10-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111022Holiday">
-		<Date>2011-10-22</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111023Holiday">
-		<Date>2011-10-23</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111024Instructionalday">
-		<Date>2011-10-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111025Instructionalday">
-		<Date>2011-10-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111026Instructionalday">
-		<Date>2011-10-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111027Instructionalday">
-		<Date>2011-10-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111028Instructionalday">
-		<Date>2011-10-28</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111029Holiday">
-		<Date>2011-10-29</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111030Holiday">
-		<Date>2011-10-30</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111031Instructionalday">
-		<Date>2011-10-31</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111101Instructionalday">
-		<Date>2011-11-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111102Instructionalday">
-		<Date>2011-11-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111103Instructionalday">
-		<Date>2011-11-03</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111104Instructionalday">
-		<Date>2011-11-04</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111105Holiday">
-		<Date>2011-11-05</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111106Holiday">
-		<Date>2011-11-06</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111107Instructionalday">
-		<Date>2011-11-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111108Instructionalday">
-		<Date>2011-11-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111109Instructionalday">
-		<Date>2011-11-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111110Instructionalday">
-		<Date>2011-11-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111111Instructionalday">
-		<Date>2011-11-11</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111112Holiday">
-		<Date>2011-11-12</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111113Holiday">
-		<Date>2011-11-13</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111114Instructionalday">
-		<Date>2011-11-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111115Instructionalday">
-		<Date>2011-11-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111116Instructionalday">
-		<Date>2011-11-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111117Instructionalday">
-		<Date>2011-11-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111118Instructionalday">
-		<Date>2011-11-18</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111119Holiday">
-		<Date>2011-11-19</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111120Holiday">
-		<Date>2011-11-20</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111121Instructionalday">
-		<Date>2011-11-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111122Instructionalday">
-		<Date>2011-11-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111123Instructionalday">
-		<Date>2011-11-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111124Holiday">
-		<Date>2011-11-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111125Holiday">
-		<Date>2011-11-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111126Holiday">
-		<Date>2011-11-26</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111127Holiday">
-		<Date>2011-11-27</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111128Instructionalday">
-		<Date>2011-11-28</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111129Instructionalday">
-		<Date>2011-11-29</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111130Instructionalday">
-		<Date>2011-11-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111201Instructionalday">
-		<Date>2011-12-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111202Instructionalday">
-		<Date>2011-12-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111203Holiday">
-		<Date>2011-12-03</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111204Holiday">
-		<Date>2011-12-04</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111205Instructionalday">
-		<Date>2011-12-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111206Instructionalday">
-		<Date>2011-12-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111207Instructionalday">
-		<Date>2011-12-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111208Instructionalday">
-		<Date>2011-12-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111209Instructionalday">
-		<Date>2011-12-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111210Holiday">
-		<Date>2011-12-10</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111211Holiday">
-		<Date>2011-12-11</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111212Instructionalday">
-		<Date>2011-12-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111213Instructionalday">
-		<Date>2011-12-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111214Instructionalday">
-		<Date>2011-12-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111215Instructionalday">
-		<Date>2011-12-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111216Instructionalday">
-		<Date>2011-12-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111217Holiday">
-		<Date>2011-12-17</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111218Holiday">
-		<Date>2011-12-18</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111219Instructionalday">
-		<Date>2011-12-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111220Instructionalday">
-		<Date>2011-12-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111221Instructionalday">
-		<Date>2011-12-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111222Holiday">
-		<Date>2011-12-22</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111223Holiday">
-		<Date>2011-12-23</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111224Holiday">
-		<Date>2011-12-24</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111225Holiday">
-		<Date>2011-12-25</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111226Holiday">
-		<Date>2011-12-26</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111227Holiday">
-		<Date>2011-12-27</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111228Holiday">
-		<Date>2011-12-28</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111229Holiday">
-		<Date>2011-12-29</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111230Holiday">
-		<Date>2011-12-30</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20111231Holiday">
-		<Date>2011-12-31</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120101Holiday">
-		<Date>2012-01-01</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120102Holiday">
-		<Date>2012-01-02</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120103Holiday">
-		<Date>2012-01-03</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120104Instructionalday">
-		<Date>2012-01-04</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120105Instructionalday">
-		<Date>2012-01-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120106Instructionalday">
-		<Date>2012-01-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120107Holiday">
-		<Date>2012-01-07</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120108Holiday">
-		<Date>2012-01-08</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120109Instructionalday">
-		<Date>2012-01-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120110Instructionalday">
-		<Date>2012-01-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120111Instructionalday">
-		<Date>2012-01-11</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120112Instructionalday">
-		<Date>2012-01-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120113Instructionalday">
-		<Date>2012-01-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120114Holiday">
-		<Date>2012-01-14</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120115Holiday">
-		<Date>2012-01-15</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120116Instructionalday">
-		<Date>2012-01-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120117Instructionalday">
-		<Date>2012-01-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120118Instructionalday">
-		<Date>2012-01-18</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120119Instructionalday">
-		<Date>2012-01-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120120Instructionalday">
-		<Date>2012-01-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120121Holiday">
-		<Date>2012-01-21</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120122Holiday">
-		<Date>2012-01-22</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120123Instructionalday">
-		<Date>2012-01-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120124Instructionalday">
-		<Date>2012-01-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120125Instructionalday">
-		<Date>2012-01-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120126Instructionalday">
-		<Date>2012-01-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120127Instructionalday">
-		<Date>2012-01-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120128Holiday">
-		<Date>2012-01-28</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120129Holiday">
-		<Date>2012-01-29</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120130Instructionalday">
-		<Date>2012-01-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120131Instructionalday">
-		<Date>2012-01-31</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120201Instructionalday">
-		<Date>2012-02-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120202Instructionalday">
-		<Date>2012-02-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120203Instructionalday">
-		<Date>2012-02-03</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120204Holiday">
-		<Date>2012-02-04</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120205Holiday">
-		<Date>2012-02-05</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120206Instructionalday">
-		<Date>2012-02-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120207Instructionalday">
-		<Date>2012-02-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120208Instructionalday">
-		<Date>2012-02-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120209Instructionalday">
-		<Date>2012-02-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120210Instructionalday">
-		<Date>2012-02-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120211Holiday">
-		<Date>2012-02-11</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120212Holiday">
-		<Date>2012-02-12</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120213Instructionalday">
-		<Date>2012-02-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120214Instructionalday">
-		<Date>2012-02-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120215Instructionalday">
-		<Date>2012-02-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120216Instructionalday">
-		<Date>2012-02-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120217Instructionalday">
-		<Date>2012-02-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120218Holiday">
-		<Date>2012-02-18</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120219Holiday">
-		<Date>2012-02-19</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120220Instructionalday">
-		<Date>2012-02-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120221Instructionalday">
-		<Date>2012-02-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120222Instructionalday">
-		<Date>2012-02-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120223Instructionalday">
-		<Date>2012-02-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120224Instructionalday">
-		<Date>2012-02-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120225Holiday">
-		<Date>2012-02-25</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120226Holiday">
-		<Date>2012-02-26</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120227Instructionalday">
-		<Date>2012-02-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120228Instructionalday">
-		<Date>2012-02-28</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120229Instructionalday">
-		<Date>2012-02-29</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120301Instructionalday">
-		<Date>2012-03-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120302Instructionalday">
-		<Date>2012-03-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120303Holiday">
-		<Date>2012-03-03</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120304Holiday">
-		<Date>2012-03-04</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120305Instructionalday">
-		<Date>2012-03-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120306Instructionalday">
-		<Date>2012-03-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120307Instructionalday">
-		<Date>2012-03-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120308Instructionalday">
-		<Date>2012-03-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120309Instructionalday">
-		<Date>2012-03-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120310Holiday">
-		<Date>2012-03-10</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120311Holiday">
-		<Date>2012-03-11</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120312Instructionalday">
-		<Date>2012-03-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120313Instructionalday">
-		<Date>2012-03-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120314Instructionalday">
-		<Date>2012-03-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120315Instructionalday">
-		<Date>2012-03-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120316Instructionalday">
-		<Date>2012-03-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120317Holiday">
-		<Date>2012-03-17</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120318Holiday">
-		<Date>2012-03-18</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120319Instructionalday">
-		<Date>2012-03-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120320Instructionalday">
-		<Date>2012-03-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120321Instructionalday">
-		<Date>2012-03-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120322Instructionalday">
-		<Date>2012-03-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120323Instructionalday">
-		<Date>2012-03-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120324Holiday">
-		<Date>2012-03-24</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120325Holiday">
-		<Date>2012-03-25</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120326Instructionalday">
-		<Date>2012-03-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120327Instructionalday">
-		<Date>2012-03-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120328Instructionalday">
-		<Date>2012-03-28</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120329Instructionalday">
-		<Date>2012-03-29</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120330Instructionalday">
-		<Date>2012-03-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120331Holiday">
-		<Date>2012-03-31</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120401Holiday">
-		<Date>2012-04-01</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120402Instructionalday">
-		<Date>2012-04-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120403Instructionalday">
-		<Date>2012-04-03</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120404Instructionalday">
-		<Date>2012-04-04</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120405Instructionalday">
-		<Date>2012-04-05</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120406Instructionalday">
-		<Date>2012-04-06</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120407Holiday">
-		<Date>2012-04-07</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120408Holiday">
-		<Date>2012-04-08</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120409Instructionalday">
-		<Date>2012-04-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120410Instructionalday">
-		<Date>2012-04-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120411Instructionalday">
-		<Date>2012-04-11</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120412Instructionalday">
-		<Date>2012-04-12</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120413Instructionalday">
-		<Date>2012-04-13</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120414Holiday">
-		<Date>2012-04-14</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120415Holiday">
-		<Date>2012-04-15</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120416Instructionalday">
-		<Date>2012-04-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120417Instructionalday">
-		<Date>2012-04-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120418Instructionalday">
-		<Date>2012-04-18</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120419Instructionalday">
-		<Date>2012-04-19</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120420Instructionalday">
-		<Date>2012-04-20</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120421Holiday">
-		<Date>2012-04-21</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120422Holiday">
-		<Date>2012-04-22</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120423Instructionalday">
-		<Date>2012-04-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120424Instructionalday">
-		<Date>2012-04-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120425Instructionalday">
-		<Date>2012-04-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120426Instructionalday">
-		<Date>2012-04-26</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120427Instructionalday">
-		<Date>2012-04-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120428Holiday">
-		<Date>2012-04-28</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120429Holiday">
-		<Date>2012-04-29</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120430Instructionalday">
-		<Date>2012-04-30</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120501Instructionalday">
-		<Date>2012-05-01</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120502Instructionalday">
-		<Date>2012-05-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120503Instructionalday">
-		<Date>2012-05-03</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120504Instructionalday">
-		<Date>2012-05-04</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120505Holiday">
-		<Date>2012-05-05</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120506Holiday">
-		<Date>2012-05-06</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120507Instructionalday">
-		<Date>2012-05-07</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120508Instructionalday">
-		<Date>2012-05-08</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120509Instructionalday">
-		<Date>2012-05-09</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120510Instructionalday">
-		<Date>2012-05-10</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120511Instructionalday">
-		<Date>2012-05-11</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120512Holiday">
-		<Date>2012-05-12</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120513Holiday">
-		<Date>2012-05-13</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120514Instructionalday">
-		<Date>2012-05-14</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120515Instructionalday">
-		<Date>2012-05-15</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120516Instructionalday">
-		<Date>2012-05-16</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120517Instructionalday">
-		<Date>2012-05-17</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120518Instructionalday">
-		<Date>2012-05-18</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120519Holiday">
-		<Date>2012-05-19</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120520Holiday">
-		<Date>2012-05-20</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120521Instructionalday">
-		<Date>2012-05-21</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120522Instructionalday">
-		<Date>2012-05-22</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120523Instructionalday">
-		<Date>2012-05-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120524Instructionalday">
-		<Date>2012-05-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120525Instructionalday">
-		<Date>2012-05-25</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<!-- GradingPeriods for the 2011-2012 school year -->
-	<GradingPeriod id="GRDP_20110822">
-		<GradingPeriodIdentity>
-			<GradingPeriod>First Six Weeks</GradingPeriod>
-			<SchoolYear>2011-2012</SchoolYear>
-			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-		</GradingPeriodIdentity>
-		<BeginDate>2011-08-22</BeginDate>
-		<EndDate>2011-10-09</EndDate>
-		<TotalInstructionalDays>34</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20110822Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110823Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110824Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110825Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110826Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110827Holiday"/>
-		<CalendarDateReference ref="CLND_20110828Holiday"/>
-		<CalendarDateReference ref="CLND_20110829Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110830Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110831Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110901Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110902Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110903Holiday"/>
-		<CalendarDateReference ref="CLND_20110904Holiday"/>
-		<CalendarDateReference ref="CLND_20110905Holiday"/>
-		<CalendarDateReference ref="CLND_20110906Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110907Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110908Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110909Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110910Holiday"/>
-		<CalendarDateReference ref="CLND_20110911Holiday"/>
-		<CalendarDateReference ref="CLND_20110912Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110913Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110914Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110915Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110916Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110917Holiday"/>
-		<CalendarDateReference ref="CLND_20110918Holiday"/>
-		<CalendarDateReference ref="CLND_20110919Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110920Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110921Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110922Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110923Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110924Holiday"/>
-		<CalendarDateReference ref="CLND_20110925Holiday"/>
-		<CalendarDateReference ref="CLND_20110926Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110927Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110928Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110929Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110930Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111001Holiday"/>
-		<CalendarDateReference ref="CLND_20111002Holiday"/>
-		<CalendarDateReference ref="CLND_20111003Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111004Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111005Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111006Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111007Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111008Holiday"/>
-		<CalendarDateReference ref="CLND_20111009Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20111010">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Second Six Weeks</GradingPeriod>
-			<SchoolYear>2011-2012</SchoolYear>
-			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-		</GradingPeriodIdentity>
-		<BeginDate>2011-10-10</BeginDate>
-		<EndDate>2011-11-27</EndDate>
-		<TotalInstructionalDays>33</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20111010Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111011Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111012Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111013Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111014Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111015Holiday"/>
-		<CalendarDateReference ref="CLND_20111016Holiday"/>
-		<CalendarDateReference ref="CLND_20111017Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111018Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111019Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111020Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111021Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111022Holiday"/>
-		<CalendarDateReference ref="CLND_20111023Holiday"/>
-		<CalendarDateReference ref="CLND_20111024Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111025Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111026Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111027Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111028Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111029Holiday"/>
-		<CalendarDateReference ref="CLND_20111030Holiday"/>
-		<CalendarDateReference ref="CLND_20111031Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111101Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111102Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111103Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111104Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111105Holiday"/>
-		<CalendarDateReference ref="CLND_20111106Holiday"/>
-		<CalendarDateReference ref="CLND_20111107Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111108Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111109Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111110Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111111Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111112Holiday"/>
-		<CalendarDateReference ref="CLND_20111113Holiday"/>
-		<CalendarDateReference ref="CLND_20111114Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111115Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111116Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111117Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111118Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111119Holiday"/>
-		<CalendarDateReference ref="CLND_20111120Holiday"/>
-		<CalendarDateReference ref="CLND_20111121Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111122Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111123Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111124Holiday"/>
-		<CalendarDateReference ref="CLND_20111125Holiday"/>
-		<CalendarDateReference ref="CLND_20111126Holiday"/>
-		<CalendarDateReference ref="CLND_20111127Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20111128">
-		<GradingPeriodIdentity>
-			<GradingPeriod>Third Six Weeks</GradingPeriod>
-			<SchoolYear>2011-2012</SchoolYear>
-			<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-		</GradingPeriodIdentity>
-		<BeginDate>2011-11-28</BeginDate>
-		<EndDate>2012-01-22</EndDate>
-		<TotalInstructionalDays>31</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20111128Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111129Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111130Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111201Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111202Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111203Holiday"/>
-		<CalendarDateReference ref="CLND_20111204Holiday"/>
-		<CalendarDateReference ref="CLND_20111205Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111206Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111207Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111208Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111209Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111210Holiday"/>
-		<CalendarDateReference ref="CLND_20111211Holiday"/>
-		<CalendarDateReference ref="CLND_20111212Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111213Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111214Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111215Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111216Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111217Holiday"/>
-		<CalendarDateReference ref="CLND_20111218Holiday"/>
-		<CalendarDateReference ref="CLND_20111219Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111220Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111221Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111222Holiday"/>
-		<CalendarDateReference ref="CLND_20111223Holiday"/>
-		<CalendarDateReference ref="CLND_20111224Holiday"/>
-		<CalendarDateReference ref="CLND_20111225Holiday"/>
-		<CalendarDateReference ref="CLND_20111226Holiday"/>
-		<CalendarDateReference ref="CLND_20111227Holiday"/>
-		<CalendarDateReference ref="CLND_20111228Holiday"/>
-		<CalendarDateReference ref="CLND_20111229Holiday"/>
-		<CalendarDateReference ref="CLND_20111230Holiday"/>
-		<CalendarDateReference ref="CLND_20111231Holiday"/>
-		<CalendarDateReference ref="CLND_20120101Holiday"/>
-		<CalendarDateReference ref="CLND_20120102Holiday"/>
-		<CalendarDateReference ref="CLND_20120103Holiday"/>
-		<CalendarDateReference ref="CLND_20120104Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120105Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120106Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120107Holiday"/>
-		<CalendarDateReference ref="CLND_20120108Holiday"/>
-		<CalendarDateReference ref="CLND_20120109Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120110Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120111Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120112Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120113Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120114Holiday"/>
-		<CalendarDateReference ref="CLND_20120115Holiday"/>
-		<CalendarDateReference ref="CLND_20120116Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120117Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120118Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120119Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120120Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120121Holiday"/>
-		<CalendarDateReference ref="CLND_20120122Holiday"/>
-	</GradingPeriod>
-	<Session>
-		<SessionName>Fall 2011 South Daybreak Elementary</SessionName>
-		<SchoolYear>2011-2012</SchoolYear>
-		<Term>Fall Semester</Term>
-		<BeginDate>2011-09-06</BeginDate>
-		<EndDate>2011-12-16</EndDate>
-		<TotalInstructionalDays>75</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>First Six Weeks</GradingPeriod>
-				<BeginDate>2011-08-22</BeginDate>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>Third Six Weeks</GradingPeriod>
-				<BeginDate>2011-11-28</BeginDate>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-		<GradingPeriodReference>
-			<GradingPeriodIdentity>
-				<EducationalOrgReference>
-					<EducationalOrgIdentity>
-						<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-					</EducationalOrgIdentity>
-				</EducationalOrgReference>
-				<GradingPeriod>Second Six Weeks</GradingPeriod>
-				<BeginDate>2011-10-10</BeginDate>
-			</GradingPeriodIdentity>
-		</GradingPeriodReference>
-	</Session>
+    <!-- CalendarDates for the 2011-2012 school year -->
+    <CalendarDate id="CLND_20110822Instructionalday">
+        <Date>2011-08-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110823Instructionalday">
+        <Date>2011-08-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110824Instructionalday">
+        <Date>2011-08-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110825Instructionalday">
+        <Date>2011-08-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110826Instructionalday">
+        <Date>2011-08-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110827Holiday">
+        <Date>2011-08-27</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110828Holiday">
+        <Date>2011-08-28</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110829Instructionalday">
+        <Date>2011-08-29</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110830Instructionalday">
+        <Date>2011-08-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110831Instructionalday">
+        <Date>2011-08-31</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110901Instructionalday">
+        <Date>2011-09-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110902Instructionalday">
+        <Date>2011-09-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110903Holiday">
+        <Date>2011-09-03</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110904Holiday">
+        <Date>2011-09-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110905Holiday">
+        <Date>2011-09-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110906Instructionalday">
+        <Date>2011-09-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110907Instructionalday">
+        <Date>2011-09-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110908Instructionalday">
+        <Date>2011-09-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110909Instructionalday">
+        <Date>2011-09-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110910Holiday">
+        <Date>2011-09-10</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110911Holiday">
+        <Date>2011-09-11</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110912Instructionalday">
+        <Date>2011-09-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110913Instructionalday">
+        <Date>2011-09-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110914Instructionalday">
+        <Date>2011-09-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110915Instructionalday">
+        <Date>2011-09-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110916Instructionalday">
+        <Date>2011-09-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110917Holiday">
+        <Date>2011-09-17</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110918Holiday">
+        <Date>2011-09-18</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110919Instructionalday">
+        <Date>2011-09-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110920Instructionalday">
+        <Date>2011-09-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110921Instructionalday">
+        <Date>2011-09-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110922Instructionalday">
+        <Date>2011-09-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110923Instructionalday">
+        <Date>2011-09-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110924Holiday">
+        <Date>2011-09-24</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110925Holiday">
+        <Date>2011-09-25</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110926Instructionalday">
+        <Date>2011-09-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110927Instructionalday">
+        <Date>2011-09-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110928Instructionalday">
+        <Date>2011-09-28</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110929Instructionalday">
+        <Date>2011-09-29</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20110930Instructionalday">
+        <Date>2011-09-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111001Holiday">
+        <Date>2011-10-01</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111002Holiday">
+        <Date>2011-10-02</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111003Instructionalday">
+        <Date>2011-10-03</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111004Instructionalday">
+        <Date>2011-10-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111005Instructionalday">
+        <Date>2011-10-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111006Instructionalday">
+        <Date>2011-10-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111007Instructionalday">
+        <Date>2011-10-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111008Holiday">
+        <Date>2011-10-08</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111009Holiday">
+        <Date>2011-10-09</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111010Instructionalday">
+        <Date>2011-10-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111011Instructionalday">
+        <Date>2011-10-11</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111012Instructionalday">
+        <Date>2011-10-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111013Instructionalday">
+        <Date>2011-10-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111014Instructionalday">
+        <Date>2011-10-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111015Holiday">
+        <Date>2011-10-15</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111016Holiday">
+        <Date>2011-10-16</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111017Instructionalday">
+        <Date>2011-10-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111018Instructionalday">
+        <Date>2011-10-18</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111019Instructionalday">
+        <Date>2011-10-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111020Instructionalday">
+        <Date>2011-10-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111021Instructionalday">
+        <Date>2011-10-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111022Holiday">
+        <Date>2011-10-22</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111023Holiday">
+        <Date>2011-10-23</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111024Instructionalday">
+        <Date>2011-10-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111025Instructionalday">
+        <Date>2011-10-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111026Instructionalday">
+        <Date>2011-10-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111027Instructionalday">
+        <Date>2011-10-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111028Instructionalday">
+        <Date>2011-10-28</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111029Holiday">
+        <Date>2011-10-29</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111030Holiday">
+        <Date>2011-10-30</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111031Instructionalday">
+        <Date>2011-10-31</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111101Instructionalday">
+        <Date>2011-11-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111102Instructionalday">
+        <Date>2011-11-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111103Instructionalday">
+        <Date>2011-11-03</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111104Instructionalday">
+        <Date>2011-11-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111105Holiday">
+        <Date>2011-11-05</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111106Holiday">
+        <Date>2011-11-06</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111107Instructionalday">
+        <Date>2011-11-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111108Instructionalday">
+        <Date>2011-11-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111109Instructionalday">
+        <Date>2011-11-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111110Instructionalday">
+        <Date>2011-11-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111111Instructionalday">
+        <Date>2011-11-11</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111112Holiday">
+        <Date>2011-11-12</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111113Holiday">
+        <Date>2011-11-13</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111114Instructionalday">
+        <Date>2011-11-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111115Instructionalday">
+        <Date>2011-11-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111116Instructionalday">
+        <Date>2011-11-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111117Instructionalday">
+        <Date>2011-11-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111118Instructionalday">
+        <Date>2011-11-18</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111119Holiday">
+        <Date>2011-11-19</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111120Holiday">
+        <Date>2011-11-20</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111121Instructionalday">
+        <Date>2011-11-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111122Instructionalday">
+        <Date>2011-11-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111123Instructionalday">
+        <Date>2011-11-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111124Holiday">
+        <Date>2011-11-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111125Holiday">
+        <Date>2011-11-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111126Holiday">
+        <Date>2011-11-26</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111127Holiday">
+        <Date>2011-11-27</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111128Instructionalday">
+        <Date>2011-11-28</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111129Instructionalday">
+        <Date>2011-11-29</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111130Instructionalday">
+        <Date>2011-11-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111201Instructionalday">
+        <Date>2011-12-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111202Instructionalday">
+        <Date>2011-12-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111203Holiday">
+        <Date>2011-12-03</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111204Holiday">
+        <Date>2011-12-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111205Instructionalday">
+        <Date>2011-12-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111206Instructionalday">
+        <Date>2011-12-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111207Instructionalday">
+        <Date>2011-12-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111208Instructionalday">
+        <Date>2011-12-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111209Instructionalday">
+        <Date>2011-12-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111210Holiday">
+        <Date>2011-12-10</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111211Holiday">
+        <Date>2011-12-11</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111212Instructionalday">
+        <Date>2011-12-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111213Instructionalday">
+        <Date>2011-12-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111214Instructionalday">
+        <Date>2011-12-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111215Instructionalday">
+        <Date>2011-12-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111216Instructionalday">
+        <Date>2011-12-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111217Holiday">
+        <Date>2011-12-17</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111218Holiday">
+        <Date>2011-12-18</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111219Instructionalday">
+        <Date>2011-12-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111220Instructionalday">
+        <Date>2011-12-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111221Instructionalday">
+        <Date>2011-12-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111222Holiday">
+        <Date>2011-12-22</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111223Holiday">
+        <Date>2011-12-23</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111224Holiday">
+        <Date>2011-12-24</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111225Holiday">
+        <Date>2011-12-25</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111226Holiday">
+        <Date>2011-12-26</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111227Holiday">
+        <Date>2011-12-27</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111228Holiday">
+        <Date>2011-12-28</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111229Holiday">
+        <Date>2011-12-29</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111230Holiday">
+        <Date>2011-12-30</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20111231Holiday">
+        <Date>2011-12-31</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120101Holiday">
+        <Date>2012-01-01</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120102Holiday">
+        <Date>2012-01-02</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120103Holiday">
+        <Date>2012-01-03</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120104Instructionalday">
+        <Date>2012-01-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120105Instructionalday">
+        <Date>2012-01-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120106Instructionalday">
+        <Date>2012-01-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120107Holiday">
+        <Date>2012-01-07</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120108Holiday">
+        <Date>2012-01-08</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120109Instructionalday">
+        <Date>2012-01-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120110Instructionalday">
+        <Date>2012-01-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120111Instructionalday">
+        <Date>2012-01-11</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120112Instructionalday">
+        <Date>2012-01-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120113Instructionalday">
+        <Date>2012-01-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120114Holiday">
+        <Date>2012-01-14</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120115Holiday">
+        <Date>2012-01-15</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120116Instructionalday">
+        <Date>2012-01-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120117Instructionalday">
+        <Date>2012-01-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120118Instructionalday">
+        <Date>2012-01-18</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120119Instructionalday">
+        <Date>2012-01-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120120Instructionalday">
+        <Date>2012-01-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120121Holiday">
+        <Date>2012-01-21</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120122Holiday">
+        <Date>2012-01-22</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120123Instructionalday">
+        <Date>2012-01-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120124Instructionalday">
+        <Date>2012-01-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120125Instructionalday">
+        <Date>2012-01-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120126Instructionalday">
+        <Date>2012-01-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120127Instructionalday">
+        <Date>2012-01-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120128Holiday">
+        <Date>2012-01-28</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120129Holiday">
+        <Date>2012-01-29</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120130Instructionalday">
+        <Date>2012-01-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120131Instructionalday">
+        <Date>2012-01-31</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120201Instructionalday">
+        <Date>2012-02-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120202Instructionalday">
+        <Date>2012-02-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120203Instructionalday">
+        <Date>2012-02-03</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120204Holiday">
+        <Date>2012-02-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120205Holiday">
+        <Date>2012-02-05</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120206Instructionalday">
+        <Date>2012-02-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120207Instructionalday">
+        <Date>2012-02-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120208Instructionalday">
+        <Date>2012-02-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120209Instructionalday">
+        <Date>2012-02-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120210Instructionalday">
+        <Date>2012-02-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120211Holiday">
+        <Date>2012-02-11</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120212Holiday">
+        <Date>2012-02-12</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120213Instructionalday">
+        <Date>2012-02-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120214Instructionalday">
+        <Date>2012-02-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120215Instructionalday">
+        <Date>2012-02-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120216Instructionalday">
+        <Date>2012-02-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120217Instructionalday">
+        <Date>2012-02-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120218Holiday">
+        <Date>2012-02-18</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120219Holiday">
+        <Date>2012-02-19</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120220Instructionalday">
+        <Date>2012-02-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120221Instructionalday">
+        <Date>2012-02-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120222Instructionalday">
+        <Date>2012-02-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120223Instructionalday">
+        <Date>2012-02-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120224Instructionalday">
+        <Date>2012-02-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120225Holiday">
+        <Date>2012-02-25</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120226Holiday">
+        <Date>2012-02-26</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120227Instructionalday">
+        <Date>2012-02-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120228Instructionalday">
+        <Date>2012-02-28</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120229Instructionalday">
+        <Date>2012-02-29</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120301Instructionalday">
+        <Date>2012-03-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120302Instructionalday">
+        <Date>2012-03-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120303Holiday">
+        <Date>2012-03-03</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120304Holiday">
+        <Date>2012-03-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120305Instructionalday">
+        <Date>2012-03-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120306Instructionalday">
+        <Date>2012-03-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120307Instructionalday">
+        <Date>2012-03-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120308Instructionalday">
+        <Date>2012-03-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120309Instructionalday">
+        <Date>2012-03-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120310Holiday">
+        <Date>2012-03-10</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120311Holiday">
+        <Date>2012-03-11</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120312Instructionalday">
+        <Date>2012-03-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120313Instructionalday">
+        <Date>2012-03-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120314Instructionalday">
+        <Date>2012-03-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120315Instructionalday">
+        <Date>2012-03-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120316Instructionalday">
+        <Date>2012-03-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120317Holiday">
+        <Date>2012-03-17</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120318Holiday">
+        <Date>2012-03-18</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120319Instructionalday">
+        <Date>2012-03-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120320Instructionalday">
+        <Date>2012-03-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120321Instructionalday">
+        <Date>2012-03-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120322Instructionalday">
+        <Date>2012-03-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120323Instructionalday">
+        <Date>2012-03-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120324Holiday">
+        <Date>2012-03-24</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120325Holiday">
+        <Date>2012-03-25</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120326Instructionalday">
+        <Date>2012-03-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120327Instructionalday">
+        <Date>2012-03-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120328Instructionalday">
+        <Date>2012-03-28</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120329Instructionalday">
+        <Date>2012-03-29</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120330Instructionalday">
+        <Date>2012-03-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120331Holiday">
+        <Date>2012-03-31</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120401Holiday">
+        <Date>2012-04-01</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120402Instructionalday">
+        <Date>2012-04-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120403Instructionalday">
+        <Date>2012-04-03</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120404Instructionalday">
+        <Date>2012-04-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120405Instructionalday">
+        <Date>2012-04-05</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120406Instructionalday">
+        <Date>2012-04-06</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120407Holiday">
+        <Date>2012-04-07</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120408Holiday">
+        <Date>2012-04-08</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120409Instructionalday">
+        <Date>2012-04-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120410Instructionalday">
+        <Date>2012-04-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120411Instructionalday">
+        <Date>2012-04-11</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120412Instructionalday">
+        <Date>2012-04-12</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120413Instructionalday">
+        <Date>2012-04-13</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120414Holiday">
+        <Date>2012-04-14</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120415Holiday">
+        <Date>2012-04-15</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120416Instructionalday">
+        <Date>2012-04-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120417Instructionalday">
+        <Date>2012-04-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120418Instructionalday">
+        <Date>2012-04-18</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120419Instructionalday">
+        <Date>2012-04-19</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120420Instructionalday">
+        <Date>2012-04-20</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120421Holiday">
+        <Date>2012-04-21</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120422Holiday">
+        <Date>2012-04-22</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120423Instructionalday">
+        <Date>2012-04-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120424Instructionalday">
+        <Date>2012-04-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120425Instructionalday">
+        <Date>2012-04-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120426Instructionalday">
+        <Date>2012-04-26</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120427Instructionalday">
+        <Date>2012-04-27</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120428Holiday">
+        <Date>2012-04-28</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120429Holiday">
+        <Date>2012-04-29</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120430Instructionalday">
+        <Date>2012-04-30</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120501Instructionalday">
+        <Date>2012-05-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120502Instructionalday">
+        <Date>2012-05-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120503Instructionalday">
+        <Date>2012-05-03</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120504Instructionalday">
+        <Date>2012-05-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120505Holiday">
+        <Date>2012-05-05</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120506Holiday">
+        <Date>2012-05-06</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120507Instructionalday">
+        <Date>2012-05-07</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120508Instructionalday">
+        <Date>2012-05-08</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120509Instructionalday">
+        <Date>2012-05-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120510Instructionalday">
+        <Date>2012-05-10</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120511Instructionalday">
+        <Date>2012-05-11</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120512Holiday">
+        <Date>2012-05-12</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120513Holiday">
+        <Date>2012-05-13</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120514Instructionalday">
+        <Date>2012-05-14</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120515Instructionalday">
+        <Date>2012-05-15</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120516Instructionalday">
+        <Date>2012-05-16</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120517Instructionalday">
+        <Date>2012-05-17</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120518Instructionalday">
+        <Date>2012-05-18</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120519Holiday">
+        <Date>2012-05-19</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120520Holiday">
+        <Date>2012-05-20</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120521Instructionalday">
+        <Date>2012-05-21</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120522Instructionalday">
+        <Date>2012-05-22</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120523Instructionalday">
+        <Date>2012-05-23</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120524Instructionalday">
+        <Date>2012-05-24</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="CLND_20120525Instructionalday">
+        <Date>2012-05-25</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <!-- GradingPeriods for the 2011-2012 school year -->
+    <GradingPeriod id="GRDP_20110822">
+        <GradingPeriod>First Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <BeginDate>2011-08-22</BeginDate>
+        <EndDate>2011-10-09</EndDate>
+        <TotalInstructionalDays>34</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20110822Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110823Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110824Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110825Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110826Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110827Holiday"/>
+        <CalendarDateReference ref="CLND_20110828Holiday"/>
+        <CalendarDateReference ref="CLND_20110829Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110830Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110831Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110901Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110902Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110903Holiday"/>
+        <CalendarDateReference ref="CLND_20110904Holiday"/>
+        <CalendarDateReference ref="CLND_20110905Holiday"/>
+        <CalendarDateReference ref="CLND_20110906Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110907Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110908Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110909Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110910Holiday"/>
+        <CalendarDateReference ref="CLND_20110911Holiday"/>
+        <CalendarDateReference ref="CLND_20110912Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110913Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110914Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110915Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110916Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110917Holiday"/>
+        <CalendarDateReference ref="CLND_20110918Holiday"/>
+        <CalendarDateReference ref="CLND_20110919Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110920Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110921Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110922Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110923Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110924Holiday"/>
+        <CalendarDateReference ref="CLND_20110925Holiday"/>
+        <CalendarDateReference ref="CLND_20110926Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110927Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110928Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110929Instructionalday"/>
+        <CalendarDateReference ref="CLND_20110930Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111001Holiday"/>
+        <CalendarDateReference ref="CLND_20111002Holiday"/>
+        <CalendarDateReference ref="CLND_20111003Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111004Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111005Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111006Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111007Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111008Holiday"/>
+        <CalendarDateReference ref="CLND_20111009Holiday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20111010">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <BeginDate>2011-10-10</BeginDate>
+        <EndDate>2011-11-27</EndDate>
+        <TotalInstructionalDays>33</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20111010Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111011Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111012Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111013Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111014Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111015Holiday"/>
+        <CalendarDateReference ref="CLND_20111016Holiday"/>
+        <CalendarDateReference ref="CLND_20111017Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111018Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111019Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111020Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111021Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111022Holiday"/>
+        <CalendarDateReference ref="CLND_20111023Holiday"/>
+        <CalendarDateReference ref="CLND_20111024Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111025Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111026Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111027Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111028Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111029Holiday"/>
+        <CalendarDateReference ref="CLND_20111030Holiday"/>
+        <CalendarDateReference ref="CLND_20111031Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111101Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111102Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111103Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111104Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111105Holiday"/>
+        <CalendarDateReference ref="CLND_20111106Holiday"/>
+        <CalendarDateReference ref="CLND_20111107Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111108Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111109Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111110Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111111Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111112Holiday"/>
+        <CalendarDateReference ref="CLND_20111113Holiday"/>
+        <CalendarDateReference ref="CLND_20111114Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111115Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111116Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111117Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111118Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111119Holiday"/>
+        <CalendarDateReference ref="CLND_20111120Holiday"/>
+        <CalendarDateReference ref="CLND_20111121Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111122Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111123Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111124Holiday"/>
+        <CalendarDateReference ref="CLND_20111125Holiday"/>
+        <CalendarDateReference ref="CLND_20111126Holiday"/>
+        <CalendarDateReference ref="CLND_20111127Holiday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20111128">
+        <GradingPeriod>Third Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <BeginDate>2011-11-28</BeginDate>
+        <EndDate>2012-01-22</EndDate>
+        <TotalInstructionalDays>31</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20111128Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111129Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111130Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111201Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111202Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111203Holiday"/>
+        <CalendarDateReference ref="CLND_20111204Holiday"/>
+        <CalendarDateReference ref="CLND_20111205Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111206Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111207Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111208Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111209Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111210Holiday"/>
+        <CalendarDateReference ref="CLND_20111211Holiday"/>
+        <CalendarDateReference ref="CLND_20111212Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111213Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111214Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111215Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111216Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111217Holiday"/>
+        <CalendarDateReference ref="CLND_20111218Holiday"/>
+        <CalendarDateReference ref="CLND_20111219Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111220Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111221Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111222Holiday"/>
+        <CalendarDateReference ref="CLND_20111223Holiday"/>
+        <CalendarDateReference ref="CLND_20111224Holiday"/>
+        <CalendarDateReference ref="CLND_20111225Holiday"/>
+        <CalendarDateReference ref="CLND_20111226Holiday"/>
+        <CalendarDateReference ref="CLND_20111227Holiday"/>
+        <CalendarDateReference ref="CLND_20111228Holiday"/>
+        <CalendarDateReference ref="CLND_20111229Holiday"/>
+        <CalendarDateReference ref="CLND_20111230Holiday"/>
+        <CalendarDateReference ref="CLND_20111231Holiday"/>
+        <CalendarDateReference ref="CLND_20120101Holiday"/>
+        <CalendarDateReference ref="CLND_20120102Holiday"/>
+        <CalendarDateReference ref="CLND_20120103Holiday"/>
+        <CalendarDateReference ref="CLND_20120104Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120105Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120106Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120107Holiday"/>
+        <CalendarDateReference ref="CLND_20120108Holiday"/>
+        <CalendarDateReference ref="CLND_20120109Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120110Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120111Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120112Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120113Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120114Holiday"/>
+        <CalendarDateReference ref="CLND_20120115Holiday"/>
+        <CalendarDateReference ref="CLND_20120116Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120117Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120118Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120119Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120120Instructionalday"/>
+        <CalendarDateReference ref="CLND_20120121Holiday"/>
+        <CalendarDateReference ref="CLND_20120122Holiday"/>
+    </GradingPeriod>
+    <Session>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Six Weeks</GradingPeriod>
+                <BeginDate>2011-08-22</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Third Six Weeks</GradingPeriod>
+                <BeginDate>2011-11-28</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Second Six Weeks</GradingPeriod>
+                <BeginDate>2011-10-10</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Session>
 </InterchangeEducationOrgCalendar>
