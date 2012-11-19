@@ -73,7 +73,23 @@ end
 ###############################################################################
 
 Then /^my tenant database should be cleared$/ do
-  # Doing nothing for now, since we don't want to have any access to mongo directly'
+  step "When I get the database name"
+  tenant_db = @conn.db(@tenant_db_name)
+  tenant_db.collection_names
+  coll_to_skip = ["system.indexes",
+                  "system.js",
+                  "system.profile",
+                  "system.namespaces",
+                  "system.users",
+                  "tenant",
+                  "securityEvent",
+                  "realm",
+                  "application",
+                  "roles",
+                  "customRole"]
+  coll_names.each do |coll|
+    assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.") if !coll_to_skip.include?(coll)
+  end
 end
 
 Then /^I will drop the whole database$/ do
