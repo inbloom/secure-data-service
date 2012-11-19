@@ -38,4 +38,21 @@ describe "Odin" do
       odin.md5().should eq sha1
     end
   end
+
+  context "with a 10 student configuration" do
+    let(:odin) {Odin.new}
+    before {odin.generate "10students"}
+    let(:student_parent) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentParent.xml"}
+    let(:enroll) {File.new "#{File.dirname(__FILE__)}/../generated/InterchangeStudentEnrollment.xml"}
+
+    describe "#generate" do
+      it "will generate lists of 10 students" do
+        student_parent.readlines.select{|l| l.match("<Student>")}.length.should eq(10)
+      end
+      it "will generate lists of 10 studentSchoolAssociations" do
+        enroll.readlines.select{|l| l.match("<StudentSchoolAssociation>")}.length.should eq(30)
+      end
+    end
+  end
+
 end

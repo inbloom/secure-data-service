@@ -98,6 +98,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
 
+@wip
   Scenario: Post new data and check if references are denormalized correctly to Super Docs
     # Pre-ingest check
     When I look at "<INGESTED MATT SOLLARS>" in the "student"

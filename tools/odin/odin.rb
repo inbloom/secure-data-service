@@ -41,14 +41,22 @@ class Odin
 
     time = Time.now
     pids = []
-
+    
+    # Create an initial static world - does NOT depend on time configuration
+    world = WorldGenerator.new
+    world.create(prng, scenarioYAML)
+    
+    # Progress the world temporally based on time configuration and write out the work_order(s)
+    world.simulate(prng, scenarioYAML)
+    
+    # Process the work_order(s)
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
-    pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
+    pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    puts "\t Total generation time #{finalTime} secs"
 
     genCtlFile
 

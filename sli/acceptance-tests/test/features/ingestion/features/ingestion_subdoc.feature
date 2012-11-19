@@ -11,6 +11,7 @@ Feature: Subdoc Out of Order
       | collectionName             |
       | section                    |
       | gradebookEntry             |
+      | student                    |
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job log has been created
@@ -18,6 +19,7 @@ Feature: Subdoc Out of Order
       | collectionName  | count |
       | section         | 8     |
       | gradebookEntry  | 20    |
+      | student         | 1     |
     Then I post "SubDocOutOfOrder_section.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And I am willing to wait upto 60 seconds for ingestion to complete
@@ -26,3 +28,4 @@ Feature: Subdoc Out of Order
       | collectionName  | count |
       | section         | 17    |
       | gradebookEntry  | 20    |
+      | student         | 11    |

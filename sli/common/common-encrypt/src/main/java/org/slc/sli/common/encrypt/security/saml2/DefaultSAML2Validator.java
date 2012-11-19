@@ -58,6 +58,7 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -69,17 +70,18 @@ import org.w3c.dom.Node;
 @Component
 public class DefaultSAML2Validator implements SAML2Validator {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSAML2Validator.class);
-    
+
     @Value("${sli.trust.certificates}")
     private String trustedCertificatesStore;
-    
+
     private KeyStore cacerts;
-    
+
     private DOMValidateContext valContext;
-    
+
+    private static final String REGEX = "^https?://@domain(:\\d+)?/.+";
     /**
      * Pulls the <Signature> tag from the SAML assertion document.
-     * 
+     *
      * @param samlDocument
      *            Document containing SAML assertion.
      * @return Node representing the Signature block from the SAML assertion.
@@ -87,20 +89,20 @@ public class DefaultSAML2Validator implements SAML2Validator {
     private Node getSignatureElement(Document samlDocument) {
         return samlDocument.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature").item(0);
     }
-    
+
     /**
      * Creates a DOM validator for the SAML assertion document.
-     * 
+     *
      * @param samlDocument
      *            Document containing SAML assertion.
      */
     private void createContext(Document samlDocument) {
         valContext = new DOMValidateContext(new KeyValueKeySelector(), getSignatureElement(samlDocument));
     }
-    
+
     /**
      * Unmarshals the XML signature from the SAML assertion document.
-     * 
+     *
      * @param samlDocument
      *            Document containing SAML assertion.
      * @return XML Signature element.
@@ -112,27 +114,16 @@ public class DefaultSAML2Validator implements SAML2Validator {
         XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
         return factory.unmarshalXMLSignature(valContext);
     }
-    
-    /**
-     * Checks that the specified signature value maps to a trusted Certificate Authority.
-     * 
-     * @param signature
-     *            xml signature (contains KeyInfo, SignatureValue, and SignedInfo)
-     * @return boolean indicating whether the signature corresponds to a trusted certificate
-     *         authority
-     * @throws InvalidAlgorithmParameterException
-     * @throws KeyStoreException
-     * @throws CertificateException
-     * @throws NoSuchAlgorithmException
-     */
-    private boolean isSignatureTrusted(XMLSignature signature) throws KeyStoreException,
+
+    @Override
+    public boolean isSignatureTrusted(XMLSignature signature, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException {
         boolean trusted = false;
         X509Certificate certificate = null;
-        
+
         @SuppressWarnings("unchecked")
         List<XMLStructure> keyInfoContext = signature.getKeyInfo().getContent();
-        
+
         for (XMLStructure xmlStructure : keyInfoContext) {
             if (xmlStructure instanceof X509Data) {
                 X509Data xd = (X509Data) xmlStructure;
@@ -147,33 +138,38 @@ public class DefaultSAML2Validator implements SAML2Validator {
                 }
             }
         }
-        
+
         if (certificate != null) {
-            if (cacerts == null) {
-                cacerts = loadCaCerts();
+            if (issuerMatchesSubject(certificate, issuer)) {
+                if (cacerts == null) {
+                    cacerts = loadCaCerts();
+                }
+                PKIXParameters params = new PKIXParameters(cacerts);
+                params.setRevocationEnabled(false);
+
+                CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+                CertPath certPath = certFactory.generateCertPath(Arrays.asList(certificate));
+                CertPathValidator certPathValidator = CertPathValidator.getInstance(CertPathValidator.getDefaultType());
+                try {
+                    certPathValidator.validate(certPath, params);
+                    trusted = true;
+                    LOG.debug("X509 Certificate is trusted.");
+                } catch (CertPathValidatorException e) {
+                    LOG.error("X509 Certificate is not trusted.");
+                }
             }
-            PKIXParameters params = new PKIXParameters(cacerts);
-            params.setRevocationEnabled(false);
-            
-            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-            CertPath certPath = certFactory.generateCertPath(Arrays.asList(certificate));
-            CertPathValidator certPathValidator = CertPathValidator.getInstance(CertPathValidator.getDefaultType());
-            try {
-                certPathValidator.validate(certPath, params);
-                trusted = true;
-                LOG.debug("X509 Certificate is trusted.");
-            } catch (CertPathValidatorException e) {
-                LOG.error("X509 Certificate is not trusted.");
+            else {
+            	LOG.error("Domain on the certificate does not match the issuer");
             }
         } else {
             LOG.error("X509 Certificate is null --> no trust can be established.");
         }
         return trusted;
     }
-    
+
     /**
      * Loads the trusted Certificate Authority store.
-     * 
+     *
      * @return KeyStore containing trusted certificate authorities.
      */
     private KeyStore loadCaCerts() {
@@ -202,47 +198,54 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
         return cacerts;
     }
-    
+
     /**
-     * Checks that the SAML assertion is both trusted and valid.
-     * 
-     * @param samlDocument
-     *            Document containing SAML assertion.
-     * @return true if the SAML assertion has been signed by a trusted certificate authority, as
-     *         well as passes validation. false, otherwise.
-     * @throws MarshalException
-     * @throws NoSuchAlgorithmException
-     * @throws CertificateException
-     * @throws InvalidAlgorithmParameterException
-     * @throws KeyStoreException
+     * Checks that the issuer of the SAML assertion matches the subject of the X.509 certificate.
+     *
+     * @param certificate
+     *            X509 Certificate.
+     * @param issuer
+     *            Source where SAML assertion originated.
+     * @return True if issuer matches subject, false otherwise.
      */
+    private boolean issuerMatchesSubject(X509Certificate certificate, String issuer) {
+        String subject = getSubjectFromCertificate(certificate);
+        boolean verdict=false;
+		if (subject != null) {
+			String regexp = REGEX.replace("@domain", subject.replace(".","\\.")).replaceAll("\\*", ".+");
+			verdict = issuer.matches(regexp);
+		}
+		
+		LOG.info("[{}] Assertion issuer: {}. Certificate domain: {}.", new Object[] { verdict ? "MATCHED" : "MISMATCH", issuer, subject });
+		
+		return verdict;
+    }
+
+    private String getSubjectFromCertificate(X509Certificate certificate) {
+        String[] pieces = certificate.getSubjectX500Principal().getName().split(",");
+        for (String piece : pieces) {
+            if (piece.startsWith("CN=")) {
+                String[] names = piece.split("=");
+                if (names.length == 2) {
+                    return names[1];
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
-    public boolean isDocumentTrustedAndValid(Document samlDocument) throws KeyStoreException,
+    public boolean isDocumentTrustedAndValid(Document samlDocument, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException {
-        return isDocumentTrusted(samlDocument) && isDocumentValid(samlDocument);
+        return isDocumentTrusted(samlDocument, issuer) && isDocumentValid(samlDocument);
     }
-    
-    /**
-     * Checks that the SAML assertion is trusted.
-     * 
-     * @param samlDocument
-     *            Document containing SAML assertion.
-     * @return true if the SAML assertion has been signed by a trusted certificate authority. false,
-     *         otherwise.
-     * @throws MarshalException
-     * @throws NoSuchAlgorithmException
-     * @throws CertificateException
-     * @throws InvalidAlgorithmParameterException
-     * @throws KeyStoreException
-     */
-    public boolean isDocumentTrusted(Document samlDocument) throws KeyStoreException,
+
+    @Override
+    public boolean isDocumentTrusted(Document samlDocument, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException {
-        return isSignatureTrusted(getSignature(samlDocument));
+        return isSignatureTrusted(getSignature(samlDocument), issuer);
     }
-    
-    /**
-     * Checks that the SAML assertion is valid.
-     */
+
     @Override
     public boolean isDocumentValid(Document samlDocument) {
         try {
@@ -254,7 +257,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
         return false;
     }
-    
+
     @Override
     public boolean isSignatureValid(Document samlDocument) {
         try {
@@ -266,7 +269,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
         return false;
     }
-    
+
     @Override
     public boolean isDigestValid(Document samlDocument) {
         boolean valid = false;
@@ -284,7 +287,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
         return valid;
     }
-    
+
     /**
      * Suggest deleting this --> functionality exists within XMLSignatureHelper class.
      */
@@ -292,20 +295,20 @@ public class DefaultSAML2Validator implements SAML2Validator {
     public Document signDocumentWithSAMLSigner(Document samlDocument, SAML2Signer signer) {
         return null;
     }
-    
+
     private static class KeyValueKeySelector extends KeySelector {
-        
+
         @Override
         public KeySelectorResult select(KeyInfo keyInfo, KeySelector.Purpose purpose, AlgorithmMethod method,
                 XMLCryptoContext context) throws KeySelectorException {
-            
+
             if (keyInfo == null) {
                 throw new KeySelectorException("Null KeyInfo object!");
             }
             SignatureMethod sm = (SignatureMethod) method;
             @SuppressWarnings("unchecked")
             List<XMLStructure> list = keyInfo.getContent();
-            
+
             for (XMLStructure xmlStructure : list) {
                 if (xmlStructure instanceof KeyValue) {
                     PublicKey pk = null;
@@ -334,26 +337,26 @@ public class DefaultSAML2Validator implements SAML2Validator {
             }
             throw new KeySelectorException("No KeyValue element found!");
         }
-        
+
         static boolean algEquals(String algURI, String algName) {
             return algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)
                     || algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1);
         }
-        
+
         public static class SimpleKeySelectorResult implements KeySelectorResult {
             private Key k;
-            
+
             public SimpleKeySelectorResult(PublicKey k) {
                 this.k = k;
             }
-            
+
             @Override
             public Key getKey() {
                 return k;
             }
         }
     }
-    
+
     protected void setTrustedCertificatesStore(String certStore) {
         trustedCertificatesStore = certStore;
         loadCaCerts();
