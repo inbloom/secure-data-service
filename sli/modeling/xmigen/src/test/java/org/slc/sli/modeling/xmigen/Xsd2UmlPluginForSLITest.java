@@ -86,7 +86,7 @@ public void testGetAssociationEndTypeName() throws Exception {
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
     TaggedValue taggedValue = mock(TaggedValue.class);
     TagDefinition tagDefinition = mock(TagDefinition.class);
-    Identifier id = mock(Identifier.class);
+    Identifier id = Identifier.random();
     List<TaggedValue> taggedValueList = new ArrayList<TaggedValue>();
     taggedValueList.add(taggedValue);
 
@@ -113,7 +113,7 @@ public void testIsAssociationEnd() throws Exception {
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
     TaggedValue taggedValue = mock(TaggedValue.class);
     TagDefinition tagDefinition = mock(TagDefinition.class);
-    Identifier id = mock(Identifier.class);
+    Identifier id = Identifier.random();
     List<TaggedValue> taggedValueList = new ArrayList<TaggedValue>();
     taggedValueList.add(taggedValue);
 
@@ -132,7 +132,7 @@ public void testIsAssociationEnd() throws Exception {
         Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
         TaggedValue taggedValue = mock(TaggedValue.class);
         TagDefinition tagDefinition = mock(TagDefinition.class);
-        Identifier id = mock(Identifier.class);
+        Identifier id = Identifier.random();
         List<TaggedValue> taggedValueList = new ArrayList<TaggedValue>();
         taggedValueList.add(taggedValue);
 

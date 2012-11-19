@@ -28,7 +28,7 @@ public class Include extends WadlElement {
     public Include(final String href, final List<Documentation> doc) {
         super(doc);
         if (null == href) {
-            throw new NullPointerException("href");
+            throw new IllegalArgumentException("href");
         }
         this.href = href;
     }

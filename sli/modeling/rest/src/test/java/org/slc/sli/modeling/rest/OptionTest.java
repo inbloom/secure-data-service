@@ -41,12 +41,12 @@ public class OptionTest {
         option = new Option(VALUE, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullValue() {
         new Option(null, DOC);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullDocumentation() {
         new Option(VALUE, null);
     }

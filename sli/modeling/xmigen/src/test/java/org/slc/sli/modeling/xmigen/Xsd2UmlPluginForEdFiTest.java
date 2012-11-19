@@ -176,7 +176,7 @@ public class Xsd2UmlPluginForEdFiTest {
         assertFalse(pluginForEdFi.isAssociationEnd(classType, attribute, host));
 
     }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIsAssociationEndNullException() throws Exception {
         pluginForEdFi.isAssociationEnd(classType,null,host);
     }

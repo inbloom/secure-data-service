@@ -35,6 +35,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Documentation;
 import org.slc.sli.modeling.rest.Grammars;
@@ -51,6 +52,7 @@ import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.rest.WadlElement;
 import org.slc.sli.modeling.wadl.WadlAttributeName;
 import org.slc.sli.modeling.wadl.WadlElementName;
+import org.slc.sli.modeling.wadl.WadlRuntimeException;
 import org.slc.sli.modeling.wadl.WadlSyntax;
 import org.slc.sli.modeling.xdm.DmComment;
 import org.slc.sli.modeling.xdm.DmElement;
@@ -58,11 +60,15 @@ import org.slc.sli.modeling.xdm.DmNode;
 import org.slc.sli.modeling.xdm.DmProcessingInstruction;
 import org.slc.sli.modeling.xdm.DmText;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Writes a WADL {@link Application} to a file (by name) or {@link OutputStream}.
  */
 public final class WadlWriter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlWriter.class);
 
     private static final String SCHEMA_INSTANCE_NS = "http://www.w3.org/2001/XMLSchema-instance";
 
@@ -74,11 +80,7 @@ public final class WadlWriter {
     // private static final String ELEMENT_PREFIX = "sli";
 
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
 
     private static final String toLexicalForm(final QName name, final XMLStreamWriter xsw) throws XMLStreamException {
@@ -164,7 +166,7 @@ public final class WadlWriter {
             }
             xsw.flush();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new WadlRuntimeException(e);
         }
     }
 
@@ -178,14 +180,14 @@ public final class WadlWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
     public static final void writeDocument(final Application app, final Map<String, String> prefixMappings,
             final File file) {
         if (file == null) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
@@ -195,7 +197,7 @@ public final class WadlWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -225,7 +227,7 @@ public final class WadlWriter {
     private static final void writeDocumentation(final WadlElement element, final XMLStreamWriter xsw)
             throws XMLStreamException {
         if (element == null) {
-            throw new NullPointerException("element");
+            throw new IllegalArgumentException("element");
         }
         writeDocumentation(element.getDocumentation(), xsw);
     }
@@ -299,7 +301,7 @@ public final class WadlWriter {
 
     private static final void writeOption(final Option option, final XMLStreamWriter xsw) throws XMLStreamException {
         if (option == null) {
-            throw new NullPointerException("option");
+            throw new IllegalArgumentException("option");
         }
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.OPTION.getLocalName(), WadlSyntax.NAMESPACE);
         try {
@@ -312,7 +314,7 @@ public final class WadlWriter {
 
     private static final void writeParam(final Param param, final XMLStreamWriter xsw) throws XMLStreamException {
         if (param == null) {
-            throw new NullPointerException("param");
+            throw new IllegalArgumentException("param");
         }
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.PARAM.getLocalName(), WadlSyntax.NAMESPACE);
         try {
@@ -372,7 +374,7 @@ public final class WadlWriter {
 
     private static final void writeRequest(final Request request, final XMLStreamWriter xsw) throws XMLStreamException {
         if (request == null) {
-            throw new NullPointerException("request");
+            throw new IllegalArgumentException("request");
         }
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.REQUEST.getLocalName(), WadlSyntax.NAMESPACE);
         try {

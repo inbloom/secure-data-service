@@ -29,7 +29,7 @@ public abstract class WadlElement {
 
     public WadlElement(final List<Documentation> doc) {
         if (null == doc) {
-            throw new NullPointerException("doc");
+            throw new IllegalArgumentException("doc");
         }
         this.doc = Collections.unmodifiableList(new ArrayList<Documentation>(doc));
     }

@@ -23,7 +23,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +35,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -54,11 +54,16 @@ import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
+import org.slc.sli.modeling.xmi.XmiRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reads from a file (by name) or {@link InputStream} to produce a UML {@link Model}.
  */
 public class XmiReader {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmiReader.class);
     /**
      * If an empty name is acceptable then use this symbolic constant.
      */
@@ -96,11 +101,7 @@ public class XmiReader {
     }
 
     protected static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-        	e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
 
     protected static final boolean getBoolean(final XmiAttributeName name, final boolean defaultValue,
@@ -194,7 +195,7 @@ public class XmiReader {
                 }
             }
         } catch (final XMLStreamException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
         throw new AssertionError();
     }
@@ -243,7 +244,7 @@ public class XmiReader {
                 }
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiRuntimeException(e);
         }
         throw new AssertionError();
     }
@@ -464,7 +465,7 @@ public class XmiReader {
                                 }
                                 break;
                             } else {
-                                throw new RuntimeException("Expecting Foo element, got: " + reader.getLocalName());
+                                throw new XmiRuntimeException("Expecting Foo element, got: " + reader.getLocalName());
                             }
                         }
                         case XMLStreamConstants.END_ELEMENT: {
@@ -491,7 +492,7 @@ public class XmiReader {
                 throw new AssertionError(reader.getLocalName());
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiRuntimeException(e);
         }
     }
 
@@ -549,7 +550,7 @@ public class XmiReader {
                                 }
                                 break;
                             } else {
-                                throw new RuntimeException("Expecting Foo element, got: " + reader.getLocalName());
+                                throw new XmiRuntimeException("Expecting Foo element, got: " + reader.getLocalName());
                             }
                         }
                         case XMLStreamConstants.END_DOCUMENT: {
@@ -568,7 +569,7 @@ public class XmiReader {
                 throw new AssertionError(reader.getLocalName());
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiRuntimeException(e);
         }
     }
 
@@ -801,7 +802,7 @@ public class XmiReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiRuntimeException(e);
         }
     }
 
@@ -1224,7 +1225,7 @@ public class XmiReader {
                 throw new AssertionError(reader.getLocalName());
             }
         } catch (final XMLStreamException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
         throw new AssertionError();
     }
@@ -1277,7 +1278,7 @@ public class XmiReader {
                                 }
                                 break;
                             } else {
-                                throw new RuntimeException("Expecting Foo element, got: " + reader.getLocalName());
+                                throw new XmiRuntimeException("Expecting Foo element, got: " + reader.getLocalName());
                             }
                         }
                         case XMLStreamConstants.END_ELEMENT: {
@@ -1303,7 +1304,7 @@ public class XmiReader {
                 throw new AssertionError(reader.getLocalName());
             }
         } catch (final XMLStreamException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
         return null;
     }

@@ -21,38 +21,22 @@ require_relative './baseEntity.rb'
 
 class Student < BaseEntity
   
-  def addZeroIfSingleDigit(num)
-    s = num < 10 ? "0" + num.to_s : num.to_s
-    s
-  end
+  attr_accessor :id, :sex, :birthDay
 
-  def initialize(id, rand)
+  def initialize(id, year_of, demographics, rand)
     @id = id
+    @demographics = demographics
     @rand = rand
-  end
-
-  def id
-    @id
+    @sex = choose(["Male", "Female"])
+    @birthDay = year_of + @rand.rand(365)
   end
 
   def firstName
-    choose(["Joe", "Bob", "Sally"])
+    choose(sex == "Male" ? @demographics.maleNames : @demographics.femaleNames)
   end
 
   def lastName
-    choose(["Brown", "Johnson", "Smith"])
-  end
-
-  def sex
-    choose(["Male", "Female"])
-  end
-
-  def birthYear
-    "2000"
-  end
-
-  def birthDay
-    addZeroIfSingleDigit(1 + @rand.rand(11)) + "-" + addZeroIfSingleDigit(1 + @rand.rand(27))
+    choose(@demographics.lastNames)
   end
 
   def address

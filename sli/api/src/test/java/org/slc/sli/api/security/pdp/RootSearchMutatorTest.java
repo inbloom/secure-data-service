@@ -16,9 +16,9 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  * Unit tests to verify functionality of v1 search mutator.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml" })
 @TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class})
+        DirtiesContextTestExecutionListener.class })
 public class RootSearchMutatorTest {
 
     @Autowired

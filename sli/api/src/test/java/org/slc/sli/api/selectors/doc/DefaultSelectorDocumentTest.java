@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.model.ModelProvider;
@@ -30,7 +29,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,7 +37,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -309,8 +306,8 @@ public class DefaultSelectorDocumentTest {
     public void testGetEmbeddedEntities() {
         ClassType classType = mock(ClassType.class);
         when(classType.getName()).thenReturn("StudentSectionAssociation");
-        List<EntityBody> embeddedEntities = defaultSelectorDocument.getEmbeddedEntities(createEmbeddedEntity(),classType);
-        assertEquals(embeddedEntities.size(),1);
+        List<EntityBody> embeddedEntities = defaultSelectorDocument.getEmbeddedEntities(createEmbeddedEntity(), classType);
+        assertEquals(embeddedEntities.size(), 1);
     }
 
     @Test
@@ -532,11 +529,11 @@ public class DefaultSelectorDocumentTest {
         EntityBody embeddedBody = new EntityBody();
         List<EntityBody> embeddedList = new ArrayList<EntityBody>();
 
-        embeddedBody.put("type","studentSectionAssociation");
-        embeddedBody.put("id","SSA_id");
+        embeddedBody.put("type", "studentSectionAssociation");
+        embeddedBody.put("id", "SSA_id");
         embeddedList.add(embeddedBody);
-        entityBody.put("id" , "Entity_id");
-        entityBody.put("studentSectionAssociation",embeddedList);
+        entityBody.put("id", "Entity_id");
+        entityBody.put("studentSectionAssociation", embeddedList);
 
         entityBodyList.add(entityBody);
         return entityBodyList;

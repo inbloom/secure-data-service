@@ -30,7 +30,7 @@ public final class SdkGenElementWrapper implements SdkGenElement {
 
     public SdkGenElementWrapper(final XmlSchemaElement element) {
         if (element == null) {
-            throw new NullPointerException("element");
+            throw new IllegalArgumentException("element");
         }
         this.element = element;
     }

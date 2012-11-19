@@ -16,8 +16,14 @@
 
 package org.slc.sli.api.security.pdp;
 
+/**
+ * Represents the error that occurs when there is no context between two entities.
+ * 
+ * @author kmyers
+ *
+ */
 public class ContextInferrenceFailedException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 }

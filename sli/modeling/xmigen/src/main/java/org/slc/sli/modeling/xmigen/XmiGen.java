@@ -36,6 +36,8 @@ import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.writer.XmiWriter;
 import org.slc.sli.modeling.xsd.XsdReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A quick-n-dirty utility for converting W3C XML Schemas to XMI (with limitations).
@@ -45,6 +47,8 @@ import org.slc.sli.modeling.xsd.XsdReader;
  * </p>
  */
 public final class XmiGen {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmiGen.class);
 
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
     private static final String ARGUMENT_XSD = "xsdFile";
@@ -69,7 +73,7 @@ public final class XmiGen {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiGenRuntimeException(e);
                 }
             } else {
                 try {
@@ -90,15 +94,15 @@ public final class XmiGen {
 
                     XmiWriter.writeDocument(model, modelIndex, outLocation);
                 } catch (final FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiGenRuntimeException(e);
                 }
             }
         } catch (final OptionException e) {
             // Caused by illegal arguments.
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         } catch (final ClassNotFoundException e) {
             // Caused by not being able to load the plug-in.
-            System.err.println("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
+            LOG.warn("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
                     + e.getMessage());
         }
     }
@@ -109,9 +113,9 @@ public final class XmiGen {
         try {
             return factory.newInstance();
         } catch (final InstantiationException e) {
-            throw new RuntimeException(name, e);
+            throw new XmiGenRuntimeException(name, e);
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException(name, e);
+            throw new XmiGenRuntimeException(name, e);
         }
     }
 

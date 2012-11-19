@@ -51,6 +51,7 @@ public class DefaultVisitor implements Visitor {
     
     @Override
     public void endPackage(UmlPackage pkg) {
+        // No Op
     }
     
     @Override
@@ -113,5 +114,6 @@ public class DefaultVisitor implements Visitor {
     
     @Override
     public void visit(final TaggedValue taggedValue) {
+        // No Op
     }
 }

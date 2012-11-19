@@ -16,9 +16,9 @@ limitations under the License.
 
 =end
 
-require_relative 'baseEntityClasses/student.rb'
-require_relative 'baseEntityClasses/studentSchoolAssociation.rb'
-require_relative 'baseEntityClasses/studentSectionAssociation.rb'
+require_relative '../Shared/baseEntityClasses/student.rb'
+require_relative '../Shared/baseEntityClasses/studentSchoolAssociation.rb'
+require_relative '../Shared/baseEntityClasses/studentSectionAssociation.rb'
 
 class StudentBuilder
 
@@ -31,7 +31,7 @@ class StudentBuilder
   end
 
   def build
-    s = Student.new(@id, @rand)
+    s = Student.new(@id, @work_order[:birth_day_after], @work_order[:demographics], @rand)
     @student_writer.write(s.render)
     @work_order[:sessions].each{ |session|
       gen_enrollment(session)

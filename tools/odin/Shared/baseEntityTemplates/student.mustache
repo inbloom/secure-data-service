@@ -13,76 +13,76 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 }}
-  <Student>
-    <StudentUniqueStateId>{{id}}</StudentUniqueStateId>
-    <Name>
-      {{#prefix}}
+<Student>
+  <StudentUniqueStateId>{{id}}</StudentUniqueStateId>
+  <Name>
+    {{#prefix}}
       <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
-      {{/prefix}}
-      <FirstName>{{firstName}}</FirstName>
-      {{#middleName}}
+    {{/prefix}}
+    <FirstName>{{firstName}}</FirstName>
+    {{#middleName}}
       <MiddleName>{{middleName}}</MiddleName>
-      {{/middleName}}
-      <LastSurname>{{lastName}}</LastSurname>
-      {{#suffix}}
+    {{/middleName}}
+    <LastSurname>{{lastName}}</LastSurname>
+    {{#suffix}}
       <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
-      {{/suffix}}
-    </Name>
-    {{#otherName}}
+    {{/suffix}}
+  </Name>
+  {{#otherName}}
     <OtherName OtherNameType="{{otherNameType}}">
       {{#prefix}}
-      <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
+        <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
       {{/prefix}}
       <FirstName>{{firstName}}</FirstName>
       {{#middleName}}
-      <MiddleName>{{middleName}}</MiddleName>
+        <MiddleName>{{middleName}}</MiddleName>
       {{/middleName}}
       <LastSurname>{{lastName}}</LastSurname>
       {{#suffix}}
-      <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
+        <GenerationCodeSuffix>{{suffix}}</GenerationCodeSuffix>
       {{/suffix}}
     </OtherName>
-    {{/otherName}}
-    <Sex>{{sex}}</Sex>
-    <BirthData>
-      <BirthDate>{{birthYear}}-{{birthDay}}</BirthDate>
-    </BirthData>
-    <Address AddressType="Home">
-      <StreetNumberName>{{address}}</StreetNumberName>
-      <City>{{city}}</City>
-      <StateAbbreviation>{{state}}</StateAbbreviation>
-      <PostalCode>{{postalCode}}</PostalCode>
-    </Address>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>{{email}}</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
-    {{#oldEthnicity}}
+  {{/otherName}}
+  <Sex>{{sex}}</Sex>
+  <BirthData>
+    <BirthDate>{{birthDay}}</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>{{address}}</StreetNumberName>
+    <City>{{city}}</City>
+    <StateAbbreviation>{{state}}</StateAbbreviation>
+    <PostalCode>{{postalCode}}</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>{{email}}</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
+  {{#oldEthnicity}}
     <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
-    {{/oldEthnicity}}
-    {{#race}}
+  {{/oldEthnicity}}
+  {{#race}}
     <Race>
       <RacialCategory>{{race}}</RacialCategory>
     </Race>
-    {{/race}}
-    {{#economicDisadvantaged}}
+  {{/race}}
+  {{#economicDisadvantaged}}
     <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
-    {{/economicDisadvantaged}}
-    {{#schoolFood}}
+  {{/economicDisadvantaged}}
+  {{#schoolFood}}
     <SchoolFoodServicesEligibility>{{schoolFood}}</SchoolFoodServicesEligibility>
-    {{/schoolFood}}
-    {{#limitedEnglish}}
+  {{/schoolFood}}
+  {{#limitedEnglish}}
     <LimitedEnglishProficiency>{{limitedEnglish}}</LimitedEnglishProficiency>
-    {{/limitedEnglish}}
-    {{#section504disabilities}}
+  {{/limitedEnglish}}
+  {{#section504disabilities}}
     <Section504Disabilities>
       <Section504Disability>{{disability}}</Section504Disability>
     </Section504Disabilities>
-    {{/section504disabilities}}
-    {{#displacementStatus}}
+  {{/section504disabilities}}
+  {{#displacementStatus}}
     <DisplacementStatus>{{displacementStatus}}</DisplacementStatus>
-    {{/displacementStatus}}
-    {{#loginId}}
+  {{/displacementStatus}}
+  {{#loginId}}
     <LoginId>{{loginId}}</LoginId>
-    {{/loginId}}
-  </Student>
+  {{/loginId}}
+</Student>

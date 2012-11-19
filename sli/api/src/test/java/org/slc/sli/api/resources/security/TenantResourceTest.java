@@ -432,9 +432,7 @@ public class TenantResourceTest {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", entity.get("tenantId")));
         query.addCriteria(new NeutralCriteria("tenantIsReady", "=", false));
-        when(
-                mockRepo.findOne("tenant",query))
-                .thenReturn(new MongoEntity("tenant", new HashMap<String, Object>()));
+        when(mockRepo.findOne("tenant", query)).thenReturn(new MongoEntity("tenant", new HashMap<String, Object>()));
         tenantResource.setLockChecker(lockChecker);
         // try {
         tenantResource.setSandboxEnabled(true);

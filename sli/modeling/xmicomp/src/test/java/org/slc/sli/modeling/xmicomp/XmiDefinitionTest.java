@@ -43,17 +43,17 @@ public class XmiDefinitionTest {
 		assertEquals(FILE, xmiDefinition.getFile());
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
 		new XmiDefinition(null, VERSION, FILE);
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
 		new XmiDefinition(NAME, null, FILE);
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam3() {
 		new XmiDefinition(NAME, VERSION, null);
 	}

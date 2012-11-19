@@ -40,7 +40,7 @@ import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 public final class LevelNClientJavaHelper {
 
     private LevelNClientJavaHelper() {
-        throw new RuntimeException();
+        throw new SdkGenRuntimeException("Not implemented");
     }
 
     /**
@@ -103,7 +103,7 @@ public final class LevelNClientJavaHelper {
                                 if (quietMode) {
                                     return JavaType.JT_OBJECT;
                                 } else {
-                                    throw new RuntimeException("Unknown element: " + elementName);
+                                    throw new SdkGenRuntimeException("Unknown element: " + elementName);
                                 }
                             }
                         }
@@ -111,7 +111,7 @@ public final class LevelNClientJavaHelper {
                         if (quietMode) {
                             return JavaType.JT_OBJECT;
                         } else {
-                            throw new RuntimeException("Representation is missing element name specification.");
+                            throw new SdkGenRuntimeException("Representation is missing element name specification.");
                         }
                     }
                 
@@ -140,7 +140,7 @@ public final class LevelNClientJavaHelper {
             if (quietMode) {
                 return JT_LIST_OF_ENTITY;
             } else {
-                throw new RuntimeException("type : " + type);
+                throw new SdkGenRuntimeException("type : " + type);
             }
         }
         default: {
