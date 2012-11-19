@@ -74,7 +74,7 @@ public class InterchangeStudentCohortGenerator {
 
     	int total=0;
     	total += generateCohortData(iWriter, MetaRelations.COHORT_MAP.values());
-    	total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
+    	//total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
     	total += generateStudentCohortAssociation(iWriter, MetaRelations.COHORT_MAP.values());
     	return total;
     }
