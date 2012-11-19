@@ -84,16 +84,8 @@ public class InterchangeEdOrgGenerator {
      * @return
      * @throws Exception
      */
-    public static void generate(InterchangeWriter<InterchangeEducationOrganization> iWriter) throws Exception {
-
-        
-//        InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
-//        List<Object> interchangeObjects = interchange
-//                .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
-
+    public static void generate(InterchangeWriter<InterchangeEducationOrganization> iWriter) throws Exception {     
         writeEntitiesToInterchange(iWriter);
-
-//        return interchange;
     }
 
     /**

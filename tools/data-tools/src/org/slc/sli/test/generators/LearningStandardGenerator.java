@@ -56,8 +56,11 @@ public class LearningStandardGenerator {
 
     public static LearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
 
+        LearningStandardId lsId = new LearningStandardId();
+        lsId.setIdentificationCode(learningStandardCode);
+
         LearningStandardIdentityType lsit = new LearningStandardIdentityType();
-        lsit.setLearningStandardId(learningStandardCode);
+        lsit.setLearningStandardId(lsId);
 
         LearningStandardReferenceType lsrt = new LearningStandardReferenceType();
         lsrt.setLearningStandardIdentity(lsit);

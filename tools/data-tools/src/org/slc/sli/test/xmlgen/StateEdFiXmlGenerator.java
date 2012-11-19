@@ -68,7 +68,7 @@ public class StateEdFiXmlGenerator {
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-    public static String propertyPath = "config.properties";
+    public static String propertyPath = "./generator-configs/mediumDataSet.properties";
     public static String rootOutputPath = "./data";
 	public static String XSDVersionPath = "version";
     
@@ -162,7 +162,7 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_ED_ORG) {
             edOrg();
         }
-        
+/*        
         if (MetaRelations.INTERCHANGE_ED_ORG_CALENDAR) {
             edOrgCalendar();
         }
@@ -210,7 +210,7 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
         }
-        
+*/
     }
 
     /**
