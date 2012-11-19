@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+require_relative 'spec_helper.rb'
 
 require_relative '../../EntityCreation/student_builder.rb'
 require_relative '../../Shared/demographics.rb'
