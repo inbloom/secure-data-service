@@ -63,6 +63,11 @@ task :rcCleanUpTests do
   runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
 end
 
+desc "Run RC Tenant Cleanup"
+task :rcTenantCleanUp do
+  runTests("test/features/cross_app_tests/rc_integration_delete_tenant.feature")
+end
+
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]

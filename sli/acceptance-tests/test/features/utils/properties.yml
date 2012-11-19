@@ -31,6 +31,8 @@ sif_db: "localhost"
 sif_database_name: "sli"
 sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
 
+sli_database_name: "sli"
+
 DB_HOST: "localhost"
 api_database_name : "sli"
 
