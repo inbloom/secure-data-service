@@ -37,10 +37,10 @@ public class Generalization extends NamespaceOwnedElement {
             final Identifier child, final Identifier parent) {
         super(id, name, taggedValues);
         if (child == null) {
-            throw new NullPointerException("child");
+            throw new IllegalArgumentException("child");
         }
         if (parent == null) {
-            throw new NullPointerException("parent");
+            throw new IllegalArgumentException("parent");
         }
         this.child = child;
         this.parent = parent;

@@ -27,7 +27,7 @@ public final class ParenExpr implements JavaSnippet {
 
     public ParenExpr(final JavaSnippet expr) {
         if (expr == null) {
-            throw new NullPointerException("expr");
+            throw new IllegalArgumentException("expr");
         }
         this.expr = expr;
     }

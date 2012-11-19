@@ -1072,9 +1072,25 @@ When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
 end
 
+def completeBatchJob?(file)
+  if /^job-#{@source_file_name}.*.log$/.match file
+    if isCompleted? file
+      return true
+    else
+      puts "job file still being written to"
+    end
+  end
+  return false
+end
+
+def isCompleted?(file)
+  lines = IO.readlines(@landing_zone_path + '/' + file)
+  return lines.any?{|line| /^INFO  Processed [0-9]+ records.\n$/.match line}
+end
+
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
-    if /^job-#{@source_file_name}.*.log$/.match file
+    if completeBatchJob? file
       return true
     end
   end
@@ -1381,6 +1397,7 @@ When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
+  puts "Copying zip file at #{Time.now}"
   scpFileToLandingZone @source_file_name
 end
 
@@ -1464,7 +1481,7 @@ def subDocParent(collectionName)
      "section"
     when "teacherSectionAssociation"
      "section"
-    when "studentAssessmentAssociation"
+    when "studentAssessment"
      "student"
     when "studentProgramAssociation"
       "program"
@@ -1472,6 +1489,8 @@ def subDocParent(collectionName)
       "student"
     when "studentCohortAssociation"
       "cohort"
+    when "studentDisciplineIncidentAssociation"
+      "student"
     else
       nil
   end

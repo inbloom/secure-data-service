@@ -24,13 +24,13 @@ public class PsmDocument<TYPE> {
 
     public PsmDocument(final TYPE type, final PsmResource graphResourceName, final PsmCollection singularResourceName) {
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (graphResourceName == null) {
-            throw new NullPointerException("graphResourceName");
+            throw new IllegalArgumentException("graphResourceName");
         }
         if (singularResourceName == null) {
-            throw new NullPointerException("collection");
+            throw new IllegalArgumentException("collection");
         }
         this.type = type;
         this.graphResourceName = graphResourceName;

@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
@@ -29,13 +36,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Transformer for Assessment Entities
@@ -151,7 +151,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
         List<String> identificationCodes = new ArrayList<String>();
-        //build in clause
+        // build in clause
         for (Map<String, Object> item : itemReferences) {
             if (item.containsKey("identificationCode")) {
                 identificationCodes.add((String) item.get("identificationCode"));
@@ -163,9 +163,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 LOG.debug("query for assessmentItems: {}", identificationCodes);
             }
             NeutralQuery constraint = new NeutralQuery();
-            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN, identificationCodes));
+            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN,
+                    identificationCodes));
             NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
-            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, getJob().getId(), constraint);
+            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             if (records != null) {
                 for (NeutralRecord record : records) {
@@ -173,11 +174,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     // model does not has this attribute, it will not pass the validation when save
                     // to sli db. The assessmentreference will be used for supporting out of order
                     // ingestion in the future
-                    Map<String, Object> itemAttributes = record.getAttributes();
-                    if (itemAttributes.containsKey("assessmentReference")) {
-                        itemAttributes.remove("assessmentReference");
-                    }
-                    assessmentItems.add(itemAttributes);
+                    /*
+                     * Map<String, Object> itemAttributes = record.getAttributes();
+                     * if (itemAttributes.containsKey("assessmentReference")) {
+                     * itemAttributes.remove("assessmentReference");
+                     * }
+                     * assessmentItems.add(itemAttributes);
+                     */
+                    assessmentItems.add(record.getAttributes());
                 }
 
                 return assessmentItems;
@@ -193,17 +197,20 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
         query.addCriteria(Criteria.where("body.codeValue").is(assessmentPeriodDescriptorRef));
 
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_PERIOD_DESCRIPTOR, query);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                ASSESSMENT_PERIOD_DESCRIPTOR, query);
 
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
         } else {
             Query choice = new Query().limit(0);
-            choice.addCriteria(Criteria.where("body.assessmentPeriodDescriptor.codeValue").is(assessmentPeriodDescriptorRef));
+            choice.addCriteria(Criteria.where("body.assessmentPeriodDescriptor.codeValue").is(
+                    assessmentPeriodDescriptorRef));
             MongoEntityRepository mongoEntityRepository = getMongoEntityRepository();
             Entity assessmentEntity = mongoEntityRepository.findOne(ASSESSMENT, choice);
             if (assessmentEntity != null) {
-                Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) assessmentEntity.getBody().get(ASSESSMENT_PERIOD_DESCRIPTOR);
+                Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) assessmentEntity.getBody().get(
+                        ASSESSMENT_PERIOD_DESCRIPTOR);
                 return assessmentPeriodDescriptor;
             }
         }

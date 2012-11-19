@@ -21,24 +21,26 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import javax.ws.rs.core.PathSegment;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
+import org.mockito.Mockito;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * Tests for UriMutator class.
@@ -78,6 +80,17 @@ public class UriMutatorTest {
         mutator.setSectionHelper(sectionHelper);
         mutator.setEdOrgHelper(edOrgHelper);
     }
+    
+    @Test
+    public void testV1Mutate() {
+        // Testing that we don't crash the api if we do an api/v1/ request
+        PathSegment v1 = Mockito.mock(PathSegment.class);
+        when(v1.getPath()).thenReturn("v1");
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", Pair.of("/home", ""),
+                mutator.mutate(Arrays.asList(v1), null, staff));
+        Assert.assertEquals("Bad endpoint of /v1 is redirected to v1/home safely", Pair.of("/home", ""),
+                mutator.mutate(Arrays.asList(v1), null, teacher));
+    }
 
     @Test
     public void testGetInferredUrisForTeacher() throws Exception {
@@ -92,10 +105,6 @@ public class UriMutatorTest {
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS + " is incorrect.",
                 Pair.of("/competencyLevelDescriptor", ""),
                 mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, "", teacher));
-
-        Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES + " is incorrect.",
-                Pair.of("/competencyLevelDescriptorTypes", ""),
-                mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES, "", teacher));
 
         Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.HOME + " is incorrect.",
                 Pair.of("/home", ""),
@@ -147,10 +156,6 @@ public class UriMutatorTest {
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS + " is incorrect.",
                 Pair.of("/competencyLevelDescriptor", ""),
                 mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, "", staff));
-
-        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES + " is incorrect.",
-                Pair.of("/competencyLevelDescriptorTypes", ""),
-                mutator.mutateBaseUri(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES, "", staff));
 
         Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.HOME + " is incorrect.",
                 Pair.of("/home", ""),

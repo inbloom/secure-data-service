@@ -30,10 +30,10 @@ public final class NewInstanceExpr implements JavaSnippetExpr {
 
     public NewInstanceExpr(final JavaType type, final JavaSnippetExpr... args) {
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (args == null) {
-            throw new NullPointerException("args");
+            throw new IllegalArgumentException("args");
         }
         this.type = type;
         this.args = args;
@@ -42,7 +42,7 @@ public final class NewInstanceExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write("new").space().writeType(type).parenL();
         try {

@@ -29,6 +29,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -52,27 +53,28 @@ import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
+import org.slc.sli.modeling.xmi.XmiRuntimeException;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
  */
 public final class XmiWriter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmiWriter.class);
     
     private static final String NAMESPACE_UML = "org.omg.xmi.namespace.UML";
     private static final String PREFIX_UML = "UML";
     
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
     
     private static final int range(final Occurs value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         switch (value) {
             case ZERO: {
@@ -241,7 +243,7 @@ public final class XmiWriter {
             }
             xsw.flush();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiRuntimeException(e);
         }
     }
     
@@ -254,7 +256,7 @@ public final class XmiWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -267,7 +269,7 @@ public final class XmiWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -362,8 +364,7 @@ public final class XmiWriter {
                 writeTaggedValue(taggedValue, mapper, xsw);
             }
         } catch (final Exception e) {
-            System.err.println("writeModelElementTaggedValues(" + element + ")");
-            e.printStackTrace();
+            LOG.warn("writeModelElementTaggedValues(" + element + ")");
         } finally {
             xsw.writeEndElement();
         }
@@ -393,7 +394,7 @@ public final class XmiWriter {
     private static final void writeReference(final Identifier reference, final ModelIndex mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         if (reference == null) {
-            throw new NullPointerException("reference");
+            throw new IllegalArgumentException("reference");
         }
         
         mapper.lookup(reference, new Visitor() {
@@ -425,7 +426,7 @@ public final class XmiWriter {
                         }
                     }
                 } catch (final XMLStreamException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiRuntimeException(e);
                 }
             }
             
@@ -434,7 +435,7 @@ public final class XmiWriter {
                 try {
                     writeStartElement(XmiElementName.DATA_TYPE, xsw);
                 } catch (final XMLStreamException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiRuntimeException(e);
                 }
             }
             
@@ -448,7 +449,7 @@ public final class XmiWriter {
                 try {
                     writeStartElement(XmiElementName.ENUMERATION, xsw);
                 } catch (final XMLStreamException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiRuntimeException(e);
                 }
             }
             
@@ -492,7 +493,7 @@ public final class XmiWriter {
                 try {
                     writeStartElement(XmiElementName.TAG_DEFINITION, xsw);
                 } catch (final XMLStreamException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiRuntimeException(e);
                 }
             }
         });

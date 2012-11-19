@@ -24,10 +24,10 @@
       socket-timeout="600000" socket-keep-alive="true" />
   </mongo:mongo>
 
-  <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}"
-    mongo-ref="stagingMongo" />
-
-  <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+  <bean id="mongoDbStagingFactory" class="org.slc.sli.ingestion.dal.JobSpecificMongoDbFactory">
+    <constructor-arg ref="stagingMongo" />
+    <constructor-arg value="${sli.ingestion.staging.mongodb.database}" />
+  </bean>
 
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
@@ -66,10 +66,6 @@
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
-  </bean>
-
-  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
-    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
@@ -133,5 +129,88 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
+
+  <util:set id="stagingIndexes" set-class="java.util.TreeSet">
+    <!-- (collection,unique,indexKeys ...) -->
+    <!-- creationTime indexes for all collections -->
+    <value>assessment,false,creationTime</value>
+    <value>assessmentFamily,false,creationTime</value>
+    <value>assessmentItem,false,creationTime</value>
+    <value>assessmentPeriodDescriptor,false,creationTime</value>
+    <value>assessment_transformed,false,creationTime</value>
+    <value>attendance,false,creationTime</value>
+    <value>attendance_transformed,false,creationTime</value>
+    <value>calendarDate,false,creationTime</value>
+    <value>cohort,false,creationTime</value>
+    <value>competencyLevelDescriptor,false,creationTime</value>
+    <value>course,false,creationTime</value>
+    <value>courseOffering,false,creationTime</value>
+    <value>courseTranscript,false,creationTime</value>
+    <value>courseTranscript_transformed,false,creationTime</value>
+    <value>disciplineAction,false,creationTime</value>
+    <value>disciplineIncident,false,creationTime</value>
+    <value>educationOrganization,false,creationTime</value>
+    <value>educationOrganizationAssociation,false,creationTime</value>
+    <value>educationOrganizationSchoolAssociation,false,creationTime</value>
+    <value>grade,false,creationTime</value>
+    <value>gradebookEntry,false,creationTime</value>
+    <value>gradingPeriod,false,creationTime</value>
+    <value>graduationPlan,false,creationTime</value>
+    <value>learningObjective,false,creationTime</value>
+    <value>learningObjective_transformed,false,creationTime</value>
+    <value>learningStandard,false,creationTime</value>
+    <value>localEducationAgency,false,creationTime</value>
+    <value>objectiveAssessment,false,creationTime</value>
+    <value>parent,false,creationTime</value>
+    <value>program,false,creationTime</value>
+    <value>reportCard,false,creationTime</value>
+    <value>school,false,creationTime</value>
+    <value>section,false,creationTime</value>
+    <value>session,false,creationTime</value>
+    <value>staff,false,creationTime</value>
+    <value>staffCohortAssociation,false,creationTime</value>
+    <value>staffEducationOrganizationAssociation,false,creationTime</value>
+    <value>staffProgramAssociation,false,creationTime</value>
+    <value>stateEducationAgency,false,creationTime</value>
+    <value>student,false,creationTime</value>
+    <value>studentAcademicRecord,false,creationTime</value>
+    <value>studentAssessment,false,creationTime</value>
+    <value>studentAssessment_transformed,false,creationTime</value>
+    <value>studentAssessmentItem,false,creationTime</value>
+    <value>studentCohortAssociation,false,creationTime</value>
+    <value>studentCompetency,false,creationTime</value>
+    <value>studentCompetencyObjective,false,creationTime</value>
+    <value>studentDisciplineIncidentAssociation,false,creationTime</value>
+    <value>studentGradebookEntry,false,creationTime</value>
+    <value>studentObjectiveAssessment,false,creationTime</value>
+    <value>studentParentAssociation,false,creationTime</value>
+    <value>studentProgramAssociation,false,creationTime</value>
+    <value>studentSchoolAssociation,false,creationTime</value>
+    <value>studentSectionAssociation,false,creationTime</value>
+    <value>teacher,false,creationTime</value>
+    <value>teacherSchoolAssociation,false,creationTime</value>
+    <value>teacherSectionAssociation,false,creationTime</value>
+    <!-- indexes for transformers -->
+    <value>assessmentFamily,false,body.AssessmentFamilyTitle</value>
+    <value>assessmentItem,false,body.identificationCode</value>
+    <value>assessmentItem,false,localId</value>
+    <value>assessmentPeriodDescriptor,false,body.codeValue</value>
+    <value>attendance_transformed,true,body.studentId,body.schoolId</value>
+    <value>disciplineIncident,false,body.id</value>
+    <value>school,false,body.stateOrganizationId</value>
+    <value>session,false,body.schoolId</value>
+    <value>studentAssessmentItem,false,localParentIds.studentResultRef</value>
+    <value>studentAssessmentItem,false,localParentIds.studentAssessmentReference.studentReference.studentUniqueStateId,localParentIds.studentAssessmentReference.administrationDate
+    </value>
+    <value>studentObjectiveAssessment,false,body.studentAssessmentRef</value>
+    <value>studentObjectiveAssessment,false,body.studentAssessmentReference.studentReference.studentUniqueStateId,body.studentAssessmentReference.administrationDate
+    </value>
+    <value>studentSchoolAssociation,false,body.studentId</value>
+  </util:set>
+
+  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
+    <property name="stagingIndexes" ref="stagingIndexes" />
+  </bean>
 
 </beans>

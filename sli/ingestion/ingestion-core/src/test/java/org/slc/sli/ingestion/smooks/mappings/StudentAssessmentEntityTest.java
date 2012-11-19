@@ -29,12 +29,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for StudentAssessment entity
@@ -74,7 +75,7 @@ public class StudentAssessmentEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidStudentAssessmentNeutralRecord(NeutralRecord studentAssessmentNeutralRecord) {
 
-        assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
+        assertEquals("studentAssessment", studentAssessmentNeutralRecord.getRecordType());
 
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
@@ -118,7 +119,7 @@ public class StudentAssessmentEntityTest {
 
         try {
             String studentId = (String) PropertyUtils.getNestedProperty(studentAssessmentNeutralRecord.getAttributes(),
-                    "StudentReference.StudentIdentity.StudentUniqueStateId");
+                    "studentId.StudentIdentity.StudentUniqueStateId");
             assertEquals("Yjmyw", studentId);
         } catch (IllegalAccessException e) {
             Assert.fail(e.getLocalizedMessage());

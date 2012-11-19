@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.common.encrypt.security.saml2;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -23,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
 import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.XMLSignature;
 
 import org.w3c.dom.Document;
 
@@ -31,12 +31,33 @@ import org.w3c.dom.Document;
  */
 public interface SAML2Validator {
 
-    public boolean isDocumentTrustedAndValid(Document samlDocument) throws KeyStoreException,
+    /**
+     * Checks that the SAML assertion is both trusted and valid.
+     */
+    public boolean isDocumentTrustedAndValid(Document samlDocument, String issuer) throws KeyStoreException,
             InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException;
-    
+
+    /**
+     * Checks that the SAML assertion is trusted.
+     */
+    public boolean isDocumentTrusted(Document samlDocument, String issuer) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException;
+
+    /**
+     * Checks that the SAML assertion is valid.
+     */
     public boolean isDocumentValid(Document samlDocument);
 
+    /**
+     * Checks that the specified signature is valid.
+     */
     public boolean isSignatureValid(Document samlDocument);
+
+    /**
+     * Checks that the specified signature value maps to a trusted Certificate Authority.
+     */
+    public boolean isSignatureTrusted(XMLSignature signature, String issuer) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException;
 
     public boolean isDigestValid(Document samlDocument);
 

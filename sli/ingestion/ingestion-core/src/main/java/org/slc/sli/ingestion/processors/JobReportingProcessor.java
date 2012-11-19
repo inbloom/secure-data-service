@@ -519,7 +519,9 @@ public class JobReportingProcessor implements Processor {
 
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+
+            neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
+
             LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
         } else {
             LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",

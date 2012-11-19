@@ -26,10 +26,10 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
     @Override
     public final String nameFromComplexTypeExtension(final QName complexType, final QName base) {
         if (complexType == null) {
-            throw new NullPointerException("complexType");
+            throw new IllegalArgumentException("complexType");
         }
         if (base == null) {
-            throw new NullPointerException("base");
+            throw new IllegalArgumentException("base");
         }
         return nameFromSchemaTypeName(complexType).concat(" extends ").concat(nameFromSchemaTypeName(base));
     }
@@ -40,7 +40,7 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
     @Override
     public String nameFromSchemaAttributeName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return name.getLocalPart();
     }
@@ -51,7 +51,7 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
     @Override
     public String nameFromSchemaElementName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return name.getLocalPart();
     }
@@ -62,7 +62,7 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
     @Override
     public String nameFromSchemaTypeName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return name.getLocalPart();
     }
@@ -70,10 +70,10 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
     @Override
     public final String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
         if (simpleType == null) {
-            throw new NullPointerException("simpleType");
+            throw new IllegalArgumentException("simpleType");
         }
         if (base == null) {
-            throw new NullPointerException("base");
+            throw new IllegalArgumentException("base");
         }
         return nameFromSchemaTypeName(simpleType).concat(" restricts ").concat(nameFromSchemaTypeName(base));
     }

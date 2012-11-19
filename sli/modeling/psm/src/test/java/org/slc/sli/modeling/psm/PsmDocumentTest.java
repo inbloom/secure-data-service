@@ -42,7 +42,7 @@ public class PsmDocumentTest {
         assertEquals("test", doc.getType());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testThrowsNull() {
         new PsmDocument<String>(null, null, null);
     }

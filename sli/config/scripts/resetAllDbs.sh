@@ -1,15 +1,28 @@
 #!/bin/bash
 
-mongo sli --quiet --eval 'db.adminCommand("listDatabases").databases.forEach( function (d) {
-  var name = d.name;
-  if (name != "local" && name != "admin" && name != "config") {
-  	print("[MONGO] dropping database: " + name);
-    db.getSiblingDB(d.name).dropDatabase();
-  }
-});'
+########################################################################
+# To skip dropping databases:
+#   > sh resetAllDbs.sh --nodrop
+########################################################################
+
+CLEAR_DB=1
+if [ ! -z $1 ] && [ $1 = "--nodrop" ]
+then
+  CLEAR_DB=0
+fi
+
+if [ $CLEAR_DB = 1 ]
+then
+  mongo sli --quiet --eval 'db.adminCommand("listDatabases").databases.forEach( function (d) {
+    var name = d.name;
+    if (name != "local" && name != "admin" && name != "config") {
+      print("[MONGO] dropping database: " + name);
+      db.getSiblingDB(d.name).dropDatabase();
+    }
+  });'
+fi
 
 echo "[MONGO] indexing database: sli"; mongo sli ../indexes/sli_indexes.js --quiet
-echo "[MONGO] indexing database: is"; mongo is ../indexes/is_indexes.js --quiet
 echo "[MONGO] indexing database: ingestion_batch_job"; mongo ingestion_batch_job ../indexes/ingestion_batch_job_indexes.js --quiet
 echo "[MONGO] indexing database: midgar"; mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a ../indexes/tenantDB_indexes.js --quiet
 echo "[MONGO] indexing tenant-specific database"; mongo d36f43474916ad310100c9711f21b65bd8231cc6 ../indexes/tenantDB_indexes.js --quiet

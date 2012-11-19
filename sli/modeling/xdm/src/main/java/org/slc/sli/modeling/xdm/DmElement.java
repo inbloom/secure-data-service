@@ -35,10 +35,10 @@ public final class DmElement implements DmNode {
 
     public DmElement(final QName name, final List<? extends DmNode> childAxis) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (childAxis == null) {
-            throw new NullPointerException("childAxis");
+            throw new IllegalArgumentException("childAxis");
         }
         this.name = name;
         this.children = Collections.unmodifiableList(new ArrayList<DmNode>(childAxis));

@@ -23,5 +23,5 @@ $MONGO_HOME/mongoimport --drop -d $DB_NAME -c section -h $DB_HOST --file "sectio
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c teacherSchoolAssociation -h $DB_HOST --file "teacherSchoolAssociation.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c teacherSectionAssociation -h $DB_HOST --file "teacherSectionAssociation.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c studentSectionAssociation -h $DB_HOST --file "studentSectionAssociation.json"
-$MONGO_HOME/mongoimport --drop -d $DB_NAME -c studentAssessmentAssociation -h $DB_HOST --file "studentAssessmentAssociation.json"
+$MONGO_HOME/mongoimport --drop -d $DB_NAME -c studentAssessment -h $DB_HOST --file "studentAssessment.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c studentSchoolAssociation -h $DB_HOST --file "studentSchoolAssociation.json"

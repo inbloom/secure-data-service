@@ -9920,10 +9920,10 @@
             </UML:Attribute>
           </UML:Classifier.feature>
         </UML:Class>
-        <UML:AssociationClass xmi.id="9f51e9e2-6b14-41bf-8897-330b8e720347" name="StudentAssessmentAssociation">
+        <UML:AssociationClass xmi.id="9f51e9e2-6b14-41bf-8897-330b8e720347" name="StudentAssessment">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="751bdf55-efd7-4f43-a3bf-bf7ae48b37f6">
-              <UML:TaggedValue.dataValue>StudentAssessmentAssociation</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>StudentAssessment</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref="1fc61da8-be7c-4b93-af3b-77415e37e477"></UML:TagDefinition>
               </UML:TaggedValue.type>
@@ -18682,7 +18682,7 @@
         <UML:Association xmi.id="9744fae6-23b6-49bf-bb04-72a57f2d8742" name="">
           <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id="2730738a-4939-4afa-a800-5e4334ebca41" name="studentAssessmentAssociations" isNavigable="true" associatedAttributeName="studentId">
+            <UML:AssociationEnd xmi.id="2730738a-4939-4afa-a800-5e4334ebca41" name="studentAssessments" isNavigable="true" associatedAttributeName="studentId">
               <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id="85595f96-36b6-4464-b164-5b5eff9f60c4">
@@ -18745,7 +18745,7 @@
         <UML:Association xmi.id="cb9b0a4f-242d-4b86-9f74-846c08384f46" name="">
           <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id="aec04c1e-b5d6-439f-9dd2-b3d922feb362" name="studentAssessmentAssociations" isNavigable="true" associatedAttributeName="assessmentId">
+            <UML:AssociationEnd xmi.id="aec04c1e-b5d6-439f-9dd2-b3d922feb362" name="studentAssessments" isNavigable="true" associatedAttributeName="assessmentId">
               <UML:ModelElement.taggedValue></UML:ModelElement.taggedValue>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id="859b208a-cff8-4765-9325-65f5620d17c5">

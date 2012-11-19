@@ -10,12 +10,12 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "StudentAssessment_Partial_Unhappy.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
-     | studentAssessmentAssociation              |
+     | studentAssessment              |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | studentAssessmentAssociation             |                  0|
+     | studentAssessment             |                  0|
     And I should see "Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "Processed 1 records." in the resulting batch job file
 
@@ -27,7 +27,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | collectionName                            |
      | assessment                                |
      | student                                   |
-     | studentAssessmentAssociation              |
+     | studentAssessment              |
 When zip file is scp to ingestion landing zone
     And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -45,7 +45,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | assessment                               |                  1|
      | student                                  |                  1|
-     | studentAssessmentAssociation             |                  1|
+     | studentAssessment             |                  1|
     And I should see "Processed 1 records." in the resulting batch job file
 
 Scenario: Post Attendance without required parent records in database

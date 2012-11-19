@@ -74,7 +74,7 @@ public void before() throws Exception {
 @After
 public void after() throws Exception { 
 } 
-@Test (expected = NullPointerException.class)
+@Test (expected = IllegalArgumentException.class)
 public void testInvalidInstance() throws Exception {
    Xsd2UmlTweakerVisitor invalidVisitor = new Xsd2UmlTweakerVisitor(null);
 }

@@ -64,18 +64,19 @@ public class EmbeddedDocumentRelations {
         Map<String,String> sarReferenceMap = new HashMap<String, String>();
         sarReferenceMap.put("studentId","studentId");
         sarReferenceMap.put("session","sessionId");
-        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
-        , "sessionId", Arrays.asList("beginDate","endDate")));
+//        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
+//        , "sessionId", Arrays.asList("beginDate","endDate")));
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessmentAssociation", new Parent("student", "studentId"));
+        map.put("studentAssessment", new Parent("student", "studentId"));
         map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
         map.put("studentParentAssociation", new Parent("student", "studentId"));
+        map.put("studentDisciplineIncidentAssociation", new Parent("student", "studentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
         denormalizationByEntityAndKey = new HashSet<String>();
@@ -83,12 +84,12 @@ public class EmbeddedDocumentRelations {
             denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
         }
         Map<String,String> mapCache = new HashMap<String, String>();
-        mapCache.put("session","_id");
+//        mapCache.put("session","_id");
         DENORMALIZATION_CACHED_ENTITY = Collections.unmodifiableMap(mapCache);
         Map<String,String> cachedReferenceKeyMap = new HashMap<String, String>();
-        cachedReferenceKeyMap.put("schoolId","schoolId");
+//        cachedReferenceKeyMap.put("schoolId","schoolId");
         Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
-        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
+//        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
         CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
     };
 

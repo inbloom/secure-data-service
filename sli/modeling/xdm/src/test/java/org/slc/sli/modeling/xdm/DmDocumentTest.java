@@ -38,7 +38,7 @@ public class DmDocumentTest {
 		assertTrue(dmDocument.getName() == DmDocument.NO_NAME);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullListForConstructorThrowsException() {
 		new DmDocument(null);
 	}

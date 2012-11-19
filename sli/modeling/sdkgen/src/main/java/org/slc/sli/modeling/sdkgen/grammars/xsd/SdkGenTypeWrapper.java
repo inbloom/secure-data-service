@@ -35,7 +35,7 @@ public final class SdkGenTypeWrapper implements SdkGenType {
 
     public SdkGenTypeWrapper(final XmlSchemaType xsdType) {
         if (xsdType == null) {
-            throw new NullPointerException("xsdType");
+            throw new IllegalArgumentException("xsdType");
         }
         this.xsdType = xsdType;
         // What's going on here?

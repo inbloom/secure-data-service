@@ -4,6 +4,7 @@
     [
         {
             "fieldPath" : "body.LearningObjectiveReference",
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "learningObjective",
@@ -63,7 +64,6 @@
             "ref" :
             {
                 "entityType" : "studentSectionAssociation",
-                "takesContext" : ["edOrgs"],
                 "choiceOfFields" :
                 [
                     [

@@ -24,7 +24,6 @@ import java.util.Set;
 
 import com.mongodb.DBCollection;
 
-import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +32,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.repository.MongoQueryConverter;
 import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -87,7 +86,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return create(neutralRecord, collectionName);
     }
 
-    public NeutralRecord createForJob(NeutralRecord neutralRecord, String jobId) {
+    public NeutralRecord createForJob(NeutralRecord neutralRecord) {
         Map<String, Object> body = neutralRecord.getAttributes();
         if (body == null) {
             body = new HashMap<String, Object>();
@@ -121,7 +120,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName, int noOfRetries) {
+    public List<NeutralRecord> insertAllWithRetries(final List<NeutralRecord> entities, final String collectionName,
+            int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -131,7 +131,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         };
         return (List<NeutralRecord>) rc.executeOperation(noOfRetries);
     }
-
 
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
@@ -146,9 +145,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return findByQuery(collectionName, query);
     }
 
-    public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
+    public Iterable<NeutralRecord> findAllForJob(String collectionName, NeutralQuery neutralQuery) {
         neutralQuery.setIncludeFieldString("*");
-        return findAll(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
+        return findAll(collectionName, neutralQuery);
     }
 
     @SuppressWarnings("deprecation")
@@ -169,30 +168,28 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return query;
     }
 
-    public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+    public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery) {
         neutralQuery.setIncludeFieldString("*");
-        return findOne(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
+        return findOne(collectionName, neutralQuery);
     }
 
     public DBCollection getCollectionForJob(String collectionName) {
         return getCollection(collectionName);
     }
 
-    public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+    public long countForJob(String collectionName, NeutralQuery neutralQuery) {
         neutralQuery.setIncludeFieldString("*");
-        return count(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
+        return count(collectionName, neutralQuery);
     }
 
     public long countByQuery(String collectionName, Query query) {
         return count(collectionName, query);
     }
 
-    public Set<String> getStagedCollectionsForJob(String batchJobId) {
+    public Set<String> getStagedCollectionsForJob() {
         Set<String> collectionNamesForJob = new HashSet<String>();
-        if (batchJobId != null) {
-            LOG.info("Checking staged collection counts for batch job id: {}", batchJobId);
+            LOG.info("Checking staged collection counts");
             Query query = new Query().limit(0);
-            query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
 
             for (String currentCollection : getCollectionNames()) {
@@ -203,26 +200,19 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 LOG.debug("Count for collection: {} ==> {} [query: {}]",
                         new Object[] { currentCollection, count, query });
             }
-        }
         return collectionNamesForJob;
     }
 
     public void deleteStagedRecordsForJob(String batchJobId) {
-        if (batchJobId != null) {
-            Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
-            for (String currentCollection : getCollectionNames()) {
-                if (!currentCollection.startsWith("system.")) {
-                    LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
-                            batchJobId);
-                    getTemplate().remove(query, currentCollection);
-                }
-            }
-        }
+        LOG.info("Dropping db for job: {}", batchJobId);
+
+        TenantContext.setJobId(batchJobId);
+        getTemplate().getDb().dropDatabase();
     }
 
-    public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+    public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName) {
         query.setIncludeFieldString("*");
-        updateFirst(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
+        updateFirst(query, update, collectionName);
     }
 
     @Override
@@ -238,14 +228,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public void setReferenceCheck(String referenceCheck) {
 
-    }
-
-    public NeutralQuery prependBatchJobIdOntoQuery(NeutralQuery query, String jobId) {
-        NeutralCriteria criteria = new NeutralCriteria(BATCH_JOB_ID, NeutralCriteria.OPERATOR_EQUAL, jobId, false);
-        if (!query.getCriteria().contains(criteria)) {
-            query.prependCriteria(criteria);
-        }
-        return query;
     }
 
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods

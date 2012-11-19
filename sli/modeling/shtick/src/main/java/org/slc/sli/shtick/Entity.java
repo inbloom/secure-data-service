@@ -39,10 +39,10 @@ public final class Entity {
      */
     public Entity(final String type, final Map<String, Object> data) {
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         this.type = type;
         this.data = MapHelper.deepCopy(data);
