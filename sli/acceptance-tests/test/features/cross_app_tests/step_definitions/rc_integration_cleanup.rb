@@ -70,5 +70,5 @@ end
 ###############################################################################
 
 Then /^my tenant database should be cleared$/ do
-  #TODO
+  # Doing nothing for now, since we don't want to have any access to mongo directly'
 end
