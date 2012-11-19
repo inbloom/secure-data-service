@@ -27,6 +27,13 @@ import org.slc.sli.test.edfi.entities.CohortReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.SLCCohortIdentityType;
+import org.slc.sli.test.edfi.entities.SLCCohortReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentCohortAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
@@ -59,7 +66,7 @@ public class StudentCohortAssociationGenerator {
         
         
         for (String studentId : studentIds) {
-        	StudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
+        	SLCStudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
 
             
             iWriter.marshal(retVal);
@@ -79,7 +86,44 @@ public class StudentCohortAssociationGenerator {
      * 
      * @return <code>StudentCohortAssociation</code>
      */
-    public static StudentCohortAssociation generateLowFi(String cohortId, String studentId, String schoolId) {
+    public static SLCStudentCohortAssociation generateLowFi(String cohortId, String studentId, String schoolId) {
+
+    	 SLCStudentCohortAssociation slcsca = new SLCStudentCohortAssociation();
+
+    	// construct and add the student reference
+        SLCStudentIdentityType slcsit = new SLCStudentIdentityType();
+        slcsit.setStudentUniqueStateId(studentId);
+        SLCStudentReferenceType slcsrt = new SLCStudentReferenceType();
+        slcsrt.setStudentIdentity(slcsit);
+        
+        slcsca.setStudentReference(slcsrt);
+    
+        
+     // construct and add the Cohort Reference
+        SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
+        slceoit.setStateOrganizationId(schoolId);
+        SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
+        slceort.setEducationalOrgIdentity(slceoit);
+        
+        SLCCohortIdentityType slccit = new SLCCohortIdentityType ();
+        slccit.setCohortIdentifier(cohortId);
+        slccit.setEducationalOrgReference(slceort);
+        
+        SLCCohortReferenceType slccrt = new SLCCohortReferenceType();
+        slccrt.setCohortIdentity(slccit);
+        
+        slcsca.setCohortReference(slccrt);
+        
+        
+        slcsca.setBeginDate(beginDate);
+        slcsca.setEndDate(endDate);
+         
+        
+        return slcsca;
+    }
+
+    
+    public static StudentCohortAssociation generateLowFi_dep(String cohortId, String studentId, String schoolId) {
 
         StudentCohortAssociation studentCohortAssoc = new StudentCohortAssociation();
         
@@ -99,7 +143,7 @@ public class StudentCohortAssociationGenerator {
         EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
         edOrgRef.setEducationalOrgIdentity(edOrgType);
  
-        ci.setEducationalOrgReference(edOrgRef);
+        //ci.setEducationalOrgReference(edOrgRef);
         
         CohortReferenceType crt = new CohortReferenceType();
         crt.setCohortIdentity(ci);
@@ -111,5 +155,4 @@ public class StudentCohortAssociationGenerator {
         
         return studentCohortAssoc;
     }
-
 }
