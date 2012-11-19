@@ -1115,6 +1115,7 @@ When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |l
 end
 
 When /^a batch job log has been created$/ do
+  if !@hasNoLandingZone
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -1150,7 +1151,7 @@ When /^a batch job log has been created$/ do
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
-
+  end
 end
 
 When /^a batch job log has not been created$/ do
@@ -2069,6 +2070,7 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
+  if !@hasNoLandingZone
   if (INGESTION_MODE == 'remote')
     if remoteLzContainsFile("error.*", @landing_zone_path)
       assert(false, "Error files created.")
@@ -2091,9 +2093,11 @@ Then /^I should not see an error log file created$/ do
     puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
     assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
   end
+  end
 end
 
 And /^I should not see a warning log file created$/ do
+  if !@hasNoLandingZone
   if (INGESTION_MODE == 'remote')
     if remoteLzContainsFile("warn.*", @landing_zone_path)
       assert(false, "Warn files created.")
@@ -2115,6 +2119,7 @@ And /^I should not see a warning log file created$/ do
 
     puts "STATUS FILENAME = " + @landing_zone_path + @warn_status_filename
     assert(@warn_status_filename == "", "File " + @warn_status_filename + " exists")
+  end
   end
 end
 

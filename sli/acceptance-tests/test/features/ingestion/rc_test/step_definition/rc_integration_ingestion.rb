@@ -29,6 +29,12 @@ require_relative '../../../utils/sli_utils.rb'
 
 UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_file_uploaded.rb")
 
+module NoLandingZone
+    @hasNoLandingZone = false;
+end
+
+World(NoLandingZone)
+
 ############################################################
 # TEST SETUP FUNCTIONS
 ############################################################
@@ -170,10 +176,6 @@ end
 # Cucumber steps
 ########
 
-Given /^I am using local data store$/ do
-  @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
-end
-
 Given /^I am using default landing zone$/ do
   @landing_zone_path = "/"
 end
@@ -189,7 +191,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
   tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
 
   if tenants.empty?
-    puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion and LZ clearance"
+    puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion"
   else
     edorg = PropLoader.getProps['e2e_edorg']
     tenants[0]["body"]["landingZone"].each do |lz|
@@ -201,10 +203,13 @@ Given /^I have a local configured landing zone for my tenant$/ do
         break
       end
     end
-    assert(!@landing_zone_path.nil?, "Could not retrieve landing zone path")
+  end
+  if @landing_zone_path.nil?
+    puts "Could not retrieve landing zone path"
+    @hasNoLandingZone = true
+  else
     clear_local_lz
   end
-
 end
 
 Given /^I use the landingzone user name "([^"]*)" and password "([^"]*)" on landingzone server "([^"]*)" on port "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
@@ -215,9 +220,11 @@ Given /^I use the landingzone user name "([^"]*)" and password "([^"]*)" on land
 end
 
 Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
-  source_path = processPayloadFile arg1
-  dest_path = @landing_zone_path + arg1
-  lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
+  if !@hasNoLandingZone
+    source_path = processPayloadFile arg1
+    dest_path = @landing_zone_path + arg1
+    lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
+  end
 end
 
 Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/ do |arg1, arg2, arg3|
