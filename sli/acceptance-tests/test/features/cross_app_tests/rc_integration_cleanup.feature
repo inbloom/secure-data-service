@@ -48,7 +48,8 @@ Scenario:  LEA deletes realm
   And I click on log out
 
 Scenario: SEA purge tenant data
-  When I drop a control file to purge tenant data
+  #TODO: need to externalize server name
+  When I drop a control file to purge tenant data as "<SEA ADMIN>" with password "<SEA ADMIN PASSWORD>" to "picard"
   Then my tenant database should be cleared
 
 Scenario: slcoperator deletes SEA,LEA

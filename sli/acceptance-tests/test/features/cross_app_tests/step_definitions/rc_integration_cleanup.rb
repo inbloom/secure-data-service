@@ -19,16 +19,40 @@ limitations under the License.
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 ###############################################################################
+# TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
+###############################################################################
+
+Transform /^<(.+)>$/ do |template|
+  id = template
+  #TODO: do we need to add the other emails?
+  id = PropLoader.getProps['email_imap_registration_user_email'] if template == "SEA ADMIN"
+  #TODO: externalize this password to properties
+  id = "test1234"                                                if template == "SEA ADMIN PASSWORD"
+  # return the transformed value
+  id
+end
+
+###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
-When /^I drop a control file to purge tenant data$/ do
+When /^I drop a control file to purge tenant data as "([^\"]*) with password "([^\"]*)" to "([^\"]*)"$/ do |user, pass server|
   #TODO
   if RUN_ON_RC
     steps %Q{
-    }
+      Given I am using local data store
+      Given I am using default landing zone
+      Given I use the landingzone user name "#{user}" and password "#{pass}" on landingzone server "#{server}-lz.slidev.org" on port "443"
+      And I drop the file "Purge.zip" into the landingzone
+      Then a batch job log has been created
+      And I should not see an error log file created
+      }
   else
     steps %Q{
+      Given I have a local configured landing zone for my tenant
+      And I drop the file "Purge.zip" into the landingzone
+      Then a batch job log has been created
+      And I should not see an error log file created
     }
   end
 end
