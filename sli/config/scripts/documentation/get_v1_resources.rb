@@ -79,9 +79,7 @@ $template = "<simplesect xml:id=\"%s\">
     <para>
         Response:
     </para>
-    <programlisting language=\"json\">
-        <![CDATA[%s]]>
-    </programlisting>
+    <programlisting language=\"json\"><![CDATA[%s]]></programlisting>
 </simplesect>
 
 "
