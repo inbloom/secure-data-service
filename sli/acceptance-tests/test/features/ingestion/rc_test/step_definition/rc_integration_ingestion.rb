@@ -185,20 +185,22 @@ Given /^I have a local configured landing zone for my tenant$/ do
   db_name = PropLoader.getProps['ingestion_database_name']
   conn = Mongo::Connection.new(host)
   db = conn.db(db_name)
-  tenants = db.collection("tenant").find("body.tenantId" => "RCTestTenant").to_a
+  tenant_name = PropLoader.getProps['e2e_tenant_name']
+  tenants = db.collection("tenant").find("body.tenantId" => tenant_name).to_a
 
   if tenants.empty?
-    puts "RCTestTenant tenantId not found in Mongo - skipping tenant database deletion and LZ clearance"
-    else
-        tenants[0]["body"]["landingZone"].each do |lz|
-            if lz["educationOrganization"] == "STANDARD-SEA"
-                @landing_zone_path = lz["path"]
-                if (@landing_zone_path =~ /\/$/).nil?
-                    @landing_zone_path += "/"
-                end
-                break
-            end
+    puts "#{tenant_name} tenantId not found in Mongo - skipping tenant database deletion and LZ clearance"
+  else
+    edorg = PropLoader.getProps['e2e_edorg']
+    tenants[0]["body"]["landingZone"].each do |lz|
+      if lz["educationOrganization"] == edorg
+        @landing_zone_path = lz["path"]
+        if (@landing_zone_path =~ /\/$/).nil?
+          @landing_zone_path += "/"
         end
+        break
+      end
+    end
     clear_local_lz
   end
 
