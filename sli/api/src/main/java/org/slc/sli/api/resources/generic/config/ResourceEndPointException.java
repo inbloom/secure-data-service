@@ -13,44 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.slc.sli.api.selectors.doc;
+package org.slc.sli.api.resources.generic.config;
 
 /**
- * Helper container class
- *
- * @author srupasinghe
- *
+ * Custom exception for resource end point configuration errors
  */
-public class Constraint {
-    private String key;
-    private Object value;
+public class ResourceEndPointException extends RuntimeException {
 
-    /**
-     * Default Constructor
-     */
-    public Constraint() {
-        new Constraint("",null);
+    public ResourceEndPointException(Throwable cause) {
+         super(cause);
     }
 
-    public Constraint(String key, Object value) {
-        this.key = key;
-        this.value = value;
+    public ResourceEndPointException(String message) {
+        super(message);
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
+    public ResourceEndPointException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
