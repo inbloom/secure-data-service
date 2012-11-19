@@ -103,8 +103,13 @@ public class ModelProvider {
     }
 
     public boolean isAttribute(final ClassType type, final String attributeName) {
-        if (type == null) throw new NullPointerException("type");
-        if (attributeName == null) throw new NullPointerException("attributeName");
+        if (type == null) {
+            throw new IllegalArgumentException("type");
+        }
+        
+        if (attributeName == null) {
+            throw new IllegalArgumentException("attributeName");
+        }
 
         final List<Attribute> attributes = getAttributes(type);
         for (final Attribute attribute : attributes) {
@@ -116,8 +121,13 @@ public class ModelProvider {
     }
 
     public boolean isAssociation(final ClassType type, final String attribute) {
-        if (type == null) throw new NullPointerException("type");
-        if (attribute == null) throw new NullPointerException("attribute");
+        if (type == null) {
+            throw new IllegalArgumentException("type");
+        }
+        
+        if (attribute == null) {
+            throw new IllegalArgumentException("attribute");
+        }
 
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
         for (final AssociationEnd end : associationEnds) {
@@ -173,8 +183,11 @@ public class ModelProvider {
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
                 final Type embeddedType = getType(attribute.getType());
-                if (embeddedType.isClassType()) return (ClassType) embeddedType;
-                else break;
+                if (embeddedType.isClassType()) {
+                    return (ClassType) embeddedType;
+                } else {
+                    break;
+                }
             }
         }
         return null;
@@ -185,8 +198,11 @@ public class ModelProvider {
         for (final AssociationEnd end : associationEnds) {
             if (end.getName().equals(attr)) {
                 final Type matchType = getType(end.getType());
-                if (matchType.isClassType()) return (ClassType) matchType;
-                else break;
+                if (matchType.isClassType()) {
+                    return (ClassType) matchType;
+                } else {
+                    break;
+                }
             }
         }
         return null;
