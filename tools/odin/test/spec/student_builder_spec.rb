@@ -52,5 +52,29 @@ describe "StudentBuilder" do
         end
       end
     end
+    
+    context "With new student credentials" do   
+      let(:new_id) {52}
+      let(:newDemographics) {Demographics.new}
+      let(:newRand) {Random.new(new_id)}
+      let(:newBirthDay) {Date.new(1999, 1, 12)}  
+      let(:newStudent) {Student.new(new_id, newBirthDay, newDemographics, newRand)}
+      
+      it "will choose gender" do
+        newStudent.sex.should match(/^Male|^Female/)
+      end     
+      it "will generate a consistent pseudorandom Birthdate" do
+        newStudent.birthDay.to_s.should match(/1999-06-17/)
+      end
+      it "will match the HARDCODED state" do
+        newStudent.state.should eq("NY")   
+      end
+      it "will match the HARDCODED zip code"  do 
+        newStudent.postalCode.should eq("10292")  
+      end
+      it "should generate email addresses that end in fakemail.com" do     
+        newStudent.email.should match(/@fakemail.com/)
+      end         
+    end
   end
 end
