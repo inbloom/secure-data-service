@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 
-require_relative '../student_builder.rb'
-require_relative '../demographics.rb'
+require_relative '../EntityCreation/student_builder.rb'
+require_relative '../Shared/demographics.rb'
 
 describe "StudentBuilder" do
   describe "#build" do

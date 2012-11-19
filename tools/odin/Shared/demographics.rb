@@ -20,8 +20,8 @@ require 'yaml'
 
 class Demographics
 
-  def initialize(demographics = 'defaultDemographics.yml', choices = 'choices.yml')
-    @choices = YAML.load_file choices
+  def initialize(demographics = './defaultDemographics.yml', choices = 'choices.yml')
+    @choices = YAML.load_file File.join("#{File.dirname(__FILE__)}", "choices.yml")
   end
 
   def maleNames
