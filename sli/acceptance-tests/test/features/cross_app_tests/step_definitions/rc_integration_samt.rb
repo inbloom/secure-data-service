@@ -75,7 +75,7 @@ end
 Then /^I delete the user "(.*?)" if exists$/ do |fullname|
   begin
     link = @driver.find_element(:xpath, "//a[@id='#{fullname}_delete']")
-    puts "admin account management debug = \n" + link.attribute('innerHTML').to_s
+    puts "admin account management debug = \n" + link.to_s
   rescue
   end
   unless(link.nil?)
