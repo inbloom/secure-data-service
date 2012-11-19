@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative '../../ingestion/rc_test/step_definition/rc_integration_ingestion.rb'
+require_relative '../../../features/ingestion/features/step_definitions/ingestion_steps.rb'
 
 ###############################################################################
 # BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
@@ -64,6 +65,7 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
       And I drop the file "Purge.zip" into the landingzone
       Then a batch job log has been created
       And I should not see an error log file created
+      And I should not see a warning log file created
     }
   else
     steps %Q{
@@ -72,6 +74,7 @@ When /^I drop a control file to purge tenant data as "([^\"]*)" with password "(
       And I drop the file "Purge.zip" into the landingzone
       Then a batch job log has been created
       And I should not see an error log file created
+      And I should not see a warning log file created
     }
   end
 end

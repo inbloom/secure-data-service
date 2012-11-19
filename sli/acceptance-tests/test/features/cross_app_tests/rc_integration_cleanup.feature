@@ -47,6 +47,7 @@ Scenario:  LEA deletes realm
   And I exit out of the iframe
   And I click on log out
 
+@singhy
 Scenario: SEA purge tenant data
   When I drop a control file to purge tenant data as "<SEA ADMIN>" with password "<SEA ADMIN PASSWORD>" to "<SERVER>"
   Then my tenant database should be cleared
