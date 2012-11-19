@@ -3,15 +3,15 @@ package org.slc.sli.modeling.jgen;
 
 public class JavaGeneratorRuntimeException extends RuntimeException {
 
-    public JavaGeneratorRuntimeException(Exception e) {
-        super(e);
+    public JavaGeneratorRuntimeException(Throwable cause) {
+        super(cause);
     }
 
     public JavaGeneratorRuntimeException(String message) {
         super(message);
     }
 
-    public JavaGeneratorRuntimeException(String message, Exception e) {
-        super(message, e);
+    public JavaGeneratorRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

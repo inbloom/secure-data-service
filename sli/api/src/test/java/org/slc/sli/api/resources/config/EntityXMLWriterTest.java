@@ -59,10 +59,6 @@ public class EntityXMLWriterTest {
     @Mock
     private EntityDefinitionStore entityDefinitionStore;
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testEntityBody() throws IOException {
         EntityDefinition def = mock(EntityDefinition.class);

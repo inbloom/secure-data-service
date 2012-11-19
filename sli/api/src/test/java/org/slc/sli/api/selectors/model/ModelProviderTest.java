@@ -49,10 +49,6 @@ public class ModelProviderTest {
 
     private ModelProvider provider; // class under test
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testReadModel() {
         provider = new TestModelProvider();

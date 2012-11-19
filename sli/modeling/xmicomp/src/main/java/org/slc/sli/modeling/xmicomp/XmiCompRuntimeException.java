@@ -2,15 +2,15 @@ package org.slc.sli.modeling.xmicomp;
 
 public class XmiCompRuntimeException extends RuntimeException {
 
-    public XmiCompRuntimeException(Exception e) {
-        super(e);
+    public XmiCompRuntimeException(Throwable cause) {
+        super(cause);
     }
 
     public XmiCompRuntimeException(String message) {
         super(message);
     }
 
-    public XmiCompRuntimeException(String message, Exception e) {
-        super(message, e);
+    public XmiCompRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
