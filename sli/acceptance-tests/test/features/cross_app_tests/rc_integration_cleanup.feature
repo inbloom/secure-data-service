@@ -47,11 +47,6 @@ Scenario:  LEA deletes realm
   And I exit out of the iframe
   And I click on log out
 
-@singhy
-Scenario: SEA purge tenant data
-  When I drop a control file to purge tenant data as "<PRIMARY_EMAIL>" with password "<PRIMARY_EMAIL_PASS>" to "<SERVER>"
-  Then my tenant database should be cleared
-
 Scenario: slcoperator deletes SEA,LEA
   When I navigate to the user account management page
   Then I will be redirected to the realm selector web page

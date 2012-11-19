@@ -1,11 +1,11 @@
 @rc
-Feature: User requests for an account for production or sandbox account
+Feature: User requests for a developer account in production or sandbox environments  
+# currently works for production only. Not tested in sandbox.
 
 Background:
   Given I have an open web browser
 
 Scenario: SLC Operator logs into SAMT and deletes the developer account
-	#Given I have an open web browser
     When I navigate to the Portal home page
     When I selected the realm "Shared Learning Collaborative"
     And I was redirected to the "Simple" IDP Login page
@@ -21,7 +21,6 @@ Scenario: SLC Operator logs into SAMT and deletes the developer account
     And I switch to the iframe	
 
 Scenario: As an app developer I request a production account and  I want to verify my registration email
-  #Given I have an open web browser
   And I go to the account registration page
   When I fill out the field "First Name" as "RCTest"
   And I fill out the field "Last Name" as "Developer"
@@ -43,7 +42,6 @@ Scenario: As an app developer I request a production account and  I want to veri
   Then I should be notified that my email is verified
 
 Scenario: As an SLC Operator I want to approve the app developer account
- # Given I have an open web browser
   And I navigate to the Portal home page
   When I select the "Shared Learning Collaborative" realm 
   Then I am redirected to "Simple" login page
