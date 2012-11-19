@@ -136,6 +136,7 @@ Then /^my field entries are validated$/ do
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
+  puts @driver.page_source
   if (@driver.current_url.include?("#{@baseUrl}/eula"))
     assertText("Terms and Conditions")
     accept = @driver.find_element(:xpath, "//input[contains(@id,'Accept']")
