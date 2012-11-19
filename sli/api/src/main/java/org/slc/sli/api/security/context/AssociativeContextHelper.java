@@ -244,12 +244,13 @@ public class AssociativeContextHelper {
      * @return
      */
     public List<Entity> filterEntities(List<Entity> entitiList, List<NodeFilter> filterList, String referenceField) {
-        if (filterList != null && entitiList != null && entitiList.size() != 0) {
+        List<Entity> result = entitiList;
+        if (filterList != null && result != null && result.size() != 0) {
             for (NodeFilter filter : filterList) {
-                entitiList = filter.filterEntities(entitiList, referenceField);
+                result = filter.filterEntities(result, referenceField);
             }
         }
-        return entitiList;
+        return result;
     }
     public Iterable<Entity> getEntitiesWithDenormalizedReference(String collectionName, String referenceLocation,
                                                  List<String> referenceIds) {
