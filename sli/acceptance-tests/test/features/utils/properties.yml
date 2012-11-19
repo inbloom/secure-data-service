@@ -102,14 +102,15 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 #secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 #secondary_email_imap_registration_pass: liferaywgen
 
-################# /e2e test properties #################################
-
-portal_server_address: http://local.slidev.org:7000
-portal_app_suffix: "/portal"
-
 e2e_tenant_name: RCTestTenant
 e2e_edorg: RCTestEdOrg
 e2e_sea_email: testuser0.wgen@gmail.com
 e2e_lea_email: testuser1.wgen@gmail.com
 e2e_dev_email: testdev.wgen@gmail.com
 e2e_password: test1234
+
+################# /e2e test properties #################################
+
+portal_server_address: http://local.slidev.org:7000
+portal_app_suffix: "/portal"
+

@@ -201,6 +201,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
         break
       end
     end
+    assert(!@landing_zone_path.nil?, "Could not retrieve landing zone path")
     clear_local_lz
   end
 
