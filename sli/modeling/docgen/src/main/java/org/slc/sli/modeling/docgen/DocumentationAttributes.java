@@ -17,7 +17,10 @@
 
 package org.slc.sli.modeling.docgen;
 
-public interface DocumentationAttributes {
+/**
+ * The elements used as attributes in documentation.
+ */
+public class DocumentationAttributes {
     public static final String EMBEDDED = "embedded";
     public static final String NATURAL_KEY = "naturalKey";
 }

@@ -38,18 +38,20 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 
+/**
+ * Reads XMI describing domain model.
+ */
 public final class DocumentationReader {
-	
-	public DocumentationReader() {
-		throw new UnsupportedOperationException();
-	}
-	
+
+    public DocumentationReader() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * A programmatic assertion that we have the reader positioned on the correct element.
      *

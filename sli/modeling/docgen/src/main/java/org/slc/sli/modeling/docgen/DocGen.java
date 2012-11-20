@@ -40,32 +40,31 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  */
 public final class DocGen {
 
-	public DocGen() {
-		throw new UnsupportedOperationException();
-	}
-	
+    public DocGen() {
+        throw new UnsupportedOperationException();
+    }
+
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
     private static final String ARGUMENT_DOMAIN_FILE = "domainFile";
     private static final String ARGUMENT_XMI = "xmiFile";
     private static final String ARGUMENT_OUT_FILE = "outFile";
     private static final String ARGUMENT_OUT_FOLDER = "outFolder";
-    
-    private static List<String> ALL_OPTIONS = new ArrayList<String>();
+
+    private static List<String> allOptions = new ArrayList<String>();
     static {
-    	ALL_OPTIONS.addAll(ARGUMENT_HELP);
-    	ALL_OPTIONS.add(ARGUMENT_DOMAIN_FILE);
-    	ALL_OPTIONS.add(ARGUMENT_XMI);
-    	ALL_OPTIONS.add(ARGUMENT_OUT_FILE);
-    	ALL_OPTIONS.add(ARGUMENT_OUT_FOLDER);
+        allOptions.addAll(ARGUMENT_HELP);
+        allOptions.add(ARGUMENT_DOMAIN_FILE);
+        allOptions.add(ARGUMENT_XMI);
+        allOptions.add(ARGUMENT_OUT_FILE);
+        allOptions.add(ARGUMENT_OUT_FOLDER);
     }
-    
-    private static OptionParser HELP_PARSER = new OptionParser();
+
+    private static OptionParser helpParser = new OptionParser();
     static {
-    	HELP_PARSER.acceptsAll(ALL_OPTIONS);
+        helpParser.acceptsAll(allOptions);
     }
-    
-    private static final OptionSpec<?> HELP_SPEC = HELP_PARSER.acceptsAll(ARGUMENT_HELP, "Show help");
-    
+
+    private static final OptionSpec<?> HELP_SPEC = helpParser.acceptsAll(ARGUMENT_HELP, "Show help");
     
     public static void main(final String[] args) {
         final OptionParser parser = new OptionParser();
@@ -75,16 +74,16 @@ public final class DocGen {
         final OptionSpec<File> outFolderSpec = optionSpec(parser, ARGUMENT_OUT_FOLDER, "Output folder", File.class);
         try {
             
-            if (HELP_PARSER.parse(args).has(HELP_SPEC)) {
+            if (helpParser.parse(args).has(HELP_SPEC)) {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                
-            	OptionSet options = parser.parse(args);
-            	try {
+
+                OptionSet options = parser.parse(args);
+                try {
                     final File xmiFile = options.valueOf(xmiFileSpec);
                     final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(xmiFile));
                     final File domainFile = options.valueOf(domainFileSpec);
