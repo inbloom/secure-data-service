@@ -154,8 +154,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
                 results = updateEntityList(plan, results, list, types, currentType, counter);
             }
 
-            filterFields(results, plan);
-            updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
+            results = filterFields(results, plan);
+            results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
+            first = false;
         }
 
         return results;
@@ -258,8 +259,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        filterIncludeFields(results, plan);
-        filterExcludeFields(results, plan);
+        results = filterIncludeFields(results, plan);
+        results = filterExcludeFields(results, plan);
 
         return results;
     }
