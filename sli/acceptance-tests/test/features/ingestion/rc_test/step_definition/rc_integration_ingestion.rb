@@ -205,6 +205,7 @@ Given /^I have a local configured landing zone for my tenant$/ do
         break
       end
     end
+    @ingestion_db_name = tenants[0]['body']['dbName']
   end
   if @landing_zone_path.nil?
     puts "Could not retrieve landing zone path"
