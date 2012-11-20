@@ -355,7 +355,7 @@ public enum CountryType {
     COTE_D_IVOIRE("C\u00d4TE D'IVOIRE"),
     CROATIA("CROATIA"),
     CUBA("CUBA"),
-    CURAÇAO("CURA\u00c7AO"),
+    CURACAO("CURA\u00c7AO"),
     CYPRUS("CYPRUS"),
     @XmlEnumValue("CZECH REPUBLIC")
     CZECH_REPUBLIC("CZECH REPUBLIC"),
@@ -507,7 +507,7 @@ public enum CountryType {
     @XmlEnumValue("PUERTO RICO")
     PUERTO_RICO("PUERTO RICO"),
     QATAR("QATAR"),
-    RÉUNION("R\u00c9UNION"),
+    REUNION("R\u00c9UNION"),
     ROMANIA("ROMANIA"),
     @XmlEnumValue("RUSSIAN FEDERATION")
     RUSSIAN_FEDERATION("RUSSIAN FEDERATION"),
