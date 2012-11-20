@@ -5,7 +5,8 @@ Background:
   Given I have a "mock" SMTP/Email server configured
   #Given I have a "live" SMTP/Email server configured
 
-@production
+# this is no longer a valid test because the Approval Engine is not responsible for sending out email.
+@production @wip
 Scenario: As a slc operator I approve pending production account request
 Given a production account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
