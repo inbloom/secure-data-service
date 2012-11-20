@@ -183,10 +183,10 @@ public class StateEdFiXmlGenerator {
             studentEnrollment();
         }
 
-/*        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
+        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
-*/
+
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
 
