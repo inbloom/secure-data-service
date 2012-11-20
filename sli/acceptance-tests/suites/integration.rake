@@ -44,6 +44,11 @@ task :rcDashboardTests do
   runTests("test/features/cross_app_tests/rc_integration_dashboard.feature")
 end
 
+desc "Run DataBrowser RC Test"
+task :rcDataBrowserTests do
+  runTests("test/features/cross_app_tests/rc_databrowser_simple_detail_view.feature")
+end
+
 desc "Run RC SAMT Tests"
 task :rcSamtTests do
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
@@ -105,6 +110,7 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
+  Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
