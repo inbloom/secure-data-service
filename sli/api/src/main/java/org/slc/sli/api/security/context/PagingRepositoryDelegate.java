@@ -38,10 +38,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- *
- * TODO: add javadoc class here
- *
- * @param <T>
  */
 @Component
 public class PagingRepositoryDelegate<T> implements Repository<T> {
@@ -63,7 +59,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     public T createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName, int noOfRetries) {
-        // TODO Auto-generated method stub
         return repo.createWithRetries(type, id, body, metaData, collectionName, noOfRetries);
     }
 
@@ -75,7 +70,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String entityReferenced) {
-        // TODO Auto-generated method stub
         return repo.updateMulti(query, update, entityReferenced);
     }
 
@@ -127,7 +121,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public T create(String type, Map<String, Object> body) {
-        // TODO Auto-generated method stub
         return repo.create(type, body);
     }
 
@@ -138,7 +131,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public T create(String type, Map<String, Object> body, String collectionName) {
-        // TODO Auto-generated method stub
         return repo.create(type, body, collectionName);
     }
 
@@ -150,7 +142,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        // TODO Auto-generated method stub
         return repo.create(type, body, metaData, collectionName);
     }
 
@@ -161,7 +152,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public List<T> insert(List<T> records, String collectionName) {
-        // TODO Auto-generated method stub
         return repo.insert(records, collectionName);
     }
 
@@ -172,7 +162,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public T findById(String collectionName, String id) {
-        // TODO Auto-generated method stub
         return repo.findById(collectionName, id);
     }
 
@@ -183,7 +172,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean exists(String collectionName, String id) {
-        // TODO Auto-generated method stub
         return repo.exists(collectionName, id);
     }
 
@@ -194,7 +182,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
         return repo.findOne(collectionName, neutralQuery);
     }
 
@@ -229,7 +216,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
         return repo.findAllIds(collectionName, neutralQuery);
     }
 
@@ -240,7 +226,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        // TODO Auto-generated method stub
         return repo.count(collectionName, neutralQuery);
     }
 
@@ -251,7 +236,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean update(String collection, T object) {
-        // TODO Auto-generated method stub
         return repo.update(collection, object);
     }
 
@@ -263,7 +247,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        // TODO Auto-generated method stub
         return repo.doUpdate(collection, query, update);
     }
 
@@ -274,7 +257,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean delete(String collectionName, String id) {
-        // TODO Auto-generated method stub
         return repo.delete(collectionName, id);
     }
 
@@ -285,7 +267,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public void deleteAll(String collectionName, NeutralQuery query) {
-        // TODO Auto-generated method stub
         repo.deleteAll(collectionName, null);
     }
 
@@ -296,7 +277,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public DBCollection getCollection(String collectionName) {
-        // TODO Auto-generated method stub
         return repo.getCollection(collectionName);
     }
 
@@ -307,7 +287,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
-        // TODO Auto-generated method stub
         return repo.getCollections(includeSystemCollections);
     }
 
@@ -320,7 +299,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
-        // TODO Auto-generated method stub
         return repo.findByQuery(collectionName, query, skip, max);
     }
 
@@ -331,7 +309,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean collectionExists(String collection) {
-        // TODO Auto-generated method stub
         return repo.collectionExists(collection);
     }
 
@@ -342,7 +319,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public void setWriteConcern(String writeConcern) {
-        // TODO Auto-generated method stub
         repo.setWriteConcern(writeConcern);
     }
 
@@ -353,7 +329,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        // TODO Auto-generated method stub
         repo.setReferenceCheck(referenceCheck);
     }
 
@@ -365,7 +340,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public long count(String collectionName, Query query) {
-        // TODO Auto-generated method stub
         return repo.count(collectionName, query);
     }
 
@@ -376,7 +350,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean updateWithRetries(String collection, T object, int noOfRetries) {
-        // TODO Auto-generated method stub
         return repo.updateWithRetries(collection, object, noOfRetries);
     }
 
@@ -388,7 +361,6 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      */
     @Override
     public boolean patch(String type, String collectionName, String id, Map<String, Object> newValues) {
-        // TODO Auto-generated method stub
         return repo.patch(type, collectionName, id, newValues);
     }
 

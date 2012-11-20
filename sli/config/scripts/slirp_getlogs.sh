@@ -43,7 +43,7 @@ mongo $ISDB/ingestion_batch_job --eval 'db.newBatchJob.find({}, {"jobStartTimest
 # Get stats
 #
 echo "Stats..."
-mongo $ISDB/is --eval "db.batchJobStage.find.forEach(function(x){printjson(x);})" > $NAME/batchJobStage
+mongo $ISDB/is --eval "db.batchJobStage.find().forEach(function(x){printjson(x);})" > $NAME/batchJobStage
 
 #
 # Get slow query logs

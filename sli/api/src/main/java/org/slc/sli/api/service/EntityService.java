@@ -114,7 +114,7 @@ public interface EntityService {
      *            all parameters to be included in query
      * @return the body of the entity
      */
-    public Iterable<String> listIds(NeutralQuery neutralQuery);
+    public Iterable<String> listIds(final NeutralQuery neutralQuery);
 
     /**
      * Get multiple entities from the data store

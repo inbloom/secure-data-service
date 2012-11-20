@@ -172,6 +172,7 @@
         <module>modeling</module>
         <module>SDK</module>
         <module>common</module>
+        <module>edfi-schema</module>
         <module>domain</module>
         <module>data-access</module>
         <module>api</module>
@@ -201,6 +202,13 @@
                 <artifactId>sli-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            
+            <dependency>
+                <groupId>org.slc.sli.schema</groupId>
+                <artifactId>edfi-schema</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
             <dependency>
                 <groupId>org.slc.sli.domain</groupId>
                 <artifactId>domain</artifactId>
@@ -211,6 +219,7 @@
                 <artifactId>common-encrypt</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            
             <dependency>
                 <groupId>org.slc.sli</groupId>
                 <artifactId>api</artifactId>

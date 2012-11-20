@@ -30,7 +30,7 @@ public class Constraint {
      * Default Constructor
      */
     public Constraint() {
-        new Constraint("",null);
+        new Constraint("", null);
     }
 
     public Constraint(String key, Object value) {

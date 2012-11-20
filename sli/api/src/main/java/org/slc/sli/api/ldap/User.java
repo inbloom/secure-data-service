@@ -49,7 +49,8 @@ public class User {
         this.cn = cn;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(final String name) {
+    	String fullName = name;
         if (fullName == null) {
             this.sn = null;
             this.givenName = null;

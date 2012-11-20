@@ -157,6 +157,7 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     private void validateUserHasAccessToEndpoint(ContainerRequest request, SLIPrincipal principal) {
+        // Defect: DE2193
         // TODO replace stub
         // make data driven from v1_resource
         // each resource will have an accessibleBy key with an array value, listing each of the user
