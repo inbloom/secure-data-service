@@ -20,6 +20,7 @@ require "rexml/document"
 require 'digest/md5'
 require 'yaml'
 require 'digest/sha1'
+require 'thwait'
 
 require_relative 'WorldDefinition/worldGenerator.rb'
 require_relative 'OutputGeneration/interchangeGenerators/educationOrganizationGenerator'
@@ -33,19 +34,19 @@ class Odin
 
     Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
-    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
+    configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'/../config.yml'))
 
     if ( scenario.nil? )
       scenario = configYAML['scenario']
     end
 
-    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), 'scenarios', scenario ))
+    scenarioYAML = YAML.load_file(File.join(File.dirname(__FILE__), '/../scenarios', scenario ))
 
     prng = Random.new(configYAML['seed'])
-    Dir.mkdir('generated') if !Dir.exists?('generated')
+    Dir.mkdir('../generated') if !Dir.exists?('../generated')
 
     time = Time.now
-    pids = []
+    tids = []
     
     # Create an initial static world - does NOT depend on time configuration
     world = WorldGenerator.new
@@ -55,10 +56,16 @@ class Odin
     world.simulate(prng, scenarioYAML)
     
     # Process the work_order(s)
-    pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
-    pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
-    pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
-    Process.waitall
+    tids << Thread.new() do
+      StudentParentGenerator.new.write(prng, scenarioYAML)
+    end
+    tids << Thread.new() do
+      EducationOrganizationGenerator.new.write(prng, scenarioYAML)
+    end
+    tids << Thread.new() do
+      MasterScheduleGenerator.new.write(prng, scenarioYAML)
+    end
+    ThreadsWait.all_waits tids
 
     finalTime = Time.now - time
     puts "\t Total generation time #{finalTime} secs"
@@ -69,7 +76,7 @@ class Odin
 
   def validate()
     valid = true
-    Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
 
       valid = valid && validate_file(f)
 
@@ -80,7 +87,7 @@ class Odin
   # Generates a MD5 hash of the generated xml files.
   def md5()
     hashes = []
-    Dir["#{File.dirname(__FILE__)}/generated/*.xml"].each { |f|
+    Dir["#{File.dirname(__FILE__)}/../generated/*.xml"].each { |f|
       hashes.push( Digest::MD5.hexdigest( f ))
     }
     
