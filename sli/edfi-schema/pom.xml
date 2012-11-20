@@ -7,12 +7,14 @@
     <groupId>org.slc.sli</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+
   <groupId>org.slc.sli.schema</groupId>
   <artifactId>edfi-schema</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>edfi-schema</name>
-  <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
+  <name>EdFi Schema</name>
+
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sli.home>${project.parent.basedir}</sli.home>
   </properties>
+
 </project>
