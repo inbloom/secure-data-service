@@ -13,6 +13,7 @@ $known_ids = {
   'courses' => '5bb6a8e0c65eb9cf5821d069cfb8116a6231b1ab_id',
   'disciplineActions' => '9c4d62d9af758b3b7124836ffc75afd98a858c6b_id',
   'disciplineIncidents' => '71c6e7baacd2d0367a04c056fa365a468dead7b4_id',
+  'gradebookEntries' => '135963f2abd3320ae508546fbff31f37e10b949e_idbbfd4364e569b963aa25dbe015c5f09db96342cb_id',
   'grades' => '058750f006993539165ea75710fac72e3f7f30c6_id',
   'gradingPeriods' => '51cda601eed6f7924381ad3e054ac04540ab62de_id',
   'parents' => 'd0062295d13fd7a412375766eee235308b867ee9_id',
