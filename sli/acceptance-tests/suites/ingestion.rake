@@ -239,6 +239,16 @@ task :ingestionDbSpinupTest do
   runTests("test/features/ingestion/features/ingestion_db_spinup.feature")
 end
 
+desc "UniqueSectionCode Length Test"
+task :ingestionUniqueSectionCodeTest do
+  runTests("test/features/ingestion/features/ingestion_uniqueSectionCode.feature")
+end
+
+desc "Revert Data Test"
+task :ingestionRevertDataTest do
+  runTests("test/features/ingestion/features/ingestion_revert.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
