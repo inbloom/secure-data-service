@@ -20,6 +20,8 @@ limitations under the License.
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
+require_relative '../../utils/email.rb'
+
 Given /^I go to the account registration page on RC$/ do
   @driver.get PropLoader.getProps['admintools_server_url'] + PropLoader.getProps['registration_app_suffix']
 end
@@ -28,15 +30,28 @@ Given /^I go to the portal page on RC$/ do
   @driver.get PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']
 end
 
+Given /^when I click Accept$/ do 
+  @content = check_email({:imap_host => PropLoader.getProps['email_imap_hostname'],
+                         :imap_port => PropLoader.getProps['email_imap_portname'],
+                         :content_substring => "RCTest",
+                         :subject_substring => "Email Confirmation",
+                         :imap_username => PropLoader.getProps['developer_email_imap_registration_user'] ,
+                         :imap_password => PropLoader.getProps['developer_email_imap_registration_pass'] }) do
+
+    @driver.find_element(:xpath, "//input[contains(@id, 'accept')]").click
+    puts "Accepted Terms and Conditions."
+
+  end
+end
+
 Given /^I received an email to verify my email address$/ do
-  subject_string = "Email Confirmation"
-  content_string = "RCTest"
-  content = check_email_for_verification(subject_string, content_string)
-  puts content
+  
+  puts @content
   puts PropLoader.getProps['admintools_server_url']
-  content.split("\n").each do |line|
+  @content.split("\n").each do |line|
     if(/#{PropLoader.getProps['admintools_server_url']}/.match(line))
       @email_verification_link = line
+      puts @email_verification_link
     end
   end
   assert(!@email_verification_link.nil?, "Cannot find the link from the email")
