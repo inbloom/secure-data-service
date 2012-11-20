@@ -27,6 +27,8 @@ import javax.xml.namespace.QName;
 import org.slc.sli.test.edfi.entities.Cohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.LearningStandard;
+import org.slc.sli.test.edfi.entities.SLCCohort;
+import org.slc.sli.test.edfi.entities.SLCStaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
@@ -74,7 +76,7 @@ public class InterchangeStudentCohortGenerator {
 
     	int total=0;
     	total += generateCohortData(iWriter, MetaRelations.COHORT_MAP.values());
-    	//total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
+    	total += generateStaffCohortAssociationData(iWriter, MetaRelations.COHORT_MAP.values());
     	total += generateStudentCohortAssociation(iWriter, MetaRelations.COHORT_MAP.values());
     	return total;
     }
@@ -90,7 +92,7 @@ public class InterchangeStudentCohortGenerator {
 
     	int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
-            Cohort retVal;
+            SLCCohort retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 retVal = null;
@@ -117,14 +119,14 @@ public class InterchangeStudentCohortGenerator {
 
     	int count = 0;
         for (CohortMeta cohortMeta : cohortMetas) {
-            List<StaffCohortAssociation> staffCohortAssociations = null;
+            List<SLCStaffCohortAssociation> staffCohortAssociations = null;
             
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffCohortAssociations = new ArrayList<StaffCohortAssociation>();
+                staffCohortAssociations = new ArrayList<SLCStaffCohortAssociation>();
             } else {
                 staffCohortAssociations = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
-            for (StaffCohortAssociation staffCohort : staffCohortAssociations) {
+            for (SLCStaffCohortAssociation staffCohort : staffCohortAssociations) {
                 iWriter.marshal(staffCohort);
             }
             count += staffCohortAssociations.size();

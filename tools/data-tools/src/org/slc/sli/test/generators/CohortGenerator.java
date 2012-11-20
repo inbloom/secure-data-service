@@ -30,6 +30,11 @@ import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCCohort;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 
 /**
@@ -48,7 +53,7 @@ public class CohortGenerator {
      *
      * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(CohortMeta cohortMeta) {
+    public static SLCCohort generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String programId = cohortMeta.programMeta==null ? null : cohortMeta.programMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
@@ -65,8 +70,32 @@ public class CohortGenerator {
      *
      * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(String cohortId, String programId, String schoolId) {
-        Cohort cohort = basicLowFiFactory(cohortId);
+    
+    public static SLCCohort generateLowFi(String cohortId, String programId, String schoolId) {
+        SLCCohort SLCC = basicLowFiFactory(cohortId);
+
+        // construct and add the school references
+        
+        SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
+        slceoit.setStateOrganizationId(schoolId);
+        slceort.setEducationalOrgIdentity(slceoit);
+        	
+        SLCC.setEducationOrgReference(slceort);
+
+        // construct and add the program reference
+        SLCProgramIdentityType pi = new SLCProgramIdentityType();
+        pi.setProgramId(programId);
+        SLCProgramReferenceType prt = new SLCProgramReferenceType();
+        prt.setProgramIdentity(pi);
+
+        SLCC.getProgramReference().add(prt);
+
+        return SLCC;
+    }
+
+    public static Cohort generateLowFi_dep(String cohortId, String programId, String schoolId) {
+        Cohort cohort = basicLowFiFactory_dep(cohortId);
 
         // construct and add the school references
 
@@ -96,8 +125,8 @@ public class CohortGenerator {
      *
      * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(String cohortId, String schoolId) {
-        Cohort cohort = basicLowFiFactory(cohortId);
+    public static Cohort generateLowFi_dep(String cohortId, String schoolId) {
+        Cohort cohort = basicLowFiFactory_dep(cohortId);
 
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
@@ -108,6 +137,22 @@ public class CohortGenerator {
         cohort.setEducationOrgReference(schoolRef);
 
         return cohort;
+    }
+    
+    
+    public static SLCCohort generateLowFi(String cohortId, String schoolId) {
+        SLCCohort slcc = basicLowFiFactory(cohortId);
+
+        // construct and add the school references
+        SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
+        slceoit.setStateOrganizationId(schoolId);
+//        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
+        slceort.setEducationalOrgIdentity(slceoit);
+        
+        slcc.setEducationOrgReference(slceort);
+
+        return slcc;
     }
 
     /**
@@ -121,7 +166,7 @@ public class CohortGenerator {
      * @return <code>Cohort</code>
      */
     public static Cohort generateLowFi(String cohortId, String programId, Collection<String> schoolIds) {
-        Cohort cohort = basicLowFiFactory(cohortId);
+        Cohort cohort = basicLowFiFactory_dep(cohortId);
 
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
@@ -147,6 +192,7 @@ public class CohortGenerator {
         return cohort;
     }
 
+
     /**
      * Factory a basic Cohort.
      *
@@ -154,7 +200,7 @@ public class CohortGenerator {
      *
      * @return <code>Cohort</code>
      */
-    private static Cohort basicLowFiFactory(String cohortId) {
+    private static Cohort basicLowFiFactory_dep(String cohortId) {
         Cohort cohort = new Cohort ();
 
         cohort.setCohortIdentifier(cohortId);
@@ -163,6 +209,17 @@ public class CohortGenerator {
         cohort.setCohortScope(GeneratorUtils.generateCohortScopeType());
         cohort.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
         return cohort;
+    }
+    
+    private static SLCCohort basicLowFiFactory(String cohortId) {
+        SLCCohort SLCC = new SLCCohort ();
+
+        SLCC.setCohortIdentifier(cohortId);
+        SLCC.setCohortDescription("The cohort description of cohortId-"+cohortId);
+        SLCC.setCohortType(GeneratorUtils.generateCohortType());
+        SLCC.setCohortScope(GeneratorUtils.generateCohortScopeType());
+        SLCC.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
+        return SLCC;
     }
 
     public static void main (String args[]) throws Exception {
