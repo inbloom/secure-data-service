@@ -15,10 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require_relative 'spec_helper.rb'
-
-require_relative '../../EntityCreation/student_builder.rb'
-require_relative '../../Shared/demographics.rb'
+require_relative 'spec_helper'
+require_relative '../lib/EntityCreation/student_builder.rb'
+require_relative '../lib/Shared/demographics.rb'
 
 describe "StudentBuilder" do
   describe "#build" do
@@ -45,7 +44,7 @@ describe "StudentBuilder" do
       it "will have the right number of section associations" do
         enrollment.string.lines.select{|l| l.match('<StudentSectionAssociation>')}.length.should eq(5)
       end
-      
+
       it "will find a school with the correct school ids" do
         work_order[:sessions].each do |session|
           school_id = session[:school]
@@ -53,29 +52,29 @@ describe "StudentBuilder" do
         end
       end
     end
-    
-    context "With new student credentials" do   
+
+    context "With new student credentials" do
       let(:new_id) {52}
       let(:newDemographics) {Demographics.new}
       let(:newRand) {Random.new(new_id)}
-      let(:newBirthDay) {Date.new(1999, 1, 12)}  
+      let(:newBirthDay) {Date.new(1999, 1, 12)}
       let(:newStudent) {Student.new(new_id, newBirthDay, newDemographics, newRand)}
-      
+
       it "will choose gender" do
         newStudent.sex.should match(/^Male|^Female/)
-      end     
+      end
       it "will generate a consistent pseudorandom Birthdate" do
         newStudent.birthDay.to_s.should match(/1999-06-17/)
       end
       it "will match the HARDCODED state" do
-        newStudent.state.should eq("NY")   
+        newStudent.state.should eq("NY")
       end
-      it "will match the HARDCODED zip code"  do 
-        newStudent.postalCode.should eq("10292")  
+      it "will match the HARDCODED zip code"  do
+        newStudent.postalCode.should eq("10292")
       end
-      it "should generate email addresses that end in fakemail.com" do     
+      it "should generate email addresses that end in fakemail.com" do
         newStudent.email.should match(/@fakemail.com/)
-      end         
+      end
     end
   end
 end

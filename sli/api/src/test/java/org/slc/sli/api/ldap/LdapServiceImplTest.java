@@ -143,7 +143,6 @@ public class LdapServiceImplTest {
         assertNotNull(users);
     }
 
-    //TODO this test has to be rewritten to use a mock ldap server
     // making live calls to an external ldap server is not appropriate for a junit
     @Test
     @Ignore

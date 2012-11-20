@@ -25,7 +25,7 @@ import javax.ws.rs.HttpMethod;
 
 /**
  *
- * TODO: add javadoc comment
+ * Annotation used to add the PATCH method to javax.ws.rs.
  *
  */
 @Target({ElementType.METHOD })

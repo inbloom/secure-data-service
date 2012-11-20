@@ -211,7 +211,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 ingestionServer = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e) {
                 throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
-                        "Failed to resolve ingestion server for " + LZ_INGESTION_SERVER_LOCALHOST + ".");
+                        "Failed to resolve ingestion server for " + LZ_INGESTION_SERVER_LOCALHOST + ".", e);
             }
         }
 
@@ -223,7 +223,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
         // If more than exists, something is wrong
         if (existingIds.size() > 1) {
-            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
+            throw new IllegalStateException("Internal error: multiple tenant entry with identical IDs");
         }
 
         // If no tenant already exists, create one
@@ -254,11 +254,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                     Map<String, Object> lz2 = (Map<String, Object>) o2;
                     if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
                             || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                        throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
+                        throw new IllegalArgumentException("Badly formed tenant entry: " + lz1.toString());
                     }
                     if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
                             || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
-                        throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
+                        throw new IllegalArgumentException("Badly formed tenant entry: " + lz2.toString());
                     }
                     return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
                             .get(LZ_EDUCATION_ORGANIZATION));
@@ -312,7 +312,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     /**
-     * TODO: add javadoc
+     * A mutable integer
      *
      */
     static class MutableInt {

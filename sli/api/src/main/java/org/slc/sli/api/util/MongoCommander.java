@@ -71,7 +71,7 @@ public class MongoCommander {
             }
         } catch (IOException e) {
             error(e.getMessage());
-            throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to spin up new tenant");
+            throw (TenantResourceCreationException) new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to spin up new tenant").initCause(e);
         }
     }
     

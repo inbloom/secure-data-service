@@ -334,9 +334,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |403 |      |           |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |204 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
