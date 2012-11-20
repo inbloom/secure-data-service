@@ -48,8 +48,8 @@ public final class EdFiSLICmdLine {
     private static final Set<String> INVESTIGATE = investigate().keySet();
     private static final Map<String, String> CLASS_RENAMES = classRenames();
 
-    public final static String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
-    public final static String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
+    public static final String DEFAULT_SLI_INPUT_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_EDFI_INPUT_FILENAME = "ED-Fi-Core.xmi";
 
 
     /**

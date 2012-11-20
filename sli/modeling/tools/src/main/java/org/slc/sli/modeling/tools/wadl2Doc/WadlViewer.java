@@ -24,11 +24,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Sanity check a WADL
+ */
 public class WadlViewer {
 
     private static final Logger LOG = LoggerFactory.getLogger(WadlViewer.class);
 
-    public final static String DEFAULT_INPUT_FILENAME = "SLI.wadl";
+    public static final String DEFAULT_INPUT_FILENAME = "SLI.wadl";
 
     public WadlViewer() {
         throw new UnsupportedOperationException();

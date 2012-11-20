@@ -22,6 +22,9 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for PsmCreator class.
+ */
 public class PsmCreatorTest {
 
     @Test

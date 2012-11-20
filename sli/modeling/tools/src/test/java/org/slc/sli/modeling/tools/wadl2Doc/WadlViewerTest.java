@@ -24,6 +24,9 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * JUnit test for WadlViewer class.
+ */
 public class WadlViewerTest {
 
     @Test(expected = UnsupportedOperationException.class)

@@ -27,12 +27,15 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Clean up a WADL.
+ */
 public final class Wadl2Doc {
 
     private static final Logger LOG = LoggerFactory.getLogger(Wadl2Doc.class);
 
-    public final static String DEFAULT_INPUT_FILENAME = "wadl-original.xml";
-    public final static String DEFAULT_OUTPUT_FILENAME = "wadl-clean.xml";
+    public static final String DEFAULT_INPUT_FILENAME = "wadl-original.xml";
+    public static final String DEFAULT_OUTPUT_FILENAME = "wadl-clean.xml";
 
     public Wadl2Doc() {
         throw new UnsupportedOperationException();

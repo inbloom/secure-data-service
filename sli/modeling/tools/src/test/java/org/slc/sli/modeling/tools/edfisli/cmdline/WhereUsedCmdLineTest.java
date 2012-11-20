@@ -24,6 +24,9 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * JUnit test for WhereUsedCmdLine class.
+ */
 public class WhereUsedCmdLineTest {
 
     @Test(expected = UnsupportedOperationException.class)

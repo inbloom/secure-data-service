@@ -22,6 +22,9 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for Wadl2Doc class.
+ */
 public class Wadl2DocTest {
 
     @Test(expected = UnsupportedOperationException.class)

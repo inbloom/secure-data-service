@@ -24,6 +24,9 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ * JUnit test for EdFiSLICmdLine class.
+ */
 public class EdFiSLICmdLineTest {
 
     @Test(expected = UnsupportedOperationException.class)

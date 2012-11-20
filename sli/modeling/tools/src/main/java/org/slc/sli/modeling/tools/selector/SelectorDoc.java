@@ -44,14 +44,14 @@ public class SelectorDoc {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelectorDoc.class);
 
-    public final static String ATTRIBUTE = "Attribute";
-    public final static String ASSOCIATION = "Association";
+    public static final String ATTRIBUTE = "Attribute";
+    public static final String ASSOCIATION = "Association";
 
-    protected final static String SIMPLE_SECT_START = "<simpleSect xml:id = \"selector-%s\">\n";
-    protected final static String FEATURES_START = "    <features>\n";
-    protected final static String FEATURE = "        <feature type = \"%s\" name = \"%s\"/>\n";
-    protected final static String FEATURES_END = "    </features>\n";
-    protected final static String SIMPLE_SECT_END = "</simpleSect>\n";
+    protected static final String SIMPLE_SECT_START = "<simpleSect xml:id = \"selector-%s\">\n";
+    protected static final String FEATURES_START = "    <features>\n";
+    protected static final String FEATURE = "        <feature type = \"%s\" name = \"%s\"/>\n";
+    protected static final String FEATURES_END = "    </features>\n";
+    protected static final String SIMPLE_SECT_END = "</simpleSect>\n";
 
     private String inputXmiFilename;
     private String outputXmlFilename;

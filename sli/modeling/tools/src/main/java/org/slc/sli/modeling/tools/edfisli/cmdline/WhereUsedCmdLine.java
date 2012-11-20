@@ -32,6 +32,9 @@ import javax.xml.namespace.QName;
 import java.io.FileNotFoundException;
 import java.util.Set;
 
+/**
+ * Command-line utility to determine where elements are used in the model.
+ */
 public final class WhereUsedCmdLine {
 
     private static final Logger LOG = LoggerFactory.getLogger(WhereUsedCmdLine.class);

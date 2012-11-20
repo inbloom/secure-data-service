@@ -32,6 +32,9 @@ import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Methods for verifying a WADL
+ */
 public final class WadlViewerHandler implements WadlHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(WadlViewerHandler.class);
@@ -43,9 +46,7 @@ public final class WadlViewerHandler implements WadlHandler {
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (final String step : steps) {
-            if (WadlHelper.isVersion(step)) {
-                // Ignore
-            } else {
+            if (!WadlHelper.isVersion(step)) {
                 if (first) {
                     first = false;
                 } else {

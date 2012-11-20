@@ -23,6 +23,9 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * JUnit test for WadlComparator class.
+ */
 public class WadlComparatorTest {
 
     @Test(expected = UnsupportedOperationException.class)
