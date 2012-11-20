@@ -178,7 +178,7 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
             studentParent();
         }
-
+ 
         if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
             studentEnrollment();
         }
@@ -203,11 +203,12 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
             studentGrade();
         }
-
+*/
+        
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
-
+/*
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
         }
