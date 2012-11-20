@@ -351,7 +351,7 @@ public class DefaultResourceService implements ResourceService {
                 List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
 
                 if (associations != null) {
-                    if(finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
+                    if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
                         //if the finalEntity references the assocEntity
                         for (EntityBody associationEntity : associations) {
                             filteredIdList.add((String) associationEntity.get("id"));
@@ -431,8 +431,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     private boolean finalEntityReferencesAssociation(EntityDefinition finalEntity, EntityDefinition assocEntity, String referenceField) {
-        return !assocEntity.getReferenceFields().containsKey(referenceField) &&
-                finalEntity.getReferenceFields().containsKey(referenceField);
+        return !assocEntity.getReferenceFields().containsKey(referenceField) && finalEntity.getReferenceFields().containsKey(referenceField);
     }
 
     private String getConnectionKey(final Resource fromEntity, final Resource toEntity) {
@@ -488,11 +487,11 @@ public class DefaultResourceService implements ResourceService {
                         errorResult.put("type", "Forbidden");
                         errorResult.put("message", "Access DENIED: " + ade.getMessage());
                         errorResult.put("code", Response.Status.FORBIDDEN.getStatusCode());
-                    } catch (Exception e) {
+                    } /* catch (Exception e) {
                         errorResult.put("type", "Internal Server Error");
                         errorResult.put("message", "Internal Server Error: " + e.getMessage());
                         errorResult.put("code", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-                    }
+                    } */
 
                     finalResults.add(i, new EntityBody(errorResult));
                 }

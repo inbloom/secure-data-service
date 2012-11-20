@@ -34,11 +34,15 @@ Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 Scenario: Create entities which contain invalid words - staff
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 
-   Given an entity with the text 'onload' for a "<ENTITY TYPE>"
+   Given an entity with the text '.fromCharCode' for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
 
-   Given an entity with the text 'onunload' for a "<ENTITY TYPE>"
+   Given an entity with the text 'FSCommand=' for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+
+    Given an entity with the text 'FSCommand =' for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
 
@@ -110,11 +114,15 @@ Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
 Scenario: Create entities which contain invalid words - admin teacher
 Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
 
-   Given an entity with the text 'onload' for a "<ENTITY TYPE>"
+   Given an entity with the text '.fromCharCode' for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
 
-   Given an entity with the text 'onunload' for a "<ENTITY TYPE>"
+   Given an entity with the text 'FSCommand=' for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+
+   Given an entity with the text 'FSCommand =' for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
 

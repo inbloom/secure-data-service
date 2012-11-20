@@ -39,7 +39,7 @@ public class Documentation {
 
     public Documentation(final String title, final String language, final List<DmNode> contents) {
         if (null == contents) {
-            throw new NullPointerException("contents");
+            throw new IllegalArgumentException("contents");
         }
         this.title = title;
         this.language = language;

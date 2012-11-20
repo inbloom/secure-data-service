@@ -42,7 +42,7 @@ final class Xsd2UmlLookup<T> {
      */
     public Identifier from(final T key) {
         if (key == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (data.containsKey(key)) {
             return data.get(key);

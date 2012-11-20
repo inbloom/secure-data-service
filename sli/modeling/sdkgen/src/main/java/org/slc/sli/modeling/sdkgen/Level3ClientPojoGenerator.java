@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
@@ -65,8 +66,12 @@ import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Level3ClientPojoGenerator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Level3ClientPojoGenerator.class);
     
     private static final JavaType TYPE_UNDERLYING = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
     private static final JavaParam FIELD_UNDERLYING = new JavaParam("data", TYPE_UNDERLYING, true);
@@ -107,14 +112,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeDataType(targetPkgName, dataType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -176,7 +177,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -197,14 +198,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeEnumType(targetPkgName, enumType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -267,7 +264,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -289,14 +286,10 @@ public final class Level3ClientPojoGenerator {
             try {
                 writeClassType(packageName, importNames, classType, model, outstream, config);
             } finally {
-                try {
-                    outstream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
+                IOUtils.closeQuietly(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -411,7 +404,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.flush();
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     

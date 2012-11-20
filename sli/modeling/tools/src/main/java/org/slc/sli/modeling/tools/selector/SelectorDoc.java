@@ -31,6 +31,8 @@ import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command line utility to read an XMI File, and print out features (attributes,
@@ -40,6 +42,8 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  *
  */
 public class SelectorDoc {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SelectorDoc.class);
 
 	public final static String ATTRIBUTE = "Attribute";
 	public final static String ASSOCIATION = "Association";
@@ -120,7 +124,7 @@ public class SelectorDoc {
             output.flush();
             output.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
             return false;
         }
         return true;
@@ -137,7 +141,7 @@ public class SelectorDoc {
     	try {
 			new SelectorDoc(args[0], args[1]).generateSelectorDocumentation();
 		} catch (IOException e) {
-			e.printStackTrace();
+            LOG.warn(e.getMessage());
 		}
     }
 

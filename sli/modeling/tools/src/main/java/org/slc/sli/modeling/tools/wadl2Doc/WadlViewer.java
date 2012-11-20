@@ -21,8 +21,12 @@ import java.io.FileNotFoundException;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.wadl.helpers.WadlWalker;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WadlViewer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlViewer.class);
 	
 	public final static String DEFAULT_INPUT_FILENAME = "SLI.wadl";
 	
@@ -40,7 +44,7 @@ public class WadlViewer {
             final WadlWalker walker = new WadlWalker(new WadlViewerHandler());
             walker.walk(app);
         } catch (final FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
 

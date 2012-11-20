@@ -176,7 +176,7 @@ public class SamlResponseComposerTest {
             NodeList nodes = (NodeList) xpathExpr.evaluate(doc, XPathConstants.NODESET);
             return nodes;
         } catch (XPathExpressionException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         }
     }
     

@@ -44,7 +44,7 @@ public class MetricsResourceHelper {
 
 
         long count = 0;
-        if(qualifier == null || id == null) {
+        if (qualifier == null || id == null) {
             count = coll.count();
         } else {
             coll.count(QueryBuilder.start(qualifier).is(id).get());

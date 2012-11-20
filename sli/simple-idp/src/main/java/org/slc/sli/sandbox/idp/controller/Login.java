@@ -303,6 +303,7 @@ public class Login {
         return mav;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @RequestMapping(value = "/impersonate", method = RequestMethod.POST)
     public ModelAndView impersonate(
             @RequestParam("SAMLRequest") String encodedSamlRequest,
@@ -320,12 +321,13 @@ public class Login {
             LOG.info("Attempted impersonation login when not in sandbox mode");
             throw new IllegalStateException("Impersonation not allowed.");
         }
+        List<String> selectedRoles = roles;
         if (manualConfig && customRoles != null) {
             List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
-            if (roles != null) {
-                roles.addAll(customRolesList);
+            if (selectedRoles != null) {
+                selectedRoles.addAll(customRolesList);
             } else {
-                roles = customRolesList;
+                selectedRoles = customRolesList;
             }
         }
         
@@ -340,13 +342,13 @@ public class Login {
         }
         
         if(impersonationUser.getUserId()==null){
-            if (roles == null || roles.size() == 0) {
+            if (selectedRoles == null || selectedRoles.size() == 0) {
                 ModelAndView mav = buildImpersonationModelAndView(realm, encodedSamlRequest, impersonateUser);
                 mav.addObject("errorMsg", "Please select or enter one role to impersonate.");
                 return mav;
             } 
             impersonationUser.setUserId(impersonateUser);
-            impersonationUser.setRoles(roles);
+            impersonationUser.setRoles(selectedRoles);
         }
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);

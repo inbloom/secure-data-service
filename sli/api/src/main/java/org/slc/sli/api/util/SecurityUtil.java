@@ -23,8 +23,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -47,8 +45,6 @@ import java.util.HashMap;
  */
 public class SecurityUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtil.class);
-
     private static final Authentication FULL_ACCESS_AUTH;
     public static final String SYSTEM_ENTITY = "system_entity";
 
@@ -60,7 +56,7 @@ public class SecurityUtil {
 
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
-    private static String principalId;
+    //private static String principalId;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -205,6 +201,7 @@ public class SecurityUtil {
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
     }
 
+    @SuppressWarnings("unused")
     private static Response forbiddenResponse(String response) {
         EntityBody body = new EntityBody();
         body.put("response", response);

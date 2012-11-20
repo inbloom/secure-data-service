@@ -42,12 +42,12 @@ public class ResourcesTest {
         resources = new Resources(BASE, DOC, RESOURCE_LIST);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullBase() {
         new Resources(null, DOC, RESOURCE_LIST);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullResourceList() {
         new Resources(BASE, DOC, null);
     }

@@ -30,8 +30,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.BasicDBList;
-
 /**
  * Validates a staff accessing a set of entities that are directly associated to a student.
  * Currently supported entities are:

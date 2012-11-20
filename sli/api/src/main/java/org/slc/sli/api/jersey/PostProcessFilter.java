@@ -88,7 +88,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
         String queryString = "";
         if (null != request.getRequestUri().getQuery()) {
-        	queryString = "?" + request.getRequestUri().getQuery();
+            queryString = "?" + request.getRequestUri().getQuery();
         }
         response.getHttpHeaders().add("X-RequestedPath", request.getProperties().get("requestedPath"));
         response.getHttpHeaders().add("X-ExecutedPath", request.getPath() + queryString);

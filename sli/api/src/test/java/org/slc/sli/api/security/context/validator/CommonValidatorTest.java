@@ -33,6 +33,12 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
+/**
+ * Tests common.
+ * 
+ * @author kmyers
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,

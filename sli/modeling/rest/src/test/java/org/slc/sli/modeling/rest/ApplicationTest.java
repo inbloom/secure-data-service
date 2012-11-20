@@ -46,22 +46,22 @@ public class ApplicationTest {
                 REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullResourceTypes() {
         new Application(DOC, GRAMMARS, RESOURCES, null, METHODS, REPRESENTATIONS, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullMethods() {
         new Application(DOC, GRAMMARS, RESOURCES, RESOURCE_TYPES, null, REPRESENTATIONS, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullRepresentations() {
         new Application(DOC, GRAMMARS, RESOURCES, RESOURCE_TYPES, METHODS, null, REPRESENTATIONS);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullFaults() {
         new Application(DOC, GRAMMARS, RESOURCES, RESOURCE_TYPES, METHODS, REPRESENTATIONS, null);
     }

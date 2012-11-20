@@ -29,10 +29,10 @@ public final class DmNamespace implements DmNode {
 
     public DmNamespace(final String prefix, final String namespace) {
         if (prefix == null) {
-            throw new NullPointerException("prefix");
+            throw new IllegalArgumentException("prefix");
         }
         if (namespace == null) {
-            throw new NullPointerException("namespace");
+            throw new IllegalArgumentException("namespace");
         }
         this.prefix = new QName(prefix);
         this.namespace = namespace;

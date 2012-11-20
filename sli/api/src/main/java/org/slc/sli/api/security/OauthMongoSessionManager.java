@@ -290,10 +290,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 }
                                 Long hl = (Long) sessionEntity.getBody().get("hardLogout");
 
-								if (isLongLived(hl - createdOn.getTime())) {
-									info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
-								}
-								// ****
+                                if (isLongLived(hl - createdOn.getTime())) {
+                                    info("Using long-lived session {} belonging to app {}", accessToken, session.get("clientId"));
+                                }
+                                // ****
                                 
                                 ClientToken token = new ClientToken((String) session.get("clientId"), null , null);
 
@@ -387,7 +387,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         SLIPrincipal anon = new SLIPrincipal(time);
         anon.setEntity(new MongoEntity("user", "-133", new HashMap<String, Object>(), new HashMap<String, Object>()));
         return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()),
-                new AnonymousAuthenticationToken(time, anon, Arrays.<GrantedAuthority> asList(Right.ANONYMOUS_ACCESS)));
+                new AnonymousAuthenticationToken(time, anon, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
     }
 
     private Entity findEntityForAccessToken(String token) {
@@ -456,10 +456,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      * @param actual
      * @return
      */
-	private boolean isLongLived(long actual) {
-		long minutes = actual / 60000;
-		long configMinutes = this.hardLogout / 60000;
-
-		return minutes > configMinutes;
-	}
+    private boolean isLongLived(long actual) {
+        long minutes = actual / 60000;
+        long configMinutes = this.hardLogout / 60000;
+        
+        return minutes > configMinutes;
+    }
 }

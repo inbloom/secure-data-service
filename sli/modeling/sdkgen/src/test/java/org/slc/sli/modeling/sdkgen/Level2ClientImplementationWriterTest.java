@@ -27,6 +27,7 @@ import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class Level2ClientImplementationWriterTest {
     private MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() throws URISyntaxException {
+    public void setup() throws URISyntaxException, UnsupportedEncodingException {
         initMocks(this);
         jsw = new MockJavaStreamWriter();
 

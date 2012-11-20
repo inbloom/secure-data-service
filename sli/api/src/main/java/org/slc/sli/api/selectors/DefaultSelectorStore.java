@@ -67,8 +67,6 @@ public class DefaultSelectorStore implements SelectorRepository {
         FALLBACK_SELECTOR.put("$", true);
     }
 
-    public DefaultSelectorStore() {
-    }
 
     @PostConstruct
     protected void init() throws IOException {
@@ -107,7 +105,7 @@ public class DefaultSelectorStore implements SelectorRepository {
                     SemanticSelector semanticSelector = selectorSemanticModel.parse(selectionConverter.convert(selectorString), classType);
 
                     retVal.put(type, semanticSelector);
-                } catch (NullPointerException npe) {
+                } catch (IllegalArgumentException npe) {
                     warn("Default selector entry missing 'type' or 'selector' field(s): " + jsonNode.toString());
                 } catch (SelectorParseException spe) {
                     warn("Default selector failed to parse: " + spe.getMessage());

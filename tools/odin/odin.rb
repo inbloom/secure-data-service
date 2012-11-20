@@ -21,12 +21,17 @@ require 'digest/md5'
 require 'yaml'
 require 'digest/sha1'
 
-require_relative 'validator.rb'
-require_relative 'util.rb'
+require_relative 'WorldDefinition/worldGenerator.rb'
+require_relative 'OutputGeneration/interchangeGenerators/educationOrganizationGenerator'
+require_relative 'OutputGeneration/interchangeGenerators/studentParentGenerator'
+require_relative 'OutputGeneration/interchangeGenerators/masterScheduleGenerator'
+require_relative 'OutputGeneration/validator.rb'
+require_relative 'Shared/util.rb'
 class Odin
-  def generate(  scenario )
 
-    Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
+  def generate( scenario )
+
+    Dir["#{File.dirname(__FILE__)}/Shared/interchangeGenerators/*.rb"].each { |f| load(f) }
 
     configYAML = YAML.load_file(File.join(File.dirname(__FILE__),'config.yml'))
 
@@ -41,13 +46,18 @@ class Odin
 
     time = Time.now
     pids = []
-
-    WorldGenerator.new.create(prng, scenarioYAML)
-
+    
+    # Create an initial static world - does NOT depend on time configuration
+    world = WorldGenerator.new
+    world.create(prng, scenarioYAML)
+    
+    # Progress the world temporally based on time configuration and write out the work_order(s)
+    world.simulate(prng, scenarioYAML)
+    
+    # Process the work_order(s)
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
     pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
-    pids << fork {  StudentEnrollmentGenerator.new.write(prng, scenarioYAML)       }
-     pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
+    pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
     Process.waitall
 
     finalTime = Time.now - time

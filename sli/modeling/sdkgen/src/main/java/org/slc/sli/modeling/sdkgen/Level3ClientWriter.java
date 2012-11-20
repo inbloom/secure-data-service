@@ -80,10 +80,10 @@ public abstract class Level3ClientWriter implements WadlHandler {
     
     public Level3ClientWriter(final JavaStreamWriter jsw, final File wadlFile) {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         if (wadlFile == null) {
-            throw new NullPointerException("wadlFile");
+            throw new IllegalArgumentException("wadlFile");
         }
         this.jsw = jsw;
         this.wadlFile = wadlFile;
@@ -113,7 +113,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                             if (quietMode) {
                                 return JavaType.JT_OBJECT;
                             } else {
-                                throw new RuntimeException("Unknown element: " + elementName);
+                                throw new SdkGenRuntimeException("Unknown element: " + elementName);
                             }
                         }
                     }
@@ -121,7 +121,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     if (quietMode) {
                         return JT_MAP_STRING_TO_OBJECT;
                     } else {
-                        throw new RuntimeException("Unknown element: " + elementName);
+                        throw new SdkGenRuntimeException("Unknown element: " + elementName);
                     }
                 }
                 
@@ -152,7 +152,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                             if (quietMode) {
                                 return new JavaParam(elementName.getLocalPart(), JavaType.JT_OBJECT, true);
                             } else {
-                                throw new RuntimeException("Unknown element: " + elementName);
+                                throw new SdkGenRuntimeException("Unknown element: " + elementName);
                             }
                         }
                     }
@@ -160,7 +160,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     if (quietMode) {
                         return new JavaParam("unknown", JT_MAP_STRING_TO_OBJECT, true);
                     } else {
-                        throw new RuntimeException("Unknown element: " + elementName);
+                        throw new SdkGenRuntimeException("Unknown element: " + elementName);
                     }
                 }
                 
@@ -187,7 +187,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
                         return new JavaParam(elementName.getLocalPart(), JT_MAP_STRING_TO_OBJECT, true);
                     } else {
-                        throw new RuntimeException("Unknown element: " + elementName);
+                        throw new SdkGenRuntimeException("Unknown element: " + elementName);
                     }
                 }
             }
@@ -215,7 +215,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                 throw new AssertionError(method);
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     

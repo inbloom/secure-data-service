@@ -52,7 +52,7 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     
     public Xsd2UmlConfig(final Xsd2UmlPlugin plugin) {
         if (plugin == null) {
-            throw new NullPointerException("plugin");
+            throw new IllegalArgumentException("plugin");
         }
         this.plugin = plugin;
     }
@@ -103,10 +103,10 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public String nameFromComplexTypeExtension(final QName complexType, final QName base) {
         if (complexType == null) {
-            throw new NullPointerException("complexType");
+            throw new IllegalArgumentException("complexType");
         }
         if (base == null) {
-            throw new NullPointerException("base");
+            throw new IllegalArgumentException("base");
         }
         return plugin.nameFromComplexTypeExtension(complexType, base);
     }
@@ -114,7 +114,7 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public String nameFromSchemaElementName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return plugin.nameFromSchemaElementName(name);
     }
@@ -122,7 +122,7 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public String nameFromSchemaAttributeName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return plugin.nameFromSchemaAttributeName(name);
     }
@@ -130,10 +130,10 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
         if (simpleType == null) {
-            throw new NullPointerException("simpleType");
+            throw new IllegalArgumentException("simpleType");
         }
         if (base == null) {
-            throw new NullPointerException("base");
+            throw new IllegalArgumentException("base");
         }
         return plugin.nameFromSimpleTypeRestriction(simpleType, base);
     }
@@ -141,7 +141,7 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public String nameFromSchemaTypeName(final QName name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return plugin.nameFromSchemaTypeName(name);
     }
@@ -149,10 +149,10 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     @Override
     public List<TaggedValue> tagsFromAppInfo(XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
         if (appInfo == null) {
-            throw new NullPointerException("appInfo");
+            throw new IllegalArgumentException("appInfo");
         }
         if (host == null) {
-            throw new NullPointerException("host");
+            throw new IllegalArgumentException("host");
         }
         return plugin.tagsFromAppInfo(appInfo, host);
     }

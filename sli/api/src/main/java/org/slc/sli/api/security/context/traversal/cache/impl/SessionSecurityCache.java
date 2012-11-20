@@ -33,6 +33,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Caches security data to reduce overhead/processing time for security operations.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class SessionSecurityCache implements SecurityCachingStrategy {
     private static final String CACHE = "cache";

@@ -40,7 +40,7 @@ public final class StAXLevel1Client implements Level1Client {
     
     public StAXLevel1Client(final Level0Client inner) {
         if (inner == null) {
-            throw new NullPointerException("inner");
+            throw new IllegalArgumentException("inner");
         }
         this.inner = inner;
     }
@@ -82,7 +82,7 @@ public final class StAXLevel1Client implements Level1Client {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(body, e);
+            throw new ClientRuntimeException(body, e);
         }
     }
     

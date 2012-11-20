@@ -78,13 +78,13 @@ public class UriInfoToApiQueryConverter {
         reservedQueryKeywordImplementations.put(ParameterConstants.LIMIT, new NeutralCriteriaImplementation() {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
-            	int limit = Integer.parseInt((String) value);
+                int limit = Integer.parseInt((String) value);
                 
                 if (limit < 0) {
-                	throw new QueryParseException("Limit cannot be less than zero", (String) value);
+                    throw new QueryParseException("Limit cannot be less than zero", (String) value);
                 }
-            	
-            	apiQuery.setLimit(limit);
+                
+                apiQuery.setLimit(limit);
             }
         });
 
@@ -95,10 +95,10 @@ public class UriInfoToApiQueryConverter {
                 int offset = Integer.parseInt((String) value);
                 
                 if (offset < 0) {
-                	throw new QueryParseException("Offset cannot be less than zero", (String) value);
+                    throw new QueryParseException("Offset cannot be less than zero", (String) value);
                 }
-            	
-            	apiQuery.setOffset(offset);
+                
+                apiQuery.setOffset(offset);
             }
         });
 
@@ -166,8 +166,8 @@ public class UriInfoToApiQueryConverter {
 
                 try {
                     for (String criteriaString : queryString.split("&")) {
-                        criteriaString = URLDecoder.decode(criteriaString, "UTF-8");
-                        NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
+                        String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
+                        NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
                         NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
                             if (!neutralCriteria.getKey().equals("full-entities")
