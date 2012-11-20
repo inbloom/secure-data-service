@@ -8,7 +8,6 @@ Background:
 Scenario: SLC Operator logs into SAMT and deletes the developer account
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "Shared Learning Collaborative"   
-    #When I selected the realm "Shared Learning Collaborative"
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
     Then I should be on Portal home page
@@ -34,17 +33,17 @@ Scenario: As an app developer I request a production account and  I want to veri
   And when I click "Submit"
   Then my field entries are validated
   And I am redirected to a page with terms and conditions
-  And when I click "Accept"
+  And when I click Accept
   Then I am directed to an acknowledgement page.
 
-#Scenario: As an app developer I want to verify my registration email
+#As an app developer I want to verify my registration email
   Given I received an email to verify my email address
   When I click the link to verify my email address
   Then I should be notified that my email is verified
 
 Scenario: As an SLC Operator I want to approve the app developer account
   And I navigate to the Portal home page
-  When I select the "Shared Learning Collaborative" realm 
+  When I see the realm selector I authenticate to "Shared Learning Collaborative"      
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page
