@@ -49,6 +49,11 @@ task :rcDataBrowserTests do
   runTests("test/features/cross_app_tests/rc_databrowser_simple_detail_view.feature")
 end
 
+desc "Run session share tests between Dashboard and Databrowser"
+task :rcSessionShareTests do
+  runTests("test/features/cross_app_tests/sli_session_share.feature")
+end
+
 desc "Run RC SAMT Tests"
 task :rcSamtTests do
   runTests("test/features/cross_app_tests/rc_integration_samt.feature")
@@ -111,6 +116,7 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
+  Rake::Task["rcSessionShareTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
