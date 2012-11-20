@@ -209,7 +209,7 @@ public class SamlHelper {
             return jdomDocument;
         } catch (Exception e) {
             error("Error unmarshalling saml post", e);
-            throw new IllegalArgumentException("Posted SAML isn't valid");
+            throw (IllegalArgumentException)new IllegalArgumentException("Posted SAML isn't valid").initCause(e);
         }
     }
 
@@ -226,7 +226,7 @@ public class SamlHelper {
                 return builder.build(doc);
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Unable to decode redirect payload");
+            throw (IllegalArgumentException)new IllegalArgumentException("Unable to decode redirect payload").initCause(e);
         }
     }
 

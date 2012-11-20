@@ -103,6 +103,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                     NeutralCriteria.OPERATOR_EQUAL, id));
             Iterable<Entity> studentPrograms = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
             for (Entity studentProgram : studentPrograms) {
+                // Defect: DE2195
                 // TODO End date Filtering
                 studentProgramIds.add((String) studentProgram.getBody().get(ParameterConstants.PROGRAM_ID));
             }
@@ -151,6 +152,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                 for (Entity cohort : cohorts) {
                     String edorgId = (String) cohort.getBody().get("educationOrgId");
                     if (teacherSchoolIds.contains(edorgId) && !staffCohortIds.contains(cohort.getEntityId())) {
+                        // Defect: DE2195
                         // TODO End date filtering
                         staffCohortIds.add(cohort.getEntityId());
                     }
@@ -165,6 +167,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
             Iterable<Entity> studentCohorts = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
             if (studentCohorts != null) {
                 for (Entity studentCohort : studentCohorts) {
+                    // Defect: DE2195
                     // TODO End date Filtering
                     studentCohortIds.add((String) studentCohort.getBody().get(ParameterConstants.COHORT_ID));
                 }
