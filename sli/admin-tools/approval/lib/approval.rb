@@ -88,10 +88,10 @@ module ApprovalEngine
     @@auto_approve             = nil
 
     # initialize the storage
-    def ApprovalEngine.init(storage, is_sandbox, auto_approve=nil)
+    def ApprovalEngine.init(storage, transition_action_config, is_sandbox, auto_approve=nil)
     #def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox, auto_approve=nil)
         @@storage = storage
-        #@@transition_action_config = transition_action_config
+        @@transition_action_config = transition_action_config
         #@@emailer =emailer
         @@is_sandbox = is_sandbox
         @@email_secret = (0...32).map{rand(256).chr}.join
@@ -160,8 +160,9 @@ module ApprovalEngine
                 raise "Unknown state transition #{status} => #{target[transition]}."
         end
 
+        @@transition_action_config.transition(user) if @@transition_action_config
+
         # if this is a sandbox and the new status is pending then move to status approved
-        
         if ((@@auto_approve==nil && @@is_sandbox) || @@auto_approve) && (user[:status] == STATE_PENDING)
             change_user_status(email_address, ACTION_APPROVE)
         end
