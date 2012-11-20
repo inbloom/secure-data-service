@@ -53,8 +53,6 @@ public class UserContextMapper implements ContextMapper {
         user.setHomeDir(context.getStringAttribute("homeDirectory"));
         user.setCreateTime(ldapStringToDate(context.getStringAttribute(LdapService.CREATE_TIMESTAMP)));
         user.setModifyTime(ldapStringToDate(context.getStringAttribute(LdapService.MODIFY_TIMESTAMP)));
-        // TODO figure out consistent ways to set user password with either plain text or MD5 hash
-        // user.setPassword(context.getStringAttribute("userPassword"));
         user.setPassword("**********");
         user.setCn(context.getStringAttribute("cn"));
         user.setStatus(User.Status.getFromString(context.getStringAttribute("destinationindicator")));
