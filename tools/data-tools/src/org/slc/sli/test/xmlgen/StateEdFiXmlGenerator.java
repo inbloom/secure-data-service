@@ -162,7 +162,7 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_ED_ORG) {
             edOrg();
         }
-   
+
         if (MetaRelations.INTERCHANGE_ED_ORG_CALENDAR) {
             edOrgCalendar();
         }
@@ -183,7 +183,7 @@ public class StateEdFiXmlGenerator {
             studentEnrollment();
         }
 
-/*        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
+        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
 
@@ -195,16 +195,16 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
-*/
 
-/*        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
+
+        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
             studentAttendance();
         }
 
-        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
+/*        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
             studentGrade();
         }
-
+*/
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
@@ -212,7 +212,7 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
         }
-*/
+
 
     }
 
