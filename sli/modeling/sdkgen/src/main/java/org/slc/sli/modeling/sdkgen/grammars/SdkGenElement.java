@@ -18,6 +18,9 @@ package org.slc.sli.modeling.sdkgen.grammars;
 
 import javax.xml.namespace.QName;
 
+/**
+ * SDK element
+ */
 public interface SdkGenElement {
 
     QName getName();
