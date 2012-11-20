@@ -20,6 +20,8 @@ package org.slc.sli.test.generators;
 import java.util.Map;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
+import org.slc.sli.test.edfi.entities.AssessmentIdentityType;
+import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.SLCAssessment;
 import org.slc.sli.test.edfi.entities.AssessmentCategoryType;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationCode;
@@ -150,6 +152,23 @@ public class AssessmentGenerator {
         ait.setVersion(1);
 
         SLCAssessmentReferenceType art = new SLCAssessmentReferenceType();
+        art.setAssessmentIdentity(ait);
+        return art;
+    }
+
+    public static AssessmentReferenceType getEdFiAssessmentReference(final String assessmentId) {
+        AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
+        aic.setID(assessmentId);
+        aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
+
+        AssessmentIdentityType ait = new AssessmentIdentityType();
+        ait.setAssessmentTitle(assessmentId+"Title");
+//        ait.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
+        ait.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
+        ait.setGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
+        ait.setVersion(1);
+
+        AssessmentReferenceType art = new AssessmentReferenceType();
         art.setAssessmentIdentity(ait);
         return art;
     }

@@ -32,7 +32,7 @@ import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.ServiceDescriptorType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;

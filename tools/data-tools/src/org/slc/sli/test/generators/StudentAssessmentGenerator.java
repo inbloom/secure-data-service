@@ -32,7 +32,7 @@ import org.slc.sli.test.edfi.entities.ReasonNotTestedType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationsType;
-import org.slc.sli.test.edfi.entities.StudentAssessment;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessment;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
@@ -41,8 +41,8 @@ public class StudentAssessmentGenerator {
     private static final Random RANDOM = new Random(31);
     private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
 
-    public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
-        StudentAssessment sa = new StudentAssessment();
+    public static SLCStudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
+        SLCStudentAssessment sa = new SLCStudentAssessment();
         sa.setId(studentAssessmentMeta.xmlId);
 
         //sa.setAdministrationDate("2011-05-08");

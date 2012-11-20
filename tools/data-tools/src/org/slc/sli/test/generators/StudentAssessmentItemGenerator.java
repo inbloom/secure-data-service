@@ -19,9 +19,11 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.*;
-import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.edfi.entities.AssessmentItemResultType;
+import org.slc.sli.test.edfi.entities.SLCAssessmentItemReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessmentItem;
+import org.slc.sli.test.edfi.entities.SLCStudentAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentObjectiveAssessmentReferenceType;
 
 public class StudentAssessmentItemGenerator {
     private boolean optional;
@@ -33,8 +35,9 @@ public class StudentAssessmentItemGenerator {
         this.optional = optional;
     }
 
-    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference, ReferenceType studentTestAssessmentReference, ReferenceType studentObjectiveAssessmentReference) {
-        StudentAssessmentItem sai = new StudentAssessmentItem();
+    public SLCStudentAssessmentItem generate(String id, SLCAssessmentItemReferenceType assessmentItemReference, SLCStudentAssessmentReferenceType studentTestAssessmentReference, 
+            SLCStudentObjectiveAssessmentReferenceType studentObjectiveAssessmentReference) {
+        SLCStudentAssessmentItem sai = new SLCStudentAssessmentItem();
 
         sai.setId(id);
 
@@ -51,7 +54,7 @@ public class StudentAssessmentItemGenerator {
 			if (studentTestAssessmentReference != null) {
 			    
 				sai.setStudentAssessmentReference(studentTestAssessmentReference);
-				
+
 			}
 
 			// TODO: StudentObjectiveAssessmentReference
@@ -64,31 +67,32 @@ public class StudentAssessmentItemGenerator {
         return sai;
     }
 
-//    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference) {
-//        return generate(id, assessmentItemReference, null, null);
-//    }
+    public SLCStudentAssessmentItem generate(String id, SLCAssessmentItemReferenceType assessmentItemReference) {
+        return generate(id, assessmentItemReference, null, null);
+    }
 
 
 
     
-    public static StudentAssessmentItem generateLowFi(String id, String studentAssessmentId, AssessmentItemReferenceType assessmentItemReference) {
+    public static SLCStudentAssessmentItem generateLowFi(String id, String studentAssessmentId, SLCAssessmentItemReferenceType assessmentItemReference) {
         StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(true);
      
-        if(MetaRelations.StudentAssessment_Ref){
-            ReferenceType star = new ReferenceType();
-            StudentAssessmentIdentificationCode saic = new StudentAssessmentIdentificationCode();
-            saic.setID(studentAssessmentId);
-            star.setRef(saic);
-            return saig.generate(id, assessmentItemReference,star, null);
-        } else {
+//        if(MetaRelations.StudentAssessment_Ref){
+//            // id refs are no longer supported
+//            ReferenceType star = new ReferenceType();
+//            StudentAssessmentIdentificationCode saic = new StudentAssessmentIdentificationCode();
+//            saic.setID(studentAssessmentId);
+//            star.setRef(saic);
+//            return saig.generate(id, assessmentItemReference,star, null);
+//        } else {
            // System.out.println("The complex type does not define in Schema, so it cannot be gennerated!");
             //the following code to use to generate complex object
 //            StudentAssessmentIdentityType sait =  new StudentAssessmentIdentityType();
 //            sait.getStudentAssessmentIdentificationCode().add(studentAssessmentId);
 //            StudentAssessmentReferenceType sart = new StudentAssessmentReferenceType ();
 //            sart.setStudentAssessmentIdentity(sait); 
-            return saig.generate(id, assessmentItemReference,null, null);
-        }
+            return saig.generate(id, assessmentItemReference);
+//        }
     }
     
      

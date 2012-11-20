@@ -186,12 +186,12 @@ public class StateEdFiXmlGenerator {
 /*        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
-
+*/
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
 
         }
-*/
+
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
@@ -208,11 +208,10 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
-/*
+
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
         }
-*/
 
     }
 
