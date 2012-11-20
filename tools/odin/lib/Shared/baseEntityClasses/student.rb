@@ -44,15 +44,15 @@ class Student < BaseEntity
   end
 
   def city
-    "New York"
+    @demographics.city
   end
 
   def state
-    "NY"
+    @demographics.state
   end
 
   def postalCode
-    "10292"
+    @demographics.postalCode
   end
 
   def email
@@ -60,7 +60,8 @@ class Student < BaseEntity
   end
 
   def hispanicLatino
-    choose([true, false])
+    #choose([true, false])
+    wChoose(@demographics.hispanicLatinoDist)
   end
 
   def economicDisadvantaged

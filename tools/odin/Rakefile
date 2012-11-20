@@ -12,10 +12,10 @@ task :test do
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/student_builder_spec.rb'
     t.rspec_path = 'rspec'
-   end
+  end
   RSpec::Core::RakeTask.new(:test) do |t|
     t.rspec_opts = %w{--colour --format progress}
     t.pattern = 'spec/odin_spec.rb'
     t.rspec_path = 'rspec'
-   end
+  end
 end

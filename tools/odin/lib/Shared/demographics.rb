@@ -39,4 +39,20 @@ class Demographics
   def raceDistribution
     @choices['raceDistribution']
   end
+  
+  def city
+    @choices['city']
+  end
+  
+  def state
+    @choices['state']
+  end
+  
+  def postalCode
+    @choices['postalCode']
+  end
+  
+  def hispanicLatinoDist
+    @choices['hispanicLatinoDist']
+  end
 end
