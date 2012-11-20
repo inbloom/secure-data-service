@@ -379,6 +379,7 @@ public final class InterchangeStudentGradeGenerator {
 
                         slcssai.setSectionReference(ssai.getSectionReference());
                         slcssai.setStudentReference(ssai.getStudentReference());
+                        slcssai.setBeginDate(CalendarDateGenerator.generatDate());
 
                         slcssa.setStudentSectionAssociationIdentity(slcssai);
 
