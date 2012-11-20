@@ -109,6 +109,7 @@ public class StudentGradeGenerator {
         ssaRef.setStudentSectionAssociationIdentity(ssaIdentity);
         ssaIdentity.setStudentReference(student);
         ssaIdentity.setSectionReference(section);
+        ssaIdentity.setBeginDate(CalendarDateGenerator.generatDate());
         return ssaRef;
     }
 
@@ -123,6 +124,7 @@ public class StudentGradeGenerator {
         secRef.setSectionIdentity(section.getSectionIdentity());
         ssaIdentity.setStudentReference(stuRef);
         ssaIdentity.setSectionReference(secRef);
+        ssaIdentity.setBeginDate(CalendarDateGenerator.generatDate());
         return ssaRef;
     }
 
@@ -355,6 +357,7 @@ public class StudentGradeGenerator {
         ssRef.setStudentSectionAssociationIdentity(ssIdentity);
         ssIdentity.setSectionReference(section);
         ssIdentity.setStudentReference(student);
+        ssIdentity.setBeginDate(CalendarDateGenerator.generatDate());
 
         sgbe.setStudentSectionAssociationReference(ssRef);
         return sgbe;
