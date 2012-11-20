@@ -92,12 +92,12 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return entityDefs.lookupByEntityType(StringUtils.uncapitalise(type.getName()));
     }
 
-
-    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
+    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery defaultConstraint,
                                           List<EntityBody> previousEntities, Stack<Type> types, boolean first,
                                           Counter counter) {
         List<EntityBody> results = new ArrayList<EntityBody>();
         Map<Type, List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
+        NeutralQuery constraint = defaultConstraint;
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
@@ -418,11 +418,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<String> extractIds(Iterable<EntityBody> entities, String key) {
         List<String> ids = new ArrayList<String>();
 
-        key = key.equals("_id") ? "id" : key;
+        String updatedKey = key.equals("_id") ? "id" : key;
 
         for (EntityBody body : entities) {
-            if (body.containsKey(key)) {
-                ids.addAll(body.getId(key));
+            if (body.containsKey(updatedKey)) {
+                ids.addAll(body.getId(updatedKey));
             }
         }
 
