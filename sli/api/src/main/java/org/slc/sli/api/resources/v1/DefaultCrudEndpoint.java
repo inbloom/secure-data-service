@@ -639,7 +639,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
 
     protected void addAdditionalCritera(NeutralQuery query) {
-
+    	//no-op
     }
 
     protected boolean shouldReadAll() {
@@ -772,7 +772,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         List<String> optionalFields = getOptionalFields(info);
-
+        List<EntityBody> appendedEntities = entities;
+        
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
@@ -782,7 +783,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             + values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
 
                     if (appender != null) {
-                        entities = appender.applyOptionalField(entities,
+                        appendedEntities = appender.applyOptionalField(entities,
                                 values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
                     }
 
@@ -790,7 +791,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         }
 
-        return entities;
+        return appendedEntities;
     }
 
     protected List<String> getOptionalFields(UriInfo info) {

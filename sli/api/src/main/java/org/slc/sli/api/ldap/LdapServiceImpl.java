@@ -69,9 +69,6 @@ public class LdapServiceImpl implements LdapService {
     private static final String GROUP_ID_NUMBER = "113";
     private static final String LOGIN_SHELL = "/sbin/nologin";
 
-    public LdapServiceImpl() {
-    }
-
     @SuppressWarnings("rawtypes")
     @Override
     public User getUser(String realm, String uid) {
@@ -172,19 +169,23 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public Collection<User> findUsersByGroups(String realm, Collection<String> allowedGroupNames,
-            Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs) {
-        if (allowedGroupNames == null) {
-            allowedGroupNames = new LinkedList<String>();
+    public Collection<User> findUsersByGroups(String realm, final Collection<String> allowedGroupNames,
+            final Collection<String> disallowedGroupNames, String tenant, Collection<String> edorgs) {
+    	
+    	Collection<String> allowed = allowedGroupNames;
+    	Collection<String> disallowed = disallowedGroupNames;
+    	
+        if (allowed == null) {
+            allowed = new LinkedList<String>();
         }
-        if (disallowedGroupNames == null) {
-            disallowedGroupNames = new LinkedList<String>();
+        if (disallowed == null) {
+            disallowed = new LinkedList<String>();
         }
 
         Set<String> allowedUsers = new HashSet<String>();
 
         Map<String, List<String>> uidToGroupsMap = new HashMap<String, List<String>>();
-        for (String groupName : allowedGroupNames) {
+        for (String groupName : allowed) {
             Group group = getGroup(realm, groupName);
             if (group != null) {
                 List<String> memberUids = group.getMemberUids();
@@ -204,7 +205,7 @@ public class LdapServiceImpl implements LdapService {
             }
         }
 
-        for (String groupName : disallowedGroupNames) {
+        for (String groupName : disallowed) {
             Group group = getGroup(realm, groupName);
             if (group != null) {
                 allowedUsers.removeAll(group.getMemberUids());
@@ -249,7 +250,6 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public Collection<User> findUsersByAttributes(String realm, Collection<String> attributes) {
-        // TODO Auto-generated method stub
         return null;
     }
 

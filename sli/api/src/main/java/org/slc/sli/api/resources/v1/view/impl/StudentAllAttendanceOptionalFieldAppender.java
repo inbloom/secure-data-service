@@ -45,9 +45,6 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
 
-    public StudentAllAttendanceOptionalFieldAppender() {
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
