@@ -24,8 +24,8 @@ import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
-import org.slc.sli.test.edfi.entities.LearningStandardIdentityType;
-import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
+import org.slc.sli.test.edfi.entities.SLCLearningStandardIdentityType;
+import org.slc.sli.test.edfi.entities.SLCLearningStandardReferenceType;
 
 public class LearningStandardGenerator {
 
@@ -54,15 +54,12 @@ public class LearningStandardGenerator {
         return ls;
     }
 
-    public static LearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
+    public static SLCLearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
 
-        LearningStandardId lsId = new LearningStandardId();
-        lsId.setIdentificationCode(learningStandardCode);
+        SLCLearningStandardIdentityType lsit = new SLCLearningStandardIdentityType();
+        lsit.setIdentificationCode(learningStandardCode);
 
-        LearningStandardIdentityType lsit = new LearningStandardIdentityType();
-        lsit.setLearningStandardId(lsId);
-
-        LearningStandardReferenceType lsrt = new LearningStandardReferenceType();
+        SLCLearningStandardReferenceType lsrt = new SLCLearningStandardReferenceType();
         lsrt.setLearningStandardIdentity(lsit);
 
         return lsrt;
