@@ -24,7 +24,7 @@ class EducationOrganizationGenerator < InterchangeGenerator
     @header = <<-HEADER
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd ">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd ">
 HEADER
     @footer = <<-FOOTER
 </InterchangeEducationOrganization>

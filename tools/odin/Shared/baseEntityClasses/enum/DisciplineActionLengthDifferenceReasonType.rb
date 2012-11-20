@@ -19,7 +19,7 @@ limitations under the License.
 # Enumerates the reasons for differences in length of discipline actions. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="DisciplineActionLengthDifferenceReasonType">
 #   <xs:annotation>
-#     <xs:documentation>Indicates the reason for the difference, if any, between the official and actual lengths of a student’s disciplinary assignment.</xs:documentation>
+#     <xs:documentation>Indicates the reason for the difference, if any, between the official and actual lengths of a studentï¿½s disciplinary assignment.</xs:documentation>
 #   </xs:annotation>
 #   <xs:restriction base="xs:token">
 #     <xs:enumeration value="No Difference"/>
@@ -31,7 +31,7 @@ limitations under the License.
 #     <xs:enumeration value="Term Decreased Due To Extenuating Health-Related Circumstances"/>
 #     <xs:enumeration value="Student Withdrew From School"/>
 #     <xs:enumeration value="School Year Ended"/>
-#     <xs:enumeration value="Continuation Of Previous Year’s Disciplinary Action Assignment"/>
+#     <xs:enumeration value="Continuation Of Previous Year's Disciplinary Action Assignment"/>
 #     <xs:enumeration value="Term Modified By Placement Program Due To Student Behavior While In The Placement"/>
 #     <xs:enumeration value="Other"/>
 #   </xs:restriction>
@@ -39,7 +39,7 @@ limitations under the License.
 class DisciplineActionLengthDifferenceReasonType
   include Enum
 
-  DisciplineActionLengthDifferenceReasonType.define :CONTINUATION_OF_PREVIOUS_YEAR_DISCIPLINARY_ACTION, "Continuation Of Previous Year’s Disciplinary Action Assignment"
+  DisciplineActionLengthDifferenceReasonType.define :CONTINUATION_OF_PREVIOUS_YEAR_DISCIPLINARY_ACTION, "Continuation Of Previous Year's Disciplinary Action Assignment"
   DisciplineActionLengthDifferenceReasonType.define :NO_DIFFERENCE, "No Difference"
   DisciplineActionLengthDifferenceReasonType.define :OTHER, "Other"
   DisciplineActionLengthDifferenceReasonType.define :SCHOOL_YEAR_ENDED, "School Year Ended"
