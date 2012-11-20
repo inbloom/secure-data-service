@@ -175,27 +175,27 @@ public class StateEdFiXmlGenerator {
             staffAssociation();
         }
         */
-        if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
+/*        if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
             studentParent();
         }
         
-//        if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
-//            studentEnrollment();
-//        }
-        
-        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
+        if (MetaRelations.INTERCHANGE_STUDENT_ENROLLMENT) {
+            studentEnrollment();
+        }
+        */
+/*        if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
        
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
-        }
-        /*
+        }*/
+        
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
         
-        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
+/*        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
             studentAttendance();
         }
 
@@ -209,8 +209,8 @@ public class StateEdFiXmlGenerator {
         
         if (MetaRelations.INTERCHANGE_STUDENT_ASSESSMENT) {
             studentAssessment();
-        }
-        */
+        }*/
+        
     }
 
     /**

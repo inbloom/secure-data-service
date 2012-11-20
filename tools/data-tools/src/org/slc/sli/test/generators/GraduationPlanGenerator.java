@@ -21,16 +21,20 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlType;
+
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CourseCode;
 import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.Credits;
 import org.slc.sli.test.edfi.entities.CreditsByCourse;
 import org.slc.sli.test.edfi.entities.CreditsBySubject;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.GraduationPlan;
+import org.slc.sli.test.edfi.entities.SLCGraduationPlan;
 import org.slc.sli.test.edfi.entities.GraduationPlanType;
 
 public class GraduationPlanGenerator {
@@ -54,29 +58,29 @@ public class GraduationPlanGenerator {
         this(true);
     }
 
-    public static GraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
-           GraduationPlan gp = new GraduationPlan();
+    public static SLCGraduationPlan generateLowFi(String graduationPlanId, String edOrg) {
+           SLCGraduationPlan gp = new SLCGraduationPlan();
 
         gp.setId(graduationPlanId);
 
-        gp.setGraduationPlanType(GraduationPlanType.fromIndex(typeIndex++));
+        gp.setGraduationPlanType(GraduationPlanGenerator.fromIndex(typeIndex++));
 
         Credits cs = new Credits();
         cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
         gp.setTotalCreditsRequired(cs);
 
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
         //eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
         eoit.setStateOrganizationId(edOrg);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
         eort.setEducationalOrgIdentity(eoit);
-        gp.setEducationOrganizationReference(eort);
+        gp.getEducationOrganizationReference().add(eort);
 
         return gp;
    }
 
-    public GraduationPlan generate(String graduationPlanId, List<String> courses, String edOrg) {
-        GraduationPlan gp = generateLowFi(graduationPlanId, edOrg);
+    public SLCGraduationPlan generate(String graduationPlanId, List<String> courses, String edOrg) {
+        SLCGraduationPlan gp = generateLowFi(graduationPlanId, edOrg);
 
         if (null != gp && optional) {
             gp.setIndividualPlan(random.nextBoolean());
@@ -110,5 +114,24 @@ public class GraduationPlanGenerator {
         }
 
         return gp;
+    }
+
+    //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
+    public static GraduationPlanType fromIndex(int i) {
+
+    	final int NUM_TYPES = 5;
+
+    	switch (i % NUM_TYPES) {
+    	case 0:
+    		return GraduationPlanType.CAREER_AND_TECHNICAL_EDUCATION;
+    	case 1:
+    		return GraduationPlanType.DISTINGUISHED;
+    	case 2:
+    		return GraduationPlanType.MINIMUM;
+    	case 3:
+    		return GraduationPlanType.RECOMMENDED;
+    	default:
+    		return GraduationPlanType.STANDARD;
+    	}
     }
 }

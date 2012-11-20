@@ -19,23 +19,23 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.ParentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCParentReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.RelationType;
-import org.slc.sli.test.edfi.entities.StudentParentAssociation;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentParentAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentParentAssociationGenerator {
    public static Random random = new Random(31);
 
-    public StudentParentAssociation generate(String studentParentId, String studentId) {
+    public SLCStudentParentAssociation generate(String studentParentId, String studentId) {
 
-    	StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
+    	SLCStudentParentAssociation studentParentAssociation = new SLCStudentParentAssociation();
 
     	try {
 
-            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
+    		SLCStudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
 
             studentParentAssociation.setStudentReference(srt);
 
@@ -60,31 +60,33 @@ public class StudentParentAssociationGenerator {
 
 
 
-      public static StudentParentAssociation generateLowFi(String parentId, boolean isMale, String studentId) {
-        StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
+      public static SLCStudentParentAssociation generateLowFi(String parentId, boolean isMale, String studentId) {
+        SLCStudentParentAssociation studentParentAssociation = new SLCStudentParentAssociation();
 
         try {
-        	
-    
-			if (MetaRelations.StudentParentAssociation_Ref) {
-				Ref parentRef = new Ref(parentId);
-				ParentReferenceType prt = new ParentReferenceType();
-				prt.setRef(parentRef);
-				studentParentAssociation.setParentReference(prt);
 
-				Ref studentRef = new Ref("REF-" + studentId);
-				StudentReferenceType srt = new StudentReferenceType();
-				srt.setRef(studentRef);
-				studentParentAssociation.setStudentReference(srt);
+
+			if (MetaRelations.StudentParentAssociation_Ref) {
+// 				IDREF support has been deprecated
+//
+//				Ref parentRef = new Ref(parentId);
+//				SLCParentReferenceType prt = new SLCParentReferenceType();
+//				prt.setRef(parentRef);
+//				studentParentAssociation.setParentReference(prt);
+//
+//				Ref studentRef = new Ref("REF-" + studentId);
+//				SLCStudentReferenceType srt = new SLCStudentReferenceType();
+//				srt.setRef(studentRef);
+//				studentParentAssociation.setStudentReference(srt);
 			} else {
-				StudentReferenceType srt = StudentGenerator
+				SLCStudentReferenceType srt = StudentGenerator
 						.getStudentReferenceType(studentId);
 				studentParentAssociation.setStudentReference(srt);
-				ParentReferenceType prt = ParentGenerator
+				SLCParentReferenceType prt = ParentGenerator
 						.getParentReferenceType(parentId);
 				studentParentAssociation.setParentReference(prt);
 			}
-        	
+
             if(isMale)
                 studentParentAssociation.setRelation(RelationType.FATHER);
             else

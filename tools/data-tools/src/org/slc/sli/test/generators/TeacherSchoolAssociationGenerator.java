@@ -21,32 +21,32 @@ import java.util.List;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.AcademicSubjectsType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.ProgramAssignmentType;
 import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
-import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCTeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSchoolAssociationGenerator {
-    public TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
-        TeacherSchoolAssociation tsa = new TeacherSchoolAssociation();
+    public SLCTeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
+        SLCTeacherSchoolAssociation tsa = new SLCTeacherSchoolAssociation();
 
         tsa.setTeacherReference(TeacherGenerator.getTeacherReference(staffId));
 
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
 
         for (String stateOrgId : stateOrgIds) {
 //            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
             eoit.setStateOrganizationId(stateOrgId);
         }
 
-        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         tsa.setSchoolReference(eor);
 
@@ -62,22 +62,22 @@ public class TeacherSchoolAssociationGenerator {
         return tsa;
     }
 
-    public static TeacherSchoolAssociation generateLowFi(TeacherMeta teacherMeta, String schoolId) {
+    public static SLCTeacherSchoolAssociation generateLowFi(TeacherMeta teacherMeta, String schoolId) {
 
-        TeacherSchoolAssociation teacherSchool = new TeacherSchoolAssociation();
+    	SLCTeacherSchoolAssociation teacherSchool = new SLCTeacherSchoolAssociation();
 
         // construct and add the school references
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+    	SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
 //        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         edOrgIdentity.setStateOrganizationId(schoolId);
 
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType schoolRef = new SLCEducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
-   
-        
+
+
         teacherSchool.setSchoolReference(schoolRef);
 
-       
+
         // construct and add the teacher reference
         /*
         StaffIdentityType staffIdentity = new StaffIdentityType();
@@ -88,16 +88,18 @@ public class TeacherSchoolAssociationGenerator {
 
         teacherSchool.setTeacherReference(teacherRef);
         */
-        
+
 		if (MetaRelations.TeacherSchoolAssociation_Ref) {
-			Ref teacherRefer = new Ref(teacherMeta.id);
-			StaffReferenceType teacherRef = new StaffReferenceType();
-			teacherRef.setRef(teacherRefer);
-			teacherSchool.setTeacherReference(teacherRef);
+//			IDREF support deprecated
+//
+//			Ref teacherRefer = new Ref(teacherMeta.id);
+//			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
+//			teacherRef.setRef(teacherRefer);
+//			teacherSchool.setTeacherReference(teacherRef);
 		} else {
-			StaffIdentityType staffIdentity = new StaffIdentityType();
+			SLCStaffIdentityType staffIdentity = new SLCStaffIdentityType();
 			staffIdentity.setStaffUniqueStateId(teacherMeta.id);
-			StaffReferenceType teacherRef = new StaffReferenceType();
+			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
 			teacherRef.setStaffIdentity(staffIdentity);
 
 			teacherSchool.setTeacherReference(teacherRef);
