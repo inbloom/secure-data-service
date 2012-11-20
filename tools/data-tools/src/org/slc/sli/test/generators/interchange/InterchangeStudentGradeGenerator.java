@@ -34,12 +34,9 @@ import org.slc.sli.test.edfi.entities.SLCCourseIdentityType;
 import org.slc.sli.test.edfi.entities.SLCCourseReferenceType;
 import org.slc.sli.test.edfi.entities.SLCCourseTranscript;
 import org.slc.sli.test.edfi.entities.Diploma;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.SLCDiplomaReferenceType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.Grade;
 import org.slc.sli.test.edfi.entities.SLCGrade;
 import org.slc.sli.test.edfi.entities.SLCGradeIdentityType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -55,12 +52,10 @@ import org.slc.sli.test.edfi.entities.SLCLearningObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.SLCLearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
-import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SLCReportCard;
 import org.slc.sli.test.edfi.entities.SLCGradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.SLCReportCardIdentityType;
 import org.slc.sli.test.edfi.entities.SLCReportCardReferenceType;
-import org.slc.sli.test.edfi.entities.SLCStudentCompetencyReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
@@ -74,8 +69,6 @@ import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjectiveIdentityType;
 import org.slc.sli.test.edfi.entities.SLCStudentCompetencyObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.SLCStudentGradebookEntry;
 import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationIdentityType;
-import org.slc.sli.test.edfi.entities.SLCStudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
@@ -87,6 +80,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
+import org.slc.sli.test.generators.CalendarDateGenerator;
 import org.slc.sli.test.generators.SessionGenerator;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
@@ -241,6 +235,7 @@ public final class InterchangeStudentGradeGenerator {
         SLCSessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType(sessionMeta.schoolId, sessionId);
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
+            int gradingPeriodIndex = 0;
             String studentId = studentMeta.id;
             SLCStudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);// Reference
                                                                                                   // to
@@ -251,17 +246,30 @@ public final class InterchangeStudentGradeGenerator {
             	SLCReportCardReferenceType reportCardRef = new SLCReportCardReferenceType();
             	SLCReportCardIdentityType reportCardId = new SLCReportCardIdentityType();
 
-//            	new
+            	// Create our bogus grading period reference
             	SLCGradingPeriodReferenceType gradingPeriodRef = new SLCGradingPeriodReferenceType();
             	SLCGradingPeriodIdentityType gradingPeriodId = new SLCGradingPeriodIdentityType();
+            	
+            	// TODO pull this out into an SLCGradingPeriodIdentityType
+            	gradingPeriodId.setGradingPeriod(GradingPeriodType.values()[gradingPeriodIndex++]);
+            	
+            	// TODO make this date match up with an actual grading period :(
+            	gradingPeriodId.setBeginDate(CalendarDateGenerator.generatDate());
+            	
+            	SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
+            	SLCEducationalOrgIdentityType edOrgId = new SLCEducationalOrgIdentityType();
+            	edOrgId.setStateOrganizationId(sessionMeta.schoolId);
+            	edOrgRef.setEducationalOrgIdentity(edOrgId);
+            	gradingPeriodId.setEducationalOrgReference(edOrgRef);
 
-
-//            	gradingPeriodId.setGradingPeriod(reportCardMeta.getGradingPeriod().getGradingPeriodNum());
-//
-//            	reportCardId.setGradingPeriodReference();
-//
-//            	reportCardId.setGradingPeriodReference(value);
-//            	reportCardRef.setReportCardIdentity(studentId + "_" + ID_PREFIX_REPORT_CARD + reportCardMeta.getId()));
+            	gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodId);
+            	
+            	reportCardId.setGradingPeriodReference(gradingPeriodRef);
+                reportCardId.setStudentReference(studentRef);
+                            	
+            	reportCardRef.setReportCardIdentity(reportCardId);
+            	reportCardRefs.add(reportCardRef);
+            	
 
 //            	original
 //                reportCardRef.setRef(new Ref(studentId + "_" + ID_PREFIX_REPORT_CARD + reportCardMeta.getId()));
@@ -271,6 +279,10 @@ public final class InterchangeStudentGradeGenerator {
             SLCDiplomaReferenceType diplomaRef = null;// Reference to Diploma. Not used
             SLCStudentAcademicRecord sar = StudentGradeGenerator.getStudentAcademicRecord(studentRef, sessionRef,
                     reportCardRefs, diplomaRef);
+            sar.getReportCardReference();
+            
+            
+            
             sar.setId(ID_PREFIX_STUDENT_ACADEMIC_RECORD + studentId);
 
             writer.marshal(sar);
