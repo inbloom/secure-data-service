@@ -23,8 +23,11 @@ When /^I hit the realm editing URL$/ do
 end
 
 When /^I should see that I am on the "([^"]*)" edit page$/ do |realmName|
-  assertWithWait("Should show 'Realm Management For #{realmName}' message") do
-    @driver.page_source.index("Realm Management For " + realmName) != nil
+  message = "Realm Management For #{realmName}"
+  assertWithWait("Should show '#{message}' message") do
+    #@driver.page_source.index("Realm Management For " + realmName) != nil
+    notice = (@driver.find_element(:id, "messageContainer")).text
+    notice.index(message) != nil
    end
 end
 
