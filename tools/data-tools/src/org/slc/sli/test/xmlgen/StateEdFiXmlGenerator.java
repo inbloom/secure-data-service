@@ -167,11 +167,11 @@ public class StateEdFiXmlGenerator {
             edOrgCalendar();
         }
 
-/*
         if (MetaRelations.INTERCHANGE_MASTER_SCHEDULE) {
             masterSchedule();
         }
 
+        /*
         if (MetaRelations.INTERCHANGE_STAFF_ASSOCIATION) {
             staffAssociation();
         }
