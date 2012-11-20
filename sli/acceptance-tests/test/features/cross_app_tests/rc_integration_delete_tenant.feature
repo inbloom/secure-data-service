@@ -1,3 +1,5 @@
+@RALLY_US4835
+@rc
 Feature: Delete tenant and drop tenant database
 
   Background: Make a connection to Mongo

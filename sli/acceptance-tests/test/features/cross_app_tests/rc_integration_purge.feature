@@ -1,3 +1,5 @@
+@RALLY_US4835
+@rc
 Feature: RC Integration Cleanup - Purge Tenant
 
   Background: Make a connection to Mongo
