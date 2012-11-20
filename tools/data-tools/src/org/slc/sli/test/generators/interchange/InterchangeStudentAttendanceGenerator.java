@@ -18,7 +18,7 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import org.slc.sli.test.edfi.entities.AttendanceEvent;
+import org.slc.sli.test.edfi.entities.SLCAttendanceEvent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -67,7 +67,7 @@ public class InterchangeStudentAttendanceGenerator {
 
                 for (int count = 0; count < MetaRelations.ATTENDANCE_PER_STUDENT_SECTION; count++) {
 
-                    AttendanceEvent attendanceEvent;
+                    SLCAttendanceEvent attendanceEvent;
 
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                         attendanceEvent = null;

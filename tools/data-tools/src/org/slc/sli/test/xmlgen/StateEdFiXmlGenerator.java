@@ -191,16 +191,15 @@ public class StateEdFiXmlGenerator {
             studentCohort();
 
         }
-
+*/
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
-*/
 
-/*        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
+        if (MetaRelations.INTERCHANGE_STUDENT_ATTENDANCE) {
             studentAttendance();
         }
-
+        /*
         if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
             studentGrade();
         }

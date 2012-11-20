@@ -48,7 +48,6 @@ import javax.xml.bind.annotation.XmlType;
     "behaviors",
     "secondaryBehaviors"
 })
-
 @XmlRootElement(name = "StudentDisciplineIncidentAssociation")
 public class SLCStudentDisciplineIncidentAssociation
     extends ComplexObjectType
