@@ -61,7 +61,7 @@ class UserAccountRegistrationsController < ApplicationController
         end
       else
         begin
-          UserAccountRegistrationsHelper.register_user(@user_account_registration)
+          @user_account_registration.register
           redirectPage= true
           render500 = false
           session[:guuid] = @user_account_registration.email

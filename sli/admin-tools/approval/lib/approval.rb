@@ -160,8 +160,6 @@ module ApprovalEngine
                 raise "Unknown state transition #{status} => #{target[transition]}."
         end
 
-        @@transition_action_config.transition(user) if @@transition_action_config
-
         # if this is a sandbox and the new status is pending then move to status approved
         
         if ((@@auto_approve==nil && @@is_sandbox) || @@auto_approve) && (user[:status] == STATE_PENDING)
