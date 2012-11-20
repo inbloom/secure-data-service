@@ -85,12 +85,11 @@ Scenario: Click on Available Links entities
   And I have navigated to the "Me" page of the Data Browser
   Then I am redirected to the particular entity Detail View
 
-  @wip
 Scenario: Get a Forbidden message when we access something that is forbidden
   When I choose realm "Daybreak Test Realm" in the drop-down list
   And I click on the realm page Go button
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   And I have navigated to the "Schools" listing of the Data Browser
   When I should navigate to "/entities/schools/a13489364c2eb015c219172d561c62350f0453f3_id"
   And I click on the "GetTeachers" link
