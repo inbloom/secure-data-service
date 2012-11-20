@@ -312,7 +312,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     /**
-     * TODO: add javadoc
+     * A mutable integer
      *
      */
     static class MutableInt {
