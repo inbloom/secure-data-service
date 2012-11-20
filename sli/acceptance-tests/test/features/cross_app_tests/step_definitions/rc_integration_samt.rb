@@ -55,7 +55,7 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   @email_password = PropLoader.getProps['developer_email_imap_registration_pass']
  elsif human_readable_text == "DEVELOPER_EMAIL_PASS"
    value = PropLoader.getProps['developer_email_imap_registration_pass']
- elsif human_readble_text == "LANDINGZONE"
+ elsif human_readable_text == "LANDINGZONE"
   value = PropLoader.getProps['landingzone']
  elsif human_readable_text == "LANDINGZONE_PORT"
   value = PropLoader.getProps['landingzone_port']
