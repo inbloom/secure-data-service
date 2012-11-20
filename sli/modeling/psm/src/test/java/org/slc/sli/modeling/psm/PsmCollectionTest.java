@@ -31,7 +31,7 @@ public class PsmCollectionTest {
         assertEquals("Test", coll.getName());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testThrowsNull() {
         final PsmCollection coll = new PsmCollection(null);
     }

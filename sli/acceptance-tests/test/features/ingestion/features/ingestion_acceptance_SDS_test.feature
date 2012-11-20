@@ -25,6 +25,7 @@
 @RALLY_US4391
 @RALLY_US4399
 @RALLY_US4398
+@RALLY_DE2150
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured

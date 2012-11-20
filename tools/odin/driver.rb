@@ -21,10 +21,12 @@ require_relative 'odin'
 # Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
 scenario = nil
 if ARGV.length > 0
-  if File.file?("scenarios/" + ARGV[0])
-    scenario = ARGV[0]
+  tmp = ARGV.last();
+  if File.file?("scenarios/#{tmp}")
+    scenario = tmp
   else
-    puts "Specified scenario (\"#{ARGV[0]}\") does not exist.\n"
+    puts "Specified scenario (\"#{tmp}\") does not exist.\n"
+    exit(1)
   end
 end
 

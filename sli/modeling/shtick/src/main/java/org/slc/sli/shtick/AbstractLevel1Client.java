@@ -45,10 +45,10 @@ public abstract class AbstractLevel1Client implements Level1Client {
     @Override
     public List<Entity> get(final String token, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         
         final String body = client.get(token, uri, getMediaType());
@@ -58,10 +58,10 @@ public abstract class AbstractLevel1Client implements Level1Client {
     @Override
     public void delete(String token, URI uri) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         
         client.delete(token, uri, getMediaType());
@@ -70,13 +70,13 @@ public abstract class AbstractLevel1Client implements Level1Client {
     @Override
     public URI post(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         
         final StringWriter sw = new StringWriter();
@@ -88,13 +88,13 @@ public abstract class AbstractLevel1Client implements Level1Client {
     @Override
     public void put(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
         
         final StringWriter sw = new StringWriter();
@@ -107,13 +107,13 @@ public abstract class AbstractLevel1Client implements Level1Client {
     @Override
     public void patch(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
-            throw new NullPointerException("token");
+            throw new IllegalArgumentException("token");
         }
         if (uri == null) {
-            throw new NullPointerException("uri");
+            throw new IllegalArgumentException("uri");
         }
         if (data == null) {
-            throw new NullPointerException("data");
+            throw new IllegalArgumentException("data");
         }
 
         final StringWriter sw = new StringWriter();
@@ -135,7 +135,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
                 return list;
             }
         } catch (final JsonParseException e) {
-            throw new RuntimeException(e);
+            throw new ClientRuntimeException(e);
         }
         throw new AssertionError();
     }

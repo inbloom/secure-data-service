@@ -54,22 +54,22 @@ public class ResourceTypeTest {
         resourceType = new ResourceType(ID, DOC, PARAMS, METHOD, RESOURCE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullId() {
         new ResourceType(null, DOC, PARAMS, METHOD, RESOURCE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullMethod() {
         new ResourceType(ID, DOC, PARAMS, null, RESOURCE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullParams() {
         new ResourceType(ID, DOC, null, METHOD, RESOURCE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullResource() {
         new ResourceType(ID, DOC, PARAMS, METHOD, null);
     }

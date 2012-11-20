@@ -41,10 +41,10 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
         if (packageName == null) {
-            throw new NullPointerException("packageName");
+            throw new IllegalArgumentException("packageName");
         }
         if (className == null) {
-            throw new NullPointerException("className");
+            throw new IllegalArgumentException("className");
         }
         this.packageName = packageName;
         this.className = className;
@@ -64,7 +64,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
                 schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     
@@ -212,7 +212,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         try {
             jsw.endClass();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new SdkGenRuntimeException(e);
         }
     }
     

@@ -29,11 +29,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
- * Resolves which parent a given teacher is allowed to see
+ * Resolves which parent(s) a given teacher is allowed to access
  */
 @Component
 public class TeacherParentResolver implements EntityContextResolver {

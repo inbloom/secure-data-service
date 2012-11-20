@@ -36,7 +36,7 @@ public class UmlPackage extends NamespaceOwnedElement {
             final List<? extends NamespaceOwnedElement> ownedElements) {
         super(id, name, taggedValues);
         if (ownedElements == null) {
-            throw new NullPointerException("ownedElements");
+            throw new IllegalArgumentException("ownedElements");
         }
         this.ownedElements = Collections.unmodifiableList(new ArrayList<NamespaceOwnedElement>(ownedElements));
     }

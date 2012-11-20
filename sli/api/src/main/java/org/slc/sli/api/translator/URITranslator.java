@@ -16,6 +16,12 @@
 
 package org.slc.sli.api.translator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.sun.jersey.spi.container.ContainerRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.constants.EntityNames;
@@ -30,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriTemplate;
 
-import java.util.*;
 
 /**
  * This class aligns request uri with dataModel
@@ -40,7 +45,7 @@ import java.util.*;
 @Component
 public class URITranslator {
 
-    private Map<String,URITranlation> uriTranslationMap = new HashMap<String, URITranlation>();
+    private Map<String, URITranslation> uriTranslationMap = new HashMap<String, URITranslation>();
 
     public void setRepository(PagingRepositoryDelegate<Entity> repository) {
         this.repository = repository;
@@ -76,23 +81,28 @@ public class URITranslator {
 
     public void translate(ContainerRequest request) {
         String uri = request.getPath();
-        for (Map.Entry<String,URITranlation> entry:uriTranslationMap.entrySet()) {
+        for (Map.Entry<String, URITranslation> entry : uriTranslationMap.entrySet()) {
             String key = entry.getKey();
             if (uri.contains(key)) {
                 String newPath = uriTranslationMap.get(key).translate(request.getPath());
-                if (newPath.equals(uri) == false ) {
+                if (!newPath.equals(uri)) {
                 request.setUris(request.getBaseUri(),
                         request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
                 }
             }
         }
     }
-    private URITranslationBuilder translate (String resource) {
+    private URITranslationBuilder translate(String resource) {
         return new URITranslationBuilder(resource);
     }
 
-
-    private class URITranslationBuilder {
+    /**
+     * A builder for translating URI(s) to equivalent URI(s).
+     * 
+     * @author kmyers
+     *
+     */
+    private final class URITranslationBuilder {
         private String transformResource;
         private String transformTo;
         private String pattern;
@@ -103,43 +113,50 @@ public class URITranslator {
         private URITranslationBuilder(String transformResource) {
             this.transformResource = transformResource;
         }
-        public URITranslationBuilder transformTo (String transformTo) {
+        public URITranslationBuilder transformTo(String transformTo) {
             this.transformTo = transformTo;
             return this;
         }
-        public URITranslationBuilder usingPattern (String pattern) {
+        public URITranslationBuilder usingPattern(String pattern) {
             this.pattern = pattern;
             return this;
         }
 
-        public URITranslationBuilder usingCollection (String parentEntity) {
+        public URITranslationBuilder usingCollection(String parentEntity) {
             this.parentEntity = parentEntity;
             return this;
         }
 
-        public URITranslationBuilder withKey (String key) {
+        public URITranslationBuilder withKey(String key) {
             this.key = key;
             return this;
         }
 
-        public URITranslationBuilder andReference (String referenceKey) {
+        public URITranslationBuilder andReference(String referenceKey) {
             this.referenceKey = referenceKey;
             return this;
         }
 
-        public void build () {
+        public void build() {
             uriTranslationMap.put(transformResource,
-                    new URITranlation(transformTo, pattern, parentEntity, key, referenceKey));
+                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey));
         }
     }
-    public class URITranlation {
+    
+    /**
+     * Encapsulates the conversion/translation from one URI to an equivalent one.
+     * 
+     * @author kmyers
+     *
+     */
+    public class URITranslation {
         String transformTo;
         String pattern;
         String parentEntity;
         String key;
         String referenceKey;
 
-        URITranlation(String transformTo, String pattern, String parentEntity, String key, String referenceKey) {
+        URITranslation(String transformTo, String pattern, String parentEntity, String key, String referenceKey) {
             this.transformTo = transformTo;
             this.pattern = pattern;
             this.parentEntity = parentEntity;
@@ -162,8 +179,8 @@ public class URITranslator {
             neutralQuery.setLimit(0);
             Iterable<Entity> entities = repository.findAll(parentEntity, neutralQuery);
 
-            for (Entity entity: entities) {
-                if(key.equals("_id")) {
+            for (Entity entity : entities) {
+                if (key.equals("_id")) {
                     translatedIdList.add(entity.getEntityId());
                 } else if (entity.getBody().containsKey(key)) {
                     Object value = entity.getBody().get(key);
@@ -182,12 +199,12 @@ public class URITranslator {
             return buildTranslatedPath(translatedIdList);
         }
 
-        private String buildTranslatedPath(  List<String> translatedIdList) {
+        private String buildTranslatedPath(List<String> translatedIdList) {
             return  transformTo + "/" + StringUtils.join(translatedIdList, ",");
         }
 
     }
-    public URITranlation getTranslator(String uri) {
+    public URITranslation getTranslator(String uri) {
         return uriTranslationMap.get(uri);
     }
 }

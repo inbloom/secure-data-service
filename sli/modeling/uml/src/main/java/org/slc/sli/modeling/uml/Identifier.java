@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * Encapsulation of the identifier implementation and for type safety.
  */
-public class Identifier {
+public final class Identifier {
     
     public static final Identifier fromString(final String id) {
         return new Identifier(id);
@@ -34,7 +34,7 @@ public class Identifier {
     
     private Identifier(final String id) {
         if (id == null) {
-            throw new NullPointerException("id");
+            throw new IllegalArgumentException("id");
         }
         this.id = id;
     }

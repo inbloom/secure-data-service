@@ -65,40 +65,29 @@ public class AggregateURLCreatorTest {
     }
 
     @Test
-    public void testValidParamGetURL() {
+    public void testValidParamGetURL() throws Exception {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("groupBy.educationOrganization", "=", ED_ORG_ID));
         neutralQuery.addCriteria(new NeutralCriteria("groupBy.grade", "=", GRADE_ID));
 
-        try {
-            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
-            assertEquals("Should have one link", 1, list.size());
+        List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
+        assertEquals("Should have one link", 1, list.size());
 
-            EmbeddedLink link = list.get(0);
-            assertEquals("Type should be aggregation", link.getType(), ResourceConstants.ENTITY_TYPE_AGGREGATION);
-            assertEquals("Should be links", link.getRel(), "links");
-            assertTrue("Returned link should point to an aggregation",
+        EmbeddedLink link = list.get(0);
+        assertEquals("Type should be aggregation", link.getType(), ResourceConstants.ENTITY_TYPE_AGGREGATION);
+        assertEquals("Should be links", link.getRel(), "links");
+        assertTrue("Returned link should point to an aggregation",
                     link.getHref().indexOf(ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS) > 0);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void testInvalidParamGetUrl() {
+    public void testInvalidParamGetUrl() throws Exception {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("groueducationOrganization", "=", "56"));
         neutralQuery.addCriteria(new NeutralCriteria("grade", "=", GRADE_ID));
 
-        try {
-            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
-            assertEquals("Should have not have any links", 0, list.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
+        assertEquals("Should have not have any links", 0, list.size());
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {

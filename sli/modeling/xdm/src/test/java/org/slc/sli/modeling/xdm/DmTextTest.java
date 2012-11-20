@@ -36,7 +36,7 @@ public final class DmTextTest {
 		assertTrue(dmText.getStringValue() == value);
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullValueForConstructorThrowsException() {
 		
 		new DmText(null);

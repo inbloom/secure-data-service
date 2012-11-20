@@ -56,6 +56,7 @@ public class SecurityUtil {
 
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
+    //private static String principalId;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -200,6 +201,7 @@ public class SecurityUtil {
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
     }
 
+    @SuppressWarnings("unused")
     private static Response forbiddenResponse(String response) {
         EntityBody body = new EntityBody();
         body.put("response", response);

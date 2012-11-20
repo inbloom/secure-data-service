@@ -69,6 +69,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     }
 
     public Xsd2UmlPluginForSLI() {
+        //No Op
     }
 
     @Override

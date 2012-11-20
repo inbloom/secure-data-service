@@ -32,10 +32,10 @@ public class Request extends WadlElement {
     public Request(final List<Documentation> doc, final List<Param> params, final List<Representation> representations) {
         super(doc);
         if (null == params) {
-            throw new NullPointerException("params");
+            throw new IllegalArgumentException("params");
         }
         if (null == representations) {
-            throw new NullPointerException("representations");
+            throw new IllegalArgumentException("representations");
         }
         this.params = Collections.unmodifiableList(new ArrayList<Param>(params));
         this.representations = Collections.unmodifiableList(new ArrayList<Representation>(representations));

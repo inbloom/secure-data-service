@@ -22,8 +22,6 @@ import java.net.URL;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 /**
@@ -31,8 +29,6 @@ import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationE
  *
  */
 public class MongoCommander {
-    protected static final Logger LOG = LoggerFactory.getLogger(MongoCommander.class);
-
     /**
      * Executes mongo command
      *
@@ -45,6 +41,12 @@ public class MongoCommander {
      * @return
      */
     public static void exec(String db, String script, String jsContent) {
+        
+        MongoCommander tke = new MongoCommander();
+        tke.localExec(db, script, jsContent);
+    }
+    
+    private void localExec(String db, String script, String jsContent) {
         try {
             URL scriptFile = Thread.currentThread().getContextClassLoader().getResource(script);
             if (scriptFile != null) {
@@ -56,21 +58,23 @@ public class MongoCommander {
                 try {
                     pr.waitFor();
                 } catch (InterruptedException e) {
-                    LOG.error(e.getMessage());
+                    error(e.getMessage());
                 }
                 if (pr.exitValue() != 0) {
-                    LOG.error("Failed to execute the script " + script + " during tenant onboarding");
+                    error("Failed to execute the script " + script + " during tenant onboarding");
                     throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
                             "Failed to spin up new tenant");
                 }
             } else {
-                LOG.error("Failed to locate the script " + script + " during tenant onboarding");
+                error("Failed to locate the script " + script + " during tenant onboarding");
                 throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to load scripts for new tenant spin up");
             }
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            error(e.getMessage());
             throw (TenantResourceCreationException) new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to spin up new tenant").initCause(e);
         }
     }
+    
+    
 
 }

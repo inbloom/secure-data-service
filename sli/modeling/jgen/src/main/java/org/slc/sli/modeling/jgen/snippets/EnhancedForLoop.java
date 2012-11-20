@@ -31,13 +31,13 @@ public final class EnhancedForLoop implements JavaSnippet {
 
     public EnhancedForLoop(final JavaParam param, final JavaSnippetExpr rhs, final JavaSnippet body) {
         if (param == null) {
-            throw new NullPointerException("param");
+            throw new IllegalArgumentException("param");
         }
         if (rhs == null) {
-            throw new NullPointerException("rhs");
+            throw new IllegalArgumentException("rhs");
         }
         if (body == null) {
-            throw new NullPointerException("body");
+            throw new IllegalArgumentException("body");
         }
         this.param = param;
         this.rhs = rhs;
@@ -47,7 +47,7 @@ public final class EnhancedForLoop implements JavaSnippet {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write("for");
         jsw.space();

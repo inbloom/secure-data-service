@@ -44,7 +44,7 @@ public class DocumentationTest {
         documentation = new Documentation(TITLE, LANGUAGE, CONTENTS);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void testNullContents() {
         new Documentation(TITLE, LANGUAGE, null);
     }

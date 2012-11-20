@@ -34,10 +34,10 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
             final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
         if (type == null) {
-            throw new NullPointerException("type");
+            throw new IllegalArgumentException("type");
         }
         if (multiplicity == null) {
-            throw new NullPointerException("multiplicity");
+            throw new IllegalArgumentException("multiplicity");
         }
         this.type = type;
         this.multiplicity = multiplicity;

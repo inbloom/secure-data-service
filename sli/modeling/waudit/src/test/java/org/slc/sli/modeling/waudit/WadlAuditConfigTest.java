@@ -147,17 +147,17 @@ public class WadlAuditConfigTest {
 	}
 	
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullPrefixThrowsException() {
 		new WadlAuditConfig(null, namespaceURI, modelIndex, elementNames);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullNamespaceUriThrowsException() {
 		new WadlAuditConfig(prefix, null, modelIndex, elementNames);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullModelIndexThrowsException() {
 		new WadlAuditConfig(prefix, namespaceURI, null, elementNames);
 	}

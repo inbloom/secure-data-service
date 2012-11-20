@@ -176,13 +176,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
-        Iterable<EntityBody> it = service.list(neutralQuery);
-       
-        if (it == null || it.iterator() == null) {
-        	return false;
+        try {
+            return service.list(neutralQuery).iterator().hasNext();
+        } catch (IllegalArgumentException npe) {
+            return false;
         }
-      
-        return it.iterator().hasNext();
     }
 
     @SuppressWarnings("rawtypes")
