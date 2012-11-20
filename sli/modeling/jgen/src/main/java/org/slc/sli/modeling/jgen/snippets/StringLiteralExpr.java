@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java string literal.
+ */
 public final class StringLiteralExpr implements JavaSnippetExpr {
 
     private final String value;

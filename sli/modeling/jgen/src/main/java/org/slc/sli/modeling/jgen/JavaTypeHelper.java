@@ -28,6 +28,9 @@ import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Java type helper methods.
+ */
 public class JavaTypeHelper {
 
     @SuppressWarnings("unused")
