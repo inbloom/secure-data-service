@@ -66,7 +66,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "assignmentSchoolReference"
 })
 
-@XmlRootElement(name = "SLCDisciplineAction")
+@XmlRootElement(name = "DisciplineAction")
 public class SLCDisciplineAction
     extends ComplexObjectType
 {

@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "staffReference"
 })
 
-@XmlRootElement(name = "SLCDisciplineIncident")
+@XmlRootElement(name = "DisciplineIncident")
 public class SLCDisciplineIncident
     extends ComplexObjectType
 {
