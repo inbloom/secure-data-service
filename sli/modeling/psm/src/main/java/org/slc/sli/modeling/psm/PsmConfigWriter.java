@@ -28,23 +28,16 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.uml.Attribute;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.DataType;
-import org.slc.sli.modeling.uml.EnumLiteral;
-import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.Occurs;
-import org.slc.sli.modeling.uml.Range;
-import org.slc.sli.modeling.uml.Taggable;
-import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Write PSM.
+ */
 public final class PsmConfigWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(PsmConfigWriter.class);
