@@ -52,7 +52,7 @@
 			<configuration>
 				<archive>
 					<manifest>
-						<addClasspath>true</addClasspath>
+						<addClasspath>false</addClasspath>
 						<classpathPrefix>lib/</classpathPrefix>
 						<mainClass>org.slc.sli.encryption.tool.Encryptor</mainClass>
 					</manifest>
@@ -87,7 +87,7 @@
 			<configuration>
 				<finalName>EncryptionTool</finalName>
 				<descriptors>
-					<descriptor>${project.parent.basedir}/encryption-tool/assembly/zip.xml</descriptor>
+					<descriptor>assembly/zip.xml</descriptor>
 				</descriptors>
 			</configuration>
 			<executions>
