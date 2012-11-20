@@ -6,7 +6,8 @@ Given I have an open web browser
 
 Scenario: SEA Admin logs into SAMT and creates an LEA Admin with Realm Admin and ingestion_user roles.
   When I navigate to the Portal home page
-  When I selected the realm "Shared Learning Collaborative"
+  When I see the realm selector I authenticate to "Shared Learning Collaborative" 
+  #When I selected the realm "Shared Learning Collaborative"
   And I was redirected to the "Simple" IDP Login page
   #When I navigate to the user account management page
   #Then I will be redirected to the realm selector web page
