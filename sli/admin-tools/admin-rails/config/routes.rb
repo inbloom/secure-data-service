@@ -27,11 +27,7 @@ SLIAdmin::Application.routes.draw do
   get "tenant_metrics", :to => "tenant_metrics#index"
   match "tenant_metrics/(:id)" => "tenant_metrics#show", :constraints  => { :id => /[^\?\/]*/ }
 
-  resources :waitlist_users do
-    get 'success', :on => :collection
-    get 'failed', :on => :collection
-  end
-
+  resources :waitlist_users
   resources :admin_delegations
 
   resources :realm_management
