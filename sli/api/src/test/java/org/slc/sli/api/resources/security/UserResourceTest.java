@@ -85,6 +85,7 @@ public class UserResourceTest {
             Right.CRUD_LEA_ADMIN, Right.CRUD_SANDBOX_ADMIN };
     private static final String REALM = "REALM";
     private static final String TENANT = "TENANT";
+    private static final String TENANT1 = "TENANT1";
     private static final String EDORG1 = "EDORG1";
     private static final String EDORG2 = "EDORG2";
     private static final String UUID1 = "UUID1";
@@ -391,12 +392,32 @@ public class UserResourceTest {
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
         newUser.setUid(UUID2);
+        newUser.setTenant("");
         Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(newUser);
+        Mockito.when(secUtil.hasRole(RoleInitializer.SLC_OPERATOR)).thenReturn(true);
         Response res = resource.delete(newUser.getUid());
         Mockito.verify(ldap, Mockito.atLeastOnce()).getUser(REALM, newUser.getUid());
         Mockito.verify(ldap).removeUser(REALM, newUser.getUid());
         Assert.assertNotNull(res);
         Assert.assertEquals(204, res.getStatus());
+        
+        // test delete tenant validation
+        Collection<GrantedAuthority> rights2 = new HashSet<GrantedAuthority>();
+        rights2.addAll(Arrays.asList(Right.CRUD_SANDBOX_ADMIN));
+        Mockito.when(secUtil.getAllRights()).thenReturn(rights2);
+        Mockito.when(secUtil.getUid()).thenReturn(UUID1);
+        Mockito.when(secUtil.getTenantId()).thenReturn(TENANT);
+        User userToDelete = new User();
+        userToDelete.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
+        userToDelete.setUid(UUID2);
+        userToDelete.setTenant(TENANT1);
+        Mockito.when(ldap.getUser(REALM, UUID2)).thenReturn(userToDelete);
+        Mockito.when(secUtil.hasRole(RoleInitializer.SLC_OPERATOR)).thenReturn(false);
+        Mockito.when(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR)).thenReturn(false);
+        res = resource.delete(newUser.getUid());
+        Assert.assertNotNull(res);
+        Assert.assertEquals(403, res.getStatus());
+
     }
 
     @SuppressWarnings("unchecked")

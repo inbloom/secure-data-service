@@ -39,13 +39,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -57,6 +50,12 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -426,6 +425,10 @@ public class UserResource {
         if ((secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil.hasRole(RoleInitializer.SLC_OPERATOR))
                 && userToDelete.getGroups() == null) {
             result = null;
+        } else if (!(secUtil.hasRole(RoleInitializer.SANDBOX_SLC_OPERATOR) || secUtil
+                .hasRole(RoleInitializer.SLC_OPERATOR))&&!(tenant.equals(userToDelete.getTenant()))) {
+            // verify user tenant match up with userToDelete
+            return composeForbiddenResponse("You are not authorized to access this resource.");
         } else {
             result = validateUserGroupsAllowed(getGroupsAllowed(), userToDelete.getGroups());
         }
