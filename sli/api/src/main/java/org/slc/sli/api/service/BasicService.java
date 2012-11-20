@@ -417,6 +417,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -443,6 +444,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -468,6 +470,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -731,6 +734,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
+        // Defect: DE2183
         // TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
