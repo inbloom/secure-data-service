@@ -206,8 +206,9 @@ public final class EdFiSLICmdLine {
 
     private static final Map<String, String> invert(final Map<String, String> mapping) {
         final Map<String, String> inversion = new HashMap<String, String>();
-        for (final String lhs : mapping.keySet()) {
-            final String rhs = mapping.get(lhs);
+        for (final Map.Entry<String, String> entry : mapping.entrySet()) {
+            final String lhs = entry.getKey();
+            final String rhs = entry.getValue();
             inversion.put(rhs, lhs);
         }
         return Collections.unmodifiableMap(inversion);
@@ -248,8 +249,8 @@ public final class EdFiSLICmdLine {
     }
 
     private static final void print(final Map<String, String> strings) {
-        for (final String key : strings.keySet()) {
-            LOG.info(key + " => " + strings.get(key));
+        for (final Map.Entry<String, String> entry : strings.entrySet()) {
+            LOG.info(entry.getKey() + " => " + entry.getValue());
         }
     }
 
