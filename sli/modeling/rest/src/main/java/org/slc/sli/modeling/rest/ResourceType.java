@@ -34,16 +34,16 @@ public class ResourceType extends WadlElement {
             final Method method, final Resource resource) {
         super(doc);
         if (null == id) {
-            throw new NullPointerException("id");
+            throw new IllegalArgumentException("id");
         }
         if (null == params) {
-            throw new NullPointerException("params");
+            throw new IllegalArgumentException("params");
         }
         if (null == method) {
-            throw new NullPointerException("method");
+            throw new IllegalArgumentException("method");
         }
         if (null == resource) {
-            throw new NullPointerException("resource");
+            throw new IllegalArgumentException("resource");
         }
         this.id = id;
         this.params = Collections.unmodifiableList(new ArrayList<Param>(params));

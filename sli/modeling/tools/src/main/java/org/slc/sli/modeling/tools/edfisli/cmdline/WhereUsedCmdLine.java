@@ -30,8 +30,12 @@ import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class WhereUsedCmdLine {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WhereUsedCmdLine.class);
 	
 	public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
 	public static final String DEFAULT_NAME = "percent";
@@ -52,11 +56,11 @@ public final class WhereUsedCmdLine {
             @SuppressWarnings("deprecation")
             final Set<ModelElement> matches = index.lookupByName(new QName(name));
             for (final ModelElement match : matches) {
-                System.out.println("name : " + name + " => " + match);
+                LOG.info("name : " + name + " => " + match);
                 showUsage(index, match.getId(), "  ");
             }
         } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new EdFiSLIRuntimeException(e);
         }
     }
 
@@ -65,14 +69,14 @@ public final class WhereUsedCmdLine {
         for (final ModelElement usage : usages) {
             if (usage instanceof ClassType) {
                 final ClassType classType = (ClassType) usage;
-                System.out.println(indent + "classType : " + classType.getName());
+                LOG.info(indent + "classType : " + classType.getName());
                 showUsage(index, classType.getId(), indent.concat("  "));
             } else if (usage instanceof Attribute) {
                 final Attribute attribute = (Attribute) usage;
-                System.out.println(indent + "attribute : " + attribute.getName());
+                LOG.info(indent + "attribute : " + attribute.getName());
                 showUsage(index, attribute.getId(), indent.concat("  "));
             } else {
-                System.out.println(indent + "usage : " + usage.getClass());
+                LOG.info(indent + "usage : " + usage.getClass());
             }
         }
     }

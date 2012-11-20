@@ -26,8 +26,8 @@ smtp_settings = {
 username = APP_CONFIG["email_username"]
 password = APP_CONFIG["email_password"]
 if username && password && (username.strip != "") && (password.strip != "")
-    smtp_settings[:user_name] = username.strip 
-    smtp_settings[:password] = password.strip 
+    smtp_settings[:user_name] = username.strip
+    smtp_settings[:password] = PropertyDecryptorHelper.decrypt(password.strip)
     smtp_settings[:authentication] = :plain
 end 
 

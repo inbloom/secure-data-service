@@ -70,8 +70,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             }
         }
         debug("Final auth list {}", auths);
-        if (auths == null)
-        {
+        if (auths == null) {
             return new HashSet<GrantedAuthority>();
         }
         return auths;

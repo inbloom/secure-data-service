@@ -1,37 +1,39 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-  <GradingPeriod id="GRDP_20120527_EDJH">
-    <GradingPeriodIdentity>
-      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      <GradingPeriod>End of Year</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-    <BeginDate>2012-05-27</BeginDate>
-    <EndDate>2012-05-27</EndDate>
-    <TotalInstructionalDays>0</TotalInstructionalDays>
-  </GradingPeriod>
-  <Session>
-    <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2010-09-06</BeginDate>
-    <EndDate>2010-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
+    <GradingPeriod id="GRDP_20120527_EDJH">
         <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
         <BeginDate>2012-05-27</BeginDate>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
+        <EndDate>2012-05-27</EndDate>
+        <TotalInstructionalDays>0</TotalInstructionalDays>
+    </GradingPeriod>
+    <Session>
+        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        <SchoolYear>2010-2011</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2010-09-06</BeginDate>
+        <EndDate>2010-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <BeginDate>2012-05-27</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Session>
 </InterchangeEducationOrgCalendar>

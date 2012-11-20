@@ -25,13 +25,13 @@ public final class XmiMapping implements Comparable<XmiMapping> {
     
     public XmiMapping(final XmiFeature lhs, final XmiFeature rhs, final XmiMappingStatus status, final String tracking, final String comment) {
         if (null == status) {
-            throw new NullPointerException("status");
+            throw new IllegalArgumentException("status");
         }
         if (null == comment) {
-            throw new NullPointerException("comment");
+            throw new IllegalArgumentException("comment");
         }
         if (null == tracking) {
-            throw new NullPointerException("tracking");
+            throw new IllegalArgumentException("tracking");
         }
         this.lhs = lhs;
         this.rhs = rhs;

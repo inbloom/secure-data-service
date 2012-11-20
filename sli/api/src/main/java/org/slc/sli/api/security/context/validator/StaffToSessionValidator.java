@@ -39,9 +39,9 @@ public class StaffToSessionValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> entityIds) {
-    	Set<String> lineage = this.getStaffEdOrgLineage();
-    	lineage.addAll(this.getStaffEdOrgParents());
-    	
+        Set<String> lineage = this.getStaffEdOrgLineage();
+        lineage.addAll(this.getStaffEdOrgParents());
+        
         /*
          * Check if the entities being asked for exist in the repo
          * This is done by checking sizes of the input set and
@@ -50,9 +50,9 @@ public class StaffToSessionValidator extends AbstractContextValidator {
          * Restriction for edorg lineage is added since session access
          * is granted through schools/edorgs
          */
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", entityIds));
-		nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, lineage));
-		return getRepo().count(EntityNames.SESSION, nq) == entityIds.size();
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", entityIds));
+        nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, lineage));
+        return getRepo().count(EntityNames.SESSION, nq) == entityIds.size();
     }
 
 }

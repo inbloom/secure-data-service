@@ -28,7 +28,7 @@ public class TagDefinition extends NamespaceOwnedElement implements HasMultiplic
             final Multiplicity multiplicity) {
         super(id, name, taggedValues);
         if (multiplicity == null) {
-            throw new NullPointerException("multiplicity");
+            throw new IllegalArgumentException("multiplicity");
         }
         this.multiplicity = multiplicity;
     }

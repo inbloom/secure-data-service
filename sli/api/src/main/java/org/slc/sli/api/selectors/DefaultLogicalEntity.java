@@ -66,7 +66,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
     public List<EntityBody> getEntities(final ApiQuery apiQuery, final String resourceName) {
 
         if (apiQuery == null) {
-            throw new NullPointerException("apiQuery");
+            throw new IllegalArgumentException("apiQuery");
         }
 
         if (apiQuery.getSelector() == null) {

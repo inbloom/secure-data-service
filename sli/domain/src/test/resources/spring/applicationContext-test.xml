@@ -93,10 +93,11 @@
         <value>\bscript\b</value>
         <value>\bimg\b</value>
         <value>\bsrc\b</value>
+        <value>FSCommand\s*=</value>
       </list>
     </constructor-arg>
   </bean>
-  
+
   <bean id="relaxedStringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
     <property name="inputCollection" ref="relaxedStringBlacklist" />
   </bean>

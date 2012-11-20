@@ -28,7 +28,7 @@ public enum NullExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.write("null");
     }

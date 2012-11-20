@@ -34,13 +34,13 @@ public class Response extends WadlElement {
             final List<Representation> representations) {
         super(doc);
         if (null == statusCodes) {
-            throw new NullPointerException("statusCodes");
+            throw new IllegalArgumentException("statusCodes");
         }
         if (null == params) {
-            throw new NullPointerException("params");
+            throw new IllegalArgumentException("params");
         }
         if (null == representations) {
-            throw new NullPointerException("representations");
+            throw new IllegalArgumentException("representations");
         }
         this.statusCodes = Collections.unmodifiableList(new ArrayList<String>(statusCodes));
         this.params = Collections.unmodifiableList(new ArrayList<Param>(params));

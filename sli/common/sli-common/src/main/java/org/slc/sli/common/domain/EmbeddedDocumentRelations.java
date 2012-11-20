@@ -64,8 +64,8 @@ public class EmbeddedDocumentRelations {
         Map<String,String> sarReferenceMap = new HashMap<String, String>();
         sarReferenceMap.put("studentId","studentId");
         sarReferenceMap.put("session","sessionId");
-        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
-        , "sessionId", Arrays.asList("beginDate","endDate")));
+//        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
+//        , "sessionId", Arrays.asList("beginDate","endDate")));
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
@@ -84,12 +84,12 @@ public class EmbeddedDocumentRelations {
             denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
         }
         Map<String,String> mapCache = new HashMap<String, String>();
-        mapCache.put("session","_id");
+//        mapCache.put("session","_id");
         DENORMALIZATION_CACHED_ENTITY = Collections.unmodifiableMap(mapCache);
         Map<String,String> cachedReferenceKeyMap = new HashMap<String, String>();
-        cachedReferenceKeyMap.put("schoolId","schoolId");
+//        cachedReferenceKeyMap.put("schoolId","schoolId");
         Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
-        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
+//        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
         CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
     };
 

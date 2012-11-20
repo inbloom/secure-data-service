@@ -38,6 +38,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -63,11 +64,15 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
 import org.slc.sli.modeling.xsd.XsdElementName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
  */
 final class Uml2XsdWriter {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(Uml2XsdWriter.class);
 
     private static final String NAMESPACE_XS = WxsNamespace.URI;
     private static final String PREFIX_XS = "xs";
@@ -76,11 +81,7 @@ final class Uml2XsdWriter {
     private static final String UNQUALIFIED = "unqualified";
 
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            // Ignore.
-        }
+        IOUtils.closeQuietly(closeable);
     }
     
     public Uml2XsdWriter() {
@@ -181,7 +182,7 @@ final class Uml2XsdWriter {
 
     private static final String toString(final Occurs value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         switch (value) {
         case ZERO: {
@@ -386,7 +387,7 @@ final class Uml2XsdWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -406,7 +407,7 @@ final class Uml2XsdWriter {
             // the underlying output stream.
             xsw.close();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -420,7 +421,7 @@ final class Uml2XsdWriter {
                 closeQuiet(outstream);
             }
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -443,7 +444,7 @@ final class Uml2XsdWriter {
             for (final String prefix : prefixMappings.keySet()) {
                 final String namespace = prefixMappings.get(prefix);
                 if (namespace == null) {
-                    throw new NullPointerException("namespace declared by plugin is null.");
+                    throw new IllegalArgumentException("namespace declared by plugin is null.");
                 }
                 if (namespace.trim().length() == 0) {
                     throw new IllegalArgumentException("namespace declared by plugin is the empty string.");
@@ -453,7 +454,7 @@ final class Uml2XsdWriter {
 
             final String targetNamespace = plugin.getTargetNamespace();
             if (targetNamespace == null) {
-                throw new NullPointerException("targetNamespace declared by plugin is null.");
+                throw new IllegalArgumentException("targetNamespace declared by plugin is null.");
             }
             if (targetNamespace.trim().length() > 0) {
                 xsw.writeAttribute("targetNamespace", targetNamespace);

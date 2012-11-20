@@ -40,6 +40,8 @@ import org.slc.sli.modeling.uml.Feature;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A quick-n-dirty utility for converting W3C XML Schemas to XMI (with
@@ -50,6 +52,9 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  * </p>
  */
 public final class XmiComp {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmiComp.class);
+
     /**
      * Class name suffix that means class is used for establishing identity.
      */
@@ -79,7 +84,7 @@ public final class XmiComp {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiCompRuntimeException(e);
                 }
             } else {
                 try {
@@ -102,15 +107,15 @@ public final class XmiComp {
                         // Write out the revised mapping document.
                         XmiMappingWriter.writeMappingDocument(revised, outFile);
                     } catch (final XmiMappingException e) {
-                        System.err.println(e.getMessage());
+                        LOG.warn(e.getMessage());
                     }
                 } catch (final FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new XmiCompRuntimeException(e);
                 }
             }
         } catch (final OptionException e) {
             // Caused by illegal arguments.
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
     
@@ -194,7 +199,7 @@ public final class XmiComp {
             final Map<CaseInsensitiveString, ClassType> lhsClassTypes,
             final Map<CaseInsensitiveString, ClassType> rhsClassTypes) {
         if (mapping == null) {
-            throw new NullPointerException("mapping");
+            throw new IllegalArgumentException("mapping");
         }
         final XmiMappingStatus status = mapping.getStatus();
         XmiFeature lhsFeature = mapping.getLhsFeature();
@@ -214,7 +219,7 @@ public final class XmiComp {
     private static final Map<CaseInsensitiveString, Feature> computeFeatures(final ClassType classType,
             final ModelIndex model) {
         if (classType == null) {
-            throw new NullPointerException("classType");
+            throw new IllegalArgumentException("classType");
         }
         final Map<CaseInsensitiveString, Feature> features = new HashMap<CaseInsensitiveString, Feature>();
         for (final Attribute attribute : classType.getAttributes()) {
@@ -258,16 +263,16 @@ public final class XmiComp {
     
     private static final XmiMappingStatus checkStatus(final XmiMapping mapping) {
         if (mapping == null) {
-            throw new NullPointerException("mapping");
+            throw new IllegalArgumentException("mapping");
         }
         final XmiMappingStatus status = mapping.getStatus();
         switch (status) {
             case MATCH: {
                 if (mapping.getLhsFeature() == null) {
-                    System.err.println("Inconsistent status for mapping : " + mapping);
+                    LOG.warn("Inconsistent status for mapping : " + mapping);
                 }
                 if (mapping.getRhsFeature() == null) {
-                    System.err.println("Inconsistent status for mapping : " + mapping);
+                    LOG.warn("Inconsistent status for mapping : " + mapping);
                 }
                 return status;
             }

@@ -64,11 +64,11 @@ public void testNameFromComplexTypeExtension() throws Exception {
     String extension = defaultPlugin.nameFromComplexTypeExtension(complexType,name);
     assertEquals("complexType extends name", extension);
 }
-@Test(expected = NullPointerException.class)
+@Test(expected = IllegalArgumentException.class)
 public void testValidateComplexType() throws Exception{
     defaultPlugin.nameFromComplexTypeExtension(null,name);
 }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testValidateBaseType() throws Exception{
         defaultPlugin.nameFromComplexTypeExtension(name,null);
     }
@@ -82,7 +82,7 @@ public void testValidateComplexType() throws Exception{
 public void testNameFromSchemaAttributeName() throws Exception {
     assertEquals("name",defaultPlugin.nameFromSchemaAttributeName(name));
 }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testValidNameFromSchemaAttributeName() throws Exception {
         defaultPlugin.nameFromSchemaAttributeName(null);
     }
@@ -97,7 +97,7 @@ public void testNameFromSchemaElementName() throws Exception {
     assertEquals("name",defaultPlugin.nameFromSchemaElementName(name));
 }
 
-@Test(expected = NullPointerException.class)
+@Test(expected = IllegalArgumentException.class)
 public void testValidNameFromSchemaElementName() throws Exception {
     defaultPlugin.nameFromSchemaElementName(null);
 }
@@ -110,7 +110,7 @@ public void testValidNameFromSchemaElementName() throws Exception {
 public void testNameFromSchemaTypeName() throws Exception {
     assertEquals("name",defaultPlugin.nameFromSchemaTypeName(name));
 }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testValidNameFromSchemaTypeName() throws Exception {
         defaultPlugin.nameFromSchemaTypeName(null);
     }
@@ -124,11 +124,11 @@ public void testNameFromSimpleTypeRestriction() throws Exception {
     String restriction = defaultPlugin.nameFromSimpleTypeRestriction(complexType,name);
     assertEquals("complexType restricts name", restriction);
 }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testValidNameFromSimpleTypeRestriction() throws Exception{
         defaultPlugin.nameFromSimpleTypeRestriction(null,name);
     }
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testvalidNameFromBaseTypeRestriction() throws Exception{
         defaultPlugin.nameFromSimpleTypeRestriction(name,null);
     }

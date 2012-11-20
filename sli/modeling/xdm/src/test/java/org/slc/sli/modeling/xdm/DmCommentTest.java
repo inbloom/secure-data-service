@@ -36,7 +36,7 @@ public final class DmCommentTest {
 		assertTrue(dmComment.getStringValue() == value);
 	}
 	
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullValueForConstructorThrowsException() {
 		
 		new DmComment(null);

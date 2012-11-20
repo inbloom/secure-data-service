@@ -74,28 +74,28 @@ public class UriInfoToApiQueryConverterTest {
 
     @Test (expected = QueryParseException.class)
     public void testPreventionOfNegativeLimit() throws URISyntaxException {
-    	
-    	String queryString = "limit=-1";
-    	
-    	URI requestUri = new URI(URI_STRING + "?" + queryString);
-
+        
+        String queryString = "limit=-1";
+        
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        
         when(uriInfo.getRequestUri()).thenReturn(requestUri);
         QUERY_CONVERTER.convert(uriInfo);
     }
-
-    @Test (expected = QueryParseException.class)
+    
+    @Test(expected = QueryParseException.class)
     public void testPreventionOfNegativeOffset() throws URISyntaxException {
-    	
-    	String queryString = "offset=-1";
-    	
-    	URI requestUri = new URI(URI_STRING + "?" + queryString);
+        
+        String queryString = "offset=-1";
+        
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
 
         when(uriInfo.getRequestUri()).thenReturn(requestUri);
         QUERY_CONVERTER.convert(uriInfo);
     }
 
     @Test(expected = QueryParseException.class)
-    public void testSelectorShouldFailFor1_0() throws URISyntaxException {
+    public void testSelectorShouldFail() throws URISyntaxException {
         String queryString = "selector=:(students)";
         URI requestUri = new URI(URI_STRING + "?" + queryString);
         when(uriInfo.getRequestUri()).thenReturn(requestUri);

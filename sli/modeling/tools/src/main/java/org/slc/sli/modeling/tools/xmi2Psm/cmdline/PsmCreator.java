@@ -32,6 +32,8 @@ import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A utility for generating an initial definition of the platform specific model.
@@ -39,6 +41,8 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  * The classes in the UML model become documents. These can be pruned manually.
  */
 public final class PsmCreator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PsmCreator.class);
 
 	public static final String DEFAULT_INPUT_XMI_FILENAME = "SLI.xmi";
 	public static final String DEFAULT_OUTPUT_XML_FILENAME = "documents.xml";
@@ -57,7 +61,7 @@ public final class PsmCreator {
             final PsmConfig<Type> psm = convert(model);
             PsmConfigWriter.writeConfig(psm, model, outputFilename);
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 

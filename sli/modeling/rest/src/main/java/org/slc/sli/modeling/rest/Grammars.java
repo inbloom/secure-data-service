@@ -33,7 +33,7 @@ public class Grammars extends WadlElement {
     public Grammars(final List<Documentation> doc, final List<Include> includes) {
         super(doc);
         if (null == includes) {
-            throw new NullPointerException("includes");
+            throw new IllegalArgumentException("includes");
         }
         this.includes = Collections.unmodifiableList(new ArrayList<Include>(includes));
     }

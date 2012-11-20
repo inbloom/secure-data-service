@@ -126,10 +126,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String resourceName) {
         if (entityDefs == null) {
-            throw new NullPointerException("entityDefs");
+            throw new IllegalArgumentException("entityDefs");
         }
         if (resourceName == null) {
-            throw new NullPointerException("resourceName");
+            throw new IllegalArgumentException("resourceName");
         }
         this.entityDefs = entityDefs;
         this.resourceName = resourceName;

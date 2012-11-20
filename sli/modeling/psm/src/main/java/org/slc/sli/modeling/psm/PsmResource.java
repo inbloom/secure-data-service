@@ -22,7 +22,7 @@ public final class PsmResource {
 
     public PsmResource(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name.trim();
     }

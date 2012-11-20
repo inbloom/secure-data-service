@@ -70,6 +70,8 @@ public class DenormalizerTest {
         when(failCR.get("result")).thenReturn(null);
         when(studentCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(true), eq(WriteConcern.SAFE))).thenReturn(
                 success);
+        when(studentCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(true), eq(WriteConcern.SAFE))).thenReturn(
+                success);
         when(template.getCollection("student")).thenReturn(studentCollection);
 
         Query query = new Query();
@@ -106,7 +108,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true), eq(WriteConcern.SAFE));
+                }), eq(true), eq(true), eq(WriteConcern.SAFE));
     }
 
     @Test
@@ -144,7 +146,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true), eq(WriteConcern.SAFE));
+                }), eq(true), eq(true), eq(WriteConcern.SAFE));
 
         verify(studentCollection).update(eq(BasicDBObjectBuilder.start("_id", STUDENT1).get()),
                 argThat(new ArgumentMatcher<DBObject>() {
@@ -169,7 +171,7 @@ public class DenormalizerTest {
                                 && (((Map<String, Object>) sectionRefsToPush[0]).get("beginDate") == null)
                                 && ssaIds.get(0).equals("section"));
                     }
-                }), eq(false), eq(true), eq(WriteConcern.SAFE));
+                }), eq(true), eq(true), eq(WriteConcern.SAFE));
     }
 
     @Test
