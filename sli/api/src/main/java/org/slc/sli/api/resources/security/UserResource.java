@@ -472,7 +472,7 @@ public class UserResource {
                 .contains(Right.CRUD_SLC_OPERATOR)));
         if (nullTenant) {
             error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
-            throw new RuntimeException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
+            throw new IllegalArgumentException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {
             return composeForbiddenResponse("You are not authorized to access this resource.");
