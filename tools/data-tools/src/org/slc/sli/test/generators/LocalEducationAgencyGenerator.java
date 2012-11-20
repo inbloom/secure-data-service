@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.LEACategoryType;
-import org.slc.sli.test.edfi.entities.LocalEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCLocalEducationAgency;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.ProgramIdentityType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
@@ -41,9 +41,9 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class LocalEducationAgencyGenerator {
 
-    public static LocalEducationAgency generateLowFi(String id, String seaId) {
+    public static SLCLocalEducationAgency generateLowFi(String id, String seaId) {
 
-        LocalEducationAgency localEducationAgency = new LocalEducationAgency();
+        SLCLocalEducationAgency localEducationAgency = new SLCLocalEducationAgency();
         localEducationAgency.setId(id);
         localEducationAgency.setStateOrganizationId(id);
         //grammar, middle, high, indenpend study programm
@@ -63,11 +63,11 @@ public class LocalEducationAgencyGenerator {
         localEducationAgency.setLEACategory(LEACategoryType.CHARTER);
 
         // construct and add the SEA reference
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(seaId);
 
 
-		EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType seaRef = new SLCEducationalOrgReferenceType();
 		seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
 		localEducationAgency.setStateEducationAgencyReference(seaRef);
@@ -84,10 +84,10 @@ public class LocalEducationAgencyGenerator {
                     Collections.shuffle(escIds);
                     String escId = escIds.get(0);
                     
-                    EducationalOrgIdentityType escIdentityType = new EducationalOrgIdentityType();
+                    SLCEducationalOrgIdentityType escIdentityType = new SLCEducationalOrgIdentityType();
                     escIdentityType.setStateOrganizationId(escId);
                     
-                    EducationalOrgReferenceType escRef = new EducationalOrgReferenceType();
+                    SLCEducationalOrgReferenceType escRef = new SLCEducationalOrgReferenceType();
    
                 }
             }
@@ -97,10 +97,10 @@ public class LocalEducationAgencyGenerator {
     }
     
     
-    public static LocalEducationAgency generateMedFi(String id, String seaId, LeaMeta leaMeta) {
+    public static SLCLocalEducationAgency generateMedFi(String id, String seaId, LeaMeta leaMeta) {
     	
     	
-        LocalEducationAgency localEducationAgency = new LocalEducationAgency();
+        SLCLocalEducationAgency localEducationAgency = new SLCLocalEducationAgency();
         localEducationAgency.setId(id);
         localEducationAgency.setStateOrganizationId(id);
         
@@ -140,14 +140,14 @@ public class LocalEducationAgencyGenerator {
        if(MetaRelations.LocalEducationAgency_Ref)
        {
         	Ref seaRef = new Ref(seaId);
-        	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        	SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
         	eort.setRef(seaRef);
         	localEducationAgency.setStateEducationAgencyReference(eort);
 		} else {
-			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+		    SLCEducationalOrgIdentityType edOrgIdentityType = new SLCEducationalOrgIdentityType();
 			edOrgIdentityType.setStateOrganizationId(seaId);
 
-			EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+			SLCEducationalOrgReferenceType seaRef = new SLCEducationalOrgReferenceType();
 			seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 			localEducationAgency.setStateEducationAgencyReference(seaRef);
 		}
@@ -155,9 +155,9 @@ public class LocalEducationAgencyGenerator {
 		for (String pid : leaMeta.programs.keySet()) {
 
 			ProgramMeta pm = leaMeta.programs.get(pid);
-			ProgramIdentityType pit = new ProgramIdentityType();
+			SLCProgramIdentityType pit = new SLCProgramIdentityType();
 			pit.setProgramId(pm.id);
-			ProgramReferenceType prt = new ProgramReferenceType();
+			SLCProgramReferenceType prt = new SLCProgramReferenceType();
 			prt.setProgramIdentity(pit);
 			localEducationAgency.getProgramReference().add(prt);
 		}

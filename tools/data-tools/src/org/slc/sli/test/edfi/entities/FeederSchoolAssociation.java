@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "endDate",
     "feederRelationshipDescription"
 })
-@XmlRootElement(name = "StateEducationAgency")
+@XmlRootElement(name = "FeederSchoolAssociation")
 public class FeederSchoolAssociation {
 
     @XmlElement(name = "FeederSchoolReference", required = true)

@@ -55,7 +55,6 @@ import javax.xml.bind.annotation.XmlType;
     "contactRestrictions"
 })
 
-
 @XmlRootElement(name = "StudentParentAssociation")
 public class SLCStudentParentAssociation {
 
