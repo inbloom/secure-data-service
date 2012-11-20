@@ -20,19 +20,17 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.ProgramIdentityType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCProgramIdentityType;
+import org.slc.sli.test.edfi.entities.SLCProgramReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.SeaMeta;
-import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StateEducationAgencyGenerator {
 
-    public static StateEducationAgency generateLowFi(String id, SeaMeta seaMeta) {
+    public static SLCStateEducationAgency generateLowFi(String id, SeaMeta seaMeta) {
 
-        StateEducationAgency stateEducationAgency = new StateEducationAgency();
+        SLCStateEducationAgency stateEducationAgency = new SLCStateEducationAgency();
         stateEducationAgency.setId(id);
         stateEducationAgency.setStateOrganizationId(id);
 
@@ -47,9 +45,9 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
 		for (String pid : seaMeta.programs.keySet()) {
 			ProgramMeta pm = seaMeta.programs.get(pid);
-			ProgramIdentityType pit = new ProgramIdentityType();
+			SLCProgramIdentityType pit = new SLCProgramIdentityType();
 			pit.setProgramId(pm.id);
-			ProgramReferenceType prt = new ProgramReferenceType();
+			SLCProgramReferenceType prt = new SLCProgramReferenceType();
 			prt.setProgramIdentity(pit);
 			stateEducationAgency.getProgramReference().add(prt);
 		}

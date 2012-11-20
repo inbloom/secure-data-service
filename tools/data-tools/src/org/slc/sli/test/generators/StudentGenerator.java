@@ -104,10 +104,10 @@ public class StudentGenerator {
         }
     }
 
-    public static StudentReferenceType getStudentReferenceType(String studentId)
+    public static SLCStudentReferenceType getStudentReferenceType(String studentId)
     {
-    	StudentReferenceType srt = new StudentReferenceType();
-    	StudentIdentityType sit = new StudentIdentityType();
+    	SLCStudentReferenceType srt = new SLCStudentReferenceType();
+    	SLCStudentIdentityType sit = new SLCStudentIdentityType();
     	srt.setStudentIdentity(sit);
         sit.setStudentUniqueStateId(studentId);
     	return srt;

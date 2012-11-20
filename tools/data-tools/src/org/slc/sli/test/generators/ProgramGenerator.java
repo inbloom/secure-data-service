@@ -19,14 +19,11 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
-
 import org.apache.log4j.Logger;
-import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.ProgramSponsorType;
 import org.slc.sli.test.edfi.entities.ProgramType;
+import org.slc.sli.test.edfi.entities.SLCProgram;
 import org.slc.sli.test.edfi.entities.ServiceDescriptorType;
-import org.slc.sli.test.edfi.entities.ObjectFactory;
 
 public class ProgramGenerator {
 
@@ -58,12 +55,12 @@ public class ProgramGenerator {
         public String getServiceCategory() { return serviceCategory; }
     }
 
-    public static Program generate(String programId) {
+    public static SLCProgram generate(String programId) {
         return generateLowFi(programId);
 	}
 	
-	public static Program generateLowFi(String programId) {
-        Program program = new Program();
+	public static SLCProgram generateLowFi(String programId) {
+        SLCProgram program = new SLCProgram();
         program.setId(programId);
         program.setProgramId(programId);
         
@@ -83,8 +80,6 @@ public class ProgramGenerator {
         
         List<ServiceDescriptorType> services = program.getServices();
 
-        ObjectFactory factory = new ObjectFactory();
-        
         // construct and add the service descriptor references
         double probForServiceInAProgram = 1.0D / ServiceDescriptor.values().length;
         for(ServiceDescriptor serviceDescriptor : ServiceDescriptor.values()) {

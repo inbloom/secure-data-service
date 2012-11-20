@@ -21,27 +21,34 @@ import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.ClassroomPositionType;
 import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.SectionIdentityType;
-import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.StaffIdentityType;
-import org.slc.sli.test.edfi.entities.StaffReferenceType;
-import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCSectionIdentityType;
+import org.slc.sli.test.edfi.entities.SLCSectionReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStaffIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStaffReferenceType;
+import org.slc.sli.test.edfi.entities.SLCTeacherSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSectionAssociationGenerator {
     private Random r = new Random(31);
 
-    public TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
+    public SLCTeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
 
-        TeacherSectionAssociation tsa = new TeacherSectionAssociation();
+        SLCTeacherSectionAssociation tsa = new SLCTeacherSectionAssociation();
 
         tsa.setTeacherReference(TeacherGenerator.getTeacherReference(teacher));
 
-        SectionIdentityType secit = new SectionIdentityType();
-        secit.setStateOrganizationId(school);
+        SLCSectionIdentityType secit = new SLCSectionIdentityType();
+        SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+
+        eoit.setStateOrganizationId(school);
+        eort.setEducationalOrgIdentity(eoit);
+        secit.setEducationalOrgReference(eort);
         secit.setUniqueSectionCode(sectionCode);
-        SectionReferenceType secrt = new SectionReferenceType();
+        SLCSectionReferenceType secrt = new SLCSectionReferenceType();
         secrt.setSectionIdentity(secit);
         tsa.setSectionReference(secrt);
 
@@ -52,12 +59,12 @@ public class TeacherSectionAssociationGenerator {
         return tsa;
     }
 
-    public static TeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
+    public static SLCTeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
 
-        TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
+        SLCTeacherSectionAssociation teacherSection = new SLCTeacherSectionAssociation();
 
         // construct and add the teacher reference
-        StaffIdentityType staffIdentity = new StaffIdentityType();
+        SLCStaffIdentityType staffIdentity = new SLCStaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
 
 //        StaffReferenceType teacherRef = new StaffReferenceType();
@@ -68,26 +75,34 @@ public class TeacherSectionAssociationGenerator {
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
 
         // construct and add the section references
-        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        SLCSectionIdentityType sectionIdentity = new SLCSectionIdentityType();
         sectionIdentity.setUniqueSectionCode(sectionId);
-        sectionIdentity.setStateOrganizationId(teacherMeta.schoolIds.get(0));
+        SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+
+        eoit.setStateOrganizationId(teacherMeta.schoolIds.get(0));
+        eort.setEducationalOrgIdentity(eoit);
+
+        sectionIdentity.setEducationalOrgReference(eort);
 
 //        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
 //        edOrgIdCode.setID(sectionId);
 //        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
 //        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
 
-		SectionReferenceType sectionRef = new SectionReferenceType();
+        SLCSectionReferenceType sectionRef = new SLCSectionReferenceType();
 		sectionRef.setSectionIdentity(sectionIdentity);
 		teacherSection.setSectionReference(sectionRef);
-        
+
 		if (MetaRelations.TeacherSectionAssociation_Ref) {
-			Ref teacherRefer = new Ref(teacherMeta.id);
-			StaffReferenceType sRef = new StaffReferenceType();
-			sRef.setRef(teacherRefer);
-			teacherSection.setTeacherReference(sRef);
+//			IDREF deprecated
+//
+//			Ref teacherRefer = new Ref(teacherMeta.id);
+//			SLCStaffReferenceType sRef = new SLCStaffReferenceType();
+//			sRef.setRef(teacherRefer);
+//			teacherSection.setTeacherReference(sRef);
 		} else {
-			StaffReferenceType teacherRef = new StaffReferenceType();
+			SLCStaffReferenceType teacherRef = new SLCStaffReferenceType();
 			teacherRef.setStaffIdentity(staffIdentity);
 
 			teacherSection.setTeacherReference(teacherRef);

@@ -21,18 +21,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
 import org.slc.sli.test.edfi.entities.Staff;
-import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
+import org.slc.sli.test.edfi.entities.SLCStaffEducationOrgAssignmentAssociation;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgEmploymentAssociation;
-import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCStaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.Teacher;
-import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
-import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
+import org.slc.sli.test.edfi.entities.SLCTeacherSchoolAssociation;
+import org.slc.sli.test.edfi.entities.SLCTeacherSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
@@ -60,7 +56,7 @@ public class InterchangeStaffAssociationGenerator {
      * Sets up a new Staff Association Interchange and populates it.
      *
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public static void generate(InterchangeWriter<InterchangeStaffAssociation> iWriter) throws Exception {
 
@@ -72,7 +68,7 @@ public class InterchangeStaffAssociationGenerator {
      * Generate the individual Teacher Association entities.
      *
      * @param interchangeObjects
-     * @throws Exception 
+     * @throws Exception
      */
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStaffAssociation> iWriter) throws Exception {
 
@@ -97,11 +93,11 @@ public class InterchangeStaffAssociationGenerator {
      *
      * @param interchangeObjects
      * @param teacherMetas
-     * @throws Exception 
+     * @throws Exception
      */
     private static void generateTeachers(InterchangeWriter<InterchangeStaffAssociation> iWriter, Collection<TeacherMeta> teacherMetas) throws Exception {
         long startTime = System.currentTimeMillis();
-        
+
         for (TeacherMeta teacherMeta : teacherMetas) {
 
             Teacher teacher;
@@ -113,7 +109,7 @@ public class InterchangeStaffAssociationGenerator {
             	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             }
 
- 
+
             iWriter.marshal(teacher);
         }
 
@@ -128,7 +124,7 @@ public class InterchangeStaffAssociationGenerator {
         for (TeacherMeta teacherMeta : teacherMetas) {
             for (String schoolId : teacherMeta.schoolIds) {
 
-                TeacherSchoolAssociation teacherSchool;
+                SLCTeacherSchoolAssociation teacherSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                     teacherSchool = null;
@@ -154,7 +150,7 @@ public class InterchangeStaffAssociationGenerator {
         for (TeacherMeta teacherMeta : teacherMetas) {
             for (String sectionId : teacherMeta.sectionIds) {
 
-                TeacherSectionAssociation teacherSection;
+                SLCTeacherSectionAssociation teacherSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                     teacherSection = null;
@@ -177,7 +173,7 @@ public class InterchangeStaffAssociationGenerator {
      *
      * @param interchangeObjects
      * @param teacherMetas
-     * @throws Exception 
+     * @throws Exception
      */
     private static void generateStaff(InterchangeWriter<InterchangeStaffAssociation> iWriter, Collection<StaffMeta> staffMetas) throws Exception {
         long startTime = System.currentTimeMillis();
@@ -191,7 +187,7 @@ public class InterchangeStaffAssociationGenerator {
             } else {
                 //staff = StaffGenerator.generateLowFi(staffMeta.id);
                 staff = StaffGenerator.generateMediumFi(staffMeta.id);
-                
+
             }
 
 
@@ -216,7 +212,7 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-    
+
             iWriter.marshal(staffEdOrgEmploymentAssoc);
         }
 
@@ -230,7 +226,7 @@ public class InterchangeStaffAssociationGenerator {
 
         for (StaffMeta staffMeta : staffMetas) {
 
-            StaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc;
+            SLCStaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 staffEdOrgAssignmentAssoc = null;
@@ -238,17 +234,17 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-           
+
             iWriter.marshal(staffEdOrgAssignmentAssoc);
         }
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
-    
+
     /**
      * Generate StaffProgramAssociation objects
-     * 
+     *
      * @param interchangeObjects
      * @param staffMetas
      */
@@ -256,23 +252,23 @@ public class InterchangeStaffAssociationGenerator {
             Collection<ProgramMeta> programMetas) {
         long startTime = System.currentTimeMillis();
         long count = 0;
-        
+
         for (ProgramMeta programMeta : programMetas) {
-            List<StaffProgramAssociation> staffProgramAssociations = null;
-            
+            List<SLCStaffProgramAssociation> staffProgramAssociations = null;
+
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffProgramAssociations = new ArrayList<StaffProgramAssociation>();
+                staffProgramAssociations = new ArrayList<SLCStaffProgramAssociation>();
             } else {
                 staffProgramAssociations = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }
-            for (StaffProgramAssociation staffProgram : staffProgramAssociations) {
+            for (SLCStaffProgramAssociation staffProgram : staffProgramAssociations) {
                 iWriter.marshal(staffProgram);
             }
             count += staffProgramAssociations.size();
         }
-        
+
         System.out.println("generated " + count + " StaffProgramAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
-        
+
     }
 }

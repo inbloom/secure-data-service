@@ -25,7 +25,7 @@ import java.util.Collection;
 import org.slc.sli.test.edfi.entities.InterchangeStudentParent;
 import org.slc.sli.test.edfi.entities.Parent;
 import org.slc.sli.test.edfi.entities.Student;
-import org.slc.sli.test.edfi.entities.StudentParentAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentParentAssociation;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
@@ -58,20 +58,15 @@ public class InterchangeStudentParentGenerator {
      */
     public static void generate(InterchangeWriter<InterchangeStudentParent> iWriter)  throws Exception  {
 
-//        InterchangeStudentParent interchange = new InterchangeStudentParent();
-//        List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
-
-    	
         writeEntitiesToInterchange(iWriter);
-        
-//        return interchange;
+
     }
 
     /**
      * Generate the individual parent Association entities.
      *
      * @param interchangeObjects
-     * @throws Exception 
+     * @throws Exception
      */
 
     private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentParent> iWriter) throws Exception {
@@ -94,7 +89,7 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param studentMetas
-     * @throws Exception 
+     * @throws Exception
      */
     private static void generateStudents(InterchangeWriter<InterchangeStudentParent> iWriter, Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
@@ -120,7 +115,7 @@ public class InterchangeStudentParentGenerator {
             }
 
 
-            
+
             iWriter.marshal(student);
 
         }
@@ -135,7 +130,7 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param parentMetas
-     * @throws Exception 
+     * @throws Exception
      */
 
     private static void generateParents(InterchangeWriter<InterchangeStudentParent> iWriter, Collection<ParentMeta> parentMetas ) throws Exception {
@@ -154,7 +149,7 @@ public class InterchangeStudentParentGenerator {
             }
 
 
-            
+
             iWriter.marshal(parent);
         }
 
@@ -176,7 +171,7 @@ public class InterchangeStudentParentGenerator {
 
         for (StudentParentAssociationMeta studentParentAssociationMeta : studentParentAssociationMetas) {
 
-                StudentParentAssociation studentParent;
+                SLCStudentParentAssociation studentParent;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                     studentParent = null;
@@ -185,7 +180,7 @@ public class InterchangeStudentParentGenerator {
                     studentParent = StudentParentAssociationGenerator.generateLowFi(studentParentAssociationMeta.parentIds,studentParentAssociationMeta.isMale, studentParentAssociationMeta.studentIds);
                 }
 
-                
+
                 iWriter.marshal(studentParent);
 
                 objGenCounter++;
