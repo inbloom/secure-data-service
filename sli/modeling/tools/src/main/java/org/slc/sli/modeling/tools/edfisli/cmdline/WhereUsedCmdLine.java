@@ -17,11 +17,6 @@
 
 package org.slc.sli.modeling.tools.edfisli.cmdline;
 
-import java.io.FileNotFoundException;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
@@ -33,23 +28,27 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import java.io.FileNotFoundException;
+import java.util.Set;
+
 public final class WhereUsedCmdLine {
 
     private static final Logger LOG = LoggerFactory.getLogger(WhereUsedCmdLine.class);
-	
-	public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
-	public static final String DEFAULT_NAME = "percent";
-	
-	public WhereUsedCmdLine() {
-		throw new UnsupportedOperationException();
-	}
-	
+
+    public static final String DEFAULT_INPUT_FILENAME = "SLI.xmi";
+    public static final String DEFAULT_NAME = "percent";
+
+    public WhereUsedCmdLine() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void main(final String[] args) {
 
-    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
-    	String name = (args.length == 2) ? args[1] : DEFAULT_NAME;
-    	
-    	try {
+        String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
+        String name = (args.length == 2) ? args[1] : DEFAULT_NAME;
+
+        try {
             final Model model = XmiReader.readModel(inputFilename);
             final ModelIndex index = new DefaultModelIndex(model);
 

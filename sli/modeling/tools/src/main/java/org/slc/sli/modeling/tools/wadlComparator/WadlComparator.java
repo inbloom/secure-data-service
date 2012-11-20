@@ -45,9 +45,9 @@ public class WadlComparator {
     private static PrintStream pathToReportFile;
 
     final static PrintStream STDOUT = System.out;
-    
+
     public WadlComparator() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     public static void main(String[] args) throws IOException {
