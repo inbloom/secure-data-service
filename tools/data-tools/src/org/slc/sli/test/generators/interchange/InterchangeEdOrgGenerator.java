@@ -21,21 +21,16 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.slc.sli.test.edfi.entities.Assessment;
-import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
-import org.slc.sli.test.edfi.entities.Program;
-import org.slc.sli.test.edfi.entities.Course;
-import org.slc.sli.test.edfi.entities.EducationServiceCenter;
+import org.slc.sli.test.edfi.entities.SLCEducationServiceCenter;
 import org.slc.sli.test.edfi.entities.FeederSchoolAssociation;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
-import org.slc.sli.test.edfi.entities.LocalEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCLocalEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCCourse;
+import org.slc.sli.test.edfi.entities.SLCProgram;
+import org.slc.sli.test.edfi.entities.SLCSchool;
 import org.slc.sli.test.edfi.entities.School;
-import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.SLCStateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
@@ -123,7 +118,7 @@ public class InterchangeEdOrgGenerator {
 
         for (SeaMeta seaMeta : seaMetas) {
 
-            StateEducationAgency sea;
+            SLCStateEducationAgency sea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
@@ -148,7 +143,7 @@ public class InterchangeEdOrgGenerator {
 
         for (ESCMeta escMeta : escMetas) {
 
-            EducationServiceCenter esc;
+            SLCEducationServiceCenter esc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 esc = EducationAgencyGenerator.getEducationServiceCenter(escMeta.id, escMeta.seaId);
@@ -200,7 +195,7 @@ public class InterchangeEdOrgGenerator {
 
         for (LeaMeta leaMeta : leaMetas) {
 
-            LocalEducationAgency lea;
+            SLCLocalEducationAgency lea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
@@ -226,7 +221,7 @@ public class InterchangeEdOrgGenerator {
 
         for (SchoolMeta schoolMeta : schoolMetas) {
 
-            School school;
+            SLCSchool school;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 school = null;
@@ -253,7 +248,7 @@ public class InterchangeEdOrgGenerator {
         long startTime = System.currentTimeMillis();
         for (CourseMeta courseMeta : courseMetas) {
 
-            Course course;
+            SLCCourse course;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	//course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
@@ -282,7 +277,7 @@ public class InterchangeEdOrgGenerator {
     private static void generatePrograms(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<ProgramMeta> programMetas) {
         for (ProgramMeta programMeta : programMetas) {
 
-            Program program;
+            SLCProgram program;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 program = null;

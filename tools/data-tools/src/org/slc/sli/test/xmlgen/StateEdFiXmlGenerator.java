@@ -158,11 +158,11 @@ public class StateEdFiXmlGenerator {
          
     }
     private static void generateAndMarshalInterchanges() throws Exception {
-        /* 
+ 
         if (MetaRelations.INTERCHANGE_ED_ORG) {
             edOrg();
         }
-       
+        /*       
         if (MetaRelations.INTERCHANGE_ED_ORG_CALENDAR) {
             edOrgCalendar();
         }
@@ -186,11 +186,11 @@ public class StateEdFiXmlGenerator {
         if (MetaRelations.INTERCHANGE_STUDENT_PROGRAM) {
             studentProgram();
         }
-        */       
+      
         if (MetaRelations.INTERCHANGE_STUDENT_COHORT) {
             studentCohort();
         }
-        /*
+
         if (MetaRelations.INTERCHANGE_STUDENT_DISCIPLINE) {
             studentDiscipline();
         }
