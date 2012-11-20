@@ -171,11 +171,10 @@ public class StateEdFiXmlGenerator {
             masterSchedule();
         }
 
-        /*
         if (MetaRelations.INTERCHANGE_STAFF_ASSOCIATION) {
             staffAssociation();
         }
-*/
+
         if (MetaRelations.INTERCHANGE_STUDENT_PARENT) {
             studentParent();
         }
