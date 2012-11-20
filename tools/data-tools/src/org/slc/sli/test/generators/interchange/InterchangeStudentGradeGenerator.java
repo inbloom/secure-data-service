@@ -17,6 +17,8 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -87,6 +89,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
+import org.slc.sli.test.generators.CalendarDateGenerator;
 import org.slc.sli.test.generators.SessionGenerator;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
@@ -122,11 +125,21 @@ public final class InterchangeStudentGradeGenerator {
 
     private static SLCGradingPeriodReferenceType getGradingPeriodRef(String schoolId, GradingPeriodMeta gpMeta) {
         SLCGradingPeriodReferenceType gradingPeriodRef = new SLCGradingPeriodReferenceType();
-        SLCGradingPeriodIdentityType gradingPeriodItentity = new SLCGradingPeriodIdentityType();
-        gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodItentity);
-        gradingPeriodItentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
+        SLCGradingPeriodIdentityType gradingPeriodIdentity = new SLCGradingPeriodIdentityType();
+        SLCEducationalOrgReferenceType eort = new SLCEducationalOrgReferenceType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
+//        Calendar cal = new GregorianCalendar(Integer.parseInt( gpMeta.getBeginData() ), 1, 1);
+
+//      TODO use a real date associated with gradingPeriods
+        eoit.setStateOrganizationId(schoolId);
+        eort.setEducationalOrgIdentity(eoit);
+        gradingPeriodIdentity.setEducationalOrgReference(eort);
+        gradingPeriodIdentity.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
+        gradingPeriodIdentity.setBeginDate(CalendarDateGenerator.generatDate());
+        gradingPeriodRef.setGradingPeriodIdentity(gradingPeriodIdentity);
         return gradingPeriodRef;
     }
+
 
     private static SLCEducationalOrgReferenceType getEducationalOrgRef(String schoolId) {
 
