@@ -34,7 +34,7 @@ Before do
 end
 
 After do |scenario|
-    save_page if scenario.failed?
+    save_and_open_page if scenario.failed?
 end
 
 Transform /^<([^>]*)>$/ do |human_readable_text|

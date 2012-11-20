@@ -41,6 +41,8 @@ GEM
     json (1.6.2)
     jwt (0.1.5)
       multi_json (>= 1.0)
+    launchy (2.1.2)
+      addressable (~> 2.3)
     libwebsocket (0.1.5)
       addressable
     mail (2.4.4)
@@ -137,6 +139,7 @@ DEPENDENCIES
   ffi (= 1.0.9)
   java_properties
   json (= 1.6.2)
+  launchy
   mongo
   net-ldap
   net-sftp
