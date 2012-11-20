@@ -20,36 +20,36 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
-import org.slc.sli.test.edfi.entities.DisciplineIncident;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
-import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncident;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncidentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCDisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.IncidentLocationType;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 
 public class DisciplineGenerator {
 
-    public static DisciplineIncidentReferenceType getDisciplineIncidentReferenceType(String discId,
+    public static SLCDisciplineIncidentReferenceType getDisciplineIncidentReferenceType(String discId,
             String stateOrEdOrgId) {
-        DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
+        SLCDisciplineIncidentIdentityType diit = new SLCDisciplineIncidentIdentityType();
         diit.setIncidentIdentifier(discId);
 
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType edOrgIdentity = new SLCEducationalOrgIdentityType();
         edOrgIdentity.setStateOrganizationId(stateOrEdOrgId);
-        EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType edOrgRef = new SLCEducationalOrgReferenceType();
         edOrgRef.setEducationalOrgIdentity(edOrgIdentity);
 
         diit.setEducationalOrgReference(edOrgRef);
-        DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
+        SLCDisciplineIncidentReferenceType dirt = new SLCDisciplineIncidentReferenceType();
         dirt.setDisciplineIncidentIdentity(diit);
         return dirt;
     }
 
-    public DisciplineIncident generate(String incidentId, String delimiter) {
+    public SLCDisciplineIncident generate(String incidentId, String delimiter) {
         Random random = new Random(31);
 
-        DisciplineIncident discIncident = new DisciplineIncident();
+        SLCDisciplineIncident discIncident = new SLCDisciplineIncident();
 
         // Do required elements first.
 
@@ -125,7 +125,7 @@ public class DisciplineGenerator {
 
         // School Reference
         String schoolId = incidentId.split(delimiter)[0];
-        EducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);
+        SLCEducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);
         discIncident.setSchoolReference(eor);
 
         return discIncident;

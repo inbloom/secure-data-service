@@ -17,40 +17,40 @@
 
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.SLCEducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
+import org.slc.sli.test.edfi.entities.SLCStudentIdentityType;
+import org.slc.sli.test.edfi.entities.SLCStudentReferenceType;
+import org.slc.sli.test.edfi.entities.SLCStudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 
 
 public class StudentSchoolAssociationGenerator {
 
-    public static StudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
+    public static SLCStudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
 
-    	StudentSchoolAssociation ssa = new StudentSchoolAssociation(); 	
+    	SLCStudentSchoolAssociation ssa = new SLCStudentSchoolAssociation();
 
 		String graduationPlan = schoolId + "-gPlan0";
 		Ref gPlan = new Ref(graduationPlan);
 		ReferenceType refType = new ReferenceType();
 		refType.setRef(gPlan);
 		//TODO this is an optional reference but is not currently resolving in ingestion
-		ssa.setGraduationPlanReference(refType);
-        StudentIdentityType sit = new StudentIdentityType();
+		//ssa.setGraduationPlanReference(refType);
+        SLCStudentIdentityType sit = new SLCStudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
-        StudentReferenceType srt = new StudentReferenceType();
+        SLCStudentReferenceType srt = new SLCStudentReferenceType();
         srt.setStudentIdentity(sit);
         ssa.setStudentReference(srt);
 
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        SLCEducationalOrgIdentityType eoit = new SLCEducationalOrgIdentityType();
 //        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         eoit.setStateOrganizationId(schoolId);
-        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        SLCEducationalOrgReferenceType eor = new SLCEducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         ssa.setSchoolReference(eor);
 
