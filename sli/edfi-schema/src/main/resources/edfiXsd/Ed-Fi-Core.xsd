@@ -9981,7 +9981,7 @@ The Federal Information Processing Standards (FIPS) numeric code for the county 
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
-			<xs:maxLength value="30"/>
+			<xs:maxLength value="64"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="UniqueStateIdentifier">

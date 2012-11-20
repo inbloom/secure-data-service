@@ -48,7 +48,7 @@ class UserAccountValidation
       return ACCOUNT_VERIFICATION_COMPLETE
     rescue => e
       Rails.logger.error "VERIFICATION ERROR:   #{e}"
-      # TODO have approval engine raise exceptions or check approval state instead of matching msg strings
+      # TODO: DE2202 - have approval engine raise exceptions or check approval state instead of matching msg strings
       if e.to_s =~ /^Current status '\w+' does not allow transition 'verify_email'\.$/
         return ACCOUNT_PREVIOUSLY_VERIFIED
       elsif e.to_s == "Could not find user for email id #{emailToken}."

@@ -61,7 +61,7 @@ class UserAccountRegistrationsController < ApplicationController
         end
       else
         begin
-          UserAccountRegistrationsHelper.register_user(@user_account_registration)
+          @user_account_registration.register
           redirectPage= true
           render500 = false
           session[:guuid] = @user_account_registration.email
@@ -91,12 +91,6 @@ class UserAccountRegistrationsController < ApplicationController
   end
 
 private
-
-  URL_HEADER = {
-    "Content-Type" => "application/json",
-    "content_type" => "json",
-    "accept" => "application/json"
-  }
 
   def user_limit_reached?
     max_user = APP_CONFIG['maximum_user_count']

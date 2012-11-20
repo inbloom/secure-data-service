@@ -61,7 +61,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Entity entity;
     
     public SLIPrincipal() {
-        
+        // Empty default constructor is used in various places. 
     }
 
     public SLIPrincipal(String id) {

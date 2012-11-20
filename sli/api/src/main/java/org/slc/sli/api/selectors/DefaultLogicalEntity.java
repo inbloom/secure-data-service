@@ -74,9 +74,6 @@ public class DefaultLogicalEntity implements LogicalEntity {
         }
 
         final EntityDefinition typeDef = resourceHelper.getEntityDefinition(resourceName);
-        // TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME
-        // This is ugly - we have to capitalize here because our model
-        // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
 
         if (UNSUPPORTED_RESOURCE_LIST.contains(resourceName)) {

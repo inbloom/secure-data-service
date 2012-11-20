@@ -74,9 +74,18 @@ class Student < BaseEntity
   def limitedEnglish
     choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
   end
+  
+  def disability
+    choose([true, false])
+  end
 
   def race
-    choose(['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White'])
+    #choose(['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White'])
+    wChoose(@demographics.raceDistribution)
+  end
+  
+  def genRace
+    wChoose(@demographics.raceDistribution)
   end
 
 end

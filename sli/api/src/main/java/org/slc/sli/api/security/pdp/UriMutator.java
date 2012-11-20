@@ -640,8 +640,9 @@ public class UriMutator {
         return Pair.of(mutatedPath, mutatedParameters);
     }
     
-    private Pair<String, String> mutateForStaff(String resource, String mutatedParameters, Entity user, String queryParameters) {
+    private Pair<String, String> mutateForStaff(String resource, final String mutatedParameters, Entity user, String queryParameters) {
 
+        String mParameters = mutatedParameters; 
         String mutatedPath = null;
         
         if (ResourceNames.ASSESSMENTS.equals(resource)
@@ -652,7 +653,7 @@ public class UriMutator {
         } else if (ResourceNames.ATTENDANCES.equals(resource)) {
             String ids = getQueryValueForQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
             if (ids != null) {
-                mutatedParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
+                mParameters = removeQueryFromQueryParameters(ParameterConstants.STUDENT_ID, queryParameters);
                 mutatedPath = String.format("/students/%s/attendances", ids);
             } else {
                 ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
@@ -706,8 +707,8 @@ public class UriMutator {
             String ids = StringUtils.join(edOrgHelper.getDirectEdOrgAssociations(user), ",");
             mutatedPath = String.format("/schools/%s/sections", ids);
         } else if (ResourceNames.SESSIONS.equals(resource)) {
-            if (mutatedParameters.contains(ParameterConstants.SCHOOL_ID)) {
-                return formQueryBasedOnParameter("/educationOrganizations/%s/sessions", mutatedParameters,
+            if (mParameters.contains(ParameterConstants.SCHOOL_ID)) {
+                return formQueryBasedOnParameter("/educationOrganizations/%s/sessions", mParameters,
                         ParameterConstants.SCHOOL_ID);
             } else {
                 mutatedPath = String.format("/educationOrganizations/%s/sessions",
@@ -780,7 +781,7 @@ public class UriMutator {
                     "/schools/%s/teacherSchoolAssociations/teachers/teacherSectionAssociations", ids);
         }
         
-        return Pair.of(mutatedPath, mutatedParameters);
+        return Pair.of(mutatedPath, mParameters);
     }
 
     /**
@@ -793,26 +794,27 @@ public class UriMutator {
      *            entity representing user making API call.
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
-    public Pair<String, String> mutateBaseUri(String resource, String queryParameters, Entity user) {
-        if (queryParameters == null) {
-            queryParameters = "";
+    public Pair<String, String> mutateBaseUri(String resource, final String queryParameters, Entity user) {
+        String qParameters = queryParameters; 
+        if (qParameters == null) {
+            qParameters = "";
         }
 
         boolean success = true;
         boolean isMutated = false;
         String mutatedPath = null;
-        String mutatedParameters = queryParameters != null ? queryParameters : "";
+        String mutatedParameters = qParameters != null ? qParameters : "";
 
-        mutatedPath = rootSearchMutator.mutatePath(resource, queryParameters);
+        mutatedPath = rootSearchMutator.mutatePath(resource, qParameters);
         if (mutatedPath != null) {
-            mutatedParameters = queryParameters;
+            mutatedParameters = qParameters;
             isMutated = true;
         }
 
         if (!isMutated && isTeacher(user)) {
             return this.mutateForTeacher(resource, mutatedParameters, user);
         } else if (!isMutated && isStaff(user)) {
-            return this.mutateForStaff(resource, mutatedParameters, user, queryParameters);
+            return this.mutateForStaff(resource, mutatedParameters, user, qParameters);
         } else {
             return Pair.of(mutatedPath, mutatedParameters);
         }

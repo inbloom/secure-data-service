@@ -16,13 +16,27 @@ limitations under the License.
 
 =end
 
-require 'mustache'
+require 'yaml'
 
-class BaseEntity < Mustache
-  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
+class Demographics
 
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
+  def initialize(demographics = './defaultDemographics.yml', choices = 'choices.yml')
+    @choices = YAML.load_file File.join("#{File.dirname(__FILE__)}", "choices.yml")
+  end
+
+  def maleNames
+    @choices['maleNames']
+  end
+
+  def femaleNames
+    @choices['femaleNames']
   end
   
+  def lastNames
+    @choices['lastNames']
+  end
+  
+  def raceDistribution
+    @choices['raceDistribution']
+  end
 end

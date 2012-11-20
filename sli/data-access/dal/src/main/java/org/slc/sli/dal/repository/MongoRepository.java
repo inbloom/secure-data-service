@@ -384,15 +384,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
         T encryptedRecord = getEncryptedRecord(record);
         Update update = getUpdateCommand(encryptedRecord);
 
-        // attempt update
-        WriteResult result = updateFirst(query, update, collection);
-        // if no records were updated, try insert
+        // attempt upsert
+        WriteResult result = upsert(query, update, collection);
         // insert goes through the encryption pipeline, so use the unencrypted record
         if (result.getError() !=null) {
-            LOG.error("Update on collection {} failed with error: {}, attempting insert", collection, result.getError());
-        }
-        if (result.getN() == 0) {
-            insert(record, collection);
+            LOG.error("Update/upsert on collection {} failed with error: {}", collection, result.getError());
+            return false;
         }
 
         return true;
@@ -432,6 +429,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private WriteResult updateFirst(Query query, Update update, String collectionName) {
         guideIfTenantAgnostic(collectionName);
         return template.updateFirst(query, update, collectionName);
+    }
+
+    private WriteResult upsert(Query query, Update update, String collectionName) {
+        guideIfTenantAgnostic(collectionName);
+        return template.upsert(query, update, collectionName);
     }
 
     @Override
