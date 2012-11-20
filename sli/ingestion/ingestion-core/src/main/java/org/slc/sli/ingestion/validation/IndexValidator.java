@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
-
 
 /**
  * Checks if the indexes are present for all the dbs before processing this job.
@@ -104,8 +104,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return true;
     }
 
-    private String parseFile(String fileName,
-            HashMap<String, List<HashMap<String, Object>>> indexCache,
+    private String parseFile(String fileName, HashMap<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) throws URISyntaxException {
         String message = "";
         URL resourceFile = Thread.currentThread().getContextClassLoader().getResource(fileName);
@@ -118,8 +117,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return message;
     }
 
-    private String parseFile(File file,
-            HashMap<String, List<HashMap<String, Object>>> indexCache,
+    private String parseFile(File file, HashMap<String, List<HashMap<String, Object>>> indexCache,
             MongoTemplate mongoTemplate) {
         String errorMessage = "";
 
@@ -130,7 +128,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
             String currentFileLine;
-            while ((currentFileLine = br.readLine()) != null)   {
+            while ((currentFileLine = br.readLine()) != null) {
                 Matcher indexMatcher = ensureIndexStatement(currentFileLine);
                 if (indexMatcher != null) {
                     String collectionName = indexMatcher.group(1);
@@ -146,7 +144,7 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
                 }
             }
 
-            //Close the input stream
+            // Close the input stream
             in.close();
         } catch (IOException e) {
             log.error("Error occured while verifying indexes: " + e.getLocalizedMessage());
@@ -157,7 +155,8 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
 
     protected Matcher ensureIndexStatement(String statement) {
 
-        Pattern ensureIndexPattern = Pattern.compile("^db\\[\"(\\S+)\"]\\.ensureIndex\\((\\{[^}]*\\}).*\\);", Pattern.MULTILINE);
+        Pattern ensureIndexPattern = Pattern.compile("^db\\[\"(\\S+)\"]\\.ensureIndex\\((\\{[^}]*\\}).*\\);",
+                Pattern.MULTILINE);
         Matcher ensureIndexMatcher = ensureIndexPattern.matcher(statement);
         if (ensureIndexMatcher.matches()) {
             return ensureIndexMatcher;
@@ -170,7 +169,8 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         JsonFactory factory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(factory);
 
-        TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() { };
+        TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
+        };
         try {
             HashMap<String, Object> indexMap = mapper.readValue(jsonString, typeRef);
             return indexMap;
@@ -184,9 +184,11 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         return null;
     }
 
-    private boolean verifyIndex(HashMap<String, List<HashMap<String, Object>>> indexCache, MongoTemplate mongoTemplate, String collectionName, HashMap<String, Object> indexMap) {
+    private boolean verifyIndex(HashMap<String, List<HashMap<String, Object>>> indexCache, MongoTemplate mongoTemplate,
+            String collectionName, HashMap<String, Object> indexMapFromJson) {
 
-        //UN: Check the index cache, if the collection exists in the cache, use that collection, else query from Mongo and save it in the cache.
+        // UN: Check the index cache, if the collection exists in the cache, use that collection,
+        // else query from Mongo and save it in the cache.
         if (!indexCache.containsKey(collectionName)) {
             if (mongoTemplate.collectionExists(collectionName)) {
                 DBCollection collection = mongoTemplate.getCollection(collectionName);
@@ -203,23 +205,26 @@ public class IndexValidator extends SimpleValidatorSpring<Object> {
         boolean found = false;
         if (indexCache.containsKey(collectionName)) {
             List<HashMap<String, Object>> indices = indexCache.get(collectionName);
-            for (HashMap<String, Object> indexHashMap : indices) {
-                if (indexHashMap.size() != indexMap.size()) {
+            for (HashMap<String, Object> indexMapFromCache : indices) {
+                if (indexMapFromCache.size() != indexMapFromJson.size()) {
                     continue;
                 }
                 boolean indexMatch = true;
-                for (String indexKey : indexHashMap.keySet()) {
-                    if (!indexMap.containsKey(indexKey)) {
+                for (Map.Entry<String, Object> indexCacheEntry : indexMapFromCache.entrySet()) {
+                    if (!indexMapFromJson.containsKey(indexCacheEntry.getKey())) {
                         indexMatch = false;
                         break;
                     }
 
-                    //UN: The value in DB is either saved as a double or integer (nondeterministic), so I
-                    //    need to compare it with both double as well as integer and verify that the index
-                    //    does not match.
-                    double indexMapDoubleValue = Double.valueOf(indexMap.get(indexKey).toString());
-                    if (!indexHashMap.get(indexKey).equals(indexMapDoubleValue)
-                            && !indexHashMap.get(indexKey).equals(indexMap.get(indexKey))) {
+                    // UN: The value in DB is either saved as a double or integer
+                    // (nondeterministic), so I
+                    // need to compare it with both double as well as integer and verify that the
+                    // index
+                    // does not match.
+                    double indexMapDoubleValue = Double.valueOf(indexMapFromJson.get(indexCacheEntry.getKey())
+                            .toString());
+                    if (!indexCacheEntry.getValue().equals(indexMapDoubleValue)
+                            && !indexCacheEntry.getValue().equals(indexMapFromJson.get(indexCacheEntry.getKey()))) {
                         indexMatch = false;
                         break;
                     }
