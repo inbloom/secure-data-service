@@ -58,7 +58,7 @@ public class StudentDisciplineAssociationGenerator {
         for (String studentId : studentIds) {
 //            list.add(generateLowFi(studentId, disciplineIncidentId));
             SLCStudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId, meta.schoolId);
-        	QName qName = new QName("http://ed-fi.org/0100", "SLCStudentDisciplineIncidentAssociation");
+        	QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
             JAXBElement<SLCStudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<SLCStudentDisciplineIncidentAssociation>(qName,SLCStudentDisciplineIncidentAssociation.class,retVal);
             iWriter.marshal(jaxbElement);
         }
