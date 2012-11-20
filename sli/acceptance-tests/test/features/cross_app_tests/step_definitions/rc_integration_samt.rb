@@ -22,8 +22,6 @@ require 'approval'
 require "mongo"
 require 'rumbster'
 require 'digest'
-require 'launchy'
-require 'capybara'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
