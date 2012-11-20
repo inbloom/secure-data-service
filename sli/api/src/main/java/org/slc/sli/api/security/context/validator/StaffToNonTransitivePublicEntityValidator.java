@@ -20,9 +20,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-
 /**
  * Validates the context of a staff member to see the requested set of non-transitive public
  * entities. Returns true if the staff member can see ALL of the entities, and false otherwise.

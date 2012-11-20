@@ -39,21 +39,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContextInferrenceFailedExceptionHandler implements ExceptionMapper<ContextInferrenceFailedException> {
 
-	@Context
-	private HttpHeaders headers;
-
-	@Override
-	public Response toResponse(ContextInferrenceFailedException exception) {
-		warn("Failed Context Inferrence");
-		Object entity = Collections.EMPTY_LIST;
-		if (headers.getAcceptableMediaTypes().contains(MediaType.APPLICATION_XML_TYPE)) {
-			entity=new EmptyResponse();
-		}
-
-		return Response.ok(entity).header("TotalCount", 0).build();
-	}
-
-	@XmlRootElement(name = "emptyList")
-	public static class EmptyResponse {
-	}
+    @Context
+    private HttpHeaders headers;
+    
+    @Override
+    public Response toResponse(ContextInferrenceFailedException exception) {
+        warn("Failed Context Inferrence");
+        Object entity = Collections.EMPTY_LIST;
+        if (headers.getAcceptableMediaTypes().contains(MediaType.APPLICATION_XML_TYPE)) {
+            entity = new EmptyResponse();
+        }
+        
+        return Response.ok(entity).header("TotalCount", 0).build();
+    }
+    
+    /**
+     * Represents an empty document to be returned to the API user (no fields, no data).
+     * 
+     * 
+     * @author kmyers
+     *
+     */
+    @XmlRootElement(name = "emptyList")
+    public static class EmptyResponse {
+    }
 }

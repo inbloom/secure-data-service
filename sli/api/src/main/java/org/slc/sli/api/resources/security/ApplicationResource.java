@@ -178,7 +178,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
         try {
             return service.list(neutralQuery).iterator().hasNext();
-        } catch (NullPointerException npe) {
+        } catch (IllegalArgumentException npe) {
             return false;
         }
     }

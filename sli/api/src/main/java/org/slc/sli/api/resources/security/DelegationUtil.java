@@ -58,7 +58,7 @@ public class DelegationUtil {
         List<String> stateIds = new ArrayList<String>();
         Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
         if (edOrgs != null) {
-            for (Entity edOrg:edOrgs) {
+            for (Entity edOrg : edOrgs) {
                 Map<String, Object> body = edOrg.getBody();
                 if (body != null) {
                     String stateId = (String) body.get("stateOrganizationId");

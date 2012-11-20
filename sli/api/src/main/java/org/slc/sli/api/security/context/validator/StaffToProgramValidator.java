@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -28,7 +29,11 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean validate(String entityType, Set<String> ids) {
-		if (!canValidate(entityType, true)) {
+        return validateWithStudentAccess(entityType, ids, false);
+    }
+    
+    public boolean validateWithStudentAccess(String entityType, Set<String> ids, boolean byStudentAccess) {
+        if (!canValidate(entityType, true)) {
 			throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
 		}
         
@@ -37,7 +42,8 @@ public class StaffToProgramValidator extends AbstractContextValidator {
         }
 
 		info("Validating {}'s access to Programs: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
-
+        NeutralCriteria studentCriteria = new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
+                NeutralCriteria.OPERATOR_EQUAL, true);
 		Set<String> lineage = this.getStaffEdOrgLineage();
 
 		// Fetch programs of your edorgs
@@ -56,6 +62,9 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 
 		// Fetch associations
 		nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(),false));
+        if (byStudentAccess) {
+            nq.addCriteria(studentCriteria);
+        }
 		Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
 
 		for (Entity assoc : assocs) {
@@ -64,5 +73,5 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 		
 		
 		return allowedIds.containsAll(ids);
-	}
+    }
 }

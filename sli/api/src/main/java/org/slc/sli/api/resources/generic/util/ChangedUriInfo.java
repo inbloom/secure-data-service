@@ -29,111 +29,111 @@ import javax.ws.rs.core.UriInfo;
  * Class for storing changes to requested uri.
  */
 public class ChangedUriInfo implements UriInfo {
-
-	private URI uri;
-	private UriBuilder baseUriBuilder;
-
+    
+    private URI uri;
+    private UriBuilder baseUriBuilder;
+    
     public ChangedUriInfo(String uri, UriBuilder builder) {
         this.uri = URI.create(uri);
-	    this.baseUriBuilder = builder;
-	}
-
-	@Override
-	public String getPath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getPath(boolean decode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<PathSegment> getPathSegments() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<PathSegment> getPathSegments(boolean decode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public URI getRequestUri() {
-		return this.uri;
-	}
-
-	@Override
-	public UriBuilder getRequestUriBuilder() {
-	    return UriBuilder.fromUri(uri);
-	}
-
-	@Override
-	public URI getAbsolutePath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UriBuilder getAbsolutePathBuilder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public URI getBaseUri() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UriBuilder getBaseUriBuilder() {
-		return this.baseUriBuilder.clone();
-	}
-
-	@Override
-	public MultivaluedMap<String, String> getPathParameters() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public MultivaluedMap<String, String> getPathParameters(boolean decode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public MultivaluedMap<String, String> getQueryParameters() {
-		return new MultivaluedHashMap<String, String>();
-	}
-
-	@Override
-	public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getMatchedURIs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getMatchedURIs(boolean decode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Object> getMatchedResources() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+        this.baseUriBuilder = builder;
+    }
+    
+    @Override
+    public String getPath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public String getPath(boolean decode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<PathSegment> getPathSegments() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<PathSegment> getPathSegments(boolean decode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public URI getRequestUri() {
+        return this.uri;
+    }
+    
+    @Override
+    public UriBuilder getRequestUriBuilder() {
+        return UriBuilder.fromUri(uri);
+    }
+    
+    @Override
+    public URI getAbsolutePath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public UriBuilder getAbsolutePathBuilder() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public URI getBaseUri() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public UriBuilder getBaseUriBuilder() {
+        return this.baseUriBuilder.clone();
+    }
+    
+    @Override
+    public MultivaluedMap<String, String> getPathParameters() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public MultivaluedMap<String, String> getPathParameters(boolean decode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public MultivaluedMap<String, String> getQueryParameters() {
+        return new MultivaluedHashMap<String, String>();
+    }
+    
+    @Override
+    public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<String> getMatchedURIs() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<String> getMatchedURIs(boolean decode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<Object> getMatchedResources() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

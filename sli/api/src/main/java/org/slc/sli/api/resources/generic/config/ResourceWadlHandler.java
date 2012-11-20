@@ -81,6 +81,7 @@ public class ResourceWadlHandler implements WadlHandler {
     @Override
     public void method(Method method, Resource resource, Resources resources, Application application,
                        Stack<Resource> ancestors) {
+        // No Op
     }
 
 

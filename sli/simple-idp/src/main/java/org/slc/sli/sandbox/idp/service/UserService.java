@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +82,9 @@ public class UserService {
     }
     
     public UserService() {
+        super();
     }
-    
+
     UserService(String userSearchAttribute, String userObjectClass, String groupSearchAttribute, String groupObjectClass) {
         this.userSearchAttribute = userSearchAttribute;
         this.userObjectClass = userObjectClass;
