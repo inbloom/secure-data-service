@@ -201,11 +201,11 @@ public class StateEdFiXmlGenerator {
             studentAttendance();
         }
 
-        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
+/*        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
             studentGrade();
         }
 
-
+*/
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
