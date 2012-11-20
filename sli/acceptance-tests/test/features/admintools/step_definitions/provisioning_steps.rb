@@ -49,7 +49,7 @@ end
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
+  ApprovalEngine.init(@ldap,true)
   @tenantId = @email
   remove_user(@email)
   sleep(1)
@@ -125,7 +125,7 @@ end
 
 Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=true
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  ApprovalEngine.init(@ldap,@sandboxMode)
   @tenantId = @email
 remove_user(@email)
 sleep(1)

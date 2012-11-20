@@ -20,7 +20,7 @@ limitations under the License.
 require 'set'
 require 'digest'
 require 'ldapstorage'
-require 'emailer'
+#require 'emailer'
 
 module ApprovalEngine
     # define the possible states of the finite state machine (FSM)
@@ -80,19 +80,19 @@ module ApprovalEngine
 
     ## backend storage
     @@storage                  = nil
-    @@transition_action_config = nil
-    @@emailer                  = nil
+    #@@transition_action_config = nil
+    #@@emailer                  = nil
     @@is_sandbox               = false
     @@email_secret             = ""
     @@roles                    = []
     @@auto_approve             = nil
 
     # initialize the storage
-    def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox, auto_approve=nil)
-    #def ApprovalEngine.init(storage, emailer, is_sandbox)
+    def ApprovalEngine.init(storage, is_sandbox, auto_approve=nil)
+    #def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox, auto_approve=nil)
         @@storage = storage
-        @@transition_action_config = transition_action_config
-        @@emailer =emailer
+        #@@transition_action_config = transition_action_config
+        #@@emailer =emailer
         @@is_sandbox = is_sandbox
         @@email_secret = (0...32).map{rand(256).chr}.join
         @@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
