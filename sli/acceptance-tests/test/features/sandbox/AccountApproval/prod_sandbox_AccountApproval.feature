@@ -32,7 +32,8 @@ And login name "Lplyer@macrocorp.com" approved in the account request queue
 When I disable the account 
 Then production LDAP account with login name "Lplyer@macrocorp.com" is set as inactive
 
-@sandbox
+# this is no longer a valid test because the Approval Engine is not responsible for sending out email.
+@sandbox @wip
 Scenario: As a developer my request for sandbox account is instantly accepted
 Given a sandbox account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
