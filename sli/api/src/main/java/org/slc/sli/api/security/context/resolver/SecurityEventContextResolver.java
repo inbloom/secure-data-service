@@ -23,7 +23,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -69,7 +68,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
         List<NeutralQuery> filters = buildQualifyingFilters();
         if (filters.size() > 0) {
             NeutralQuery query = new NeutralQuery();
-            for (NeutralQuery filter:filters) {
+            for (NeutralQuery filter : filters) {
                 query.addOrQuery(filter);
             }
             securityEventIds = Lists.newArrayList((repository.findAllIds(RESOURCE_NAME, query)));

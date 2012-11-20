@@ -2,15 +2,15 @@ package org.slc.sli.modeling.waudit;
 
 public class WadlAuditRuntimeException extends RuntimeException {
 
-    public WadlAuditRuntimeException(Exception e) {
-        super(e);
+    public WadlAuditRuntimeException(Throwable cause) {
+        super(cause);
     }
 
     public WadlAuditRuntimeException(String message) {
         super(message);
     }
 
-    public WadlAuditRuntimeException(String message, Exception e) {
-        super(message, e);
+    public WadlAuditRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

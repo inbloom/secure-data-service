@@ -114,11 +114,11 @@ public class SamlRequestDecoder {
             
             doc = docBuilder.parse(xmlInputStream);
         } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (SAXException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SamlProcessException(e);
         }
         Element element = doc.getDocumentElement();
         String id = element.getAttribute("ID");

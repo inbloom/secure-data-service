@@ -23,6 +23,10 @@ import java.util.Set;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Mangles queries based on paging, etc.
+ *
+ */
 public class DefaultQueryMangler extends Mangler {
     
     public NeutralQuery mangleQuery(NeutralQuery query, NeutralCriteria securityCriteria) {
@@ -44,8 +48,7 @@ public class DefaultQueryMangler extends Mangler {
             }
             query.addOrQuery(new NeutralQuery(securityCriteria));
             return query;
-        }
-        else {
+        } else {
             Set<String> finalIdSet = new HashSet<String>((Collection) securityCriteria.getValue());
             finalIdSet.retainAll((Collection) idCriteria.getValue());
             finalIdSet = new HashSet<String>(adjustIdListForPaging(new ArrayList<String>(finalIdSet)));

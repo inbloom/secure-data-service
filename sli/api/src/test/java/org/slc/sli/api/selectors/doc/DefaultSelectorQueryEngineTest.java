@@ -72,10 +72,6 @@ public class DefaultSelectorQueryEngineTest {
     @Autowired
     private ModelProvider provider;
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testComplexSelector() {
         SemanticSelector selectorsWithType =  generateSelectorObjectMap();

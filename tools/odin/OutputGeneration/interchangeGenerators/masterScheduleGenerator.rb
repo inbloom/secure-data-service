@@ -17,13 +17,13 @@ limitations under the License.
 =end
 
 require_relative "./interchangeGenerator.rb"
-Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
+Dir["#{File.dirname(__FILE__)}/../../Shared/baseEntityClasses/*.rb"].each { |f| load(f) }
 class MasterScheduleGenerator < InterchangeGenerator
   def initialize
     @header = <<-HEADER
 <?xml version="1.0"?>
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/domain/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd ">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd ">
 HEADER
     @footer = <<-FOOTER
 </InterchangeMasterSchedule>

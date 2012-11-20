@@ -32,8 +32,8 @@ import org.slc.sli.api.util.SecurityUtil;
 //@Component - Disable teacher validators for now
 public class TeacherToNonTransitivePublicEntityValidator extends AbstractContextValidator {
 
-	private List<String> entities = Arrays.asList(EntityNames.SCHOOL,EntityNames.EDUCATION_ORGANIZATION);
-	
+    private List<String> entities = Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION);
+
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return entities.contains(entityType) && "teacher".equals(SecurityUtil.getSLIPrincipal().getEntity().getType());

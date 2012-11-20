@@ -3,4 +3,6 @@ gem 'rake'
 gem 'rspec'
 gem "mustache"
 
+gem 'simplecov', :require => false, :group => :test
+
 gem 'nokogiri'

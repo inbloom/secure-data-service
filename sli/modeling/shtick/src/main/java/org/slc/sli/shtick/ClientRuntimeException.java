@@ -2,15 +2,15 @@ package org.slc.sli.shtick;
 
 public class ClientRuntimeException extends RuntimeException {
 
-    public ClientRuntimeException(Exception e) {
-        super(e);
+    public ClientRuntimeException(Throwable cause) {
+        super(cause);
     }
 
     public ClientRuntimeException(String message) {
         super(message);
     }
 
-    public ClientRuntimeException(String message, Exception e) {
-        super(message, e);
+    public ClientRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

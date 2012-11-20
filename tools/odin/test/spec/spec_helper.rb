@@ -15,24 +15,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
-require 'yaml'
-
-class Demographics
-
-  def initialize(demographics = 'defaultDemographics.yml', choices = 'choices.yml')
-    @choices = YAML.load_file choices
-  end
-
-  def maleNames
-    @choices['maleNames']
-  end
-
-  def femaleNames
-    @choices['femaleNames']
-  end
-  
-  def lastNames
-    @choices['lastNames']
-  end
-end
+require 'simplecov'
+SimpleCov.start 'rails'

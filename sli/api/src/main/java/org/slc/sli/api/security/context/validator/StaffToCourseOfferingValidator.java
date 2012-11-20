@@ -18,27 +18,27 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class StaffToCourseOfferingValidator extends AbstractContextValidator {
-
-	@Override
-	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.COURSE_OFFERING.equals(entityType) && isStaff();
-	}
-
-	@Override
-	public boolean validate(String entityType, Set<String> ids) {
-		if (!canValidate(entityType, true)) {
-			throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
-		}
-
-		info("Validating {}'s access to courseOfferings: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
-
-		Set<String> lineage = this.getStaffEdOrgLineage();
-
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids, false));
-		nq.addCriteria(new NeutralCriteria("body.schoolId", "in", lineage, false));
-
-		List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.COURSE_OFFERING, nq);
-
-		return ids.size() == found.size();
-	}
+    
+    @Override
+    public boolean canValidate(String entityType, boolean isTransitive) {
+        return EntityNames.COURSE_OFFERING.equals(entityType) && isStaff();
+    }
+    
+    @Override
+    public boolean validate(String entityType, Set<String> ids) {
+        if (!canValidate(entityType, true)) {
+            throw new IllegalArgumentException("Asked to validate incorrect entity type: " + entityType);
+        }
+        
+        info("Validating {}'s access to courseOfferings: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
+        
+        Set<String> lineage = this.getStaffEdOrgLineage();
+        
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids, false));
+        nq.addCriteria(new NeutralCriteria("body.schoolId", "in", lineage, false));
+        
+        List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.COURSE_OFFERING, nq);
+        
+        return ids.size() == found.size();
+    }
 }

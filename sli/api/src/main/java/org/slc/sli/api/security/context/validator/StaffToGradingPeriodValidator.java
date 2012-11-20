@@ -42,42 +42,47 @@ public class StaffToGradingPeriodValidator extends AbstractContextValidator {
     @Autowired
     StaffToSessionValidator sessionValidator;
 
-	@Override
+    @Override
     public boolean canValidate(String entityType, boolean through) {
         return EntityNames.GRADING_PERIOD.equals(entityType) && isStaff();
     }
-
+    
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public boolean validate(String entityType, Set<String> entityIds) {
-    	Set<String> toResolve = new HashSet<String>(entityIds);
-    	
-    	/* Grading period access is granted though the grading period reference on Sessions 
-    	 * Grab all the sessions referencing the requested grading periods and validate that
-    	 * you can see those session(s) */
+        Set<String> toResolve = new HashSet<String>(entityIds);
+        
+        /*
+         * Grading period access is granted though the grading period reference on Sessions
+         * Grab all the sessions referencing the requested grading periods and validate that
+         * you can see those session(s)
+         */
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria(GRADING_PERIOD_REFERENCE, NeutralCriteria.CRITERIA_IN, entityIds));
-    	Iterable<Entity> entities = getRepo().findAll(EntityNames.SESSION, nq);
-    	
-    	for(Entity session : entities) {
-    		/* Minor optimization, make sure the session you're going to resolve references
-    		 * a grading period you still need to validate access to.
-    		 * This will prevent unneeded calls to the session validator, which could get expensive */
-    		List<String> gradingPeriodRefs = (List<String>) session.getBody().get(GRADING_PERIOD_REFERENCE);
-    		gradingPeriodRefs.retainAll(toResolve);
-    		
-    		if (!gradingPeriodRefs.isEmpty()) {
-    			boolean validated = sessionValidator.validate(EntityNames.SESSION, new HashSet<String>(Arrays.asList(session.getEntityId())));
-    			if (validated) {
-    				toResolve.removeAll(gradingPeriodRefs);
-    				if (toResolve.isEmpty()) {
-    					return true;
-    				}
-    			}
-    		}
-    	}
-    	
-    	return false;
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.SESSION, nq);
+        
+        for (Entity session : entities) {
+            /*
+             * Minor optimization, make sure the session you're going to resolve references
+             * a grading period you still need to validate access to.
+             * This will prevent unneeded calls to the session validator, which could get expensive
+             */
+            List<String> gradingPeriodRefs = (List<String>) session.getBody().get(GRADING_PERIOD_REFERENCE);
+            gradingPeriodRefs.retainAll(toResolve);
+            
+            if (!gradingPeriodRefs.isEmpty()) {
+                boolean validated = sessionValidator.validate(EntityNames.SESSION,
+                        new HashSet<String>(Arrays.asList(session.getEntityId())));
+                if (validated) {
+                    toResolve.removeAll(gradingPeriodRefs);
+                    if (toResolve.isEmpty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
 
 }

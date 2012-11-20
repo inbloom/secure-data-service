@@ -29,36 +29,44 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class TeacherStaffEdorgAssingmentAssociation implements EntityContextResolver {
+/**
+ * Resolves which TeacherSection a given teacher is allowed to see.
+ */
+@Component
+public class TeacherToStaffEdOrgAssociationResolver implements EntityContextResolver {
+
     @Autowired
     private AssociativeContextHelper helper;
-    
-    @Autowired
-    private SessionSecurityCache securityCachingStrategy;
 
     @Autowired
+    private SessionSecurityCache securityCachingStrategy;
+    
+    @Autowired
+    
     private PagingRepositoryDelegate<Entity> repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(toEntityType);
+         return EntityNames.TEACHER.equals(fromEntityType)
+                && EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(toEntityType);
     }
-    
+
     @Override
     public List<String> findAccessible(Entity principal) {
-        Iterable<Entity> ents = helper.getReferenceEntities(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId",
-                Arrays.asList(principal.getEntityId()));
+        Iterable<Entity> ents = helper.getReferenceEntities(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId", Arrays.asList(principal.getEntityId()));
         HashSet<String> ids = new HashSet<String>();
         for (Entity ent : ents) {
             String schoolId = (String) ent.getBody().get("schoolId");
-            for (Entity assoc : repository.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery(
-                    new NeutralCriteria("educationOrganizationReference", "=", schoolId)))) {
-                ids.add((String) assoc.getBody().get("staffReference"));
+            for (String id : repository.findAllIds(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery(new NeutralCriteria("educationOrganizationReference", "=", schoolId)))) {
+                ids.add(id);
             }
         }
+        
+
         securityCachingStrategy.warm(EntityNames.STAFF_ED_ORG_ASSOCIATION, ids);
         return new ArrayList<String>(ids);
     }
-    
+
 }
