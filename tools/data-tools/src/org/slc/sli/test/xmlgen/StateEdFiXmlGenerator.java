@@ -204,8 +204,8 @@ public class StateEdFiXmlGenerator {
 /*        if (MetaRelations.INTERCHANGE_STUDENT_GRADE) {
             studentGrade();
         }
-*/
 
+*/
         if (MetaRelations.INTERCHANGE_ASSESSMENT_META_DATA) {
             assessmentMetaData();
         }
