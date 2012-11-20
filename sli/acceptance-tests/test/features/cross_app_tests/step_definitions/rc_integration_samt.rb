@@ -22,6 +22,7 @@ require 'approval'
 require "mongo"
 require 'rumbster'
 require 'digest'
+require 'launchy'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -30,6 +31,10 @@ require_relative '../../utils/email.rb'
 Before do
   RUN_ON_RC = ENV['RUN_ON_RC'] ? true : false
   RC_SERVER = ENV['RC_SERVER'] ? ENV['RC_SERVER'] : ""
+end
+
+After do |scenario|
+    save_page if scenario.failed?
 end
 
 Transform /^<([^>]*)>$/ do |human_readable_text|
