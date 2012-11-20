@@ -21,6 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
@@ -29,10 +36,8 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
-import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
@@ -43,19 +48,12 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
- * 
+ *
  * @author okrook
- * 
+ *
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
 
@@ -64,8 +62,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected static final String METADATA_BLOCK = "metaData";
 
     protected static final String ID = "_id";
-
-    private IdNormalizer idNormalizer;
 
     private DeterministicIdResolver didResolver;
 
@@ -135,38 +131,13 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
-        ComplexRefDef ref = entityConfig.getComplexReference();
-        if (ref != null) {
-            String entityType = ref.getEntityType();
-            String collectionName = getPersistedCollectionName(entityType);
-
-            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
-                    ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(), errorReport);
-        }
-
         didResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
-
-        idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
-    }
-
-    private String getPersistedCollectionName(String entityType) {
-        String collectionName = "";
-        NeutralSchema schema = schemaRepository.getSchema(entityType);
-        if (schema != null) {
-            AppInfo appInfo = schema.getAppInfo();
-            if (appInfo != null) {
-                collectionName = appInfo.getCollectionType();
-            }
-        }
-        return collectionName;
-    }
+}
 
     /**
      * Find a matched entity in the data store. If match is found the EntityID gets updated with the
      * ID from the data store.
-     * 
+     *
      * @param entity
      *            Entity to match
      * @param entityConfig
@@ -221,7 +192,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     /**
      * Create entity lookup query from EntityConfig fields
-     * 
+     *
      * @param entity
      *            : the entity to be looked up.
      * @param keyFields
@@ -229,7 +200,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            : error reporting
      * @return Look up filter
-     * 
+     *
      * @author tke
      */
     protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
@@ -333,14 +304,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
-
-    public IdNormalizer getIdNormalizer() {
-        return idNormalizer;
-    }
-
-    public void setIdNormalizer(IdNormalizer idNormalizer) {
-        this.idNormalizer = idNormalizer;
-    }
 
     public DeterministicIdResolver getDidResolver() {
         return didResolver;

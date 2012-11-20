@@ -92,12 +92,6 @@ class UserAccountRegistrationsController < ApplicationController
 
 private
 
-  URL_HEADER = {
-    "Content-Type" => "application/json",
-    "content_type" => "json",
-    "accept" => "application/json"
-  }
-
   def user_limit_reached?
     max_user = APP_CONFIG['maximum_user_count']
     if max_user
