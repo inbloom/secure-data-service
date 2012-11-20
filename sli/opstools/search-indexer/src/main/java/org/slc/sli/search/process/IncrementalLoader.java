@@ -15,13 +15,15 @@
  */
 package org.slc.sli.search.process;
 
+import javax.jms.Message;
+
 public interface IncrementalLoader extends Process {
 
     /**
-     * Start listening on ActiveMQ queue for search event messages
+     * Process message
      *
      * @throws Exception
      */
-    abstract void listen();
+    void process(Message message);
 
 }

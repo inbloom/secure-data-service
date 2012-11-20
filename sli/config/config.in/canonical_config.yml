@@ -416,14 +416,10 @@ default:
         sli.search.indexer.config: index-config.json
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.broker.uri : failover:(tcp://localhost:61616)?maxReconnectDelay=10000
+        sli.search.indexer.broker.uri : vm:(broker:(stomp://localhost:61613,tcp://localhost:61616))?marshal=false&waitForStart=1&broker.persistent=false&broker.tempUsage=1073741824
         sli.search.indexer.broker.username: system
         sli.search.indexer.broker.password: manager
         sli.search.indexer.queue.name: search_events
-        sli.search.indexer.broker.embedded: true
-        sli.search.indexer.broker.embedded.connectors: stomp://localhost:61613,tcp://localhost:61616
-        sli.search.indexer.broker.embedded.uri: vm://embeddedBroker?broker.persistent=false&broker.useJmx=false
-        sli.search.indexer.broker.embedded.tempUsage: 1073741824
         sli.search.indexer.env: local
 
 acceptance-tests:

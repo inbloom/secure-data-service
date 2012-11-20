@@ -23,7 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -42,9 +41,6 @@ import org.slc.sli.search.process.Indexer;
 import org.slc.sli.search.transform.IndexEntityConverter;
 import org.slc.sli.search.util.OplogConverter;
 import org.slc.sli.search.util.OplogConverter.Meta;
-import org.slc.sli.search.util.SearchIndexerException;
-import org.slc.sli.search.util.amq.ActiveMQConnection;
-import org.slc.sli.search.util.amq.ActiveMQConnection.MessageType;
 
 
 /**
@@ -54,7 +50,7 @@ import org.slc.sli.search.util.amq.ActiveMQConnection.MessageType;
  * @author dwu
  *
  */
-public class IncrementalListenerImpl implements IncrementalLoader {
+public class IncrementalListenerImpl implements IncrementalLoader, MessageListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -64,37 +60,16 @@ public class IncrementalListenerImpl implements IncrementalLoader {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private ActiveMQConnection activeMQConnection;
-
-    public void init() {
-        listen();
+    public void onMessage(Message message) {
+        process(message);
     }
-
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.search.process.impl.IncrementalListener#listen()
-     */
-    @Override
-    public void listen() {
-        try {
-            this.activeMQConnection.getConsumer(MessageType.QUEUE).setMessageListener(new MessageListener() {
-                @Override
-                public void onMessage(Message message) {
-                    process(message);
-                }
-            });
-        } catch (JMSException jmse) {
-            throw new SearchIndexerException("Unable to listen to oplog queue", jmse);
-        }
-    }
-
+    
     /**
      * Process a message from the queue
      *
      * @param opLog
      */
+    @Override
     public void process(Message message) {
         if (message != null) {
             try {
@@ -175,13 +150,8 @@ public class IncrementalListenerImpl implements IncrementalLoader {
         this.indexEntityConverter = indexEntityConverter;
     }
 
-    public void setActiveMQConnection(ActiveMQConnection activeMQConnection) {
-        this.activeMQConnection = activeMQConnection;
-    }
-
     @Override
     public String getHealth() {
         return getClass() + "{}";
     }
-
 }

@@ -148,6 +148,11 @@
             <version>5.7.0</version>
         </dependency>
         <dependency>
+	<groupId>org.apache.xbean</groupId>
+	<artifactId>xbean-spring</artifactId>
+	<version>3.11.1</version>
+</dependency>
+        <dependency>
             <groupId>xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.2.2</version>
