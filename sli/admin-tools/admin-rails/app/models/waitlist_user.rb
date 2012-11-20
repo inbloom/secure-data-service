@@ -21,8 +21,7 @@ require 'rest-client'
 
 class WaitlistUser < SessionResource
   attr_accessor :email
-  
-  #TODO: the URL_HEADER is litter all over the code. Need to figure out how to refactor it.
+
   URL_HEADER = {
     "Content-Type" => "application/json",
     "content_type" => "json",
