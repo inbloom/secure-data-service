@@ -87,7 +87,7 @@ class TestApprovalEngine < Test::Unit::TestCase
         #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
         #@mock_emailer = MockEmailer.new
         #@transition_action_config = MockTransitionActionConfig.new(@mock_emailer, is_sandbox)
-        ApprovalEngine.init(@ldap, is_sandbox)
+        ApprovalEngine.init(@ldap, nil, is_sandbox)
         @ldap.get_user_groups(@jd_email).each do |g|
             @ldap.remove_user_group(@jd_email, g)
         end

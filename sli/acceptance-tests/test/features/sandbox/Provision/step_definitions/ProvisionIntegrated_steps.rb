@@ -97,12 +97,12 @@ end
 
 Given /^there is an sandbox account in ldap$/ do
   @sandbox = true
-  ApprovalEngine.init(@ldap, @sandbox)
+  ApprovalEngine.init(@ldap, nil, @sandbox)
 end
 
 Given /^there is an production Ingestion Admin account in ldap$/ do
   @sandbox = false
-  ApprovalEngine.init(@ldap, true)
+  ApprovalEngine.init(@ldap, nil,true)
 
 end
 
