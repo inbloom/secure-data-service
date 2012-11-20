@@ -32,6 +32,8 @@ Given /^I received an email to verify my email address$/ do
   subject_string = "Email Confirmation"
   content_string = "RCTest"
   content = check_email_for_verification(subject_string, content_string)
+  puts content
+  puts PropLoader.getProps['admintools_server_url']
   content.split("\n").each do |line|
     if(/#{PropLoader.getProps['admintools_server_url']}/.match(line))
       @email_verification_link = line
