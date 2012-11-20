@@ -35,4 +35,8 @@ class Demographics
   def lastNames
     @choices['lastNames']
   end
+  
+  def raceDistribution
+    @choices['raceDistribution']
+  end
 end

@@ -26,7 +26,7 @@ SimpleCov.start do
   add_group 'EntityCreation', '/lib/EntityCreation/'
   add_group 'OutputGeneration', '/lib/OutputGeneration/'
   add_group 'Shared', '/lib/Shared/'
-  add_group 'Driver', nil, do |src_file|
+  add_group 'Driver', do |src_file|
     File.basename(src_file.filename) == 'odin.rb' || File.basename(src_file.filename) == "driver.rb"
   end
 end
