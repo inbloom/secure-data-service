@@ -26,6 +26,7 @@ When I select section "8th Grade English - Sec 6"
 And I view its section profile
 Then I see a list of 28 students
 When I enter "rudolph" into the "firstName" search box
+And I click the search button
 And I select school "Daybreak Central High"
 And I search by clicking on the go button
 Then "1" results are returned in the page
@@ -154,7 +155,6 @@ When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-#Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select ed org "Sunset School District 4526"
 And I select school "Sunset Central High School"
