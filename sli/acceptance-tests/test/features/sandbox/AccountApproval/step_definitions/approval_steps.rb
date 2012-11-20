@@ -135,54 +135,12 @@ Then /^an email is sent to the requestor with a link to provision sandbox and a 
   verifyEmail
 end
 
-# TODO: Remove this mock class once we get rid of the emailer from Approval Engine completely.
-class MockTransitionActionConfig
-  def initialize(emailer, is_sandbox)
-    @emailer = emailer
-    @is_sandbox = is_sandbox
-  end
-
-  def transition(user)
-    if user[:status] == ApprovalEngine::STATE_APPROVED
-      # TODO: Below should not be hardcoded and should be configurable by admin.
-      email = {
-          :email_addr => user[:email],
-          :name       => "#{user[:first]} #{user[:last]}"
-      }
-      if @is_sandbox
-        email[:subject] = "Welcome to the SLC Developer Sandbox"
-        email[:content] = "Hello,\n\n" <<
-            "Your request for developer account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
-            "To provision your landing zone go to:\n" <<
-            "__URI__/landing_zone\n\n" <<
-            "To register your applications go to:\n" <<
-            "__URI__/apps\n\n" <<
-            "Thank you,\n" <<
-            "SLC Operator"
-      else
-        email[:subject] = "Welcome to the SLC Developer Program"
-        email[:content] = "Hello,\n\n" <<
-            "Your request for vendor account has been approved.\n\n" <<
-            "To register your applications go to:\n" <<
-            "__URI__/apps\n\n" <<
-            "Thank you,\n" <<
-            "SLC Operator"
-      end
-      @emailer.send_approval_email email
-    end
-
-  end
-end
-
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                           PropLoader.getProps['ldap_admin_pass'])
-
-  email = Emailer.new email_conf
-  transition_action_config = MockTransitionActionConfig.new(email, !prod)
-  ApprovalEngine.init(@ldap, email, transition_action_config, !prod)
+  ApprovalEngine.init(@ldap, !prod)
 end
 
 def verifyEmail

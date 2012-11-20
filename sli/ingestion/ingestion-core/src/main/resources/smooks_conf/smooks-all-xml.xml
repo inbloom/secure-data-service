@@ -3536,13 +3536,13 @@
 
   <jb:bean beanId="gradingPeriodAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
-        <jb:value property="gradingPeriodId" data="InterchangeEducationOrgCalendar/GradingPeriod/@id" />
-        <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriod_gradingPeriodIdentity" />
+        <jb:value property="GradingPeriod" data="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriod"/>
+        <jb:value property="SchoolYear" data="InterchangeEducationOrgCalendar/GradingPeriod/SchoolYear"/>
+        <jb:wiring property="EducationOrganizationReference" beanIdRef="gradingPeriod_edOrgRef" />
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
         <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
         <jb:wiring beanIdRef="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" property="CalendarDateReference"/>
-
   </jb:bean>
 
   <jb:bean beanId="SLC-GradingPeriod_Attributes_SLC-CalendarDateReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
@@ -3555,33 +3555,12 @@
     <jb:value data="GradingPeriod/CalendarDateReference/CalendarDateIdentity/Date" property="Date"/>
   </jb:bean>
 
-  <jb:bean beanId="gradingPeriod_gradingPeriodIdentity" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
-        <jb:value property="gradingPeriod" data="GradingPeriodIdentity/GradingPeriod" />
-        <jb:value property="schoolYear" data="GradingPeriodIdentity/SchoolYear" />
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
-        <jb:wiring property="educationalOrgIdentity" beanIdRef="gradingPeriod_educationalOrgIdentity_array" />
+  <jb:bean beanId="gradingPeriod_edOrgRef" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrganizationReference">
+        <jb:wiring property="EducationalOrgIdentity" beanIdRef="gradingPeriod_edOrgRef_edOrgIdentity" />
   </jb:bean>
-
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentity_array" class="java.util.ArrayList"
-           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
-        <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentity" />
-  </jb:bean>
-
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
-           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
-        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="gradingPeriod_educationalOrgIdentificationCode_Array" />
-  </jb:bean>
-
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentificationCode_Array" class="java.util.ArrayList"
-           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity/EducationOrgIdentificationCode" >
-    <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentificationCode" class="java.util.HashMap"
-           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity/EducationOrgIdentificationCode">
-    <jb:value property="ID" data="EducationOrgIdentificationCode/ID" />
-    <jb:value property="identificationSystem" data="EducationOrgIdentificationCode/@IdentificationSystem" />
+  
+  <jb:bean beanId="gradingPeriod_edOrgRef_edOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrganizationReference">
+        <jb:value property="StateOrganizationId" data="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <!-- End gradingPeriod mapping -->

@@ -71,7 +71,7 @@ end
 
 Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
   @sandboxMode=false
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,false)
+  ApprovalEngine.init(@ldap, false)
   @email = "#{Socket.gethostname}_prodtestuser2@testwgen.net"
 
   if ApprovalEngine.user_exists?(@email)
