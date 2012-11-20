@@ -1,9 +1,9 @@
 @rc
 Feature: Ingestion
 
-Scenario: Ingest Small Sample Dataset for End to End Testing
+ Background: Copy the data files to a local landing zone
 
-  Background: Copy the data files to a local landing zone
+  Scenario: Ingest Small Sample Dataset for End to End Testing
 
     Given I am using local data store
     And I have a local configured landing zone for my tenant
