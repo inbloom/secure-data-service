@@ -109,5 +109,9 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   When I click on the "GetFeederEducationOrganizations" link
   Then I should be on the detailed page for an LEA
 
-  @wip
 Scenario: Educators are not authorized to use databrowser
+  When I choose realm "Daybreak Test Realm" in the drop-down list
+  And I click on the realm page Go button
+  And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+  Then I get message that I am not authorized
