@@ -32,10 +32,6 @@ Before do
   RC_SERVER = ENV['RC_SERVER'] ? ENV['RC_SERVER'] : ""
 end
 
-After do |scenario|
-    save_and_open_page if scenario.failed?
-end
-
 Transform /^<([^>]*)>$/ do |human_readable_text|
  if human_readable_text == "PRIMARY_EMAIL"
    value = PropLoader.getProps['primary_email_imap_registration_user_email']
