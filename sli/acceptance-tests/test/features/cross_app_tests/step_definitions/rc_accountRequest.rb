@@ -89,10 +89,10 @@ end
 private
 
 def check_email_for_verification(subject_substring = nil, content_substring = nil)
-  imap_host = PropLoader.getProps['email_imap_hostname'] #'imap.gmail.com'
-  imap_port = PropLoader.getProps['email_imap_portname'] #993
-  imap_user = PropLoader.getProps['developer_email_imap_registration_user_email'] #'testdev.wgen@gmail.com'
-  imap_password = PropLoader.getProps['developer_email_imap_registration_pass'] #'testdev.wgen1234'
+  imap_host = PropLoader.getProps['email_imap_hostname'] 
+  imap_port = PropLoader.getProps['email_imap_portname'] 
+  imap_user = PropLoader.getProps['developer_email_imap_registration_user'] 
+  imap_password = PropLoader.getProps['developer_email_imap_registration_pass'] 
   not_so_distant_past = Date.today.prev_day
   not_so_distant_past_imap_date = "#{not_so_distant_past.day}-#{Date::ABBR_MONTHNAMES[not_so_distant_past.month]}-#{not_so_distant_past.year}"
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
