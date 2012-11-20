@@ -47,6 +47,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,10 +61,12 @@ import org.xml.sax.SAXException;
  * @author srupasinghe
  */
 public class DocumentManipulator {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentManipulator.class);
+
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
     
-    public void init() {
+    private void init() {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
         
@@ -168,7 +172,7 @@ public class DocumentManipulator {
                     out.close();
                 } catch (Exception ignored) {
                     // ignored
-                    ignored.printStackTrace();
+                    LOG.warn(ignored.getMessage());
                 }
             }
         }

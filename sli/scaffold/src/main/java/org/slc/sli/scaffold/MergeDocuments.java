@@ -26,6 +26,8 @@ import java.util.Map;
 import javax.xml.xpath.XPathException;
 
 import org.slc.sli.api.resources.generic.config.ResourceEndPointTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -39,6 +41,8 @@ import org.w3c.dom.NodeList;
  * @author srupasinghe
  */
 public class MergeDocuments {
+    private static final Logger LOG = LoggerFactory.getLogger(MergeDocuments.class);
+
     private final DocumentManipulator handler = new DocumentManipulator();
 
     private static final String BASE_XPATH_EXPR = "//merges/merge";
@@ -59,13 +63,11 @@ public class MergeDocuments {
     private static final String NODE_ATTRIBUTE = "attribute";
 
     public MergeDocuments() {
+        // No Op
     }
 
     public void merge(File baseFile, File mergeFile, String outputFileName) {
         try {
-
-            handler.init();
-
             Document wadlDoc = handler.parseDocument(baseFile);
             Document mergeDoc = handler.parseDocument(mergeFile);
 
@@ -75,16 +77,13 @@ public class MergeDocuments {
             handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath()
                     + File.separator + outputFileName));
         } catch (DocumentManipulatorException e) {
-            // need to do something better
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (DOMException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (XPathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -242,8 +241,9 @@ public class MergeDocuments {
     }
 
     public static void main(String[] args) {
-        if (args.length < 3)
+        if (args.length < 3) {
             return;
+        }
 
         MergeDocuments merge = new MergeDocuments();
         merge.merge(new File(args[0]), new File(args[1]), args[2]);
