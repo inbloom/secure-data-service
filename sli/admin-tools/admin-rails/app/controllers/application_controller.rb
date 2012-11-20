@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
   end
 
   def callback
-    #TODO: disable redirects to other domains
+    #TODO: DE2189 - disable redirects to other domains
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
     return
     #render :nothing => true
