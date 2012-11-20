@@ -24,7 +24,7 @@
    "vendor":"${bootstrap.app.vendor}",
    "endpoints":[
       {
-         "name":"Application Registration",
+         "name":"Register Application",
          "description":"Register and manage applications that can access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "rights":[
@@ -32,7 +32,7 @@
          ]
       },
       {
-         "name":"Application Registration Approval",
+         "name":"Approve Application Registration",
          "description":"Approve applications to access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "rights":[
@@ -40,7 +40,7 @@
          ]
       },
       {
-         "name":"Admin Delegation",
+         "name":"Delegate Administration",
          "description":"Delegate District Privileges to a State Super Administrator",
          "url":"${bootstrap.app.admin.url}/admin_delegations",
          "rights":[
@@ -48,7 +48,7 @@
          ]
       },
       {
-         "name":"Application Authorization",
+         "name":"Authorize Applications",
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
          "rights":[
@@ -56,7 +56,7 @@
          ]
       },
       {
-         "name":"Custom roles",
+         "name":"Create Custom Roles",
          "description":"Create custom roles and control how roles from the IDP are mapped to SLC rights.",
          "url":"${bootstrap.app.admin.url}/custom_roles/",
          "rights":[
@@ -64,7 +64,7 @@
          ]
       },
       {
-         "name":"Realm Management",
+         "name":"Manage Realm",
          "description":"Manage realm settings.",
          "url":"${bootstrap.app.admin.url}/realm_management/",
          "rights":[
@@ -72,7 +72,7 @@
          ]
       },
       {
-         "name":"Provision Landing Zone",
+         "name":"Create Landing Zone",
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
          "rights":[
@@ -80,7 +80,7 @@
          ]
       },
       {
-      "name":"Account Approval",
+      "name":"Approve Account",
          "description":"Approve Reject and Disable Accounts",
          "url":"${bootstrap.app.admin.url}/account_managements",
          "rights":[
@@ -96,7 +96,7 @@
             ]
       },
       {
-      "name":"Administrative Account Management",
+      "name":"Manage Administrator Accounts",
          "description":"Manage SLI administrative users",
          "url":"${bootstrap.app.admin.url}/users",
          "rights":[
@@ -106,7 +106,7 @@
             ]
       },
       {
-      "name":"Developer Account Management",
+      "name":"Manage Developer Accounts",
          "description":"Manage developers within your sandbox",
          "url":"${bootstrap.app.admin.url}/users",
          "rights":[

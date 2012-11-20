@@ -88,6 +88,21 @@ public interface TenantResource {
             status = s;
         }
 
+        /**
+         * Constructs a new exception with the specified detail message and 
+         * cause.
+         *
+         * @param message
+         *            the detail message. The detail message is saved for
+         *            later retrieval by the {@link #getMessage()} method.
+         * @param cause
+         * 			  the original cause of this exception
+         */
+        public TenantResourceCreationException(Response.Status s, String message, Throwable cause) {
+            super(message, cause);
+            status = s;
+        }
+
         public Response.Status getStatus() {
             return status;
         }

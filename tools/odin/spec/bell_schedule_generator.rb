@@ -15,14 +15,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
-require 'mustache'
-
-class BaseEntity < Mustache
-  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
-
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
-  end
-  
-end
+require_relative 'spec_helper'

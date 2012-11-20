@@ -15,5 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-require 'simplecov'
-SimpleCov.start 'rails'
+
+require 'mustache'
+
+class BaseEntity < Mustache
+  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
+
+  def choose(options)
+    options[@rand.rand(options.size) - 1]
+  end
+  
+  def wChoose(distribution)
+    wArray = []
+    distribution.each do |element, weight|
+      weight.times {wArray << element}
+    end 
+    choose(wArray)
+  end
+  
+end

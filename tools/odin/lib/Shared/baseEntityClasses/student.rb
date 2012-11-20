@@ -44,15 +44,15 @@ class Student < BaseEntity
   end
 
   def city
-    "New York"
+    @demographics.city
   end
 
   def state
-    "NY"
+    @demographics.state
   end
 
   def postalCode
-    "10292"
+    @demographics.postalCode
   end
 
   def email
@@ -60,7 +60,8 @@ class Student < BaseEntity
   end
 
   def hispanicLatino
-    choose([true, false])
+    #choose([true, false])
+    wChoose(@demographics.hispanicLatinoDist)
   end
 
   def economicDisadvantaged
@@ -74,9 +75,18 @@ class Student < BaseEntity
   def limitedEnglish
     choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
   end
+  
+  def disability
+    choose([true, false])
+  end
 
   def race
-    choose(['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White'])
+    #choose(['American Indian - Alaskan Native', 'Asian', 'Black - African American', 'Native Hawaiian - Pacific Islander', 'White'])
+    wChoose(@demographics.raceDistribution)
+  end
+  
+  def genRace
+    wChoose(@demographics.raceDistribution)
   end
 
 end
