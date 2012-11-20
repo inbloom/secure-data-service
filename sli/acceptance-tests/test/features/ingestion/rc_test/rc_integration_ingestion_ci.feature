@@ -1,6 +1,8 @@
 @rc
 Feature: Ingestion
 
+Scenario: Ingest Small Sample Dataset for End to End Testing
+
   Background: Copy the data files to a local landing zone
 
     Given I am using local data store
