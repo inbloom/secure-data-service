@@ -20,3 +20,4 @@ gem 'net-ssh'
 gem 'statsample'
 gem 'uuidtools'
 gem 'stomp'
+gem 'capybara-screenshot', :group => :test

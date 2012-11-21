@@ -1,10 +1,10 @@
 @rc
+@screenshot
 Feature:  RC Integration Tests
 
 Background:
 Given I have an open web browser
 
-@screenshot
 Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
