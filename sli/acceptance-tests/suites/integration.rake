@@ -105,7 +105,7 @@ end
 desc "Run RC Tests"
 task :rcTests do
   OTHER_TAGS = OTHER_TAGS+" --tags @rc"
-  #Rake::Task["rcCleanUpTests"].execute if tenant_exists
+  #Rake::Task["rcCleanUpTests"].execute if tenant_exists && RUN_ON_RC
   #Rake::Task["rcTenantCleanUp"].execute
   Rake::Task["rcDeleteLDAPUsers"].execute
   Rake::Task["rcSamtTests"].execute

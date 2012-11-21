@@ -61,7 +61,15 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = PropLoader.getProps['tenant']
  elsif human_readable_text == "CI_IDP_Redirect_URL"
    value = PropLoader.getProps["ci_idp_redirect_url"]
- end
+ elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
+   value = "800000025"
+ elsif human_readable_text == "BRANDON SUZUKI UNIQUE ID"
+   value = "100000022"
+ elsif human_readable_text == "REBECCA BRAVERMAN UNIQUE ID"
+   value = "a"
+ elsif human_readable_text == "AMY KOPEL UNIQUE ID"
+   value = "akopel"
+  end
 
  value
 end

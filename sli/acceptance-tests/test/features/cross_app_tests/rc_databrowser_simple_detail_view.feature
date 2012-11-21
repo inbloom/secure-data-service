@@ -9,8 +9,7 @@ Background:
   And I was redirected to the Realm page
 
 Scenario: Login and logout
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be redirected to the Data Browser home page
@@ -19,8 +18,7 @@ Scenario: Login and logout
   And I am forced to reauthenticate to access the databrowser
 
 Scenario: Navigate to home page from any page
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be redirected to the Data Browser home page
@@ -33,8 +31,7 @@ Scenario: Navigate to home page from any page
   Then I should click on the Home link and be redirected back
 
 Scenario: Associations List - Simple View
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And I click on the "GetStaffProgramAssociations" link
@@ -43,8 +40,7 @@ Scenario: Associations List - Simple View
   And those names include the IDs of both "ProgramId" and "StaffId" in the association
  
 Scenario: Associations List - Expand/Collapse between Simple View and Detail View
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And I have navigated to the "GetStaffCohortAssociations" page of the Data Browser
@@ -54,8 +50,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then the row collapses hiding the additional attributes
 
 Scenario Outline: Entity Detail View
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And I have navigated to the <Page> page of the Data Browser
@@ -69,8 +64,7 @@ Scenario Outline: Entity Detail View
   | "GetStaffCohortAssociations"  | "8fef446f-fc63-15f9-8606-0b85086c07d5" | "GetStaff"  | "rrogers"                                                       |
 
 Scenario: Click on Available Links associations
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And I have navigated to the "Me" page of the Data Browser
@@ -78,16 +72,14 @@ Scenario: Click on Available Links associations
   Then I am redirected to the particular associations Simple View
 
 Scenario: Click on Available Links entities
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   And I have navigated to the "Me" page of the Data Browser
   Then I am redirected to the particular entity Detail View
 
 Scenario: Get a Forbidden message when we access something that is forbidden
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
   And I have navigated to the "Schools" listing of the Data Browser
@@ -98,8 +90,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   Then the error is dismissed
 
 Scenario: Traverse Edorg Hiearchy from SEA down to LEA
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should be redirected to the Data Browser home page
@@ -109,8 +100,29 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   Then I should be on the detailed page for an LEA
 
 Scenario: Educators are not authorized to use databrowser
-  When I choose realm "Daybreak Test Realm" in the drop-down list
-  And I click on the realm page Go button
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
   Then I get message that I am not authorized
+
+Scenario: Search by id
+  When I see the realm selector I authenticate to "Daybreak Test Realm"
+  And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
+  Then I should be redirected to the Data Browser home page
+  When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"
+  Then I should see the text "Brandon"
+  And I should see the text "Suzuki"
+  When I search for the identifier "South Daybreak Elementary" in "educationOrganizations"
+  Then I should see the text "South Daybreak Elementary"
+  And I should see the text "Elementary School"
+  When I search for the identifier "<REBECCA BRAVERMAN UNIQUE ID>" in "teachers"
+  Then I should see the text "Rebecca"
+  And I should see the text "Braverman"
+  When I search for the identifier "<AMY KOPEL UNIQUE ID>" in "staff"
+  Then I should see the text "Amy"
+  And I should see the text "Kopel"
+  # Search for something I don't have access to
+  When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
+  Then I see a "There were no entries matching your search" alert box
+

@@ -197,6 +197,17 @@ When /^then click on the "(.*?)" link$/ do |arg1|
   @driver.find_element(:xpath, "/html/body/div/div[2]/div/div/table/tbody/tr[22]/td/div/div[4]/ul/li[4]/a").click
 end
 
+When /^I search for the identifier "([^\"]*)" in "([^\"]*)"$/ do |id, type|
+  # select search type
+  select_list = @driver.find_element(:id, "search_type")
+  drop_down = Selenium::WebDriver::Support::Select.new(select_list)
+  drop_down.select_by(:value, type)
+  # input search id
+  @driver.find_element(:id, "search_id").clear
+  @driver.find_element(:id, "search_id").send_keys id
+  @driver.find_element(:xpath, "//input[@value=\"Search\"]").click
+end
+
 Then /^I see a "(.*?)" alert box$/ do |arg1|
   flash = @driver.find_element(:css, 'div#alert')
   assert(!flash.nil?, "We should see an alert box")
