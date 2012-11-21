@@ -59,6 +59,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = RCSERVER
  elsif human_readable_text == "TENANT"
   value = PropLoader.getProps['tenant']
+ elsif human_readable_text == "CI_IDP_Redirect_URL"
+   value = PropLoader.getProps["ci_idp_redirect_url"]
  end
 
  value
