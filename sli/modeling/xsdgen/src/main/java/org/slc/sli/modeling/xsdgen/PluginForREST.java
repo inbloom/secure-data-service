@@ -141,18 +141,18 @@ public final class PluginForREST implements Uml2XsdPlugin {
             final Uml2XsdPluginWriter xsw) {
         // The existence of this feature depends on whether the association is logically navigable.
         if (end.isNavigable()) {
-            if (PluginHelpers.hasMongoName(end, model)) {
+//            if (PluginHelpers.hasMongoName(end, model)) {
+//                writeEmbedded(complexType, end, model, xsw);
+//                // xsw.choice();
+//                // try {
+//                // writeReference(complexType, end, model, xsw);
+//                // writeEmbedded(complexType, end, model, xsw);
+//                // } finally {
+//                // xsw.end();
+//                // }
+//            } else {
                 writeEmbedded(complexType, end, model, xsw);
-                // xsw.choice();
-                // try {
-                // writeReference(complexType, end, model, xsw);
-                // writeEmbedded(complexType, end, model, xsw);
-                // } finally {
-                // xsw.end();
-                // }
-            } else {
-                writeEmbedded(complexType, end, model, xsw);
-            }
+//            }
         }
     }
 

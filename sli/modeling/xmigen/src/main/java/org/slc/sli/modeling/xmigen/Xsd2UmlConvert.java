@@ -103,8 +103,11 @@ final class Xsd2UmlConvert {
      * xs:documentation or xs:appinfo.
      */
     private static final List<TaggedValue> annotations(final XmlSchemaAnnotated schemaType, final Xsd2UmlConfig config) {
+        if (schemaType == null) {
+            return EMPTY_TAGGED_VALUES;
+        }
         final XmlSchemaAnnotation annotation = schemaType.getAnnotation();
-        if (schemaType == null || annotation == null) {
+        if (annotation == null) {
             return EMPTY_TAGGED_VALUES;
         } else {
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();

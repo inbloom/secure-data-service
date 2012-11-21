@@ -165,7 +165,7 @@ public class WadlAuditConfigTest {
         new WadlAuditConfig(prefix, namespaceURI, null, ELEMENT_NAMES);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullElementNamesThrowsException() {
         new WadlAuditConfig(prefix, namespaceURI, modelIndex, null);
     }

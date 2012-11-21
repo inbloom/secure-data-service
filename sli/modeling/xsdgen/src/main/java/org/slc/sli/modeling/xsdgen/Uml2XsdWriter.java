@@ -435,8 +435,9 @@ final class Uml2XsdWriter {
         try {
             xsw.writeNamespace(PREFIX_XS, NAMESPACE_XS);
             final Map<String, String> prefixMappings = plugin.declarePrefixMappings();
-            for (final String prefix : prefixMappings.keySet()) {
-                final String namespace = prefixMappings.get(prefix);
+            for (final Map.Entry<String, String> entry : prefixMappings.entrySet()) {
+                String prefix = entry.getKey();
+                final String namespace = entry.getValue();
                 if (namespace == null) {
                     throw new IllegalArgumentException("namespace declared by plugin is null.");
                 }
