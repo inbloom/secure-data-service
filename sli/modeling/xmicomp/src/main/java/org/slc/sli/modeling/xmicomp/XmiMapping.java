@@ -44,7 +44,17 @@ public final class XmiMapping implements Comparable<XmiMapping> {
     public int compareTo(final XmiMapping other) {
         return 0;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public XmiFeature getLhsFeature() {
         return lhs;
     }

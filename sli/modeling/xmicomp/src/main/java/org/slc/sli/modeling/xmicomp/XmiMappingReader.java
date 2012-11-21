@@ -119,7 +119,8 @@ public final class XmiMappingReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.DOCUMENT_ELEMENT, reader)) {
-                        return dm = assertNotNull(readMappingList(reader));
+                        dm = assertNotNull(readMappingList(reader));
+                        return dm;
                     } else {
                         XMLStreamReaderTools.skipElement(reader);
                     }
