@@ -25,4 +25,12 @@ class BaseEntity < Mustache
     options[@rand.rand(options.size) - 1]
   end
   
+  def wChoose(distribution)
+    wArray = []
+    distribution.each do |element, weight|
+      weight.times {wArray << element}
+    end 
+    choose(wArray)
+  end
+  
 end
