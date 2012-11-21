@@ -16,21 +16,17 @@ limitations under the License.
 
 =end
 
-require 'mustache'
 
-class BaseEntity < Mustache
-  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
+require_relative 'baseEntity.rb'
 
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
+class SeaEducationOrganization < BaseEntity
+
+  def initialize(id, rand)
+    @id = id
+    @rand = rand
   end
-  
-  def wChoose(distribution)
-    wArray = []
-    distribution.each do |element, weight|
-      weight.times {wArray << element}
-    end 
-    choose(wArray)
+
+  def stateOrgId
+    "sea#{@id}"
   end
-  
 end
