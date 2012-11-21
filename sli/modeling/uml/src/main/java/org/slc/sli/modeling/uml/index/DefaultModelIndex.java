@@ -135,19 +135,15 @@ public class DefaultModelIndex implements ModelIndex {
         // It might be a good idea to cache this when the model is known.
         final List<AssociationEnd> ends = new LinkedList<AssociationEnd>();
         for (final ClassType candidate : associations) {
-            {
-                final AssociationEnd candidateEnd = candidate.getLHS();
-                final Identifier endType = candidateEnd.getType();
-                if (endType.equals(type)) {
-                    ends.add(candidate.getRHS());
-                }
+            final AssociationEnd lhsCandidateEnd = candidate.getLHS();
+            final Identifier lhsEndType = lhsCandidateEnd.getType();
+            if (lhsEndType.equals(type)) {
+                ends.add(candidate.getRHS());
             }
-            {
-                final AssociationEnd candidateEnd = candidate.getRHS();
-                final Identifier endType = candidateEnd.getType();
-                if (endType.equals(type)) {
-                    ends.add(candidate.getLHS());
-                }
+            final AssociationEnd rhsCandidateEnd = candidate.getRHS();
+            final Identifier rhsEndType = rhsCandidateEnd.getType();
+            if (rhsEndType.equals(type)) {
+                ends.add(candidate.getLHS());
             }
         }
         return Collections.unmodifiableList(ends);

@@ -17,6 +17,9 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+/**
+ * Named UML element.
+ */
 public abstract class NamedModelElement extends ModelElement implements HasName {
     private final String name;
     
