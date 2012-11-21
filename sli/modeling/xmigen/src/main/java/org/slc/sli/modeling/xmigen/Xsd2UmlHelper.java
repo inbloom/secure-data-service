@@ -16,6 +16,12 @@
 
 package org.slc.sli.modeling.xmigen;
 
+/**
+ * A utility class that assists in the XSD to UML transformation process.
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlHelper {
     
     /**
