@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * Xmi definition.
+ */
 public final class XmiDefinition {
     private final String name;
     private final String version;

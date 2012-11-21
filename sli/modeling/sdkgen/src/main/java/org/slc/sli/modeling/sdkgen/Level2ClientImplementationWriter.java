@@ -100,17 +100,17 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
     }
 
     private void writeCanonicalInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
-        final JavaParam PARAM_CLIENT = new JavaParam("client", JT_LEVEL_ONE_CLIENT, true);
+        final JavaParam paramBaseUri = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam paramClient = new JavaParam("client", JT_LEVEL_ONE_CLIENT, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI, PARAM_CLIENT);
+            jsw.writeParams(paramBaseUri, paramClient);
             jsw.parenR();
             jsw.beginBlock();
-            jsw.beginStmt().write("this.").write(FIELD_BASE_URI.getName()).write("=").write(PARAM_BASE_URI.getName())
+            jsw.beginStmt().write("this.").write(FIELD_BASE_URI.getName()).write("=").write(paramBaseUri.getName())
                     .endStmt();
-            jsw.beginStmt().write("this.").write(FIELD_CLIENT.getName()).write("=").write(PARAM_CLIENT.getName())
+            jsw.beginStmt().write("this.").write(FIELD_CLIENT.getName()).write("=").write(paramClient.getName())
                     .endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
@@ -119,14 +119,14 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
     }
 
     private void writeConvenienceInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam paramBaseUri = new JavaParam("baseUri", JavaType.JT_STRING, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI);
+            jsw.writeParams(paramBaseUri);
             jsw.parenR();
             jsw.beginBlock();
-            jsw.beginStmt().write("this(" + PARAM_BASE_URI.getName() + ", new JsonLevel1Client())").endStmt();
+            jsw.beginStmt().write("this(" + paramBaseUri.getName() + ", new JsonLevel1Client())").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
             throw new SdkGenRuntimeException(e);
@@ -446,9 +446,7 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (final String step : steps) {
-            if (WadlHelper.isVersion(step)) {
-                // Ignore
-            } else {
+            if (!WadlHelper.isVersion(step)) {
                 if (first) {
                     first = false;
                 } else {

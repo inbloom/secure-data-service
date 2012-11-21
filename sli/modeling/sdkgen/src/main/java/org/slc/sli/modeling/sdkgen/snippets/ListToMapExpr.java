@@ -22,6 +22,9 @@ import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 
+/**
+ * Convert to Map.
+ */
 public final class ListToMapExpr implements JavaSnippetExpr {
 
     private final VarNameExpr id;

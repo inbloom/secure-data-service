@@ -38,9 +38,7 @@ public class XsdGenTest {
     public void testXsdGen() throws IOException {
         final File outFile = new File("test_sli.xsd");
         if (!outFile.exists()) {
-            if (outFile.createNewFile()) {
-                // file created
-            } else {
+            if (!outFile.createNewFile()) {
                 fail("failed to create temp file " + outFile.getName());
             }
         }

@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.wadl;
 
+/**
+ * Runtime exception for WADL package
+ */
 public class WadlRuntimeException extends RuntimeException {
 
     public WadlRuntimeException(Throwable cause) {

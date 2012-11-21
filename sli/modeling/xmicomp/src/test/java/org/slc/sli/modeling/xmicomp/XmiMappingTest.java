@@ -17,83 +17,84 @@
 package org.slc.sli.modeling.xmicomp;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+/**
+ * JUnit test for XmiMapping class.
+ */
 public class XmiMappingTest {
 
-	private static final XmiMappingStatus XMI_MAPPING_STATUS = XmiMappingStatus.UNKNOWN;
-	private static final String TRACKING = "TRACKING";
-	private static final String COMMENT = "COMMENT";
-	private static final XmiFeature LHS_FEATURE = new XmiFeature("foo", true, "bar", true);
-	private static final XmiFeature RHS_FEATURE = new XmiFeature("foo2", true, "bar2", true);
-	private static final XmiMapping XMI_MAPPING = new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, COMMENT);
+    private static final XmiMappingStatus XMI_MAPPING_STATUS = XmiMappingStatus.UNKNOWN;
+    private static final String TRACKING = "TRACKING";
+    private static final String COMMENT = "COMMENT";
+    private static final XmiFeature LHS_FEATURE = new XmiFeature("foo", true, "bar", true);
+    private static final XmiFeature RHS_FEATURE = new XmiFeature("foo2", true, "bar2", true);
+    private static final XmiMapping XMI_MAPPING = new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, COMMENT);
 
-	
-	@Test
-	public void testCompareTo() {
-		assertTrue(XMI_MAPPING.compareTo(null) == 0);
-		assertTrue(XMI_MAPPING.compareTo(XMI_MAPPING) == 0);
-	}
-	
-	@Test
-	public void testGetLhsFeature() {
-		assertEquals(LHS_FEATURE, XMI_MAPPING.getLhsFeature());
-	}
-	
-	@Test
-	public void testGetRhsFeature() {
-		assertEquals(RHS_FEATURE, XMI_MAPPING.getRhsFeature());
-	}
-	
-	@Test
-	public void testGetStatus() {
-		assertEquals(XMI_MAPPING_STATUS, XMI_MAPPING.getStatus());
-	}
-	
-	@Test
-	public void testGetComment() {
-		assertEquals(COMMENT, XMI_MAPPING.getComment());
-	}
-	
-	@Test
-	public void testGetTracking() {
-		assertEquals(TRACKING, XMI_MAPPING.getTracking());
-	}
-	
-	@Test
-	public void testToString() {
-		
-		// test not null
-		assertNotNull(XMI_MAPPING.toString());
-		
-		//if interested in actual response, re-enable this:
-		
-		/*
-		
-		String expectedResult = "{lhs : {name : foo, exists : true, className : bar, classExists : true}, rhs : {name : foo2, exists : true, className : bar2, classExists : true}, status : UNKNOWN, comment : COMMENT}";
-		String receivedResult = XMI_MAPPING.toString();
-		
-		assertEquals(expectedResult, receivedResult);
-		
-		*/
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullParam1() {
-		new XmiMapping(LHS_FEATURE, RHS_FEATURE, null, TRACKING, COMMENT);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullParam2() {
-		new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, null, COMMENT);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullParam3() {
-		new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, null);
-	}
+
+    @Test
+    public void testCompareTo() {
+        assertTrue(XMI_MAPPING.compareTo(null) == 0);
+        assertTrue(XMI_MAPPING.compareTo(XMI_MAPPING) == 0);
+    }
+
+    @Test
+    public void testGetLhsFeature() {
+        assertEquals(LHS_FEATURE, XMI_MAPPING.getLhsFeature());
+    }
+
+    @Test
+    public void testGetRhsFeature() {
+        assertEquals(RHS_FEATURE, XMI_MAPPING.getRhsFeature());
+    }
+
+    @Test
+    public void testGetStatus() {
+        assertEquals(XMI_MAPPING_STATUS, XMI_MAPPING.getStatus());
+    }
+
+    @Test
+    public void testGetComment() {
+        assertEquals(COMMENT, XMI_MAPPING.getComment());
+    }
+
+    @Test
+    public void testGetTracking() {
+        assertEquals(TRACKING, XMI_MAPPING.getTracking());
+    }
+
+    @Test
+    public void testToString() {
+
+        // test not null
+        assertNotNull(XMI_MAPPING.toString());
+
+        //if interested in actual response, re-enable this:
+
+        /*
+
+          String expectedResult = "{lhs : {name : foo, exists : true, className : bar, classExists : true}, rhs : {name : foo2, exists : true, className : bar2, classExists : true}, status : UNKNOWN, comment : COMMENT}";
+          String receivedResult = XMI_MAPPING.toString();
+
+          assertEquals(expectedResult, receivedResult);
+
+          */
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullParam1() {
+        new XmiMapping(LHS_FEATURE, RHS_FEATURE, null, TRACKING, COMMENT);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullParam2() {
+        new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, null, COMMENT);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullParam3() {
+        new XmiMapping(LHS_FEATURE, RHS_FEATURE, XMI_MAPPING_STATUS, TRACKING, null);
+    }
 }

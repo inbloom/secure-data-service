@@ -17,10 +17,8 @@
 package org.slc.sli.modeling.sdkgen;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import javax.xml.namespace.QName;
@@ -37,6 +35,9 @@ import org.slc.sli.modeling.rest.Representation;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 
+/**
+ * Helper methods
+ */
 public final class LevelNClientJavaHelper {
 
     private LevelNClientJavaHelper() {
@@ -96,8 +97,8 @@ public final class LevelNClientJavaHelper {
                         } else {
                             if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
                                 return JT_MAP_STRING_TO_OBJECT;
-                            } else if (CALCULATED_VALUES_ELEMENT_NAME.equals(elementName) ||
-                                    AGGREGATIONS_ELEMENT_NAME.equals(elementName)) {
+                            } else if (CALCULATED_VALUES_ELEMENT_NAME.equals(elementName)
+                                    || AGGREGATIONS_ELEMENT_NAME.equals(elementName)) {
                                 return JT_LIST_OF_ENTITY;
                             } else {
                                 if (quietMode) {
@@ -170,12 +171,7 @@ public final class LevelNClientJavaHelper {
         final JavaCollectionKind collectionKind = type.getCollectionKind();
         switch (collectionKind) {
             case LIST: {
-                if (type.primeType().equals(JT_ENTITY)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return type.primeType().equals(JT_ENTITY);
             }
             case MAP: {
                 return false;

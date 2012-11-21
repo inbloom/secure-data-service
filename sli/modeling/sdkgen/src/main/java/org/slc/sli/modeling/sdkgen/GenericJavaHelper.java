@@ -20,6 +20,9 @@ import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.jgen.JavaType;
 
+/**
+ * Helper methods
+ */
 public final class GenericJavaHelper {
 
     public static JavaType getJavaType(final QName name) {
