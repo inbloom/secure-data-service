@@ -47,7 +47,7 @@ public final class RestEntityTestCase extends TestCase {
         try {
             new Entity(null, data);
             fail("Expecting NPE for null type argument.");
-        } catch (final NullPointerException e) {
+        } catch (final IllegalArgumentException e) {
             assertEquals("type", e.getMessage());
         }
     }
@@ -60,7 +60,7 @@ public final class RestEntityTestCase extends TestCase {
         try {
             new Entity("student", null);
             fail("Expecting NPE for null data argument.");
-        } catch (final NullPointerException e) {
+        } catch (final IllegalArgumentException e) {
             assertEquals("data", e.getMessage());
         }
     }
