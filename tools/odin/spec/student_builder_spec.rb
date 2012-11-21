@@ -36,8 +36,12 @@ describe "StudentBuilder" do
         newStudent.birthDay.to_s.should match(/1999-06-17/)
       end
 
-      it "will match the HARDCODED state" do
+      it "will match the state in choices.yml" do
         newStudent.state.should eq("NY")
+      end
+      
+      it "will match the city in choices.yml" do
+        newStudent.city.should eq("New York")
       end
 
       it "will match the HARDCODED zip code"  do
@@ -70,6 +74,26 @@ describe "StudentBuilder" do
           ret = "false"
         end
         ret.should eq("true")
+      end
+      
+      it "returns 15-25% hispanicLatino true" do
+        i = 0
+        hit = 0
+        while i < 1000 do
+          retVal = newStudent.hispanicLatino
+          if retVal
+            hit += 1
+          end
+          i += 1
+        end
+        if hit.between?(150, 250)
+          puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES! YAY!"
+          puts "Want the know specifics? hispanicLatino came back #{hit} times out of 1000."
+          ret = "true"
+        else
+          ret = "false"
+        end
+        ret.should eq("true")        
       end
     end        
         
