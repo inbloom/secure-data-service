@@ -54,10 +54,6 @@ public void before() throws Exception {
     pluginForSLI = new Xsd2UmlPluginForSLI();
 }
 
-@After
-public void after() throws Exception { 
-} 
-
 /** 
 * 
 * Method: declareTagDefinitions(final Xsd2UmlPluginHost host) 

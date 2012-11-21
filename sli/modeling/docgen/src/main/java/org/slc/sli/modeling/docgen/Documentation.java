@@ -27,7 +27,7 @@ public final class Documentation<TYPE> {
     
     public Documentation(final List<Domain<TYPE>> domains) {
         if (domains == null) {
-            throw new NullPointerException("domains");
+            throw new IllegalArgumentException("domains");
         }
         this.domains = Collections.unmodifiableList(new ArrayList<Domain<TYPE>>(domains));
     }
