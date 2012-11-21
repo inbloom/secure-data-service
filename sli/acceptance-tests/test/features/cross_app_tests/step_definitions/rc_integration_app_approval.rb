@@ -16,8 +16,6 @@ limitations under the License.
 
 =end
 
-require 'capybara-screenshot/cucumber'
-
 #portal, which also imports dashboard step def
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
