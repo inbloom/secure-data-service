@@ -24,7 +24,7 @@ class EulasControllerTest < ActionController::TestCase
   setup do
     @request.env['SERVER_PROTOCOL']='HTTP/1.1'
   end
- 
+
   test "should respond to post for accept/reject" do
     Eula.stubs(:accepted?).returns(true)
     ApplicationHelper.stubs(:send_user_verification_email).returns(true)
@@ -45,7 +45,7 @@ class EulasControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should check for valid session before rendering eula" do 
+  test "should check for valid session before rendering eula" do
     Session.stubs(:valid?).returns(false)
     assert_raise(ActionController::RoutingError) { get :show}
 

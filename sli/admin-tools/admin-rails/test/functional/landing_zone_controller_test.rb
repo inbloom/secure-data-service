@@ -29,7 +29,7 @@ class LandingZoneControllerTest < ActionController::TestCase
     get :index, {}, { :roles => ["Ingestion User"] }
     assert_response :success, @response.body
   end
-  
+
   test "should fail due to lack of permissions" do
     get :index, {}, { :roles => ["Developer"] }
     assert_response 403
