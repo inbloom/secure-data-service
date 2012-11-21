@@ -412,6 +412,9 @@ public class EntityRepositoryTest {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
 
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
+
         repository.create("student", buildTestStudentEntity());
 
         Entity entity = repository.findOne("student", new NeutralQuery());
@@ -424,6 +427,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
+        
+        repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);         
     }
     @Test
     public void testCreateWithMetadata() {
