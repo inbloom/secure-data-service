@@ -25,12 +25,12 @@ class AppTest < ActiveSupport::TestCase
     assert_not_nil(apps)
     assert_equal(apps.size, 2)
   end
-  
+
   test "new app" do
     app = App.new
     assert_not_nil(app)
   end
-  
+
   test "app version validation" do
     app = build_app
     app.version = nil
@@ -44,14 +44,14 @@ class AppTest < ActiveSupport::TestCase
     app.version = "Waffles"
     assert app.valid?, "App is valid with a string"
   end
-  
-  
+
+
   # test "save app" do
   #   app = App.new(@app_fixtures["new"])
   #   assert(app.valid?, "This should be valid")
   #   assert_nothing_raised(Exception) { app.save }
   # end
-  
+
   private
   def build_app
     app = App.new
