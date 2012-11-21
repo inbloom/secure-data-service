@@ -145,7 +145,6 @@ public void testGetAssociationEndTypeName() throws Exception {
 */ 
 @Test
 public void testGetTagDefinition() throws Exception { 
-//TODO: Test goes here...
    when(mapper.getTagDefinition(any(Identifier.class))).thenReturn(tagDefinition);
     assertEquals(tagDefinition, adapter.getTagDefinition(identifier));
 }

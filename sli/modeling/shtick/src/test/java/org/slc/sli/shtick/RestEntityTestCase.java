@@ -65,9 +65,6 @@ public final class RestEntityTestCase extends TestCase {
         }
     }
 
-    /**
-     * FIXME: We're only going to the first level here.
-     */
     public void testMakingDefensiveCopyOfArguments() {
         final Map<String, Object> data = new HashMap<String, Object>();
         data.put("someBoolean", Boolean.TRUE);

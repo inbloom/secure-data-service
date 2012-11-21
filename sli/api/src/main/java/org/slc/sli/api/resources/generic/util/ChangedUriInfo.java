@@ -40,25 +40,25 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public String getPath() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public String getPath(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<PathSegment> getPathSegments() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<PathSegment> getPathSegments(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -74,19 +74,19 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public URI getAbsolutePath() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public UriBuilder getAbsolutePathBuilder() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public URI getBaseUri() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -97,13 +97,13 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getPathParameters() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public MultivaluedMap<String, String> getPathParameters(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -114,7 +114,7 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
@@ -126,13 +126,13 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public List<String> getMatchedURIs(boolean decode) {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     
     @Override
     public List<Object> getMatchedResources() {
-        // TODO Auto-generated method stub
+        // No op
         return null;
     }
     

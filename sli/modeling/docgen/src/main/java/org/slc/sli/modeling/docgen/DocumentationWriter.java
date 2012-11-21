@@ -69,7 +69,7 @@ public final class DocumentationWriter {
     }
 
     private static boolean isEmbedded(final Feature feature, final ModelIndex model) {
-        // FIXME: To really determine whether the feature is embedded we should look at the
+        // To really determine whether the feature is embedded we should look at the
         // aggregation property on the other end of an association end.
         return feature.isAttribute();
     }

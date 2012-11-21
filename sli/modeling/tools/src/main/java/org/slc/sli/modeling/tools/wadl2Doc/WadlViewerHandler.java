@@ -60,7 +60,7 @@ public final class WadlViewerHandler implements WadlHandler {
 
     @Override
     public void beginApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 
@@ -73,7 +73,7 @@ public final class WadlViewerHandler implements WadlHandler {
 
     @Override
     public void endApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 
