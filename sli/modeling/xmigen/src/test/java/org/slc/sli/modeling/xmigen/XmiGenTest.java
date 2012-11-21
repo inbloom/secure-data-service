@@ -39,23 +39,11 @@ public void after() throws Exception {
 
 /** 
 * 
-* Method: main(final String[] args) 
-* 
-*/ 
-@Test
-public void testMain() throws Exception { 
-//TODO: Test goes here... 
-} 
-
-
-/** 
-* 
 * Method: loadPlugIn(final String name) 
 * 
 */ 
 @Test
 public void testLoadPlugIn() throws Exception { 
-//TODO: Test goes here... 
 /* 
 try { 
    Method method = XmiGen.getClass().getMethod("loadPlugIn", final.class); 
@@ -75,7 +63,6 @@ try {
 */ 
 @Test
 public void testOptionSpec() throws Exception { 
-//TODO: Test goes here... 
 /* 
 try { 
    Method method = XmiGen.getClass().getMethod("optionSpec", final.class, final.class, final.class, final.class); 

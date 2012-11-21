@@ -58,13 +58,13 @@ class AppsController < ApplicationController
   def new
     @title = "New Application"
     @app = App.new
-      
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @app }
     end
   end
-  
+
   # GET /apps/1/edit
   # GET /apps/1/edit.json
   def edit
@@ -141,7 +141,7 @@ class AppsController < ApplicationController
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
         if !APP_CONFIG["is_sandbox"]
-            ApplicationMailer.notify_operator(session[:support_email], @app, "#{dev_info[:first]} #{dev_info[:last]}").deliver
+          ApplicationMailer.notify_operator(session[:support_email], @app, "#{dev_info[:first]} #{dev_info[:last]}").deliver
         end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
@@ -178,11 +178,11 @@ class AppsController < ApplicationController
 
 
     logger.debug {"App found (Update): #{@app.to_json}"}
-    
+
     respond_to do |format|
       if @app.update_attributes(params[:app])
-          format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
-          format.json { head :ok }
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
@@ -195,7 +195,7 @@ class AppsController < ApplicationController
   def destroy
     @app = App.find(params[:id])
     @app.destroy
-  
+
     respond_to do |format|
       format.js
       # format.html { redirect_to apps_url }
@@ -209,11 +209,11 @@ class AppsController < ApplicationController
 
     state_ed_orgs.each do |ed_org|
       current = {"name" => ed_org.nameOfInstitution, "state" => ed_org.address[0].stateAbbreviation }
-      @results.push current   
+      @results.push current
     end
     @results.sort! {|x, y| x["state"] <=> y["state"]}
   end
-  
+
   def get_local_edorgs
     state = params[:state]
     @results = []
@@ -234,10 +234,10 @@ class AppsController < ApplicationController
   private
   def boolean_fix (parameter)
     case parameter
-    when "1"
-      parameter = true
-    when "0"
-      parameter = false
+      when "1"
+        parameter = true
+      when "0"
+        parameter = false
     end
   end
 
@@ -254,9 +254,9 @@ class AppsController < ApplicationController
     columns = sort_column().split(".")
     puts("The sort_column is #{sort_column()}")
     if sort_direction == "desc"
-        app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
+      app_array = app_array.sort { |a, b| getAttribute(b, columns) <=> getAttribute(a, columns)}
     else
-        app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
+      app_array = app_array.sort { |a, b| getAttribute(a, columns) <=> getAttribute(b, columns)}
     end
     app_array
   end

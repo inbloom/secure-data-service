@@ -133,7 +133,6 @@ public final class LevelNClientJavaHelper {
             return JT_MAP_STRING_TO_OBJECT;
         }
         case NONE: {
-            // FIXME:
             if (type.getSimpleName().equalsIgnoreCase("home")) {
                 return JT_ENTITY;
             }
@@ -156,7 +155,6 @@ public final class LevelNClientJavaHelper {
             return false;
         }
         case MAP: {
-            // FIXME: This should check the key type and bvalue type as well.
             return true;
         }
         case NONE: {
@@ -180,7 +178,6 @@ public final class LevelNClientJavaHelper {
                 }
             }
             case MAP: {
-                // FIXME: This should check the key type and bvalue type as well.
                 return false;
             }
             case NONE: {

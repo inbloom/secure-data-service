@@ -48,7 +48,7 @@ class UserAccountRegistration
     ApplicationHelper.add_user(self)
   end
 
-private
+  private
   def is_sandbox?
     APP_CONFIG["is_sandbox"]
   end
