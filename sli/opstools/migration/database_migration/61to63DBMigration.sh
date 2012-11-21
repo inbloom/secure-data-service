@@ -29,6 +29,8 @@
        #move adminDelegation into tenant db
        mongo sli --eval "db.adminDelegation.find({'metaData.tenantId': '${tenant}'}).forEach(function(d) {db = db.getSisterDB('${sha1DBName}');db.adminDelegation.insert(d);})"
 
+       #rename the SLC realm
+       mongo sli --eval "db.realm.update({'body.uniqueIdentifier':'Shared Learning Infrastructure'}, {$set:{'body.uniqueIdentifier':'Shared Learning Collaborative'}})"
   done
 
 #remove all the tenant-specified collections from sli
