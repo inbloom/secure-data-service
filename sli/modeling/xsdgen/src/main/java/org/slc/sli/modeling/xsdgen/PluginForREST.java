@@ -35,6 +35,12 @@ import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 
+/**
+ * Writes XSD.
+ * 
+ * @author kmyers
+ *
+ */
 public final class PluginForREST implements Uml2XsdPlugin {
 
     // The target name-space should coincide with whatever is returned by the API.
@@ -160,13 +166,11 @@ public final class PluginForREST implements Uml2XsdPlugin {
             xsw.type(getTypeName(type.getName()));
             xsw.minOccurs(end.getMultiplicity().getRange().getLower());
             xsw.maxOccurs(end.getMultiplicity().getRange().getUpper());
-            {
-                xsw.annotation();
-                try {
-                    PluginHelpers.writeDocumentation(end, model, xsw);
-                } finally {
-                    xsw.end();
-                }
+            xsw.annotation();
+            try {
+                PluginHelpers.writeDocumentation(end, model, xsw);
+            } finally {
+                xsw.end();
             }
         } finally {
             xsw.end();
@@ -181,13 +185,11 @@ public final class PluginForREST implements Uml2XsdPlugin {
             xsw.type(WxsNamespace.STRING);
             xsw.minOccurs(end.getMultiplicity().getRange().getLower());
             xsw.maxOccurs(end.getMultiplicity().getRange().getUpper());
-            {
-                xsw.annotation();
-                try {
-                    PluginHelpers.writeDocumentation(end, model, xsw);
-                } finally {
-                    xsw.end();
-                }
+            xsw.annotation();
+            try {
+                PluginHelpers.writeDocumentation(end, model, xsw);
+            } finally {
+                xsw.end();
             }
         } finally {
             xsw.end();

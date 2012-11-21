@@ -1,5 +1,11 @@
 package org.slc.sli.modeling.xsdgen;
 
+/**
+ * A RunTimeException that occurs during the XSD generation process.
+ * 
+ * @author kmyers
+ *
+ */
 public class XsdGenRuntimeException extends RuntimeException {
 
     public XsdGenRuntimeException(Throwable cause) {

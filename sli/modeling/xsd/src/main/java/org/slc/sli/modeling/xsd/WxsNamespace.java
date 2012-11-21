@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 /**
  * Symbolic constants for the W3C XML Schema (WXS) name-space.
  */
-public interface WxsNamespace {
+public final class WxsNamespace {
     public static final String URI = "http://www.w3.org/2001/XMLSchema";
     public static final QName BOOLEAN = new QName(URI, "boolean");
     public static final QName DATE = new QName(URI, "date");
