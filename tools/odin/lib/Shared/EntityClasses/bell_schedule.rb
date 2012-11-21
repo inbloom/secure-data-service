@@ -16,27 +16,41 @@ limitations under the License.
 
 =end
 
-require 'mustache'
-require_relative './baseEntity.rb'
+require_relative 'baseEntity.rb'
 
-class CourseOffering < BaseEntity
+class BellSchedule < BaseEntity
 
-  attr_accessor :id, :edOrg
+  attr_accessor :id, :session
 
-  def initialize(id, edOrg)
+  def initialize(id, session)
     @id = id
-    @edOrg = edOrg
+    @session = :session
+  end
+  
+ def  edOrgId
+   3000
+ end
+  def name
+    "schedule name"
   end
 
-  def edOrgId
-   3000
-   end
-   
-   def session
-     "new session FIXME"
-   end
-   
-   def uniqueCourseId
-     "fixme course Id"
-   end
+  def gradeLevels
+    ["Early Education"]
+  end  
+  def weeksInCycle
+    3
+  end
+
+  def classPeriodName
+    "classperiodName"
+  end
+  
+  def weekNumber
+    40
+  end
+  
+  ## FIXME - Needs a fixed date
+  def calendarDate
+   Date.today.xmlschema
+  end
 end

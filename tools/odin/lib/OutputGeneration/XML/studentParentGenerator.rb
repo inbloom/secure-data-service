@@ -20,7 +20,7 @@ require_relative "./interchangeGenerator.rb"
 require_relative "../../EntityCreation/student_builder.rb"
 require_relative "../../Shared/demographics.rb"
 
-Dir["#{File.dirname(__FILE__)}/../../Shared/baseEntityClasses/*.rb"].each { |f| load(f) }
+Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
 class StudentParentGenerator < InterchangeGenerator
   def initialize
