@@ -28,4 +28,5 @@ import java.util.HashMap;
  */
 public class SelectorQuery extends HashMap<Type, SelectorQueryPlan> {
 
+    private static final long serialVersionUID = -1000986083487888863L;
 }
