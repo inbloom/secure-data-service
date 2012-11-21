@@ -81,16 +81,6 @@ public class SamlFederationResourceTest {
     }
 
     @Test
-    public void getSloEndpointTest() {
-        //TODO
-    }
-
-    @Test
-    public void logoutOfIdpTest() {
-        //TODO
-    }
-
-    @Test
     public void consumeBadSAMLDataTest() {
         String postData = "badSAMLData";
 

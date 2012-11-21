@@ -522,7 +522,6 @@ public final class WadlReader {
         throw new AssertionError();
     }
 
-    // FIXME: This will be used soon; do not delete.
     private static final DmElement readMixedElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName name = reader.getName();
         final List<DmNode> children = new LinkedList<DmNode>();

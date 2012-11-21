@@ -48,16 +48,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
@@ -74,6 +64,15 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
 * Unit tests for the default crud endpoint
@@ -472,9 +471,7 @@ public class DefaultCrudEndPointTest {
     }
 
     /**
-     *
-     * TODO: add javadoc
-     *
+     * @author srupasinghe
      */
     @Configuration
     static class Config {
@@ -488,9 +485,7 @@ public class DefaultCrudEndPointTest {
     }
 
     /**
-     *
-     * TODO: add javadoc
-     *
+     * @author srupasinghe
      */
     static class TestEndPoint extends DefaultCrudEndpoint {
 

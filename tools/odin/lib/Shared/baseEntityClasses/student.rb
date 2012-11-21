@@ -65,19 +65,23 @@ class Student < BaseEntity
   end
 
   def economicDisadvantaged
-    choose([true, false])
+    #choose([true, false])
+    wChoose(@demographics.economicDisadvantaged)
   end
 
   def schoolFood
-    choose(['Free', 'Full price', 'Reduced price', 'Unknown'])
+    #choose(['Free', 'Full price', 'Reduced price', 'Unknown'])
+    wChoose(@demographics.schoolFood)
   end
 
   def limitedEnglish
-    choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
+    #choose(['Limited', 'Limited Monitored 1', 'Limited Monitored 2', 'NotLimited'])
+    wChoose(@demographics.limitedEnglish)
   end
   
   def disability
-    choose([true, false])
+    #choose([true, false])
+    wChoose(@demographics.disability)
   end
 
   def race
@@ -88,5 +92,23 @@ class Student < BaseEntity
   def genRace
     wChoose(@demographics.raceDistribution)
   end
-
+  
+  def distributionTester(inMethod, tracer, lo, hi, iters)
+    i = 0
+    hit = 0
+    while i < iters do
+      if inMethod.call == tracer
+        hit += 1
+      end
+      i += 1
+    end
+    
+    if hit.between?(lo, hi)
+      puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES. #{tracer} was #{hit}/#{iters}."
+      return "true"
+    else
+      puts "FAIL. #{tracer} came back #{hit} times out of #{iters}"
+      return "false"
+    end
+  end
 end

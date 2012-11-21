@@ -50,19 +50,19 @@ LDAP_ATTR_MAPPING = {
 COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
 if __FILE__ == $0
-    unless ARGV.length == 2
-        puts "Usage: " + $0 + " config.yml environment account_name "
-        exit(1)
-    end
-    
-    config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
-    puts "BASE: #{config['ldap_base']}"
-    ldap = LDAPStorage.new(config['ldap_host'], config['ldap_port'], config['ldap_base'], config['ldap_user'], config['ldap_pass'])
+  unless ARGV.length == 2
+    puts "Usage: " + $0 + " config.yml environment account_name "
+    exit(1)
+  end
 
-    users = ldap.read_users
-    puts "-------------------------------"
-    users.each do |u|
-        puts u[:email]
-    end 
-    puts "FOUND #{users.length}"
+  config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
+  puts "BASE: #{config['ldap_base']}"
+  ldap = LDAPStorage.new(config['ldap_host'], config['ldap_port'], config['ldap_base'], config['ldap_user'], config['ldap_pass'])
+
+  users = ldap.read_users
+  puts "-------------------------------"
+  users.each do |u|
+    puts u[:email]
+  end
+  puts "FOUND #{users.length}"
 end
