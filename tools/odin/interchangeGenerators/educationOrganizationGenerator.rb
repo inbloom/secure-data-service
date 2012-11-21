@@ -17,9 +17,16 @@ limitations under the License.
 =end
 
 require_relative "./interchangeGenerator.rb"
+require_relative "../data_utility.rb"
+
 Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
 
+# event-based education organization interchange generator
 class EducationOrganizationGenerator < InterchangeGenerator
+
+  # initialization will define the header and footer for the education organization interchange
+  # writes header to education organization interchange
+  # leaves file handle open for event-based writing of ed-fi entities
   def initialize
     @header = <<-HEADER
 <?xml version="1.0"?>
@@ -29,42 +36,38 @@ HEADER
     @footer = <<-FOOTER
 </InterchangeEducationOrganization>
 FOOTER
+    @handle = File.new("generated/InterchangeEducationOrganization.xml", 'w')
+    @handle.write(@header)
   end
 
-  def write(prng, yamlHash)
-    File.open("generated/InterchangeEducationOrganization.xml", 'w') do |f|
-      f.write(@header)
-      for seaId in 1..yamlHash['numSEA'] do
-        sea = SeaEducationOrganization.new seaId, prng
-        f.write(sea.render)
-        for leaId in 1..yamlHash['numLEA'] do
-          lea = LeaEducationOrganization.new leaId, seaId, prng
-          f.write(lea.render)
-          for schoolId in 1..(1.0*yamlHash['studentCount']/yamlHash['studentsPerSchool']).ceil do
-            school = SchoolEducationOrganization.new schoolId, leaId, prng
-            f.write(school.render)
-          end
-        end
-      end
-
-      for id in programs(yamlHash)
-        f.write Program.new(id.to_s, prng).render
-      end
-
-      for id in courses(yamlHash)
-        f.write Course.new(id.to_s, prng).render
-      end
-
-      f.write(@footer)
-    end
+  # creates and writes state education agency to interchange
+  def create_state_education_agency(rand, id)
+    @handle.write SeaEducationOrganization.new(id, rand).render
   end
-  
-end
 
-def programs(yaml)
-  (1..yaml['numPrograms'])
-end
+  # creates and writes local education agency to interchange
+  def create_local_education_agency(rand, id, parent_id)
+    @handle.write LeaEducationOrganization.new(id, parent_id, rand).render
+  end
 
-def courses(yaml)
-  (1..yaml['numCourses'])
+  # creates and writes school to interchange
+  def create_school(rand, id, parent_id, type)
+    @handle.write SchoolEducationOrganization.new(rand, id, parent_id, type).render
+  end
+
+  # creates and writes course to interchange
+  def create_course(rand, id, ed_org_id)
+    @handle.write Course.new(id.to_s, prng).render
+  end
+
+  # creates and writes program to interchange
+  def create_program(rand, id)
+    @handle.write Program.new(id.to_s, prng).render
+  end
+
+  # writes footer and closes education organization interchange file handle
+  def close
+    @handle.write(@footer)
+    @handle.close()
+  end
 end
