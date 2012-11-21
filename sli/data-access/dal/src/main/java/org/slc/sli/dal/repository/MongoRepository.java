@@ -665,4 +665,21 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         return null;
     }
+    
+    /**
+     * A thin wrapper around the mongodb ensureIndex method to allow to add indices to a collection. 
+     * This is primarily for testing purposes to ensure unit tests pass table scan is disabled. 
+     */
+    protected void ensureIndex(String collectionName, DBObject keys) {
+        template.getCollection(collectionName).ensureIndex(keys); 
+    }
+    
+    /** 
+     * A think wrapper around MongoDB's dropIndex method to allow to drop indices of a collection.
+     * This is complementary to the ensureIndex method to allow to drop indices created in unit tests.
+     * This forces each unit test to handle it's own index creation.  
+     */
+    protected void dropIndex(String collectionName, DBObject keys) { 
+        template.getCollection(collectionName).dropIndex(keys); 
+    }
 }

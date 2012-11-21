@@ -31,6 +31,8 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 
 import org.joda.time.DateTime;
@@ -68,6 +70,9 @@ public class EntityRepositoryTest {
     @Test
     public void testDeleteAll() {
         repository.deleteAll("student", null);
+        
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
         studentMap.put("firstName", "John");
@@ -81,7 +86,9 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
         repository.deleteAll("student", neutralQuery);
         assertEquals(4, repository.count("student", new NeutralQuery()));
+        
         repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys); 
     }
 
     @Test
@@ -238,6 +245,10 @@ public class EntityRepositoryTest {
     @Test
     public void testCount() {
         repository.deleteAll("student", null);
+        
+        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);
+
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
@@ -249,6 +260,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=Nantucket"));
         assertEquals(1, repository.count("student", neutralQuery));
+        
+        repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);        
     }
 
     private Map<String, Object> buildTestStudentEntity() {
@@ -336,6 +350,9 @@ public class EntityRepositoryTest {
     @Test
     public void findOneTest() {
         repository.deleteAll("student", null);
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
 
@@ -344,11 +361,17 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
         assertNotNull(this.repository.findOne("student", neutralQuery));
+
+        repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);     
     }
 
     @Test
     public void findOneMultipleMatches() {
         repository.deleteAll("student", null);
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+        
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
@@ -363,17 +386,25 @@ public class EntityRepositoryTest {
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
-
         assertNotNull(this.repository.findOne("student", neutralQuery));
+
+        repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);     
     }
 
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student", null);
+        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+        ((MongoRepository<?>)repository).ensureIndex("student", indexKeys);        
+        
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
         assertNull(this.repository.findOne("student", neutralQuery));
+        
+        repository.deleteAll("student", null);
+        ((MongoRepository<?>)repository).dropIndex("student", indexKeys);        
     }
 
     @Test
