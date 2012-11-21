@@ -1,5 +1,4 @@
 @rc
-@screenshot
 Feature:  RC Integration Tests
 
 Background:
