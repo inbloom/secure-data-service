@@ -19,7 +19,6 @@ package org.slc.sli.modeling.xmigen;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.junit.Test;
 import org.junit.Before; 
-import org.junit.After;
 import org.mockito.Mockito;
 import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
 import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
