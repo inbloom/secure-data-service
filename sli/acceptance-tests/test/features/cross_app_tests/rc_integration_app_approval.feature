@@ -7,7 +7,6 @@ Given I have an open web browser
 Scenario: Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
-#When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
 Then I should be on Portal home page
@@ -20,11 +19,8 @@ And I switch to the iframe
 And I should see that I am on the new realm page
 And all of the input fields should be blank
 And I should enter "Daybreak Test Realm" into the Display Name field
-#And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into IDP URL
-#And I should enter "https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant" into Redirect Endpoint
 And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
 And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
-
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 Then I should be redirected back to the edit page
@@ -49,9 +45,8 @@ And I click on log out
 Scenario: App developer creates new installed app
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
-#When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials  "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
+When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -104,7 +99,7 @@ When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
 #When I selected the realm "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials  "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
+When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
