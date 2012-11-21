@@ -16,12 +16,6 @@ limitations under the License.
 
 =end
 
-After do |scenario|
-    if (scenario.failed?)
-        puts @driver.page_source.to_s
-    end
-end
-
 def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
   return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
@@ -103,6 +97,9 @@ end
 
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
+  if (scenario.failed?)
+    puts @driver.page_source.to_s
+  end
   @driver.quit if @driver
 end
 
