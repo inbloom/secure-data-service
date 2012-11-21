@@ -15,22 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+Dir["#{File.dirname(__FILE__)}/../../Shared/EntityClasses/*.rb"].each { |f| load(f) }
 
-require 'mustache'
+class InterchangeGenerator
 
-class BaseEntity < Mustache
-  self.template_path = File.dirname(__FILE__) + "/../baseEntityTemplates"
+  attr_accessor :header, :footer
 
-  def choose(options)
-    options[@rand.rand(options.size) - 1]
-  end
-  
-  def wChoose(distribution)
-    wArray = []
-    distribution.each do |element, weight|
-      weight.times {wArray << element}
-    end 
-    choose(wArray)
-  end
-  
 end

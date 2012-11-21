@@ -16,8 +16,8 @@ limitations under the License.
 
 =end
 
-require_relative "./baseEntity.rb"
 require_relative "../data_utility.rb"
+require_relative "baseEntity.rb"
 require_relative "enum/GradeLevelType.rb"
 
 # creates school

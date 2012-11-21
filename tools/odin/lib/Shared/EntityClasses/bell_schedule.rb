@@ -16,7 +16,41 @@ limitations under the License.
 
 =end
 
-class InterchangeGenerator
-  attr_accessor :header, :footer
+require_relative 'baseEntity.rb'
 
+class BellSchedule < BaseEntity
+
+  attr_accessor :id, :session
+
+  def initialize(id, session)
+    @id = id
+    @session = :session
+  end
+  
+ def  edOrgId
+   3000
+ end
+  def name
+    "schedule name"
+  end
+
+  def gradeLevels
+    ["Early Education"]
+  end  
+  def weeksInCycle
+    3
+  end
+
+  def classPeriodName
+    "classperiodName"
+  end
+  
+  def weekNumber
+    40
+  end
+  
+  ## FIXME - Needs a fixed date
+  def calendarDate
+   Date.today.xmlschema
+  end
 end

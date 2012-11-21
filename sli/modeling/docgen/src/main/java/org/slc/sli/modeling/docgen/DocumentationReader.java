@@ -43,8 +43,11 @@ import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class DocumentationReader {
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentationReader.class);
 	
 	public DocumentationReader() {
 		throw new UnsupportedOperationException();
@@ -88,7 +91,7 @@ public final class DocumentationReader {
         try {
             closeable.close();
         } catch (final IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
     }
 
@@ -196,7 +199,7 @@ public final class DocumentationReader {
      */
     public static final Documentation<Type> readDocumentation(final InputStream stream, final ModelIndex mapper) {
         if (stream == null) {
-            throw new NullPointerException("stream");
+            throw new IllegalArgumentException("stream");
         }
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
@@ -208,14 +211,14 @@ public final class DocumentationReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new DocumentGeneratorRuntimeException(e);
         }
     }
 
     public static final Documentation<Type> readDocumentation(final File file, final ModelIndex mapper)
             throws FileNotFoundException {
         if (file == null) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -228,7 +231,7 @@ public final class DocumentationReader {
     public static final Documentation<Type> readDocumentation(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
         if (fileName == null) {
-            throw new NullPointerException("fileName");
+            throw new IllegalArgumentException("fileName");
         }
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -445,7 +448,7 @@ public final class DocumentationReader {
         if (obj != null) {
             return obj;
         } else {
-            throw new RuntimeException(msg);
+            throw new DocumentGeneratorRuntimeException(msg);
         }
     }
 }

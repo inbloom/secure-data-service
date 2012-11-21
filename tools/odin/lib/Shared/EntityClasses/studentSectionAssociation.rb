@@ -16,8 +16,7 @@ limitations under the License.
 
 =end
 
-
-require_relative './baseEntity.rb'
+require_relative 'baseEntity.rb'
 
 class StudentSectionAssociation < BaseEntity
 

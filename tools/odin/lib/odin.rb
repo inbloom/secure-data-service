@@ -24,11 +24,11 @@ require 'thwait'
 require 'yaml'
 
 require_relative 'EntityCreation/world_builder.rb'
-require_relative 'OutputGeneration/interchangeGenerators/educationOrganizationGenerator'
-require_relative 'OutputGeneration/interchangeGenerators/studentParentGenerator'
-require_relative 'OutputGeneration/interchangeGenerators/masterScheduleGenerator'
-require_relative 'OutputGeneration/validator.rb'
-require_relative 'Shared/util.rb'
+require_relative 'OutputGeneration/XML/studentGenerator'
+require_relative 'OutputGeneration/XML/validator'
+require_relative 'Shared/util'
+require_relative 'Shared/demographics'
+require_relative 'Shared/EntityClasses/student'
 
 # offline data integration nexus --> ODIN
 class Odin
@@ -61,14 +61,13 @@ class Odin
     @log.info "edOrgs: #{edOrgs}"
     
     # Process the work_order(s)
+    #tids << Thread.new() do
+    #  StudentParentGenerator.new.write(prng, scenarioYAML)
+    #end
+    #tids << Thread.new() do
+    #  MasterScheduleGenerator.new.write(prng, scenarioYAML)
 
-    tids << Thread.new() do
-      StudentParentGenerator.new.write(prng, scenarioYAML)
-    end
-    tids << Thread.new() do
-      MasterScheduleGenerator.new.write(prng, scenarioYAML)
-    end
-    ThreadsWait.all_waits tids
+    StudentGenerator.new.write(students)
 
     finalTime = Time.now - time
     @log.info "Total generation time: #{finalTime} secs"

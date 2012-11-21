@@ -56,9 +56,6 @@ public void before() throws Exception {
     generic = new Xsd2UmlPluginGeneric();
 } 
 
-@After
-public void after() throws Exception { 
-} 
 
 /** 
 * 

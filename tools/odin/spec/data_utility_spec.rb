@@ -16,10 +16,9 @@ limitations under the License.
 
 =end
 
-require_relative '../data_utility.rb'
+require_relative '../lib/Shared/data_utility.rb'
 
 describe "DataUtility" do
-
   describe "Generates correct _id for each supported entity" do
     describe "#get_student_unique_state_id" do
       it "will generate a student unique state id with the correct format" do

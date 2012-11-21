@@ -19,7 +19,7 @@ limitations under the License.
 require_relative "./interchangeGenerator.rb"
 require_relative "../../Shared/data_utility.rb"
 
-Dir["#{File.dirname(__FILE__)}/../baseEntityClasses/*.rb"].each { |f| load(f) }
+Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
 
 # event-based education organization interchange generator
 class EducationOrganizationGenerator < InterchangeGenerator

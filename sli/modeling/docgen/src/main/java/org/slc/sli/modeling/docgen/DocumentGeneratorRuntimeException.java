@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package org.slc.sli.modeling.sdkgen;
+package org.slc.sli.modeling.docgen;
 
-public class SdkGenRuntimeException extends RuntimeException {
-
-    public SdkGenRuntimeException(Throwable cause) {
+/**
+ * Created with IntelliJ IDEA.
+ * User: pghosh
+ * Date: 11/21/12
+ * Time: 11:08 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public class DocumentGeneratorRuntimeException extends RuntimeException{
+    public DocumentGeneratorRuntimeException(Throwable cause) {
         super(cause);
     }
 
-    public SdkGenRuntimeException(String message) {
+    public DocumentGeneratorRuntimeException(String message) {
         super(message);
     }
 
-    public SdkGenRuntimeException(String message, Throwable cause) {
+    public DocumentGeneratorRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
 }

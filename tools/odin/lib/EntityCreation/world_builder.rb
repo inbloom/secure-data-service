@@ -19,9 +19,9 @@ limitations under the License.
 require 'date'
 require 'logger'
 
-require_relative "../OutputGeneration/interchangeGenerators/educationOrganizationGenerator.rb"
-require_relative "../Shared/baseEntityClasses/enum/GradeLevelType.rb"
-require_relative "../Shared/baseEntityClasses/schoolEducationOrganization.rb"
+require_relative "../OutputGeneration/XML/educationOrganizationGenerator.rb"
+require_relative "../Shared/EntityClasses/enum/GradeLevelType.rb"
+require_relative "../Shared/EntityClasses/schoolEducationOrganization.rb"
 require_relative "../Shared/data_utility.rb"
 
 # World Builder
