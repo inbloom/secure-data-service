@@ -24,6 +24,7 @@ end
 
 When /^I should see that I am on the "([^"]*)" edit page$/ do |realmName|
   message = "Realm Management For #{realmName}"
+  puts @driver.page_source.to_s
   assertWithWait("Should show '#{message}' message") do
     @driver.page_source.index(message) != nil
    end
