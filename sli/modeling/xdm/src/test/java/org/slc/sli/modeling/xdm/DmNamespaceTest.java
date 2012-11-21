@@ -16,33 +16,33 @@
 
 package org.slc.sli.modeling.xdm;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import javax.xml.namespace.QName;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class DmNamespaceTest {
-	
-	@Test
-	public void test() {
-		String prefix = "foo";
-		String namespace = "bar";
-		
-		DmNamespace dmNamespace = new DmNamespace(prefix, namespace);
 
-		assertTrue(dmNamespace.getChildAxis().size() == 0);
-		assertTrue(dmNamespace.getName().equals(new QName(prefix)));
-		assertTrue(dmNamespace.getStringValue().equals(namespace));
-	}
+    @Test
+    public void test() {
+        String prefix = "foo";
+        String namespace = "bar";
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullPrefixThrowsException() {
-		new DmNamespace("foo", null);
-	}
+        DmNamespace dmNamespace = new DmNamespace(prefix, namespace);
 
-	@Test (expected = IllegalArgumentException.class)
-	public void testNullNamespaceThrowsException() {
-		new DmNamespace(null, "bar");
-	}
+        assertTrue(dmNamespace.getChildAxis().size() == 0);
+        assertTrue(dmNamespace.getName().equals(new QName(prefix)));
+        assertTrue(dmNamespace.getStringValue().equals(namespace));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullPrefixThrowsException() {
+        new DmNamespace("foo", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullNamespaceThrowsException() {
+        new DmNamespace(null, "bar");
+    }
 }
