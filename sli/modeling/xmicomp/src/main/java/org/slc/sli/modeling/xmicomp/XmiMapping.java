@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * Model an XMI mapping.
+ */
 public final class XmiMapping implements Comparable<XmiMapping> {
     private final XmiFeature lhs;
     private final XmiFeature rhs;

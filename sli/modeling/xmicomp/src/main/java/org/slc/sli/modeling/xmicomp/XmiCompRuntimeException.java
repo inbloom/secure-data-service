@@ -1,5 +1,8 @@
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * XmiComp exception.
+ */
 public class XmiCompRuntimeException extends RuntimeException {
 
     public XmiCompRuntimeException(Throwable cause) {

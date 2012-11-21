@@ -16,38 +16,39 @@
 
 package org.slc.sli.modeling.xmicomp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
-public class CaseInsensitiveStringTest {
-	private static final String string1 = "i am a string";
-	private static final String string2 = "I aM a StRiNg";
-	
-	private static final CaseInsensitiveString cis1 = new CaseInsensitiveString(string1);
-	private static final CaseInsensitiveString cis2 = new CaseInsensitiveString(string2);
+import static org.junit.Assert.*;
 
-	@Test
-	public void testCompareTo() {
-		assertFalse(string1.compareTo(string2) == 0);
-		assertTrue(cis1.compareTo(cis2) == 0);
-	}
-	
-	@Test
-	public void testEquals() {
-		assertFalse(cis1.equals(string1));
-		assertTrue(cis1.equals(new CaseInsensitiveString(string2)));
-	}
-	
-	@Test
-	public void testHashCode() {
-		assertTrue(cis1.hashCode() == cis2.hashCode());
-	}
-	
-	@Test
-	public void testToString() {
-		assertEquals(cis1.toString(), cis2.toString());
-	}
+/**
+ * JUnit test for CaseInsensitiveString class.
+ */
+public class CaseInsensitiveStringTest {
+    private static final String STRING_1 = "i am a string";
+    private static final String STRING_2 = "I aM a StRiNg";
+
+    private static final CaseInsensitiveString CIS_1 = new CaseInsensitiveString(STRING_1);
+    private static final CaseInsensitiveString CIS_2 = new CaseInsensitiveString(STRING_2);
+
+    @Test
+    public void testCompareTo() {
+        assertFalse(STRING_1.compareTo(STRING_2) == 0);
+        assertTrue(CIS_1.compareTo(CIS_2) == 0);
+    }
+
+    @Test
+    public void testEquals() {
+        assertFalse(CIS_1.equals(STRING_1));
+        assertTrue(CIS_1.equals(new CaseInsensitiveString(STRING_2)));
+    }
+
+    @Test
+    public void testHashCode() {
+        assertTrue(CIS_1.hashCode() == CIS_2.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals(CIS_1.toString(), CIS_2.toString());
+    }
 }
