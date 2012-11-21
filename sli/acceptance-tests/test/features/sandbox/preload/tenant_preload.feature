@@ -14,7 +14,7 @@ Scenario Outline: create preload info on Tenant
 Examples:
     | User                    | Password                | Realm | Code       |
     | "sandboxingestionuser"  | "ingestionuser1234"     | "SLI" |  201       |
-    | "sandboxdeveloper"      | "sandboxdeveloper1234"  | "SLI" |  201       |
+    | "sandboxdeveloper"      | "sandboxdeveloper1234"  | "SLI" |  403       |
     | "iladmin"               | "iladmin1234"           | "SLI" |  403       |
     | "sunsetadmin"           | "sunsetadmin1234"       | "SLI" |  403       |
     | "operator"              | "operator1234"          | "SLI" |  403       |
