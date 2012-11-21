@@ -113,7 +113,7 @@ And under System Tools, I click on "Application Registration Approval"
 And I switch to the iframe
 And I am redirected to the Application Registration Approval Tool page
 And I see an application "NotTheAppYoureLookingFor" in the table
-And in Status it says "Pending"
+And in Status it says "PENDING"
 And I click on the "Approve" button next to it
 And the Status becomes "Approved"
 And I see an application "Schlemiel" in the table
