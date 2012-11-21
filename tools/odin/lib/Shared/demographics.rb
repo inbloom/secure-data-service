@@ -55,4 +55,20 @@ class Demographics
   def hispanicLatinoDist
     @choices['hispanicLatinoDist']
   end
+  
+  def economicDisadvantaged
+    @choices['economicDisadvantaged']
+  end
+  
+  def limitedEnglish
+    @choices['limitedEnglish']
+  end
+  
+  def disability
+    @choices['disability']
+  end
+  
+  def schoolFood
+    @choices['schoolFood']
+  end
 end

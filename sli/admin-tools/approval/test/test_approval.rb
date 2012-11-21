@@ -17,44 +17,11 @@ limitations under the License.
 =end
 
 
-#testdir = File.dirname(__FILE__)
-#$LOAD_PATH << testdir + "/../lib"
-#require 'approval'
-#require 'test/unit'
-#require 'socket'
-#
-#class MockEmailer
-#    def send_approval_email(args = {})
-#        @last_call = args.clone
-#    end
-#end
-#
-#class MockTransitionActionConfig
-#  def initialize(emailer, is_sandbox)
-#    @emailer = emailer
-#    @is_sandbox = is_sandbox
-#  end
-#
-#  def transition(user)
-#    if user && user[:status] == ApprovalEngine::ACTION_APPROVE
-#      @emailer.send_approval_email()
-#    end
-#  end
-#end
-#
-#class MockTransitionActionConfig
-#  def initialize(emailer, is_sandbox)
-#    @emailer = emailer
-#    @is_sandbox = is_sandbox
-#  end
-#
-#  def transition(user)
-#    if user && user[:status] == ApprovalEngine::ACTION_APPROVE
-#      puts 'Sending approval email'
-#      @emailer.send_approval_email()
-#    end
-#  end
-#end
+testdir = File.dirname(__FILE__)
+$LOAD_PATH << testdir + "/../lib"
+require 'approval'
+require 'test/unit'
+require 'socket'
 
 class TestApprovalEngine < Test::Unit::TestCase
   def setup
@@ -67,7 +34,6 @@ class TestApprovalEngine < Test::Unit::TestCase
         :email      => @jd_email,
         :password   => "secret",
         :vendor     => "Acme Inc.",
-        #            :emailtoken => @jd_emailtoken,
         :status     => "submitted",
         :homedir    => "/home/exampleuser",
         :emailAddress => @jd_email
@@ -85,8 +51,6 @@ class TestApprovalEngine < Test::Unit::TestCase
     #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
     #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
     #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@mock_emailer = MockEmailer.new
-    #@transition_action_config = MockTransitionActionConfig.new(@mock_emailer, is_sandbox)
     ApprovalEngine.init(@ldap, nil, is_sandbox)
     @ldap.get_user_groups(@jd_email).each do |g|
       @ldap.remove_user_group(@jd_email, g)
@@ -174,12 +138,6 @@ class TestApprovalEngine < Test::Unit::TestCase
 
     ApprovalEngine.remove_user(@td_email)
     ApprovalEngine.remove_user(@jd_email)
-    #ApprovalEngine.remove_user(@jd_email)
-    #assert(!ApprovalEngine.user_exists?(@jd_email))
-    #assert(ApprovalEngine.get_roles(@jd_email) == [])
-    #ApprovalEngine.remove_user(@td_email)
-    #users = ApprovalEngine.get_users().select { |u| !![@jd_email, @td_email].index(u[:email]) }
-    #assert(users == [], "Expected empty array got #{users}.")
   end
 
 
