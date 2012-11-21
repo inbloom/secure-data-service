@@ -38,8 +38,6 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.enums.Right;
 
 /**
- * TODO: add class level javadoc
- *
  */
 @Component
 public class SecurityEventContextResolver implements EntityContextResolver {

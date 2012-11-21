@@ -10,22 +10,22 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	Then I <SHOULD> see "<APP_NAME>" on my list of allowed apps
 	Examples:
 		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|APP_NAME |
-		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|Administrative Account Management|
-		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|Administrative Account Management|
-		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|Administrative Account Management|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should not|Administrative Account Management|
-		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should not|Administrative Account Management|
-		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Administrative Account Management|
-		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Administrative Account Management|
-		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Administrative Account Management|
-		|operator   	|operator1234   		|SLC Operator           |SLI        | should not|Developer Account Management|
-		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should not|Developer Account Management|
-		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should not|Developer Account Management|
-		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should |Developer Account Management|
-		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|Developer Account Management|
-		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Developer Account Management|
-		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Developer Account Management|
-		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Developer Account Management|
+		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|Manage Administrator Accounts|
+		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|Manage Administrator Accounts|
+		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|Manage Administrator Accounts|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should not|Manage Administrator Accounts|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should not|Manage Administrator Accounts|
+		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Manage Administrator Accounts|
+		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Manage Administrator Accounts|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Manage Administrator Accounts|
+		|operator   	|operator1234   		|SLC Operator           |SLI        | should not|Manage Developer Accounts|
+		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should not|Manage Developer Accounts|
+		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should not|Manage Developer Accounts|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should |Manage Developer Accounts|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|Manage Developer Accounts|
+		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|Manage Developer Accounts|
+		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|Manage Developer Accounts|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|Manage Developer Accounts|
 		
 	
   @production
@@ -334,9 +334,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |403 |      |           |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |204 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |204 |sandboxadministrator@slidev.org|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |

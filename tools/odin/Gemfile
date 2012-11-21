@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 gem 'rake'
-gem 'rspec'
 gem "mustache"
 
+gem 'rspec', :group => :test
 gem 'simplecov', :require => false, :group => :test
 
 gem 'nokogiri'

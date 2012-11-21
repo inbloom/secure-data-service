@@ -55,12 +55,6 @@ public class StageTrackingAspect {
         return enabled;
     }
 
-    @Around("call(public * org.slc.sli.ingestion.transformation.normalization.IdNormalizer.*(..)) && !within(org.slc.sli.ingestion.transformation.normalization.IdNormalizer) && !within(org..*Test)")
-    public Object trackIdNormalizer(ProceedingJoinPoint pjp) throws Throwable {
-
-        return proceedAndTrackCall(pjp);
-    }
-
     @Around("call(protected void org.slc.sli.ingestion.transformation.EdFi2SLITransformer+.matchEntity(..)) && !within(org..*Test)")
     public Object trackMatchEntity(ProceedingJoinPoint pjp) throws Throwable {
 

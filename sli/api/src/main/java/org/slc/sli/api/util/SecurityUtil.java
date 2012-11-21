@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Holder for security utilities
+ * Holder for security utilities.
  *
  * @author dkornishev
  */
@@ -66,7 +66,7 @@ public class SecurityUtil {
 
     public static <T> T sudoRun(SecurityTask<T> task) {
         if (inSudo.get() != null && inSudo.get()) {
-            throw new RuntimeException("Cannot sudo inside a sudo block");
+            throw new IllegalArgumentException("Cannot sudo inside a sudo block");
         }
         inSudo.set(true);
         T toReturn = null;
@@ -87,7 +87,7 @@ public class SecurityUtil {
 
     public static <T> T runWithAllTenants(SecurityTask<T> task) {
         if (inTenantBlock.get() != null && inTenantBlock.get()) {
-            throw new RuntimeException("Cannot nest tenant blocks");
+            throw new IllegalArgumentException("Cannot nest tenant blocks");
         }
         inTenantBlock.set(true);
         T toReturn = null;
@@ -241,7 +241,7 @@ public class SecurityUtil {
             Boolean admin = (Boolean) entity.getBody().get("admin");
             return admin != null ? admin : false;
         } else {
-            throw new RuntimeException("Could not find realm " + realmId);
+            throw new IllegalArgumentException("Could not find realm " + realmId);
         }
     }
 
