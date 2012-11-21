@@ -31,7 +31,7 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   @log.info "starting migration application #{app_auth['_id']} #{app_auth['body']['name']}"
   ed_orgs = app_auth['body']['authorized_ed_orgs']
 
-  unless ed_orgs.empty?	  
+  unless ed_orgs.nil?
   	new_ed_orgs = Array.new
   
   	ed_orgs.each do |ed_org_id|  	
@@ -49,8 +49,11 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 				@log.info "converted : #{ed_org_id} -> #{sha1_hash}_id"
 			end
   		end 	  	  	
-  	end  
-  	@db[:application].update({'_id' => app_auth['_id']}, '$set' => {'body.authorized_ed_orgs' => new_ed_orgs})
+  	end
+
+  	unless new_ed_orgs.empty?
+  	    @db[:application].update({'_id' => app_auth['_id']}, '$set' => {'body.authorized_ed_orgs' => new_ed_orgs})
+  	end
   end
   
   @log.info "migrated application #{app_auth['_id']} #{app_auth['body']['name']}"
