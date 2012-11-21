@@ -86,7 +86,12 @@ public class JavaType {
     public boolean equals(final Object obj) {
         if (obj instanceof JavaType) {
             final JavaType other = (JavaType) obj;
-            // FIXME: Compare base types without going recursive (check for null).
+            if (this.getSimpleName() == null) {
+                if (other.getSimpleName() == null) {
+                    return true;
+                }
+                return false;
+            }
             return this.getSimpleName().equals(other.getSimpleName())
                     && (this.getCollectionKind() == other.getCollectionKind())
                     && (this.getTypeKind() == other.getTypeKind());

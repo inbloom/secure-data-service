@@ -335,7 +335,6 @@ public final class Level3ClientPojoGenerator {
                 for (final String importName : importNames) {
                     jsw.writeImport(importName);
                 }
-                // TODO: Create a complex type construction.
                 final JavaType javaClassType = JavaType.simpleType(classType.getName(), JavaType.JT_OBJECT);
                 JavadocHelper.writeJavadoc(classType, model, jsw);
                 final List<String> implementations = new ArrayList<String>(1);
@@ -424,7 +423,6 @@ public final class Level3ClientPojoGenerator {
         new SetterSnippet(type.getBaseType(), name).write(jsw);
     }
     
-    // FIXME: This needs to be cleaned up.
     private static void writeGetter(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
         final JavaType baseType = type.getBaseType();
