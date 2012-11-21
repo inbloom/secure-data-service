@@ -42,7 +42,7 @@ And I should be on the admin page
 And I should not see "SLC Data Browser"
 And I click on log out
 
-Scenario: App developer creates new installed app
+Scenario: App developer creates new Installed app and Full window web app
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
 And I was redirected to the "Simple" IDP Login page
@@ -53,6 +53,7 @@ And I click on Admin
 Then I should be on the admin page
 And under System Tools, I click on "Application Registration"
 And I switch to the iframe
+#Create a new installed App
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
@@ -60,22 +61,21 @@ When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
 And I entered the name "0.0" into the field titled "Version"
 And I make my app an installed app
-#And I have entered data into the other required fields except for the shared secret and the app id which are read-only
 And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 #These steps should not be needed if RC is in app-auto-approve mode
-#And the client ID and shared secret fields are Pending
-#And the Registration Status field is Pending
-#And a notification email is sent to "slcoperator-email@slidev.org"
+And the client ID and shared secret fields are Pending
+And the Registration Status field is Pending
+And a notification email is sent to "slcoperator-email@slidev.org"
 And my new apps client ID is present
 And my new apps shared secret is present
 When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 And I enable my app for all districts
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
-#Scenario: App developer creates a new web-app
+#Create a new web full window app
 And I have clicked to the button New
 And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
@@ -92,7 +92,7 @@ And I enable my app for all districts
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 
-Scenario:  LEA approves Dashboard, Databrowser and Dev App
+Scenario:  LEA approves Dashboard, Databrowser and New Developer Applications
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "Shared Learning Collaborative"
 #When I selected the realm "Shared Learning Collaborative"
