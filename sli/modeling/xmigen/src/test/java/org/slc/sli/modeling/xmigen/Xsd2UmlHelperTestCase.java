@@ -18,6 +18,12 @@ package org.slc.sli.modeling.xmigen;
 
 import junit.framework.TestCase;
 
+/**
+ * Tests the XSD to UML helper utility.
+ * 
+ * @author kmyers
+ *
+ */
 public class Xsd2UmlHelperTestCase extends TestCase {
     
     public void testLhsReplace() {

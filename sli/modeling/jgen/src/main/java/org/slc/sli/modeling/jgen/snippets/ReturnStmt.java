@@ -21,6 +21,9 @@ import java.io.IOException;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java return statement.
+ */
 public final class ReturnStmt implements JavaSnippet {
 
     private final JavaSnippet what;

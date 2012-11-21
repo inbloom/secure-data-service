@@ -56,13 +56,16 @@ import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Writes XMI describing domain model.
+ */
 public final class DocumentationWriter {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentationWriter.class);
 
-	public DocumentationWriter() {
-		throw new UnsupportedOperationException();
-	}
-	
+    public DocumentationWriter() {
+        throw new UnsupportedOperationException();
+    }
+
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
@@ -468,9 +471,10 @@ public final class DocumentationWriter {
                 writeEnumType(enumType, modelIndex, xsw);
             }
             final Map<QName, DataType> dataTypes = modelIndex.getDataTypes();
-            for (final QName name : dataTypes.keySet()) {
-                final DataType dataType = dataTypes.get(name);
-                writeDataType(dataType, name, modelIndex, xsw);
+            for (Map.Entry<QName, DataType> entry : dataTypes.entrySet()) {
+//            for (final QName name : dataTypes.keySet()) {
+                final DataType dataType = dataTypes.get(entry.getKey());
+                writeDataType(entry.getValue(), entry.getKey(), modelIndex, xsw);
             }
         } finally {
             xsw.writeEndElement();

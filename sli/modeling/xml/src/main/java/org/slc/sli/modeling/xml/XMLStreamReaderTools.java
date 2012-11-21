@@ -21,6 +21,13 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+/**
+ * Utility methods for use when parsing an XML stream.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public class XMLStreamReaderTools {
     
     /**

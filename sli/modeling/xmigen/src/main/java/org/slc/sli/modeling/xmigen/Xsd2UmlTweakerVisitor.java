@@ -41,6 +41,12 @@ import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
+/**
+ * Visits endpoints on the model and stores certain endpoints (some slightly modified) for later access.
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlTweakerVisitor implements Visitor {
     
     private final boolean tweakingEnabled = true;

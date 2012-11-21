@@ -24,7 +24,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,7 +48,6 @@ import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Multiplicity;
 import org.slc.sli.modeling.uml.Occurs;
@@ -85,7 +83,7 @@ final class Uml2XsdWriter {
     }
     
     public Uml2XsdWriter() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     private static final Iterable<SimpleType> combine(final Iterable<DataType> dataTypes,
@@ -140,10 +138,8 @@ final class Uml2XsdWriter {
             return true;
         } else if (localName.equals(WxsNamespace.STRING.getLocalPart())) {
             return true;
-        } else if (localName.equals(WxsNamespace.TIME.getLocalPart())) {
-            return true;
         } else {
-            return false;
+            return localName.equals(WxsNamespace.TIME.getLocalPart());
         }
     }
 
@@ -206,9 +202,9 @@ final class Uml2XsdWriter {
         if (namespace.length() > 0) {
             final String prefix = namespaceContext.getPrefix(namespace);
             if (prefix == null || prefix.length() == 0) {
-            	return name.getLocalPart();
+                return name.getLocalPart();
             } else {
-            	return prefix.concat(":").concat(name.getLocalPart());
+                return prefix.concat(":").concat(name.getLocalPart());
             }
         } else {
             return name.getLocalPart();
@@ -298,14 +294,12 @@ final class Uml2XsdWriter {
             writeElementName(name, xsw);
             final Identifier elementTypeId = element.getType();
             final Type elementType = model.getType(elementTypeId);
-            {
-                final String localName = elementType.getName();
-                if (isW3cXmlSchemaDatatype(localName)) {
-                    writeTypeAttribute(new QName(WxsNamespace.URI, localName), xsw);
-                } else {
-                    final QName type = plugin.getElementType(localName, false);
-                    writeTypeAttribute(type, xsw);
-                }
+            final String localName = elementType.getName();
+            if (isW3cXmlSchemaDatatype(localName)) {
+                writeTypeAttribute(new QName(WxsNamespace.URI, localName), xsw);
+            } else {
+                final QName type = plugin.getElementType(localName, false);
+                writeTypeAttribute(type, xsw);
             }
             occurrences(element.getMultiplicity(), xsw);
             writeStartElement(XsdElementName.ANNOTATION, xsw);

@@ -39,6 +39,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Provides additional configuration information on how to transform an XSD to a UML.
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
 
     /**
@@ -215,12 +222,10 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     } else {
                         throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
                     }
-                } else if (SliMongoConstants.SLI_SCHEMA_VERSION.equals(name)) {
-                    // ignore
                 } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
                     taggedValues.add(new TaggedValue("true", tagDefinition));
-                } else {
+                } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }
             }

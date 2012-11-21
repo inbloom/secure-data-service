@@ -18,6 +18,9 @@ package org.slc.sli.modeling.xmicomp;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Helper constants for XMI
+ */
 public final class XmiMappingConstants {
     /**
      * The name space for mapping elements.
@@ -93,6 +96,6 @@ public final class XmiMappingConstants {
     public static final QName VERSION = new QName(NAMESPACE_URI, "version");
     
     public XmiMappingConstants() {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 }

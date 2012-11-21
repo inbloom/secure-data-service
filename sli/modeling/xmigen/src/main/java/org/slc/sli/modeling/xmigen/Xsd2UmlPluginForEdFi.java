@@ -191,11 +191,8 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
         if (attributeName == null) {
             throw new IllegalStateException("attributeName");
         }
-        if (endsWithReference(attributeName)) {
-            return true;
-        } else {
-            return false;
-        }
+        
+        return endsWithReference(attributeName);
     }
     
     @Override

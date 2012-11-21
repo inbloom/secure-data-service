@@ -112,15 +112,12 @@ final class Xsd2UmlLinker {
             final String newName = suggestAssociationEndName(classType, attribute,
                     multiplicity.getRange().getUpper() == Occurs.UNBOUNDED);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>(attribute.getTaggedValues());
-            {
-                final Identifier navigation = lookup.ensureTagDefinitionId(TagName.MONGO_NAVIGABLE);
-                final TaggedValue tag = new TaggedValue(Boolean.toString(true), navigation);
-                taggedValues.add(tag);
-            }
+            final Identifier navigation = lookup.ensureTagDefinitionId(TagName.MONGO_NAVIGABLE);
+            final TaggedValue tag = new TaggedValue(Boolean.toString(true), navigation);
+            taggedValues.add(tag);
             if (!oldName.equals(newName)) {
                 final Identifier nameTag = lookup.ensureTagDefinitionId(TagName.MONGO_NAME);
-                final TaggedValue tag = new TaggedValue(oldName, nameTag);
-                taggedValues.add(tag);
+                taggedValues.add(new TaggedValue(oldName, nameTag));
             }
             // If it's navigable at the database level then we assume this is also true logically.
             return new AssociationEnd(multiplicity, newName, true, id, taggedValues, reference, oldName);

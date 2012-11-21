@@ -1,5 +1,8 @@
 package org.slc.sli.modeling.waudit;
 
+/**
+ * WadlAudit exception class.
+ */
 public class WadlAuditRuntimeException extends RuntimeException {
 
     public WadlAuditRuntimeException(Throwable cause) {

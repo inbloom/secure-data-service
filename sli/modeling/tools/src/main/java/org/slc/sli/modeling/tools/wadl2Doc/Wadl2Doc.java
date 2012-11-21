@@ -17,34 +17,35 @@
 
 package org.slc.sli.modeling.tools.wadl2Doc;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.slc.sli.modeling.wadl.writer.WadlWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.FailedLoginException;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Clean up a WADL.
+ */
 public final class Wadl2Doc {
 
     private static final Logger LOG = LoggerFactory.getLogger(Wadl2Doc.class);
 
-	public final static String DEFAULT_INPUT_FILENAME = "wadl-original.xml";
-	public final static String DEFAULT_OUTPUT_FILENAME = "wadl-clean.xml";
-	
-	public Wadl2Doc() {
-		throw new UnsupportedOperationException();
-	}
-	
+    public static final String DEFAULT_INPUT_FILENAME = "wadl-original.xml";
+    public static final String DEFAULT_OUTPUT_FILENAME = "wadl-clean.xml";
+
+    public Wadl2Doc() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void main(final String[] args) {
 
-    	String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
-    	String outputFilename = (args.length == 2) ? args[1] : DEFAULT_OUTPUT_FILENAME;
-    	
+        String inputFilename = (args.length == 2) ? args[0] : DEFAULT_INPUT_FILENAME;
+        String outputFilename = (args.length == 2) ? args[1] : DEFAULT_OUTPUT_FILENAME;
+
         try {
             final Map<String, String> prefixMappings = new HashMap<String, String>();
             final Application app = WadlReader.readApplication(inputFilename);
