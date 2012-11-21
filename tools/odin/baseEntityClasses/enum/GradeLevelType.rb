@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates each grade level for when a student started at a given school. From Ed-Fi-Core.xsd: 
 # <xs:simpleType name="GradeLevelType"> 
 #   <xs:annotation>
@@ -71,4 +73,24 @@ class GradeLevelType
   GradeLevelType.define :TRANSITIONAL_KINDERGARTEN, "Transitional Kindergarten"
   GradeLevelType.define :TWELFTH_GRADE, "Twelfth grade"
   GradeLevelType.define :UNGRADED, "Ungraded"
+
+  def self.get(key)
+    const_get(key)
+  end
+
+  def self.elementary
+    [] << :KINDERGARTEN << :FIRST_GRADE << :SECOND_GRADE << :THIRD_GRADE << :FOURTH_GRADE << :FIFTH_GRADE
+  end
+
+  def self.middle
+    [] << :SIXTH_GRADE << :SEVENTH_GRADE << :EIGHTH_GRADE
+  end
+
+  def self.high
+    [] << :NINTH_GRADE << :TENTH_GRADE << :ELEVENTH_GRADE << :TWELFTH_GRADE
+  end
+
+  def self.get_ordered_grades
+    (elementary << middle << high).flatten
+  end
 end
