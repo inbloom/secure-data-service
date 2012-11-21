@@ -2,7 +2,7 @@ common: &common
     recaptcha_disable: true
     terms_url: http://dev.slcedu.org/legal/terms-of-use
     privacy_policy_url: http://dev.slcedu.org/legal/privacy
-    # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    # TODO: DE2201 - change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
     # update me when password policy changes

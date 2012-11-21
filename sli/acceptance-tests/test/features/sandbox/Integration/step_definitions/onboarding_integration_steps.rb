@@ -413,8 +413,7 @@ def initializeApprovalAndLDAP(emailConf, prod)
    @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                            PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                            PropLoader.getProps['ldap_admin_pass'])
-   email = Emailer.new @email_conf
-   ApprovalEngine.init(@ldap, email, nil, !prod)
+   ApprovalEngine.init(@ldap, nil, !prod)
  end
 
 

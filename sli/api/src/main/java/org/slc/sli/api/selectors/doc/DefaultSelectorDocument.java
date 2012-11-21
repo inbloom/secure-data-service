@@ -96,6 +96,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types, boolean first,
                                           Counter counter) {
+        NeutralQuery localConstraint = constraint;
+        boolean localFirst = first;
+        
         List<EntityBody> results = new ArrayList<EntityBody>();
         Map<Type, List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
 
@@ -125,22 +128,22 @@ public class DefaultSelectorDocument implements SelectorDocument {
                             connectingEntities = getEmbeddedEntities(previousEntities, connectingType);
                         } else {
                             //construct a new constraint using the new connecting key and ids
-                            constraint = constructConstrainQuery(getKey(connectingType, previousType), ids);
+                            localConstraint = constructConstrainQuery(getKey(connectingType, previousType), ids);
 
-                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, constraint, entityCache);
+                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, localConstraint, entityCache);
                         }
                         entityCache.put(connectingType, connectingEntities);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
 
-                    constraint = constructConstrainQuery(key, ids);
+                    localConstraint = constructConstrainQuery(key, ids);
                 }
             }
 
             //add the current type
             types.push(currentType);
             if (entities == null) {
-                entities = (List<EntityBody>) executeQuery(plan, currentType, constraint, first, entityCache);
+                entities = (List<EntityBody>) executeQuery(plan, currentType, localConstraint, localFirst, entityCache);
             }
             entityCache.put(currentType, entities);
             results.addAll(entities);
@@ -148,7 +151,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, localConstraint, entities, types, false, counter);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType, counter);
@@ -156,7 +159,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             results = filterFields(results, plan);
             results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
-            first = false;
+            localFirst = false;
         }
 
         return results;
@@ -259,10 +262,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        results = filterIncludeFields(results, plan);
-        results = filterExcludeFields(results, plan);
+        List<EntityBody> filteredList = filterIncludeFields(results, plan);
+        filteredList = filterExcludeFields(filteredList, plan);
 
-        return results;
+        return filteredList;
     }
 
     protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody filteredBody) {
@@ -419,11 +422,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<String> extractIds(Iterable<EntityBody> entities, String key) {
         List<String> ids = new ArrayList<String>();
 
-        key = key.equals("_id") ? "id" : key;
+        String localKey = key.equals("_id") ? "id" : key;
 
         for (EntityBody body : entities) {
-            if (body.containsKey(key)) {
-                ids.addAll(body.getId(key));
+            if (body.containsKey(localKey)) {
+                ids.addAll(body.getId(localKey));
             }
         }
 

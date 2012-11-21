@@ -6,8 +6,8 @@ class Net::LDAP::Connection #:nodoc:
   # Alternate implementation, this yields each search entry to the caller as
   # it are received.
   #
-  # TODO: certain search parameters are hardcoded.
-  # TODO: if we mis-parse the server results or the results are wrong, we
+  # certain search parameters are hardcoded.
+  # if we mis-parse the server results or the results are wrong, we
   # can block forever. That's because we keep reading results until we get a
   # type-5 packet, which might never come. We need to support the time-limit
   # in the protocol.

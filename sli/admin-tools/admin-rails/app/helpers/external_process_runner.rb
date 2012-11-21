@@ -20,46 +20,46 @@ limitations under the License.
 require 'pty'
 require 'timeout'
 
-module ExternalProcessRunner 
+module ExternalProcessRunner
 
-    #
-    # Spawns an external command
-    #
-    # Parameters: 
-    #   cmd - a string, representing the command to be run
-    #   timeout - an integer, represents the timout in seconds
-    # 
-    # Returns the command's stdout if it finishes within timeout seconds, 
-    # Otherwise returns null
-    #
-    def self.run(cmd, timeout)
-      retVal = ''
-    
-      # set timeout
-      begin
-        timeout (timeout) do
-    
-          # Spawn process and read from output
-          begin
-            PTY.spawn( cmd ) do |stdin, stdout, pid|
-              begin
-                # accumulate cmd's output to stdout (called stdin here)
-                stdin.each { |line| retVal = retVal + line }
-              rescue Errno::EIO
-              end
+  #
+  # Spawns an external command
+  #
+  # Parameters:
+  #   cmd - a string, representing the command to be run
+  #   timeout - an integer, represents the timout in seconds
+  #
+  # Returns the command's stdout if it finishes within timeout seconds,
+  # Otherwise returns null
+  #
+  def self.run(cmd, timeout)
+    retVal = ''
+
+    # set timeout
+    begin
+      timeout (timeout) do
+
+        # Spawn process and read from output
+        begin
+          PTY.spawn( cmd ) do |stdin, stdout, pid|
+            begin
+              # accumulate cmd's output to stdout (called stdin here)
+              stdin.each { |line| retVal = retVal + line }
+            rescue Errno::EIO
             end
-          rescue PTY::ChildExited
           end
-    
+        rescue PTY::ChildExited
         end
-    
-      # handle timeout
-      rescue Timeout::Error
-        retVal = nil
+
       end
-    
-      return retVal
-    
+
+        # handle timeout
+    rescue Timeout::Error
+      retVal = nil
     end
+
+    return retVal
+
+  end
 
 end

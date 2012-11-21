@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+    <Assessment id="ACT-1">
+        <AssessmentTitle>ACT</AssessmentTitle>
+        <AssessmentIdentificationCode
+            IdentificationSystem="Test Contractor">
+            <ID>ACT</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>College entrance exam</AssessmentCategory>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <Version>1</Version>
+        <RevisionDate>2005-03-12</RevisionDate>
+        <MaxRawScore>36</MaxRawScore>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+              <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>Long Section Code 123456789_123456789_123456789_123456789_123456</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+    </Assessment>
+</InterchangeAssessmentMetadata>

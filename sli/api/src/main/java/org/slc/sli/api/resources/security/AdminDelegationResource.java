@@ -19,8 +19,11 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
@@ -98,7 +101,10 @@ public class AdminDelegationResource {
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, util.getAppApprovalDelegateEdOrgs()));
+            Set<String> delegatedEdorgs = new HashSet<String>();
+            delegatedEdorgs.addAll(util.getAppApprovalDelegateEdOrgs());
+            delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
+            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());
@@ -107,11 +113,11 @@ public class AdminDelegationResource {
             return Response.ok(results).build();
 
         } else if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-            Entity entity = getEntity();
+            EntityBody entity = getEntity();
             if (entity == null) {
                 return Response.status(Status.NOT_FOUND).build();
             }
-            return Response.status(Status.OK).entity(Arrays.asList(entity.getBody())).build();
+            return Response.status(Status.OK).entity(Arrays.asList(entity)).build();
 
         }
 
@@ -141,8 +147,8 @@ public class AdminDelegationResource {
             return Response.status(Status.BAD_REQUEST).entity(response).build();
         }
 
-        Entity entity = getDelegationRecordForPrincipal();
-        if (entity == null) {
+        String delgId = getIdOfDelegationRecordForPrincipal();
+        if (delgId == null) {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
@@ -152,7 +158,7 @@ public class AdminDelegationResource {
 
         } else {
 
-            if (!service.update(entity.getEntityId(), body)) {
+            if (!service.update(delgId, body)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
 
@@ -169,7 +175,7 @@ public class AdminDelegationResource {
     @GET
     @Path("myEdOrg")
     public Response getSingleDelegation() {
-        Entity entity = getEntity();
+        EntityBody entity = getEntity();
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -177,7 +183,7 @@ public class AdminDelegationResource {
     }
 
 
-    private Entity getDelegationRecordForPrincipal() {
+    private String getIdOfDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
         if (edOrgId == null) {
             throw new EntityNotFoundException("No edorg exists on principal.");
@@ -185,17 +191,21 @@ public class AdminDelegationResource {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
-        return repo.findOne(RESOURCE_NAME, query);
+        Iterator<String> it = service.listIds(query).iterator();
+        if (it.hasNext()) {
+            return it.next();
+        } else {
+            return null;
+        }
     }
 
 
-    private Entity getEntity() {
+    private EntityBody getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
 
-            Entity entity = getDelegationRecordForPrincipal();
-            if (entity != null) {
-                entity.getBody().put("id", entity.getEntityId());
-                return entity;
+            String entId = getIdOfDelegationRecordForPrincipal();
+            if (entId != null) {
+                return service.get(entId);
             }
 
         }

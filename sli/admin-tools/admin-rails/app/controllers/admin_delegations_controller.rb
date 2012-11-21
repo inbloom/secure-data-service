@@ -98,10 +98,10 @@ class AdminDelegationsController < ApplicationController
 
   def boolean_fix (parameter)
     case parameter
-    when "1"
-      parameter = true
-    when "0"
-      parameter = false
+      when "1"
+        parameter = true
+      when "0"
+        parameter = false
     end
   end
 
