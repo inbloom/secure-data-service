@@ -69,11 +69,15 @@ And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are Pending
 And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
-And my new apps client ID is present
-And my new apps shared secret is present
-When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-And I enable my app for all districts
-And I click on the button Submit
+#And my new apps client ID is present
+#And my new apps shared secret is present
+#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
+#And I enable my app for all districts
+#And I click on the button Submit
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Application Registration"
+And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
 #Create a new web full window app
 And I have clicked to the button New
@@ -87,10 +91,52 @@ And I select the app display method to "Full Window App"
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
-When I clicked on the button Edit for the application "Schlemiel"
-And I enable my app for all districts
-And I click on the button Submit
+And the client ID and shared secret fields are Pending
+And the Registration Status field is Pending
+And a notification email is sent to "slcoperator-email@slidev.org"
+#When I clicked on the button Edit for the application "Schlemiel"
+#And I enable my app for all districts
+#And I click on the button Submit
+#Then I am redirected to the Application Registration Tool page
+
+Scenario:  SLC Operator approves the new developer applications
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "Shared Learning Collaborative"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Application Registration Approval"
+And I am redirected to the Application Registration Approval Tool page
+And I see an application "NotTheAppYoureLookingFor" in the table
+And in Status it says "Pending"
+And I click on the "Approve" button next to it
+And the Status becomes "Approved"
+And I see an application "Schlemiel" in the table
+And in Status it says "Pending"
+And I click on the "Approve" button next to it
+And the Status becomes "Approved"
+And I click on log out
+
+Scenario: App developer enables the new Installed app and Full window web app
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "Shared Learning Collaborative"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Application Registration"
+And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
+#And my new apps client ID is present
+#And my new apps shared secret is present
+#When I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
+#And I enable my app for all districts
+#And I click on the button Submit
 
 Scenario:  LEA approves Dashboard, Databrowser and New Developer Applications
 When I navigate to the Portal home page
