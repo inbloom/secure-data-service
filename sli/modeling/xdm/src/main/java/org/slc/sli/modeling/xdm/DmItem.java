@@ -17,6 +17,9 @@
 
 package org.slc.sli.modeling.xdm;
 
+/**
+ * Marker interface
+ */
 public interface DmItem extends DmSequence {
 
 }

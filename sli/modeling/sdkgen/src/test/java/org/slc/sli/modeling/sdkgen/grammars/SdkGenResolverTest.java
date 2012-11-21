@@ -25,6 +25,6 @@ public class SdkGenResolverTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testResolveEntity() throws Exception {
         SdkGenResolver resolver = new SdkGenResolver();
-        resolver.resolveEntity("","","");
+        resolver.resolveEntity("", "", "");
     }
 }

@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * Case-insensitive string.
+ */
 public final class CaseInsensitiveString implements Comparable<CaseInsensitiveString> {
     
     private final String name;

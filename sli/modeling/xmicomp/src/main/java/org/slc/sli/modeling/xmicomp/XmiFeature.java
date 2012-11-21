@@ -16,6 +16,9 @@
 
 package org.slc.sli.modeling.xmicomp;
 
+/**
+ * A feature in an XMI document.
+ */
 public final class XmiFeature {
     private final String name;
     private final boolean exists;

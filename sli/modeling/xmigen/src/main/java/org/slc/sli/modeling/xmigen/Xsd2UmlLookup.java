@@ -28,6 +28,10 @@ import org.slc.sli.modeling.uml.Identifier;
  * This class provides the Just-In-Time Lookup.
  * 
  * Intentionally package protected.
+ * 
+ * @author kmyers
+ *
+ * @param <T> key type
  */
 final class Xsd2UmlLookup<T> {
     

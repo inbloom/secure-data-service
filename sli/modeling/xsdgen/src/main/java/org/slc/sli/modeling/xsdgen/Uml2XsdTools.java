@@ -17,6 +17,12 @@
 
 package org.slc.sli.modeling.xsdgen;
 
+/**
+ * A collection of utilities/tools.
+ * 
+ * @author kmyers
+ *
+ */
 final class Uml2XsdTools {
 
     public static final String camelCase(final String name) {

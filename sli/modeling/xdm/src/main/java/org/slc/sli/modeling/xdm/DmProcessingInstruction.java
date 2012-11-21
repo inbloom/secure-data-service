@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model processing instruction
+ */
 public final class DmProcessingInstruction implements DmNode {
 
     private final String data;

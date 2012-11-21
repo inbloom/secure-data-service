@@ -25,6 +25,9 @@ import java.util.List;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
+/**
+ * Model Java method call.
+ */
 public final class MethodCallExpr implements JavaSnippetExpr {
 
     private final JavaSnippetExpr callee;
