@@ -1,5 +1,8 @@
 package org.slc.sli.modeling.uml;
 
+/**
+ * UML exception.
+ */
 public class ModelRuntimeException extends RuntimeException {
 
     public ModelRuntimeException(Throwable cause) {

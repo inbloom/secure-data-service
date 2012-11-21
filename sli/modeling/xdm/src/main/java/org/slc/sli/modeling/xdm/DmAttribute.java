@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * Data model attribute
+ */
 public final class DmAttribute implements DmNode {
 
     private final QName name;
