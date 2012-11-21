@@ -27,11 +27,7 @@ SLIAdmin::Application.routes.draw do
   get "tenant_metrics", :to => "tenant_metrics#index"
   match "tenant_metrics/(:id)" => "tenant_metrics#show", :constraints  => { :id => /[^\?\/]*/ }
 
-  resources :waitlist_users do
-    get 'success', :on => :collection
-    get 'failed', :on => :collection
-  end
-
+  resources :waitlist_users
   resources :admin_delegations
 
   resources :realm_management
@@ -55,14 +51,8 @@ SLIAdmin::Application.routes.draw do
 
   get 'apps/sea', :to => 'apps#get_state_edorgs'
   get 'lea', :to => 'apps#get_local_edorgs'
-  get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
   get 'change_passwords', :to => 'change_passwords#new'
   get 'forgot_passwords', :to => 'forgot_passwords#reset'
-  post 'developer_approval/submit_user', :to => 'developer_approval#submit_user'
-  post 'developer_approval/update_user', :to => 'developer_approval#update_user'
-  post 'developer_approval/update_eula_status', :to => 'developer_approval#update_eula_status'
-  post 'developer_approval/verify_email', :to => 'developer_approval#verify_email'
-
 
   match '/logout', :to => 'sessions#destroy'
   match '/callback', :to => 'application#callback'

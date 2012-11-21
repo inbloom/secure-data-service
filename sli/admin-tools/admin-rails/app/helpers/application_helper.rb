@@ -23,16 +23,16 @@ module ApplicationHelper
 
 
   REST_HEADER = {
-    "Content-Type" => "application/json",
-    "content_type" => "json",
-    "accept" => "application/json"
+      "Content-Type" => "application/json",
+      "content_type" => "json",
+      "accept" => "application/json"
   }
 
   API_BASE=APP_CONFIG["api_base"]+"/v1/userAccounts"
   UNKNOWN_EMAIL = {
-    "email_address" => "UNKNOWN",
-    "first_name" => "UNKNOWN",
-    "last_name" => "UNKNOWN",
+      "email_address" => "UNKNOWN",
+      "first_name" => "UNKNOWN",
+      "last_name" => "UNKNOWN",
   }
 
   # Looks up the provided GUID (record) through the API, removes (deletes) that record,
@@ -57,16 +57,16 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.send_user_verification_email(validate_base, email_address)    
+  def self.send_user_verification_email(validate_base, email_address)
     ApprovalEngine.change_user_status(email_address, "accept_eula")
     user = ApprovalEngine.get_user(email_address)
     first_name = user[:first]
     email_token = user[:emailtoken]
-    
+
     if (email_token.nil?)
       return false
     end
-    
+
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
     ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
     true
@@ -107,13 +107,13 @@ module ApplicationHelper
   #
   def self.add_user(userAccountRegistration)
     new_user = {
-      :first           => userAccountRegistration.firstName,
-      :last            => userAccountRegistration.lastName,
-      :email           => userAccountRegistration.email,
-      :emailAddress    => userAccountRegistration.email,
-      :password        => userAccountRegistration.password,
-      :vendor          => userAccountRegistration.vendor,
-      :status          => "submitted"
+        :first           => userAccountRegistration.firstName,
+        :last            => userAccountRegistration.lastName,
+        :email           => userAccountRegistration.email,
+        :emailAddress    => userAccountRegistration.email,
+        :password        => userAccountRegistration.password,
+        :vendor          => userAccountRegistration.vendor,
+        :status          => "submitted"
     }
     ApprovalEngine.add_disabled_user(new_user)
   end
@@ -136,13 +136,13 @@ module ApplicationHelper
   #
   def self.update_user_info(userAccountRegistration)
     new_user = {
-      :first          => userAccountRegistration.firstName,
-      :last           => userAccountRegistration.lastName,
-      :email          => userAccountRegistration.email,
-      :emailAddress   => userAccountRegistration.email,
-      :password       => userAccountRegistration.password,
-      :vendor         => userAccountRegistration.vendor,
-      :status         => "submitted"
+        :first          => userAccountRegistration.firstName,
+        :last           => userAccountRegistration.lastName,
+        :email          => userAccountRegistration.email,
+        :emailAddress   => userAccountRegistration.email,
+        :password       => userAccountRegistration.password,
+        :vendor         => userAccountRegistration.vendor,
+        :status         => "submitted"
     }
     ApprovalEngine.update_user_info(new_user)
   end
@@ -156,7 +156,7 @@ module ApplicationHelper
       return user_info[:emailtoken]
     end
   end
-  
+
   def self.get_edorg_from_ldap(email_address)
     user_info = ApprovalEngine.get_user(email_address)
     if user_info.nil?
@@ -174,7 +174,7 @@ module ApplicationHelper
   def required?(obj, attr)
     target = (obj.class == Class) ? obj : obj.class
     target.validators_on(attr).map(&:class).include?(
-    ActiveModel::Validations::PresenceValidator)
+        ActiveModel::Validations::PresenceValidator)
   end
 
 end

@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public final class StringLiteralExpr implements JavaSnippetExpr {
 
@@ -39,8 +40,7 @@ public final class StringLiteralExpr implements JavaSnippetExpr {
         }
         jsw.dblQte();
         try {
-            // FIXME: This should be escaped.
-            jsw.write(value);
+            jsw.write(StringEscapeUtils.escapeJava(value));
         } finally {
             jsw.dblQte();
         }

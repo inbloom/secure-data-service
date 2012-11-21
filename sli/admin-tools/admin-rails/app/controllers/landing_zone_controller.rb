@@ -82,9 +82,6 @@ class LandingZoneController < ApplicationController
 
   def check_roles
     allowed_roles = ["Ingestion User"]
-    if APP_CONFIG["is_sandbox"]
-      allowed_roles << "Application Developer"
-    end
     overlapping_roles = allowed_roles & session[:roles]
     unless overlapping_roles.length > 0
       logger.warn "Rejecting user #{session[:full_name]} due to insufficient privileges: roles: #{session[:roles]}"

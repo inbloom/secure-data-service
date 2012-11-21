@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-require_relative 'odin'
+require_relative 'lib/odin'
 
 # Arg is assumed to be scenario name. If no name is provided, use what's specified in config.yml.
 scenario = nil

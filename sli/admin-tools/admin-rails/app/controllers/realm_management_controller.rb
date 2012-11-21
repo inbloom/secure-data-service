@@ -38,12 +38,12 @@ class RealmManagementController < ApplicationController
   ## GET /realm_management/1
   ## GET /realm_management/1.json
   def show
-   @realm = Realm.find(params[:id])
-  
-   respond_to do |format|
-     format.html # show.html.erb
-     format.json { render json: @realm }
-   end
+    @realm = Realm.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @realm }
+    end
   end
 
   # GET /realm_management/new
@@ -87,26 +87,26 @@ class RealmManagementController < ApplicationController
   # PUT /realm_management/1
   # PUT /realm_management/1.json
   def update
-   @realm = Realm.find(params[:id])
-   params[:realm] = {} if params[:realm] == nil
+    @realm = Realm.find(params[:id])
+    params[:realm] = {} if params[:realm] == nil
 
-   respond_to do |format|
-     success = false
-     begin
-       @realm.update_attributes(params[:realm])
-       success = true if @realm.valid? and @realm.idp.valid?
-     rescue ActiveResource::BadRequest => error
-       @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
-       @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
-     end
-     if success
-       format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully updated.' }
-       format.json { head :ok }
-     else
-       format.html { render action: "edit" }
-       format.json { render json: @realm.errors, status: :unprocessable_entity }
-     end
-   end
+    respond_to do |format|
+      success = false
+      begin
+        @realm.update_attributes(params[:realm])
+        success = true if @realm.valid? and @realm.idp.valid?
+      rescue ActiveResource::BadRequest => error
+        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+        @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
+      end
+      if success
+        format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @realm.errors, status: :unprocessable_entity }
+      end
+    end
   end
   #
   ## DELETE /realm_management/1

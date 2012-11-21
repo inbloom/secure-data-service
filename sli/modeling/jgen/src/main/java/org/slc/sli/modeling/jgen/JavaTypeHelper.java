@@ -49,7 +49,6 @@ public class JavaTypeHelper {
 
     public static final JavaType getAttributePrimeType(final String simpleName,
             final JavaCollectionKind collectionKind, final JavaTypeKind typeKind, final JavaType base) {
-        // TODO: We should define some simple types to mirror XML schema data-types.
         if ("string".equals(simpleName)) {
             return JavaType.JT_STRING;
         } else if ("boolean".equals(simpleName)) {
@@ -103,7 +102,6 @@ public class JavaTypeHelper {
     }
 
     public static final String getAttributePrimeTypeName(final String typeName) {
-        // TODO: We should define some simple types to mirror XML schema data-types.
         if ("string".equals(typeName)) {
             return "String";
         } else if ("boolean".equals(typeName)) {

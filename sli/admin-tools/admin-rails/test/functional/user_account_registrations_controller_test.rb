@@ -31,7 +31,7 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
         :password_confirmation => 'secret',
         :vendor => 'self'
     )
- 
+
   end
 
   test "should get new" do
@@ -58,4 +58,4 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
     assert_redirected_to APP_CONFIG['redirect_slc_url']
   end
 
- end
+end

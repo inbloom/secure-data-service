@@ -195,13 +195,13 @@ public class Uml2XsdWriterTest {
 
 			@Override
 			public QName getGraphAssociationEndName(PsmDocument<Type> classType) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 
 			@Override
 			public QName getElementName(PsmDocument<Type> classType) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 
@@ -217,26 +217,26 @@ public class Uml2XsdWriterTest {
 
 			@Override
 			public boolean isAttributeFormDefaultQualified() {
-				// TODO Auto-generated method stub
+				// No op
 				return false;
 			}
 
 			@Override
 			public boolean isElementFormDefaultQualified() {
-				// TODO Auto-generated method stub
+				// No op
 				return false;
 			}
 
 			@Override
 			public boolean isEnabled(QName name) {
-				// TODO Auto-generated method stub
+				// No op
 				return false;
 			}
 
 			@Override
 			public void writeAppInfo(TaggedValue taggedValue,
 					ModelIndex lookup, Uml2XsdPluginWriter xsw) {
-				// TODO Auto-generated method stub
+				// No op
 				
 			}
 
@@ -244,14 +244,14 @@ public class Uml2XsdWriterTest {
 			public void writeAssociation(ClassType complexType,
 					AssociationEnd element, ModelIndex lookup,
 					Uml2XsdPluginWriter xsw) {
-				// TODO Auto-generated method stub
+				// No op
 				
 			}
 
 			@Override
 			public void writeTopLevelElement(PsmDocument<Type> classType,
 					ModelIndex model, Uml2XsdPluginWriter xsw) {
-				// TODO Auto-generated method stub
+				// No op
 				
 			}
 			
@@ -307,13 +307,13 @@ public class Uml2XsdWriterTest {
 
 			@Override
 			public List<Generalization> getGeneralizationDerived(Identifier base) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 
 			@Override
 			public String getNamespaceURI(Type type) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 
@@ -324,7 +324,7 @@ public class Uml2XsdWriterTest {
 
 			@Override
 			public TagDefinition getTagDefinition(QName name) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 
@@ -334,7 +334,7 @@ public class Uml2XsdWriterTest {
 
 					@Override
 					public Identifier getId() {
-						// TODO Auto-generated method stub
+						// No op
 						return null;
 					}
 
@@ -345,31 +345,31 @@ public class Uml2XsdWriterTest {
 
 					@Override
 					public boolean isAbstract() {
-						// TODO Auto-generated method stub
+						// No op
 						return false;
 					}
 
 					@Override
 					public List<TaggedValue> getTaggedValues() {
-						// TODO Auto-generated method stub
+						// No op
 						return null;
 					}
 
 					@Override
 					public boolean isClassType() {
-						// TODO Auto-generated method stub
+						// No op
 						return false;
 					}
 
 					@Override
 					public boolean isEnumType() {
-						// TODO Auto-generated method stub
+						// No op
 						return false;
 					}
 
 					@Override
 					public boolean isDataType() {
-						// TODO Auto-generated method stub
+						// No op
 						return false;
 					}
 					
@@ -378,7 +378,7 @@ public class Uml2XsdWriterTest {
 
 			@Override
 			public void lookup(Identifier id, Visitor visitor) {
-				// TODO Auto-generated method stub
+				// No op
 				
 			}
 
@@ -386,7 +386,7 @@ public class Uml2XsdWriterTest {
 			@Deprecated
 			public
 			Set<ModelElement> lookupByName(QName name) {
-				// TODO Auto-generated method stub
+				// No op
 				return null;
 			}
 

@@ -17,14 +17,14 @@ limitations under the License.
 =end
 
 Transform /endpoints for the role "([^\"]*)"/ do |arg1|
-  array = ["Developer Account Management", "Change Password"] if arg1 == "Sandbox Operator"
-  array = ["Application Registration Approval", "Account Approval", "Change Password", "Administrative Account Management"] if arg1 == "Production Operator"
-  array = ["Application Registration", "Change Password"] if arg1 == "Production Developer"
-  array = ["Admin Delegation", "Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "LEA Admin"
+  array = ["Manage Developer Accounts", "Change Password"] if arg1 == "Sandbox Operator"
+  array = ["Approve Application Registration", "Approve Account", "Change Password", "Manage Administrator Accounts"] if arg1 == "Production Operator"
+  array = ["Register Application", "Change Password"] if arg1 == "Production Developer"
+  array = ["Delegate Administration", "Authorize Applications", "Change Password", "Manage Administrator Accounts"] if arg1 == "LEA Admin"
   #NOTE: previous admin delegation tests delegate app auth to this SEA Admin
-  array = ["Application Authorization", "Change Password", "Administrative Account Management"] if arg1 == "SEA Admin"
-  array = ["Change Password", "Provision Landing Zone"] if arg1 == "Ingestion User"
-  array = ["Custom roles", "Realm Management", "Change Password"] if arg1 == "LEA and Realm Admin"
+  array = ["Authorize Applications", "Change Password", "Manage Administrator Accounts"] if arg1 == "SEA Admin"
+  array = ["Change Password", "Create Landing Zone"] if arg1 == "Ingestion User"
+  array = ["Create Custom Roles", "Manage Realm", "Change Password"] if arg1 == "LEA and Realm Admin"
   array
 end
  

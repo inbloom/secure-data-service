@@ -78,7 +78,7 @@ class AccountManagementsController < ApplicationController
         account_management.name = account[:first] + " " + account[:last]
         account_management.vendor = account[:vendor]
         account_management.email = account[:email]
-        
+
         account_management.lastUpdate = account[:updated].in_time_zone().strftime("%c %Z")
         account_management.status = account[:status]
         account_management.transitions = account[:transitions]
@@ -87,7 +87,7 @@ class AccountManagementsController < ApplicationController
     end
     account_managements
   end
-  
+
   def check_slc_operator
     if $check_slc.nil? || $check_slc == true
       check = Check.get("")

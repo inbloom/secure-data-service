@@ -54,7 +54,6 @@ final class RestResponse {
     
     public String getHeader(String key) {
         if (this.headers.containsKey(key)) {
-            // TODO : handle list case
             if (this.headers.get(key).size() >= 1) {
                 return this.headers.get(key).get(0);
             }

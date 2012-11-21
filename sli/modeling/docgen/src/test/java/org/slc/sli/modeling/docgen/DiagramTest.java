@@ -38,22 +38,22 @@ public class DiagramTest {
 		assertEquals(EPILOG, diagram.getEpilog());
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam1() {
 		new Diagram(null, SOURCE, PROLOG, EPILOG);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam2() {
 		new Diagram(TITLE, null, PROLOG, EPILOG);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam3() {
 		new Diagram(TITLE, SOURCE, null, EPILOG);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam4() {
 		new Diagram(TITLE, SOURCE, PROLOG, null);
 	}

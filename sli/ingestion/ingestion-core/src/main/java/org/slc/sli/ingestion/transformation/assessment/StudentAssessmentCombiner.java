@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
- * 
+ *
  * @author nbrown
  * @author shalka
  */
@@ -103,8 +103,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for studentAssessment transformation.");
         studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT,
-                studentAssessments.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT, studentAssessments.size());
     }
 
     /**
@@ -208,7 +207,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -219,8 +218,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
 
-        for (String key : queryCriteria.keySet()) {
-            query.addCriteria(Criteria.where(BODY + key).is(queryCriteria.get(key)));
+        for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
+            query.addCriteria(Criteria.where(BODY + entry.getKey()).is(entry.getValue()));
         }
 
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
@@ -264,7 +263,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -312,8 +311,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 assessments.add(attributes);
             }
         } else {
-            LOG.warn("Couldn't find any student objective assessments for student assessment: {}",
-                    studentAssessmentId);
+            LOG.warn("Couldn't find any student objective assessments for student assessment: {}", studentAssessmentId);
         }
 
         LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(),
@@ -327,8 +325,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
 
-        for (String key : queryCriteria.keySet()) {
-            query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + key).is(queryCriteria.get(key)));
+        for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
+            query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + entry.getKey()).is(entry.getValue()));
         }
 
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(

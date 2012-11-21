@@ -119,8 +119,6 @@ public interface Uml2XsdPlugin {
      * @param xsw
      *            The writer callback.
      *
-     *            FIXME: The platform-specific aspects should come from the plug-in implementation.
-     *            This means that the interface should only know about the UML model and elements.
      */
     void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model, final Uml2XsdPluginWriter xsw);
 }
