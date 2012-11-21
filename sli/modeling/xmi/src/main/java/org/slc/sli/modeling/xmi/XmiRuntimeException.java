@@ -1,5 +1,8 @@
 package org.slc.sli.modeling.xmi;
 
+/**
+ * XMI exception.
+ */
 public class XmiRuntimeException extends RuntimeException {
 
     public XmiRuntimeException(Throwable cause) {
