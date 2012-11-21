@@ -28,7 +28,7 @@ class CustomRolesController < ApplicationController
       redirect_to  :action => "show", :id => custom_role.id
     else
       message = (APP_CONFIG["is_sandbox"] ? "No custom roles exist.  First create a landing zone in the Provizion Landing Zone tool." :
-                                            "No custom roles exist.  First create a realm in the Realm Management tool.")
+          "No custom roles exist.  First create a realm in the Realm Management tool.")
       flash.now[:notice] = message
       respond_to do |format|
         format.html # index.html.erb
@@ -38,43 +38,43 @@ class CustomRolesController < ApplicationController
 
 
   # # GET /realms/1/
-   def show
-     @custom_roles = CustomRole.find(params[:id])
-     @default_roles = CustomRole.defaults()
-   end
+  def show
+    @custom_roles = CustomRole.find(params[:id])
+    @default_roles = CustomRole.defaults()
+  end
 
   # # PUT /realms/1
-   def update
-     @custom_roles = CustomRole.find(params[:id])
-     respond_to do |format|
-       success = false
-       errorMsg = ""
-       begin
-         @custom_roles.roles = params[:json]
-         success =  @custom_roles.save()
-       rescue ActiveResource::BadRequest => error
-         errorMsg = error.response.body
-         logger.debug("Error: #{errorMsg}")
-       end
+  def update
+    @custom_roles = CustomRole.find(params[:id])
+    respond_to do |format|
+      success = false
+      errorMsg = ""
+      begin
+        @custom_roles.roles = params[:json]
+        success =  @custom_roles.save()
+      rescue ActiveResource::BadRequest => error
+        errorMsg = error.response.body
+        logger.debug("Error: #{errorMsg}")
+      end
 
-       if success
-         format.json { render json: @custom_roles, status: :created, location: @custom_roles }
-       else
-         #errorJson = JSON.parse(errorMsg)
-         if /ValidationError.*groupTitle/.match(errorMsg)
-           flash[:error] = "Group name contains invalid characters."
-         elsif /ValidationError.*names/.match(errorMsg)
-           flash[:error] = "Role name contains invalid characters."
-         else
-           flash[:error] = "Changes could not be saved."
-         end
-         format.json { render json: errorMsg, status: :unprocessable_entity }
-       end
-	
-     end
-   end
+      if success
+        format.json { render json: @custom_roles, status: :created, location: @custom_roles }
+      else
+        #errorJson = JSON.parse(errorMsg)
+        if /ValidationError.*groupTitle/.match(errorMsg)
+          flash[:error] = "Group name contains invalid characters."
+        elsif /ValidationError.*names/.match(errorMsg)
+          flash[:error] = "Role name contains invalid characters."
+        else
+          flash[:error] = "Changes could not be saved."
+        end
+        format.json { render json: errorMsg, status: :unprocessable_entity }
+      end
 
-private
+    end
+  end
+
+  private
 
   def get_user_realm
     return session[:edOrg]

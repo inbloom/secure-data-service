@@ -90,7 +90,7 @@ class UserAccountRegistrationsController < ApplicationController
     end
   end
 
-private
+  private
 
   def user_limit_reached?
     max_user = APP_CONFIG['maximum_user_count']
