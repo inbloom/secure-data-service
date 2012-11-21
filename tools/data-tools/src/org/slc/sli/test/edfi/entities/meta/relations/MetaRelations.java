@@ -848,7 +848,7 @@ public final class MetaRelations {
         Map<String, ProgramMeta> programMapForSEA = new HashMap<String, ProgramMeta>();
 
         for (int idNum = 0; idNum < PROGRAMS_PER_SEA; idNum++) {
-            ProgramMeta programMeta = new ProgramMeta("prg" + seaMeta.id + "_" + idNum, seaMeta);
+            ProgramMeta programMeta = new ProgramMeta("sprg" + idNum, seaMeta);
             programMapForSEA.put(programMeta.id, programMeta);
             PROGRAM_MAP.put(programMeta.id, programMeta);
             seaMeta.programId = programMeta.id;
@@ -872,7 +872,7 @@ public final class MetaRelations {
         Map<String, ProgramMeta> programMapForLEA = new HashMap<String, ProgramMeta>();
 
           for (int idNum = 0; idNum < PROGRAMS_PER_LEA; idNum++) {
-              ProgramMeta programMeta = new ProgramMeta("prg" + leaMeta.id + "_" + idNum, leaMeta);
+              ProgramMeta programMeta = new ProgramMeta("lprg" + idNum, leaMeta);
               programMapForLEA.put(programMeta.id, programMeta);
 
 
