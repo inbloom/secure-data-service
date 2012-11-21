@@ -68,23 +68,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Override
     public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
-        Counter embeddedDocumentCounter = new Counter() {
-
-            private int total = 0;
-
-            @Override
-            public void add(int i) {
-                this.total += i;
-            }
-
-            @Override
-            public int getTotal() {
-                return this.total;
-            }
-
-        };
-
-        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, embeddedDocumentCounter);
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>(), true, new MyCounter());
 
     }
 
@@ -452,5 +436,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     protected void setModelProvider(final ModelProvider modelProvider) {
         this.modelProvider = modelProvider;
+    }
+
+    /**
+     * Counter
+     * @author kmyers
+     */
+    private static final class MyCounter implements Counter {
+
+        private int total = 0;
+
+        @Override
+        public void add(int i) {
+            this.total += i;
+        }
+
+        @Override
+        public int getTotal() {
+            return this.total;
+        }
     }
 }
