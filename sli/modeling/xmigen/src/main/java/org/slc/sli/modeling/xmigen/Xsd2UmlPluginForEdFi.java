@@ -64,7 +64,6 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
-        // FIXME: Can we do this by looking at the attribute type?
         if (attribute == null) {
             throw new IllegalArgumentException("attribute");
         }

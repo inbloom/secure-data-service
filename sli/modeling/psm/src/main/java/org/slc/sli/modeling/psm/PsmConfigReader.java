@@ -301,7 +301,6 @@ public final class PsmConfigReader {
             }
             }
         }
-        // TODO:
         return new PsmDocument<Type>(type, graphResource, collection);
     }
 

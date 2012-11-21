@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * TODO: add javadoc
+ * Looks up SecretKey and initializationVector from file storage.
  */
 @Component
 public class CipherInitDataProvider {

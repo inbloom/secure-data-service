@@ -59,6 +59,6 @@ public final class DmElement implements DmNode {
 
     @Override
     public String getStringValue() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("getStringValue() is not supported by DmElement");
     }
 }

@@ -329,7 +329,6 @@ public final class DocumentationReader {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
-                    // FIXME: Need to preserve mark-up elements.
                     sb.append(readElementText(reader.getName(), reader));
                     break;
                 }

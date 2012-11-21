@@ -19,18 +19,18 @@ limitations under the License.
 class User < SessionResource
   self.collection_name = "users"
   include ActiveModel::Validations
-  
+
   validates_presence_of :fullName, :email
-  
+
   #validates :email,:email=>true
-  
-  
+
+
   schema do
     string  "uid"
     string  "email"
     string  "tenant"
     string  "edorg"
-    time "createTime", "modifyTime" 
+    time "createTime", "modifyTime"
     string  "groups"
     string  "fullName"
     string  "sn"
@@ -40,13 +40,13 @@ class User < SessionResource
     string  "optional_role_2"
     string   "homeDir"
   end
- 
-  def get_groups 
+
+  def get_groups
     self.groups.sort!.join(", ")
   end
-  
+
   def get_create_time
     Time.parse(self.createTime)
   end
-  
+
 end

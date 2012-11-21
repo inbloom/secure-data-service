@@ -57,46 +57,35 @@ describe "StudentBuilder" do
       end
 
       it "returns 55-65% white with white weighted distribution set to 60%" do
-        i = 0
-        hit = 0
-        while i < 1000 do
-          retVal = newStudent.genRace
-          if retVal == "White"
-            hit += 1
-          end
-          i += 1
-        end
-        if hit.between?(550, 650)
-          puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES! YAY!"
-          puts "Want the know specifics? White came back #{hit} times out of 1000."
-          ret = "true"
-        else
-          ret = "false"
-        end
-        ret.should eq("true")
+        grMethod = newStudent.method(:race)
+        newStudent.distributionTester(grMethod, "White", 550, 650, 1000).should eq("true")
       end
       
-      it "returns 15-25% hispanicLatino true" do
-        i = 0
-        hit = 0
-        while i < 1000 do
-          retVal = newStudent.hispanicLatino
-          if retVal
-            hit += 1
-          end
-          i += 1
-        end
-        if hit.between?(150, 250)
-          puts "THE HIT RATIO WAS WITHIN EXPECTED VALUES! YAY!"
-          puts "Want the know specifics? hispanicLatino came back #{hit} times out of 1000."
-          ret = "true"
-        else
-          ret = "false"
-        end
-        ret.should eq("true")        
+      it "returns 15-25% hispanicLatino with true weight set to 20%" do
+        hlMethod = newStudent.method(:hispanicLatino)
+        newStudent.distributionTester(hlMethod, true, 150, 250, 1000).should eq("true")
       end
-    end        
-        
+    
+      it "returns 5-15% economicDisadvantaged with true weight set to 10%" do
+        edMethod = newStudent.method(:economicDisadvantaged)
+        newStudent.distributionTester(edMethod, true, 80, 120, 1000).should eq("true")
+      end 
+      
+      it "returns 91-97% not limitedEnglish 'not limited' set to 94%" do
+        leMethod = newStudent.method(:limitedEnglish)
+        newStudent.distributionTester(leMethod, 'NotLimited', 910, 970, 1000).should eq("true")
+      end
+      
+      it "returns 92-98% not disabled with weight set to 95%" do
+        daMethod = newStudent.method(:disability)
+        newStudent.distributionTester(daMethod, false, 920, 980, 1000).should eq("true")
+      end  
+      
+      it "returns 68-72% schoolFood with 'Full price' set to 70%" do
+        sfMethod = newStudent.method(:schoolFood)
+        newStudent.distributionTester(sfMethod, 'Full price', 680, 720, 1000).should eq("true")
+      end   
+    end      
         
     context 'With a simple work order' do
       let(:work_order) {{:id => 42, :sessions => [{:school => 64, :sections => [{:id => 32, :edOrg => 64},
@@ -104,7 +93,8 @@ describe "StudentBuilder" do
                                                                                   {:id => 34, :edOrg => 128}]},
                                                     {:school => 65, :sections => [{:id => 16, :edOrg => 65},
                                                                                   {:id => 17, :edOrg => 65}]}],
-                         :demographics => Demographics.new, :birth_day_after => Date.new(2000, 9, 1)}}
+                                    :demographics => Demographics.new,
+                                    :birth_day_after => Date.new(2000, 9, 1)}}
       let(:studentParent) {StringIO.new('', 'w')}
       let(:enrollment) {StringIO.new('', 'w')}
       let(:builder) {StudentBuilder.new(work_order, {:studentParent => studentParent, :enrollment => enrollment})}

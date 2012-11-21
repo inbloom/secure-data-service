@@ -19,6 +19,6 @@ limitations under the License.
 
 class Session
   def self.valid?(session)
-  	session.has_key? :guuid
+    session.has_key? :guuid
   end
 end

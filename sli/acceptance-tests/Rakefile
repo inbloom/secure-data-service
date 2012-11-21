@@ -418,9 +418,10 @@ task :appInit do
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
-
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  cleanseCollectionWithTenantID("applicationAuthorization", "Midgar")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule");
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   setFixture("applicationAuthorization", "applicationAuthorization_Hyrule_fixture.json")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "fakedev_zork_net")
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")

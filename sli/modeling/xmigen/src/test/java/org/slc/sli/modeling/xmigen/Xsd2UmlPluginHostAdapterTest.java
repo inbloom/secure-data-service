@@ -257,5 +257,4 @@ public class Xsd2UmlPluginHostAdapterTest {
     public void testTagsFromAppInfo() throws Exception {
         assertEquals(Collections.emptyList(), adapter.tagsFromAppInfo(new XmlSchemaAppInfo(), host));
     }
-    
 }

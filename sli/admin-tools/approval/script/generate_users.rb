@@ -1,7 +1,7 @@
 require 'ldapstorage'
 
 
-if (ARGV.length < 8) 
+if (ARGV.length < 8)
   puts "usage: ldap_host ldap_port ldap_base ldap_admin_user ldap_pass number_to_create offset group ..."
   exit(1)
 end

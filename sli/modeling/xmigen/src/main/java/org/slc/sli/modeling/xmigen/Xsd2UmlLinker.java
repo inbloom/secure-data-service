@@ -50,7 +50,6 @@ final class Xsd2UmlLinker {
 
     private static final Logger LOG = LoggerFactory.getLogger(Xsd2UmlLinker.class);
  
-    // FIXME: Externalize this concept into the plug-in.
     private static final String SUFFIX_REFERENCES = "References";
     private static final String SUFFIX_REFERENCE = "Reference";
     private static final String SUFFIX_IDS = "Ids";
@@ -108,7 +107,6 @@ final class Xsd2UmlLinker {
             final Identifier reference = nameToClassTypeId.get(referenceType);
             // Reuse the attribute parts because attribute is no longer needed.
             final Identifier id = attribute.getId();
-            // FIXME: Move this code into the suggestAssociationEndName function.
             final Multiplicity multiplicity = attribute.getMultiplicity();
             final String oldName = attribute.getName();
             final String newName = suggestAssociationEndName(classType, attribute,

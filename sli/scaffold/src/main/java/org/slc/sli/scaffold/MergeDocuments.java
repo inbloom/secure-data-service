@@ -78,10 +78,8 @@ public class MergeDocuments {
             // need to do something better
             e.printStackTrace();
         } catch (DOMException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (XPathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
