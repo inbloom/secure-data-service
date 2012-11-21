@@ -16,22 +16,59 @@ limitations under the License.
 
 =end
 
+require_relative "./baseEntity.rb"
+require_relative "../data_utility.rb"
+require_relative "enum/GradeLevelType.rb"
 
-require_relative './baseEntity.rb'
-
+# creates school
 class SchoolEducationOrganization < BaseEntity
 
-  def initialize(id, leaId, rand)
-    @id = id
-    @leaId = leaId
-    @rand = rand
+  def initialize(rand, id, parent_id, type)
+    @rand      = rand
+    @id        = id
+    @parent_id = parent_id
+    @type      = type
+    @grades    = []
+    if @type == "elementary"
+      GradeLevelType.elementary.each do |level|
+        @grades << GradeLevelType.get(level)
+      end
+    elsif @type == "middle"
+      GradeLevelType.middle.each do |level|
+        @grades << GradeLevelType.get(level)
+      end
+    else
+      GradeLevelType.high.each do |level|
+        @grades << GradeLevelType.get(level)
+      end
+    end
   end
 
   def stateOrgId
-    "school#{@id}"
+    if @type == "elementary"
+      DataUtility.get_elementary_school_id(@id)
+    elsif @type == "middle"
+      DataUtility.get_middle_school_id(@id)
+    elsif @type == "high"
+      DataUtility.get_high_school_id(@id)
+    end 
   end
 
-  def leaId
-    "lea#{@leaId}"
+  def parentId
+    DataUtility.get_local_education_agency_id(@parentId)
+  end
+
+  def grades
+    @grades
+  end
+
+  def type
+    if @type == "elementary"
+      "Elementary School"
+    elsif @type == "middle"
+      "Middle School"
+    elsif @type == "high"
+      "High School"
+    end 
   end
 end

@@ -16,22 +16,23 @@ limitations under the License.
 
 =end
 
+require_relative "../data_utility.rb"
+require_relative "baseEntity.rb"
 
-require_relative './baseEntity.rb'
-
+# creates local education agency
 class LeaEducationOrganization < BaseEntity
 
-  def initialize(id, seaId, rand)
+  def initialize(id, parent_id, rand)
     @id = id
-    @seaId = seaId
+    @parent_id = parent_id
     @rand = rand
   end
 
   def stateOrgId
-    "lea#{@id}"
+    DataUtility.get_local_education_agency_id(@id)
   end
 
-  def seaId
-    "sea#{@seaId}"
+  def parentId
+    DataUtility.get_state_education_agency_id(@parent_id)
   end
 end
