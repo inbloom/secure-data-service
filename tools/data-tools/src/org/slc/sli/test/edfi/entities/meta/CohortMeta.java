@@ -37,7 +37,7 @@ public class CohortMeta {
      */
     public CohortMeta(String id, ProgramMeta programMeta) {
         String simplifiedProgramId = programMeta.id.replaceAll("[a-z]", "");
-        this.id = simplifiedProgramId + "-p-" + id;
+        this.id = simplifiedProgramId + "-c-" + id;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
