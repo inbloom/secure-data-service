@@ -16,15 +16,24 @@ limitations under the License.
 
 =end
 
-require "rexml/document"
 require 'digest/md5'
-require 'yaml'
 require 'digest/sha1'
+require 'logger'
+require "rexml/document"
+require 'yaml'
 
 require_relative 'validator.rb'
 require_relative 'util.rb'
+require_relative 'world_builder.rb'
+
 class Odin
-  def generate(  scenario )
+  def initialize
+    $stdout.sync = true
+    @log = Logger.new($stdout)
+    @log.level = Logger::INFO
+  end
+
+  def generate( scenario )
 
     Dir["#{File.dirname(__FILE__)}/interchangeGenerators/*.rb"].each { |f| load(f) }
 
@@ -42,21 +51,17 @@ class Odin
     time = Time.now
     pids = []
     
-    # Create an initial static world - does NOT depend on time configuration
-    world = WorldGenerator.new
-    world.create(prng, scenarioYAML)
-    
-    # Progress the world temporally based on time configuration and write out the work_order(s)
-    world.simulate(prng, scenarioYAML)
+    # Create a snapshot of the world
+    edOrgs = WorldBuilder.new.build(prng, scenarioYAML)
+    @log.info "edOrgs: #{edOrgs}"
     
     # Process the work_order(s)
     pids << fork {  StudentParentGenerator.new.write(prng, scenarioYAML)           }
-    pids << fork {  EducationOrganizationGenerator.new.write(prng, scenarioYAML)   }
     pids << fork {  MasterScheduleGenerator.new.write(prng, scenarioYAML)       }
     Process.waitall
 
     finalTime = Time.now - time
-    puts "\t Total generation time #{finalTime} secs"
+    @log.info "Total generation time: #{finalTime} secs"
 
     genCtlFile
 
