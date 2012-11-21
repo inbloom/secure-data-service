@@ -55,6 +55,9 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Command line tool to audit a WADL with PSM (model)
+ */
 public final class WadlAudit {
 
     private static final Logger LOG = LoggerFactory.getLogger(WadlAudit.class);

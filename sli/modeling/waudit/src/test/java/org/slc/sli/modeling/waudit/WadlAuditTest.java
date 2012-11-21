@@ -21,6 +21,9 @@ import org.junit.Test;
 
 import java.io.File;
 
+/**
+ * JUnit test for WadlAudit class.
+ */
 public class WadlAuditTest {
 
     @Test

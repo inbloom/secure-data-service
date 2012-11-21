@@ -56,10 +56,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * JUnit test for WadlExpert class.
+ */
 public class WadlExpertTest {
 
-    private final String PREFIX = "prefix";
-    private final String NAMESPACE = "namespaceURI";
+    private final String prefix = "prefix";
+    private final String namespace = "namespaceURI";
 
     private ModelIndex modelIndex;
     private WadlAuditConfig config;
@@ -75,12 +78,12 @@ public class WadlExpertTest {
 
         this.topLevel = new HashMap<String, PsmDocument<Type>>();
         this.elementNames = new HashMap<String, QName>();
-        this.elementNames.put("Home", new QName(NAMESPACE, "home", PREFIX));
-        this.elementNames.put("Custom", new QName(NAMESPACE, "custom", PREFIX));
+        this.elementNames.put("Home", new QName(namespace, "home", prefix));
+        this.elementNames.put("Custom", new QName(namespace, "custom", prefix));
 
         this.modelIndex = this.createModelIndex(topLevel);
 
-        this.config = new WadlAuditConfig(PREFIX, NAMESPACE, modelIndex, this.elementNames);
+        this.config = new WadlAuditConfig(prefix, namespace, modelIndex, this.elementNames);
 
         this.ancestors = new Stack<Resource>();
         this.ancestors.push(this.createResource("v1"));
@@ -202,7 +205,7 @@ public class WadlExpertTest {
         topLevel.put(name, new PsmDocument<Type>(type, new PsmResource("graphResourceName"), new PsmCollection("singularResourceName")));
         associationEnds.add(this.createAssociationEnd(name, identifier));
         types.put(identifier, type);
-        elementNames.put(name, new QName(NAMESPACE, name, PREFIX));
+        elementNames.put(name, new QName(namespace, name, prefix));
     }
 
     private ModelIndex createModelIndex(Map<String, PsmDocument<Type>> topLevel) {
@@ -301,7 +304,7 @@ public class WadlExpertTest {
         typesToCompute.put("v1/foo/{id}/bar/studentWithGrade", "Unknown");
 
         for (Entry<String, String> entry : typesToCompute.entrySet()) {
-            assertEquals(new QName(NAMESPACE, entry.getValue(), PREFIX),
+            assertEquals(new QName(namespace, entry.getValue(), prefix),
                     WadlExpert.computeType(WadlExpert.splitBasedOnFwdSlash(entry.getKey()), config, topLevel));
         }
     }
@@ -326,7 +329,7 @@ public class WadlExpertTest {
     public void testComputeElementNameForRequest() {
 
         Method putMethod = new Method("id", Method.NAME_HTTP_PUT, new ArrayList<Documentation>(), null, new ArrayList<Response>());
-        QName expectedResult = new QName(NAMESPACE, "foo", PREFIX);
+        QName expectedResult = new QName(namespace, "foo", prefix);
         QName receivedResult = WadlExpert.computeElementNameForRequest(null, null, putMethod, resource, ancestors, config, topLevel);
 
         assertEquals(expectedResult, receivedResult);
@@ -339,7 +342,7 @@ public class WadlExpertTest {
         Method putMethod = new Method("id", Method.NAME_HTTP_PUT, new ArrayList<Documentation>(), null, new ArrayList<Response>());
         this.elementNames.remove("foo");
 
-        this.config = new WadlAuditConfig(PREFIX, NAMESPACE, modelIndex, this.elementNames);
+        this.config = new WadlAuditConfig(prefix, namespace, modelIndex, this.elementNames);
         WadlExpert.computeElementNameForRequest(null, null, putMethod, resource, ancestors, config, topLevel);
 
     }
@@ -363,7 +366,7 @@ public class WadlExpertTest {
     public void testComputeElementNameForResponse() {
 
         Method getMethod = new Method("id", Method.NAME_HTTP_GET, new ArrayList<Documentation>(), null, new ArrayList<Response>());
-        QName expectedResult = new QName(NAMESPACE, "fooList", PREFIX);
+        QName expectedResult = new QName(namespace, "fooList", prefix);
         QName receivedResult = WadlExpert.computeElementNameForResponse(null, null, getMethod, resource, ancestors, config, topLevel);
 
         assertEquals(expectedResult, receivedResult);
@@ -377,7 +380,7 @@ public class WadlExpertTest {
         this.resource = this.createResource("home");
 
         Method getMethod = new Method("id", Method.NAME_HTTP_GET, new ArrayList<Documentation>(), null, new ArrayList<Response>());
-        QName expectedResult = new QName(NAMESPACE, "home", PREFIX);
+        QName expectedResult = new QName(namespace, "home", prefix);
         QName receivedResult = WadlExpert.computeElementNameForResponse(null, null, getMethod, resource, ancestors, config, topLevel);
 
         assertEquals(expectedResult, receivedResult);
@@ -391,7 +394,7 @@ public class WadlExpertTest {
         this.resource = this.createResource("custom");
 
         Method getMethod = new Method("id", Method.NAME_HTTP_GET, new ArrayList<Documentation>(), null, new ArrayList<Response>());
-        QName expectedResult = new QName(NAMESPACE, "custom", PREFIX);
+        QName expectedResult = new QName(namespace, "custom", prefix);
         QName receivedResult = WadlExpert.computeElementNameForResponse(null, null, getMethod, resource, ancestors, config, topLevel);
 
         assertEquals(expectedResult, receivedResult);
@@ -404,7 +407,7 @@ public class WadlExpertTest {
 
         this.elementNames.put("foo", null);
 
-        this.config = new WadlAuditConfig(PREFIX, NAMESPACE, modelIndex, this.elementNames);
+        this.config = new WadlAuditConfig(prefix, namespace, modelIndex, this.elementNames);
 
         Method getMethod = new Method("id", Method.NAME_HTTP_GET, new ArrayList<Documentation>(), null, new ArrayList<Response>());
         assertNull(WadlExpert.computeElementNameForResponse(null, null, getMethod, resource, ancestors, config, topLevel));
@@ -416,7 +419,7 @@ public class WadlExpertTest {
 
         this.elementNames.remove("foo");
 
-        this.config = new WadlAuditConfig(PREFIX, NAMESPACE, modelIndex, this.elementNames);
+        this.config = new WadlAuditConfig(prefix, namespace, modelIndex, this.elementNames);
 
         Method getMethod = new Method("id", Method.NAME_HTTP_GET, new ArrayList<Documentation>(), null, new ArrayList<Response>());
         WadlExpert.computeElementNameForResponse(null, null, getMethod, resource, ancestors, config, topLevel);
