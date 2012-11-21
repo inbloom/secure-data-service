@@ -255,6 +255,24 @@ public class DidReferenceResolutionTest {
 	}
 
     @Test
+    public void shouldResolveCalendarDateReferenceWithinGradingPeriodCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    	
+        Entity entity = loadEntity("didTestEntities/gradingPeriod.json");
+        ErrorReport errorReport = new TestErrorReport();
+        didResolver.resolveInternalIds(entity, TENANT_ID, errorReport);
+            
+		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+		edorgNaturalKeys.put("stateOrganizationId", "Illinois");
+		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+
+		Map<String, String> naturalKeys = new HashMap<String, String>();
+		naturalKeys.put("date", "2012-01-01");
+		naturalKeys.put("educationOrganizationId", edOrgDID);
+
+		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+	}
+    
+    @Test
 	public void shouldResolveCohortDidStudentCorrectly() throws JsonParseException, JsonMappingException, IOException {
 		Entity entity = loadEntity("didTestEntities/cohortReference_student.json");
 

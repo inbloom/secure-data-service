@@ -127,6 +127,27 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+    <xs:complexType name="SLC-CalendarDate">
+        <xs:annotation>
+            <xs:documentation>Added EducationOrgReference.</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>cohort</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="Date" type="xs:date"/>
+                    <xs:element name="CalendarEvent" type="CalendarEventType"/>
+                    <xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+
 	<xs:complexType name="SLC-Cohort">
 		<xs:annotation>
 			<xs:documentation>Changed types of EducationOrgReference and ProgramReference to SLC reference types.</xs:documentation>
@@ -1164,6 +1185,13 @@
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>date</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>educationOrganizationId</sli:keyFieldName>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
