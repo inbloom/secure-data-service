@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public final class StringLiteralExpr implements JavaSnippetExpr {
 
@@ -27,7 +28,7 @@ public final class StringLiteralExpr implements JavaSnippetExpr {
 
     public StringLiteralExpr(final String value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         this.value = value;
     }
@@ -35,12 +36,11 @@ public final class StringLiteralExpr implements JavaSnippetExpr {
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
         if (jsw == null) {
-            throw new NullPointerException("jsw");
+            throw new IllegalArgumentException("jsw");
         }
         jsw.dblQte();
         try {
-            // FIXME: This should be escaped.
-            jsw.write(value);
+            jsw.write(StringEscapeUtils.escapeJava(value));
         } finally {
             jsw.dblQte();
         }

@@ -41,7 +41,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
      */
     private static final boolean endsWithReference(final String name) {
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         return name.endsWith("Reference");
     }
@@ -53,6 +53,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     
     // Default constructor is required for reflection creation.
     public Xsd2UmlPluginForEdFi() {
+        //No Op
     }
     
     @Override
@@ -63,9 +64,8 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
-        // FIXME: Can we do this by looking at the attribute type?
         if (attribute == null) {
-            throw new NullPointerException("attribute");
+            throw new IllegalArgumentException("attribute");
         }
         final String attributeName = attribute.getName();
         if (attributeName == null) {
@@ -185,7 +185,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         if (attribute == null) {
-            throw new NullPointerException("attribute");
+            throw new IllegalArgumentException("attribute");
         }
         final String attributeName = attribute.getName();
         if (attributeName == null) {

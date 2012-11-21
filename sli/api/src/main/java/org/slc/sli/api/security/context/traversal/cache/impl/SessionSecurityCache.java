@@ -33,6 +33,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Caches security data to reduce overhead/processing time for security operations.
+ * 
+ * @author kmyers
+ *
+ */
 @Component
 public class SessionSecurityCache implements SecurityCachingStrategy {
     private static final String CACHE = "cache";
@@ -53,8 +59,9 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     
     @Override
     public void warm(String cacheId, Set<String> ids) {
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
         //Get my principal so I can access my session object
         Entity userSession = getUserSession();
         
@@ -77,8 +84,9 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     @SuppressWarnings("unchecked")
     @Override
     public Set<String> retrieve(String cacheId) {
-        if (!enabled)
+        if (!enabled) {
             return null;
+        }
         info("Using cached context for {}", cacheId);
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
         Map<String, Object> cache = (Map) body.get("cache");
@@ -94,11 +102,13 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
     
     @Override
     public boolean contains(String cacheId) {
-        if (!enabled)
+        if (!enabled) {
             return false;
+        }
         Map<String, Object> body = (Map<String, Object>) getUserSession().getBody();
-        if (!body.containsKey(CACHE))
+        if (!body.containsKey(CACHE)) {
             return false;
+        }
         Map<String, Object> cache = (Map) getUserSession().getBody().get("cache");
         return cache.containsKey(cacheId);
     }

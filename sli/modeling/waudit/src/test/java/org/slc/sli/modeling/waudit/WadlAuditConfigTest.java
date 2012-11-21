@@ -45,80 +45,80 @@ public class WadlAuditConfigTest {
 
 		@Override
 		public List<AssociationEnd> getAssociationEnds(Identifier type) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public Map<String, ClassType> getClassTypes() {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public Map<QName, DataType> getDataTypes() {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public Iterable<EnumType> getEnumTypes() {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public List<Generalization> getGeneralizationBase(Identifier derived) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public List<Generalization> getGeneralizationDerived(Identifier base) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public String getNamespaceURI(Type type) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public TagDefinition getTagDefinition(Identifier reference) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public TagDefinition getTagDefinition(QName name) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public Type getType(Identifier reference) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public void lookup(Identifier id, Visitor visitor) {
-			// TODO Auto-generated method stub
+			// no op
 			
 		}
 
 		@Override
 		@Deprecated
 		public Set<ModelElement> lookupByName(QName name) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 
 		@Override
 		public Set<ModelElement> whereUsed(Identifier id) {
-			// TODO Auto-generated method stub
+			// no op
 			return null;
 		}
 		
@@ -147,17 +147,17 @@ public class WadlAuditConfigTest {
 	}
 	
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullPrefixThrowsException() {
 		new WadlAuditConfig(null, namespaceURI, modelIndex, elementNames);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullNamespaceUriThrowsException() {
 		new WadlAuditConfig(prefix, null, modelIndex, elementNames);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullModelIndexThrowsException() {
 		new WadlAuditConfig(prefix, namespaceURI, null, elementNames);
 	}

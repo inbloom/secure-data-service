@@ -52,7 +52,7 @@ module LandingZoneHelper
     Rails.logger.debug("Writing public key to #{keyFile}")
     # Format key as needed by sftp: 
     # remove carrage returns
-    key = key.tr("\r", "") 
+    key = key.tr("\r", "")
     # append trailing newline. 
     key = key + "\n"
     file = File.new(keyFile, "w")
@@ -62,7 +62,7 @@ module LandingZoneHelper
 
   def self.convert_key(key, uid)
     tempKeyFile = File.join(APP_CONFIG['tmp_dir'], uid + "_tmpKey")
-    Rails.logger.debug("Converting public key in #{tempKeyFile}") 
+    Rails.logger.debug("Converting public key in #{tempKeyFile}")
     file = File.new(tempKeyFile, "w")
     file.write(key)
     file.close()

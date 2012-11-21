@@ -30,16 +30,16 @@ public class Link extends WadlElement {
     public Link(final String resourceType, final String rel, final String rev, final List<Documentation> doc) {
         super(doc);
         if (null == resourceType) {
-            throw new NullPointerException("resourceType");
+            throw new IllegalArgumentException("resourceType");
         }
         if (null == rel) {
-            throw new NullPointerException("rel");
+            throw new IllegalArgumentException("rel");
         }
         if (null == rev) {
-            throw new NullPointerException("rev");
+            throw new IllegalArgumentException("rev");
         }
         if (null == doc) {
-            throw new NullPointerException("doc");
+            throw new IllegalArgumentException("doc");
         }
         this.resourceType = resourceType;
         this.rel = rel;

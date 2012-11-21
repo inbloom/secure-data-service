@@ -30,7 +30,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
 
     private static final String toString(final Occurs value) {
         if (value == null) {
-            throw new NullPointerException("value");
+            throw new IllegalArgumentException("value");
         }
         switch (value) {
         case ZERO: {
@@ -77,7 +77,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "annotation", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -86,7 +86,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "appinfo", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -95,7 +95,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, localName, namespace);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -104,7 +104,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeCharacters(text);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -113,7 +113,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "choice", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -122,7 +122,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeComment(data);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -131,7 +131,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "complexType", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -140,7 +140,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "documentation", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -149,7 +149,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "element", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -158,7 +158,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeAttribute("name", name.getLocalPart());
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -167,7 +167,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeEndElement();
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -177,7 +177,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             try {
                 xsw.writeAttribute(XsdAttributeName.MAX_OCCURS.getLocalName(), toString(value));
             } catch (final XMLStreamException e) {
-                throw new RuntimeException(e);
+                throw new XsdGenRuntimeException(e);
             }
         }
     }
@@ -188,7 +188,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             try {
                 xsw.writeAttribute(XsdAttributeName.MIN_OCCURS.getLocalName(), toString(value));
             } catch (final XMLStreamException e) {
-                throw new RuntimeException(e);
+                throw new XsdGenRuntimeException(e);
             }
         }
     }
@@ -202,7 +202,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
                 xsw.writeAttribute("ref", typeLexicalName(name, xsw));
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -211,7 +211,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         try {
             xsw.writeStartElement(prefix, "sequence", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 
@@ -224,7 +224,7 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
                 xsw.writeAttribute("type", typeLexicalName(name, xsw));
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XsdGenRuntimeException(e);
         }
     }
 }

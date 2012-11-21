@@ -154,15 +154,16 @@ public class BasicService implements EntityService {
      * @return the body of the entity
      */
     @Override
-    public Iterable<String> listIds(NeutralQuery neutralQuery) {
+    public Iterable<String> listIds(final NeutralQuery neutralQuery) {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
+        NeutralQuery nq = neutralQuery; 
         if (useContextResolver()) {
             SecurityCriteria securityCriteria = findAccessible(defn.getType());
-            neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+            nq = securityCriteria.applySecurityCriteria(nq);
         }
-        Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+        Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
         List<String> results = new ArrayList<String>();
         for (Entity entity : entities) {
@@ -291,16 +292,17 @@ public class BasicService implements EntityService {
         return makeEntityBody(entity);
     }
 
-    private Entity getEntity(String id, NeutralQuery neutralQuery) {
+    private Entity getEntity(String id, final NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
         checkFieldAccess(neutralQuery);
 
-        if (neutralQuery == null) {
-            neutralQuery = new NeutralQuery();
+        NeutralQuery nq = neutralQuery; 
+        if (nq == null) {
+            nq = new NeutralQuery();
         }
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        nq.addCriteria(new NeutralCriteria("_id", "=", id));
 
-        Entity entity = repo.findOne(collectionName, neutralQuery);
+        Entity entity = repo.findOne(collectionName, nq);
         return entity;
     }
 
@@ -324,7 +326,7 @@ public class BasicService implements EntityService {
     }
 
     @Override
-    public Iterable<EntityBody> get(Iterable<String> ids, NeutralQuery neutralQuery) {
+    public Iterable<EntityBody> get(Iterable<String> ids, final NeutralQuery neutralQuery) {
         if (!ids.iterator().hasNext()) {
             return Collections.emptyList();
         }
@@ -339,21 +341,22 @@ public class BasicService implements EntityService {
         }
 
         if (!idList.isEmpty()) {
-            if (neutralQuery == null) {
-                neutralQuery = new NeutralQuery();
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(MAX_RESULT_SIZE);
+            NeutralQuery nq = neutralQuery; 
+            if (nq == null) {
+                nq = new NeutralQuery();
+                nq.setOffset(0);
+                nq.setLimit(MAX_RESULT_SIZE);
             }
 
             if (useContextResolver()) {
                 SecurityCriteria securityCriteria = findAccessible(defn.getType());
-                neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
+                nq = securityCriteria.applySecurityCriteria(nq);
             }
 
             // add the ids requested
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", idList));
+            nq.addCriteria(new NeutralCriteria("_id", "in", idList));
 
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+            Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -414,6 +417,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -440,6 +444,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -465,6 +470,7 @@ public class BasicService implements EntityService {
     }
 
     /**
+     * Defect: DE2183
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
      */
@@ -580,10 +586,10 @@ public class BasicService implements EntityService {
                     contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
                 } catch (AccessDeniedException e) {
                     debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
                 } catch (EntityNotFoundException e) {
                     debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
-                    throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
+                    throw (AccessDeniedException) new AccessDeniedException("Invalid reference. No association to referenced entity.").initCause(e);
                 }
             }
         }
@@ -728,6 +734,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
+        // Defect: DE2183
         // TODO Validate that this is needed?
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
@@ -752,20 +759,21 @@ public class BasicService implements EntityService {
         return found != null;
     }
 
-    private void checkRights(Right neededRight) {
+    private void checkRights(final Right neededRight) {
+        Right nRight = neededRight; 
 
         // anonymous access is always granted
-        if (neededRight == Right.ANONYMOUS_ACCESS) {
+        if (nRight == Right.ANONYMOUS_ACCESS) {
             return;
         }
 
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRight = Right.ADMIN_ACCESS;
+            nRight = Right.ADMIN_ACCESS;
         }
 
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (Right.READ_GENERAL.equals(neededRight)) {
-                neededRight = Right.READ_PUBLIC;
+            if (Right.READ_GENERAL.equals(nRight)) {
+                nRight = Right.READ_PUBLIC;
             }
         }
 
@@ -773,8 +781,8 @@ public class BasicService implements EntityService {
 
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
-        } else if (auths.contains(neededRight)) {
-            debug("User has needed right: {}", neededRight);
+        } else if (auths.contains(nRight)) {
+            debug("User has needed right: {}", nRight);
         } else {
             throw new AccessDeniedException("Insufficient Privileges");
         }
@@ -795,7 +803,7 @@ public class BasicService implements EntityService {
             try {
                 securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
             } catch (NumberFormatException e) {
-                // It defaulted to 100000
+                securityCriteria.setInClauseSize(Long.MAX_VALUE);
             }
             String securityField = "_id";
 
@@ -868,7 +876,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
@@ -880,7 +888,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }

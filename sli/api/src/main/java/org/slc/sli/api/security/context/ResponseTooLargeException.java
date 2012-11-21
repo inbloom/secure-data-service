@@ -16,6 +16,12 @@
 
 package org.slc.sli.api.security.context;
 
+/**
+ * Represents the error detected by the API when too much data is requested.
+ * 
+ * @author kmyers
+ *
+ */
 public class ResponseTooLargeException extends RuntimeException {
     
     /**

@@ -32,6 +32,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.io.IOUtils;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.xml.XMLStreamReaderTools;
 
@@ -73,11 +74,7 @@ public final class XmiMappingReader {
     }
     
     private static final void closeQuiet(final Closeable closeable) {
-        try {
-            closeable.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        IOUtils.closeQuietly(closeable);
     }
     
     private static final boolean match(final QName name, final XMLStreamReader reader) {
@@ -110,7 +107,7 @@ public final class XmiMappingReader {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(e);
+            throw new XmiCompRuntimeException(e);
         }
     }
     
@@ -415,7 +412,7 @@ public final class XmiMappingReader {
         if (obj != null) {
             return obj;
         } else {
-            throw new RuntimeException(msg);
+            throw new XmiCompRuntimeException(msg);
         }
     }
     

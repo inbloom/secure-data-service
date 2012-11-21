@@ -72,11 +72,12 @@ public class SuperAdminService {
      * @param strict
      *            only return edorgs in database if set to true
      */
-    public Set<String> getAllowedEdOrgs(String tenant, String edOrg, Collection<String> interestedTypes, boolean strict) {
-        if (interestedTypes == null) {
-            interestedTypes = new HashSet<String>();
-            interestedTypes.add(STATE_EDUCATION_AGENCY);
-            interestedTypes.add(LOCAL_EDUCATION_AGENCY);
+    public Set<String> getAllowedEdOrgs(final String tenant, final String edOrg, final Collection<String> interestedTypes, boolean strict) {
+        Collection<String> iTypes = interestedTypes; 
+        if (iTypes == null) {
+            iTypes = new HashSet<String>();
+            iTypes.add(STATE_EDUCATION_AGENCY);
+            iTypes.add(LOCAL_EDUCATION_AGENCY);
         }
         TenantContext.setTenantId(tenant);
 
@@ -94,7 +95,7 @@ public class SuperAdminService {
             List<String> organizationCategories = (List<String>) e.getBody().get("organizationCategories");
             if (organizationCategories != null) {
                 for (String category : organizationCategories) {
-                    if (interestedTypes.contains(category)) {
+                    if (iTypes.contains(category)) {
                         edOrgIds.add(tmpEdOrg);
                         break;
                     }

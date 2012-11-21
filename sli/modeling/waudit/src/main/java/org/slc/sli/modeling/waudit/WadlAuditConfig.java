@@ -37,13 +37,13 @@ public final class WadlAuditConfig {
     public WadlAuditConfig(final String prefix, final String namespaceURI, final ModelIndex model,
             final Map<String, QName> elementNames) {
         if (prefix == null) {
-            throw new NullPointerException("prefix");
+            throw new IllegalArgumentException("prefix");
         }
         if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI");
+            throw new IllegalArgumentException("namespaceURI");
         }
         if (model == null) {
-            throw new NullPointerException("model");
+            throw new IllegalArgumentException("model");
         }
         this.prefix = prefix;
         this.namespaceURI = namespaceURI;

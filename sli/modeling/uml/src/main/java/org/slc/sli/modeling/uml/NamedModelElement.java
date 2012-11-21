@@ -40,7 +40,7 @@ public abstract class NamedModelElement extends ModelElement implements HasName 
     public NamedModelElement(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
         super(id, taggedValues);
         if (name == null) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         this.name = name;
     }

@@ -58,7 +58,7 @@ public void testFrom() throws Exception {
     assertEquals(id,dupId);
 }
 
-@Test(expected = NullPointerException.class)
+@Test(expected = IllegalArgumentException.class)
 public void testFormQualifiedName() throws Exception {
     testObject.from(null);
 }

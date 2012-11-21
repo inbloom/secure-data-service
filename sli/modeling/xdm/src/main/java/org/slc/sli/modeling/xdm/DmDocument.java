@@ -31,7 +31,7 @@ public final class DmDocument implements DmNode {
 
     public DmDocument(final List<? extends DmNode> childAxis) {
         if (childAxis == null) {
-            throw new NullPointerException("childAxis");
+            throw new IllegalArgumentException("childAxis");
         }
         this.children = Collections.unmodifiableList(new ArrayList<DmNode>(childAxis));
     }
@@ -48,6 +48,6 @@ public final class DmDocument implements DmNode {
 
     @Override
     public String getStringValue() {
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("getStringValue is not supported");
     }
 }

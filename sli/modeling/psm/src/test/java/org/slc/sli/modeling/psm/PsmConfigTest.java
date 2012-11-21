@@ -36,7 +36,7 @@ public class PsmConfigTest {
         assertEquals(config.getDocuments(), documents);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testThrowsNull() {
         final PsmConfig<String> config = new PsmConfig<String>(null);
     }

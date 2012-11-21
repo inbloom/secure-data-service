@@ -36,12 +36,12 @@ public class DmNamespaceTest {
 		assertTrue(dmNamespace.getStringValue().equals(namespace));
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullPrefixThrowsException() {
 		new DmNamespace("foo", null);
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullNamespaceThrowsException() {
 		new DmNamespace(null, "bar");
 	}

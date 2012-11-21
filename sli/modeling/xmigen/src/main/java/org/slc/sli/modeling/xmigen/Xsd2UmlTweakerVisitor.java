@@ -51,7 +51,6 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
         final Occurs lower = range.getLower();
         final Occurs upper = range.getUpper();
         if (upper == Occurs.ONE && lower == Occurs.ONE) {
-            // FIXME: Unfortunately, this disqualifies models that don't use this SLI annotation.
             return TaggedValueHelper.getBooleanTag(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, end, model, false);
         } else {
             return false;
@@ -64,7 +63,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     
     public Xsd2UmlTweakerVisitor(final ModelIndex model) {
         if (model == null) {
-            throw new NullPointerException("model");
+            throw new IllegalArgumentException("model");
         }
         this.model = model;
     }
@@ -122,7 +121,7 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
     
     private static final ClassType transform(final ClassType classType, final ModelIndex model) {
         if (classType == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         }
 //        System.out.println("classType     : " + classType.getName());
         final List<AssociationEnd> ends = model.getAssociationEnds(classType.getId());

@@ -27,7 +27,7 @@ public class PsmConfig<TYPE> {
 
     public PsmConfig(final List<PsmDocument<TYPE>> documents) {
         if (documents == null) {
-            throw new NullPointerException("documents");
+            throw new IllegalArgumentException("documents");
         }
         this.documents = Collections.unmodifiableList(new ArrayList<PsmDocument<TYPE>>(documents));
     }

@@ -30,8 +30,12 @@ import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class WadlViewerHandler implements WadlHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WadlViewerHandler.class);
 
     public static final String computeURI(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
@@ -56,7 +60,7 @@ public final class WadlViewerHandler implements WadlHandler {
 
     @Override
     public void beginApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 
@@ -64,12 +68,12 @@ public final class WadlViewerHandler implements WadlHandler {
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
         final String uri = computeURI(resource, resources, app, ancestors);
-        System.out.println(uri);
+        LOG.info(uri);
     }
 
     @Override
     public void endApplication(Application application) {
-        // TODO Auto-generated method stub
+        // no op
 
     }
 

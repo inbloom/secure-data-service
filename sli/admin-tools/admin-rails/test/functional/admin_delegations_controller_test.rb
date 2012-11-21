@@ -28,16 +28,16 @@ class AdminDelegationsControllerTest < ActionController::TestCase
   end
 
 
- # test "should get index" do
- #   get :index
- #   assert_response :success
- #   assert_not_nil assigns(:admin_delegations)
- # end
+  # test "should get index" do
+  #   get :index
+  #   assert_response :success
+  #   assert_not_nil assigns(:admin_delegations)
+  # end
 
 
   test "should create admin_delegation" do
     post :create, admin_delegation: @admin_delegation
-    assert !flash[:notice].nil? 
+    assert !flash[:notice].nil?
     assert_redirected_to admin_delegations_path
   end
 

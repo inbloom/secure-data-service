@@ -16,7 +16,13 @@
 
 package org.slc.sli.api.selectors.doc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
@@ -90,8 +96,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types, boolean first,
                                           Counter counter) {
+        NeutralQuery localConstraint = constraint;
+        boolean localFirst = first;
+        
         List<EntityBody> results = new ArrayList<EntityBody>();
-        Map<Type,List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
+        Map<Type, List<EntityBody>> entityCache = new HashMap<Type, List<EntityBody>>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
@@ -102,8 +111,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<EntityBody> entities = null;
 
             if (!previousEntities.isEmpty() && previousType != null) {
-                if (isEmbedded(previousType,currentType)) {
-                    entities = getEmbeddedEntities(previousEntities,currentType);
+                if (isEmbedded(previousType, currentType)) {
+                    entities = getEmbeddedEntities(previousEntities, currentType);
                 } else {
                     String key = getKey(currentType, previousType);
                     plan.getParseFields().add(key);
@@ -115,26 +124,26 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     if ((connectingType != null) && !currentType.equals(previousType)) {
                         types.push(connectingType);
 
-                        if(isEmbedded(previousType,connectingType)) {
-                            connectingEntities = getEmbeddedEntities(previousEntities,connectingType);
+                        if (isEmbedded(previousType, connectingType)) {
+                            connectingEntities = getEmbeddedEntities(previousEntities, connectingType);
                         } else {
                             //construct a new constraint using the new connecting key and ids
-                            constraint = constructConstrainQuery(getKey(connectingType, previousType),ids);
+                            localConstraint = constructConstrainQuery(getKey(connectingType, previousType), ids);
 
-                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, constraint,entityCache);
+                            connectingEntities = getConnectingEntities(plan, connectingType, previousType, localConstraint, entityCache);
                         }
-                        entityCache.put(connectingType,connectingEntities);
+                        entityCache.put(connectingType, connectingEntities);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
 
-                    constraint = constructConstrainQuery(key, ids);
+                    localConstraint = constructConstrainQuery(key, ids);
                 }
             }
 
             //add the current type
             types.push(currentType);
-            if(entities == null) {
-                entities = (List<EntityBody>) executeQuery(plan, currentType, constraint, first, entityCache);
+            if (entities == null) {
+                entities = (List<EntityBody>) executeQuery(plan, currentType, localConstraint, localFirst, entityCache);
             }
             entityCache.put(currentType, entities);
             results.addAll(entities);
@@ -142,7 +151,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, entities, types, false, counter);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, localConstraint, entities, types, false, counter);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType, counter);
@@ -150,7 +159,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             results = filterFields(results, plan);
             results = updateConnectingEntities(results, connectingEntities, connectingType, currentType, previousType);
-            first = false;
+            localFirst = false;
         }
 
         return results;
@@ -163,7 +172,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<EntityBody> getEmbeddedEntities(List<EntityBody> previousEntities, Type currentType) {
         List<EntityBody> embeddedBodyList = new ArrayList<EntityBody>();
         String currType = StringUtils.lowercaseFirstLetter(currentType.getName());
-        for (EntityBody body: previousEntities) {
+        for (EntityBody body : previousEntities) {
             if (body.containsKey(currType)) {
                 embeddedBodyList.addAll((Collection<? extends EntityBody>) body.get(currType));
             }
@@ -180,9 +189,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     protected List<EntityBody> updateConnectingEntities(List<EntityBody> results, List<EntityBody> connectingEntities, Type connectingType, Type currentType, Type previousType) {
         if (!connectingEntities.isEmpty()) {
-            String key = getKey(currentType,connectingType);
+            String key = getKey(currentType, connectingType);
             String extractionKey = getExtractionKey(currentType, connectingType);
-            String connectingKey = getKey(connectingType,previousType);
+            String connectingKey = getKey(connectingType, previousType);
 
             key = key.equals("_id") ? "id" : key;
 
@@ -207,7 +216,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(SelectorQueryPlan plan, Type currentType, Type previousType, NeutralQuery constraint, Map<Type,List<EntityBody>> entityCache) {
+    protected List<EntityBody> getConnectingEntities(SelectorQueryPlan plan, Type currentType, Type previousType, NeutralQuery constraint, Map<Type, List<EntityBody>> entityCache) {
         String key = getKey(currentType, previousType);
 
         for (NeutralCriteria criteria : constraint.getCriteria()) {
@@ -253,10 +262,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        results = filterIncludeFields(results, plan);
-        results = filterExcludeFields(results, plan);
+        List<EntityBody> filteredList = filterIncludeFields(results, plan);
+        filteredList = filterExcludeFields(filteredList, plan);
 
-        return results;
+        return filteredList;
     }
 
     protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody filteredBody) {
@@ -284,11 +293,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
         if (!types.peek().equals(currentType)) {
             Type connectingType = types.pop();
             extractionKey = getExtractionKey(connectingType, currentType);
-            key = getKey(connectingType,currentType);
+            key = getKey(connectingType, currentType);
 
         } else {
             extractionKey = getExtractionKey(nextType, currentType);
-            key = getKey(nextType,currentType);
+            key = getKey(nextType, currentType);
         }
 
         String exposeName = getExposeName(nextType);
@@ -299,12 +308,12 @@ public class DefaultSelectorDocument implements SelectorDocument {
             plan.getParseFields().add(exposeName);
 
             for (EntityBody body : results) {
-                if(body.containsKey(extractionKey)) {
-                    for (String id: body.getId(extractionKey)) {
+                if (body.containsKey(extractionKey)) {
+                    for (String id : body.getId(extractionKey)) {
 
                         List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
-                        if(!body.containsKey(exposeName)) {
+                        if (!body.containsKey(exposeName)) {
                             body.put(exposeName, subList);
                             counter.add(subList.size());
                             if (counter.getTotal() > DefaultSelectorDocument.EMBEDDED_DOCUMENT_LIMIT) {
@@ -313,7 +322,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                         }
                     }
                 } else {
-                    body.put(exposeName,new ArrayList<EntityBody>());
+                    body.put(exposeName, new ArrayList<EntityBody>());
                 }
             }
         }
@@ -332,7 +341,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected String getExtractionKey(Type currentType, Type previousType) {
-        String key = getConnectingKey(currentType,previousType, previousType);
+        String key = getConnectingKey(currentType, previousType, previousType);
 
         if (key.contains(StringUtils.uncapitalise(previousType.getName()))) {
             key = "id";
@@ -355,16 +364,15 @@ public class DefaultSelectorDocument implements SelectorDocument {
         ClassType currentClassType = modelProvider.getClassType(currentType.getName());
         ClassType previousClassType = modelProvider.getClassType(previousType.getName());
 
-        Type connectingEntity = modelProvider.getConnectingEntityType(currentType,previousType);
+        Type connectingEntity = modelProvider.getConnectingEntityType(currentType, previousType);
         if (connectingEntity == null) {
-            return modelProvider.getConnectionPath(previousClassType,currentClassType);
-        }
-        else {
-            return modelProvider.getConnectionPath((ClassType)connectingEntity,(ClassType)typeToConnect);
+            return modelProvider.getConnectionPath(previousClassType, currentClassType);
+        } else {
+            return modelProvider.getConnectionPath((ClassType) connectingEntity, (ClassType) typeToConnect);
         }
     }
 
-    protected Iterable<EntityBody> executeQuery(SelectorQueryPlan plan, Type type, final NeutralQuery constraint, boolean first, Map<Type,List<EntityBody>> entityCache) {
+    protected Iterable<EntityBody> executeQuery(SelectorQueryPlan plan, Type type, final NeutralQuery constraint, boolean first, Map<Type, List<EntityBody>> entityCache) {
         //add the child types to embedded fields as needed
         addChildTypesToQuery(type, plan, constraint);
 
@@ -414,11 +422,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected List<String> extractIds(Iterable<EntityBody> entities, String key) {
         List<String> ids = new ArrayList<String>();
 
-        key = key.equals("_id") ? "id" : key;
+        String localKey = key.equals("_id") ? "id" : key;
 
         for (EntityBody body : entities) {
-            if (body.containsKey(key)) {
-                ids.addAll(body.getId(key));
+            if (body.containsKey(localKey)) {
+                ids.addAll(body.getId(localKey));
             }
         }
 

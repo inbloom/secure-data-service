@@ -40,6 +40,8 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -74,6 +76,8 @@ import org.slc.sli.domain.Repository;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TenantResourceTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TenantResourceTest.class);
 
     @Autowired
     private TenantResourceImpl tenantResource; // class under test
@@ -370,7 +374,7 @@ public class TenantResourceTest {
         try {
             response = tenantResource.createLandingZone(entity, false);
         } catch (TenantResourceCreationException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         assertNotNull(response);
         assertTrue(response instanceof String);
@@ -432,9 +436,7 @@ public class TenantResourceTest {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", "=", entity.get("tenantId")));
         query.addCriteria(new NeutralCriteria("tenantIsReady", "=", false));
-        when(
-                mockRepo.findOne("tenant",query))
-                .thenReturn(new MongoEntity("tenant", new HashMap<String, Object>()));
+        when(mockRepo.findOne("tenant", query)).thenReturn(new MongoEntity("tenant", new HashMap<String, Object>()));
         tenantResource.setLockChecker(lockChecker);
         // try {
         tenantResource.setSandboxEnabled(true);

@@ -34,12 +34,11 @@ import org.slc.sli.modeling.xdm.DmNode;
 public class Documentation {
     private final String title;
     private final String language;
-    // FIXME: documentation contents need to be generalized to mixed content.
     private final List<DmNode> contents;
 
     public Documentation(final String title, final String language, final List<DmNode> contents) {
         if (null == contents) {
-            throw new NullPointerException("contents");
+            throw new IllegalArgumentException("contents");
         }
         this.title = title;
         this.language = language;

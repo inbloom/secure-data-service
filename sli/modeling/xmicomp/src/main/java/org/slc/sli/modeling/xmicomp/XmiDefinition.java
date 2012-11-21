@@ -23,13 +23,13 @@ public final class XmiDefinition {
     
     public XmiDefinition(final String name, final String version, final String file) {
         if (null == name) {
-            throw new NullPointerException("name");
+            throw new IllegalArgumentException("name");
         }
         if (null == version) {
-            throw new NullPointerException("version");
+            throw new IllegalArgumentException("version");
         }
         if (null == file) {
-            throw new NullPointerException("file");
+            throw new IllegalArgumentException("file");
         }
         this.name = name;
         this.version = version;

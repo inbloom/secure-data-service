@@ -15,7 +15,6 @@
  */
 package org.slc.sli.api.selectors.model;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.model.ModelProvider;
@@ -24,7 +23,6 @@ import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -49,10 +47,6 @@ import static org.mockito.Mockito.when;
 public class ModelProviderTest {
 
     private ModelProvider provider; // class under test
-
-    @Before
-    public void setup() {
-    }
 
     @Test
     public void testReadModel() {

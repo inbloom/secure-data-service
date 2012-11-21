@@ -22,6 +22,7 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.MockJavaStreamWriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +36,7 @@ public class BlockTest {
     MockJavaStreamWriter jsw;
 
     @Before
-    public void setup() {
+    public void setup() throws UnsupportedEncodingException {
         jsw = new MockJavaStreamWriter();
         JavaSnippet[] stmts = new JavaSnippet[] { new Annotation("tag1"), new Annotation("tag2") };
         block = new Block(stmts);

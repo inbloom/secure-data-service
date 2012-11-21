@@ -17,11 +17,10 @@
 
 package org.slc.sli.sandbox.idp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder;
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder.SamlRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Service that decodes SAMLRequests

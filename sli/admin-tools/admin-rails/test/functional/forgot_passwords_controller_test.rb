@@ -20,7 +20,7 @@ require 'test_helper'
 
 class ForgotPasswordsControllerTest < ActionController::TestCase
   setup do
-     @forgot_password = ForgotPassword.new(
+    @forgot_password = ForgotPassword.new(
         :token => 's9a8qwiwdd9ww23e223e22e2e2wdqw==',
         :new_pass => 'testabcd',
         :confirmation => 'testabcd'

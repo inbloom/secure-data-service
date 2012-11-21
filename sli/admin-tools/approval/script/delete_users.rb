@@ -1,7 +1,7 @@
 require 'ldapstorage'
 
 
-if (ARGV.length < 6) 
+if (ARGV.length < 6)
   puts "usage: ldap_host ldap_port ldap_base ldap_admin_user ldap_pass uid_wildcard"
   exit(1)
 end
@@ -30,5 +30,5 @@ users.each_with_index do |u, i|
     end
     ldap_storage.delete_user(uid)
   end
-  
+
 end
