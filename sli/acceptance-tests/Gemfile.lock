@@ -148,6 +148,7 @@ DEPENDENCIES
   approval!
   bson_ext
   builder
+  capybara
   capybara-screenshot
   cucumber
   ffi (= 1.0.9)
