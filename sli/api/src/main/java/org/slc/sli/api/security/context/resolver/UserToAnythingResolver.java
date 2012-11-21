@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.security.SecurityEventResource;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -44,9 +45,11 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
  */
 @Component
 public class UserToAnythingResolver implements EntityContextResolver {
-    private String toEntity;
+    
+    private static ThreadLocal<String> toEntity = new ThreadLocal<String>();
     private static final String ADMIN_SPHERE = "Admin";
     private static final String PUBLIC_SPHERE = "Public";
+    
     @Autowired
     private EntityDefinitionStore store;
 
@@ -54,7 +57,6 @@ public class UserToAnythingResolver implements EntityContextResolver {
     private SchemaDataProvider provider;
 
     @Autowired
-    
     private PagingRepositoryDelegate<Entity> repository;
 
     /* (non-Javadoc)
@@ -62,9 +64,17 @@ public class UserToAnythingResolver implements EntityContextResolver {
      */
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        this.toEntity = toEntityType;
-        debug("Resolving {} -> {}", new String[] { fromEntityType, toEntityType });
-        return (fromEntityType.equals("user") || fromEntityType.equals("admin-staff"));
+        if (toEntityType.equals(SecurityEventResource.RESOURCE_NAME)) {
+            return false;
+        }
+        
+        if (fromEntityType.equals("user") || fromEntityType.equals("admin-staff")) {
+            debug("Resolving {} -> {}", fromEntityType, toEntityType);
+            toEntity.set(toEntityType);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /* (non-Javadoc)
@@ -72,7 +82,7 @@ public class UserToAnythingResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        EntityDefinition def = store.lookupByEntityType(toEntity);
+        EntityDefinition def = store.lookupByEntityType(toEntity.get());
 
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
             info("Granting public sphere to resource: {}", def.getResourceName());
@@ -89,6 +99,7 @@ public class UserToAnythingResolver implements EntityContextResolver {
         for (String id : it) {
             ids.add(id);
         }
+        toEntity.remove();
         return ids;
     }
 
