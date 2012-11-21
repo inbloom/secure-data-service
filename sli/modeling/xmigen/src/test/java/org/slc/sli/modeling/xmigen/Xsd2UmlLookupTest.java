@@ -35,32 +35,33 @@ import static org.mockito.Mockito.mock;
 */ 
 public class Xsd2UmlLookupTest { 
     private Xsd2UmlLookup<ClassType> testObject;
-@Before
-public void before() throws Exception {
-   testObject = new Xsd2UmlLookup<ClassType>();
-} 
-
-@After
-public void after() throws Exception { 
-} 
-
-/** 
-* 
-* Method: from(final T key) 
-* 
-*/ 
-@Test
-public void testFrom() throws Exception {
-    ClassType classType =  mock(ClassType.class);
-    Identifier id = testObject.from(classType);
-    assertNotNull(id);
-    Identifier dupId = testObject.from(classType);
-    assertEquals(id,dupId);
-}
-
-@Test(expected = IllegalArgumentException.class)
-public void testFormQualifiedName() throws Exception {
-    testObject.from(null);
-}
+    
+    @Before
+    public void before() throws Exception {
+        testObject = new Xsd2UmlLookup<ClassType>();
+    }
+    
+    @After
+    public void after() throws Exception {
+    }
+    
+    /**
+     * 
+     * Method: from(final T key)
+     * 
+     */
+    @Test
+    public void testFrom() throws Exception {
+        ClassType classType = mock(ClassType.class);
+        Identifier id = testObject.from(classType);
+        assertNotNull(id);
+        Identifier dupId = testObject.from(classType);
+        assertEquals(id, dupId);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testFormQualifiedName() throws Exception {
+        testObject.from(null);
+    }
 
 } 

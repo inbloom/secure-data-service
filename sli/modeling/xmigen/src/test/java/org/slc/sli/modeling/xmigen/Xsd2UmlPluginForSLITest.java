@@ -20,11 +20,15 @@ import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.junit.Test;
 import org.junit.Before; 
 import org.junit.After;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
 import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.TagDefinition;
+import org.slc.sli.modeling.uml.TaggedValue;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -32,8 +36,13 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Matchers.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +56,7 @@ import static org.mockito.Mockito.when;
 public class Xsd2UmlPluginForSLITest { 
 
     private Xsd2UmlPluginForSLI pluginForSLI;
-    private TagDefinition tagDefinition;
+    //private TagDefinition tagDefinition;
 
 @Before
 public void before() throws Exception {
@@ -96,7 +105,7 @@ public void testGetAssociationEndTypeName() throws Exception {
     when(tagDefinition.getName()).thenReturn(SliUmlConstants.TAGDEF_REFERENCE);
     when(taggedValue.getValue()).thenReturn("test");
 
-    String name = pluginForSLI.getAssociationEndTypeName(classType,attribute,host);
+    String name = pluginForSLI.getAssociationEndTypeName(classType, attribute, host);
     assertNotNull(name);
 } 
 
@@ -122,7 +131,7 @@ public void testIsAssociationEnd() throws Exception {
     when(host.getTagDefinition(any(Identifier.class))).thenReturn(tagDefinition);
     when(tagDefinition.getName()).thenReturn(SliUmlConstants.TAGDEF_REFERENCE);
     when(taggedValue.getValue()).thenReturn("test");
-    assertTrue(pluginForSLI.isAssociationEnd(classType,attribute,host));
+    assertTrue(pluginForSLI.isAssociationEnd(classType, attribute, host));
 }
     @Test
     public void testIsAssociationEndFalse() throws Exception {
@@ -141,7 +150,7 @@ public void testIsAssociationEnd() throws Exception {
         when(host.getTagDefinition(any(Identifier.class))).thenReturn(tagDefinition);
         when(tagDefinition.getName()).thenReturn(SliUmlConstants.TAGDEF_REST_RESOURCE);
         when(taggedValue.getValue()).thenReturn("test");
-        assertFalse(pluginForSLI.isAssociationEnd(classType,attribute,host));
+        assertFalse(pluginForSLI.isAssociationEnd(classType, attribute, host));
     }
 
     /**
@@ -154,7 +163,7 @@ public void testNameAssociation() throws Exception {
 //TODO: Test goes here...
     AssociationEnd associationEnd = mock(AssociationEnd.class);
     Xsd2UmlPluginHost host = mock(Xsd2UmlPluginHost.class);
-    assertTrue(pluginForSLI.nameAssociation(associationEnd,associationEnd,host).isEmpty());
+    assertTrue(pluginForSLI.nameAssociation(associationEnd, associationEnd, host).isEmpty());
 } 
 
 /** 
@@ -189,31 +198,31 @@ public void testTagsFromAppInfo() throws Exception {
     when(node.getChildNodes()).thenReturn(nodeList);
 
 
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("naturalKey");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("applyNaturalKeys");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("PersonallyIdentifiableInfo");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("ReferenceType");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("ReadEnforcement");
     when(node.getTextContent()).thenReturn("READ_RESTRICTED");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("SecuritySphere");
     when(node.getTextContent()).thenReturn("Public");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("RelaxedBlacklist");
     when(node.getTextContent()).thenReturn("true");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("RestrictedForLogging");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("WriteEnforcement");
     when(node.getTextContent()).thenReturn("WRITE_RESTRICTED");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
     when(node.getLocalName()).thenReturn("schemaVersion");
-    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo,host));
+    assertNotNull(pluginForSLI.tagsFromAppInfo(xmlSchemaAppInfo, host));
 
 }
 
