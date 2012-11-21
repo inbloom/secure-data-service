@@ -34,13 +34,16 @@ import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command Line Interface for generating the intermediate data file for documentation.
  */
 public final class DocGen {
+    private static final Logger LOG = LoggerFactory.getLogger(DocGen.class);
 
-	public DocGen() {
+    public DocGen() {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -50,7 +53,7 @@ public final class DocGen {
     private static final String ARGUMENT_OUT_FILE = "outFile";
     private static final String ARGUMENT_OUT_FOLDER = "outFolder";
     
-    private static List<String> ALL_OPTIONS = new ArrayList<String>();
+    private final static List<String> ALL_OPTIONS = new ArrayList<String>();
     static {
     	ALL_OPTIONS.addAll(ARGUMENT_HELP);
     	ALL_OPTIONS.add(ARGUMENT_DOMAIN_FILE);
@@ -59,7 +62,7 @@ public final class DocGen {
     	ALL_OPTIONS.add(ARGUMENT_OUT_FOLDER);
     }
     
-    private static OptionParser HELP_PARSER = new OptionParser();
+    private final static OptionParser HELP_PARSER = new OptionParser();
     static {
     	HELP_PARSER.acceptsAll(ALL_OPTIONS);
     }
@@ -79,7 +82,7 @@ public final class DocGen {
                 try {
                     parser.printHelpOn(System.out);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new DocumentGeneratorRuntimeException(e);
                 }
             } else {
                 
@@ -94,11 +97,11 @@ public final class DocGen {
                     final File outLocation = new File(outFolder, outFile);
                     DocumentationWriter.writeDocument(domains, model, outLocation);
                 } catch (final FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    throw new DocumentGeneratorRuntimeException(e);
                 }
             }
         } catch (final OptionException e) {
-            System.err.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
     }
 

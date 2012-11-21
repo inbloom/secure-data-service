@@ -271,12 +271,13 @@ public class WadlExpertTest {
 				return types.get(reference);
 			}
 
-			@Override
-			public void lookup(Identifier id, Visitor visitor) {
-				
-			}
+            @Override
+            public void lookup(Identifier id, Visitor visitor) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
 
-			@Override
+
+            @Override
 			@Deprecated
 			public Set<ModelElement> lookupByName(QName name) {
 				return null;

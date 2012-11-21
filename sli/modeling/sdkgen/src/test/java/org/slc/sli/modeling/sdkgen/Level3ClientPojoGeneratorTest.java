@@ -52,7 +52,9 @@ public class Level3ClientPojoGeneratorTest {
     @SuppressWarnings("unchecked")
     public void testDoModel() throws Exception {
         File mockDir = new File("sli/modeling/sdkgen/test");
-        if (!mockDir.exists()) assertTrue(mockDir.mkdirs());
+        if (!mockDir.exists()) {
+        	assertTrue(mockDir.mkdirs());
+        }
 
         String targetPkgName = "com.slc.sli.test";
         ModelIndex mockIndex = mock(ModelIndex.class);
@@ -93,10 +95,5 @@ public class Level3ClientPojoGeneratorTest {
         assertTrue(files.contains("TestDataType.java"));
 
         FileUtils.deleteDirectory(mockDir);
-    }
-
-    @Test
-    public void testGetJavaFeatures() throws Exception {
-
     }
 }

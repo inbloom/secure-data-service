@@ -43,7 +43,7 @@ public class DocumentationTest {
 		assertEquals(DOMAINS, documentation.getDomains());
 	}
 
-	@Test (expected = NullPointerException.class)
+	@Test (expected = IllegalArgumentException.class)
 	public void testNullParam() {
 		new Documentation<MyType>(null);
 	}

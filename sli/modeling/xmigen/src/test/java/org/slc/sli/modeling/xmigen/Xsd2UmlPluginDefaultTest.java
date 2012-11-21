@@ -48,10 +48,7 @@ public void before() throws Exception {
     complexType = new QName(WxsNamespace.URI,"complexType");
     name = new QName(WxsNamespace.URI,"name");
 } 
-
-@After
-public void after() throws Exception { 
-} 
+ 
 
 /** 
 * 
